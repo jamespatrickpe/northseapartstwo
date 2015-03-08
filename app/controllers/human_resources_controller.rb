@@ -1,0 +1,2 @@
+class HumanResourcesController < ApplicationController
+end

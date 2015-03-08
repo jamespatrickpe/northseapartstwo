@@ -1,0 +1,14 @@
+<%= form_tag("/search", method: "get") do %>
+    <div class="row">
+      <div class="large-12 columns">
+        <div class="row collapse">
+          <div class="small-10 columns">
+            <%= text_field_tag("searchbox", value = nil, options = {placeholder: "anong piesa?", textalign: "center"}) %>
+          </div>
+          <div class="small-2 columns">
+            <%= link_to "hanapin", {controller: "search"}, id: "search", class: "button postfix" %>
+          </div>
+        </div>
+      </div>
+    </div>
+<% end %>

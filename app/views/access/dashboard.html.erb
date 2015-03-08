@@ -1,0 +1,42 @@
+<br>
+
+<div class="large-2 columns" style="background-color:gray; margin-top: 2px; border-left-color: #721314; border-left-style: solid; border-left-width: 3px">
+
+  <div style="color: white; font-size: 14px; font-family: Helvetica, Arial, Sans-Serif; padding: 1px; border-bottom-color:white; border-bottom-style:solid; border-bottom-width:1px; ">
+    SYSTEM NAVIGATION &#x25BC
+  </div>
+
+  <div style="padding-left: 7px; padding-top: 5px;">
+    <%= render_navigation :expand_all => true %>
+  </div>
+
+</div>
+
+
+<div class="large-8 columns" >
+  <br>
+  <div class="mainheader">Access Control</div>
+
+  <table>
+    <tr>
+        <th scope="column">NAME</th>
+        <th scope="column">USERNAME</th>
+        <th scope="column">VERIFICATION</th>
+        <th scope="column">SECURITY LEVEL</th>
+        <th scope="column">KNOWN TYPES</th>
+    </tr>
+    <% @accesses.each do |access| %>
+    <tr>
+      <td> <%= access.entity.name %> </td>
+      <td> <%= access.username %> </td>
+      <td> <%= access.security_level %> </td>
+      <td> <%= access.username %> </td>
+      <td> <%= access.username %> </td>
+    </tr>
+    <% end %>
+  </table>
+</div>
+
+<div class="large-2 columns">
+  nakatira sa tabi ng riles
+</div>

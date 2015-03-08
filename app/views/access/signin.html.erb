@@ -1,0 +1,22 @@
+<br><br><br><br><br>
+
+
+<div class="row">
+<div class="large-3 columns">&nbsp;</div>
+<div class="large-6 columns">
+
+<%= form_tag({action: :login}, multipart: false, id: "signin_form") do %>
+    <div class="row">
+        <h1 class="mainheader">Sign In</h1>
+        <%= flash[:notice] %>
+        <%= flash[:verification] %>
+        <%= text_field_tag("username", value = nil, options = {placeholder: "Username; 3 to 15 Characters", required: "required", pattern: "[a-z0-9_-]{3,64}$"} )%>
+        <%= text_field_tag("password", value = nil, options = {placeholder: "Password; 8-15 Characters", required: "required", type: "password" } )%>
+        <div align="right">Remember me when I'm logged in [ <%= check_box_tag("rememberme", value = "1", checked = false, options = {}) %> ] <br> </div>
+        <div align="right"><input type="submit" class="medium button" href="#" value="LOG IN"> </div>
+    </div>
+<% end %>
+
+</div>
+<div class="large-3 columns">&nbsp;</div>
+</div>
