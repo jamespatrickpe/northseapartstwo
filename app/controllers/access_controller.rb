@@ -1,6 +1,8 @@
 class AccessController < ApplicationController
   include ApplicationHelper
 
+  layout "application_loggedin", only: [:dashboard]
+
   def index
     redirect_to :action => "signin"
   end
@@ -9,73 +11,27 @@ class AccessController < ApplicationController
   end
 
   def register
-
-    @addressSet = params[:address]
-    @telephoneSet = params[:telephony]
-    @digitalSet = params[:digital]
-
     ActiveRecord::Base.transaction do
       begin
-        #Entity Processing
-        @entity = Entity.new( name: params[:details][:name], description: params[:details][:description], logo: params[:details][:logo])
-
-        #Access Processing
-        @access = Access.new( username: params[:access][:username], password: params[:access][:password], remember_me: params[:access][:rememberme], security_level: 'NONE', password_confirmation: params[:access][:password_confirmation])
-        @access.entity = @entity
-        @access.save!
-
-        #Contact Detail Processing
-        @contactDetail = ContactDetail.new()
-        @contactDetail.entity = @entity
-        @contactDetail.save!
-
-        @verification = Verification.new( temp_email: params[:access][:email], verified: false, hashlink: generateRandomString().downcase )
-        @verification.access = @access
-        @verification.save!
-
-        #Address Processing
-        @addressSet.each do |key, value|
-          @address = Address.new( description: value[:description], longitude: value[:longitude], latitude: value[:latitude] )
-          @address.contact_detail = @contactDetail
-          @address.save!
-        end
-
-        #Telephony Processing
-        @telephoneSet.each do |key, value|
-          @telephony = Telephone.new( description: value[:description], digits: value[:digits] )
-          @telephony.contact_detail = @contactDetail
-          @telephony.save!
-        end
-
-        #Digital Processing
-        @digitalSet.each do |key, value|
-          @digital = Digital.new( description: value[:description], url: value[:url] )
-          @digital.contact_detail = @contactDetail
-          @digital.save!
-        end
-
-        #Email Hash Verification
-        hashlink = generateRandomString()
-        if Verification.exists?( hashlink: hashlink )
-          hashlink = generateRandomString()
-        else
-        end
-        flash[:verificationToken] = hashlink
-
-        #Finalization
-        VerificationMailer.verification_email( params[:access][:email], hashlink ).deliver
-        redirect_to action: "verification"
-
-      #Error Processing
-      rescue => e
-        flash[:active_record_errors] = e
-        render "registration"
+        processEntity(params) #Entity Processing
+        processAccess(params) #Access Processing
+        processContactDetails(params) #Contact Detail Processing
+        processTemporaryEmail(params) #Process Temporary Email
+        #Error Processing
+        rescue => e
+          flash[:collective_errors] = "An error of type #{e.class} happened, message is #{e.message}"
+          redirect_to "registration"
       end
-
     end
+    redirect_to action: "success_registration"
   end
 
-  def verification
+  def success_registration
+    @nextLink = {
+        0 => {:url => "resend_verification", :label => "Resend Verification"},
+    }
+    @message = "Request for Registration Complete. Please access your email to complete verification. We look forward to working with you!"
+    @title = "Registration Successful"
   end
 
   def verify
@@ -103,9 +59,9 @@ class AccessController < ApplicationController
     @accesses = Access.limit(100).offset(0)
   end
 
-  def verify_again
+  def resend_verification
     AccessMailer.verification_email( params[:access][:email], hashlink, params[:details][:name] ).deliver
-    redirect_to action: "verification"
+    redirect_to action: "success_registration"
   end
 
 end

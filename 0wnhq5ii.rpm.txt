@@ -1,0 +1,117 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# Explicit paths specified without -i or -o; assuming --only paths...
+# On branch master
+# Changes to be committed:
+#	new file:   app/assets/images/jqtree-circle.png
+#	modified:   app/assets/javascripts/application.js
+#	new file:   app/assets/javascripts/jquery.cookie.js
+#	new file:   app/assets/javascripts/jquery.sapling.min.js
+#	deleted:    app/assets/javascripts/jstree.min.js
+#	deleted:    app/assets/javascripts/themes/default-dark/32px.png
+#	deleted:    app/assets/javascripts/themes/default-dark/40px.png
+#	deleted:    app/assets/javascripts/themes/default-dark/style.css
+#	deleted:    app/assets/javascripts/themes/default-dark/style.min.css
+#	deleted:    app/assets/javascripts/themes/default-dark/throbber.gif
+#	deleted:    app/assets/javascripts/themes/default/32px.png
+#	deleted:    app/assets/javascripts/themes/default/40px.png
+#	deleted:    app/assets/javascripts/themes/default/style.css
+#	deleted:    app/assets/javascripts/themes/default/style.min.css
+#	deleted:    app/assets/javascripts/themes/default/throbber.gif
+#	deleted:    app/assets/stylesheets/application.css
+#	modified:   app/assets/stylesheets/application.css.scss
+#	modified:   app/assets/stylesheets/foundation_and_overrides.scss
+#	new file:   app/assets/stylesheets/jquery.sapling.css
+#	deleted:    app/assets/stylesheets/style.min.css
+#	modified:   app/controllers/access_controller.rb
+#	modified:   app/models/access.rb
+#	modified:   app/models/address.rb
+#	modified:   app/models/allowable_set.rb
+#	new file:   app/models/attendance.rb
+#	new file:   app/models/base_rate.rb
+#	new file:   app/models/biodatum.rb
+#	new file:   app/models/branch.rb
+#	modified:   app/models/constant.rb
+#	new file:   app/models/declared_rest_day_employee.rb
+#	modified:   app/models/digital.rb
+#	new file:   app/models/employee.rb
+#	new file:   app/models/holiday.rb
+#	new file:   app/models/holiday_type.rb
+#	new file:   app/models/institutional_adjustment.rb
+#	new file:   app/models/institutional_adjustment_set.rb
+#	new file:   app/models/lump_adjustment.rb
+#	new file:   app/models/performance_appraisal.rb
+#	new file:   app/models/project_assignment.rb
+#	new file:   app/models/rate_adjustment.rb
+#	new file:   app/models/repaid_vale.rb
+#	new file:   app/models/vale.rb
+#	modified:   app/views/access/dashboard.html.erb
+#	modified:   app/views/access/registration.html.erb
+#	new file:   app/views/core_partials/_sidenavigation.erb
+#	new file:   app/views/layouts/application_loggedin.html.erb
+#	modified:   config/navigation.rb
+#	modified:   db/migrate/20150304041353_create_accesses.rb
+#	modified:   db/migrate/20150304041757_create_allowable_sets.rb
+#	modified:   db/migrate/20150304041820_create_verifications.rb
+#	modified:   db/migrate/20150304041908_create_contact_details.rb
+#	modified:   db/migrate/20150304041952_create_constants.rb
+#	modified:   db/migrate/20150304042012_create_entity_connectors.rb
+#	modified:   db/migrate/20150304042031_create_entities.rb
+#	modified:   db/migrate/20150304042051_create_digitals.rb
+#	modified:   db/migrate/20150304042115_create_telephones.rb
+#	modified:   db/migrate/20150304042136_create_addresses.rb
+#	modified:   db/migrate/20150304042225_administrator_data.rb
+#	new file:   db/migrate/20150311233507_create_employees.rb
+#	new file:   db/migrate/20150311233523_create_attendances.rb
+#	new file:   db/migrate/20150311233545_create_base_rates.rb
+#	new file:   db/migrate/20150311233605_create_lump_adjustments.rb
+#	new file:   db/migrate/20150311233623_create_rate_adjustments.rb
+#	new file:   db/migrate/20150311233700_create_vales.rb
+#	new file:   db/migrate/20150311233719_create_holidays.rb
+#	new file:   db/migrate/20150311233737_create_project_assignments.rb
+#	new file:   db/migrate/20150311233753_create_performance_appraisals.rb
+#	new file:   db/migrate/20150311233809_create_biodata.rb
+#	new file:   db/migrate/20150312025709_create_institutional_adjustments.rb
+#	new file:   db/migrate/20150312030631_create_institutional_adjustment_sets.rb
+#	new file:   db/migrate/20150313023832_create_holiday_types.rb
+#	new file:   db/migrate/20150313030254_create_repaid_vales.rb
+#	new file:   db/migrate/20150313153830_create_branches.rb
+#	new file:   db/migrate/20150315063948_initializer_data.rb
+#	new file:   db/migrate/20150315070151_create_declared_rest_day_employees.rb
+#	modified:   db/schema.rb
+#	modified:   db/seeds.rb
+#	new file:   test/fixtures/attendances.yml
+#	new file:   test/fixtures/base_rates.yml
+#	new file:   test/fixtures/biodata.yml
+#	new file:   test/fixtures/branches.yml
+#	new file:   test/fixtures/declared_rest_day_employees.yml
+#	new file:   test/fixtures/employees.yml
+#	new file:   test/fixtures/holiday_types.yml
+#	new file:   test/fixtures/holidays.yml
+#	new file:   test/fixtures/institutional_adjustment_sets.yml
+#	new file:   test/fixtures/institutional_adjustments.yml
+#	new file:   test/fixtures/lump_adjustments.yml
+#	new file:   test/fixtures/performance_appraisals.yml
+#	new file:   test/fixtures/project_assignments.yml
+#	new file:   test/fixtures/rate_adjustments.yml
+#	new file:   test/fixtures/repaid_vales.yml
+#	new file:   test/fixtures/vales.yml
+#	new file:   test/models/attendance_test.rb
+#	new file:   test/models/base_rate_test.rb
+#	new file:   test/models/biodatum_test.rb
+#	new file:   test/models/branch_test.rb
+#	new file:   test/models/declared_rest_day_employee_test.rb
+#	new file:   test/models/employee_test.rb
+#	new file:   test/models/holiday_test.rb
+#	new file:   test/models/holiday_type_test.rb
+#	new file:   test/models/institutional_adjustment_set_test.rb
+#	new file:   test/models/institutional_adjustment_test.rb
+#	new file:   test/models/lump_adjustment_test.rb
+#	new file:   test/models/performance_appraisal_test.rb
+#	new file:   test/models/project_assignment_test.rb
+#	new file:   test/models/rate_adjustment_test.rb
+#	new file:   test/models/repaid_vale_test.rb
+#	new file:   test/models/vale_test.rb
+#
+

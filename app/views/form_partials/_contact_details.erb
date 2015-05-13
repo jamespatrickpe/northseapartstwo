@@ -1,0 +1,193 @@
+<!--
+
+Partial for Contact Details Form
+
+-->
+<fieldset id="contact_details_set">
+<%= error_messages_for( @contactDetail ) %>
+
+<div class="large-12 columns">
+  <h2 class="miniheader">Addresses</h2>
+  <%= error_messages_for( @address ) %>
+
+  <p id="map_special_instructions">
+    Drag red marker; Double Left Click to Zoom Out, Double Right Click to Zoom In. Scroll to Zoom. Hold Left Mouse Button to Pan.
+  </p>
+  <div class="mapcontainer">
+    <div class="mapset" id="primary" align="center">
+      <hr>
+      <div class="map" style="width: 800px; height: 300px;"></div><br>
+      <%= text_area_tag("address[0][description]", content = "Type Address Here", options = {class: "map-address",type:"address", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :"data-parsley-validation-threshold"=>"10"}) %>
+
+      <div class="large-1 columns">Latitude:</div>
+      <div class="large-11 columns">
+        <input type="text" class="map-lat" name="address[0][latitude]" id="latitude" data-parsley-type="number"/>
+      </div>
+
+      <div class="large-1 columns">Longitude:</div>
+      <div class="large-11 columns">
+        <input type="text" class="map-lon" name="address[0][longitude]" id="longitude" data-parsley-type="number"/>
+      </div>
+
+    </div>
+  </div>
+  <hr>
+  <%= renderItemListerButtons("More Addresses:", "addAddress()","deleteAddress()") %>
+  <hr>
+  <script>
+      $('.map').locationpicker({
+          location: {latitude: 14.621745, longitude: 121.107015},
+          radius: 10,
+          inputBinding: {
+              latitudeInput: $('.map-lat'),
+              longitudeInput: $('.map-lon'),
+              radiusInput: $('.map-radius'),
+              scrollwheel: true
+          }
+      });
+  </script>
+</div>
+
+<div class="row">
+</div>
+<div class="large-6 columns">
+  <h2 class="miniheader">Telephony Details</h2>
+  <%= error_messages_for( @telephony ) %>
+
+  <table class="telephonycontainer">
+    <tr>
+      <td>DIGITS</td>
+      <td>DESCRIPTION</td>
+    </tr>
+    <tr id="primary" class="telephonyset">
+      <td> <%= text_field_tag("telephony[0][digits]", value = nil, options = {placeholder: "type numbers here", class: "digits", type: "tel", :"data-parsley-type" => "digits"}) %></td>
+      <td> <%= text_field_tag("telephony[0][description]", value = nil, options = {placeholder: "eg 'work'", class: "telephony_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :"data-parsley-validation-threshold"=>"10"}) %></td>
+    </tr>
+  </table>
+  <hr>
+  <%= renderItemListerButtons("More Telephony Details:", "addTelephony()","deleteTelephony()") %>
+</div>
+<div class="large-6 columns">
+  <h2 class="miniheader">Digital Contact Details</h2>
+  <%= error_messages_for( @digital ) %>
+  <table class="digitalcontainer">
+    <tr>
+      <td>EMAIL / URL / IM</td>
+      <td>DESCRIPTION</td>
+    </tr>
+    <tr id="primary" class="digitalset">
+      <td> <%= text_field_tag("digital[0][url]", value = nil, options = {placeholder: "email/etc", class: "url", type: "url"}) %></td>
+      <td> <%= text_field_tag("digital[0][description]", value = nil, options = {placeholder: "description", class: "digital_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :"data-parsley-validation-threshold"=>"10"}) %></td>
+    </tr>
+  </table>
+  <hr>
+
+  <%= renderItemListerButtons("More Digital Contact Details:", "addDigital()","deleteDigital()") %>
+</div>
+</fieldset>
+
+<script>
+
+    //Counters
+    $addresscounter = 0;
+    $telephonyCounter = 0;
+    $digitalCounter = 0;
+
+    //Adds new Address Form with id and name set to current counter
+    function addAddress()
+    {
+        $addresscounter++;
+
+        var clonedMapSet = $("#primary.mapset").clone();
+        clonedMapSet.attr("id",$addresscounter);
+
+        clonedMapSet.find(".map").attr("id",$addresscounter);
+        clonedMapSet.find(".map").attr("name","map-"+$addresscounter);
+
+        clonedMapSet.find(".map-address").attr("id",$addresscounter);
+        clonedMapSet.find(".map-address").attr("name","address["+$addresscounter+"][description]");
+
+        clonedMapSet.find(".map-lon").attr("id",$addresscounter);
+        clonedMapSet.find(".map-lon").attr("name","address["+$addresscounter+"][longitude]");
+
+        clonedMapSet.find(".map-lat").attr("id",$addresscounter);
+        clonedMapSet.find(".map-lat").attr("name","address["+$addresscounter+"][latitude]");
+
+        clonedMapSet.appendTo($(".mapcontainer"));
+
+        activateMapper($addresscounter)
+    }
+
+    //Adds new Mapper with id and name set to current counter
+    function activateMapper($currentID)
+    {
+        $('div#'+$currentID+'.map').locationpicker({
+            location: {latitude: 14.621745, longitude: 121.107015},
+            radius: 10,
+            scrollwheel: true,
+            inputBinding: {
+                latitudeInput: $('input#'+$currentID+'.map-lat'),
+                longitudeInput: $('input#'+$currentID+'.map-lon'),
+                radiusInput: $('input#'+$currentID+'.map-radius')
+        }
+        });
+    }
+
+    //deletes new Address Form with id and name set to current counter
+    function deleteAddress()
+    {
+        $('#'+$addresscounter+'.mapset').remove();
+        if($addresscounter <= 0)
+        {$addresscounter = 0 }
+        else
+        {$addresscounter--;}
+    }
+
+    //add Address Form with id and name set to current counter
+    function addTelephony()
+    {
+        $telephonyCounter++;
+
+        var clonedTelephonySet = $("#primary.telephonyset").clone();
+        clonedTelephonySet.attr("id",$telephonyCounter);
+        clonedTelephonySet.find(".digits").attr("id",$telephonyCounter);
+        clonedTelephonySet.find(".digits").attr("name","telephony["+$telephonyCounter+"][digits]");
+        clonedTelephonySet.find(".telephony_description").attr("id",$telephonyCounter);
+        clonedTelephonySet.find(".telephony_description").attr("name","telephony["+$telephonyCounter+"][description]");
+        clonedTelephonySet.appendTo($(".telephonycontainer"));
+    }
+
+    //delete new telephony with id and name set to current counter
+    function deleteTelephony()
+    {
+        $('#'+$telephonyCounter+'.telephonyset').remove();
+        if($telephonyCounter <= 0)
+        {$telephonyCounter = 0 }
+        else
+        {$telephonyCounter--;}
+    }
+
+    //add new digital address/url with id and name set to current counter
+    function addDigital()
+    {
+        $digitalCounter++;
+
+        var clonedDigitalSet = $("#primary.digitalset").clone();
+        clonedDigitalSet.attr("id",$digitalCounter);
+        clonedDigitalSet.find(".url").attr("id",$digitalCounter);
+        clonedDigitalSet.find(".url").attr("name","digital["+$digitalCounter+"][url]");
+        clonedDigitalSet.find(".digital_description").attr("id",$digitalCounter);
+        clonedDigitalSet.find(".digital_description").attr("name","digital["+$digitalCounter+"][description]");
+        clonedDigitalSet.appendTo($(".digitalcontainer"));
+    }
+
+    //delete digital address/url with id and name set to current counter
+    function deleteDigital()
+    {
+        $('#'+$digitalCounter+'.digitalset').remove();
+        if($digitalCounter <= 0)
+        {$digitalCounter = 0 }
+        else
+        {$digitalCounter--;}
+    }
+</script>

@@ -1,0 +1,14 @@
+<%= error_messages_for( @access ) %>
+<%= error_messages_for( @verification ) %>
+
+<%= text_field_tag("access[username]", value = nil, options = {id:"username", placeholder: "Place a Simple Username 'james'; 3 to 64 Characters", required: "required", pattern: "[a-z0-9_-]{3,64}$", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64", :"data-parsley-validation-threshold"=>"3"})%>
+<%= text_field_tag("access[password]", value = nil, options = {id: "password", placeholder: "Password; 8-64 Characters", required: "required", type: "password", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"8" ,:"data-parsley-maxlength"=>"64", :"data-parsley-validation-threshold"=>"8"} )%>
+<%= text_field_tag("access[password_confirmation]", value = nil, options = {id: "password_confirmation", placeholder: "Type Password Again", required: "required", type: "password", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"8" ,:"data-parsley-maxlength"=>"64", :"data-parsley-validation-threshold"=>"8", "data-parsley-equalto"=>"#password"} )%>
+<%= text_field_tag("access[email]", value = nil, options = {id: "email", placeholder: "Email", required: "required", type: "email", :"data-parsley-trigger"=> "change"}) %>
+
+<div align="right">
+  Remember me when I'm logged in [ <%= check_box_tag("access[rememberme]", value = 1, checked = false, options = {}) %> ]
+</div>
+
+<script>
+</script>

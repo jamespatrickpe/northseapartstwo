@@ -1,0 +1,12 @@
+<fieldset id="entity_set">
+<%= error_messages_for( @entity ) %>
+<%= text_field_tag("entity[name]", value = nil, options = {placeholder: "Name", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64", :"data-parsley-validation-threshold"=>"3"}) %>
+<%= text_area_tag("entity[description]", content = "Description", options = {class: "entity_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :"data-parsley-validation-threshold"=>"10"}) %>
+
+Upload your picture:
+<%= file_field_tag "entity[logo]", options = {} %>
+</fieldset>
+
+<script>
+
+</script>

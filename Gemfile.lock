@@ -60,6 +60,13 @@ GEM
       execjs
     coffee-script-source (1.9.1)
     columnize (0.9.0)
+    countries (0.11.3)
+      currencies (~> 0.4.2)
+      i18n_data (~> 0.6.0)
+    country_select (2.2.0)
+      countries (~> 0.11.0)
+      sort_alphabetical (~> 1.0)
+    currencies (0.4.2)
     debug_inspector (0.0.2)
     debugger-linecache (1.2.0)
     erubis (2.7.0)
@@ -73,6 +80,7 @@ GEM
       activesupport (>= 4.1.0)
     hike (1.2.3)
     i18n (0.7.0)
+    i18n_data (0.6.3)
     jbuilder (2.2.9)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
@@ -96,6 +104,8 @@ GEM
     mysql2 (0.3.18-x64-mingw32)
     nokogiri (1.6.6.2-x64-mingw32)
       mini_portile (~> 0.6.0)
+    parsley-rails (2.0.7.0)
+      railties (>= 3.0.0)
     rack (1.6.0)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -140,6 +150,8 @@ GEM
     simple-navigation (3.14.0)
       activesupport (>= 2.3.2)
     slop (3.6.0)
+    sort_alphabetical (1.0.1)
+      unicode_utils (>= 1.2.2)
     sprockets (2.12.3)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -161,6 +173,7 @@ GEM
     uglifier (2.7.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    unicode_utils (1.4.0)
     web-console (2.1.0)
       activemodel (>= 4.0)
       binding_of_caller (>= 0.7.2)
@@ -175,6 +188,7 @@ DEPENDENCIES
   byebug
   carrierwave
   coffee-rails (~> 4.1.0)
+  country_select (~> 2.2.0)
   faker
   foundation-rails
   jbuilder (~> 2.0)
@@ -182,6 +196,7 @@ DEPENDENCIES
   jquery-validation-rails
   mini_magick
   mysql2
+  parsley-rails
   rails (= 4.2.0)
   recaptcha
   sass-rails (~> 5.0)

@@ -1,130 +1,26 @@
-<br>
-<%= form_tag({action: :register}, multipart: true, id: "registration_form") do %>
+<%= form_tag({action: :register}, multipart: true, id: "system_registration_form", :"data-parsley-validate" => "" ) do %>
 <div class="row">
 
   <div class="mainheader">Account Registration</div>
-  In order to serve you better; we would like to ask more about you and your business. Please fill out the following forms carefully. Read our Privacy Policy for more details.
-  <br>
-  <%= flash[:active_record_errors] %>
-  <br>
-
+  <div class="subdescription"> In order to serve you better; we would like to ask more about you and your business. Please fill out the following forms carefully. Read our Privacy Policy for more details. </div>
+  <%= displayCollectiveErrors(); %>
   <div class="row">
     <div class="large-6 columns">
-      <h2 class="miniheader">Security Authentication</h2>
-      <%= error_messages_for( @access ) %>
-      <%= error_messages_for( @verification ) %>
-      <%= text_field_tag("access[username]", value = nil, options = {id:"username", placeholder: "Place a Simple Username 'james'; 3 to 64 Characters", required: "required", pattern: "[a-z0-9_-]{3,64}$"} )%>
-      <%= text_field_tag("access[password]", value = nil, options = {id: "password", placeholder: "Password; 8-64 Characters", required: "required", type: "password" } )%>
-      <%= text_field_tag("access[password_confirmation]", value = nil, options = {id: "password_confirmation", placeholder: "Type Password Again", required: "required", type: "password" } )%>
-      <%= text_field_tag("access[email]", value = nil, options = {id: "email", placeholder: "Email", required: "required", type: "email"}) %>
-      <div align="right">
-      Remember me when I'm logged in [ <%= check_box_tag("access[rememberme]", value = 1, checked = false, options = {}) %> ]
-      </div>
+      <h2 class="miniheader">System Account</h2>
+      <%= renderFormPartial("system_account"); %>
     </div>
 
     <div class="large-6 columns">
       <h2 class="miniheader">Personal / Company Details</h2>
-      <%= error_messages_for( @details ) %>
-      <%= text_field_tag("details[name]", value = nil, options = {placeholder: "Personal or Company Name", required: "required"}) %>
-      <%= text_area_tag("details[description]", content = "Description", options = {}) %>
-      Upload your picture or company logo:
-      <%= file_field_tag "details[logo]", options = {} %>
+      <%= renderFormPartial("entity"); %>
     </div>
   </div>
 
-  <div class="row">
-    <div class="large-12 columns">
-      <h2 class="miniheader">Addresses</h2>
-      <%= error_messages_for( @address ) %>
+  <%= renderFormPartial("contact_details"); %>
 
-      <p id="map_special_instructions">
-      Drag red marker; Double Left Click to Zoom Out, Double Right Click to Zoom In. Scroll to Zoom. Hold Left Mouse Button to Pan.
-      </p>
-      <div class="mapcontainer">
-      <div class="mapset" id="primary" align="center">
-        <hr>
-      <div class="map" style="width: 800px; height: 300px;"></div><br>
-      <%= text_area_tag("address[0][description]", content = "Type Address Here", options = {class: "map-address",type:"address"}) %>
-
-      <div class="large-1 columns">Latitude:</div>
-        <div class="large-11 columns">
-      <input type="number" class="map-lat" step="0.0001" name="address[0][latitude]" id="latitude"/>
-        </div>
-
-
-      <div class="large-1 columns">Longitude:</div>
-      <div class="large-11 columns">
-        <input type="number" class="map-lon" step="0.0001" name="address[0][longitude]" id="longitude"/>
-      </div>
-
-
-      </div>
-      </div>
-      <hr>
-      <%= renderItemListerButtons("More Addresses:", "addAddress()","deleteAddress()") %>
-      <hr>
-      <script>
-          $('.map').locationpicker({
-              location: {latitude: 14.621745, longitude: 121.107015},
-              radius: 10,
-              inputBinding: {
-                  latitudeInput: $('.map-lat'),
-                  longitudeInput: $('.map-lon'),
-                  radiusInput: $('.map-radius'),
-                  scrollwheel: true
-              }
-          });
-      </script>
-  </div>
-
-    <div class="row">
-    </div>
-    <div class="large-4 columns">
-      <h2 class="miniheader">Telephony Details</h2>
-      <%= error_messages_for( @telephony ) %>
-
-      <table class="telephonycontainer">
-        <tr>
-          <td>DIGITS</td>
-          <td>DESCRIPTION</td>
-        </tr>
-        <tr id="primary" class="telephonyset">
-          <td> <%= text_field_tag("telephony[0][digits]", value = nil, options = {placeholder: "type numbers here", class: "digits", type: "tel"}) %></td>
-          <td> <%= text_field_tag("telephony[0][description]", value = nil, options = {placeholder: "eg 'work'", class: "telephony_description" }) %></td>
-        </tr>
-      </table>
-      <hr>
-
-      <%= renderItemListerButtons("More Telephony Details:", "addTelephony()","deleteTelephony()") %>
-    </div>
-    <div class="large-4 columns">
-      <h2 class="miniheader">Digital Contact Details</h2>
-      <%= error_messages_for( @digital ) %>
-      <table class="digitalcontainer">
-        <tr>
-          <td>EMAIL / URL / IM</td>
-          <td>DESCRIPTION</td>
-        </tr>
-        <tr id="primary" class="digitalset">
-          <td> <%= text_field_tag("digital[0][url]", value = nil, options = {placeholder: "email/etc"}) %></td>
-          <td> <%= text_field_tag("digital[0][description]", value = nil, options = {placeholder: "description", class: "digital_description" }) %></td>
-        </tr>
-      </table>
-      <hr>
-
-      <%= renderItemListerButtons("More Digital Contact Details:", "addDigital()","deleteDigital()") %>
-    </div>
-
-    <div class="row" align="center">
-      <hr>
-      <input type="submit" class="large button" href="#" value="REGISTER">
-      <hr>
-    </div>
-
-  </div>
-
-
-
+   <div class="row" align="center">
+     <hr><input type="submit" class="large button" href="#" value="REGISTER"><hr>
+   </div>
 
 </div>
 

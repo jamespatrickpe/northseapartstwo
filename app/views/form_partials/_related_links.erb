@@ -1,0 +1,38 @@
+<div class="large-6 columns">
+<h2 class="miniheader">Associated Links</h2>
+<%= error_messages_for( @linkSets ) %>
+<div class="related_link_container">
+  <div id="primary" class="related_link_set">
+    <%= url_field_tag("related_link[0][url]", value = nil, options = {id: 0, placeholder: "URL", class: "related_link_url", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"512", :"data-parsley-validation-threshold"=>"3", :"data-parsley-type" => "url"}) %>
+    <%= text_field_tag("related_link[0][label]", value = nil, options = {id: 0, placeholder: "Label", class: "related_link_label",  :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :"data-parsley-validation-threshold"=>"3"}) %>
+    <hr>
+  </div>
+</div>
+<%= renderItemListerButtons("More Related Links:", "addLinks()","deleteLinks()") %>
+</div>
+
+<script>
+    linkCounter = 0;
+    function addLinks()
+    {
+        linkCounter++;
+        var cloned = $("#primary.related_link_set").clone();
+        cloned.attr("id",linkCounter);
+        cloned.find(".related_link_url").attr("id",linkCounter);
+        cloned.find(".related_link_url").attr("name","related_link["+linkCounter+"][url]");
+        cloned.find(".related_link_label").attr("id",linkCounter);
+        cloned.find(".related_link_label").attr("name","related_link["+linkCounter+"][label]");
+        cloned.appendTo($(".related_link_container"));
+    }
+
+    //delete digital address/url with id and name set to current counter
+    function deleteLinks() {
+        $('#' + linkCounter + '.related_link_set').remove();
+        if (linkCounter <= 0) {
+            linkCounter = 0
+        }
+        else {
+            linkCounter--;
+        }
+    }
+</script>

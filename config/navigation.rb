@@ -76,39 +76,52 @@
   #end
 #end
 
-defaultURL = "index"
-options = Hash.new()
+defaultURL = ""
+options = {:class => 'clickableSideNav'}
 
 SimpleNavigation::Configuration.run do |navigation|
-
+  navigation.auto_highlight = true
   navigation.items do |primary|
-    primary.dom_class = 'side-nav'
-    primary.item :books, 'Account Management', defaultURL, options do |sub_nav|
-      sub_nav.item :key_2_1, 'User Account', defaultURL, options
-      sub_nav.item :key_2_1, 'Access Control', defaultURL, options
-    end
-    primary.item :books, 'Human Resources', defaultURL, options do |sub_nav|
-      sub_nav.item :key_2_1, 'Payroll', defaultURL, options
-      sub_nav.item :key_2_1, 'Project Assignment', defaultURL, options
-      sub_nav.item :key_2_1, 'Employee Management', defaultURL, options
-    end
-    primary.item :books, 'Accounting and Finance', defaultURL, options do |sub_nav|
-      sub_nav.item :key_2_1, 'Expenses', defaultURL, options
-    end
-    primary.item :books, 'Supply Chain Management',defaultURL, options do |sub_nav|
+    primary.dom_id = 'side-nav'
 
+    primary.item :account_management, 'Account Management', defaultURL, options do |sub_nav|
+      sub_nav.item :my_account_settings, 'My Account Settings', defaultURL
+      sub_nav.item :access_control, 'Access Control', '/access/dashboard'
     end
-    primary.item :books, 'Product Management',defaultURL, options do |sub_nav|
 
+    primary.item :human_resources, 'Human Resources', '/human_resources/dashboard', options do |secondary|
+      secondary.item :employee_accounts, 'Employee Accounts', 'employee_accounts', options do |tertiary|
+        tertiary.item :candidate_registration, 'Candidate Registration', '/human_resources/candidate_registration'
+        tertiary.item :employee_status, 'Employee Information Settings', '/human_resources/employee_information_settings'
+        tertiary.item :employee_status, 'Employee Status', '/human_resources/employee_status'
+      end
+      secondary.item :payroll, 'Payroll', defaultURL
+      secondary.item :project_assignment, 'Project Assignment', defaultURL
+      secondary.item :vales, 'Vales', defaultURL, options do |sub_nav|
+        sub_nav.item :apply_for_vale, 'Apply for Vale', defaultURL
+        sub_nav.item :approve_vale, 'Approve Vale', defaultURL
+        sub_nav.item :pay_vale, 'Pay Vale', defaultURL
+      end
     end
-    primary.item :books, 'Marketing', defaultURL, options do |sub_nav|
 
+    primary.item :accounting_and_finance, 'Accounting and Finance', defaultURL, options do |sub_nav|
+      sub_nav.item :expenses, 'Expenses', defaultURL
     end
-    primary.item :books, 'Content Management System', defaultURL, options do |sub_nav|
 
+    primary.item :supply_chain_management, 'Supply Chain Management',defaultURL, options do |sub_nav|
     end
-    primary.item :books, 'Contacts', defaultURL, options do |sub_nav|
 
+    primary.item :product_management, 'Product Management',defaultURL, options do |sub_nav|
     end
+
+    primary.item :marketing, 'Marketing', defaultURL, options do |sub_nav|
+    end
+
+    primary.item :content_management_system, 'Content Management System', defaultURL, options do |sub_nav|
+    end
+
+    primary.item :contacts, 'Contacts', defaultURL, options do |sub_nav|
+    end
+
     end
 end

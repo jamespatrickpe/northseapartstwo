@@ -1,0 +1,8 @@
+<%
+   collectiveErrors = flash[:collective_errors]
+   if collectiveErrors
+%>
+    <div class="error_messages" style="padding:5px; color:#721314; margin:5px; border-color:#721314; border-width: 2px; border-style:solid; border-left-color:#721314; border-left-width:5px; border-left-style:solid;">
+        <%= flash[:collective_errors] %><br>
+    </div>
+<% end %>

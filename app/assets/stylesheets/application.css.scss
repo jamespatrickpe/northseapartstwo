@@ -9,8 +9,11 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require foundation_and_overrides
+ *= require jquery.sapling
+ *= require parsley
  *= require_tree .
  *= require_self
+
  */
 
 .mainheader
@@ -21,6 +24,7 @@
   border-left-width: 5px;
   border-left-style: solid;
   padding-left: 10px;
+  text-transform: uppercase;
 }
 
 .miniheader
@@ -35,7 +39,44 @@
   border-left-style: solid;
 }
 
-ul, li
+// TABLE
+
+table
+{
+  table-layout: fixed;
+  width: 100%;
+}
+
+th
+{
+  color:white;
+  background-color: #cccccc;
+}
+
+tr:hover:nth-child(odd),tr:hover:nth-child(even)
+{
+  background-color: #cccccc;
+  color: white;
+}
+
+//TREE STUFF
+ul, li .side-navigation
 {
   list-style-type: none;
+  font-size: 12px;
+}
+
+li:hover
+{
+  color:white;
+  background-color: gray;
+}
+
+//SUB HEADER DESCRIPTION
+.subdescription
+{
+  padding: 5px;
+  padding-left: 15px;
+  font-size: 12px;
+  text-transform: uppercase;
 }

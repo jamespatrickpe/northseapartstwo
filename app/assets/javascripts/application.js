@@ -16,9 +16,59 @@
 //= require foundation
 //= require googlemaps120714.js
 //= require locationpicker.jquery.js
-//= require jquery.validate
-//= require jquery.validate.additional-methods
+//= require file-validator.js
+//= //require jquery.validate
+//= //require jquery.validate.additional-methods
+//= require jquery.sapling.min
+//= require jquery
+//= require parsley
 //= //require turbolinks // CAUSES ERROR
 //= //require_tree .  // CAUSES ERROR
 
+
 $(function(){ $(document).foundation(); });
+
+$(document).ready(function(){
+
+    $(function() {
+        $( document ).tooltip();
+    });
+
+    $('#side-nav').sapling();
+    $('#side-nav').data('sapling').expand();
+
+    $('#expand_all').click(function() {
+        $('#side-nav').data('sapling').expand();
+    });
+
+    $('#collapse_all').click(function() {
+        $('#side-nav').data('sapling').collapse();
+    });
+
+    var navigationDisplay = true;
+    var sideNavigationContainerCSS = $('#side-navigation-container').attr("style");
+    var navigationLabelContainerCSS = $('#navigation_label_container').attr("style");
+
+    $('#hide_show_all').click(function() {
+        $('#side-nav').toggle()
+        $('#search_system').toggle()
+        $('#navigation_label').toggle()
+        $('#expand_all').toggle()
+        $('#collapse_all').toggle()
+
+        if(navigationDisplay == true)
+        {
+            $('#side-navigation-container').css("width","50px");
+            $('#navigation_label_container').attr("style","")
+            navigationDisplay = false;
+        }
+        else
+        {
+            $('#side-navigation-container').attr("style",sideNavigationContainerCSS)
+            $('#navigation_label_container').attr("style",navigationLabelContainerCSS)
+            navigationDisplay = true;
+        }
+
+    });
+
+});

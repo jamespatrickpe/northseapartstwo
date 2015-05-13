@@ -1,0 +1,45 @@
+<div class="large-6 columns">
+<h2 class="miniheader">Upload Associated Files ( 25MB limit per file )</h2>
+<%= error_messages_for( @fileSets ) %>
+<div class="related_file_container">
+    <div id="primary" class="related_file_set">
+      <%= file_field_tag "related_file[0][path]", options = {class: "related_file_path"} %>
+      <%= text_field_tag("related_file[0][description]", value = nil, options = {id:"description", placeholder: "Description of File", class: "rel_file_description",:"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :"data-parsley-validation-threshold"=>"3"}) %>
+      <hr>
+    </div>
+</div>
+<%= renderItemListerButtons("More Associated Files:", "addFiles()","deleteFiles()") %>
+</div>
+
+<script>
+    fileCounter = 0;
+    function addFiles()
+    {
+        fileCounter++;
+        var cloned = $("#primary.related_file_set").clone();
+        cloned.attr("id",fileCounter);
+        cloned.find(".related_file_path").attr("id",fileCounter);
+        cloned.find(".related_file_path").attr("name","related_file["+fileCounter+"][path]");
+        cloned.find(".related_file_description").attr("id",fileCounter);
+        cloned.find(".related_file_description").attr("name","related_file["+fileCounter+"][description]");
+        cloned.appendTo($(".related_file_container"));
+    }
+
+    //delete digital address/url with id and name set to current counter
+    function deleteFiles() {
+        $('#' + fileCounter + '.related_file_set').remove();
+        if (fileCounter <= 0) {
+            fileCounter = 0
+        }
+        else {
+            fileCounter--;
+        }
+    }
+
+    $(".related_file_path").fileValidator({
+        onValidation: function(files){},
+        onInvalid:    function(type, file){ $(this).val(null); alert(" Sorry, the size of the file is larger than 25MB. Please upload a smaller version if possible. ") },
+        maxSize:      '25m'
+    });
+
+</script>

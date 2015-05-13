@@ -1,0 +1,41 @@
+/*!
+	jQuery Sapling 0.5.0 - http://tameraydin.github.io/jquery-sapling/
+*/
+
+/*
+*	Base CSS for jQuery Sapling.
+*/
+.sapling-list li {
+	display: block;
+	list-style: none;
+	position: relative;
+}
+.sapling-list ol,
+.sapling-list ul {
+	display: none;
+}
+.sapling-list .sapling-item {
+	cursor: pointer;
+}
+.sapling-list .sapling-item:before {
+	content: "\25B6";
+    color: white;
+	display: inline-block;
+	padding-right: 5px;
+}
+.sapling-list .sapling-item.sapling-expanded:before {
+	content: "\25BC";
+    color: white;
+}
+.sapling-list .sapling-item.sapling-expanded > ol,
+.sapling-list .sapling-item.sapling-expanded > ul {
+	cursor: default;
+	display: block;
+}
+
+.sapling-expanded li:before
+{
+    color:white;
+    content: " \25A0 ";
+    padding-right: 5px;
+}

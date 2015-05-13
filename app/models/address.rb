@@ -1,4 +1,5 @@
 class Address < ActiveRecord::Base
+
   belongs_to :contact_detail
 
   validates_presence_of :contact_detail
