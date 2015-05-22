@@ -1,6 +1,7 @@
 class CreateEntityConnectors < ActiveRecord::Migration
   def change
-    create_table :entity_connectors do |t|
+    create_table :entity_connectors, :id => false  do |t|
+      t.string :id, limit: 36, primary: true, null: false
 
       t.string :relationship, :limit => 64
       t.string :relationship_type, :limit => 64

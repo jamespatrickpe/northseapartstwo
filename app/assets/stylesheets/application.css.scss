@@ -9,8 +9,10 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require foundation_and_overrides
+ *= require custom_overrides
  *= require jquery.sapling
  *= require parsley
+ *= require selectize
  *= require_tree .
  *= require_self
 
@@ -37,26 +39,6 @@
   border-left-color: #721314;
   border-left-width: 5px;
   border-left-style: solid;
-}
-
-// TABLE
-
-table
-{
-  table-layout: fixed;
-  width: 100%;
-}
-
-th
-{
-  color:white;
-  background-color: #cccccc;
-}
-
-tr:hover:nth-child(odd),tr:hover:nth-child(even)
-{
-  background-color: #cccccc;
-  color: white;
 }
 
 //TREE STUFF

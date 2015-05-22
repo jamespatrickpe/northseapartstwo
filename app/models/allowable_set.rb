@@ -1,5 +1,7 @@
 class AllowableSet < ActiveRecord::Base
 
+  include UUIDHelper
+
   belongs_to :access
   validates_presence_of :access
 

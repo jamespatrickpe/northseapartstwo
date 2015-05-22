@@ -1,5 +1,7 @@
 class RepaidVale < ActiveRecord::Base
 
+  include UUIDHelper
+
   belongs_to :vale
   validates_presence_of :vale
   validates_presence_of :amount

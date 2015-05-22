@@ -1,5 +1,7 @@
 class Access < ActiveRecord::Base
 
+  include UUIDHelper
+
   belongs_to :verification
   belongs_to :entity, autosave: true
 
@@ -7,7 +9,7 @@ class Access < ActiveRecord::Base
 
   validates_presence_of :username
   validates :username, uniqueness: true
-  validates_length_of :username, maximum: 64, message: "username must be less than 64 characters"
-  validates_length_of :username, minimum: 3, message: "username must be more than 3 characters"
+  validates_length_of :username, maximum: 64
+  validates_length_of :username, minimum: 3
 
 end

@@ -1,6 +1,7 @@
 class CreateEntities < ActiveRecord::Migration
   def change
-    create_table :entities do |t|
+    create_table :entities, :id => false do |t|
+      t.string :id, limit: 36, primary: true, null: false
 
       t.string :name, :limit => 64, :required => true
       t.string :description, :limit => 256

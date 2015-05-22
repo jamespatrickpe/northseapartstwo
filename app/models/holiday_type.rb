@@ -1,5 +1,7 @@
 class HolidayType < ActiveRecord::Base
 
+  include UUIDHelper
+
   validates_presence_of :type_name
   validates_numericality_of :additional_rate
   validates_numericality_of :additional_rate_overtime

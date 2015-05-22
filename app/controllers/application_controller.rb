@@ -3,11 +3,23 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  def processErrors(forwardErrorTo)
-    #Error Processing
-    rescue => e
-      flash[:collective_errors] = e
-      render "registration"
+  layout "application_loggedin"
+
+  def constants
+    currentController = params[:controller]
+    @constants = Constant.where('name LIKE ?', "%"+currentController+"%")
+    render "shared/constants"
+  end
+
+  def processConstants
+    flash[:notice] = "Save Successful!"
+    currentController = params[:controller]
+    constantSet = params[:constants]
+    constantSet.each do |key, value|
+      temp_constant = Constant.find_by(name: key)
+      temp_constant.update(constant: value)
+    end
+    redirect_to "/"+currentController+"/constants"
   end
 
   def processTemporaryEmail(params)

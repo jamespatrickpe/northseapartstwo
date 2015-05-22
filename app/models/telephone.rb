@@ -1,4 +1,5 @@
 class Telephone < ActiveRecord::Base
+  include UUIDHelper
   belongs_to :contact_detail, autosave: true
 
   validates_presence_of :contact_detail

@@ -1,0 +1,43 @@
+<%= form_tag({action: :processEmployeeStatus}, multipart: true, id: "employee_status_form", :"data-parsley-validate" => "" ) do %>
+<div class="large-1 columns" ></div>
+    <div class="large-10 columns" >
+      <div class="mainheader"> Dashboard </div>
+      <div class="subdescription">
+        Summary of Human Resources
+      </div>
+      <table class="mytable">
+        <tr>
+          <th> Date of Registration </th>
+          <th> ID </th>
+          <th> Name </th>
+          <th> Branch </th>
+          <th> Department </th>
+          <th> Position </th>
+          <th> Deployment Status </th>
+        </tr>
+
+        <% @employees.each do |employee| %>
+        <tr>
+          <td><%= employee.created_at %></td>
+          <td><%= employee.id %></td>
+          <td><%= employee.entity.name %></td>
+          <td><%= employee.created_at %></td>
+          <td><%= employee.created_at %></td>
+          <td><%= employee.created_at %></td>
+          <td><%= employee.status %></td>
+        </tr>
+        <% end %>
+
+      </table>
+    </div>
+<% end %>
+<div class="large-1 columns" ></div>
+<script>
+
+</script>
+
+<style>
+    th{
+        text-align: center;
+    }
+</style>

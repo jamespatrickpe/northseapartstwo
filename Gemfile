@@ -53,3 +53,5 @@ gem 'faker'
 gem "simple-navigation"
 gem 'country_select', '~> 2.2.0'
 gem "parsley-rails"
+gem 'selectize-rails'
+gem 'uuidtools'

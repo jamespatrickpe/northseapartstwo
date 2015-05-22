@@ -1,0 +1,47 @@
+<%
+   currentEmail = placeholder_assignment(@currentEmail,"Email")
+%>
+
+<div style="position:relative; top:10%;">
+  <div class="row">
+    <div class="large-1 columns">&nbsp;</div>
+    <div class="large-9 columns">
+      <div style="padding:15px; color: white; background-color: gray;">
+        <div class="mainheader">Resend Email Verification</div>
+
+        <p style="margin-left:25px;">
+          <%=
+             if(flash[:notice].present?)
+               resending_message = flash[:notice]
+             else
+               resending_message = "You have chosen to resend your email verification. Please enter an email address below and click 'Reverify' in order to resend the verification of your account."
+             end
+             resending_message
+          %>
+        </p>
+
+      </div>
+
+    </div>
+    <div class="large-1 columns">&nbsp;</div>
+  </div>
+
+  <div class="row">
+    <div class="large-1 columns">&nbsp;</div>
+    <div class="large-9 columns" align="right">
+      <div style="padding: 15px;">
+
+        <%= form_tag("/home/resend_verification?access_id=" + @access_id, multipart: true, id: "resend_verification_form", :"data-parsley-validate" => "" ) do %>
+        <div class="small-9 columns" align="right">
+        <%= text_field_tag("access[email]", value = currentEmail, options = {id: "email", placeholder: "email", required: "required", type: "email", :"data-parsley-trigger"=> "change"}) %>
+        </div>
+        <div class="small-3 columns" align="left">
+        <input type="submit" class="button postfix" href="#" value="Reverify">
+        </div>
+        <% end %>
+
+      </div>
+    </div>
+    <div class="large-1 columns">&nbsp;</div>
+  </div>
+</div>

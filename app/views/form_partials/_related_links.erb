@@ -3,8 +3,8 @@
 <%= error_messages_for( @linkSets ) %>
 <div class="related_link_container">
   <div id="primary" class="related_link_set">
-    <%= url_field_tag("related_link[0][url]", value = nil, options = {id: 0, placeholder: "URL", class: "related_link_url", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"512", :"data-parsley-validation-threshold"=>"3", :"data-parsley-type" => "url"}) %>
-    <%= text_field_tag("related_link[0][label]", value = nil, options = {id: 0, placeholder: "Label", class: "related_link_label",  :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :"data-parsley-validation-threshold"=>"3"}) %>
+    <%= url_field_tag("related_link[0][url]", value = nil, options = {id: 0, placeholder: "URL", class: "related_link_url", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"512", :"data-parsley-type" => "url"}) %>
+    <%= text_field_tag("related_link[0][label]", value = nil, options = {id: 0, placeholder: "Label", class: "related_link_label",  :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128"}) %>
     <hr>
   </div>
 </div>

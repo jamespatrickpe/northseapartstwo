@@ -1,5 +1,20 @@
 module ApplicationHelper
 
+  def generateReadableID()
+    generatedID = SecureRandom.random_number(999999999).to_s.rjust(9,'0')
+    while( self.where(id: generatedID) )
+      generatedID = SecureRandom.random_number(999999999).to_s.rjust(9,'0')
+    end
+    self.id = generatedID
+  end
+
+  def placeholder_assignment(placeholdervariable, placeholdertext)
+    if( (placeholdervariable.present? == false) || placeholdervariable == "")
+      placeholdervariable = placeholdertext
+    end
+    return placeholdervariable
+  end
+
   def rendercorepartial(partialname,partialinks={})
     render(:partial => "core_partials/"+partialname, :locals => partialinks)
   end

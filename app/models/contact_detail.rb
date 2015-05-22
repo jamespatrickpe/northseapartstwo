@@ -1,5 +1,7 @@
 class ContactDetail < ActiveRecord::Base
 
+  include UUIDHelper
+
   has_many :addresses
   has_many :digitals
   has_many :telephones

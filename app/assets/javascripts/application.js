@@ -13,6 +13,8 @@
 // MANUALLY PUT EVERY JAVASCRIPT
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
+//= require selectize.js
 //= require foundation
 //= require googlemaps120714.js
 //= require locationpicker.jquery.js
@@ -20,7 +22,6 @@
 //= //require jquery.validate
 //= //require jquery.validate.additional-methods
 //= require jquery.sapling.min
-//= require jquery
 //= require parsley
 //= //require turbolinks // CAUSES ERROR
 //= //require_tree .  // CAUSES ERROR

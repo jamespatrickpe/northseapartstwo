@@ -1,0 +1,29 @@
+.mytable tr th
+{
+    text-align: center;
+}
+
+.mytable tr td
+{
+    text-align: center;
+    padding: 5px;
+    vertical-align: middle;
+}
+
+table
+{
+    table-layout: fixed;
+    width: 100%;
+}
+
+th
+{
+    color:white;
+    background-color: #cccccc;
+}
+
+tr:hover:nth-child(odd),tr:hover:nth-child(even)
+{
+    background-color: #cccccc;
+    color: white;
+}

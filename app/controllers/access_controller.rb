@@ -11,6 +11,9 @@ class AccessController < ApplicationController
   end
 
   def register
+    action_redirect = ""
+    id = ""
+
     ActiveRecord::Base.transaction do
       begin
         processEntity(params) #Entity Processing
@@ -18,17 +21,21 @@ class AccessController < ApplicationController
         processContactDetails(params) #Contact Detail Processing
         processTemporaryEmail(params) #Process Temporary Email
         #Error Processing
+        action_redirect = "success_registration"
+        id = @access.id
         rescue => e
           flash[:collective_errors] = "An error of type #{e.class} happened, message is #{e.message}"
-          redirect_to "registration"
+          action_redirect = "registration"
       end
     end
-    redirect_to action: "success_registration"
+    redirect_to action: action_redirect, access_id: id
   end
 
   def success_registration
+    access_id = params[:access_id]
     @nextLink = {
-        0 => {:url => "resend_verification", :label => "Resend Verification"},
+        0 => {:url => "../home/verification_delivery?access_id=#{access_id}", :label => "Resend Verification"},
+        1 => {:url => "../home", :label => "Go Back to Home Page"}
     }
     @message = "Request for Registration Complete. Please access your email to complete verification. We look forward to working with you!"
     @title = "Registration Successful"

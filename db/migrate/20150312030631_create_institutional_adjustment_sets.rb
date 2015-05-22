@@ -1,12 +1,12 @@
 class CreateInstitutionalAdjustmentSets < ActiveRecord::Migration
   def change
-    create_table :institutional_adjustment_sets do |t|
+    create_table :institutional_adjustment_sets, :id => false   do |t|
+      t.string :id, limit: 36, primary: true, null: false
 
-      t.belongs_to :employee
-      t.belongs_to :institution_employee
-      t.belongs_to :institutional_adjustment
-
-      t.string :institutional_ID
+      t.string :employee_id,limit: 36
+      t.string :institution_employee_id,limit: 36
+      t.string :institutional_adjustment_id,limit: 36
+      t.string :institutional_ID, :limit => 512
       t.boolean :activated, :default => true
 
       t.timestamp

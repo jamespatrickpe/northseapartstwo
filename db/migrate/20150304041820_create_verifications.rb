@@ -1,11 +1,11 @@
 class CreateVerifications < ActiveRecord::Migration
   def change
-    create_table :verifications do |t|
+    create_table :verifications, :id => false  do |t|
+      t.string :id, limit: 36, primary: true, null: false
 
-      t.belongs_to :access, :required => true
-
-      t.string :temp_email, :limit => 64, :required => true, :'index.html.erb' => true
+      t.string :temp_email, :limit => 512, :required => true
       t.string :hashlink, :limit => 512
+      t.string :access_id, limit: 36, :required => true
       t.boolean :verified, :default => 0
 
       t.timestamps

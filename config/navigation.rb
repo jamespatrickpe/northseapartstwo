@@ -89,19 +89,28 @@ SimpleNavigation::Configuration.run do |navigation|
       sub_nav.item :access_control, 'Access Control', '/access/dashboard'
     end
 
-    primary.item :human_resources, 'Human Resources', '/human_resources/dashboard', options do |secondary|
-      secondary.item :employee_accounts, 'Employee Accounts', 'employee_accounts', options do |tertiary|
-        tertiary.item :candidate_registration, 'Candidate Registration', '/human_resources/candidate_registration'
-        tertiary.item :employee_status, 'Employee Information Settings', '/human_resources/employee_information_settings'
-        tertiary.item :employee_status, 'Employee Status', '/human_resources/employee_status'
+    primary.item :human_resources, 'Human Resources', '/human_resources', options do |secondary| #Handles the management of human resources
+      secondary.item :employee_accounts, 'Employee Accounts', '/human_resources/employee_accounts', options do |tertiary| #Manages the Accounts of Employees, General Activation and Deactivation
+        tertiary.item :candidate_registration, 'Candidate Registration', '/human_resources/candidate_registration' #Register a Candidate
+        tertiary.item :employee_profile, 'Employee Profile', '/human_resources/employee_profile' #View an Employees' Profile
       end
-      secondary.item :payroll, 'Payroll', defaultURL
-      secondary.item :project_assignment, 'Project Assignment', defaultURL
-      secondary.item :vales, 'Vales', defaultURL, options do |sub_nav|
-        sub_nav.item :apply_for_vale, 'Apply for Vale', defaultURL
-        sub_nav.item :approve_vale, 'Approve Vale', defaultURL
-        sub_nav.item :pay_vale, 'Pay Vale', defaultURL
+
+      secondary.item :compensation_benefits, 'Compensation and Benefits', '/human_resources/compensation_benefits', options do |tertiary| #Association of All Related Employee Compensation and Benefits to an Account
+        tertiary.item :base_rates, 'Base Rates', '/human_resources/base_rates' #CRUD Base Rates
+        tertiary.item :lump_sum, 'Lump Sum', '/human_resources/lump_sum' #CRUD Additions or Deductions
+        tertiary.item :government_inclusions, 'Government Inclusions', '/human_resources/government_inclusions' #CRUD Government
+        tertiary.item :holidays, 'Holidays', '/human_resources/holidays' #CRUD Government
+        tertiary.item :regular_work_period, 'Regular Work Period', '/human_resources/regular_work_period' #CRUD Regular Work Hours
+        tertiary.item :vales, 'Vales', '/human_resources/vales' #CRUD Vales
+        tertiary.item :apply_for_vale, 'Payroll Report', '/human_resources/payroll_report'
       end
+
+      secondary.item :employee_performance, 'Employee Performance', defaultURL, options do |tertiary|
+        tertiary.item :attendance, 'Attendance', defaultURL #Attendance
+        tertiary.item :performance_review, 'performance_review', defaultURL #CRUD Performance Review
+      end
+
+      secondary.item :constants, 'Constants', '/human_resources/constants' #Constants involved
     end
 
     primary.item :accounting_and_finance, 'Accounting and Finance', defaultURL, options do |sub_nav|

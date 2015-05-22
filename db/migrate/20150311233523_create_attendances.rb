@@ -1,14 +1,13 @@
 class CreateAttendances < ActiveRecord::Migration
   def change
-    create_table :attendances do |t|
+    create_table :attendances, :id => false do |t|
+      t.string :id, limit: 36, primary: true, null: false
 
-      t.belongs_to :employee, :required => true
+      t.string :employee_id, limit: 36,:required => true
+      t.datetime :timein
+      t.datetime :timeout
 
-      t.date :day
-      t.time :timein
-      t.time :timeout
-
-      t.string :description, :limit => 128
+      t.string :description, :limit => 256
 
       t.timestamps null: false
     end

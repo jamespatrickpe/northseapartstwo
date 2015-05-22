@@ -1,9 +1,10 @@
 class CreateBranches < ActiveRecord::Migration
   def change
-    create_table :branches do |t|
-
-      t.belongs_to :entity, :required => true
+    create_table :branches, :id => false   do |t|
+      t.string :id, limit: 36, primary: true, null: false
+      t.string :entity_id, limit: 36,:required => true
       t.timestamps null: false
+
     end
   end
 end

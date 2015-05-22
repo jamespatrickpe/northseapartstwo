@@ -1,0 +1,23 @@
+<div class="large-1 columns" ></div>
+
+<div class="large-10 columns" >
+  <div class="mainheader"> COMPENSATION AND BENEFITS </div>
+      <div class="subdescription">
+        Apply Compensation and Benefit Programs for Employees
+      </div>
+
+  <div class="large-12 columns">
+    <h2 class="miniheader">Employees:</h2>
+    <%= select_tag "employee_compensation_benefits_selection", options_from_collection_for_select(@employees, "id", lambda { |employee| employee.entity.name }, "1") %>
+  </div>
+  <div class="large-12 columns">
+    <h2 class="miniheader">Applied Compensation and Benefits</h2>
+  </div>
+</div>
+
+<div class="large-1 columns" ></div>
+
+
+<script>
+    $(document).ready(function(){$('#employee_compensation_benefits_selection').selectize({sortField: 'text'});});
+</script>

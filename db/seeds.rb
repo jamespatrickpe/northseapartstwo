@@ -158,7 +158,24 @@ b1 = Branch.create( entity: northseaone )
 b2 = Branch.create( entity: amppidiesel )
 b3 = Branch.create( entity: stockhouse )
 
+#Constants
+Constant.create( name: "human_resources.minimum_wage", constant: "362.50", description: "Minimum Wage")
+Constant.create( name: "human_resources.preferred_rest_day", constant: "SUNDAY", description: "Preferred Rest Day" )
+Constant.create( name: "human_resources.default_duration_of_contract", constant: "SUNDAY", description: "Preferred Rest Day" )
 
+#Departments
+hr = Department.new(label: "Human Resources", description: "no description")
+hr.save
+sales = Department.new(label: "Sales", description: "no description")
+sales.save
+ops = Department.new(label: "Operations", description: "no description")
+ops.save
+marketing = Department.new(label: "Marketing", description: "no description")
+marketing.save
+accfin = Department.new(label: "Accounting and Finance", description: "no description")
+accfin.save
+admin = Department.new(label: "Administration", description: "no description")
+admin.save
 
 #  ----------------------------------------------------------------------------------- RANDOM SEED DATA ------------------------------------------------------------------------
 
@@ -168,6 +185,15 @@ end
 
 def randomMoney( lower, upper)
   return rand(lower..upper)
+end
+
+#POSITIONS
+numberOfPositions = 50
+numberOfPositions.times do |i|
+  departments = [hr, sales, ops, marketing, accfin, admin]
+  department = departments[rand(departments.length)]
+  myPosition = Position.new(description: Faker::Lorem.words(32), label: Faker::Lorem.words(3) , department: department )
+  myPosition.save
 end
 
 #ENTITIES
@@ -240,8 +266,16 @@ numberOfEntities.times do |i|
   # HUMAN RESOURCES
   if(randomBoolean())
     myEmployee = Employee.new( entity: myEntity )
+
+    if(randomBoolean())
+      myStatus = "ACTIVE"
+    else
+      myStatus = "INACTIVE"
+    end
+
     dayOfWeek = Faker::Time.between(7.days.ago, Time.now, :all).strftime("%A")
-    myEmployee.rest_day = dayOfWeek
+    restday = Restday.new(day: dayOfWeek, employee: myEmployee); restday.save
+    status = Status.new(description: Faker::Lorem.words(16), label: myStatus, employee: myEmployee); status.save
     myEmployee.save
 
     periodsOfTime = ["DAY", "WEEK", "HOUR", "MONTH"]
@@ -260,28 +294,25 @@ numberOfEntities.times do |i|
     randomNumberOfAttendances = rand(0..30)
     randomNumberOfAttendances.times do |i|
       day = i.days.ago
-      timein = Faker::Time.between(i.days.ago, Time.now, :morning).strftime("%H:%M")
-      timeout = Faker::Time.between(i.days.ago, Time.now, :evening).strftime("%H:%M")
+      timein = Faker::Time.between(day, Time.now, :morning)
+      timeout = Faker::Time.between(day, Time.now, :evening)
 
       if randomBoolean() && randomBoolean() && randomBoolean() && randomBoolean()
         # SIMULATE OVERNIGHT
-        timein = Faker::Time.between(i.days.ago, Time.now, :all).strftime("%H:%M")
-        timeout = Faker::Time.between(i.days.ago, Time.now, :all).strftime("%H:%M")
-        myAttendance = Attendance.new( day: day, timein: timein, employee: myEmployee )
+        currentDay = i.days.ago
+        timein = Faker::Time.between(currentDay, Time.now, :all)
+        timeout = Faker::Time.between(currentDay+1.day, Time.now, :all)
+        myAttendance = Attendance.new(timein: timein, employee: myEmployee )
         myAttendance.save
-        myAttendance = Attendance.new( day: day+1, timeout: timeout, employee: myEmployee )
-        myAttendance.save
-      elsif randomBoolean() && randomBoolean() && randomBoolean()
-        # SIMULATE ABSENCE
-        myAttendance = Attendance.new( day: day )
+        myAttendance = Attendance.new( timeout: timeout, employee: myEmployee )
         myAttendance.save
       else
         # SIMULATE REGULAR ATTENDANCE
-        myAttendance = Attendance.new( day: day, timein: timein, timeout: timeout, employee: myEmployee )
+        myAttendance = Attendance.new( timein: timein, timeout: timeout, employee: myEmployee )
         myAttendance.save
       end
     end
-    myBaseRate = BaseRate.new( amount: amountOfMoney, period_of_time: periodOfTime, employee: myEmployee )
+    myBaseRate = BaseRate.new(description: Faker::Lorem.words(4) ,amount: amountOfMoney, period_of_time: periodOfTime, employee: myEmployee, start_of_effectivity: Faker::Time.between(Time.now - 60.days, Time.now - 30.days, :all), end_of_effectivity: Faker::Time.between(Time.now - 30.days, Time.now, :all), signed_type: ["ADDITION", "DEDUCTION"].sample )
     myBaseRate.save
 
     # For SSS Concerns
@@ -346,22 +377,7 @@ numberOfEntities.times do |i|
       end
     end
 
-    # For Assignments
-    rand(1..5).times do |i|
-      myAssignment = Assignment.new( employee: myEmployee, branch: [b1,b2,b3].sample, department: ["Human Resources","Operations","Marketing","Information Technology","Sales","Delivery"].sample, position: ["Junior","Senior"].sample, task: ["General","Idle"].sample)
-      start = Faker::Time.between(30.days.ago, Time.now, :all)
-      if(randomBoolean() && randomBoolean() )
-        myAssignment.duration_start = start
-        if(randomBoolean() && randomBoolean() )
-          myAssignment.duration_finish = Faker::Time.between(start, Time.now, :all)
-        end
-      end
-      myAssignment.save
-    end
-
   end
 end
 
-#Constants
-Constant.create( name: "hr.minimum_wage", constant: "362.50" )
-Constant.create( name: "hr.default_rest_day", constant: "SUNDAY" )
+

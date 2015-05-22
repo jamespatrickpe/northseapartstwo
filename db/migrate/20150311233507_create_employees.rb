@@ -1,12 +1,11 @@
 class CreateEmployees < ActiveRecord::Migration
   def change
-    create_table :employees do |t|
+    create_table :employees, :id => false do |t|
+      t.string :id, limit: 36, primary: true, null: false
 
-      t.belongs_to :entity, :required => true
-      t.string :status, :limit => 64
-      t.string :rest_day, :limit => 64, :required => true
-
+      t.string :entity_id, limit: 36,:required => true
       t.timestamps null: false
+
     end
   end
 end

@@ -5,6 +5,7 @@
 <fieldset id="use_existing">
   Choose Username ( Selecting one will nullify name and description )
   <%= select_tag("assigned_username", options_from_collection_for_select(@accesses, "entity_id", "username", :include_blank => true))  %>
+  <% #select_tag("assigned_username") %>
 </fieldset>
 
 <fieldset id="create_new">
@@ -14,6 +15,10 @@
 
 <script>
     $(document).ready(function() {
+
+        $('#assigned_username').selectize({
+            sortField: 'text'
+        });
 
         $( "#use_existing" ).prop( "disabled", true );
 
@@ -44,5 +49,8 @@
             $( "#entity_name" ).prop("required", "required");
             $( "#entity_description" ).prop("required", "required");
         });
+
+
+
     });
 </script>
