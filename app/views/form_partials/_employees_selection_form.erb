@@ -1,0 +1,4 @@
+<h2 class="miniheader">Employees:</h2>
+<%=
+    select_tag "employee_compensation_benefits_selection", options_from_collection_for_select(@employees, "id", lambda { |employee| employee.entity.name }), options={ include_blank: true}
+%>

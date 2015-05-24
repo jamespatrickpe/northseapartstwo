@@ -226,13 +226,14 @@ ActiveRecord::Schema.define(version: 20150517005900) do
   end
 
   create_table "lump_adjustments", id: false, force: :cascade do |t|
-    t.string   "id",          limit: 36,                           null: false
-    t.decimal  "amount",                  precision: 16, scale: 2
-    t.string   "signed_type", limit: 64
-    t.string   "description", limit: 256
-    t.string   "employee_id", limit: 36
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
+    t.string   "id",                  limit: 36,                           null: false
+    t.decimal  "amount",                          precision: 16, scale: 2
+    t.string   "signed_type",         limit: 64
+    t.string   "description",         limit: 256
+    t.string   "employee_id",         limit: 36
+    t.datetime "date_of_effectivity"
+    t.datetime "created_at",                                               null: false
+    t.datetime "updated_at",                                               null: false
   end
 
   create_table "performance_appraisals", id: false, force: :cascade do |t|

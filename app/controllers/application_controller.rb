@@ -5,6 +5,11 @@ class ApplicationController < ActionController::Base
 
   layout "application_loggedin"
 
+  def getEmployees
+    @employees = Employee.all
+    @employee_id = params[:employee_id]
+  end
+
   def constants
     currentController = params[:controller]
     @constants = Constant.where('name LIKE ?', "%"+currentController+"%")
@@ -38,7 +43,7 @@ class ApplicationController < ActionController::Base
   def rescueAndSendTo(actionToSend)
   #Error Processing
     rescue => e
-      flash[:collective_errors] = e
+      flash[:collective_responses] = e
       render actionToSend
   end
 

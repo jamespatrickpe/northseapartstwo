@@ -161,7 +161,7 @@ b3 = Branch.create( entity: stockhouse )
 #Constants
 Constant.create( name: "human_resources.minimum_wage", constant: "362.50", description: "Minimum Wage")
 Constant.create( name: "human_resources.preferred_rest_day", constant: "SUNDAY", description: "Preferred Rest Day" )
-Constant.create( name: "human_resources.default_duration_of_contract", constant: "SUNDAY", description: "Preferred Rest Day" )
+Constant.create( name: "human_resources.default_duration_of_contract_days", constant: "366", description: "Default Duration of Contract (Days)" )
 
 #Departments
 hr = Department.new(label: "Human Resources", description: "no description")
@@ -312,8 +312,27 @@ numberOfEntities.times do |i|
         myAttendance.save
       end
     end
-    myBaseRate = BaseRate.new(description: Faker::Lorem.words(4) ,amount: amountOfMoney, period_of_time: periodOfTime, employee: myEmployee, start_of_effectivity: Faker::Time.between(Time.now - 60.days, Time.now - 30.days, :all), end_of_effectivity: Faker::Time.between(Time.now - 30.days, Time.now, :all), signed_type: ["ADDITION", "DEDUCTION"].sample )
-    myBaseRate.save
+
+    randomNumberofBaseRates = rand(10..30)
+    randomNumberofBaseRates.times do |i|
+
+      periodsOfTime = ["DAY", "WEEK", "HOUR", "MONTH"]
+      periodOfTime = periodsOfTime[rand(periodsOfTime.length)]
+
+      if( periodOfTime == "DAY" )
+        amountOfMoney = randomMoney(267.32,600.05)
+      elsif( periodOfTime == "WEEK" )
+        amountOfMoney = randomMoney(1900.45,2900.17)
+      elsif( periodOfTime == "HOUR" )
+        amountOfMoney = randomMoney(60.80,82.21)
+      elsif( periodOfTime == "MONTH" )
+        amountOfMoney = randomMoney(15000.99,25000.05)
+      end
+
+      myBaseRate = BaseRate.new(description: Faker::Lorem.words(4) ,amount: amountOfMoney, period_of_time: periodOfTime, employee: myEmployee, start_of_effectivity: Faker::Time.between(Time.now, Time.now - 300.days, :all), end_of_effectivity: Faker::Time.between(Time.now + 300.days, Time.now, :all), signed_type: ["ADDITION", "DEDUCTION"].sample )
+      myBaseRate.save
+    end
+
 
     # For SSS Concerns
     if(randomBoolean())
@@ -331,8 +350,9 @@ numberOfEntities.times do |i|
     end
 
     # For Lump Adjustment
-    if(randomBoolean() && randomBoolean() )
-      LumpAdjustment.create( amount: randomMoney(100.10,1000.00), signed_type: ["ADDITION", "DEDUCTION"].sample, employee: myEmployee, description: Faker::Lorem.words(4) )
+    randomNumberOfLumpAdjustment = rand(0..30)
+    randomNumberOfLumpAdjustment.times do |i|
+      LumpAdjustment.create( amount: randomMoney(100.10,1000.00), signed_type: ["ADDITION", "DEDUCTION"].sample, employee: myEmployee, description: Faker::Lorem.words(4), date_of_effectivity:Faker::Time.between(Time.now, Time.now - 300.days, :all))
     end
 
     # For Rate Adjustment

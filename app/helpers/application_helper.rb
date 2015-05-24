@@ -1,5 +1,11 @@
 module ApplicationHelper
 
+  def sortable(column, title = nil)
+    title ||= column.titleize
+    direction = (column == params[:order_by] && params[:arrangement] == "asc") ? "desc" : "asc"
+    link_to title, :order_by => column, :arrangement => direction, :employee_id => @employee_id, :offset => @offset
+  end
+
   def generateReadableID()
     generatedID = SecureRandom.random_number(999999999).to_s.rjust(9,'0')
     while( self.where(id: generatedID) )
@@ -47,8 +53,8 @@ module ApplicationHelper
   def highlightMenuButtons()
   end
 
-  def displayCollectiveErrors()
-    render(:partial => "core_partials/collective_form_errors")
+  def displayCollectiveResponses()
+    render(:partial => "core_partials/collective_form_responses")
   end
 
 end

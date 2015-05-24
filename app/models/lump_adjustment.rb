@@ -6,5 +6,6 @@ class LumpAdjustment < ActiveRecord::Base
   validates_length_of :amount, maximum: 64
   validates_length_of :signed_type , maximum: 64
   validates_length_of :description , maximum: 256
+  validates_presence_of :date_of_effectivity, maximum: 256
 
 end

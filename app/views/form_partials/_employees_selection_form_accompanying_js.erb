@@ -1,0 +1,31 @@
+<script>
+    // FOR EmployeeCompensationBenefitsSelection ////////////////
+    function initializeEmployeeCompensationBenefitsSelection()
+    {
+        try
+        {
+            var employeeID = GetURLParameter('employee_id')
+            if (employeeID.length) {
+                $("#employee_compensation_benefits_selection").val(employeeID);
+            }
+        }
+        catch(err)
+        {
+
+        }
+        var employee_compensation_benefits_selection = $('#employee_compensation_benefits_selection').selectize(
+                {sortField: 'text'}
+        );
+    }
+
+    $("#employee_compensation_benefits_selection").change(function()
+    {
+        var employeeID = getSelectedOption();
+        window.location = window.location.pathname + "?employee_id=" + employeeID
+    });
+
+    function getSelectedOption()
+    {
+        return $( "#employee_compensation_benefits_selection" ).val();
+    }
+</script>

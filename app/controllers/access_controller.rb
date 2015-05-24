@@ -24,7 +24,7 @@ class AccessController < ApplicationController
         action_redirect = "success_registration"
         id = @access.id
         rescue => e
-          flash[:collective_errors] = "An error of type #{e.class} happened, message is #{e.message}"
+          flash[:collective_responses] = "An error of type #{e.class} happened, message is #{e.message}"
           action_redirect = "registration"
       end
     end

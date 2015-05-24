@@ -23,6 +23,7 @@
 //= //require jquery.validate.additional-methods
 //= require jquery.sapling.min
 //= require parsley
+//= require jquery.dataTables
 //= //require turbolinks // CAUSES ERROR
 //= //require_tree .  // CAUSES ERROR
 
@@ -72,4 +73,33 @@ $(document).ready(function(){
 
     });
 
+});
+
+function GetURLParameter(sParam)
+{
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++)
+    {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam)
+        {
+            return sParameterName[1];
+        }
+
+    }
+}
+
+function convertSQLTimeToHTML5Input(myDate)
+{
+    var date = new Date(myDate);
+    var currentDateOne = (date.toISOString())
+    var currentDateTwo = currentDateOne.substring(0, (currentDateOne.length)-5);
+    return currentDateTwo;
+}
+
+$(document).ready(function(){
+    $(".deletable_item").click(function(){
+        return confirm("Are you sure you want to delete this item?");
+    });
 });

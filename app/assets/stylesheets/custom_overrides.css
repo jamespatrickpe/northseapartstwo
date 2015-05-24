@@ -1,29 +1,42 @@
-.mytable tr th
+.default_table_style
 {
-    text-align: center;
+    color:black;
+    padding-top: 5px;
+    border-color:white;
 }
 
-.mytable tr td
+.default_table_style tr th
 {
-    text-align: center;
-    padding: 5px;
-    vertical-align: middle;
-}
-
-table
-{
-    table-layout: fixed;
-    width: 100%;
-}
-
-th
-{
-    color:white;
-    background-color: #cccccc;
-}
-
-tr:hover:nth-child(odd),tr:hover:nth-child(even)
-{
-    background-color: #cccccc;
+    background-color: dimgray;
     color: white;
+    font-size: 10px;
+    padding:0px;
+    text-align: center;
+}
+
+.default_table_style tr th:hover
+{
+    background-color: #721314;
+}
+
+.default_table_style tbody tr:hover
+{
+    background-color: #999999;
+}
+
+.default_table_style thead
+{
+    background-color: dimgray;
+}
+
+.default_table_style thead tr th:hover
+{
+    background-color: #721314;
+}
+
+.table_button
+{
+    background-color: #721314;
+    color:white;
+    padding:5px;
 }
