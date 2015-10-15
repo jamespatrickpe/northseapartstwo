@@ -152,10 +152,7 @@ class HumanResourcesController < ApplicationController
     redirect_to  :action => "lump_adjustments", :employee_id => employee_id
   end
 
-  def government_inclusions
-  end
-
-  def government_inclusions
+  def institutional_adjustment
   end
 
   def regular_work_period

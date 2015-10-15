@@ -98,7 +98,7 @@ SimpleNavigation::Configuration.run do |navigation|
       secondary.item :compensation_benefits, 'Compensation and Benefits', '/human_resources/compensation_benefits', options do |tertiary| #Association of All Related Employee Compensation and Benefits to an Account
         tertiary.item :base_rates, 'Base Rates', '/human_resources/base_rates' #CRUD Base Rates
         tertiary.item :lump_adjustments, 'Lump Adjustments', '/human_resources/lump_adjustments' #CRUD Additions or Deductions
-        tertiary.item :government_inclusions, 'Government Inclusions', '/human_resources/government_inclusions' #CRUD Government
+        tertiary.item :institutional_adjustment, 'Institutional Adjustment', '/human_resources/institutional_adjustment' #CRUD Government
         tertiary.item :holidays, 'Holidays', '/human_resources/holidays' #CRUD Government
         tertiary.item :regular_work_period, 'Regular Work Period', '/human_resources/regular_work_period' #CRUD Regular Work Hours
         tertiary.item :vales, 'Vales', '/human_resources/vales' #CRUD Vales
