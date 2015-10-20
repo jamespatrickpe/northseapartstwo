@@ -5,16 +5,16 @@
       <driver-ref>mysql</driver-ref>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://127.0.0.1/northseapartstwo_development</jdbc-url>
-      <user-name>root</user-name>
-      <user-password>dfe4dfc5dfdedfc2dfc3dfc4dfcddf9bdf8b</user-password>
+      <user-name>northseaparts</user-name>
+      <user-password>dfc3dfc6dfc5dfdcdfcfdfdedfcfdfd9dfd9</user-password>
       <libraries />
     </data-source>
     <data-source source="LOCAL" name="Rails northseapartstwo: test" uuid="057987e4-fbb2-4aa9-9e7b-297861e9b671">
       <driver-ref>mysql</driver-ref>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://127.0.0.1/northseapartstwo_test</jdbc-url>
-      <user-name>root</user-name>
-      <user-password>dfe4dfc5dfdedfc2dfc3dfc4dfcddf9bdf8b</user-password>
+      <user-name>northseaparts</user-name>
+      <user-password>dfc3dfc6dfc5dfdcdfcfdfdedfcfdfd9dfd9</user-password>
       <libraries />
     </data-source>
     <data-source source="LOCAL" name="Rails northseapartstwo: production" uuid="6fb702ad-43bd-4f49-af8f-0b5ef03be0f4">
