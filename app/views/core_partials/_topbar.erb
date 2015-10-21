@@ -1,33 +1,25 @@
 <nav class="top-bar" data-topbar role="navigation">
 
-  <!--
-  <ul class="title-area">
-    <li class="name">
-      <h1>
-      </h1>
-    </li>
-    <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
-  </ul>
-  --!>
 
   <section class="top-bar-section">
     <!-- Right Nav Section -->
-    <ul class="right">
-      <li class="active">
-        <%= link_to('Sign In', {:controller => "Access", :action => "signin"} ) %>
+    <ul class="right" style="margin-right: 1%">
+      <li>
+        <a href="/Access/signin"> <%= image_tag "signin.png" %> <%= t('topbar.sign_in') %> </a>
       </li>
-      <li class="active"><%= link_to('Register', {:controller => "Access", :action => "registration"} ) %>
+      <li>
+        <a href="/Access/register"> <%= image_tag "register.png" %> <%= t('topbar.register') %> </a>
       </li>
     </ul>
 
     <!-- Left Nav Section -->
-    <ul class="left">
-      <li><%= link_to('HOME', {:controller => "home", :action => "index"} ) %></li>
-      <li><a href="#"> PARTS LIBRARY </a></li>
-      <li><a href="#"> BECOME A SUPPLIER </a></li>
-      <li><a href="#"> BECOME A RETAILER </a></li>
-      <li><a href="#"> STORE LOCATIONS </a></li>
-      <li><a href="#"> ABOUT US </a></li>
+    <ul class="left" style="margin-left: 1%">
+      <li><%= link_to(t('topbar.home').upcase , {:controller => "home", :action => "index"} ) %></li>
+      <li><%= link_to(t('topbar.parts_library').upcase , {:controller => "home", :action => "index"} ) %></li>
+      <li><%= link_to(t('topbar.become_a_supplier').upcase , {:controller => "home", :action => "index"} ) %></li>
+      <li><%= link_to(t('topbar.become_a_retailer').upcase , {:controller => "home", :action => "index"} ) %></li>
+      <li><%= link_to(t('topbar.store_locations').upcase , {:controller => "home", :action => "index"} ) %></li>
+      <li><%= link_to(t('topbar.about_us').upcase , {:controller => "home", :action => "index"} ) %></li>
     </ul>
 
   </section>
