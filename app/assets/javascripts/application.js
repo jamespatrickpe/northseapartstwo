@@ -12,10 +12,10 @@
 //
 // MANUALLY PUT EVERY JAVASCRIPT
 //= require jquery
-//= require jquery_ujs
+//= // require jquery_ujs
 //= require jquery-ui
 //= require selectize.js
-//= require foundation
+//= // require foundation
 //= require googlemaps120714.js
 //= require locationpicker.jquery.js
 //= require file-validator.js
