@@ -39,7 +39,8 @@ en:
     sign_in: "Sign In"
     register: "Register"
 
-  homepage:
+  searchbox:
     placeholder_search: "Anong Piesa?"
     search_button: "hanapin"
+
 
