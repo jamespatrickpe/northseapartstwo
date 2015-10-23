@@ -16,36 +16,48 @@
   <input id="search_system" class="search_system" type="text" placeholder="Search System" value="" tabindex="1" style="height:10px; background-color: dimgray; color:white; border-color: dimgray; padding: 10px; font-size: 11px;"/>
 
   <div id="side-navigation" style="padding-top: 1px;">
-    <%= render_navigation :expand_all => true %>
+
   </div>
 </div>
 -->
 
-<div class="large-2 columns" id="side-navigation-container">
+<div class="small-1 columns" id="side-navigation-container">
 
-  <div style="background-color: #721314;">
+  <div style="background-color: #721314; padding: 5px; margin-bottom: 20px;">
     <div style="float:left;background-color: #721314; padding-left: 5px;">System Navigation</div>
     <div style="float:right;background-color: #721314; ">
-      <a href="">&#x25C0;</a>
-      <a href="">&#x25BC;</a>
+      <a href="#" id="toggle-visibility-close">&#x25C0;</a>
+      <a href="#" id="toggle-items">&#x25BC;</a>
     </div>
   </div>
 
-  <div align="center">
-    <input id="side-nav-search-box" type="text" style="height: 11px; font-size: 10px;">
+  <div align="center" style="display:inline;  margin-top:20px;">
+    <input id="side-nav-search-box" placeholder=" &nbsp;&nbsp; System-Wide Search" type="text" style="height: 12px; font-size: 12px; display:inline; width:85%; margin-left: 10px;">
+    <a href=""><span align="center" style="display:inline; font-size: 15px;"> &#128269; </span></a>
   </div>
 
-  <div style="background-color: #808080; padding-left: 5px;">
-    dfasdfasdfasdfa
-    asdfasdfasdfa
-    asdfasdfasdfaasdfasdfasdfa
-    asdfasdfasdfa
+  <div style="background-color: #808080; padding-left: 5px; margin-top:10px; ">
+    <%= render_navigation :expand_all => true %>
   </div>
 
 </div>
 
-<script>
+<div id="side-navigation-icon" style="font-size: 15px;">
+  <a class="tiny button" href="#" id="toggle-visibility-open">&#x25B6;</a>
+</div>
 
+<script>
+    $("#side-navigation-icon").hide();
+    $( "#toggle-visibility-close" ).click(function()
+    {
+        $("#side-navigation-container").hide();
+        $("#side-navigation-icon").show();
+    });
+    $( "#toggle-visibility-open" ).click(function()
+    {
+        $("#side-navigation-container").show();
+        $("#side-navigation-icon").hide();
+    });
 </script>
 
 
