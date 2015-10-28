@@ -5,7 +5,7 @@ class ContactDetail < ActiveRecord::Base
   has_many :addresses
   has_many :digitals
   has_many :telephones
-  belongs_to :entity
+  belongs_to :actor
 
-  validates_presence_of :entity
+  validates_presence_of :actor
 end

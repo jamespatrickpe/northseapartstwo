@@ -50,8 +50,8 @@ class ApplicationController < ActionController::Base
   def processRelatedFiles(params)
     @fileSets = params[:related_file]
     @fileSets.each do |key, value|
-      @fileSet = FileSet.new( path: value[:path], description: value[:description], rel_file_set: @entity)
-      @fileSet.rel_file_set = @entity
+      @fileSet = FileSet.new( path: value[:path], description: value[:description], rel_file_set: @actor)
+      @fileSet.rel_file_set = @actor
       @fileSet.save!
     end
   end
@@ -59,33 +59,33 @@ class ApplicationController < ActionController::Base
   def processRelatedLinks(params)
     @linkSets = params[:related_link]
     @linkSets.each do |key, value|
-      @linkSet = LinkSet.new( url: value[:url], label: value[:label], rel_link_set: @entity)
-      @linkSet.rel_link_set = @entity
+      @linkSet = LinkSet.new( url: value[:url], label: value[:label], rel_link_set: @actor)
+      @linkSet.rel_link_set = @actor
       @linkSet.save!
     end
   end
 
   def processSystemAccount(params)
     if(params[:account_option] == "create_new")
-      processEntity(params)
+      processActor(params)
       processAccess(params)
       processContactDetails(params)
     elsif(params[:account_option] == "use_existing")
-      entityID = params[:assigned_username]
-      @access = Access.where(entity_id: entityID)
-      @entity = Entity.find(entityID)
+      actorID = params[:assigned_username]
+      @access = Access.where(actor_id: actorID)
+      @actor = actor.find(actorID)
     else
       raise("No Option Found")
     end
   end
 
-  def processEntity(params)
-    @entity = Entity.new( name: params[:entity][:name], description: params[:entity][:description], logo: params[:entity][:logo])
+  def processActor(params)
+    @actor = actor.new( name: params[:actor][:name], description: params[:actor][:description], logo: params[:actor][:logo])
   end
 
   def processAccess(params)
     @access = Access.new( username: params[:access][:username], password: params[:access][:password], remember_me: params[:access][:rememberme], password_confirmation: params[:access][:password_confirmation])
-    @access.entity = @entity
+    @access.actor = @actor
     @access.save!
   end
 
@@ -96,7 +96,7 @@ class ApplicationController < ActionController::Base
 
     #Contact Detail Processing
     @contactDetail = ContactDetail.new()
-    @contactDetail.entity = @entity
+    @contactDetail.actor = @actor
     @contactDetail.save!
 
     @verification = Verification.new( temp_email: params[:access][:email], verified: false, hashlink: generateRandomString().downcase )

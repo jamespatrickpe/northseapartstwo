@@ -4,7 +4,7 @@ class HumanResourcesController < ApplicationController
   layout "application_loggedin"
 
   def candidate_registration
-    idSet = Biodatum.pluck(:entity_id)
+    idSet = Biodatum.pluck(:actor_id)
     @accesses = Access.where.not(id: idSet)
   end
 
@@ -32,11 +32,11 @@ class HumanResourcesController < ApplicationController
             emergency_contact: params[:biodatum][:emergency_contact],
             languages_spoken: params[:biodatum][:languages_spoken]
         )
-        @biodata.entity = @entity
+        @biodata.actor = @actor
         @biodata.save!
 
         @employee = Employee.new()
-        @employee.entity = @entity
+        @employee.actor = @actor
         @employee.save!
 
         processTemporaryEmail(params)

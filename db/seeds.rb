@@ -11,11 +11,11 @@ include ApplicationHelper
 #  ----------------------------------------------------------------------------------- OFFICIAL STARTER DATA ------------------------------------------------------------------------
 
 #Administrator
-myEntity = Entity.create(name: 'James Patrick Pe', description: 'Administrator')
-myEntity.save
+myActor = Actor.create(name: 'James Patrick Pe', description: 'Administrator')
+myActor.save
 
-access = Access.create( username: 'joojieman', password: 'Nothing1!', remember_me: 1, password_confirmation: 'Nothing1!')
-access.entity = myEntity
+access = Access.create( username: 'northseaparts', password: 'ilovetess', )
+access.actor = myActor
 access.save
 
 allowableSet = AllowableSet.create( security_level: 'ADMIN', controller: 'ALL', action: 'ALL')
@@ -64,13 +64,13 @@ Holiday.create( date_of_implementation: Date.new(2015,12,31) , name: "New Year's
 #Institutional Adjustment
 
 # Employee Institutions
-sss = Entity.create(name: "SSS" , description: "SSS", logo: 'sample.jpg')
-philhealth = Entity.create(name: "Philhealth" , description: "Philhealth", logo: 'sample.jpg')
-pagibig = Entity.create(name: "Pagibig" , description: "Pagibig", logo: 'sample.jpg')
+sss = Actor.create(name: "SSS" , description: "SSS", logo: 'sample.jpg')
+philhealth = Actor.create(name: "Philhealth" , description: "Philhealth", logo: 'sample.jpg')
+pagibig = Actor.create(name: "Pagibig" , description: "Pagibig", logo: 'sample.jpg')
 
-mySSS = InstitutionEmployee.create( entity: sss, compensation_type: "LUMP")
-myPhilhealth = InstitutionEmployee.create( entity: philhealth, compensation_type: "LUMP")
-myPagibig = InstitutionEmployee.create( entity: pagibig, compensation_type: "PERCENTAGE")
+mySSS = InstitutionEmployee.create( actor: sss, compensation_type: "LUMP")
+myPhilhealth = InstitutionEmployee.create( actor: philhealth, compensation_type: "LUMP")
+myPagibig = InstitutionEmployee.create( actor: pagibig, compensation_type: "PERCENTAGE")
 
 InstitutionalAdjustment.create( institution_employee: mySSS, start_range: 1000, end_range: 1249.99, employer_contribution: 83.7, employee_contribution: 36.3, period_of_time: "WEEK"  )
 InstitutionalAdjustment.create( institution_employee: mySSS, start_range: 1250, end_range: 1749.99, employer_contribution: 120.5, employee_contribution: 54.5, period_of_time: "WEEK"  )
@@ -136,27 +136,27 @@ InstitutionalAdjustment.create( institution_employee: myPhilhealth, start_range:
 InstitutionalAdjustment.create( institution_employee: myPagibig, start_range: 0.00, end_range: 99999999999.99, employer_contribution: 100.00, employee_contribution:  100.00 , period_of_time: "MONTH")
 
 # Branches
-northseaone = Entity.create(name: "North Sea Parts One" , description: "Original North Sea Parts Base", logo: 'sample.jpg')
-amppidiesel = Entity.create(name: "Ampid Diesel Trading" , description: "Ampid Diesel Trading", logo: 'sample.jpg')
-stockhouse = Entity.create(name: "North Sea Stock House" , description: "Stockhouse", logo: 'sample.jpg')
+northseaone = Actor.create(name: "North Sea Parts One" , description: "Original North Sea Parts Base", logo: 'sample.jpg')
+amppidiesel = Actor.create(name: "Ampid Diesel Trading" , description: "Ampid Diesel Trading", logo: 'sample.jpg')
+stockhouse = Actor.create(name: "North Sea Stock House" , description: "Stockhouse", logo: 'sample.jpg')
 
-cd_northseaone = ContactDetail.create( entity: northseaone)
+cd_northseaone = ContactDetail.create( actor: northseaone)
   Address.create( description: "North Sea Parts, Marcos Highway, Cainta, Rizal", longitude: "14.6058853", latitude: "121.1292978", contact_detail: cd_northseaone  )
   Telephone.create( description: "Telephone Number 1", digits: "6451514", contact_detail: cd_northseaone  )
   Telephone.create( description: "Telephone Number 2", digits: "6452237", contact_detail: cd_northseaone  )
   Digital.create( description: "Email 1", url: "northseaparts@yahoo.com", contact_detail: cd_northseaone )
   Digital.create( description: "Email 2", url: "northseaparts@gmail.com", contact_detail: cd_northseaone )
 
-cd_ampidiesel = ContactDetail.create( entity: amppidiesel)
+cd_ampidiesel = ContactDetail.create( actor: amppidiesel)
   Address.create( description: "Ampid Diesel Trading, General Luna Avenue, San Mateo, Rizal", longitude: "14.698516", latitude: "121.121944", contact_detail: cd_ampidiesel  )
   Telephone.create( description: "Telephone Number 1", digits: "9489991", contact_detail: cd_ampidiesel  )
 
-cd_stockhouse = ContactDetail.create( entity: stockhouse)
+cd_stockhouse = ContactDetail.create( actor: stockhouse)
   Address.create( description: "North Sea Stockhouse, Sumulong Highway, Antipolo, Rizal", longitude: "14.6171302", latitude: "121.1340643", contact_detail: cd_stockhouse  )
 
-b1 = Branch.create( entity: northseaone )
-b2 = Branch.create( entity: amppidiesel )
-b3 = Branch.create( entity: stockhouse )
+b1 = Branch.create( actor: northseaone )
+b2 = Branch.create( actor: amppidiesel )
+b3 = Branch.create( actor: stockhouse )
 
 #Constants
 Constant.create( name: "human_resources.minimum_wage", constant: "362.50", description: "Minimum Wage")
@@ -197,18 +197,18 @@ numberOfPositions.times do |i|
 end
 
 #ENTITIES
-numberOfEntities = 200
-numberOfEntities.times do |i|
-  #Entity
-  myEntity = Entity.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true), logo: 'sample.jpg')
-  myEntity.save
+numberOfActors = 200
+numberOfActors.times do |i|
+  #Actor
+  myActor = Actor.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true), logo: 'sample.jpg')
+  myActor.save
 
   # ACCESS
   if (randomBoolean())
     #Access
     randomPassword = Faker::Internet.password(10, 20)
     random_boolean = [true, false].sample
-    myAccess = Access.new( username: Faker::Internet.user_name, password: randomPassword, remember_me: random_boolean, password_confirmation: randomPassword, entity: myEntity )
+    myAccess = Access.new( username: Faker::Internet.user_name, password: randomPassword, remember_me: random_boolean, password_confirmation: randomPassword, actor: myActor )
     myAccess.save
 
     #Verification
@@ -216,7 +216,7 @@ numberOfEntities.times do |i|
     myVerification.save
 
     #ContactDetail
-    myContactDetail = ContactDetail.create( entity: myEntity)
+    myContactDetail = ContactDetail.create( actor: myActor)
     randomNumberOfAddresses = rand(0..5)
     randomNumberOfTelephony = rand(0..5)
     randomNumberOfDigital = rand(0..5)
@@ -244,7 +244,7 @@ numberOfEntities.times do |i|
   # BIODATA
   if(randomBoolean())
     myBioData = Biodatum.new()
-    myBioData.entity = myEntity
+    myBioData.actor = myActor
     myBioData.education = Faker::Company.name
     myBioData.career_experience = Faker::Lorem.words(4)
     myBioData.notable_accomplishments = Faker::Lorem.sentence(3, false, 4)
@@ -265,7 +265,7 @@ numberOfEntities.times do |i|
 
   # HUMAN RESOURCES
   if(randomBoolean())
-    myEmployee = Employee.new( entity: myEntity )
+    myEmployee = Employee.new( actor: myActor )
 
     if(randomBoolean())
       myStatus = "ACTIVE"
@@ -399,5 +399,3 @@ numberOfEntities.times do |i|
 
   end
 end
-
-

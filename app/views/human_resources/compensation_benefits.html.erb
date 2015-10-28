@@ -8,7 +8,7 @@
 
   <div class="large-12 columns">
     <h2 class="miniheader">Employees:</h2>
-    <%= select_tag "employee_compensation_benefits_selection", options_from_collection_for_select(@employees, "id", lambda { |employee| employee.entity.name }, "1") %>
+    <%= select_tag "employee_compensation_benefits_selection", options_from_collection_for_select(@employees, "id", lambda { |employee| employee.actor.name }, "1") %>
   </div>
   <div class="large-12 columns">
     <h2 class="miniheader">Applied Compensation and Benefits</h2>

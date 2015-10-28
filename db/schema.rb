@@ -11,15 +11,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150517005900) do
+ActiveRecord::Schema.define(version: 20151028134341) do
 
   create_table "accesses", id: false, force: :cascade do |t|
-    t.string   "id",              limit: 36,                  null: false
-    t.string   "entity_id",       limit: 36
-    t.string   "username",        limit: 64
-    t.string   "password_digest", limit: 512
-    t.boolean  "remember_me",     limit: 1,   default: false
-    t.boolean  "enabled",         limit: 1,   default: false
+    t.string   "id",                     limit: 36,               null: false
+    t.string   "actor_id",               limit: 36
+    t.string   "username",               limit: 64
+    t.string   "password_digest",        limit: 512
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "email",                  limit: 255, default: "", null: false
+    t.string   "encrypted_password",     limit: 255, default: "", null: false
+    t.string   "reset_password_token",   limit: 255
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          limit: 4,   default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
+  end
+
+  add_index "accesses", ["email"], name: "index_accesses_on_email", unique: true, using: :btree
+  add_index "accesses", ["reset_password_token"], name: "index_accesses_on_reset_password_token", unique: true, using: :btree
+
+  create_table "actor_connectors", id: false, force: :cascade do |t|
+    t.string   "id",                limit: 36, null: false
+    t.string   "relationship",      limit: 64
+    t.string   "relationship_type", limit: 64
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "actors", id: false, force: :cascade do |t|
+    t.string   "id",          limit: 36,  null: false
+    t.string   "name",        limit: 64
+    t.string   "description", limit: 256
+    t.string   "logo",        limit: 512
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -69,7 +97,7 @@ ActiveRecord::Schema.define(version: 20150517005900) do
 
   create_table "biodata", id: false, force: :cascade do |t|
     t.string   "id",                      limit: 36,  null: false
-    t.string   "entity_id",               limit: 36
+    t.string   "actor_id",                limit: 36
     t.string   "education",               limit: 256
     t.string   "career_experience",       limit: 256
     t.string   "notable_accomplishments", limit: 256
@@ -91,7 +119,7 @@ ActiveRecord::Schema.define(version: 20150517005900) do
 
   create_table "branches", id: false, force: :cascade do |t|
     t.string   "id",         limit: 36, null: false
-    t.string   "entity_id",  limit: 36
+    t.string   "actor_id",   limit: 36
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
   end
@@ -107,7 +135,7 @@ ActiveRecord::Schema.define(version: 20150517005900) do
 
   create_table "contact_details", id: false, force: :cascade do |t|
     t.string   "id",         limit: 36, null: false
-    t.string   "entity_id",  limit: 36
+    t.string   "actor_id",   limit: 36
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -131,27 +159,9 @@ ActiveRecord::Schema.define(version: 20150517005900) do
 
   create_table "employees", id: false, force: :cascade do |t|
     t.string   "id",         limit: 36, null: false
-    t.string   "entity_id",  limit: 36
+    t.string   "actor_id",   limit: 36
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
-  end
-
-  create_table "entities", id: false, force: :cascade do |t|
-    t.string   "id",          limit: 36,  null: false
-    t.string   "name",        limit: 64
-    t.string   "description", limit: 256
-    t.string   "logo",        limit: 512
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "entity_connectors", id: false, force: :cascade do |t|
-    t.string   "id",                limit: 36, null: false
-    t.string   "relationship",      limit: 64
-    t.string   "relationship_type", limit: 64
-    t.integer  "entity_id",         limit: 4
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "file_sets", id: false, force: :cascade do |t|
@@ -188,7 +198,7 @@ ActiveRecord::Schema.define(version: 20150517005900) do
   create_table "institution_employees", id: false, force: :cascade do |t|
     t.string   "id",                limit: 36, null: false
     t.string   "compensation_type", limit: 64
-    t.string   "entity_id",         limit: 36
+    t.string   "actor_id",          limit: 36
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
   end

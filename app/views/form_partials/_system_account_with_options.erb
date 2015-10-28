@@ -4,7 +4,7 @@
 
 <fieldset id="use_existing">
   Choose Username ( Selecting one will nullify name and description )
-  <%= select_tag("assigned_username", options_from_collection_for_select(@accesses, "entity_id", "username", :include_blank => true))  %>
+  <%= select_tag("assigned_username", options_from_collection_for_select(@accesses, "actor_id", "username", :include_blank => true))  %>
   <% #select_tag("assigned_username") %>
 </fieldset>
 
@@ -25,29 +25,29 @@
         $("#account_option_use_existing").click(function(){
             $( "#use_existing" ).prop( "disabled", false );
             $( "#create_new" ).prop( "disabled", true );
-            $( "#entity_set" ).prop( "disabled", true );
+            $( "#actor_set" ).prop( "disabled", true );
             $( "#contact_details_set" ).prop( "disabled", true );
 
             $( "#username" ).prop("required", false);
             $( "#password" ).prop("required", false);
             $( "#password_confirmation" ).prop("required", false);
             $( "#email" ).prop("required", false);
-            $( "#entity_name" ).prop("required", false);
-            $( "#entity_description" ).prop("required", false);
+            $( "#actor_name" ).prop("required", false);
+            $( "#actor_description" ).prop("required", false);
         });
 
         $("#account_option_create_new").click(function(){
             $( "#use_existing" ).prop( "disabled", true );
             $( "#create_new" ).prop( "disabled", false );
-            $( "#entity_set" ).prop( "disabled", false );
+            $( "#actor_set" ).prop( "disabled", false );
             $( "#contact_details_set" ).prop( "disabled", false );
 
             $( "#username" ).prop("required", "required");
             $( "#password" ).prop("required", "required");
             $( "#password_confirmation" ).prop("required", "required");
             $( "#email" ).prop("required", "required");
-            $( "#entity_name" ).prop("required", "required");
-            $( "#entity_description" ).prop("required", "required");
+            $( "#actor_name" ).prop("required", "required");
+            $( "#actor_description" ).prop("required", "required");
         });
 
 

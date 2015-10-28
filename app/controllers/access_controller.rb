@@ -16,7 +16,7 @@ class AccessController < ApplicationController
 
     ActiveRecord::Base.transaction do
       begin
-        processEntity(params) #Entity Processing
+        processActor(params) #Actor Processing
         processAccess(params) #Access Processing
         processContactDetails(params) #Contact Detail Processing
         processTemporaryEmail(params) #Process Temporary Email
@@ -57,7 +57,6 @@ class AccessController < ApplicationController
   end
 
   def signin
-
   end
 
   def registration_complete

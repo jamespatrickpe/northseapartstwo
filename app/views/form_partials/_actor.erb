@@ -1,0 +1,12 @@
+<fieldset id="actor_set">
+<%= error_messages_for( @actor ) %>
+<%= text_field_tag("actor[name]", value = nil, options = {placeholder: "Name", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64"}) %>
+<%= text_area_tag("actor[description]", content = "Description", options = {class: "actor_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128"}) %>
+
+Upload your picture:
+<%= file_field_tag "actor[logo]", options = {} %>
+</fieldset>
+
+<script>
+
+</script>

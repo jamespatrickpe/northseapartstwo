@@ -5,6 +5,10 @@
       <div class="subdescription">
         Summary of Human Resources
       </div>
+
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
+
       <table class="mytable">
         <tr>
           <th> Date of Registration </th>
@@ -20,7 +24,7 @@
         <tr>
           <td><%= employee.created_at %></td>
           <td><%= employee.id %></td>
-          <td><%= employee.entity.name %></td>
+          <td><%= employee.actor.name %></td>
           <td><%= employee.created_at %></td>
           <td><%= employee.created_at %></td>
           <td><%= employee.created_at %></td>
