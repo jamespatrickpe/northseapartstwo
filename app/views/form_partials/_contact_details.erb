@@ -7,11 +7,11 @@ Partial for Contact Details Form
 <%= error_messages_for( @contactDetail ) %>
 
 <div class="large-12 columns">
-  <h2 class="miniheader">Addresses</h2>
+  <h2 class="miniheader"><%= t('access.header_addresses') %></h2>
   <%= error_messages_for( @address ) %>
 
   <p id="map_special_instructions">
-    Drag red marker; Double Left Click to Zoom Out, Double Right Click to Zoom In. Scroll to Zoom. Hold Left Mouse Button to Pan.
+    <%= t('access.map_special_instructions') %>
   </p>
   <div class="mapcontainer">
     <div class="mapset" id="primary" align="center">
@@ -19,12 +19,12 @@ Partial for Contact Details Form
       <div class="map" style="width: 800px; height: 300px;"></div><br>
       <%= text_area_tag("address[0][description]", content = "Type Address Here", options = {class: "map-address",type:"address", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128"}) %>
 
-      <div class="large-1 columns">Latitude:</div>
+      <div class="large-1 columns"> <%= t('access.latitude') %>: </div>
       <div class="large-11 columns">
         <input type="text" class="map-lat" name="address[0][latitude]" id="latitude" data-parsley-type="number"/>
       </div>
 
-      <div class="large-1 columns">Longitude:</div>
+      <div class="large-1 columns"><%= t('access.longitude') %>: </div>
       <div class="large-11 columns">
         <input type="text" class="map-lon" name="address[0][longitude]" id="longitude" data-parsley-type="number"/>
       </div>

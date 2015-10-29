@@ -28,6 +28,7 @@ en:
       wrong_size: "is the wrong size (should be %{file_size})"
       size_too_small: "is too small (should be at least %{file_size})"
       size_too_big: "is too big (should be at most %{file_size})"
+      misc: "Sorry, the system has encountered an error. Please contact the System Administrator."
 
   topbar:
     home: "Home"
@@ -44,5 +45,24 @@ en:
     search_button: "hanapin"
 
   access:
-    registration: "Account Registration"
-    registration_description: "IN ORDER TO SERVE YOU BETTER; WE WOULD LIKE TO ASK MORE ABOUT YOU AND YOUR BUSINESS. PLEASE FILL OUT THE FOLLOWING FORMS CAREFULLY. READ OUR PRIVACY POLICY FOR MORE DETAILS."
+    header_registration: "Account Registration"
+    header_description_registration: "IN ORDER TO SERVE YOU BETTER; WE WOULD LIKE TO ASK MORE ABOUT YOU AND YOUR BUSINESS. PLEASE FILL OUT THE FOLLOWING FORMS CAREFULLY. READ OUR PRIVACY POLICY FOR MORE DETAILS."
+    header_system_account: "System Account"
+    remmeber_me: "Remember me when I'm logged in"
+    header_personalCompanyDetails: "Personal Company Details"
+    upload_picture: "Upload your picture: "
+    header_addresses: "Addresses"
+    header_addresses_description: "Drag red marker; Double Left Click to Zoom Out, Double Right Click to Zoom In. Scroll to Zoom. Hold Left Mouse Button to Pan."
+    button_register: "REGISTER"
+    map_special_instructions: "Drag red marker; Double Left Click to Zoom Out, Double Right Click to Zoom In. Scroll to Zoom. Hold Left Mouse Button to Pan."
+    telephony_details: "Telephony Details"
+    digital_contact_details: "Digital Contact Details"
+    digits: "DIGITS"
+    emailURLIM: "EMAIL / URL / IM"
+    description: "DESCRIPTION"
+    longitude: "longitude"
+    latitude: "latitude"
+
+  buttons:
+    more: "more"
+    less: "less"

@@ -38,5 +38,10 @@ class HomeController < ApplicationController
   def about_us
   end
 
+  def developer_error
+  end
+
+  def actor_error
+  end
 
 end

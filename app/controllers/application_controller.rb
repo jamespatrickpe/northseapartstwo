@@ -73,14 +73,14 @@ class ApplicationController < ActionController::Base
     elsif(params[:account_option] == "use_existing")
       actorID = params[:assigned_username]
       @access = Access.where(actor_id: actorID)
-      @actor = actor.find(actorID)
+      @actor = Actor.find(actorID)
     else
       raise("No Option Found")
     end
   end
 
   def processActor(params)
-    @actor = actor.new( name: params[:actor][:name], description: params[:actor][:description], logo: params[:actor][:logo])
+    @actor = Actor.new( name: params[:actor][:name], description: params[:actor][:description], logo: params[:actor][:logo])
   end
 
   def processAccess(params)
