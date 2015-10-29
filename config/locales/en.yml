@@ -43,4 +43,6 @@ en:
     placeholder_search: "Anong Piesa?"
     search_button: "hanapin"
 
-
+  access:
+    registration: "Account Registration"
+    registration_description: "IN ORDER TO SERVE YOU BETTER; WE WOULD LIKE TO ASK MORE ABOUT YOU AND YOUR BUSINESS. PLEASE FILL OUT THE FOLLOWING FORMS CAREFULLY. READ OUR PRIVACY POLICY FOR MORE DETAILS."

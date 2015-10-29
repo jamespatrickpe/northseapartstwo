@@ -14,9 +14,12 @@ include ApplicationHelper
 myActor = Actor.create(name: 'James Patrick Pe', description: 'Administrator')
 myActor.save
 
-access = Access.create( username: 'northseaparts', password: 'ilovetess', )
+access = Access.new
 access.actor = myActor
-access.save
+access.username = 'joojieman'
+access.email = 'northseaparts@gmail.com'
+access.encrypted_password = Access.digest('ilovetess')
+access.save!
 
 allowableSet = AllowableSet.create( security_level: 'ADMIN', controller: 'ALL', action: 'ALL')
 allowableSet.access = access
@@ -207,12 +210,14 @@ numberOfActors.times do |i|
   if (randomBoolean())
     #Access
     randomPassword = Faker::Internet.password(10, 20)
+    randomPassword = Access.digest(randomPassword)
+    randomEmail = Faker::Internet.email
     random_boolean = [true, false].sample
-    myAccess = Access.new( username: Faker::Internet.user_name, password: randomPassword, remember_me: random_boolean, password_confirmation: randomPassword, actor: myActor )
+    myAccess = Access.new( username: Faker::Internet.user_name, encrypted_password: randomPassword, actor: myActor, email: randomEmail)
     myAccess.save
 
     #Verification
-    myVerification = Verification.new( temp_email: Faker::Internet.email, hashlink: generateRandomString(), verified: randomBoolean, access: myAccess)
+    myVerification = Verification.new( temp_email: randomEmail, hashlink: generateRandomString(), verified: randomBoolean, access: myAccess)
     myVerification.save
 
     #ContactDetail
@@ -284,7 +289,7 @@ numberOfActors.times do |i|
     if( periodOfTime == "DAY" )
       amountOfMoney = randomMoney(267.32,600.05)
     elsif( periodOfTime == "WEEK" )
-      amountOfMoney = randomMoney(1900.45,2900.17)
+      amountOfMoney = radndomMoney(1900.45,2900.17)
     elsif( periodOfTime == "HOUR" )
       amountOfMoney = randomMoney(60.80,82.21)
     elsif( periodOfTime == "MONTH" )

@@ -46,6 +46,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'foundation-rails'
 gem 'jquery-validation-rails'
 gem 'bcrypt-ruby'
+gem 'bcrypt'
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'recaptcha', :require => 'recaptcha/rails'

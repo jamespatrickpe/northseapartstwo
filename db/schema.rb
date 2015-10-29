@@ -17,7 +17,6 @@ ActiveRecord::Schema.define(version: 20151028134341) do
     t.string   "id",                     limit: 36,               null: false
     t.string   "actor_id",               limit: 36
     t.string   "username",               limit: 64
-    t.string   "password_digest",        limit: 512
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "email",                  limit: 255, default: "", null: false
