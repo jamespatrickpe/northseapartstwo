@@ -11,24 +11,20 @@ class AccessController < ApplicationController
   end
 
   def register
-    action_redirect = ""
-    id = ""
-
+    urlRedirect = "";
     ActiveRecord::Base.transaction do
       begin
         processActor(params) #Actor Processing
         processAccess(params) #Access Processing
         processContactDetails(params) #Contact Detail Processing
         processTemporaryEmail(params) #Process Temporary Email
-        #Error Processing
-        action_redirect = "success_registration"
-        id = @access.id
-        rescue => e
-          flash[:collective_responses] = "An error of type #{e.class} happened, message is #{e.message}"
-          action_redirect = "registration"
+      rescue StandardError => error
+        flash[:collective_response] = error
+        urlRedirect =  "/access/developer_error"
       end
+      urlRedirect =  "/access/success_registration"
     end
-    redirect_to action: action_redirect, access_id: id
+    redirect_to urlRedirect
   end
 
   def success_registration

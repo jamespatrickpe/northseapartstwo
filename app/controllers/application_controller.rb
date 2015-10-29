@@ -35,16 +35,8 @@ class ApplicationController < ActionController::Base
     else
     end
     flash[:verificationToken] = hashlink
-
     #Finalization
     VerificationMailer.verification_email( params[:access][:email], hashlink ).deliver
-  end
-
-  def rescueAndSendTo(actionToSend)
-  #Error Processing
-    rescue => e
-      flash[:collective_responses] = e
-      render actionToSend
   end
 
   def processRelatedFiles(params)
@@ -84,7 +76,7 @@ class ApplicationController < ActionController::Base
   end
 
   def processAccess(params)
-    @access = Access.new( username: params[:access][:username], password: params[:access][:password], remember_me: params[:access][:rememberme], password_confirmation: params[:access][:password_confirmation])
+    @access = Access.new(username: params[:access][:username], encrypted_password: params[:access][:password], email: params[:access][:email])
     @access.actor = @actor
     @access.save!
   end

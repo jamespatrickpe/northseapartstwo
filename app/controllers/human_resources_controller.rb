@@ -40,19 +40,8 @@ class HumanResourcesController < ApplicationController
         @employee.save!
 
         processTemporaryEmail(params)
-
-        action_redirect = "success_candidate_registration"
-        id = @access.id
-        #action_redirect = "success_candidate_registration?id=" + @access.id
-
-        #Error Processing
-        rescue StandardError => e
-          #flash[:collective_responses] = "An error of type #{e.class} happened, message is #{e.message}"
-          redirect_to controller: "home", action: "actor_error"
       end
     end
-    redirect_to action: action_redirect, access_id: id
-
   end
 
   def success_candidate_registration

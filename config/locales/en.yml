@@ -62,6 +62,12 @@ en:
     description: "DESCRIPTION"
     longitude: "longitude"
     latitude: "latitude"
+    simple_username: "Username; 3 to 64 characters; all lowercase and no spaces"
+    password: "Password; 8-64 Characters"
+    password_again: "Type Password Again"
+    email: "Valid Email"
+    name: "name"
+    description: "description"
 
   buttons:
     more: "more"
