@@ -1,17 +1,24 @@
-<a href="">
-  fasfadf
-</a>
-
 <script>
 
     $.ajax({
         method: "POST",
-        url: "/test/index",
-        data: { username: "sample" }
+        dataType: "json",
+        url: "/test/try_ajax_function",
+        data: { username: "sample" },
+        success: function(data) {
+            alert("dfasfd");
+            $('#mylist').append(data);
+        }
     })
-            .done(function( msg ) {
-                alert( "Data Sent: " + msg );
-            });
-
 
 </script>
+
+<div id="mylist">
+  <table>
+  <% @accesses.each do |access| %>
+      <tr>
+        <td><%= access.id %></td>
+      </tr>
+  <% end %>
+  </table>
+</div>

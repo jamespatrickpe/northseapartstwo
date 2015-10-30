@@ -28,7 +28,7 @@
 //= //require_tree .  // CAUSES ERROR
 
 
-$(function(){ $(document).foundation(); });
+//$(function(){ $(document).foundation(); });
 
 $(document).ready(function(){
 

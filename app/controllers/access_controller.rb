@@ -2,6 +2,7 @@ class AccessController < ApplicationController
   include ApplicationHelper
 
   layout "application_loggedin", only: [:dashboard]
+  skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
 
   def index
     redirect_to :action => "signin"
@@ -9,6 +10,7 @@ class AccessController < ApplicationController
 
   def registration
 
+    @lala = params[:username]
     respond_to do |format|
       format.json { render json: {:"message" => "hello"}.to_json }
       format.html

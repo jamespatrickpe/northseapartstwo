@@ -15,14 +15,16 @@
   //Checks if username taken
   $('#username').bind('input propertychange', function() {
 
-      $.ajax({
+      $.ajax
+      ({
           method: "POST",
           url: "/access/registration",
-          data: { username: "sample" }
+          data: { username: "sample" },
+          success : function(data){
+              console.log('reply is' + data);
+              alert(data.to_s);
+          }
       })
-              .done(function( msg ) {
-                  alert( "Data Sent: " + msg );
-              });
 
   });
 </script>
