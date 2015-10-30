@@ -2,6 +2,7 @@
 <%= error_messages_for( @verification ) %>
 
 <%= text_field_tag("access[username]", value = nil, options = {id:"username", placeholder:  t('access.simple_username') , required: "required", pattern: "[a-z0-9_-]{3,64}$", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64"})%>
+<div id="username_exists_message_container"></div>
 <%= text_field_tag("access[password]", value = nil, options = {id: "password", placeholder: t('access.password'), required: "required", type: "password", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"8" ,:"data-parsley-maxlength"=>"64"} )%>
 <%= text_field_tag("access[password_confirmation]", value = nil, options = {id: "password_confirmation", placeholder: t('access.password_again'), required: "required", type: "password", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"8" ,:"data-parsley-maxlength"=>"64", "data-parsley-equalto"=>"#password"} )%>
 <%= text_field_tag("access[email]", value = nil, options = {id: "email", placeholder: t('access.email'), required: "required", type: "email", :"data-parsley-trigger"=> "keyup"}) %>
@@ -11,4 +12,23 @@
 </div>
 
 <script>
+  //Checks if username taken
+  $('#username').bind('input propertychange', function() {
+
+      var url = "/access/checkUsernameExists/"; // your url of the function which will return a json or string containing result
+      var data = "shewinow"; // user name to send to server, so that you can compare this in the DB.
+      var dataType = "text"; // it depends on the type you sent from the controller. it can be string, json etc..
+
+      $.ajax({
+          type: "POST",
+          url: url,
+          data: data,
+          success: function(response){
+              // here the code will come to handle response that you sent from your controller function
+              // you can return from a string or json from server and then can decode your json right here.
+          },
+          dataType: dataType
+      });
+
+  });
 </script>

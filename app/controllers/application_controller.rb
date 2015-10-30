@@ -81,6 +81,17 @@ class ApplicationController < ActionController::Base
     @access.save!
   end
 
+  def checkUsernameExists(username)
+    myVar = Access.exists?(username: username)
+    @variable = "lala"
+    render "/test/"
+  end
+
+  def checkEmailExists(params)
+    myVar = Access.exists?(username: params[:access][:email])
+    return myVar
+  end
+
   def processContactDetails(params)
     @addressSet = params[:address]
     @telephoneSet = params[:telephony]

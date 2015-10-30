@@ -4,4 +4,8 @@ class TestController < ApplicationController
 
   end
 
+  def testMyAJAX(params)
+    render index
+  end
+
 end
