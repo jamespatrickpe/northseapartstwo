@@ -17,7 +17,7 @@ myActor.save
 access = Access.new
 access.actor = myActor
 access.username = 'joojieman'
-access.email = 'northseaparts@gmail.com'
+access.email = 'northseaparts@wondermail.com'
 access.encrypted_password = Access.digest('ilovetess')
 access.save!
 
