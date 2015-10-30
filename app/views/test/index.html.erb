@@ -1,17 +1,17 @@
-<%= @access %>
-
-<div class="large-6 columns">
-  <%= @variable %>
-</div>
+<a href="">
+  fasfadf
+</a>
 
 <script>
+
     $.ajax({
-        type: "POST",
-        url: "/testMyAJAX/lala",
-        data: "meanie",
-        success: function(response){
-            alert(response);
-        },
-        dataType: "text"
-    });
+        method: "POST",
+        url: "/test/index",
+        data: { username: "sample" }
+    })
+            .done(function( msg ) {
+                alert( "Data Sent: " + msg );
+            });
+
+
 </script>
