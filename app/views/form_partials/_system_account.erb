@@ -12,19 +12,39 @@
 </div>
 
 <script>
-  //Checks if username taken
-  $('#username').bind('input propertychange', function() {
+    //Checks if username taken
+    $('#username').bind('input propertychange', function()
+    {
+        var value = $("#username").val();
+        if ( value.length > 3 && value != "Default text" )
+        {
+            var currentValue = $('#username').val();
+            $.ajax({
+                method: "POST",
+                dataType: "json",
+                url: "/application/check_username_exists",
+                data: { username: currentValue },
+                error: function (responseData, textStatus, errorThrown) {
+                    alert(responseData + textStatus + errorThrown);
+                },
+                success: function(data) {
 
-      $.ajax
-      ({
-          method: "POST",
-          url: "/access/registration",
-          data: { username: "sample" },
-          success : function(data){
-              console.log('reply is' + data);
-              alert(data.to_s);
-          }
-      })
-
-  });
+                    var myData = JSON.stringify(data)
+                    var obj = $.parseJSON(myData);
+                    if (obj['exists'] == false)
+                    {
+                        $('#username_exists_message_container').html("Username is Free");
+                    }
+                    else if (obj['exists'] == true)
+                    {
+                        $('#username_exists_message_container').html("Username is Taken");
+                    }
+                    else
+                    {
+                        $('#username_exists_message_container').html("Cannot connect to database; Please contact System Administrator");
+                    }
+                }
+            })
+        }
+    });
 </script>
