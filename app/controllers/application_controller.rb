@@ -4,6 +4,15 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   layout "application_loggedin"
+  skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
+
+  def check_username_exists
+    username_exists = Access.exists?(username: params[:username])
+    respond_to do |format|
+      format.json { render json: {:"exists" => username_exists}.to_json }
+      format.html
+    end
+  end
 
   def getEmployees
     @employees = Employee.all
@@ -79,17 +88,6 @@ class ApplicationController < ActionController::Base
     @access = Access.new(username: params[:access][:username], encrypted_password: params[:access][:password], email: params[:access][:email])
     @access.actor = @actor
     @access.save!
-  end
-
-  def checkUsernameExists(username)
-    myVar = Access.exists?(username: username)
-    @variable = "lala"
-    render "/test/"
-  end
-
-  def checkEmailExists(params)
-    myVar = Access.exists?(username: params[:access][:email])
-    return myVar
   end
 
   def processContactDetails(params)
