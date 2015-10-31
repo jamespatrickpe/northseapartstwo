@@ -9,14 +9,6 @@ class AccessController < ApplicationController
   end
 
   def registration
-<<<<<<< HEAD
-    @lala = params[:username]
-    respond_to do |format|
-      format.json { render json: {:"message" => "hello"}.to_json }
-      format.html
-    end
-=======
->>>>>>> ac73627dd0caab9deb838d0f5aa7dabbb997727f
   end
 
   def register
