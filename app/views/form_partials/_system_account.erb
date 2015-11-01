@@ -1,50 +1,38 @@
 <%= error_messages_for( @access ) %>
 <%= error_messages_for( @verification ) %>
 
-<%= text_field_tag("access[username]", value = nil, options = {id:"username", placeholder:  t('access.simple_username') , required: "required", pattern: "[a-z0-9_-]{3,64}$", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64"})%>
+<%=
+    text_field_tag("access[username]",
+                   value = nil,
+                   options = {id:"username",
+                              placeholder:  t('access.simple_username'),
+                              required: "required",
+                              pattern: "[a-z0-9_-]{3,64}$",
+                              :"data-parsley-remote" => "" ,
+                              :"data-parsley-remote-options" => "{ 'type': 'POST', 'dataType': 'json'}",
+                              :"data-parsley-remote-validator" => "validate-username",
+                              :"data-parsley-trigger" => "keyup",
+                              :"data-parsley-minlength" => "3",
+                              :"data-parsley-maxlength" => "64" })
+%>
 <div id="username_exists_message_container"></div>
+<input type="hidden" id="username_hidden_tag" value=""/>
 <%= text_field_tag("access[password]", value = nil, options = {id: "password", placeholder: t('access.password'), required: "required", type: "password", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"8" ,:"data-parsley-maxlength"=>"64"} )%>
 <%= text_field_tag("access[password_confirmation]", value = nil, options = {id: "password_confirmation", placeholder: t('access.password_again'), required: "required", type: "password", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"8" ,:"data-parsley-maxlength"=>"64", "data-parsley-equalto"=>"#password"} )%>
-<%= text_field_tag("access[email]", value = nil, options = {id: "email", placeholder: t('access.email'), required: "required", type: "email", :"data-parsley-trigger"=> "keyup"}) %>
+<%= text_field_tag("access[email]",
+                   value = nil,
+                   options = {id: "email",
+                              placeholder: t('access.email'),
+                              required: "required",
+                              type: "email",
+                              :"data-parsley-remote" => "" ,
+                              :"data-parsley-remote-options" => "{ 'type': 'POST', 'dataType': 'json'}",
+                              :"data-parsley-remote-validator" => "validate-email",
+                              :"data-parsley-trigger" => "keyup",
+                              :"data-parsley-minlength" => "3",
+                              :"data-parsley-maxlength" => "64" })
+%>
 
 <div align="right">
-  <%= t('access.remmeber_me') %> [ <%= check_box_tag("access[rememberme]", value = 1, checked = false, options = {}) %> ]
+  <%= t('access.remember_me') %> [ <%= check_box_tag("access[rememberme]", value = 1, checked = false, options = {}) %> ]
 </div>
-
-<script>
-    //Checks if username taken
-    $('#username').bind('input propertychange', function()
-    {
-        var value = $("#username").val();
-        if ( value.length > 3 && value != "Default text" )
-        {
-            var currentValue = $('#username').val();
-            $.ajax({
-                method: "POST",
-                dataType: "json",
-                url: "/application/check_username_exists",
-                data: { username: currentValue },
-                error: function (responseData, textStatus, errorThrown) {
-                    alert(responseData + textStatus + errorThrown);
-                },
-                success: function(data) {
-
-                    var myData = JSON.stringify(data)
-                    var obj = $.parseJSON(myData);
-                    if (obj['exists'] == false)
-                    {
-                        $('#username_exists_message_container').html("Username is Free");
-                    }
-                    else if (obj['exists'] == true)
-                    {
-                        $('#username_exists_message_container').html("Username is Taken");
-                    }
-                    else
-                    {
-                        $('#username_exists_message_container').html("Cannot connect to database; Please contact System Administrator");
-                    }
-                }
-            })
-        }
-    });
-</script>

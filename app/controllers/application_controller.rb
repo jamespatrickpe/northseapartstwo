@@ -7,9 +7,17 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
 
   def check_username_exists
-    username_exists = Access.exists?(username: params[:username])
+    username_exists = Access.exists?(username: params[:access][:username])
     respond_to do |format|
-      format.json { render json: {:"exists" => username_exists}.to_json }
+       format.json { render json: {:"exists" => username_exists}.to_json }
+       format.html
+     end
+  end
+
+  def check_email_exists
+    email_exists = Access.exists?(email: params[:access][:email])
+    respond_to do |format|
+      format.json { render json: {:"exists" => email_exists}.to_json }
       format.html
     end
   end

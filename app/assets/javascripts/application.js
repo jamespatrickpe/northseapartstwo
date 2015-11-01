@@ -30,51 +30,6 @@
 
 //$(function(){ $(document).foundation(); });
 
-$(document).ready(function(){
-
-    $(function() {
-        $( document ).tooltip();
-    });
-
-    $('#side-nav').sapling();
-    $('#side-nav').data('sapling').expand();
-
-    $('#expand_all').click(function() {
-        $('#side-nav').data('sapling').expand();
-    });
-
-    $('#collapse_all').click(function() {
-        $('#side-nav').data('sapling').collapse();
-    });
-
-    var navigationDisplay = true;
-    var sideNavigationContainerCSS = $('#side-navigation-container').attr("style");
-    var navigationLabelContainerCSS = $('#navigation_label_container').attr("style");
-
-    $('#hide_show_all').click(function() {
-        $('#side-nav').toggle()
-        $('#search_system').toggle()
-        $('#navigation_label').toggle()
-        $('#expand_all').toggle()
-        $('#collapse_all').toggle()
-
-        if(navigationDisplay == true)
-        {
-            $('#side-navigation-container').css("width","50px");
-            $('#navigation_label_container').attr("style","")
-            navigationDisplay = false;
-        }
-        else
-        {
-            $('#side-navigation-container').attr("style",sideNavigationContainerCSS)
-            $('#navigation_label_container').attr("style",navigationLabelContainerCSS)
-            navigationDisplay = true;
-        }
-
-    });
-
-});
-
 function GetURLParameter(sParam)
 {
     var sPageURL = window.location.search.substring(1);
@@ -103,3 +58,52 @@ $(document).ready(function(){
         return confirm("Are you sure you want to delete this item?");
     });
 });
+
+//Validates if username already exists in Database
+window.Parsley.addAsyncValidator('validate-username', function (xhr)
+{
+    //alert(xhr.status);
+    var obj = $.parseJSON(xhr.responseText);
+    var usernameField = $("#username").parsley();
+    if (obj['exists'] == false)
+    {
+        window.ParsleyUI.removeError(usernameField, "myCustomError");
+        return true;
+    }
+    else if (obj['exists'] == true)
+    {
+        window.ParsleyUI.removeError(usernameField, "myCustomError");
+        window.ParsleyUI.addError(usernameField, "myCustomError", 'Username already exists');
+        return false;
+    }
+    else
+    {
+        window.ParsleyUI.addError(usernameField, "myCustomError", 'Cannot Connect to Database');
+        return false;
+    }
+}, '/application/check_username_exists');
+
+//Validates if email already exists in Database
+window.Parsley.addAsyncValidator('validate-email', function (xhr)
+{
+    //alert(xhr.status);
+    var obj = $.parseJSON(xhr.responseText);
+    var emailField = $("#email").parsley();
+    if (obj['exists'] == false)
+    {
+        window.ParsleyUI.removeError(emailField, "myCustomError");
+        return true;
+    }
+    else if (obj['exists'] == true)
+    {
+        window.ParsleyUI.removeError(emailField, "myCustomError");
+        window.ParsleyUI.addError(emailField, "myCustomError", 'Email already exists');
+        return false;
+    }
+    else
+    {
+        window.ParsleyUI.addError(emailField, "myCustomError", 'Cannot Connect to Database');
+        return false;
+    }
+}, '/application/check_email_exists');
+

@@ -4,11 +4,9 @@ Partial for Contact Details Form
 
 -->
 <fieldset id="contact_details_set">
-<%= error_messages_for( @contactDetail ) %>
 
 <div class="large-12 columns">
   <h2 class="miniheader"><%= t('access.header_addresses') %></h2>
-  <%= error_messages_for( @address ) %>
 
   <p id="map_special_instructions">
     <%= t('access.map_special_instructions') %>
@@ -52,7 +50,6 @@ Partial for Contact Details Form
 </div>
 <div class="large-6 columns">
   <h2 class="miniheader">Telephony Details</h2>
-  <%= error_messages_for( @telephony ) %>
 
   <table class="telephonycontainer">
     <tr>
@@ -69,7 +66,6 @@ Partial for Contact Details Form
 </div>
 <div class="large-6 columns">
   <h2 class="miniheader">Digital Contact Details</h2>
-  <%= error_messages_for( @digital ) %>
   <table class="digitalcontainer">
     <tr>
       <td>EMAIL / URL / IM</td>
@@ -121,8 +117,11 @@ Partial for Contact Details Form
     //Adds new Mapper with id and name set to current counter
     function activateMapper($currentID)
     {
+        var myLat = position.coords.latitude;
+        var myLong = position.coords.longitude;
+
         $('div#'+$currentID+'.map').locationpicker({
-            location: {latitude: 14.621745, longitude: 121.107015},
+            location: {latitude: myLat, longitude: myLong},
             radius: 10,
             scrollwheel: true,
             inputBinding: {
