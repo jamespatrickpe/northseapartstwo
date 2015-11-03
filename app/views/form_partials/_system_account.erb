@@ -15,10 +15,33 @@
                               :"data-parsley-minlength" => "3",
                               :"data-parsley-maxlength" => "64" })
 %>
+
 <div id="username_exists_message_container"></div>
 <input type="hidden" id="username_hidden_tag" value=""/>
-<%= text_field_tag("access[password]", value = nil, options = {id: "password", placeholder: t('access.password'), required: "required", type: "password", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"8" ,:"data-parsley-maxlength"=>"64"} )%>
-<%= text_field_tag("access[password_confirmation]", value = nil, options = {id: "password_confirmation", placeholder: t('access.password_again'), required: "required", type: "password", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"8" ,:"data-parsley-maxlength"=>"64", "data-parsley-equalto"=>"#password"} )%>
+
+<%= text_field_tag("access[password]",
+                   value = nil,
+                   options = {id: "password",
+                              placeholder: t('access.password'),
+                              required: "required",
+                              type: "password",
+                              :"data-parsley-trigger" => "keyup",
+                              :"data-parsley-minlength"=>"8" ,
+                              :"data-parsley-maxlength"=>"64"} )
+%>
+
+<%= text_field_tag("access[password_confirmation]",
+                   value = nil,
+                   options = {id: "password_confirmation",
+                              placeholder: t('access.password_again'),
+                              required: "required",
+                              type: "password",
+                              :"data-parsley-trigger" => "keyup",
+                              :"data-parsley-minlength"=>"8" ,
+                              :"data-parsley-maxlength"=>"64",
+                              "data-parsley-equalto"=>"#password"} )
+%>
+
 <%= text_field_tag("access[email]",
                    value = nil,
                    options = {id: "email",

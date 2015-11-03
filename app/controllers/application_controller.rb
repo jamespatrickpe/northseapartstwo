@@ -134,4 +134,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def generateStorageLabels(params)
+    branchCode = params[:storage][:branchCode]
+    branchCode = params[:storage][:branchCode]
+    branchCode = params[:storage][:branchCode]
+  end
+
 end

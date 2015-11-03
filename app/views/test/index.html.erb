@@ -1,24 +1,5 @@
-<script>
-
-    $.ajax({
-        method: "POST",
-        dataType: "json",
-        url: "/test/try_ajax_function",
-        data: { username: "sample" },
-        success: function(data) {
-            alert("dfasfd");
-            $('#mylist').append(data);
-        }
-    })
-
-</script>
-
-<div id="mylist">
-  <table>
-  <% @accesses.each do |access| %>
-      <tr>
-        <td><%= access.id %></td>
-      </tr>
+<div>
+  <% @outputStorageCode.each do |storageCode| %>
+      <div><%= storageCode %></div>
   <% end %>
-  </table>
 </div>
