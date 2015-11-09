@@ -59,6 +59,9 @@ class AccessController < ApplicationController
   def registration_complete
   end
 
+  def account_settings
+  end
+
   def dashboard
     @accesses = Access.limit(100).offset(0)
   end
