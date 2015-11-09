@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151028134341) do
+ActiveRecord::Schema.define(version: 20151109060536) do
 
   create_table "accesses", id: false, force: :cascade do |t|
     t.string   "id",                     limit: 36,               null: false
@@ -59,6 +59,18 @@ ActiveRecord::Schema.define(version: 20151028134341) do
     t.decimal  "latitude",                      precision: 18, scale: 12
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "advanced_payments_to_employees", id: false, force: :cascade do |t|
+    t.string   "id",              limit: 36,                                               null: false
+    t.string   "employee_id",     limit: 36
+    t.decimal  "amount",                     precision: 16, scale: 2
+    t.string   "description",     limit: 64
+    t.decimal  "rate_of_payment",            precision: 16, scale: 2
+    t.string   "rate_of_time",    limit: 64
+    t.string   "status",          limit: 64,                          default: "AWAITING"
+    t.datetime "created_at",                                                               null: false
+    t.datetime "updated_at",                                                               null: false
   end
 
   create_table "allowable_sets", id: false, force: :cascade do |t|
@@ -285,12 +297,12 @@ ActiveRecord::Schema.define(version: 20151028134341) do
     t.datetime "updated_at",             null: false
   end
 
-  create_table "repaid_vales", id: false, force: :cascade do |t|
-    t.string   "id",         limit: 36,                          null: false
-    t.decimal  "amount",                precision: 16, scale: 2
-    t.string   "vale_id",    limit: 36
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
+  create_table "repaid_payments_from_employees", id: false, force: :cascade do |t|
+    t.string   "id",                               limit: 36,                          null: false
+    t.decimal  "amount",                                      precision: 16, scale: 2
+    t.string   "advanced_payments_to_employee_id", limit: 36
+    t.datetime "created_at",                                                           null: false
+    t.datetime "updated_at",                                                           null: false
   end
 
   create_table "restdays", id: false, force: :cascade do |t|
@@ -317,18 +329,6 @@ ActiveRecord::Schema.define(version: 20151028134341) do
     t.string   "description",       limit: 256
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "vales", id: false, force: :cascade do |t|
-    t.string   "id",              limit: 36,                                               null: false
-    t.string   "employee_id",     limit: 36
-    t.decimal  "amount",                     precision: 16, scale: 2
-    t.string   "description",     limit: 64
-    t.decimal  "rate_of_payment",            precision: 16, scale: 2
-    t.string   "rate_of_time",    limit: 64
-    t.string   "status",          limit: 64,                          default: "AWAITING"
-    t.datetime "created_at",                                                               null: false
-    t.datetime "updated_at",                                                               null: false
   end
 
   create_table "verifications", id: false, force: :cascade do |t|

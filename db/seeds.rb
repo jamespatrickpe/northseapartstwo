@@ -289,7 +289,7 @@ numberOfActors.times do |i|
     if( periodOfTime == "DAY" )
       amountOfMoney = randomMoney(267.32,600.05)
     elsif( periodOfTime == "WEEK" )
-      amountOfMoney = radndomMoney(1900.45,2900.17)
+      amountOfMoney = randomMoney(1900.45,2900.17)
     elsif( periodOfTime == "HOUR" )
       amountOfMoney = randomMoney(60.80,82.21)
     elsif( periodOfTime == "MONTH" )
@@ -365,42 +365,54 @@ numberOfActors.times do |i|
       RateAdjustment.create( amount: randomMoney(100.10,1000.00), signed_type: ["ADDITION", "DEDUCTION"].sample, employee: myEmployee, description: Faker::Lorem.words(4), rate_of_time: ["DAY", "WEEK", "MONTH"].sample, activated: randomBoolean())
     end
 
-    # For Vale
+    # For AdvancedPaymentsToEmployee
     if(randomBoolean() && randomBoolean() )
       randomDays = rand(0..30)
-      timeofVale = Faker::Time.between(randomDays.days.ago, Time.now, :all)
-      valeAmount = rand(2000.00..25000.00)
-      valeRateOfPayment = ((valeAmount)/rand(1.00..25.00))
-      valeStatus = ["APPROVED", "NOT APPROVED"].sample
-      myVale = Vale.create( created_at: timeofVale, updated_at: timeofVale, employee: myEmployee, amount: valeAmount ,description: Faker::Lorem.words(4), rate_of_payment: valeRateOfPayment, rate_of_time: ["DAY", "WEEK", "MONTH"].sample, status: valeStatus )
+      timeOfAdvancedPaymentsToEmployee = Faker::Time.between(randomDays.days.ago, Time.now, :all)
+      advancedPaymentsToEmployeeAmount = rand(2000.00..25000.00)
+      advancedPaymentsToEmployeeRateOfPayment = ((advancedPaymentsToEmployeeAmount)/rand(1.00..25.00))
+      advancedPaymentsToEmployeeStatus = ["APPROVED", "NOT APPROVED"].sample
+      myAdvancedPaymentsToEmployee = AdvancedPaymentsToEmployee.create( created_at: timeOfAdvancedPaymentsToEmployee, updated_at: timeOfAdvancedPaymentsToEmployee, employee: myEmployee, amount: advancedPaymentsToEmployeeAmount ,description: Faker::Lorem.words(4), rate_of_payment: advancedPaymentsToEmployeeRateOfPayment, rate_of_time: ["DAY", "WEEK", "MONTH"].sample, status: advancedPaymentsToEmployeeStatus )
+      myAdvancedPaymentsToEmployee.save
+
+      myRepaidPaymentsFromEmployee = RepaidPaymentsFromEmployee.new
+      # myRepaidPaymentsFromEmployee.advancedPaymentsToEmployee = myAdvancedPaymentsToEmployee
+      myRepaidPaymentsFromEmployee.created_at = timeofPayment
+      myRepaidPaymentsFromEmployee.updated_at = timeofPayment
+      myRepaidPaymentsFromEmployee.amount = 9000
+      myRepaidPaymentsFromEmployee.save!
 
       #Repayments
-      rand(1..5).times do |i|
-        maxPaymentIteration = (valeAmount / valeRateOfPayment).ceil
-        totalPaid = 0
-        if((valeStatus == "APPROVED") && randomBoolean() )
-          rand(1..maxPaymentIteration).times do |i|
+      # rand(1..5).times do |i|
+      #   maxPaymentIteration = (advancedPaymentsToEmployeeAmount / advancedPaymentsToEmployeeRateOfPayment).ceil
+      #   totalPaid = 0
+      #   if((advancedPaymentsToEmployeeStatus == "APPROVED") && randomBoolean() )
+      #     rand(1..maxPaymentIteration).times do |i|
+      #
+      #       timeofPayment = Faker::Time.between(timeOfAdvancedPaymentsToEmployee, Time.now, :all)
+      #       advancedPaymentsToEmployeePayment = advancedPaymentsToEmployeeRateOfPayment*rand(0.5..2)
+      #       myRepaidPaymentsFromEmployee = RepaidPaymentsFromEmployee.new
+      #
+      #       myRepaidPaymentsFromEmployee.advancedPaymentsToEmployees = myAdvancedPaymentsToEmployee
+      #
+      #       myRepaidPaymentsFromEmployee.created_at = timeofPayment
+      #       myRepaidPaymentsFromEmployee.updated_at = timeofPayment
+      #
+      #       if(advancedPaymentsToEmployeeAmount > totalPaid)
+      #         currentPayment = advancedPaymentsToEmployeePayment
+      #       elsif(advancedPaymentsToEmployeeAmount < totalPaid)
+      #         currentPayment = advancedPaymentsToEmployeeAmount - totalPaid
+      #       elsif(advancedPaymentsToEmployeeAmount < totalPaid)
+      #         currentPayment = 0
+      #       end
+      #       myRepaidPaymentsFromEmployee.amount = currentPayment
+      #       myRepaidPaymentsFromEmployee.save!
+      #       totalPaid += currentPayment
+      #     end
+      #   end
+      # end
 
-            timeofPayment = Faker::Time.between(timeofVale, Time.now, :all)
-            valePayment = valeRateOfPayment*rand(0.5..2)
 
-            if(valeAmount > totalPaid)
-              currentPayment = valePayment
-              RepaidVale.create( vale: myVale, amount: currentPayment, created_at: timeofPayment, updated_at: timeofPayment)
-              break;
-            elsif(valeAmount < totalPaid)
-              currentPayment = valeAmount - totalPaid
-              RepaidVale.create( vale: myVale, amount: currentPayment, created_at: timeofPayment, updated_at: timeofPayment)
-            elsif(valeAmount < totalPaid)
-              currentPayment = 0
-              RepaidVale.create( vale: myVale, amount: currentPayment, created_at: timeofPayment, updated_at: timeofPayment)
-            end
-
-            totalPaid += currentPayment
-          end
-        end
-      end
     end
-
   end
 end
