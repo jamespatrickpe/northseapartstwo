@@ -9,3 +9,5 @@ class CreateEmployees < ActiveRecord::Migration
     end
   end
 end
+
+#links unique properties of employees to actor
