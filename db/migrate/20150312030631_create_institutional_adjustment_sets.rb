@@ -1,3 +1,5 @@
+# Binds the institution to the employee
+
 class CreateInstitutionalAdjustmentSets < ActiveRecord::Migration
   def change
     create_table :institutional_adjustment_sets, :id => false   do |t|

@@ -1,0 +1,113 @@
+<div class="large-1 columns" ></div>
+<div class="large-10 columns" >
+  <div class="mainheader"> Base Rates </div>
+  <div class="subdescription">
+    Apply Base Rate to Employees
+  </div>
+  <%= displayCollectiveResponses(); %>
+  <div class="large-8 columns">
+    <%= renderFormPartial("employees_selection_form") %>
+    <h2 class="miniheader">Base Rates of Employee</h2>
+    <table class="default_table_style" id="employees_base_rate_table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>TYPE</th>
+        <th>AMOUNT</th>
+        <th>PERIOD OF TIME</th>
+        <th>START OF EFFECTIVITY</th>
+        <th>END OF EFFECTIVITY</th>
+        <th>DESCRIPTION</th>
+        <th>ACTIONS</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @base_rates.each do |rates| %>
+      <tr id="<%= rates.id %>">
+        <td class="id"><%= rates.id %></td>
+        <td class="signed_type"><%= rates.signed_type %></td>
+        <td class="amount"><%= rates.amount %></td>
+        <td class="period_of_time"><%= rates.period_of_time %></td>
+        <td class="start_of_effectivity"><%= rates.start_of_effectivity %></td>
+        <td class="end_of_effectivity"><%= rates.end_of_effectivity %></td>
+        <td class="description"><%= rates.description %></td>
+        <td style="text-align: center;">
+          <%= link_to( sanitize("&#x2710;"), url_options = {}, options={class: "table_button", value:rates.id, onClick: "return false;"} ) %>
+          <%= link_to( sanitize("&#x2716;"), url_options = {:action => "deleteBaseRate", :base_rate_id => rates.id, :employee_id => @employee_id }, options={class: "table_button deletable_item"}) %>
+        </td>
+      </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="large-4 columns">
+    <h2 class="miniheader">Base Rate</h2>
+    <%= form_tag({action: :addNewBaseRate}, multipart: true, id: "add_new_base_rate_form", :"data-parsley-validate" => "" ) do %>
+        <%= hidden_field_tag 'employee_id', @employee_id %>
+        Base Rate Identification: <br>
+        <%= select_tag "base_rate_id", options_from_collection_for_select(@base_rates, "id", "id"), options={include_blank: "New Base Rate"} %>
+        Type: <br>
+        <%= select_tag "signed_type", options_for_select([ "ADDITION", "DEDUCTION" ], "ADDITION") %>
+        Amount: <br>
+        <%= text_field_tag("amount", value = nil, options = {id:"amount", placeholder: "Amount in Peso (PHP)", :"data-parsley-type" => "number", :"data-parsley-trigger" => "keyup"}) %>
+        Period of Time: <br>
+        <%= select_tag "period_of_time", options_for_select([ "SECOND", "MINUTE" , "HOUR" , "DAY" , "WEEK" ,"MONTH" , "YEAR" ], "HOUR") %>
+        Start of Effectivity
+        <%= datetime_local_field("start_of_effectivity", "",options={step:1}) %>
+        End of Effectivity
+        <%= datetime_local_field("end_of_effectivity", "",options={step:1}) %>
+        Description
+        <%= text_field_tag("description", value = nil, options = {id:"description", placeholder: "Description",:"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"256"}) %>
+        <div class="row" align="center">
+          <hr><input type="submit" class="large button" href="#" value="ADD/EDIT BASE RATE"><hr>
+        </div>
+    <% end %>
+
+
+  </div>
+</div>
+<div class="large-1 columns" ></div>
+
+<script>
+    $(document).ready(function()
+    {
+        initializeEmployeeCompensationBenefitsSelection();
+        $('#employees_base_rate_table').DataTable();
+    });
+
+    $("a[class='table_button']").click(function(){
+
+        var id = $(this).attr("value");
+        $("#base_rate_id").val(id);
+        changeBaseRateForm(id);
+    });
+
+    $("#base_rate_id").change(function()
+    {
+        var id = $("#base_rate_id").val();
+        changeBaseRateForm(id);
+    });
+
+    function changeBaseRateForm(id)
+    {
+        var signed_type = $("tr[id="+id+"] " + "td[class=signed_type]").html();
+        $("#signed_type").val(signed_type);
+
+        var period_of_time = $("tr[id="+id+"] " + "td[class=period_of_time]").html();
+        $("#period_of_time").val(period_of_time);
+
+        var amount = $("tr[id="+id+"] " + "td[class=amount]").html();
+        $("#amount").val(amount);
+
+        var description = $("tr[id="+id+"] " + "td[class=description]").html();
+        $("#description").val(description);
+
+        var start_of_effectivity = convertSQLTimeToHTML5Input ($("tr[id="+id+"] " + "td[class=start_of_effectivity]").html() );
+        $("#start_of_effectivity_").val(start_of_effectivity);
+
+        var end_of_effectivity = convertSQLTimeToHTML5Input ($("tr[id="+id+"] " + "td[class=end_of_effectivity]").html() );
+        $("#end_of_effectivity_").val(end_of_effectivity);
+    }
+</script>
+
+<%= renderFormPartial("employees_selection_form_accompanying_js") %>

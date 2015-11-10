@@ -1,3 +1,5 @@
+#defines restday accdg to law per employee
+
 class CreateRestdays < ActiveRecord::Migration
   def change
     create_table :restdays, :id => false    do |t|
