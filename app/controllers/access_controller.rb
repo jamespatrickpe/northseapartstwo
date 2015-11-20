@@ -26,7 +26,7 @@ class AccessController < ApplicationController
       end
       urlRedirect =  "/access/success_registration"
     end
-    redirect_to urlRedirect
+    #redirect_to urlRedirect
   end
 
   def success_registration

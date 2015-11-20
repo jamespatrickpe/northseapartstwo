@@ -136,6 +136,11 @@ class ApplicationController < ActionController::Base
 
   def processUserTypeSelection(params)
     @roles = params[:access][:role]
+    @roles.each do |role|
+      if(role == "employee")
+
+      end
+    end
   end
 
   def generateStorageLabels(params)
