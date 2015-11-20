@@ -15,10 +15,11 @@ class AccessController < ApplicationController
     urlRedirect = "";
     ActiveRecord::Base.transaction do
       begin
-        processActor(params) #Actor Processing
-        processAccess(params) #Access Processing
-        processContactDetails(params) #Contact Detail Processing
-        processTemporaryEmail(params) #Process Temporary Email
+        processActor(params)
+        processAccess(params)
+        processContactDetails(params)
+        processTemporaryEmail(params)
+        processUserTypeSelection(params)
       rescue StandardError => error
         flash[:collective_response] = error
         urlRedirect =  "/access/developer_error"
@@ -38,7 +39,7 @@ class AccessController < ApplicationController
     @title = "Registration Successful"
   end
 
-  def verify
+  def verify(params)
     verificationCode = params[:code]
     verification = Verification.where( hashlink: verificationCode ).first
     currentAccess = Access.where( id: verification.access_id).first

@@ -134,10 +134,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def processUserTypeSelection(params)
+    @roles = params[:access][:role]
+  end
+
   def generateStorageLabels(params)
     branchCode = params[:storage][:branchCode]
     branchCode = params[:storage][:branchCode]
     branchCode = params[:storage][:branchCode]
   end
-
 end

@@ -68,6 +68,8 @@ en:
     email: "Valid Email"
     name: "name"
     description: "description"
+    actor_selection: "User Type Selection"
+    actor_selection_description: " What are you applying for? "
 
   buttons:
     more: "more"

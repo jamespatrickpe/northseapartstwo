@@ -1,0 +1,29 @@
+<!--
+
+Partial for Selection Form
+
+-->
+<fieldset id="actor_selection_set">
+
+  <div class="large-12 columns">
+    <h2 class="miniheader"><%= t('access.actor_selection') %></h2>
+    <div class="subdescription"> <%= t('access.actor_selection_description') %> </div>
+
+    <br>
+    <div align="center">
+    <span class="user_type_selection"><%= check_box_tag 'access[role]', 'employee' %> Employee</span>
+    <span class="user_type_selection"><%= check_box_tag 'access[role]', 'supplier' %> Supplier</span>
+    <span class="user_type_selection"><%= check_box_tag 'access[role]', 'distributor' %> Distributor</span>
+    <span class="user_type_selection"><%= check_box_tag 'access[role]', 'retail_customer' %> Retail Customer</span>
+    </div>
+  </div>
+
+</fieldset>
+
+<style>
+  .user_type_selection
+  {
+      margin-right: 15px;
+      margin-left: 15px;
+  }
+</style>
