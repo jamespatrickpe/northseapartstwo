@@ -5,18 +5,24 @@
       <driver-ref>mysql</driver-ref>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://127.0.0.1/northseapartstwo_development</jdbc-url>
+      <user-name>northseaparts</user-name>
+      <user-password>dfc3dfc6dfc5dfdcdfcfdfdedfcfdfd9dfd9</user-password>
       <libraries />
     </data-source>
     <data-source source="LOCAL" name="Rails northseapartstwo: test" uuid="057987e4-fbb2-4aa9-9e7b-297861e9b671">
       <driver-ref>mysql</driver-ref>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://127.0.0.1/northseapartstwo_test</jdbc-url>
+      <user-name>northseaparts</user-name>
+      <user-password>dfc3dfc6dfc5dfdcdfcfdfdedfcfdfd9dfd9</user-password>
       <libraries />
     </data-source>
     <data-source source="LOCAL" name="Rails northseapartstwo: production" uuid="6fb702ad-43bd-4f49-af8f-0b5ef03be0f4">
       <driver-ref>mysql</driver-ref>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://127.0.0.1/northseapartstwo_production</jdbc-url>
+      <user-name>northseapartstwo</user-name>
+      <user-password>df96df8fdf97df8adfefdfe4dffcdff1df8ddfe4dfe5dff8dffedfe2dff9dfefdfebdffadfebdff8dffedff9dffedffddfe5dff5dfeedfebdffedfebdfe8dfebdff9dfefdff5dffadfebdff9dff9dffddfe5dff8dfeedf8ddff7df8adf8fdf94</user-password>
       <libraries />
     </data-source>
   </component>
