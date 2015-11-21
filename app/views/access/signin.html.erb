@@ -5,15 +5,40 @@
 <div class="large-3 columns">&nbsp;</div>
 <div class="large-6 columns">
 
-<%= form_tag({action: :login}, multipart: false, id: "signin_form") do %>
+  <%= form_tag({action: :login}, multipart: false, id: "signin_form", :"data-parsley-validate" => "" ) do %>
     <div class="row">
         <h1 class="mainheader">Sign In</h1>
-        <%= flash[:notice] %>
-        <%= flash[:verification] %>
-        <%= text_field_tag("username", value = nil, options = {placeholder: "Username; 3 to 15 Characters", required: "required", pattern: "[a-z0-9_-]{3,64}$"} )%>
-        <%= text_field_tag("password", value = nil, options = {placeholder: "Password; 8-15 Characters", required: "required", type: "password" } )%>
-        <div align="right">Remember me when I'm logged in [ <%= check_box_tag("rememberme", value = "1", checked = false, options = {}) %> ] <br> </div>
+
+      <%=
+          text_field_tag("access[username]",
+                         value = nil,
+                         options = {id:"username",
+                                    placeholder:  t('access.simple_username'),
+                                    required: "required",
+                                    pattern: "[a-z0-9_-]{3,64}$",
+                                    :"data-parsley-trigger" => "keyup",
+                                    :"data-parsley-minlength" => "3",
+                                    :"data-parsley-maxlength" => "64" })
+      %>
+
+      <%= text_field_tag("access[password]",
+                         value = nil,
+                         options = {id: "password",
+                                    placeholder: t('access.password'),
+                                    required: "required",
+                                    type: "password",
+                                    :"data-parsley-trigger" => "keyup",
+                                    :"data-parsley-minlength"=>"8" ,
+                                    :"data-parsley-maxlength"=>"64"} )
+      %>
+
+
+      <div align="right">Remember me when I'm logged in [ <%= check_box_tag("rememberme", value = "1", checked = false, options = {}) %> ] <br> </div>
         <div align="right"><input type="submit" class="medium button" href="#" value="LOG IN"> </div>
+
+        <br><br>
+        <div align="center"> Recover Account through Email</div>
+
     </div>
 <% end %>
 

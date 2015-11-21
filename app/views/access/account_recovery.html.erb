@@ -1,0 +1,30 @@
+<br><br><br><br><br>
+
+
+<div class="row">
+  <div class="large-3 columns">&nbsp;</div>
+  <div class="large-6 columns">
+
+    <%= form_tag({action: :login}, multipart: false, id: "signin_form", :"data-parsley-validate" => "" ) do %>
+        <div class="row">
+          <h1 class="mainheader"><%= t('access.account_recovery') %></h1>
+          <h2 class="subdescription"> Recover your account through your email address </h2>
+          <%= text_field_tag("access[email]",
+                             value = nil,
+                             options = {id: "email",
+                                        placeholder: t('access.send_recovery_email'),
+                                        required: "required",
+                                        type: "email",
+                                        :"data-parsley-trigger" => "keyup",
+                                        :"data-parsley-minlength" => "3",
+                                        :"data-parsley-maxlength" => "64" })
+          %>
+
+          <div align="right"><input type="submit" class="medium button" href="#" value= "<%= t('access.send_recovery_email') %>" > </div>
+        </div>
+    <% end %>
+
+  </div>
+  <div class="large-3 columns">&nbsp;</div>
+</div>
+

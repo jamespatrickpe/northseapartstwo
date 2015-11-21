@@ -45,6 +45,10 @@ en:
     search_button: "hanapin"
 
   access:
+    send_recovery_email: "Type email address here"
+    account_recovery: "ACCOUNT RECOVERY"
+    log_in: "LOG IN"
+    sign_in: "Sign In"
     header_registration: "Account Registration"
     header_description_registration: "IN ORDER TO SERVE YOU BETTER; WE WOULD LIKE TO ASK MORE ABOUT YOU AND YOUR BUSINESS. PLEASE FILL OUT THE FOLLOWING FORMS CAREFULLY. READ OUR PRIVACY POLICY FOR MORE DETAILS."
     header_system_account: "System Account"
