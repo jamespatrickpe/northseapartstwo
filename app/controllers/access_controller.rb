@@ -54,6 +54,9 @@ class AccessController < ApplicationController
     redirect_to action: "signin"
   end
 
+  def account_recovery
+  end
+
   def signin
   end
 
@@ -61,6 +64,11 @@ class AccessController < ApplicationController
   end
 
   def account_settings
+    #current locations
+    #language settings
+    #dsecription change
+    #profile picture change
+    render "account_settings/index"
   end
 
   def dashboard
