@@ -89,11 +89,20 @@ class ApplicationController < ActionController::Base
   end
 
   def processActor(params)
-    @actor = Actor.new( name: params[:actor][:name], description: params[:actor][:description], logo: params[:actor][:logo])
+    #@actor = Actor.new( name: params[:actor][:name], description: params[:actor][:description], logo: params[:actor][:logo])
+    @actor = Actor.new
+    @actor.name = params[:actor][:name];
+    @actor.description = params[:actor][:description];
+    @actor.logo = params[:actor][:logo]
+    @actor.save!
   end
 
   def processAccess(params)
-    @access = Access.new(username: params[:access][:username], encrypted_password: params[:access][:password], email: params[:access][:email])
+    #@access = Access.new(username: params[:access][:username], encrypted_password: params[:access][:password], email: params[:access][:email])
+    @access = Access.new
+    @access.username = params[:access][:username]
+    @access.password = params[:access][:password]
+    @access.email = params[:access][:email]
     @access.actor = @actor
     @access.save!
   end

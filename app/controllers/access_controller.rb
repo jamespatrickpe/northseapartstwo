@@ -57,6 +57,10 @@ class AccessController < ApplicationController
   def account_recovery
   end
 
+  def recoverAccount
+
+  end
+
   def signin
   end
 

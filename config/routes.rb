@@ -1,7 +1,6 @@
   Rails.application.routes.draw do
 
   devise_for :accesses
-  devise_for :actors
   #devise_for :actors
     match ':controller(/:action(/:id))', :via => [:get, :post]
     root 'home#index'
