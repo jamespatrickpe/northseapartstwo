@@ -1,11 +1,10 @@
 class Access < ActiveRecord::Base
-  include UUIDHelper
-
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  include UUIDHelper
   belongs_to :verification
   belongs_to :actor, autosave: true
 
