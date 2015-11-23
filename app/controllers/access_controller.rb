@@ -58,7 +58,8 @@ class AccessController < ApplicationController
   end
 
   def recoverAccount
-
+    myAccess = Access.find_by email: params[:access][:email]
+    myAccess.send_reset_password_instructions
   end
 
   def signin
