@@ -2,10 +2,8 @@ class HumanResourcesController < ApplicationController
   include ApplicationHelper
 
   layout "application_loggedin"
-  
 
   def index
-
   end
 
   def employee_accounts_management
