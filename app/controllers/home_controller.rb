@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
 
   layout 'application'
+  before_action :authenticate_access!, only: [ ]
 
   def verification_delivery
     @access_id = params[:access_id]

@@ -2,6 +2,7 @@ class HumanResourcesController < ApplicationController
   include ApplicationHelper
 
   layout "application_loggedin"
+  #before_filter :authenticate_user!
 
   def index
   end
@@ -26,7 +27,6 @@ class HumanResourcesController < ApplicationController
   end
 
   def attendance
-    # teka muna HIRAP EH
     render 'human_resources/attendance/index'
   end
 

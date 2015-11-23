@@ -17,8 +17,8 @@ myActor.save
 access = Access.new
 access.actor = myActor
 access.username = 'joojieman'
-access.email = 'northseaparts@wondermail.com'
-access.encrypted_password = Access.digest('ilovetess')
+access.email = 'jamespatrickpe@gmail.com'
+access.password = Access.digest('ilovetess')
 access.save!
 
 allowableSet = AllowableSet.create( security_level: 'ADMIN', controller: 'ALL', action: 'ALL')
@@ -213,8 +213,13 @@ numberOfActors.times do |i|
     randomPassword = Access.digest(randomPassword)
     randomEmail = Faker::Internet.email
     random_boolean = [true, false].sample
-    myAccess = Access.new( username: Faker::Internet.user_name, encrypted_password: randomPassword, actor: myActor, email: randomEmail)
-    myAccess.save
+
+    myAccess = Access.new
+    myAccess.actor = myActor
+    myAccess.username = Faker::Internet.user_name
+    myAccess.email = randomEmail
+    myAccess.password = randomPassword
+    myAccess.save!
 
     #Verification
     myVerification = Verification.new( temp_email: randomEmail, hashlink: generateRandomString(), verified: randomBoolean, access: myAccess)

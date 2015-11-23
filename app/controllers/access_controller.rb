@@ -3,9 +3,14 @@ class AccessController < ApplicationController
 
   layout "application_loggedin", only: [:dashboard]
   skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
+  before_action :authenticate_access!, only: [ :my_account ]
 
   def index
-    redirect_to :action => "signin"
+    #redirect_to :action => "signin"
+  end
+
+  def my_account
+
   end
 
   def registration
@@ -48,7 +53,7 @@ class AccessController < ApplicationController
     currentAccess.enabled = 1
     verification.save
     currentAccess.save
-
+  
     flash[:verification] = currentAccess.id
     flash[:notice] = "Congratulations! Your account has been verified. Depending on your arrangement with the administrator; certain features may not yet be available; but you may now login!"
     redirect_to action: "signin"
@@ -59,7 +64,14 @@ class AccessController < ApplicationController
 
   def recoverAccount
     myAccess = Access.find_by email: params[:access][:email]
-    myAccess.send_reset_password_instructions
+    if(myAccess)
+      myAccess.send_reset_password_instructions
+      redirect_to action: "success_recovery_email"
+    end
+  end
+
+  def recovery_email_verification
+
   end
 
   def signin
