@@ -9,7 +9,7 @@
         <div class="row">
           <h1 class="mainheader"><%= t('access.account_recovery') %></h1>
           <h2 class="subdescription"> Recover your account through your email address </h2>
-          <%= text_field_tag("access[email]",
+          <%= text_field_tag("email",
                              value = nil,
                              options = {id: "email",
                                         placeholder: t('access.send_recovery_email'),
