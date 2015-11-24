@@ -1,15 +1,7 @@
   Rails.application.routes.draw do
 
-  devise_for :accesses, path: "access", path_names:
-                          {
-                              sign_in: 'signin',
-                              sign_out: 'logout',
-                              password: 'password',
-                              confirmation: 'verification',
-                              unlock: 'unblock',
-                              registration: 'register',
-                              sign_up: 'registration'
-                          }
+  devise_for :accesses
+
     match ':controller(/:action(/:id))', :via => [:get, :post]
     root to: 'home#index'
   resources :test, only: :index
