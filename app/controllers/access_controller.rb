@@ -44,66 +44,43 @@ class AccessController < ApplicationController
         processActor(params)
         processAccess(params)
         processContactDetails(params)
-        processTemporaryEmail(params)
         processUserTypeSelection(params)
       rescue StandardError => error
         flash[:collective_response] = error
         urlRedirect =  "/access/developer_error"
       end
-      urlRedirect =  "/access/success_registration"
+      urlRedirect =  "/access/success_registration?email="+params[:access][:email]
     end
     redirect_to urlRedirect
   end
 
   #Success Registration Page
   def success_registration
-    access_id = params[:access_id]
+    email = params[:email]
     @nextLink = {
-        0 => {:url => "../access/verification_delivery?access_id=#{access_id}", :label => "Resend Verification"},
+        0 => {:url => "../access/resend_verification?email=#{email}", :label => "Resend Verification"},
         1 => {:url => "../access", :label => "Go Back to Home Page"}
     }
     @message = "Request for Registration Complete. Please access your email to complete verification. We look forward to working with you!"
     @title = "Registration Successful"
   end
 
-  def verify(params)
-    verificationCode = params[:code]
-    verification = Verification.where( hashlink: verificationCode ).first
-    currentAccess = Access.where( id: verification.access_id).first
-    #currentAccess = Verification.access
-    verification.verified = 1
-    currentAccess.enabled = 1
-    verification.save
-    currentAccess.save
-  
-    flash[:verification] = currentAccess.id
-    flash[:notice] = "Congratulations! Your account has been verified. Depending on your arrangement with the administrator; certain features may not yet be available; but you may now login!"
+  def verify
+    verificationCode = params[:hashlink]
+    myAccess = Access.find_by_hashlink( verificationCode )
+    if(myAccess)
+      myAccess.verification = 1
+      myAccess.save!
+    end
     redirect_to action: "signin"
   end
 
   def resend_verification
-    AccessMailer.verification_email( params[:access][:email], hashlink, params[:details][:name] ).deliver
-    redirect_to action: "success_registration"
-  end
-
-  def registration_complete
-  end
-
-  def verification_delivery
-    @access_id = params[:access_id]
-    verification = Verification.find_by(access_id: @access_id)
-    @currentEmail = verification.temp_email
-    render "shared/verification_delivery"
-  end
-
-  def resend_verification
-    access_id = params[:access_id]
-    email = params[:access][:email]
-    verification = Verification.find_by(access_id: access_id)
-    verification.update(temp_email: email)
-    VerificationMailer.verification_email( email, verification.hashlink ).deliver
-    flash[:notice] = "Reverification Email has been sent!"
-    redirect_to action: "verification_delivery", access_id: access_id
+    myAccess = Access.find_by_email( params[:email] )
+    if(myAccess)
+      VerificationMailer.verification_email( myAccess.email, myAccess.hashlink  ).deliver
+    end
+    redirect_to "/access/success_registration?email="+params[:email]
   end
 
   # --------------------------- SIGN IN PROCESS ------------------------

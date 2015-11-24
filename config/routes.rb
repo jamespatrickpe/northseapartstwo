@@ -1,7 +1,5 @@
   Rails.application.routes.draw do
 
-  devise_for :accesses
-
     match ':controller(/:action(/:id))', :via => [:get, :post]
     root to: 'home#index'
   resources :test, only: :index

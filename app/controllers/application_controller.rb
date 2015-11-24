@@ -44,18 +44,6 @@ class ApplicationController < ActionController::Base
     redirect_to "/"+currentController+"/constants"
   end
 
-  def processTemporaryEmail(params)
-    #Email Hash Verification
-    hashlink = generateRandomString()
-    if Verification.exists?( hashlink: hashlink )
-      hashlink = generateRandomString()
-    else
-    end
-    flash[:verificationToken] = hashlink
-    #Finalization
-    VerificationMailer.verification_email( params[:access][:email], hashlink ).deliver
-  end
-
   def processRelatedFiles(params)
     @fileSets = params[:related_file]
     @fileSets.each do |key, value|
@@ -98,13 +86,23 @@ class ApplicationController < ActionController::Base
   end
 
   def processAccess(params)
-    #@access = Access.new(username: params[:access][:username], encrypted_password: params[:access][:password], email: params[:access][:email])
+
+    #Generates Unique Hash for Email Verification
+    hashlink = generateRandomString()
+    if Access.exists?( hashlink: hashlink ) #secures against similar hashlinks; for it to be unique
+      hashlink = generateRandomString()
+    else
+    end
+
     @access = Access.new
     @access.username = params[:access][:username]
-    @access.password = params[:access][:password]
+    @access.password = Access.digest(params[:access][:password])
     @access.email = params[:access][:email]
+    @access.hashlink = hashlink
     @access.actor = @actor
     @access.save!
+
+    VerificationMailer.verification_email( params[:access][:email], @access.hashlink  ).deliver
   end
 
   def processContactDetails(params)
@@ -116,10 +114,6 @@ class ApplicationController < ActionController::Base
     @contactDetail = ContactDetail.new()
     @contactDetail.actor = @actor
     @contactDetail.save!
-
-    @verification = Verification.new( temp_email: params[:access][:email], verified: false, hashlink: generateRandomString().downcase )
-    @verification.access = @access
-    @verification.save!
 
     #Address Processing
     @addressSet.each do |key, value|

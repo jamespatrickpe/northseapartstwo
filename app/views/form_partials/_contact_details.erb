@@ -70,11 +70,11 @@ Partial for Contact Details Form
   <h2 class="miniheader">Digital Contact Details</h2>
   <table class="digitalcontainer">
     <tr>
-      <td>EMAIL / URL / IM</td>
+      <td>URL / IM</td>
       <td>DESCRIPTION</td>
     </tr>
     <tr id="primary" class="digitalset">
-      <td> <%= text_field_tag("digital[0][url]", value = nil, options = {placeholder: "email/etc", class: "url", type: "url"}) %></td>
+      <td> <%= text_field_tag("digital[0][url]", value = nil, options = {placeholder: "Associated Websites or URL's", class: "url", type: "url"}) %></td>
       <td> <%= text_field_tag("digital[0][description]", value = nil, options = {placeholder: "description", class: "digital_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128"}) %></td>
     </tr>
   </table>
