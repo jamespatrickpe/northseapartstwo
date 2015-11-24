@@ -2,10 +2,9 @@ class HumanResourcesController < ApplicationController
   include ApplicationHelper
 
   layout "application_loggedin"
-  #before_filter :authenticate_user!
+  before_filter :authenticate_user!
 
   def index
-
   end
 
   def employee_accounts_management
