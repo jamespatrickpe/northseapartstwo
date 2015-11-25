@@ -24,3 +24,15 @@
 
   </section>
 </nav>
+
+<% if(flash[:general_flash_notification]) %>
+<div class="tiny button" id="general_flash_notification" > <%= flash[:general_flash_notification] %> &nbsp; &nbsp; &nbsp; &#10060; </div>
+<% end %>
+
+<script>
+    $( document ).ready(
+            $("#general_flash_notification").click(function(){
+                $("#general_flash_notification").remove();
+            })
+    )
+</script>

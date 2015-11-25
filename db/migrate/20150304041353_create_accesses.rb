@@ -8,6 +8,7 @@ class CreateAccesses < ActiveRecord::Migration
       t.string :password, :limit => 512, :required => true
       t.string :email, :limit => 512, :required => true
       t.string :hashlink, :limit => 512, :required => true, :unique => true
+      t.int :attempts, :default => 0, :limit => 1
       t.boolean :verification, :default => 0
       t.boolean :remember_me, :default => 0
       t.timestamps

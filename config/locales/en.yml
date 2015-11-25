@@ -45,6 +45,7 @@ en:
     search_button: "hanapin"
 
   access:
+    siginin_username_or_email: "username or email"
     send: "SEND"
     send_recovery_email: "Type email address here"
     account_recovery: "ACCOUNT RECOVERY"

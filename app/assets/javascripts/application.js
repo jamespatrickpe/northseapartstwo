@@ -30,6 +30,9 @@
 
 //$(function(){ $(document).foundation(); });
 
+
+
+
 function GetURLParameter(sParam)
 {
     var sPageURL = window.location.search.substring(1);
@@ -106,4 +109,6 @@ window.Parsley.addAsyncValidator('validate-email', function (xhr)
         return false;
     }
 }, '/application/check_email_exists');
+
+
 

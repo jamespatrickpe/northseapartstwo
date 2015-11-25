@@ -10,12 +10,11 @@
         <h1 class="mainheader">Sign In</h1>
 
       <%=
-          text_field_tag("access[username]",
+          text_field_tag("access[username_or_email]",
                          value = nil,
-                         options = {id:"username",
-                                    placeholder:  t('access.simple_username'),
+                         options = {id:"username_or_email",
+                                    placeholder:  t('access.siginin_username_or_email'),
                                     required: "required",
-                                    pattern: "[a-z0-9_-]{3,64}$",
                                     :"data-parsley-trigger" => "keyup",
                                     :"data-parsley-minlength" => "3",
                                     :"data-parsley-maxlength" => "64" })
@@ -33,7 +32,7 @@
       %>
 
 
-      <div align="right">Remember me when I'm logged in [ <%= check_box_tag("rememberme", value = "1", checked = false, options = {}) %> ] <br> </div>
+      <div align="right"> <%= t('access.remmeber_me') %> [ <%= check_box_tag("rememberme", value = "1", checked = false, options = {}) %> ] <br> </div>
         <div align="right"><input type="submit" class="medium button" href="#" value="LOG IN"> </div>
 
         <br><br><hr>

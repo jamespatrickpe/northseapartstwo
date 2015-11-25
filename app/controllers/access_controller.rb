@@ -3,10 +3,8 @@ class AccessController < ApplicationController
 
   layout "application_loggedin", only: [:dashboard]
   skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
-  before_action :authenticate_access!, only: [ :my_account ]
 
   #index page
-
   def index
     redirect_to :action => "signin"
   end
@@ -30,7 +28,7 @@ class AccessController < ApplicationController
   end
 
 
-  # --------------------------- REGISTRATION PROCESS ------------------------
+  # --------------------------- REGISTRATION ------------------------
 
   #Registration Form
   def registration
@@ -77,26 +75,46 @@ class AccessController < ApplicationController
 
   def resend_verification
     myAccess = Access.find_by_email( params[:email] )
+    flash[:general_flash_notification] = "No Account with Email '" + params[:email] + "'"
     if(myAccess)
       VerificationMailer.verification_email( myAccess.email, myAccess.hashlink  ).deliver
+      flash[:general_flash_notification] = "Resent Verification Email '" + params[:email] + "'"
     end
+
     redirect_to "/access/success_registration?email="+params[:email]
   end
 
-  # --------------------------- SIGN IN PROCESS ------------------------
+  # --------------------------- SIGN IN ------------------------
 
   def signin
   end
 
-  # --------------------------- ACCOUNT RECOVERY PROCESS ------------------------
+  def processSignin
+    username_or_email = params[:access][:username_or_email]
+    password = params[:access][:password]
+
+    # Find by Username
+    myAccess = Access.find_by_username( params[:access][:username_or_email] )
+
+    # Find by Email
+    myAccess = Access.find_by_email( params[:access][:username_or_email] )
+
+    
+
+    flash[:general_flash_notification] = "Invalid Login Details"
+  end
+
+  # --------------------------- ACCOUNT RECOVERY ------------------------
 
   def account_recovery
   end
 
   def recoverAccount
     myAccess = Access.find_by email: params[:email]
+    flash[:general_flash_notification] = "No Account with Email '" + params[:email] + "'"
     if(myAccess)
       myAccess.send_reset_password_instructions
+      flash[:general_flash_notification] = "Resent Verification Email '" + params[:email] + "'"
     end
     redirect_to action: "email_recovery_verification", email: params[:email]
   end
