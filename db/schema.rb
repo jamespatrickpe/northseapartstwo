@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151110053835) do
+ActiveRecord::Schema.define(version: 20151112085643) do
 
   create_table "accesses", id: false, force: :cascade do |t|
     t.string   "id",                     limit: 36,               null: false
@@ -192,6 +192,13 @@ ActiveRecord::Schema.define(version: 20151110053835) do
     t.string   "description",       limit: 256
     t.string   "rel_file_set_id",   limit: 36
     t.string   "rel_file_set_type", limit: 255
+  end
+
+  create_table "guitars", force: :cascade do |t|
+    t.string   "manufacturer", limit: 255
+    t.string   "model",        limit: 255
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "holiday_types", id: false, force: :cascade do |t|

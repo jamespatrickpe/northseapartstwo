@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   layout "application_loggedin"
   skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
 
+  helper_method :error_messages_for
+
   def check_username_exists
     username_exists = Access.exists?(username: params[:access][:username])
     respond_to do |format|
@@ -138,6 +140,14 @@ class ApplicationController < ActionController::Base
     branchCode = params[:storage][:branchCode]
     branchCode = params[:storage][:branchCode]
     branchCode = params[:storage][:branchCode]
+  end
+
+  def trimString(string)
+    return string.strip!
+  end
+
+  def error_messages_for(object)
+    render(:partial => "core_partials/formerrors", :locals => {:object => object})
   end
 
 end

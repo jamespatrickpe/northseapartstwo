@@ -24,6 +24,10 @@ module Northseapartstwo
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
     config.autoload_paths << "#{config.root}/lib"
-
+    config.assets.paths << Rails.root.join("app", "assets", "fonts")
+    # Add fonts path
+    config.assets.paths << "#{Rails.root}/app/assets/fonts"
+    # Precompile additional assets
+    config.assets.precompile += %w( .svg .eot .woff .ttf )
   end
 end

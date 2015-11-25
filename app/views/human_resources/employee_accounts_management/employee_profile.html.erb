@@ -1,5 +1,144 @@
-<!--
+<section class="small-10 columns">
 
-# see old candidate registration
+  <div class="content">
 
---!>
+    <div id="profile-header" class="mainheader">
+      <span><%= @employee.actor.name %></span>
+      <span id="profile-link-container">
+        <!--<a href="/human_resources/employee_accounts_management/employee_account_history"><i class="fa fa-lg fa-list"></i></a>-->
+      </span>
+    </div>
+
+    <%= link_to( "Back to List" ,{:action => 'employee_accounts_management'} ) %>
+    &nbsp;
+    <%= link_to( "Delete Employee" ,{:action => 'delete_employee', :employee_id => @employee.id} ) %>
+    &nbsp;
+    <%= link_to( "Edit Employee Details" ,{:action => 'edit_employee_page', :employee_id => @employee.id, :actor_id => @employee.actor.id} ) %>
+
+    <div class="profile-section employee-profile-detail">
+
+      <span class="subheader"> <i class="fa fa-lg fa-user"></i> Profile Details </span>
+
+      <div class="employee-profile-detail-content">
+
+        <section>
+          <span>ID </span>
+          <span><%= @employee.id %></span>
+        </section>
+
+        <section>
+          <span>Actor ID </span>
+          <span><%= @employee.actor_id %></span>
+        </section>
+
+        <section>
+          <span>Created at </span>
+          <span><%= @employee.created_at %></span>
+        </section>
+
+        <section>
+          <span>Updated at </span>
+          <span><%= @employee.updated_at %></span>
+        </section>
+
+        <section>
+          <span>Description </span>
+          <span><%= @employee.actor.description %></span>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- employee accounts profile history -->
+    <div class="profile-section employee-profile-detail">
+
+      <span class="subheader"> <i class="fa fa-lg fa-list"></i> Biodata </span>
+
+      <div class="employee-profile-detail-content">
+
+        <section>
+          <span>Date of Birth </span>
+          <span><%= @biodatum.date_of_birth %></span>
+        </section>
+
+        <section>
+          <span>Height </span>
+          <span><%= @biodatum.height %></span>
+        </section>
+
+        <section>
+          <span>Sex </span>
+          <span><%= @biodatum.gender %></span>
+        </section>
+
+        <section>
+          <span>Family Members </span>
+          <span><%= @biodatum.family_members %></span>
+        </section>
+
+        <section>
+          <span>Complexion </span>
+          <span><%= @biodatum.complexion %></span>
+        </section>
+
+        <section>
+          <span>Marital Status </span>
+          <span><%= @biodatum.marital_status %></span>
+        </section>
+
+        <section>
+          <span>Blood Type </span>
+          <span><%= @biodatum.blood_type %></span>
+        </section>
+
+        <section>
+          <span>Religion </span>
+          <span><%= @biodatum.religion %></span>
+        </section>
+
+        <section>
+          <span>Education </span>
+          <span><%= @biodatum.education %></span>
+        </section>
+
+        <section>
+          <span>Career Experience </span>
+          <span><%= @biodatum.career_experience %></span>
+        </section>
+
+        <section>
+          <span>Notable Accomplishments </span>
+          <span><%= @biodatum.notable_accomplishments %></span>
+        </section>
+
+        <section>
+          <span>Emergency Contact </span>
+          <span><%= @biodatum.emergency_contact %></span>
+        </section>
+
+        <section>
+          <span>Languages Spoken </span>
+          <span><%= @biodatum.languages_spoken %></span>
+        </section>
+
+      </div>
+
+    </div>
+
+    <!--&lt;!&ndash; employee accounts profile history &ndash;&gt;-->
+    <!--<div class="profile-section employee-account-notifications">-->
+      <!--<span class="subheader"> <i class="fa fa-lg fa-info-circle"></i> Notifications </span>-->
+    <!--</div>-->
+
+    <!--&lt;!&ndash; employee accounts profile history &ndash;&gt;-->
+    <!--<div class="profile-section employee-account-remarks">-->
+      <!--<span class="subheader"> <i class="fa fa-lg fa-edit"></i> Remarks </span>-->
+    <!--</div>-->
+
+    <div class="lg-spacer"></div>
+
+    <div class="lg-spacer"></div>
+
+  </div>
+
+</section>

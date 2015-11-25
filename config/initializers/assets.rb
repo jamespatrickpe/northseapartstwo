@@ -6,6 +6,8 @@ Rails.application.config.assets.precompile += %w( access.js )
 Rails.application.config.assets.precompile += %w( human_resources.js )
 Rails.application.config.assets.precompile += %w( home.js )
 Rails.application.config.assets.precompile += %w( test.js )
+Rails.application.config.assets.precompile += %w( vendor/modernizr.js )
+
 
 # Add additional assets to the asset load path
 # Rails.application.config.assets.paths << Emoji.images_path

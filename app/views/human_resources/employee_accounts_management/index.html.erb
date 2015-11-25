@@ -1,3 +1,66 @@
+<section class="small-10 columns">
+
+  <div class="content">
+
+    <ul class="button-group">
+
+      <section class="right">
+
+        <div class="small-12 columns">
+          <div class="row collapse">
+            <div class="small-8 columns">
+              <input type="text" placeholder="Search">
+            </div>
+
+            <div class="small-2 columns">
+              <a href="#" class="button postfix"><i class="fa fa-lg fa-search"></i></a>
+            </div>
+            <div class="small-2 columns">
+              <a href="/human_resources/employee_registration" class="button postfix"><i class="fa fa-lg fa-plus"></i></a>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </ul>
+
+    <table class="small-12">
+
+      <thead>
+      <tr>
+        <th>&nbsp;</th>
+        <th>Employee ID</th>
+        <th>Name</th>
+        <th>Date Registered</th>
+        <th>Last Updated</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @employees.each_with_index do |employee, index| %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= employee.id %></td>
+            <td><%= link_to( employee.actor.name ,{:action => 'employee_profile', :employee_id => employee.id, :actor_id => employee.actor.id} ) %></td>
+            <td><%= employee.created_at %></td>
+            <td><%= employee.updated_at %></td>
+            <td>
+              <a href="/human_resources/employee_registration"><i class="fa fa-trash-o fa-lg northsea-red"></i></a>
+              &nbsp;
+              <a href="/human_resources/employee_registration"><i class="fa fa-pencil fa-lg northsea-red"></i></a>
+            </td>
+          </tr>
+      <% end %>
+      </tbody>
+
+      <%= paginate @employees %>
+
+    </table>
+  </div>
+
+</section>
 <!--
 
 # CRUD TABLE; Duties of All Employees; employee_id = name; add rank
