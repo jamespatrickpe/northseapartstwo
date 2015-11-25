@@ -216,6 +216,10 @@ numberOfActors.times do |i|
     randomEmail = Faker::Internet.email
 
     randomUserName = Faker::Internet.user_name
+    if(randomUserName.length < 3)
+      randomUserName << Faker::Internet.user_name
+    end
+
     if(Access.find_by_username(randomUserName))
       randomUserName = Faker::Internet.user_name
     end

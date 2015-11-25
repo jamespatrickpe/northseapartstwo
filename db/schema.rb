@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20151117155710) do
     t.string   "password",     limit: 512
     t.string   "email",        limit: 512
     t.string   "hashlink",     limit: 512
+    t.integer  "attempts",     limit: 1,   default: 0
     t.boolean  "verification", limit: 1,   default: false
     t.boolean  "remember_me",  limit: 1,   default: false
     t.datetime "created_at"

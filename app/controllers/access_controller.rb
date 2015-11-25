@@ -6,7 +6,6 @@ class AccessController < ApplicationController
 
   #index page
   def index
-    redirect_to :action => "signin"
   end
 
   def dashboard
@@ -90,18 +89,22 @@ class AccessController < ApplicationController
   end
 
   def processSignin
-    username_or_email = params[:access][:username_or_email]
-    password = params[:access][:password]
-
-    # Find by Username
-    myAccess = Access.find_by_username( params[:access][:username_or_email] )
-
-    # Find by Email
-    myAccess = Access.find_by_email( params[:access][:username_or_email] )
-
-    
-
     flash[:general_flash_notification] = "Invalid Login Details"
+
+    myAccess = Access.find_by_username( params[:access][:username_or_email] ) # Find by Username
+    if(!myAccess)
+      myAccess = Access.find_by_email( params[:access][:username_or_email] ) # Find by Email
+      if(!myAccess)
+        redirect_to signin
+      end
+    end
+
+    if( (params[:access][:password] == myAccess.password) && (myAccess.verification == true) )
+      redirect_to index
+    else
+      redirect_to signin
+    end
+
   end
 
   # --------------------------- ACCOUNT RECOVERY ------------------------
