@@ -6,6 +6,13 @@ class ApplicationController < ActionController::Base
   layout "application_loggedin"
   skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
 
+  def sign_in_check
+    myAccess = Access.new()
+    if(!myAccess.find( session[] ))
+
+    end
+  end
+
   def check_username_exists
     username_exists = Access.exists?(username: params[:access][:username])
     respond_to do |format|

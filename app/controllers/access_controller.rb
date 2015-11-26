@@ -86,9 +86,11 @@ class AccessController < ApplicationController
   # --------------------------- SIGN IN ------------------------
 
   def signin
+    reset_session
   end
 
   def processSignin
+    reset_session
     flash[:general_flash_notification] = "Invalid Login Details"
     currentRedirect = "signin"
 
@@ -103,11 +105,12 @@ class AccessController < ApplicationController
       end
 
       if( myAccess.authenticate( params[:access][:password] ) )
+        session[:access_id] = myAccess.id
         flash[:general_flash_notification] = nil
         currentRedirect = "index"
       else
         myAccess.attempts = myAccess.attempts + 1
-        myAccess.save
+        myAccess.saved
       end
       redirect_to action: currentRedirect
     rescue => ex
