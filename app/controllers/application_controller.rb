@@ -96,11 +96,12 @@ class ApplicationController < ActionController::Base
 
     @access = Access.new
     @access.username = params[:access][:username]
-    @access.password = Access.digest(params[:access][:password])
+    @access.password = params[:access][:password]
+    @access.password_confirmation = params[:access][:password_confirmation]
     @access.email = params[:access][:email]
     @access.hashlink = hashlink
     @access.actor = @actor
-    @access.save!
+    @access.save
 
     VerificationMailer.verification_email( params[:access][:email], @access.hashlink  ).deliver
   end

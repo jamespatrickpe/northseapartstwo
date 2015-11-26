@@ -93,16 +93,25 @@ class AccessController < ApplicationController
 
     myAccess = Access.find_by_username( params[:access][:username_or_email] ) # Find by Username
     if(!myAccess)
+      flash[:general_flash_notification] = "Invalid Login Details: Username"
       myAccess = Access.find_by_email( params[:access][:username_or_email] ) # Find by Email
       if(!myAccess)
-        redirect_to signin
+        flash[:general_flash_notification] = "Invalid Login Details: Email"
+        redirect_to action: "signin"
       end
     end
 
-    if( (params[:access][:password] == myAccess.password) && (myAccess.verification == true) )
-      redirect_to index
+    if (myAccess.verification == false)
+      flash[:general_flash_notification] = "Your account is not verified; Please check your email"
+      redirect_to action: "signin"
+    end
+
+    if( myAccess.authenticate( params[:access][:password] ) )
+      redirect_to action: "index"
     else
-      redirect_to signin
+      myAccess.attempts = myAccess.attempts + 1
+      myAccess.save!
+      redirect_to action: "signin"
     end
 
   end

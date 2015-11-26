@@ -5,7 +5,7 @@ class CreateAccesses < ActiveRecord::Migration
       t.string :id, limit: 36, primary: true, null: false
       t.string :actor_id, limit: 36, :required => true
       t.string :username, :limit => 64
-      t.string :password, :limit => 512, :required => true
+      t.string :password_digest, :limit => 512, :required => true
       t.string :email, :limit => 512, :required => true
       t.string :hashlink, :limit => 512, :required => true, :unique => true
       t.integer :attempts, :default => 0, :limit => 1

@@ -4,7 +4,7 @@
 <%= text_area_tag("actor[description]", content = "Description", options = {class: "actor_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128"}) %>
 
 Upload your picture:
-<%= file_field_tag "actor[logo]", options = {} %>
+<%= file_field_tag "actor[logo]", options = { accept: "image/*"} %>
 </fieldset>
 
 <script>

@@ -3,7 +3,10 @@ class Access < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
 
   include UUIDHelper
+
+  has_secure_password
   belongs_to :actor, autosave: true
+
 
   validates_presence_of :username
   validates :username, uniqueness: true

@@ -18,10 +18,11 @@ access = Access.new
 access.actor = myActor
 access.username = 'joojieman'
 access.email = 'jamespatrickpe@northseaparts.com'
-access.password = Access.digest('ilovetess')
+access.password = 'ilovetess'
+access.password_confirmation = 'ilovetess'
 access.hashlink = generateRandomString
 access.verification = true
-access.save!
+access.save
 
 allowableSet = AllowableSet.create( security_level: 'ADMIN', controller: 'ALL', action: 'ALL')
 allowableSet.access = access
@@ -202,7 +203,7 @@ numberOfPositions.times do |i|
 end
 
 #ENTITIES
-numberOfActors = 200
+numberOfActors = 50
 numberOfActors.times do |i|
   #Actor
   myActor = Actor.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true), logo: 'sample.jpg')
@@ -212,7 +213,6 @@ numberOfActors.times do |i|
   if (randomBoolean())
     #Access
     randomPassword = Faker::Internet.password(10, 20)
-    randomPassword = Access.digest(randomPassword)
     randomEmail = Faker::Internet.email
 
     randomUserName = Faker::Internet.user_name
@@ -229,9 +229,10 @@ numberOfActors.times do |i|
     myAccess.username = randomUserName
     myAccess.email = randomEmail
     myAccess.password = randomPassword
+    myAccess.password_confirmation = randomPassword
     myAccess.hashlink = generateRandomString
     myAccess.verification = randomBoolean
-    myAccess.save!
+    myAccess.save
 
     #ContactDetail
     myContactDetail = ContactDetail.create( actor: myActor)
@@ -411,7 +412,7 @@ numberOfActors.times do |i|
               currentPayment = 0
             end
             myRepaidPaymentsFromEmployee.amount = currentPayment
-            myRepaidPaymentsFromEmployee.save!
+            myRepaidPaymentsFromEmployee.save
             totalPaid += currentPayment
           end
         end
