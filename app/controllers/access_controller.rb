@@ -96,8 +96,6 @@ class AccessController < ApplicationController
       myAccess = Access.find_by_username( params[:access][:username_or_email] ) # Find by Username
       if(!myAccess)
         myAccess = Access.find_by_email( params[:access][:username_or_email] ) # Find by Email
-        if(!myAccess)
-        end
       end
 
       if (myAccess.verification == false)
@@ -115,7 +113,6 @@ class AccessController < ApplicationController
     rescue => ex
       redirect_to action: currentRedirect
     end
-
 
   end
 
