@@ -90,29 +90,32 @@ class AccessController < ApplicationController
 
   def processSignin
     flash[:general_flash_notification] = "Invalid Login Details"
+    currentRedirect = "signin"
 
-    myAccess = Access.find_by_username( params[:access][:username_or_email] ) # Find by Username
-    if(!myAccess)
-      flash[:general_flash_notification] = "Invalid Login Details: Username"
-      myAccess = Access.find_by_email( params[:access][:username_or_email] ) # Find by Email
+    begin
+      myAccess = Access.find_by_username( params[:access][:username_or_email] ) # Find by Username
       if(!myAccess)
-        flash[:general_flash_notification] = "Invalid Login Details: Email"
-        redirect_to action: "signin"
+        myAccess = Access.find_by_email( params[:access][:username_or_email] ) # Find by Email
+        if(!myAccess)
+        end
       end
+
+      if (myAccess.verification == false)
+        flash[:general_flash_notification] = "Your account is not verified; Please check your email"
+      end
+
+      if( myAccess.authenticate( params[:access][:password] ) )
+        flash[:general_flash_notification] = nil
+        currentRedirect = "index"
+      else
+        myAccess.attempts = myAccess.attempts + 1
+        myAccess.save
+      end
+      redirect_to action: currentRedirect
+    rescue => ex
+      redirect_to action: currentRedirect
     end
 
-    if (myAccess.verification == false)
-      flash[:general_flash_notification] = "Your account is not verified; Please check your email"
-      redirect_to action: "signin"
-    end
-
-    if( myAccess.authenticate( params[:access][:password] ) )
-      redirect_to action: "index"
-    else
-      myAccess.attempts = myAccess.attempts + 1
-      myAccess.save!
-      redirect_to action: "signin"
-    end
 
   end
 
