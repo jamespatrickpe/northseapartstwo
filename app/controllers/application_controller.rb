@@ -10,6 +10,8 @@ class ApplicationController < ActionController::Base
     if( !Access.exists?( session[:access_id]) )
       flash[:general_flash_notification] = "Invalid Login Credentials"
       redirect_to "/access/signin"
+    else
+      @sign_in_affirmative = true
     end
   end
 

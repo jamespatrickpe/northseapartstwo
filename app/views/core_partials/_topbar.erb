@@ -4,12 +4,12 @@
   <section class="top-bar-section">
     <!-- Right Nav Section -->
     <ul class="right" style="margin-right: 1%">
-      <li>
-        <a href="/access/signin"> <%= image_tag "signin.png" %> <%= t('topbar.sign_in') %> </a>
-      </li>
-      <li>
-        <a href="/access/registration"> <%= image_tag "register.png" %> <%= t('topbar.register') %> </a>
-      </li>
+      <% if( @sign_in_affirmative == true )%>
+            s<li><a href="/access/signout"> <%= image_tag "signin.png" %> <%= t('topbar.sign_out') %> </a></li>
+      <% else %>
+          <li><a href="/access/signin"> <%= image_tag "signin.png" %> <%= t('topbar.sign_in') %> </a></li>
+          <li><a href="/access/registration"> <%= image_tag "register.png" %> <%= t('topbar.register') %> </a></li>
+      <% end %>
     </ul>
 
     <!-- Left Nav Section -->

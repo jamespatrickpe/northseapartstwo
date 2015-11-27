@@ -118,17 +118,22 @@ class AccessController < ApplicationController
 
       if( myAccess.authenticate( params[:access][:password] ) )
         session[:access_id] = myAccess.id
+        myAccess.attempts = 0
         flash[:general_flash_notification] = nil
         currentRedirect = "index"
       else
         myAccess.attempts = myAccess.attempts + 1
-        myAccess.save
       end
+      myAccess.save
+
       redirect_to action: currentRedirect
     rescue => ex
       redirect_to action: currentRedirect
     end
+  end
 
+  def signout
+    reset_session
   end
 
   # --------------------------- ACCOUNT RECOVERY ------------------------
