@@ -5,7 +5,11 @@ Rails.application.routes.draw do
   devise_for :actors
   #devise_for :actors
   match ':controller(/:action(/:id))', :via => [:get, :post]
+
+  get 'search_employee', to: 'human_resources#employee_accounts_management', as: :search_employee
+
   root 'home#index'
+
   resources :test, only: :index
 
   # The priority is based upon order of creation: first created -> highest priority.

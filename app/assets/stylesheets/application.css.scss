@@ -62,18 +62,6 @@ nav.top-bar ul li a:hover {
   border-left-style: solid;
 }
 
-//TREE STUFF
-//ul, li .side-navigation
-//{
-//  list-style-type: none;
-//  font-size: 12px;
-//}
-//
-//li:hover
-//{
-//  color : maroon;
-//}
-
 //SUB HEADER DESCRIPTION
 .subdescription
 {
@@ -93,6 +81,14 @@ nav.top-bar ul li a:hover {
 }
 
 /************************************************************************* SPACER*/
+
+.no-padding {
+  padding : 0;
+}
+
+.no-margin {
+  margin : 0;
+}
 
 .min-spacer {
   height : 8px;
@@ -187,7 +183,6 @@ form div.row {
 .employee-profile-detail .employee-profile-detail-content span:nth-child(2) {
 
 }
-
 
 /************************************************************************* SCROLLBAR*/
 

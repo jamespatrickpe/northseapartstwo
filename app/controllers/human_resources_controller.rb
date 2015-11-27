@@ -3,16 +3,6 @@ class HumanResourcesController < ApplicationController
 
   layout "application_loggedin"
 
-  def testing
-
-    puts "Jc Gofredoz"
-    @employee = Employee.new
-    @employee.actor.name = "Jc Gofredo"
-    @employee.save
-
-    render 'human_resources/employee_accounts_management/testing'
-  end
-
   def index
     render 'human_resources/index'
   end
@@ -24,17 +14,35 @@ class HumanResourcesController < ApplicationController
     # native fetch-all
     # @employees = Employee.all()
 
-    # will_paginate
-    # @employees = Employee.paginate(:page => params[:page], :per_page => 10)
+    if params[:search_employee]
 
-    # kaminari pager
-    @employees = Employee.page(params[:page]).per(10)
+      # create an empty employee array, then find all actor that has the name that was searched
+      # iterate through all the result actors and find their corresponding employee object
+      # push that employee object into the empty array for display and then lastly, paginate using Kaminari
+
+      @employees = []
+      @actorsFound= Actor.where("name LIKE ?", "%#{params[:search_employee]}%")
+
+      @actorsFound.each { |actor|
+        emp = Employee.find_by_actor_id(actor.id)
+        @employees.push(emp)
+      }
+
+      # kaminari pager
+      @employees = Kaminari.paginate_array(@employees).page(params[:page]).per(10)
+
+    else
+
+      # get all employees by default
+      @employees = Employee.page(params[:page]).per(10)
+
+    end
+
     render 'human_resources/employee_accounts_management/index'
   end
 
   def employee_account_history
 
-    # def employee_account_history(params)
     # @duties = Duty.where( employee_id: params[:employee][:employee_id] )
     render 'human_resources/employee_accounts_management/employee_account_history'
   end
@@ -44,9 +52,6 @@ class HumanResourcesController < ApplicationController
   end
 
   def employee_profile
-    # def employee_profile(params)
-    #   @employee = Employee.where( employee_id: params[:employee][:employee_id] )
-    #   puts @employee.id
 
     @employee = Employee.find(params[:employee_id])
     @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
@@ -181,30 +186,6 @@ class HumanResourcesController < ApplicationController
 
   def register_employee
 
-
-    #actor = Actor.new({:name => params[:actor][:name]})
-    #
-    # actor = Actor.new({
-    #                       :name => params[:actor][:name],
-    #                       :description => params[:actor][:description]
-    #                   })
-
-    # @biodata = Biodatum.new(
-    #     date_of_birth: params[:biodatum][:date_of_birth],
-    #     height: params[:biodatum][:height],
-    #     family_members: params[:biodatum][:family_members],
-    #     gender: params[:biodatum][:gender],
-    #     complexion: params[:biodatum][:complexion],
-    #     marital_status: params[:biodatum][:marital_status],
-    #     blood_type: params[:biodatum][:blood_type],
-    #     religion: params[:biodatum][:religion],
-    #     education: params[:biodatum][:education],
-    #     career_experience: params[:biodatum][:career_experience],
-    #     notable_accomplishments: params[:biodatum][:notable_accomplishments],
-    #     emergency_contact: params[:biodatum][:emergency_contact],
-    #     languages_spoken: params[:biodatum][:languages_spoken]
-    # )
-
     actor = Actor.new(actor_params)
     @employee = Employee.new
     @biodata = Biodatum.new(biodata_params)
@@ -215,11 +196,16 @@ class HumanResourcesController < ApplicationController
     @employee.save!
 
     if @employee.save!
+
       # Message Constants
       @success_message = 'Successfully registered new employee, ' + @employee.actor.name + '.'
+
       render 'core_partials/employee_registration_success'
+
     else
+
       render 'human_resources/employee_accounts_management/employee_registration'
+
     end
 
   end
@@ -250,7 +236,7 @@ class HumanResourcesController < ApplicationController
             :notable_accomplishments,
             :emergency_contact,
             :languages_spoken
-    )
+        )
   end
 
 

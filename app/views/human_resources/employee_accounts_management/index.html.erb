@@ -6,19 +6,36 @@
 
       <section class="right">
 
-        <div class="small-12 columns">
-          <div class="row collapse">
-            <div class="small-8 columns">
-              <input type="text" placeholder="Search">
-            </div>
+        <div class="-12 columns">
 
-            <div class="small-2 columns">
-              <a href="#" class="button postfix"><i class="fa fa-lg fa-search"></i></a>
-            </div>
-            <div class="small-2 columns">
-              <a href="/human_resources/employee_registration" class="button postfix"><i class="fa fa-lg fa-plus"></i></a>
-            </div>
+          <div class="row collapse">
+
+            <%= form_tag search_employee_path, :method => 'get' do %>
+
+                <!-- search bar, please check routes.rb for actual route interpolation -->
+                <div class="small-8 columns no-padding">
+                  <%= text_field_tag :search_employee, params[:search_employee], :placeholder => 'Search by name' %>
+                </div>
+
+                <!-- search submit button -->
+                <div class="small-2 columns no-padding">
+                  <button type="submit" class="button postfix">
+                    <i class="fa fa-lg fa-search"></i>
+                  </button>
+                </div>
+
+                <!-- redirect to employee registration -->
+                <div class="small-2 columns no-padding">
+                  <button type="button" class="button postfix">
+                    <a href="/human_resources/employee_registration" class="button postfix"><i class="fa fa-lg fa-plus"></i></a>
+                  </button>
+                </div>
+
+
+            <% end %>
+
           </div>
+
         </div>
 
       </section>
@@ -56,6 +73,8 @@
       </tbody>
 
       <%= paginate @employees %>
+
+
 
     </table>
   </div>

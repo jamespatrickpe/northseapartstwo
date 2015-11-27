@@ -9,12 +9,6 @@ class HomeController < ApplicationController
     render "shared/verification_delivery"
   end
 
-  def testing
-
-    puts "Jc Gofredoz"
-
-  end
-
   def resend_verification
     access_id = params[:access_id]
     email = params[:access][:email]
