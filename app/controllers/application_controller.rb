@@ -7,9 +7,9 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
 
   def sign_in_check
-    myAccess = Access.new()
-    if(!myAccess.find( session[] ))
-
+    if( !Access.exists?( session[:access_id]) )
+      flash[:general_flash_notification] = "Invalid Login Credentials"
+      redirect_to "/access/signin"
     end
   end
 

@@ -19,8 +19,8 @@
 //= require googlemaps120714.js
 //= require locationpicker.jquery.js
 //= require file-validator.js
-//= //require jquery.validate
-//= //require jquery.validate.additional-methods
+//= require jquery.validate
+//= // require jquery.validate.additional-methods
 //= require jquery.sapling.min
 //= require parsley
 //= require jquery.dataTables

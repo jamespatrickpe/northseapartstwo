@@ -3,6 +3,17 @@ class AccessController < ApplicationController
 
   layout "application_loggedin", only: [:dashboard]
   skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
+  before_action :sign_in_check, except: [:signin,
+                                         :processSignin,
+                                         :registration,
+                                         :register,
+                                         :success_registration,
+                                         :account_recovery,
+                                         :resend_verification,
+                                         :resetPassword,
+                                         :sendRecoveryEmail,
+                                         :verify,
+                                         :email_recovery_verification ]
 
   #index page
   def index
@@ -63,9 +74,11 @@ class AccessController < ApplicationController
   end
 
   def verify
+    flash[:general_flash_notification] = "Verification Error; Account is not Verified"
     verificationCode = params[:hashlink]
-    myAccess = Access.find_by_hashlink( verificationCode )
-    if(myAccess)
+    if(Access.exists?( hashlink: verificationCode ) )
+      flash[:general_flash_notification] = "Verification Success! Please try signing in."
+      myAccess = Access.find_by_hashlink( verificationCode )
       myAccess.verification = 1
       myAccess.save!
     end
@@ -86,7 +99,6 @@ class AccessController < ApplicationController
   # --------------------------- SIGN IN ------------------------
 
   def signin
-    reset_session
   end
 
   def processSignin
@@ -110,7 +122,7 @@ class AccessController < ApplicationController
         currentRedirect = "index"
       else
         myAccess.attempts = myAccess.attempts + 1
-        myAccess.saved
+        myAccess.save
       end
       redirect_to action: currentRedirect
     rescue => ex
@@ -122,25 +134,43 @@ class AccessController < ApplicationController
   # --------------------------- ACCOUNT RECOVERY ------------------------
 
   def account_recovery
+
   end
 
-  def recoverAccount
+  def sendRecoveryEmail
+    reset_session
+    currentRedirect = "/access/account_recovery"
     myAccess = Access.find_by email: params[:email]
     flash[:general_flash_notification] = "No Account with Email '" + params[:email] + "'"
     if(myAccess)
-      myAccess.send_reset_password_instructions
-      flash[:general_flash_notification] = "Resent Verification Email '" + params[:email] + "'"
+      AccountRecoveryMailer.account_recovery_email( params[:email], myAccess.hashlink ).deliver
+      flash[:general_flash_notification] = "Sent Verification Email '" + params[:email] + "'"
+      currentRedirect = "/access/email_recovery_verification?email="+params[:email]
     end
-    redirect_to action: "email_recovery_verification", email: params[:email]
+    redirect_to currentRedirect
   end
 
   def email_recovery_verification
     @nextLink = {
-        0 => {:url => "../access/recoverAccount?email="+params[:email], :label => "Resend Verification"},
+        0 => {:url => "../access/sendRecoveryEmail?email="+params[:email], :label => "Resend Verification"},
         1 => {:url => "../home", :label => "Go Back to Home Page"}
     }
     @message = "Request for Account Recovery Initialized. Please access your email to complete verification."
     @title = "Account Recovery Sent"
+  end
+
+  def resetPassword
+    reset_session
+    begin
+      myAccess = Access.find_by_hashlink(params[:code])
+      myAccess.password = params[:password]
+      myAccess.password_confirmation = params[:password_confirmation]
+      myAccess.save
+      flash[:general_flash_notification] = "Password Change Successful. Please Sign In Again."
+    rescue => ex
+      flash[:general_flash_notification] = "There was an error in changing your password; no modifications have been made; "
+    end
+    redirect_to action: "signin"
   end
 
 end

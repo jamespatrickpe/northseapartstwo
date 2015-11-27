@@ -5,10 +5,10 @@
     <!-- Right Nav Section -->
     <ul class="right" style="margin-right: 1%">
       <li>
-        <a href="/Access/signin"> <%= image_tag "signin.png" %> <%= t('topbar.sign_in') %> </a>
+        <a href="/access/signin"> <%= image_tag "signin.png" %> <%= t('topbar.sign_in') %> </a>
       </li>
       <li>
-        <a href="/Access/registration"> <%= image_tag "register.png" %> <%= t('topbar.register') %> </a>
+        <a href="/access/registration"> <%= image_tag "register.png" %> <%= t('topbar.register') %> </a>
       </li>
     </ul>
 
@@ -25,7 +25,7 @@
   </section>
 </nav>
 
-<% if(flash[:general_flash_notification]) %>
+<% if( flash[:general_flash_notification] ) %>
 <div class="tiny button" id="general_flash_notification" > <%= flash[:general_flash_notification] %> &nbsp; &nbsp; &nbsp; &#10060; </div>
 <% end %>
 

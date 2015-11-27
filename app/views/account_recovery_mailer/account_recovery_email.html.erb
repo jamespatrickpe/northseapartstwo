@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+
+Hello!
+
+<br><br>
+
+You have attempted to recover your account; A change of password is required. Please enter your new password:
+<br>
+<form action="http://localhost:3000/access/resetPassword/?code=<%= @hashlink %>" method="post">
+  Password: <input type="text" name="password" id="password" placeholder="Password; 8-64 Characters" minlength=6 maxlength=64 > <br>
+  Password Confirmation: <input type="text" name="password_confirmation" id="password_confirmation" placeholder="Type Password Again" minlength=6 maxlength=64><br>
+  <input type="submit">
+</form>
+<br>If you do not recall requesting for account recovery procedures; please disregard this message <br>
+
+<br><br>
+We look forward to working with you!
+<br>
+North Sea Parts Staff
+<br>
+
+</body>
+</html>
