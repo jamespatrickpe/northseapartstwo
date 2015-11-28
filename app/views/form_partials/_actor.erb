@@ -4,16 +4,50 @@
 <%= text_area_tag("actor[description]", content = "Description", options = {class: "actor_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128"}) %>
 
 Upload your picture:
-<%= file_field_tag "actor[logo]", options = { accept: "image/*"} %>
+<%= file_field_tag "actor[logo]", options = { "accept" => "image/*", :"data-parsley-trigger" => "change", "data-parsley-filesize"=>3000000, "data-parsley-filetype"=>"image"} %>
 </fieldset>
 
 <script>
 
+    var myFileSize = 0;
+    var myFileType = "";
     $('#actor_logo').bind('change', function() {
-
-        //this.files[0].size gets the size of your file.
-        alert(this.files[0].size);
-
+        myFileSize = this.files[0].size
+        myFileType = this.files[0].type
     });
+
+    window.Parsley
+            .addValidator('filesize', {
+                requirementType: 'string',
+                validateString: function(value, requirement)
+                {
+                    myToken = false
+                    if(myFileSize <= requirement)
+                    {
+                        myToken = true
+                    }
+                    return myToken
+                },
+                messages: {
+                    en: 'File is too large; Must be less than 3MB'
+                }
+            });
+
+    window.Parsley
+            .addValidator('filetype', {
+                requirementType: 'string',
+                validateString: function(value, requirement)
+                {
+                    myToken = false
+                    if(myFileType == "image/jpeg" || myFileType == "image/png" || myFileType == "image/gif")
+                    {
+                        myToken = true
+                    }
+                    return myToken
+                },
+                messages: {
+                    en: 'Incorrect File Type'
+                }
+            });
 
 </script>
