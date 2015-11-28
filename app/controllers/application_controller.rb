@@ -11,6 +11,10 @@ class ApplicationController < ActionController::Base
       flash[:general_flash_notification] = "Invalid Login Credentials"
       redirect_to "/access/signin"
     else
+      myAccess = Access.find(session[:access_id])
+      myActor = myAccess.actor
+      @actor_name = myActor.name
+      @access_name = myAccess.username
       @sign_in_affirmative = true
     end
   end
