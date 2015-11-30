@@ -294,7 +294,8 @@ numberOfActors.times do |i|
 
     dayOfWeek = Faker::Time.between(7.days.ago, Time.now, :all).strftime("%A")
     restday = Restday.new(day: dayOfWeek, employee: myEmployee); restday.save
-    duty = Duty.new(description: Faker::Lorem.words(16), label: myStatus, employee: myEmployee); duty.save
+    dutyStatus = DutyStatus.new(description: Faker::Lorem.words(16), label: myStatus, employee: myEmployee);
+    dutyStatus.save
     myEmployee.save
 
     periodsOfTime = ["DAY", "WEEK", "HOUR", "MONTH"]

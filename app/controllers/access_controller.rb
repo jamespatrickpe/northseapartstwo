@@ -1,19 +1,27 @@
 class AccessController < ApplicationController
   include ApplicationHelper
 
-  layout "application_loggedin", only: [:dashboard]
+  layout "application_loggedin",
+         only:
+             [
+                 :dashboard,
+                 :index,
+                 :my_account
+             ]
   skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
-  before_action :sign_in_check, except: [:signin,
-                                         :processSignin,
-                                         :registration,
-                                         :register,
-                                         :success_registration,
-                                         :account_recovery,
-                                         :resend_verification,
-                                         :resetPassword,
-                                         :sendRecoveryEmail,
-                                         :verify,
-                                         :email_recovery_verification ]
+  before_action :sign_in_check,
+                except: [:signin,
+                         :processSignin,
+                         :registration,
+                         :register,
+                         :success_registration,
+                         :account_recovery,
+                         :resend_verification,
+                         :resetPassword,
+                         :sendRecoveryEmail,
+                         :verify,
+                         :email_recovery_verification]
+
 
   #index page
   def index
@@ -27,6 +35,7 @@ class AccessController < ApplicationController
 
   #Personal Account Settings
   def my_account
+
   end
 
   def account_settings
@@ -134,6 +143,8 @@ class AccessController < ApplicationController
 
   def signout
     reset_session
+    flash[:general_flash_notification] = "You have Successfully Signed Out!"
+    redirect_to action: "signin"
   end
 
   # --------------------------- ACCOUNT RECOVERY ------------------------
