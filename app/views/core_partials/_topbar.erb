@@ -3,9 +3,9 @@
 
   <section class="top-bar-section">
     <!-- Right Nav Section -->
-    <ul class="right" style="margin-right: 1%">
+    <ul class="right" style="margin-right: 1%; overflow: hidden;">
       <% if( @sign_in_affirmative == true )%>
-          <li><a href="/access/my_account"> <%= @myPicture %> <%= @actor_name %> | <%= @access_name %> </a></li>
+          <li><a href="/access/my_account"> &nbsp; <%= image_tag @myActor.logo_url(:topbar_avatar) if @myActor.logo? %> &nbsp;&nbsp; <%= @myActor.name %> | <%= @myAccess.username %>  &nbsp; &nbsp;   </a></li>
           <li><a href="/access/signout"> <%= image_tag "signout.png" %> <%= t('topbar.sign_out') %> </a></li>
       <% else %>
           <li><a href="/access/signin"> <%= image_tag "signin.png" %> <%= t('topbar.sign_in') %> </a></li>

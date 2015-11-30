@@ -11,7 +11,7 @@ include ApplicationHelper
 #  ----------------------------------------------------------------------------------- OFFICIAL STARTER DATA ------------------------------------------------------------------------
 
 #Administrator
-myActor = Actor.create(name: 'James Patrick Pe', description: 'Administrator', logo: "barack_obama.jpg")
+myActor = Actor.create(name: 'James Patrick Pe', description: 'Administrator')
 myActor.save
 
 access = Access.new

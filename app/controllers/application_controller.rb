@@ -9,13 +9,10 @@ class ApplicationController < ActionController::Base
 
   def sign_in_check
     if( Access.exists?( session[:access_id]) )
-      myAccess = Access.find(session[:access_id])
-      myActor = myAccess.actor
-      @actor_name = myActor.name
-      @access_name = myAccess.username
+      @myAccess = Access.find(session[:access_id])
+      @myActor = @myAccess.actor
       @sign_in_affirmative = true
-      uploader = AvatarUploader.new
-      @myPicture = uploader.retrieve_from_store!( myActor.logo )
+      #uploader = AvatarUploader.new
     else
       flash[:general_flash_notification] = "Invalid Login Credentials"
       redirect_to "/access/signin"

@@ -21,7 +21,7 @@ class Actor < ActiveRecord::Base
 
   validates :logo,
             :file_size => {
-                :maximum => 25.megabytes.to_i
+                :maximum => 3.5.megabytes.to_i
             }
 
 end
