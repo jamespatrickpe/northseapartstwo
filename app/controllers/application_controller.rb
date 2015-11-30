@@ -1,3 +1,4 @@
+
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -8,13 +9,13 @@ class ApplicationController < ActionController::Base
 
   def sign_in_check
     if( Access.exists?( session[:access_id]) )
-
       myAccess = Access.find(session[:access_id])
       myActor = myAccess.actor
       @actor_name = myActor.name
       @access_name = myAccess.username
       @sign_in_affirmative = true
       uploader = AvatarUploader.new
+      @myPicture = uploader.retrieve_from_store!( myActor.logo )
     else
       flash[:general_flash_notification] = "Invalid Login Credentials"
       redirect_to "/access/signin"
