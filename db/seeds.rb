@@ -11,7 +11,7 @@ include ApplicationHelper
 #  ----------------------------------------------------------------------------------- OFFICIAL STARTER DATA ------------------------------------------------------------------------
 
 #Administrator
-myActor = Actor.create(name: 'James Patrick Pe', description: 'Administrator')
+myActor = Actor.create(name: 'James Patrick Pe', description: 'Administrator', logo: "barack_obama.jpg")
 myActor.save
 
 access = Access.new
@@ -206,7 +206,7 @@ end
 numberOfActors = 50
 numberOfActors.times do |i|
   #Actor
-  myActor = Actor.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true), logo: 'sample.jpg')
+  myActor = Actor.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true), logo: 'barack_obama.jpg')
   myActor.save
 
   # ACCESS
