@@ -15,7 +15,7 @@
 //= // require jquery_ujs
 //= require jquery-ui
 //= require selectize.js
-//= // require foundation
+//= require foundation
 //= require googlemaps120714.js
 //= require locationpicker.jquery.js
 //= require file-validator.js
@@ -37,6 +37,9 @@
 
 
 //$(function(){ $(document).foundation(); });
+
+$(document).foundation();
+$(document).foundation('alert','events');
 
 function GetURLParameter(sParam)
 {

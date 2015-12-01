@@ -210,6 +210,37 @@ class HumanResourcesController < ApplicationController
 
   end
 
+  def duty_create
+
+
+    @duties = Duty.page(params[:page]).per(10)
+    @employees = Employee.all()
+    @msg = session[:result]
+
+    render 'human_resources/employee_accounts_management/duty_create'
+
+  end
+
+  def create_duty
+
+    reset_session
+
+    @msg = ''
+    @employees = Employee.all()
+    @duties = Duty.page(params[:page]).per(10)
+
+    newduty = Duty.new(duty_params)
+
+    if newduty.save!
+      session[:result] = 'A new duty has been successfully added!'
+      redirect_to :action => "duty_create"
+    else
+      session[:result] = nil
+      redirect_to :action => "duty_create"
+    end
+
+  end
+
   private
 
   def actor_params
@@ -237,6 +268,10 @@ class HumanResourcesController < ApplicationController
             :emergency_contact,
             :languages_spoken
         )
+  end
+
+  def duty_params
+    params.require(:duty).permit(:label, :description)
   end
 
 

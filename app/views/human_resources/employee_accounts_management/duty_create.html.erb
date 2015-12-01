@@ -1,0 +1,79 @@
+<section class="small-10 columns">
+
+  <h3>Duty Creation</h3>
+
+  <div data-alert class="alert-box success radius">
+    <%= @msg %>
+    <a href="#" class="close">&times;</a>
+  </div>
+
+  <%= form_tag({action: :"create_duty"}, multipart: true, id: "create_duty_form", :"data-parsley-validate" => "" ) do %>
+
+      <div class="row">
+
+        <div class="large-3 columns">
+          <label>Duty Label
+            <%= text_field_tag("duty[label]", value = nil, options = {placeholder: "Label", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64"}) %>
+          </label>
+        </div>
+
+        <div class="large-3 columns">
+          <label>Duty Description
+            <%= text_field_tag("duty[description]", value = nil, options = {placeholder: "Description", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64"}) %>
+          </label>
+        </div>
+
+        <div class="large-3 columns">
+          <label>Assign to
+            <%= select_tag 'employee_dd', options_for_select(@employees.collect{ |e| [e.actor.name, e.id] }) %>
+          </label>
+        </div>
+
+        <!--  -->
+        <div class="large-3 columns">
+          <label> <br />
+            <%= submit_tag nil, :class => "button tiny" %>
+          </label>
+        </div>
+
+      </div>
+
+  <% end %>
+
+  <hr />
+
+  <h3>Duties</h3>
+
+  <table class="small-12">
+
+    <thead>
+    <tr>
+      <th>&nbsp;</th>
+      <th>Label</th>
+      <th>Description</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @duties.each_with_index do |duty, index| %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= duty.label %></td>
+          <td><%= duty.description %></td>
+          <td>
+            <a href="#"><i class="fa fa-trash-o fa-lg northsea-red"></i></a>
+            &nbsp;
+            <a href="#"><i class="fa fa-trash-o fa-lg northsea-red"></i></a>
+          </td>
+        </tr>
+    <% end %>
+    </tbody>
+
+    <%= paginate @duties %>
+
+
+  </table>
+
+
+</section>
