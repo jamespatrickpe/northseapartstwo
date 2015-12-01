@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
@@ -21,6 +21,8 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails gemg nerates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
+# paginator
+gem 'kaminari', '~> 0.16.3'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -30,6 +32,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+
+gem 'jquery-tablesorter'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -56,3 +60,6 @@ gem 'country_select', '~> 2.2.0'
 gem "parsley-rails"
 gem 'selectize-rails'
 gem 'uuidtools'
+gem 'devise'
+gem 'font-awesome-rails', '~> 4.1.0.0'
+gem 'zurb-foundation-5', '~> 5.2', '>= 5.2.2'

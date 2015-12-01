@@ -50,5 +50,5 @@ test:
 production:
   <<: *default
   database: northseapartstwo_production
-  username: northseapartstwo
-  password: <%= ENV['NORTHSEAPARTSTWO_DATABASE_PASSWORD'] %>
+  username: root
+  password: 1234

@@ -1,14 +1,14 @@
-<section class="small-10 columns ">
+<section class="small-10 columns">
 
   <div class="content">
 
-    <div class="mainheader">
-      Employee Registration
+    <div id="profile-header" class="mainheader">
+      <span><%= @employee.actor.name %></span>
     </div>
 
-    <%= link_to( "Back to List" ,{:action => 'employee_accounts_management'} ) %>
+    <%= link_to( "Cancel" ,{:action => 'employee_accounts_management'} ) %>
 
-    <%= form_tag({action: :"register_employee"}, multipart: true, id: "employee_registration_form", :"data-parsley-validate" => "" ) do %>
+    <%= form_tag({action: :"edit_employee_data", :employee_id => @employee.id, :actor_id => @employee.actor.id}, multipart: true, id: "edit_employee_form", :"data-parsley-validate" => "" ) do %>
 
         <div class="md-spacer"></div>
 
@@ -19,7 +19,7 @@
           <div class="row">
             <div class="medium-8 columns">
               <label>Name
-                <%= text_field_tag("actor[name]", value = nil, options = {placeholder: "Enter name", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64"}) %>
+                <%= text_field_tag("actor[name]", value = @employee.actor.name, options = {placeholder: "Enter name", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64"}) %>
               </label>
             </div>
           </div>
@@ -27,7 +27,7 @@
           <div class="row">
             <div class="medium-8 columns">
               <label>Description
-                <%= text_area_tag("actor[description]", value = nil, options = {placeholder: "Enter description", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"128"}) %>
+                <%= text_area_tag("actor[description]", value = @employee.actor.description, options = {placeholder: "Enter description", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"128"}) %>
               </label>
             </div>
           </div>
@@ -37,7 +37,7 @@
           <div class="row">
             <div class="medium-8 columns">
               <label>Birthday
-                <%= date_field_tag("biodatum[date_of_birth]", value = nil, options = {id:"birthday", placeholder: "Birthday", required: "required", :"data-parsley-date" => "", :"data-parsley-trigger" => "keyup"}) %>
+                <%= date_field_tag("biodatum[date_of_birth]", value = @biodatum.date_of_birth, options = {id:"birthday", placeholder: "Birthday", required: "required", :"data-parsley-date" => "", :"data-parsley-trigger" => "keyup"}) %>
               </label>
             </div>
           </div>
@@ -45,21 +45,22 @@
           <div class="row">
             <div class="medium-8 columns">
               <label>Height
-              <%= number_field_tag("biodatum[height]", value = nil, options = {id:"height", placeholder: "Height in cm", :"data-parsley-type" => "integer", :"data-parsley-trigger" => "keyup"}) %></div><br>
+              <%= number_field_tag("biodatum[height]", @biodatum.height, options = {id:"height", placeholder: "Height in cm", :"data-parsley-type" => "integer", :"data-parsley-trigger" => "keyup"}) %></div><br>
             </label>
           </div>
 
+
           <div class="row">
             <div class="medium-8 columns">
-              <label>Sex</label>
-              <%= radio_button_tag(:sex, 'Male', options = { required: "required" })%>  <%= label_tag(:sex_female, "Male") %>
+              <label>Sex :: <%= @biodatum.gender %></label>
+              <%= radio_button_tag(:sex, 'Male')%>  <%= label_tag(:sex_female, "Male") %>
               <%= radio_button_tag(:sex, 'Female')%> <%= label_tag(:sex_male, "Female") %>
             </div>
           </div>
 
           <div class="row">
             <div class="medium-8 columns">
-              <label>Family Members
+              <label>Family Members :: <%= @biodatum.family_members %>
                 <%= text_area_tag("biodatum[family_members]", value = nil, options = {id:"family_members", placeholder: "Family Members",:"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128"}) %>
               </label>
             </div>
@@ -69,7 +70,7 @@
 
           <div class="row">
             <div class="medium-8 columns">
-              <label>Complexion
+              <label>Complexion :: <%= @biodatum.complexion %>
                 <%= select_tag("biodatum[complexion]",
                                options_for_select(
                                        [%w(Light Light),
@@ -88,7 +89,7 @@
 
           <div class="row">
             <div class="medium-8 columns">
-              <label>Marital Status
+              <label>Marital Status :: <%= @biodatum.marital_status %>
                 <%= select_tag("biodatum[marital_status]",
                                options_for_select(
                                        [ %w(Single Single),
@@ -103,7 +104,7 @@
 
           <div class="row">
             <div class="medium-8 columns">
-              <label>Blood Type
+              <label>Blood Type :: <%= @biodatum.blood_type %>
                 <%= select_tag("biodatum[blood_type]",
                                options_for_select(
                                        [%w(A+ A+),
@@ -122,7 +123,7 @@
 
           <div class="row">
             <div class="medium-8 columns">
-              <label>Religion
+              <label>Religion :: <%= @biodatum.religion %>
                 <%= select_tag("biodatum[religion]",
                                options_for_select(
                                        [['Catholic Christian','Catholic Christian'],
@@ -137,7 +138,7 @@
 
           <div class="row">
             <div class="medium-8 columns">
-              <label>Education
+              <label>Education :: <%= @biodatum.education %>
                 <%= select_tag("biodatum[education]",
                                options_for_select(
                                        [['Elementary','Elementary'],
@@ -155,24 +156,24 @@
 
           <div class="row">
             <div class="medium-8 columns">
-              <label>Career Experience
-                <%= text_area_tag("biodatum[career_experience]", value = nil, options = {id:"career_experience", placeholder: "Career Experience",:"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"32"}) %>
+              <label>Career Experience :: <%= @biodatum.career_experience %>
+                <%= text_area_tag("biodatum[career_experience]", value = @biodatum.career_experience, options = {id:"career_experience", placeholder: "Career Experience",:"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"32"}) %>
               </label>
             </div>
           </div>
 
           <div class="row">
             <div class="medium-8 columns">
-              <label>Notable Accomplishments
-                <%= text_area_tag("biodatum[notable_accomplishments]", value = nil, options = {id:"notable_accomplishments", placeholder: "Notable Accomplishments",:"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"32"}) %>
+              <label>Notable Accomplishments :: <%= @biodatum.notable_accomplishments %>
+                <%= text_area_tag("biodatum[notable_accomplishments]", value = @biodatum.notable_accomplishments, options = {id:"notable_accomplishments", placeholder: "Notable Accomplishments",:"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"32"}) %>
               </label>
             </div>
           </div>
 
           <div class="row">
             <div class="medium-8 columns">
-              <label>Emergency Contact
-                <%= text_area_tag("biodatum[emergency_contact]", value = nil, options = {id:"emergency_contact", placeholder: "Emergency Contact Details",:"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"32"}) %>
+              <label>Emergency Contact :: <%= @biodatum.emergency_contact %>
+                <%= text_area_tag("biodatum[emergency_contact]", value = @biodatum.emergency_contact, options = {id:"emergency_contact", placeholder: "Emergency Contact Details",:"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"32"}) %>
 
               </label>
             </div>
@@ -180,8 +181,8 @@
 
           <div class="row">
             <div class="medium-8 columns">
-              <label>Languages Spoken
-                <%= text_area_tag("biodatum[languages_spoken]", value = nil, options = {id:"languages_spoken", placeholder: "Languages Spoken",:"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"32"}) %>
+              <label>Languages Spoken :: <%= @biodatum.languages_spoken %>
+                <%= text_area_tag("biodatum[languages_spoken]", value = @biodatum.languages_spoken, options = {id:"languages_spoken", placeholder: "Languages Spoken",:"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"32"}) %>
 
               </label>
             </div>
@@ -194,10 +195,6 @@
           </div>
 
         </div>
-
-        <!--<div class="large-6 columns">-->
-        <% #renderFormPartial("system_account_with_options"); %>
-        <!--</div>-->
 
     <% end %>
 

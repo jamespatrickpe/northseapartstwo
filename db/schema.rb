@@ -187,6 +187,13 @@ ActiveRecord::Schema.define(version: 20151130014042) do
     t.string   "rel_file_set_type", limit: 255
   end
 
+  create_table "guitars", force: :cascade do |t|
+    t.string   "manufacturer", limit: 255
+    t.string   "model",        limit: 255
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
   create_table "holiday_types", id: false, force: :cascade do |t|
     t.string   "id",                                  limit: 36,                                          null: false
     t.string   "type_name",                           limit: 64

@@ -1,11 +1,12 @@
-  Rails.application.routes.draw do
+Rails.application.routes.draw do
 
     match ':controller(/:action(/:id))', :via => [:get, :post]
     root to: 'home#index'
-  resources :test, only: :index
+    get 'search_employee', to: 'human_resources#employee_accounts_management', as: :search_employee
+    resources :test, only: :index
 
-    # The priority is based upon order of creation: first created -> highest priority.
-    # See how all your routes lay out with "rake routes".
+  # The priority is based upon order of creation: first created -> highest priority.
+  # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
