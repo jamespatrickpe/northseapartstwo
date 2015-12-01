@@ -9,7 +9,7 @@ class HumanResourcesController < ApplicationController
 
   def employee_accounts_management
 
-    @duties = Duty.all()
+    @duties = DutyStatus.all()
 
     # native fetch-all
     # @employees = Employee.all()

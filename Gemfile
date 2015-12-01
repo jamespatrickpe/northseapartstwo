@@ -61,5 +61,3 @@ gem "parsley-rails"
 gem 'selectize-rails'
 gem 'uuidtools'
 gem 'devise'
-gem 'font-awesome-rails', '~> 4.1.0.0'
-gem 'zurb-foundation-5', '~> 5.2', '>= 5.2.2'
