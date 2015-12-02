@@ -8,13 +8,34 @@ class HumanResourcesController < ApplicationController
   end
 
   def employee_accounts_management
-    @duties = DutyStatus.all()
-    @employees = Employee.all()
-    if params[:search_employee]
-      @employees = Kaminari.paginate_array(@employees).page(params[:page]).per(10)
-    else
-      @employees = Employee.page(params[:page]).per(10)
+
+    #Obtain Parameters
+    order_parameter = params[:order_parameter]
+    order_orientation = params[:order_orientation]
+    current_limit = params[:current_limit]
+
+    #Set Defaults
+    if ( (!order_parameter) || (!order_orientation))
+      order_parameter = "created_at"
+      order_orientation = "DESC"
     end
+
+    if( (!current_limit) )
+      current_limit = 15
+    end
+
+    #Get Records
+    #Record was complicated; Use RAW SQL; but this is bad example, try to always use activerecord relations
+    sql = "SELECT employees.id, actors.name, dutystatus.label, branches.name, employees.created_at, employees.updated_at, actors.id " +
+          "FROM employees " +
+          "INNER JOIN actors ON employees.actor_id = actors.id " +
+          "INNER JOIN branches ON employees.branch_id = branches.id " +
+          "INNER JOIN ( SELECT employee_id, label, max(created_at) FROM duty_statuses GROUP BY employee_id ) " +
+          "AS dutystatus ON dutystatus.employee_id = employees.id"
+    @rawEmployeeAccounts = Employee.find_by_sql(sql)
+    # how to map this @employee_accounts = rawEmployeeAccounts so it can work exactly in the view?
+
+    #Render
     render 'human_resources/employee_accounts_management/index'
   end
 

@@ -188,7 +188,7 @@ numberOfPositions.times do |i|
 end
 
 #ENTITIES
-numberOfActors = 50
+numberOfActors = 10
 numberOfActors.times do |i|
   #Actor
   myActor = Actor.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true), logo: 'barack_obama.jpg')
@@ -273,16 +273,17 @@ numberOfActors.times do |i|
     # myBranch = Branch.where(id: ids)
     myEmployee = Employee.new( actor: myActor, branch: Branch.all.shuffle.first )
 
-    if(randomBoolean())
-      myStatus = "ACTIVE"
-    else
-      myStatus = "INACTIVE"
-    end
-
     dayOfWeek = Faker::Time.between(7.days.ago, Time.now, :all).strftime("%A")
     restday = Restday.new(day: dayOfWeek, employee: myEmployee); restday.save
-    dutyStatus = DutyStatus.new(description: Faker::Lorem.words(16), label: myStatus, employee: myEmployee);
-    dutyStatus.save
+
+    numberOfDuties = rand(1..5)
+    numberOfDuties.times do
+      myStatus = ["ACTIVE","INACTIVE"].sample
+      dutyStatus = DutyStatus.new(description: Faker::Lorem.words(16), label: myStatus, employee: myEmployee)
+      dutyStatus.created_at = rand(720..72000).hours.ago
+      dutyStatus.save
+    end
+
     myEmployee.save
 
     periodsOfTime = ["DAY", "WEEK", "HOUR", "MONTH"]

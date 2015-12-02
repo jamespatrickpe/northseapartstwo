@@ -1,39 +1,60 @@
 <section class="small-10 columns">
-
 <div class="mainheader"> Employee Accounts Management </div>
-  <div class="subdescription"> Manage the Accounts of Employees</div>
-
-<table class="generic_table">
-  <thead>
-  <tr>
-    <th>Employee ID &#x25C0; </th>
-    <th>Name</th>
-    <th>Status</th>
-    <th>Branch</th>
-    <th>Date Registered</th>
-    <th>Last Updated</th>
-    <th class="actions">&nbsp;</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% @employees.each_with_index do |employee, index| %>
-      <tr>
-        <td><%= employee.id %></td>
-        <td><%= link_to( employee.actor.name ,{:action => 'employee_profile', :employee_id => employee.id, :actor_id => employee.actor.id} ) %>
-        </td>
-        <td><%= employee.duty_status.last.label %></td>
-        <td><%= employee.branch.name %></td>
-        <td><%= employee.created_at %></td>
-        <td><%= employee.updated_at %></td>
-        <td class="actions">
-          <a href="" class="action_button" >[ ADD &#9998; ]</a>
-          &nbsp;
-          <a href="" class="action_button" >[ DELETE &#10006; ]</a>
-        </td>
-      </tr>
+<div class="subdescription"> Manage the Accounts of Employees</div>
+<% table_orientation = shift_table_orientation %>
+  <% begin %>
+      <table class="generic_table">
+        <thead>
+        <tr>
+          <th>
+            Employee ID
+            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "id", :order_orientation => table_orientation["order_orientation"] } ) %>
+          </th>
+          <th>
+            Name
+            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "actor.name", :order_orientation => table_orientation["order_orientation"] } )%>
+          </th>
+          <th>
+            Status
+            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "status.label", :order_orientation => table_orientation["order_orientation"] } )%>
+          </th>
+          <th>id,
+            Branch
+            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "branch.name", :order_orientation => table_orientation["order_orientation"] } )%>
+          </th>
+          <th>
+            Date Registered
+            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "employee.created_at", :order_orientation => table_orientation["order_orientation"] } )%>
+          </th>
+          <th>
+            Last Updated
+            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "employee.updated_at", :order_orientation => table_orientation["order_orientation"] } )%>
+          </th>
+          <th class="actions">&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @employee_accounts.each do |employee_accounts| %>
+            <tr>
+              <td><%= employee_accounts.id %></td>
+              <td><%= link_to( employee_accounts.actor.name ,{:action => 'employee_profile', :employee_id => employee_accounts.id, :actor_id => employee_accounts.actor.id} ) %>
+              </td>
+              <td><%= employee_accounts.duty_status.latest %></td>
+              <td><%= employee_accounts.branch.name %></td>
+              <td><%= employee_accounts.created_at %></td>
+              <td><%= employee_accounts.updated_at %></td>
+              <td class="actions">
+                <a href="" class="action_button" >[ EDIT &#9998; ]</a>
+                &nbsp;
+                <a href="" class="action_button" >[ DELETE &#10006; ]</a>
+              </td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+  <% rescue %>
+      <hr>
+      <p align="center"> No Data Available | Error Occurred </p>
+      <hr>
   <% end %>
-  </tbody>
-</table>
-
-
 </section>

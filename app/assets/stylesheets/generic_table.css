@@ -56,5 +56,10 @@
 .generic_table > tbody > tr > td > .action_button
 {
     padding: 2px;
-    font-size: 9px;
+    font-size: 10px;
+}
+
+.generic_table > tbody > tr > th
+{
+    background-color: orange;
 }

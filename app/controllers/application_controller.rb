@@ -6,7 +6,21 @@ class ApplicationController < ActionController::Base
 
   layout "application_loggedin"
   skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
-  helper_method :error_messages_for
+  helper_method :error_messages_for, :shift_table_orientation
+
+  def shift_table_orientation
+    table_orientation = Hash.new()
+    table_orientation["order_orientation"] = ""
+    table_orientation["orientation_symbol"] = ""
+    if( params[:order_orientation] == "ASC" )
+      table_orientation["order_orientation"] = "DESC"
+      table_orientation["orientation_symbol"] = '&#x25BC;'
+    else
+      table_orientation["order_orientation"] = "ASC"
+      table_orientation["orientation_symbol"] = '&#x25B2;'
+    end
+    return table_orientation
+  end
 
   def sign_in_check
     if( Access.exists?( session[:access_id]) )
