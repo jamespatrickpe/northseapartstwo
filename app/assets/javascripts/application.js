@@ -38,9 +38,15 @@
 
 //$(function(){ $(document).foundation(); });
 
+// For the generic_table
+$(document).ready(function(){
 
+    $(".generic_table > tbody > tr").hover(
+        function(){$(this).find("td.actions > *").css("visibility", "visible");},
+        function(){$(this).find("td.actions > *").css("visibility", "hidden");})
+});
 
-
+// For Contact Details
 function GetURLParameter(sParam)
 {
     var sPageURL = window.location.search.substring(1);

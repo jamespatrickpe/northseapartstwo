@@ -6,13 +6,13 @@
 <table class="generic_table">
   <thead>
   <tr>
-    <th>Employee ID</th>
+    <th>Employee ID &#x25C0; </th>
     <th>Name</th>
     <th>Status</th>
     <th>Branch</th>
     <th>Date Registered</th>
     <th>Last Updated</th>
-    <th>&nbsp;</th>
+    <th class="actions">&nbsp;</th>
   </tr>
   </thead>
   <tbody>
@@ -25,10 +25,10 @@
         <td><%= employee.branch.name %></td>
         <td><%= employee.created_at %></td>
         <td><%= employee.updated_at %></td>
-        <td>
-          <a href="/human_resources/employee_registration"><i class="fa fa-trash-o fa-lg northsea-red"></i></a>
+        <td class="actions">
+          <a href="" class="action_button" >[ ADD &#9998; ]</a>
           &nbsp;
-          <a href="/human_resources/employee_registration"><i class="fa fa-pencil fa-lg northsea-red"></i></a>
+          <a href="" class="action_button" >[ DELETE &#10006; ]</a>
         </td>
       </tr>
   <% end %>

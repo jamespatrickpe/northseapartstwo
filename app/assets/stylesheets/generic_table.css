@@ -33,3 +33,28 @@
     background-color: #721314;
     color: white;
 }
+
+.generic_table > thead > tr > th.actions
+{
+    background-color: white;
+    color:black;
+    visibility: hidden;
+}
+
+.generic_table > tbody > tr > td.actions > a
+{
+    color:black;
+    visibility: hidden;
+}
+
+.generic_table > tbody > tr > td.actions > a:hover
+{
+    background-color: #721314;
+    color: white;
+}
+
+.generic_table > tbody > tr > td > .action_button
+{
+    padding: 2px;
+    font-size: 9px;
+}
