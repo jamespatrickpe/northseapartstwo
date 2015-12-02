@@ -8,36 +8,13 @@ class HumanResourcesController < ApplicationController
   end
 
   def employee_accounts_management
-
     @duties = DutyStatus.all()
-
-    # native fetch-all
-    # @employees = Employee.all()
-
+    @employees = Employee.all()
     if params[:search_employee]
-
-      # create an empty employee array, then find all actor that has the name that was searched
-      # iterate through all the result actors and find their corresponding employee object
-      # push that employee object into the empty array for display and then lastly, paginate using Kaminari
-
-      @employees = []
-      @actorsFound= Actor.where("name LIKE ?", "%#{params[:search_employee]}%")
-
-      @actorsFound.each { |actor|
-        emp = Employee.find_by_actor_id(actor.id)
-        @employees.push(emp)
-      }
-
-      # kaminari pager
       @employees = Kaminari.paginate_array(@employees).page(params[:page]).per(10)
-
     else
-
-      # get all employees by default
       @employees = Employee.page(params[:page]).per(10)
-
     end
-
     render 'human_resources/employee_accounts_management/index'
   end
 

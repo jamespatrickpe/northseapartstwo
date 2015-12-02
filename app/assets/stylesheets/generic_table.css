@@ -1,0 +1,35 @@
+.generic_table
+{
+    width: 100%;
+}
+
+.generic_table > * > * > * > * > *
+{
+    color:black;
+    font-size: 10px;
+
+}
+
+.generic_table > thead > * > *
+{
+    background-color: #721314;
+    padding: 5px;
+    font-size: 12px;
+    font-weight: 100;
+}
+
+.generic_table > tbody > tr > * > *
+{
+    color: black;
+}
+
+.generic_table > tbody > tr:hover
+{
+    background-color: orange;
+}
+
+.generic_table > tbody > tr > td > a:hover
+{
+    background-color: #721314;
+    color: white;
+}

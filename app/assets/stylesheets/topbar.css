@@ -1,0 +1,7 @@
+nav.top-bar, nav.top-bar ul li, nav.top-bar ul li a {
+    background-color: #721314 !important;
+}
+
+nav.top-bar ul li a:hover {
+    background-color: #BE2021 !important;
+}

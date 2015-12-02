@@ -8,26 +8,32 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
+ * Foundation Framework
  *= require foundation_and_overrides
+ * Custom Overrides for the Framework
  *= require custom_overrides
+ * Sapling Component for Side Navigation
  *= require jquery.sapling
+ * Parsley for Validations
  *= require parsley
+ * Parsley Overrides
+ *= require parsley_overrides
  *= require selectize
  *= require jquery.dataTables
  *= require_tree .
  *= require_self
+ * For the Top Navigation Bar
+ *= topbar
+ * For the Side Navigation Bar
+ *= sidenavigation
+ *= spacers
+ *= generic_table
  */
+
+/* Application Wide Styles */
 
 body {
   min-width: 1360px;
-}
-
-nav.top-bar, nav.top-bar ul li, nav.top-bar ul li a {
-  background-color: #721314 !important;
-}
-
-nav.top-bar ul li a:hover {
-  background-color: #BE2021 !important;
 }
 
 .northsea-red {
@@ -96,121 +102,14 @@ nav.top-bar ul li a:hover {
   padding : 16px;
 }
 
-/************************************************************************* SPACER*/
-
-.no-padding {
-  padding : 0;
-}
-
-.no-margin {
-  margin : 0;
-}
-
-.min-spacer {
-  height : 8px;
-}
-
-.sm-spacer {
-  height : 16px;
-}
-
-.md-spacer {
-  height : 32px;
-}
-
-.lg-spacer {
-  height : 64px;
-}
-
 /************************************************************************* FORMS*/
 
+/*
+Unsure of what this is
 form div.row {
   margin : 16px 0;
 }
+*/
 
 /************************************************************************* CUSTOM PARSLEY STYLES*/
 
-.parsley-required, .parsley-minlength, .parsley-maxlength {
-  color : #BE595A;
-}
-
-.parsley-error {
-  border : 1px solid #BE595A;
-}
-
-  /************************************************************************* EMPLOYEE PROFILE-SPECIFIC STYLES*/
-
-.employee-profile-banner {
-  display: block;
-  height: 80px;
-  //background: url("bg.jpg");
-}
-
-#profile-header span:first-child {
-  display: inline-block;
-  width : 89%;
-}
-
-#profile-link-container {
-  display : inline-block;
-  width : 10%;
-}
-
-#profile-link-container a {
-  color : #BE595A;
-}
-
-#profile-link-container a:hover {
-  color : #BE2021 !important;
-}
-
-.profile-section {
-  border : 1px solid #e0e0e0;
-  font-size : 0.8em;
-  margin : 16px 0;
-  padding : 16px;
-
-}
-
-.employee-profile-detail {
-
-}
-
-.employee-profile-detail .employee-profile-detail-content {
-
-}
-
-.employee-profile-detail .employee-profile-detail-content section {
-  display : block;
-  padding : 8px;
-}
-
-.employee-profile-detail .employee-profile-detail-content span:first-child, .employee-profile-detail .employee-profile-detail-content span:nth-child(2){
-  display : inline-block;
-}
-
-.employee-profile-detail .employee-profile-detail-content span:first-child {
-  margin-right : 16px;
-  //text-align: right;
-  width : 128px;
-}
-
-.employee-profile-detail .employee-profile-detail-content span:nth-child(2) {
-
-}
-
-/************************************************************************* SCROLLBAR*/
-
-//::-webkit-scrollbar {
-//  width: 8px;
-//  background-color: #ffffff;
-//}
-//
-//::-webkit-scrollbar-track {
-//  background-color: #222;
-//}
-//
-//::-webkit-scrollbar-thumb {
-//  background-color: #1e95ab;
-//}
-//

@@ -1,0 +1,7 @@
+.parsley-required, .parsley-minlength, .parsley-maxlength {
+  color : #BE595A;
+}
+
+.parsley-error {
+  border : 1px solid #BE595A;
+}

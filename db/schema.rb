@@ -123,7 +123,7 @@ ActiveRecord::Schema.define(version: 20151130014042) do
 
   create_table "branches", id: false, force: :cascade do |t|
     t.string   "id",         limit: 36, null: false
-    t.string   "actor_id",   limit: 36
+    t.string   "name",       limit: 36
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
   end
@@ -173,6 +173,7 @@ ActiveRecord::Schema.define(version: 20151130014042) do
   create_table "employees", id: false, force: :cascade do |t|
     t.string   "id",         limit: 36, null: false
     t.string   "actor_id",   limit: 36
+    t.string   "branch_id",  limit: 36
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
   end
