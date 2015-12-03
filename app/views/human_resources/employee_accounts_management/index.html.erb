@@ -8,27 +8,27 @@
         <tr>
           <th>
             Employee ID
-            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "id", :order_orientation => table_orientation["order_orientation"] } ) %>
+            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "employees.id", :order_orientation => table_orientation["order_orientation"] } ) %>
           </th>
           <th>
             Name
-            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "actor.name", :order_orientation => table_orientation["order_orientation"] } )%>
+            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "actors.name", :order_orientation => table_orientation["order_orientation"] } )%>
           </th>
           <th>
             Status
-            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "status.label", :order_orientation => table_orientation["order_orientation"] } )%>
+            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "dutystatus.label", :order_orientation => table_orientation["order_orientation"] } )%>
           </th>
-          <th>id,
+          <th>
             Branch
-            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "branch.name", :order_orientation => table_orientation["order_orientation"] } )%>
+            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "branches.name", :order_orientation => table_orientation["order_orientation"] } )%>
           </th>
           <th>
             Date Registered
-            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "employee.created_at", :order_orientation => table_orientation["order_orientation"] } )%>
+            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "employees.created_at", :order_orientation => table_orientation["order_orientation"] } )%>
           </th>
           <th>
             Last Updated
-            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "employee.updated_at", :order_orientation => table_orientation["order_orientation"] } )%>
+            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "employees.updated_at", :order_orientation => table_orientation["order_orientation"] } )%>
           </th>
           <th class="actions">&nbsp;</th>
         </tr>
@@ -36,13 +36,13 @@
         <tbody>
         <% @employee_accounts.each do |employee_accounts| %>
             <tr>
-              <td><%= employee_accounts.id %></td>
-              <td><%= link_to( employee_accounts.actor.name ,{:action => 'employee_profile', :employee_id => employee_accounts.id, :actor_id => employee_accounts.actor.id} ) %>
+              <td><%= employee_accounts[0] %></td>
+              <td><%= link_to( employee_accounts[1] ,{:action => 'employee_profile', :employee_id => employee_accounts[0], :actor_id => employee_accounts[6]} ) %>
               </td>
-              <td><%= employee_accounts.duty_status.latest %></td>
-              <td><%= employee_accounts.branch.name %></td>
-              <td><%= employee_accounts.created_at %></td>
-              <td><%= employee_accounts.updated_at %></td>
+              <td><%= employee_accounts[2] %></td>
+              <td><%= employee_accounts[3] %></td>
+              <td><%= employee_accounts[4] %></td>
+              <td><%= employee_accounts[5] %></td>
               <td class="actions">
                 <a href="" class="action_button" >[ EDIT &#9998; ]</a>
                 &nbsp;

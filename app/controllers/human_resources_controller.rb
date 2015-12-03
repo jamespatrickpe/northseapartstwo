@@ -16,7 +16,7 @@ class HumanResourcesController < ApplicationController
 
     #Set Defaults
     if ( (!order_parameter) || (!order_orientation))
-      order_parameter = "created_at"
+      order_parameter = "employees.created_at"
       order_orientation = "DESC"
     end
 
@@ -24,16 +24,17 @@ class HumanResourcesController < ApplicationController
       current_limit = 15
     end
 
-    #Get Records
-    #Record was complicated; Use RAW SQL; but this is bad example, try to always use activerecord relations
-    sql = "SELECT employees.id, actors.name, dutystatus.label, branches.name, employees.created_at, employees.updated_at, actors.id " +
-          "FROM employees " +
-          "INNER JOIN actors ON employees.actor_id = actors.id " +
-          "INNER JOIN branches ON employees.branch_id = branches.id " +
-          "INNER JOIN ( SELECT employee_id, label, max(created_at) FROM duty_statuses GROUP BY employee_id ) " +
-          "AS dutystatus ON dutystatus.employee_id = employees.id"
-    @rawEmployeeAccounts = Employee.find_by_sql(sql)
-    # how to map this @employee_accounts = rawEmployeeAccounts so it can work exactly in the view?
+    #Get and Process Records
+    #This is BAD practice - used only becuase the query was very complicated - always use active record to construct queries
+    sql = "SELECT employees.id as id, actors.name as name, dutystatus.label as label, branches.name as branch_name, employees.created_at as created_at, employees.updated_at as updated_at, actors.id  as actors_id
+    FROM employees
+    INNER JOIN actors ON employees.actor_id = actors.id
+    INNER JOIN branches ON employees.branch_id = branches.id
+    INNER JOIN ( SELECT employee_id, label, max(duty_statuses.created_at) FROM duty_statuses GROUP BY employee_id )
+    AS dutystatus ON dutystatus.employee_id = employees.id " +
+    "ORDER BY " + order_parameter + " " + order_orientation + " "
+    "LIMIT BY " + current_limit.to_s
+    @employee_accounts = ActiveRecord::Base.connection.execute(sql)
 
     #Render
     render 'human_resources/employee_accounts_management/index'
