@@ -1,0 +1,23 @@
+.pagination_set
+{
+    border-color: #808080;
+    border-width: 1px;
+    padding: 5px;
+    width: 50%;
+    font-size: 12px;
+    float: left
+}
+
+.pagination_set > * > * > * > a:hover
+{
+    color: #FF6600;
+}
+.pagination_set > * > * > * > a
+{
+    color: #808080;
+}
+.pagination_set > * > * > *
+{
+    text-spacing: 10px;
+}
+

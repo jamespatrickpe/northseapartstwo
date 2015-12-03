@@ -37,7 +37,6 @@
 
 
 //$(function(){ $(document).foundation(); });
-
 // For the generic_table
 $(document).ready(function(){
 

@@ -10,24 +10,19 @@
  *
  * Foundation Framework
  *= require foundation_and_overrides
- * Custom Overrides for the Framework
  *= require custom_overrides
- * Sapling Component for Side Navigation
  *= require jquery.sapling
- * Parsley for Validations
  *= require parsley
- * Parsley Overrides
  *= require parsley_overrides
  *= require selectize
  *= require jquery.dataTables
- *= require_tree .
- *= require_self
- * For the Top Navigation Bar
+ *= pagination
  *= topbar
- * For the Side Navigation Bar
  *= sidenavigation
  *= spacers
  *= generic_table
+ *= require_tree .
+ *= require_self
  */
 
 /* Application Wide Styles */
