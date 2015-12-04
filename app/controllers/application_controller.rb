@@ -3,11 +3,35 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-
   layout "application_loggedin"
   skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
   helper_method :error_messages_for, :shift_table_orientation
 
+  #Reset Search Common Paremeters
+  def reset_search
+    flash["order_parameter"] = nil
+    flash["order_orientation"] = nil
+    flash["current_limit"] = nil
+    flash["search_generic_table"] = nil
+  end
+
+  # Stores previous search queries for aggregated results
+  def aggregated_search_queries(value, key, default)
+    if(value)
+      #Priortize actual parameter
+      actual_query_parameter = value
+    elsif (flash[key])
+      #If there is no parameter; pass from cookie
+      actual_query_parameter = flash[key]
+    else
+      # if nothing else; set default
+      actual_query_parameter = default
+    end
+    flash[key] = actual_query_parameter
+    return actual_query_parameter
+  end
+
+  # Shifts the ASC/DESC on the header of table
   def shift_table_orientation
     table_orientation = Hash.new()
     table_orientation["order_orientation"] = ""
@@ -22,6 +46,7 @@ class ApplicationController < ActionController::Base
     return table_orientation
   end
 
+  # Regular Sign In Check
   def sign_in_check
     if( Access.exists?( session[:access_id]) )
       @myAccess = Access.find(session[:access_id])
