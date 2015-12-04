@@ -41,7 +41,7 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/employee_accounts_management/index'
   end
 
-  def reset_search_employee_acccounts_management
+  def reset_search_employees
     reset_search
     redirect_to action: "employee_accounts_management"
   end
