@@ -17,9 +17,12 @@ myActor.save
 access = Access.new
 access.actor = myActor
 access.username = 'joojieman'
-access.email = 'northseaparts@wondermail.com'
-access.encrypted_password = Access.digest('ilovetess')
-access.save!
+access.email = 'jamespatrickpe@northseaparts.com'
+access.password = 'ilovetess'
+access.password_confirmation = 'ilovetess'
+access.hashlink = generateRandomString
+access.verification = true
+access.save
 
 allowableSet = AllowableSet.create( security_level: 'ADMIN', controller: 'ALL', action: 'ALL')
 allowableSet.access = access
@@ -139,27 +142,12 @@ InstitutionalAdjustment.create( institution_employee: myPhilhealth, start_range:
 InstitutionalAdjustment.create( institution_employee: myPagibig, start_range: 0.00, end_range: 99999999999.99, employer_contribution: 100.00, employee_contribution:  100.00 , period_of_time: "MONTH")
 
 # Branches
-northseaone = Actor.create(name: "North Sea Parts One" , description: "Original North Sea Parts Base", logo: 'sample.jpg')
-amppidiesel = Actor.create(name: "Ampid Diesel Trading" , description: "Ampid Diesel Trading", logo: 'sample.jpg')
-stockhouse = Actor.create(name: "North Sea Stock House" , description: "Stockhouse", logo: 'sample.jpg')
-
-cd_northseaone = ContactDetail.create( actor: northseaone)
-  Address.create( description: "North Sea Parts, Marcos Highway, Cainta, Rizal", longitude: "14.6058853", latitude: "121.1292978", contact_detail: cd_northseaone  )
-  Telephone.create( description: "Telephone Number 1", digits: "6451514", contact_detail: cd_northseaone  )
-  Telephone.create( description: "Telephone Number 2", digits: "6452237", contact_detail: cd_northseaone  )
-  Digital.create( description: "Email 1", url: "northseaparts@yahoo.com", contact_detail: cd_northseaone )
-  Digital.create( description: "Email 2", url: "northseaparts@gmail.com", contact_detail: cd_northseaone )
-
-cd_ampidiesel = ContactDetail.create( actor: amppidiesel)
-  Address.create( description: "Ampid Diesel Trading, General Luna Avenue, San Mateo, Rizal", longitude: "14.698516", latitude: "121.121944", contact_detail: cd_ampidiesel  )
-  Telephone.create( description: "Telephone Number 1", digits: "9489991", contact_detail: cd_ampidiesel  )
-
-cd_stockhouse = ContactDetail.create( actor: stockhouse)
-  Address.create( description: "North Sea Stockhouse, Sumulong Highway, Antipolo, Rizal", longitude: "14.6171302", latitude: "121.1340643", contact_detail: cd_stockhouse  )
-
-b1 = Branch.create( actor: northseaone )
-b2 = Branch.create( actor: amppidiesel )
-b3 = Branch.create( actor: stockhouse )
+Branch.create(name: "GRECO Warehouse")
+Branch.create(name: "BIOFIN")
+Branch.create(name: "GREEN TERRAIN")
+Branch.create(name: "North Sea Cainta")
+Branch.create(name: "Ampid Diesel Trading")
+Branch.create(name: "Generic")
 
 #Constants
 Constant.create( name: "human_resources.minimum_wage", constant: "362.50", description: "Minimum Wage")
@@ -200,25 +188,36 @@ numberOfPositions.times do |i|
 end
 
 #ENTITIES
-numberOfActors = 200
+numberOfActors = 100
 numberOfActors.times do |i|
   #Actor
-  myActor = Actor.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true), logo: 'sample.jpg')
+  myActor = Actor.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true), logo: 'barack_obama.jpg')
   myActor.save
 
   # ACCESS
   if (randomBoolean())
     #Access
     randomPassword = Faker::Internet.password(10, 20)
-    randomPassword = Access.digest(randomPassword)
     randomEmail = Faker::Internet.email
-    random_boolean = [true, false].sample
-    myAccess = Access.new( username: Faker::Internet.user_name, encrypted_password: randomPassword, actor: myActor, email: randomEmail)
-    myAccess.save
 
-    #Verification
-    myVerification = Verification.new( temp_email: randomEmail, hashlink: generateRandomString(), verified: randomBoolean, access: myAccess)
-    myVerification.save
+    randomUserName = Faker::Internet.user_name
+    if(randomUserName.length < 3)
+      randomUserName << Faker::Internet.user_name
+    end
+
+    if(Access.find_by_username(randomUserName))
+      randomUserName = Faker::Internet.user_name
+    end
+
+    myAccess = Access.new
+    myAccess.actor = myActor
+    myAccess.username = randomUserName
+    myAccess.email = randomEmail
+    myAccess.password = randomPassword
+    myAccess.password_confirmation = randomPassword
+    myAccess.hashlink = generateRandomString
+    myAccess.verification = randomBoolean
+    myAccess.save
 
     #ContactDetail
     myContactDetail = ContactDetail.create( actor: myActor)
@@ -270,17 +269,21 @@ numberOfActors.times do |i|
 
   # HUMAN RESOURCES
   if(randomBoolean())
-    myEmployee = Employee.new( actor: myActor )
-
-    if(randomBoolean())
-      myStatus = "ACTIVE"
-    else
-      myStatus = "INACTIVE"
-    end
+    # ids = Branch.pluck(:id).shuffle
+    # myBranch = Branch.where(id: ids)
+    myEmployee = Employee.new( actor: myActor, branch: Branch.all.shuffle.first )
 
     dayOfWeek = Faker::Time.between(7.days.ago, Time.now, :all).strftime("%A")
     restday = Restday.new(day: dayOfWeek, employee: myEmployee); restday.save
-    duty = Duty.new(description: Faker::Lorem.words(16), label: myStatus, employee: myEmployee); duty.save
+
+    numberOfDuties = rand(1..5)
+    numberOfDuties.times do
+      myStatus = ["ACTIVE","INACTIVE"].sample
+      dutyStatus = DutyStatus.new(description: Faker::Lorem.words(16), label: myStatus, employee: myEmployee)
+      dutyStatus.created_at = rand(720..72000).hours.ago
+      dutyStatus.save
+    end
+
     myEmployee.save
 
     periodsOfTime = ["DAY", "WEEK", "HOUR", "MONTH"]
@@ -398,7 +401,7 @@ numberOfActors.times do |i|
               currentPayment = 0
             end
             myRepaidPaymentsFromEmployee.amount = currentPayment
-            myRepaidPaymentsFromEmployee.save!
+            myRepaidPaymentsFromEmployee.save
             totalPaid += currentPayment
           end
         end

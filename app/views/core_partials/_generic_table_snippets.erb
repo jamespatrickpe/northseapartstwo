@@ -1,0 +1,10 @@
+<%
+   order_orientation = "DESC"
+   if( params[:order_orientation] == "ASC" )
+     order_orientation = "DESC"
+     orientation_symbol = '&#x25BC;'
+   else
+     order_orientation = "ASC"
+     orientation_symbol = '&#x25B2;'
+   end
+%>

@@ -3,13 +3,14 @@
 
   <section class="top-bar-section">
     <!-- Right Nav Section -->
-    <ul class="right" style="margin-right: 1%">
-      <li>
-        <a href="/Access/signin"> <%= image_tag "signin.png" %> <%= t('topbar.sign_in') %> </a>
-      </li>
-      <li>
-        <a href="/Access/registration"> <%= image_tag "register.png" %> <%= t('topbar.register') %> </a>
-      </li>
+    <ul class="right" style="margin-right: 1%; overflow: hidden;">
+      <% if( @sign_in_affirmative == true )%>
+          <li><a href="/access/my_account"> &nbsp; <%= image_tag @myActor.logo_url(:topbar_avatar) if @myActor.logo? %> &nbsp;&nbsp; <%= @myActor.name %> | <%= @myAccess.username %>  &nbsp; &nbsp;   </a></li>
+          <li><a href="/access/signout"> <%= image_tag "signout.png" %> <%= t('topbar.sign_out') %> </a></li>
+      <% else %>
+          <li><a href="/access/signin"> <%= image_tag "signin.png" %> <%= t('topbar.sign_in') %> </a></li>
+          <li><a href="/access/registration"> <%= image_tag "register.png" %> <%= t('topbar.register') %> </a></li>
+      <% end %>
     </ul>
 
     <!-- Left Nav Section -->
@@ -24,3 +25,15 @@
 
   </section>
 </nav>
+
+<% if( flash[:general_flash_notification] ) %>
+<div class="tiny button" id="general_flash_notification" > <%= flash[:general_flash_notification] %> &nbsp; &nbsp; &nbsp; &#10060; </div>
+<% end %>
+
+<script>
+    $( document ).ready(
+            $("#general_flash_notification").click(function(){
+                $("#general_flash_notification").remove();
+            })
+    )
+</script>

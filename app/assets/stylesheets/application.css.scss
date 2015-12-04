@@ -8,16 +8,33 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
+ * Foundation Framework
  *= require foundation_and_overrides
  *= require custom_overrides
  *= require jquery.sapling
  *= require parsley
+ *= require parsley_overrides
  *= require selectize
  *= require jquery.dataTables
+ *= pagination
+ *= topbar
+ *= sidenavigation
+ *= spacers
+ *= generic_table
  *= require_tree .
  *= require_self
-
  */
+
+/* Application Wide Styles */
+
+body {
+  min-width: 1360px;
+}
+
+.northsea-red {
+  color : #721314 !important;
+}
+
 
 .mainheader
 {
@@ -42,19 +59,6 @@
   border-left-style: solid;
 }
 
-//TREE STUFF
-ul, li .side-navigation
-{
-  list-style-type: none;
-  font-size: 12px;
-}
-
-li:hover
-{
-  color:white;
-  background-color: gray;
-}
-
 //SUB HEADER DESCRIPTION
 .subdescription
 {
@@ -63,3 +67,44 @@ li:hover
   font-size: 12px;
   text-transform: uppercase;
 }
+
+.whitebackgroundlink
+{
+  color: #721314;
+}
+
+.whitebackgroundlink:hover
+{
+  color: #FF6600;
+}
+
+#general_flash_notification
+{
+  background-color: #FF6600;
+  width: 100%;
+}
+#general_flash_notification:hover
+{
+  background-color: #c64700
+}
+
+.border-light {
+  padding : 16px;
+}
+
+.content {
+  border : 1px solid #cccccc;
+  padding : 16px;
+}
+
+/************************************************************************* FORMS*/
+
+/*
+Unsure of what this is
+form div.row {
+  margin : 16px 0;
+}
+*/
+
+/************************************************************************* CUSTOM PARSLEY STYLES*/
+

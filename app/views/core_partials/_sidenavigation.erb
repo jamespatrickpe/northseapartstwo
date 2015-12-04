@@ -1,27 +1,4 @@
-<!--
-<div class="large-2 columns" id="side-navigation-container" style="background-color:gray; margin-top: 2px; border-left-color: #721314; border-left-style: solid; border-left-width: 3px;">
-
-  <div id="navigation_label_container" style="color: white; font-size: 14px; font-family: Helvetica, Arial, Sans-Serif; padding-top: 5px; border-bottom-color:white; border-bottom-style:solid; border-bottom-width:1px;">
-    <p id="navigation_label" style="float:left; letter-spacing: 1px;">NAVIGATION</p>
-    &nbsp;
-    <p style="float:right">
-    <a id="expand_all" href="#">&#x25BC</a>
-    <a id="collapse_all" href="#">&#9776</a>
-    <a id="hide_show_all" href="#">&#x25c9</a>
-
-    <br type="_moz">
-    </p>
-  </div>
-
-  <input id="search_system" class="search_system" type="text" placeholder="Search System" value="" tabindex="1" style="height:10px; background-color: dimgray; color:white; border-color: dimgray; padding: 10px; font-size: 11px;"/>
-
-  <div id="side-navigation" style="padding-top: 1px;">
-
-  </div>
-</div>
--->
-
-<div class="small-1 columns" id="side-navigation-container">
+<div class="small-2 columns" id="side-navigation-container">
 
   <div style="background-color: #721314; padding: 5px; margin-bottom: 20px;">
     <div style="float:left;background-color: #721314; padding-left: 5px;">System Navigation</div>
@@ -36,7 +13,7 @@
     <a href=""><span align="center" style="display:inline; font-size: 15px;"> &#128269; </span></a>
   </div>
 
-  <div style="background-color: #808080; padding-left: 5px; margin-top:10px; ">
+  <div style="background-color: #808080; padding-left: 5px; margin-top:10px; font-size: 10px; ">
     <%= render_navigation :expand_all => true %>
   </div>
 
@@ -118,7 +95,7 @@
     #side-navigation-container
     {
         padding:0px;
-        width: 20%;
+        /*width: 20%;*/
         color:white;
         font-size: 12px;
         background-color: #721314;

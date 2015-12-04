@@ -1,6 +1,6 @@
 class AccessMailer < ApplicationMailer
 
-  default :from => "northseaparts@gmail.com"
+  default :from => "access_control@northseaparts.com"
 
   def verification_email(email, hashlink, name)
     @email = email

@@ -10,26 +10,43 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+// Place javascripts here that are needed application wide.
+//
 // Manually put every javascript
 //= require jquery
-//= // require jquery_ujs
 //= require jquery-ui
 //= require selectize.js
-//= // require foundation
 //= require googlemaps120714.js
 //= require locationpicker.jquery.js
 //= require file-validator.js
-//= //require jquery.validate
-//= //require jquery.validate.additional-methods
+//= require jquery.validate
 //= require jquery.sapling.min
 //= require parsley
 //= require jquery.dataTables
+//= require jquery-tablesorter
+//= require jquery-tablesorter/jquery.tablesorter
+//= require jquery-tablesorter/jquery.tablesorter.widgets
+//= require jquery-tablesorter/addons/pager/jquery.tablesorter.pager
+//= require jquery-tablesorter/widgets/widget-repeatheaders
+//= require jquery-tablesorter/parsers/parser-metric
+//= require typeahead.bundle
+//= #require jquery-tablesorter/extras/jquery.quicksearch
+//= #require jquery-tablesorter/jquery.metadata
 //= //require turbolinks // CAUSES ERROR
 //= //require_tree .  // CAUSES ERROR
 
-
 //$(function(){ $(document).foundation(); });
 
+
+
+// For generic_table
+$(document).ready(function(){
+    $(".generic_table > tbody > tr").hover(
+        function(){$(this).find("td.actions > *").css("visibility", "visible");},
+        function(){$(this).find("td.actions > *").css("visibility", "hidden");})
+});
+
+// For Contact Details
 function GetURLParameter(sParam)
 {
     var sPageURL = window.location.search.substring(1);

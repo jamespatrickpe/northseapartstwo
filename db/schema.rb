@@ -11,28 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151110053835) do
+ActiveRecord::Schema.define(version: 20151130014042) do
 
   create_table "accesses", id: false, force: :cascade do |t|
-    t.string   "id",                     limit: 36,               null: false
-    t.string   "actor_id",               limit: 36
-    t.string   "username",               limit: 64
+    t.string   "id",              limit: 36,                  null: false
+    t.string   "actor_id",        limit: 36
+    t.string   "username",        limit: 64
+    t.string   "password_digest", limit: 512
+    t.string   "email",           limit: 512
+    t.string   "hashlink",        limit: 512
+    t.integer  "attempts",        limit: 1,   default: 0
+    t.boolean  "verification",    limit: 1,   default: false
+    t.boolean  "remember_me",     limit: 1,   default: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "email",                  limit: 255, default: "", null: false
-    t.string   "encrypted_password",     limit: 255, default: "", null: false
-    t.string   "reset_password_token",   limit: 255
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          limit: 4,   default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip",     limit: 255
-    t.string   "last_sign_in_ip",        limit: 255
   end
-
-  add_index "accesses", ["email"], name: "index_accesses_on_email", unique: true, using: :btree
-  add_index "accesses", ["reset_password_token"], name: "index_accesses_on_reset_password_token", unique: true, using: :btree
 
   create_table "actor_connectors", id: false, force: :cascade do |t|
     t.string   "id",                limit: 36, null: false
@@ -130,7 +123,7 @@ ActiveRecord::Schema.define(version: 20151110053835) do
 
   create_table "branches", id: false, force: :cascade do |t|
     t.string   "id",         limit: 36, null: false
-    t.string   "actor_id",   limit: 36
+    t.string   "name",       limit: 36
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
   end
@@ -168,7 +161,7 @@ ActiveRecord::Schema.define(version: 20151110053835) do
     t.datetime "updated_at"
   end
 
-  create_table "duties", id: false, force: :cascade do |t|
+  create_table "duty_statuses", id: false, force: :cascade do |t|
     t.string   "id",          limit: 36,  null: false
     t.string   "description", limit: 256
     t.string   "label",       limit: 64
@@ -180,6 +173,7 @@ ActiveRecord::Schema.define(version: 20151110053835) do
   create_table "employees", id: false, force: :cascade do |t|
     t.string   "id",         limit: 36, null: false
     t.string   "actor_id",   limit: 36
+    t.string   "branch_id",  limit: 36
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
   end
@@ -192,6 +186,13 @@ ActiveRecord::Schema.define(version: 20151110053835) do
     t.string   "description",       limit: 256
     t.string   "rel_file_set_id",   limit: 36
     t.string   "rel_file_set_type", limit: 255
+  end
+
+  create_table "guitars", force: :cascade do |t|
+    t.string   "manufacturer", limit: 255
+    t.string   "model",        limit: 255
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "holiday_types", id: false, force: :cascade do |t|
@@ -322,21 +323,21 @@ ActiveRecord::Schema.define(version: 20151110053835) do
     t.datetime "updated_at",                                null: false
   end
 
+  create_table "roles", id: false, force: :cascade do |t|
+    t.string   "id",         limit: 36,  null: false
+    t.string   "access_id",  limit: 36
+    t.string   "label",      limit: 256
+    t.string   "level",      limit: 256
+    t.string   "remark",     limit: 256
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
   create_table "telephones", id: false, force: :cascade do |t|
     t.string   "id",                limit: 36,  null: false
     t.string   "contact_detail_id", limit: 36
     t.string   "digits",            limit: 64
     t.string   "description",       limit: 256
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "verifications", id: false, force: :cascade do |t|
-    t.string   "id",         limit: 36,                  null: false
-    t.string   "temp_email", limit: 512
-    t.string   "hashlink",   limit: 512
-    t.string   "access_id",  limit: 36
-    t.boolean  "verified",   limit: 1,   default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

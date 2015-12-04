@@ -13,11 +13,15 @@ class AvatarUploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    "/northseapartsuploads/entity_avatars/"
+    "uploads/entity_avatars/"
   end
 
   def cache_dir
-    "/northseapartsuploads/entity_avatars/tmp/"
+    "uploads/entity_avatars/tmp/"
+  end
+
+  def default_url
+    "uploads/" + [version_name, "default.jpg"].compact.join('_')
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
@@ -36,11 +40,11 @@ class AvatarUploader < CarrierWave::Uploader::Base
   # end
 
   # Create different versions of your uploaded files:
-  #version :thumb do
-  # process :resize_to_fit => [150, 150]
-  #end
+  version :topbar_avatar do
+   process :resize_to_fit => [25, 25]
+  end
 
-  process :resize_to_fit => [150, 150]
+  #process :resize_to_fit => [150, 150]
 
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
@@ -49,7 +53,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
   end
 
   # Override the filename of the uploaded files:
-  # Avoid using model.id or version_name here, see uploader/store.rb for details.
+  # Avoid using model.id or version_name here, see uploadraier/store.rb for details.
   def filename
     "#{secure_token(10)}.#{file.extension}" if original_filename.present?
   end

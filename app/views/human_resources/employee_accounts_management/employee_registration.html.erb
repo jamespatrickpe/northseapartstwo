@@ -1,5 +1,206 @@
-<!--
+<section class="small-10 columns ">
 
-# see old candidate registration
+  <div class="content">
 
---!>
+    <div class="mainheader">
+      Employee Registration
+    </div>
+
+    <%= link_to( "Back to List" ,{:action => 'employee_accounts_management'} ) %>
+
+    <%= form_tag({action: :"register_employee"}, multipart: true, id: "employee_registration_form", :"data-parsley-validate" => "" ) do %>
+
+        <div class="md-spacer"></div>
+
+        <div class="medium-6">
+
+          <h5>Personal Information</h5>
+
+          <div class="row">
+            <div class="medium-8 columns">
+              <label>Name
+                <%= text_field_tag("actor[name]", value = nil, options = {placeholder: "Enter name", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64"}) %>
+              </label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="medium-8 columns">
+              <label>Description
+                <%= text_area_tag("actor[description]", value = nil, options = {placeholder: "Enter description", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"128"}) %>
+              </label>
+            </div>
+          </div>
+
+          <h5>Bio</h5>
+
+          <div class="row">
+            <div class="medium-8 columns">
+              <label>Birthday
+                <%= date_field_tag("biodatum[date_of_birth]", value = nil, options = {id:"birthday", placeholder: "Birthday", required: "required", :"data-parsley-date" => "", :"data-parsley-trigger" => "keyup"}) %>
+              </label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="medium-8 columns">
+              <label>Height
+              <%= number_field_tag("biodatum[height]", value = nil, options = {id:"height", placeholder: "Height in cm", :"data-parsley-type" => "integer", :"data-parsley-trigger" => "keyup"}) %></div><br>
+            </label>
+          </div>
+
+          <div class="row">
+            <div class="medium-8 columns">
+              <label>Sex</label>
+              <%= radio_button_tag(:sex, 'Male', options = { required: "required" })%>  <%= label_tag(:sex_female, "Male") %>
+              <%= radio_button_tag(:sex, 'Female')%> <%= label_tag(:sex_male, "Female") %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="medium-8 columns">
+              <label>Family Members
+                <%= text_area_tag("biodatum[family_members]", value = nil, options = {id:"family_members", placeholder: "Family Members",:"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128"}) %>
+              </label>
+            </div>
+          </div>
+
+          <!-- test -->
+
+          <div class="row">
+            <div class="medium-8 columns">
+              <label>Complexion
+                <%= select_tag("biodatum[complexion]",
+                               options_for_select(
+                                       [%w(Light Light),
+                                        %w(Fair Fair),
+                                        %w(Medium Medium),
+                                        %w(Olive Olive),
+                                        %w(Brown Brown),
+                                        %w(Black Black),
+                                       ]
+                               ))
+                %>
+              </label>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="medium-8 columns">
+              <label>Marital Status
+                <%= select_tag("biodatum[marital_status]",
+                               options_for_select(
+                                       [ %w(Single Single),
+                                         %w(Married Married),
+                                         %w(Divorced Divorced),
+                                         %w(Widowed Widowed)]
+                               ))
+                %>
+              </label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="medium-8 columns">
+              <label>Blood Type
+                <%= select_tag("biodatum[blood_type]",
+                               options_for_select(
+                                       [%w(A+ A+),
+                                        %w(A- A-),
+                                        %w(B+ B+),
+                                        %w(B- B-),
+                                        %w(AB+ AB+),
+                                        %w(AB- AB-),
+                                        %w(O+ O+),
+                                        %w(O- O- )]
+                               ))
+                %>
+              </label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="medium-8 columns">
+              <label>Religion
+                <%= select_tag("biodatum[religion]",
+                               options_for_select(
+                                       [['Catholic Christian','Catholic Christian'],
+                                        ['Born Again Christian','Born Again Christian'],
+                                        ['Iglesia ni Cristo','Iglesia ni Cristo'],
+                                        ['Muslim','Muslim'], ['Others','Others']]
+                               ))
+                %>
+              </label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="medium-8 columns">
+              <label>Education
+                <%= select_tag("biodatum[education]",
+                               options_for_select(
+                                       [['Elementary','Elementary'],
+                                        ['High School','High School'],
+                                        ['College Undergraduate','College Undergraduate'],
+                                        ['College Graduate - Bachelor','College Graduate - Bachelor'],
+                                        ['College Graduate - Master','College Graduate - Master'],
+                                        ['College Graduate - Doctor','College Graduate - Doctor'],
+                                       ]
+                               ))
+                %>
+              </label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="medium-8 columns">
+              <label>Career Experience
+                <%= text_area_tag("biodatum[career_experience]", value = nil, options = {id:"career_experience", placeholder: "Career Experience",:"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"32"}) %>
+              </label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="medium-8 columns">
+              <label>Notable Accomplishments
+                <%= text_area_tag("biodatum[notable_accomplishments]", value = nil, options = {id:"notable_accomplishments", placeholder: "Notable Accomplishments",:"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"32"}) %>
+              </label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="medium-8 columns">
+              <label>Emergency Contact
+                <%= text_area_tag("biodatum[emergency_contact]", value = nil, options = {id:"emergency_contact", placeholder: "Emergency Contact Details",:"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"32"}) %>
+
+              </label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="medium-8 columns">
+              <label>Languages Spoken
+                <%= text_area_tag("biodatum[languages_spoken]", value = nil, options = {id:"languages_spoken", placeholder: "Languages Spoken",:"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"32"}) %>
+
+              </label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="medium-8 columns">
+              <%= submit_tag nil, :class => "button small" %>
+            </div>
+          </div>
+
+        </div>
+
+        <!--<div class="large-6 columns">-->
+        <% #renderFormPartial("system_account_with_options"); %>
+        <!--</div>-->
+
+    <% end %>
+
+  </div>
+
+</section>

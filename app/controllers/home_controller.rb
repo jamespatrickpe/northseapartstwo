@@ -1,30 +1,13 @@
 class HomeController < ApplicationController
 
   layout 'application'
-
-  def verification_delivery
-    @access_id = params[:access_id]
-    verification = Verification.find_by(access_id: @access_id)
-    @currentEmail = verification.temp_email
-    render "shared/verification_delivery"
-  end
-
-  def resend_verification
-    access_id = params[:access_id]
-    email = params[:access][:email]
-    verification = Verification.find_by(access_id: access_id)
-    verification.update(temp_email: email)
-    VerificationMailer.verification_email( email, verification.hashlink ).deliver
-    flash[:notice] = "Reverification Email has been sent!"
-    redirect_to action: "verification_delivery", access_id: access_id
-  end
+  before_action :authenticate_access!, only: [ ]
 
   def index
   end
 
   def parts_library
   end
-
 
   def become_a_supplier
   end

@@ -7,15 +7,15 @@
 
 Hello!
 
-Please click on the link below to verify registration <br>
+<br><br>
 
-<%= @hashlink %>
-
-
+Please click on the link below to verify registration and begin signing in the system<br>
+<a href="http://localhost:3000/access/verify?hashlink=<%= @hashlink %>">http://www.northseaparts.com/access/verify/?code=<%= @hashlink %></a>
+<br><br>
+We look forward to working with you!
 <br>
-<a href="northseaparts.com/access/verify?code=<%= @hashlink %>">
-  http://www.northseaparts.com/access/verify/?code=<%= @hashlink %>
-</a>
+North Sea Parts Staff
+<br>
 
 </body>
 </html>

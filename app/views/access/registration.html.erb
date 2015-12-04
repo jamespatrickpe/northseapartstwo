@@ -3,12 +3,10 @@
 
   <div class="mainheader"><%= t('access.header_registration') %></div>
   <div class="subdescription"> <%= t('access.header_description_registration') %> </div>
-  <%= displayCollectiveResponses %>
   <div class="row">
     <div class="large-6 columns">
       <h2 class="miniheader"> <%= t('access.header_system_account') %> </h2>
       <%= renderFormPartial("system_account"); %>
-      <%= @lala %>
     </div>
 
     <div class="large-6 columns"d>
@@ -18,7 +16,7 @@
   </div>
 
   <%= renderFormPartial("contact_details"); %>
-
+  <%= renderFormPartial("actor_selection_form"); %>
    <div class="row" align="center">
      <hr><input type="submit" class="large button" href="#" value= <%= t('access.button_register') %> ><hr>
    </div>
