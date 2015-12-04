@@ -21,7 +21,7 @@
       <section>
 
         <%= link_to "Back to Employee List" ,{ :action => "employee_accounts_management" }, class: "button small" %>
-        <%= link_to "View Profile" ,{ :action => "employee_profile", :employee_id => @employee.id }, class: "button small" %>
+        <%= link_to "View Profile" ,{ :action => "employee_profile", :employee_id => @employee.id, :actor_id => @actorReference.id }, class: "button small" %>
 
         <div class="lg-spacer"></div>
 

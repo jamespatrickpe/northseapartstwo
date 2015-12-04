@@ -34,7 +34,7 @@ class HumanResourcesController < ApplicationController
       @employee_accounts = ActiveRecord::Base.connection.execute(sql)
       @employee_accounts = Kaminari.paginate_array(@employee_accounts.each( :as => :array )).page(params[:page]).per(current_limit)
     rescue
-      flash[:general_flash_notifcation] = "Error has Occured"
+      flash[:general_flash_notification] = "Error has Occured"
     end
 
     #Render
@@ -60,11 +60,61 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/employee_accounts_management/employee_registration'
   end
 
+
+  def assign_duty
+    # page data
+    @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
+    @duties = Duty.all()
+    @employee = Employee.find(params[:employee_id])
+
+    @assignedDuty =  Duty.find(params[:duty_dd])
+    @assignedDuty.employee_id = @employee.id
+
+    @assignedDuty.save!
+
+    if @assignedDuty.save!
+      flash[:notice] = 'Duty ' + @assignedDuty.label + ' was successfully assigned to ' + @employee.actor.name
+      render 'human_resources/employee_accounts_management/employee_profile'
+    else
+      flash[:notice] = 'Failed to assign Duty:' + @assignedDuty.label + ' to ' + @assignedDuty.actor.name
+      Add a comment to this line
+      render 'human_resources/employee_accounts_management/employee_profile'
+    end
+
+  end
+
+  def duty_create
+
+    @duties = DutyStatus.page(params[:page]).per(10)
+    @employees = Employee.all()
+    render 'human_resources/employee_accounts_management/duty_create'
+  end
+
+  def create_duty
+
+    @employees = Employee.all()
+    @duties = DutyStatus.page(params[:page]).per(10)
+
+    newduty = DutyStatus.new(dutyStatus_params)
+
+    # set duty id to the employee
+    newduty.employee_id = params[:employee_dd]
+    employee = Employee.find(params[:employee_dd])
+
+    if newduty.save!
+      flash[:notice] = 'Duty ' + newduty.label + ' was successfully assigned to ' + employee.actor.name
+      redirect_to :action => "duty_create"
+    else
+      flash[:notice] = 'Failed to assign Duty:' + newduty.label + ' to ' + employee.actor.name
+      redirect_to :action => "duty_create"
+    end
+
+  end
+
   def employee_profile
 
     @employee = Employee.find(params[:employee_id])
     @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
-
     render 'human_resources/employee_accounts_management/employee_profile'
   end
 
@@ -148,6 +198,7 @@ class HumanResourcesController < ApplicationController
 
     @employee = Employee.find(params[:employee_id])
     @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
+    @actorReference = Actor.find(params[:actor_id])
 
     render 'human_resources/employee_accounts_management/edit_employee_profile'
   end
@@ -157,6 +208,7 @@ class HumanResourcesController < ApplicationController
     # find existing employee and biodata using the id from the params
     @employee = Employee.find(params[:employee_id])
     @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
+    @actorReference = Actor.find(params[:actor_id])
 
     # the actual update method passing the parameters set from the pagee
     @biodatum.update_attributes(biodata_params)
@@ -188,7 +240,10 @@ class HumanResourcesController < ApplicationController
     @employees = Employee.all()
     employee = Employee.find(params[:employee_id])
     employee.destroy
-    render 'human_resources/employee_accounts_management/index'
+
+    reset_search_employees
+
+    # render 'human_resources/employee_accounts_management/index'
 
   end
 
@@ -202,6 +257,7 @@ class HumanResourcesController < ApplicationController
 
     @biodata.save!
     @employee.save!
+    @actorReference = actor
 
     if @employee.save!
 
@@ -244,6 +300,14 @@ class HumanResourcesController < ApplicationController
             :notable_accomplishments,
             :emergency_contact,
             :languages_spoken
+        )
+  end
+
+  def dutyStatus_params
+    params.require(:duty)
+        .permit(
+            :label,
+            :description
         )
   end
 

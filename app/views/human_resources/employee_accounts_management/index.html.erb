@@ -1,9 +1,9 @@
 <section class="small-10 columns">
-<div class="mainheader"> Employee Accounts Management </div>
-<div class="subdescription"> Manage the Accounts of Employees</div>
-<hr>
+  <div class="mainheader"> Employee Accounts Management </div>
+  <div class="subdescription"> Manage the Accounts of Employees</div>
+  <hr>
 
-<%= form_tag( "employee_accounts_management", method: ":get", id: "search_employee_accounts_management") do %>
+  <%= form_tag( "employee_accounts_management", method: ":get", id: "search_employee_accounts_management") do %>
       <div class="row collapse" style="float: left">
         <div class="small-5 columns"><%= text_field_tag("search_generic_table", value=nil ,options = {placeholder: "Search Employees", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64", :"data-parsley-type"=>"alphanum" }) %></div>
         <div class="small-1 columns"><input type="submit" class="button postfix" value="&#128269;" /></div>
@@ -14,7 +14,7 @@
             Searching for "<%= flash["search_generic_table"] %>" with "<%= flash["order_parameter"] %>" ordered by "<%= flash["order_orientation"] %>" at <%= flash["current_limit"] %> per page
           </div>
       <% end %>
-<% end %>
+  <% end %>
 
   <% begin %>
       <% table_orientation = shift_table_orientation %>
@@ -45,11 +45,13 @@
             Last Updated
             <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "employees.updated_at", :order_orientation => table_orientation["order_orientation"] } )%>
           </th>
-          <th class="actions">&nbsp;</th>
+          <th>
+            Actions
+          </th>
         </tr>
         </thead>
         <% if @employee_accounts.empty? == true %>
-        <% raise exception %>
+            <% raise exception %>
         <% else %>
             <tbody>
             <% @employee_accounts.each do |employee_accounts| %>
@@ -76,16 +78,17 @@
         <span><%= paginate @employee_accounts %></span>
       </div>
 
-<% rescue %>
+  <% rescue %>
       <script>
-        html = "<hr><p align='center'> No records found. Please try again. </p><hr>"
-        $(".generic_table").replaceWith(html)
+          html = "<hr><p align='center'> No records found. Please try again. </p><hr>"
+          $(".generic_table").replaceWith(html)
       </script>
   <% end %>
 
   <div style="float: right">
-    <a href="/human_resources/reset_search_employees" class="small button" >Reset Search</a>
-    <a href="/human_resources/employee_registration" class="small button">Add New Employee</a>
+    <a href="/human_resources/reset_search_employees" class="tiny button" >Reset Search</a>
+    <a href="/human_resources/employee_registration" class="tiny button">Add New Employee</a>
+    <a href="/human_resources/duty_create" class="tiny button">Go to Duties Page</a>
   </div>
 
 </section>

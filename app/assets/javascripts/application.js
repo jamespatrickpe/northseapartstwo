@@ -37,7 +37,9 @@
 
 //$(function(){ $(document).foundation(); });
 
-
+//= require foundation
+$(document).foundation();
+$(document).foundation('alert','events');
 
 // For generic_table
 $(document).ready(function(){
