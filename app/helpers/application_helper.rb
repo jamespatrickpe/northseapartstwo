@@ -6,6 +6,14 @@ module ApplicationHelper
     link_to title, :order_by => column, :arrangement => direction, :employee_id => @employee_id, :offset => @offset
   end
 
+  def generic_table_add_and_reset(add_link, reset_link)
+    render(:partial => "core_partials/generic_table_add_and_reset", :locals => { :add_link => add_link, :reset_link => reset_link})
+  end
+
+  def generic_table_search(form_link, form_id, placeholdertext)
+    render(:partial => "core_partials/generic_table_search", :locals => { :form_link => form_link, :form_id => form_id, :placeholdertext => placeholdertext})
+  end
+
   def generateReadableID()
     generatedID = SecureRandom.random_number(999999999).to_s.rjust(9,'0')
     while( self.where(id: generatedID) )
@@ -21,9 +29,9 @@ module ApplicationHelper
     return placeholdervariable
   end
 
-  def rendercorepartial(partialname,partialinks={})
-    render(:partial => "core_partials/"+partialname, :locals => partialinks)
-  end
+  #def rendercorepartial(partialname,partialinks={})
+  #  render(:partial => "core_partials/"+partialname, :locals => partialinks)
+  #end
 
   def renderCorePartial(partialname,partialinks={})
     render(:partial => "core_partials/"+partialname, :locals => partialinks)

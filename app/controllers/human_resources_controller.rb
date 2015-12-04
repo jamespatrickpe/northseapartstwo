@@ -2,6 +2,7 @@ class HumanResourcesController < ApplicationController
   include ApplicationHelper
 
   layout "application_loggedin"
+  skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
 
   def index
     render 'human_resources/index'
@@ -10,10 +11,10 @@ class HumanResourcesController < ApplicationController
   def employee_accounts_management
 
     # Obtain and Process Parameters
-    order_parameter = aggregated_search_queries(params[:order_parameter], "order_parameter" ,"created_at")
-    order_orientation = aggregated_search_queries(params[:order_orientation], "order_orientation", "DESC")
-    current_limit = aggregated_search_queries(params[:current_limit], "current_limit","10")
-    search_generic_table = aggregated_search_queries(params[:search_generic_table], "search_generic_table","")
+    order_parameter = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:order_parameter], "order_parameter" ,"created_at")).gsub("'", '')
+    order_orientation = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:order_orientation], "order_orientation", "DESC")).gsub("'", '')
+    current_limit = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:current_limit], "current_limit","10")).gsub("'", '')
+    search_field = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:search_field], "search_field","")).gsub("'", '')
 
     # Get and Process Records
     # This is BAD practice - used only becuase the query was very complicated - always use active record to construct queries; There is better way to do this.
@@ -24,12 +25,12 @@ class HumanResourcesController < ApplicationController
     INNER JOIN branches ON employees.branch_id = branches.id
     INNER JOIN ( SELECT employee_id, label, max(duty_statuses.created_at) FROM duty_statuses GROUP BY employee_id )
     AS dutystatus ON dutystatus.employee_id = employees.id WHERE" +
-          "(employees.id LIKE '%" + search_generic_table + "%' " + ")" + " OR " +
-          "(actors.name LIKE '%" + search_generic_table + "%' " + ")" + " OR " +
-          "(dutystatus.label LIKE '%" + search_generic_table + "%' " + ")" + " OR " +
-          "(branches.name LIKE '%" + search_generic_table + "%' " + ")" + " OR " +
-          "(employees.created_at LIKE '%" + search_generic_table + "%' " + ")" + " OR " +
-          "(employees.updated_at LIKE '%" + search_generic_table + "%' " + ")" + " " +
+          "(employees.id LIKE '%" + search_field + "%' " + ")" + " OR " +
+          "(actors.name LIKE '%" + search_field + "%' " + ")" + " OR " +
+          "(dutystatus.label LIKE '%" + search_field + "%' " + ")" + " OR " +
+          "(branches.name LIKE '%" + search_field + "%' " + ")" + " OR " +
+          "(employees.created_at LIKE '%" + search_field + "%' " + ")" + " OR " +
+          "(employees.updated_at LIKE '%" + search_field + "%' " + ")" + " " +
           "ORDER BY " + order_parameter + " " + order_orientation;
       @employee_accounts = ActiveRecord::Base.connection.execute(sql)
       @employee_accounts = Kaminari.paginate_array(@employee_accounts.each( :as => :array )).page(params[:page]).per(current_limit)
@@ -44,6 +45,14 @@ class HumanResourcesController < ApplicationController
   def reset_search_employees
     reset_search
     redirect_to action: "employee_accounts_management"
+  end
+
+  def search_suggestions_employees
+    employees = Employee.includes(:actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + employees.to_s + "}" # default format for plugin
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
   end
 
   def employee_accounts_data

@@ -1,0 +1,21 @@
+<%= form_tag( form_link, method: ":get", id: form_id) do %>
+    <div class="row collapse" style="float: left">
+      <div class="small-5 columns"><%= text_field_tag( "search_field" , value=nil ,options = {id: "search_field_employee", class: "search_generic_table", placeholder: placeholdertext, :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64", :"data-parsley-type"=>"alphanum" }) %></div>
+      <div class="small-1 columns"><input type="submit" class="button postfix" value="&#128269;" /></div>
+      <div class="small-6 columns"></div>
+    </div>
+    <% if flash["search_field"].empty? == false  %>
+        <div class="subdescription" style="float: left">
+          Searching for "<%= flash["search_field"] %>" with "<%= flash["order_parameter"] %>" ordered by "<%= flash["order_orientation"] %>" at <%= flash["current_limit"] %> per page
+        </div>
+    <% end %>
+<% end %>
+
+<script type="text/javascript">
+
+    $('#search_field_employee').autocomplete({
+        serviceUrl: '/human_resources/search_suggestions_employees',
+        minChars: 3
+    });
+
+</script>
