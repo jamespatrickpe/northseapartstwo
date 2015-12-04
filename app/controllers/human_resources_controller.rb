@@ -11,10 +11,10 @@ class HumanResourcesController < ApplicationController
   def employee_accounts_management
 
     # Obtain and Process Parameters
-    order_parameter = aggregated_search_queries(params[:order_parameter], "order_parameter" ,"created_at")
-    order_orientation = aggregated_search_queries(params[:order_orientation], "order_orientation", "DESC")
-    current_limit = aggregated_search_queries(params[:current_limit], "current_limit","10")
-    search_field = aggregated_search_queries(params[:search_field], "search_field","")
+    order_parameter = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:order_parameter], "order_parameter" ,"created_at")).gsub("'", '')
+    order_orientation = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:order_orientation], "order_orientation", "DESC")).gsub("'", '')
+    current_limit = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:current_limit], "current_limit","10")).gsub("'", '')
+    search_field = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:search_field], "search_field","")).gsub("'", '')
 
     # Get and Process Records
     # This is BAD practice - used only becuase the query was very complicated - always use active record to construct queries; There is better way to do this.
