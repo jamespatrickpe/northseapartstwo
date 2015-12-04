@@ -1,7 +1,8 @@
 .pagination_set
 {
-    border-color: #808080;
-    border-width: 1px;
+    border-top-color: #808080;
+    border-top-width: 1px;
+    border-top-style: solid;
     padding: 5px;
     width: 50%;
     font-size: 12px;

@@ -9,19 +9,14 @@ class HumanResourcesController < ApplicationController
 
   def employee_accounts_management
 
-    #Obtain Parameters
-    order_parameter = params[:order_parameter]
-    order_orientation = params[:order_orientation]
-    current_limit = params[:current_limit]
-    search_employees = params[:search_employees]
+    # Obtain and Process Parameters
+    order_parameter = aggregated_search_queries(params[:order_parameter], "order_parameter" ,"created_at")
+    order_orientation = aggregated_search_queries(params[:order_orientation], "order_orientation", "DESC")
+    current_limit = aggregated_search_queries(params[:current_limit], "current_limit","10")
+    search_generic_table = aggregated_search_queries(params[:search_generic_table], "search_generic_table","")
 
-    #Set Defaults
-    order_orientation = "DESC"; order_parameter = "employees.created_at" if ((!order_parameter) || (!order_orientation))
-    search_employees = "" if (!search_employees)
-    current_limit = 10 if (!current_limit)
-
-    #Get and Process Records
-    #This is BAD practice - used only becuase the query was very complicated - always use active record to construct queries; There is better way to do this.
+    # Get and Process Records
+    # This is BAD practice - used only becuase the query was very complicated - always use active record to construct queries; There is better way to do this.
     begin
       sql = "SELECT employees.id as id, actors.name as name, dutystatus.label as label, branches.name as branch_name, employees.created_at as created_at, employees.updated_at as updated_at, actors.id  as actors_id
     FROM employees
@@ -29,20 +24,30 @@ class HumanResourcesController < ApplicationController
     INNER JOIN branches ON employees.branch_id = branches.id
     INNER JOIN ( SELECT employee_id, label, max(duty_statuses.created_at) FROM duty_statuses GROUP BY employee_id )
     AS dutystatus ON dutystatus.employee_id = employees.id WHERE" +
-          "(employees.id LIKE '%" + search_employees + "%' " + ")" + " OR " +
-          "(actors.name LIKE '%" + search_employees + "%' " + ")" + " OR " +
-          "(dutystatus.label LIKE '%" + search_employees + "%' " + ")" + " OR " +
-          "(branches.name LIKE '%" + search_employees + "%' " + ")" + " OR " +
-          "(employees.created_at LIKE '%" + search_employees + "%' " + ")" + " OR " +
-          "(employees.updated_at LIKE '%" + search_employees + "%' " + ")" + " " +
+          "(employees.id LIKE '%" + search_generic_table + "%' " + ")" + " OR " +
+          "(actors.name LIKE '%" + search_generic_table + "%' " + ")" + " OR " +
+          "(dutystatus.label LIKE '%" + search_generic_table + "%' " + ")" + " OR " +
+          "(branches.name LIKE '%" + search_generic_table + "%' " + ")" + " OR " +
+          "(employees.created_at LIKE '%" + search_generic_table + "%' " + ")" + " OR " +
+          "(employees.updated_at LIKE '%" + search_generic_table + "%' " + ")" + " " +
           "ORDER BY " + order_parameter + " " + order_orientation;
       @employee_accounts = ActiveRecord::Base.connection.execute(sql)
       @employee_accounts = Kaminari.paginate_array(@employee_accounts.each( :as => :array )).page(params[:page]).per(current_limit)
     rescue
       flash[:general_flash_notifcation] = "Error has Occured"
     end
+
     #Render
     render 'human_resources/employee_accounts_management/index'
+  end
+
+  def reset_search_employees
+    reset_search
+    redirect_to action: "employee_accounts_management"
+  end
+
+  def employee_accounts_data
+
   end
 
   def employee_account_history

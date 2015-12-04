@@ -2,17 +2,22 @@
 <div class="mainheader"> Employee Accounts Management </div>
 <div class="subdescription"> Manage the Accounts of Employees</div>
 <hr>
-<% table_orientation = shift_table_orientation %>
-  <% begin %>
 
-      <%= form_tag( "employee_accounts_management", method: ":get", id: "search_employee_accounts_management") do %>
+<%= form_tag( "employee_accounts_management", method: ":get", id: "search_employee_accounts_management") do %>
       <div class="row collapse" style="float: left">
-        <div class="small-5 columns"><%= text_field_tag("search_employees", value=nil ,options = {placeholder: "Search Employees", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64", :"data-parsley-type"=>"alphanum" }) %></div>
+        <div class="small-5 columns"><%= text_field_tag("search_generic_table", value=nil ,options = {placeholder: "Search Employees", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64", :"data-parsley-type"=>"alphanum" }) %></div>
         <div class="small-1 columns"><input type="submit" class="button postfix" value="&#128269;" /></div>
-        <div class="small-5 columns"></div>
+        <div class="small-6 columns"></div>
       </div>
+      <% if flash["search_generic_table"].empty? == false  %>
+          <div class="subdescription" style="float: left">
+            Searching for "<%= flash["search_generic_table"] %>" with "<%= flash["order_parameter"] %>" ordered by "<%= flash["order_orientation"] %>" at <%= flash["current_limit"] %> per page
+          </div>
       <% end %>
+<% end %>
 
+  <% begin %>
+      <% table_orientation = shift_table_orientation %>
       <table class="generic_table">
         <thead>
         <tr>
@@ -39,44 +44,47 @@
           <th>
             Last Updated
             <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "employees.updated_at", :order_orientation => table_orientation["order_orientation"] } )%>
-          </th>git
+          </th>
           <th class="actions">&nbsp;</th>
         </tr>
         </thead>
-        <tbody>
-        <% @employee_accounts.each do |employee_accounts| %>
-            <tr>
-              <td><%= employee_accounts[0] %></td>
-              <td><%= link_to( employee_accounts[1] ,{:action => 'employee_profile', :employee_id => employee_accounts[0], :actor_id => employee_accounts[6]} ) %>
-              </td>
-              <td><%= employee_accounts[2] %></td>
-              <td><%= employee_accounts[3] %></td>
-              <td><%= employee_accounts[4] %></td>
-              <td><%= employee_accounts[5] %></td>
-              <td class="actions">
-                <a href="" class="action_button" >[ EDIT &#9998; ]</a>
-                &nbsp;
-                <a href="" class="action_button" >[ DELETE &#10006; ]</a>
-              </td>
-            </tr>
+        <% if @employee_accounts.empty? == true %>
+        <% raise exception %>
+        <% else %>
+            <tbody>
+            <% @employee_accounts.each do |employee_accounts| %>
+                <tr>
+                  <td><%= employee_accounts[0] %></td>
+                  <td><%= link_to( employee_accounts[1] ,{:action => 'employee_profile', :employee_id => employee_accounts[0], :actor_id => employee_accounts[6]} ) %>
+                  </td>
+                  <td><%= employee_accounts[2] %></td>
+                  <td><%= employee_accounts[3] %></td>
+                  <td><%= employee_accounts[4] %></td>
+                  <td><%= employee_accounts[5] %></td>
+                  <td class="actions">
+                    <a href="" class="action_button" >[ EDIT &#9998; ]</a>
+                    &nbsp;
+                    <a href="" class="action_button" >[ DELETE &#10006; ]</a>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
         <% end %>
-        </tbody>
       </table>
+
       <div class="pagination_set">
         <span><%= paginate @employee_accounts %></span>
       </div>
 
 <% rescue %>
       <script>
-        html = "<hr><p align='center'> No Data Available | Error Occurred </p><hr>"
+        html = "<hr><p align='center'> No records found. Please try again. </p><hr>"
         $(".generic_table").replaceWith(html)
       </script>
   <% end %>
 
-
-
   <div style="float: right">
-    <a href="/human_resources/employee_accounts_management" class="small button" >Reset Search</a>
+    <a href="/human_resources/reset_search_employees" class="small button" >Reset Search</a>
     <a href="/human_resources/employee_registration" class="small button">Add New Employee</a>
   </div>
 
