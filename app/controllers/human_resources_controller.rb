@@ -9,16 +9,11 @@ class HumanResourcesController < ApplicationController
 
   def employee_accounts_management
 
-    @flash_order_parameter = flash["order_parameter"]
-    @flash_order_orientation = flash["order_orientation"]
-    @flash_current_limit = flash["current_limit"]
-    @flash_search_employee_accounts_management = flash["search_employee_accounts_management"]
-
     # Obtain and Process Parameters
     order_parameter = aggregated_search_queries(params[:order_parameter], "order_parameter" ,"created_at")
     order_orientation = aggregated_search_queries(params[:order_orientation], "order_orientation", "DESC")
     current_limit = aggregated_search_queries(params[:current_limit], "current_limit","10")
-    search_employee_accounts_management = aggregated_search_queries(params[:search_employee_accounts_management], "search_employee_accounts_management","")
+    search_generic_table = aggregated_search_queries(params[:search_generic_table], "search_generic_table","")
 
     # Get and Process Records
     # This is BAD practice - used only becuase the query was very complicated - always use active record to construct queries; There is better way to do this.
@@ -29,12 +24,12 @@ class HumanResourcesController < ApplicationController
     INNER JOIN branches ON employees.branch_id = branches.id
     INNER JOIN ( SELECT employee_id, label, max(duty_statuses.created_at) FROM duty_statuses GROUP BY employee_id )
     AS dutystatus ON dutystatus.employee_id = employees.id WHERE" +
-          "(employees.id LIKE '%" + search_employee_accounts_management + "%' " + ")" + " OR " +
-          "(actors.name LIKE '%" + search_employee_accounts_management + "%' " + ")" + " OR " +
-          "(dutystatus.label LIKE '%" + search_employee_accounts_management + "%' " + ")" + " OR " +
-          "(branches.name LIKE '%" + search_employee_accounts_management + "%' " + ")" + " OR " +
-          "(employees.created_at LIKE '%" + search_employee_accounts_management + "%' " + ")" + " OR " +
-          "(employees.updated_at LIKE '%" + search_employee_accounts_management + "%' " + ")" + " " +
+          "(employees.id LIKE '%" + search_generic_table + "%' " + ")" + " OR " +
+          "(actors.name LIKE '%" + search_generic_table + "%' " + ")" + " OR " +
+          "(dutystatus.label LIKE '%" + search_generic_table + "%' " + ")" + " OR " +
+          "(branches.name LIKE '%" + search_generic_table + "%' " + ")" + " OR " +
+          "(employees.created_at LIKE '%" + search_generic_table + "%' " + ")" + " OR " +
+          "(employees.updated_at LIKE '%" + search_generic_table + "%' " + ")" + " " +
           "ORDER BY " + order_parameter + " " + order_orientation;
       @employee_accounts = ActiveRecord::Base.connection.execute(sql)
       @employee_accounts = Kaminari.paginate_array(@employee_accounts.each( :as => :array )).page(params[:page]).per(current_limit)

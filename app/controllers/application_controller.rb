@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
     flash["order_parameter"] = nil
     flash["order_orientation"] = nil
     flash["current_limit"] = nil
-    flash["search_employee_accounts_management"] = nil
+    flash["search_generic_table"] = nil
   end
 
   # Stores previous search queries for aggregated results
