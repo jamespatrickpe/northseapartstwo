@@ -1,22 +1,11 @@
-<section class="small-10 columns">
-<div class="mainheader"> Employee Accounts Management </div>
-<div class="subdescription"> Manage the Accounts of Employees</div>
+<section class='small-10 columns'>
+<div class='mainheader'> Employee Accounts Management </div>
+<div class='subdescription'> Manage the Accounts of Employees</div>
 <hr>
 
-<%= form_tag( "employee_accounts_management", method: ":get", id: "search_employee_accounts_management") do %>
-      <div class="row collapse" style="float: left">
-        <div class="small-5 columns"><%= text_field_tag("search_generic_table", value=nil ,options = {placeholder: "Search Employees", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64", :"data-parsley-type"=>"alphanum" }) %></div>
-        <div class="small-1 columns"><input type="submit" class="button postfix" value="&#128269;" /></div>
-        <div class="small-6 columns"></div>
-      </div>
-      <% if flash["search_generic_table"].empty? == false  %>
-          <div class="subdescription" style="float: left">
-            Searching for "<%= flash["search_generic_table"] %>" with "<%= flash["order_parameter"] %>" ordered by "<%= flash["order_orientation"] %>" at <%= flash["current_limit"] %> per page
-          </div>
-      <% end %>
-<% end %>
+<%= generic_table_search('employee_accounts_management', 'search_employee_accounts_management', 'Search Employees') %>
 
-  <% begin %>
+<% begin %>
       <% table_orientation = shift_table_orientation %>
       <table class="generic_table">
         <thead>
@@ -75,17 +64,13 @@
       <div class="pagination_set">
         <span><%= paginate @employee_accounts %></span>
       </div>
-
 <% rescue %>
       <script>
         html = "<hr><p align='center'> No records found. Please try again. </p><hr>"
         $(".generic_table").replaceWith(html)
       </script>
-  <% end %>
+<% end %>
 
-  <div style="float: right">
-    <a href="/human_resources/reset_search_employees" class="small button" >Reset Search</a>
-    <a href="/human_resources/employee_registration" class="small button">Add New Employee</a>
-  </div>
+<%= generic_table_add_and_reset('/human_resources/employee_registration', '/human_resources/reset_search_employees') %>
 
 </section>

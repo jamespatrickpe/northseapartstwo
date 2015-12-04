@@ -2,9 +2,9 @@ Rails.application.routes.draw do
 
     match ':controller(/:action(/:id))', :via => [:get, :post]
     root to: 'home#index'
-    # get 'search_employee', to: 'human_resources#employee_accounts_management', as: :search_employee
     resources :test, only: :index
 
+  # get 'search_employee', to: 'human_resources#employee_accounts_management', as: :search_employee
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

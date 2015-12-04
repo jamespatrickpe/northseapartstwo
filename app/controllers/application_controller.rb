@@ -12,11 +12,12 @@ class ApplicationController < ActionController::Base
     flash["order_parameter"] = nil
     flash["order_orientation"] = nil
     flash["current_limit"] = nil
-    flash["search_generic_table"] = nil
+    flash["search_field"] = nil
   end
 
   # Stores previous search queries for aggregated results
   def aggregated_search_queries(value, key, default)
+
     if(value)
       #Priortize actual parameter
       actual_query_parameter = value
@@ -52,7 +53,6 @@ class ApplicationController < ActionController::Base
       @myAccess = Access.find(session[:access_id])
       @myActor = @myAccess.actor
       @sign_in_affirmative = true
-      #uploader = AvatarUploader.new
     else
       flash[:general_flash_notification] = "Invalid Login Credentials"
       redirect_to "/access/signin"
