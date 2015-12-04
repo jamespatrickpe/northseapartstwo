@@ -2,10 +2,12 @@
 
   <h3>Duty Creation</h3>
 
-  <div data-alert class="alert-box success radius">
-    <%= @msg %>
-    <a href="#" class="close">&times;</a>
-  </div>
+  <% if flash[:notice] %>
+      <div data-alert id="alert_success_add_duty" class="alert-box success radius">
+        <%= flash[:notice] %>
+        <a href="#" class="close">&times;</a>
+      </div>
+  <% end %>
 
   <%= form_tag({action: :"create_duty"}, multipart: true, id: "create_duty_form", :"data-parsley-validate" => "" ) do %>
 
@@ -51,7 +53,7 @@
       <th>&nbsp;</th>
       <th>Label</th>
       <th>Description</th>
-      <th>Action</th>
+      <th>Assigned to</th>
     </tr>
     </thead>
 
@@ -61,11 +63,7 @@
           <td><%= index + 1 %></td>
           <td><%= duty.label %></td>
           <td><%= duty.description %></td>
-          <td>
-            <a href="#"><i class="fa fa-trash-o fa-lg northsea-red"></i></a>
-            &nbsp;
-            <a href="#"><i class="fa fa-trash-o fa-lg northsea-red"></i></a>
-          </td>
+          <td><%= duty.employee_id %></td>
         </tr>
     <% end %>
     </tbody>
@@ -77,3 +75,10 @@
 
 
 </section>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("alert_success_add_duty").remove()
+    });
+</script>
+

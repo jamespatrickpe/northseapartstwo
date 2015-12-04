@@ -20,24 +20,27 @@ class HumanResourcesController < ApplicationController
       # iterate through all the result actors and find their corresponding employee object
       # push that employee object into the empty array for display and then lastly, paginate using Kaminari
 
-      @employees = []
-      @actorsFound= Actor.where("name LIKE ?", "%#{params[:search_employee]}%")
+      if params[:search_employee == '']
+        redirect_to 'human_resources/employee_accounts_management/index'
+      else
 
-      @actorsFound.each { |actor|
-        emp = Employee.find_by_actor_id(actor.id)
-        @employees.push(emp)
-      }
+        @employees = []
+        @actorsFound= Actor.where("name LIKE ?", "%#{params[:search_employee]}%")
 
-      # kaminari pager
-      @employees = Kaminari.paginate_array(@employees).page(params[:page]).per(10)
+        @actorsFound.each { |actor|
+          emp = Employee.find_by_actor_id(actor.id)
+          @employees.push(emp)
+        }
+
+        # kaminari pager
+        @employees = Kaminari.paginate_array(@employees).page(params[:page]).per(10)
+      end
 
     else
 
       # get all employees by default
-      @employees = Employee.page(params[:page]).per(10)
-
+      @employees = Employee.all().page(params[:page]).per(10)
     end
-
     render 'human_resources/employee_accounts_management/index'
   end
 
@@ -55,6 +58,7 @@ class HumanResourcesController < ApplicationController
 
     @employee = Employee.find(params[:employee_id])
     @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
+    @duties = Duty.all()
 
     render 'human_resources/employee_accounts_management/employee_profile'
   end
@@ -140,8 +144,10 @@ class HumanResourcesController < ApplicationController
 
     @employee = Employee.find(params[:employee_id])
     @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
+    @actorReference = Actor.find(params[:actor_id])
 
     render 'human_resources/employee_accounts_management/edit_employee_profile'
+
   end
 
   def edit_employee_data
@@ -149,6 +155,7 @@ class HumanResourcesController < ApplicationController
     # find existing employee and biodata using the id from the params
     @employee = Employee.find(params[:employee_id])
     @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
+    @actorReference = Actor.find(params[:actor_id])
 
     # the actual update method passing the parameters set from the pagee
     @biodatum.update_attributes(biodata_params)
@@ -176,10 +183,13 @@ class HumanResourcesController < ApplicationController
 
   end
 
+
   def delete_employee
-    @employees = Employee.all()
+
+    @employees = Employee.all().page(params[:page]).per(10)
     employee = Employee.find(params[:employee_id])
     employee.destroy
+
     render 'human_resources/employee_accounts_management/index'
 
   end
@@ -194,6 +204,7 @@ class HumanResourcesController < ApplicationController
 
     @biodata.save!
     @employee.save!
+    @actorReference = actor
 
     if @employee.save!
 
@@ -210,12 +221,32 @@ class HumanResourcesController < ApplicationController
 
   end
 
+  def assign_duty
+
+    # page data
+    @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
+    @duties = Duty.all()
+    @employee = Employee.find(params[:employee_id])
+
+    @assignedDuty =  Duty.find(params[:duty_dd])
+    @assignedDuty.employee_id = @employee.id
+
+    @assignedDuty.save!
+
+    if @assignedDuty.save!
+      flash[:notice] = 'Duty ' + @assignedDuty.label + ' was successfully assigned to ' + @employee.actor.name
+      render 'human_resources/employee_accounts_management/employee_profile'
+    else
+      flash[:notice] = 'Failed to assign Duty:' + @assignedDuty.label + ' to ' + @assignedDuty.actor.name
+      render 'human_resources/employee_accounts_management/employee_profile'
+    end
+
+  end
+
   def duty_create
 
-
     @duties = Duty.page(params[:page]).per(10)
-    @employees = Employee.all()
-    @msg = session[:result]
+    @employees = Employee.all
 
     render 'human_resources/employee_accounts_management/duty_create'
 
@@ -223,19 +254,20 @@ class HumanResourcesController < ApplicationController
 
   def create_duty
 
-    reset_session
-
-    @msg = ''
     @employees = Employee.all()
     @duties = Duty.page(params[:page]).per(10)
 
     newduty = Duty.new(duty_params)
 
+    # set duty id to the employee
+    newduty.employee_id = params[:employee_dd]
+    employee = Employee.find(params[:employee_dd])
+
     if newduty.save!
-      session[:result] = 'A new duty has been successfully added!'
+      flash[:notice] = 'Duty ' + newduty.label + ' was successfully assigned to ' + employee.actor.name
       redirect_to :action => "duty_create"
     else
-      session[:result] = nil
+      flash[:notice] = 'Failed to assign Duty:' + newduty.label + ' to ' + employee.actor.name
       redirect_to :action => "duty_create"
     end
 
@@ -244,11 +276,16 @@ class HumanResourcesController < ApplicationController
   private
 
   def actor_params
-    params.require(:actor).permit(:name, :description)
+    params.require(:actor)
+        .permit(
+            :name,
+            :description
+        )
   end
 
   def employee_params
-    params.require(:actor).permit(:actor_id)
+    params.require(:actor)
+        .permit(:actor_id)
   end
 
   def biodata_params
@@ -271,7 +308,11 @@ class HumanResourcesController < ApplicationController
   end
 
   def duty_params
-    params.require(:duty).permit(:label, :description)
+    params.require(:duty)
+        .permit(
+            :label,
+            :description
+        )
   end
 
 

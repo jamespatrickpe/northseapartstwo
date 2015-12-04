@@ -15,6 +15,36 @@
     &nbsp;
     <%= link_to( "Edit Employee Details" ,{:action => 'edit_employee_page', :employee_id => @employee.id, :actor_id => @employee.actor.id} ) %>
 
+    <hr />
+
+    <% if flash[:notice] %>
+        <div data-alert id="alert_success_add_duty" class="alert-box success radius">
+          <%= flash[:notice] %>
+          <a href="#" class="close">&times;</a>
+        </div>
+    <% end %>
+
+    <%= form_tag({action: :"assign_duty", :employee_id => @employee.id, :actor_id => @employee.actor.id}, multipart: true, id: "assign_duty_form", :"data-parsley-validate" => "" ) do %>
+
+        <div class="row">
+
+          <div class="large-3 columns">
+            <label>Assign open duty
+              <%= select_tag 'duty_dd', options_for_select(@duties.collect{ |d| [d.label, d.id] }) %>
+            </label>
+          </div>
+
+          <div class="large-3 columns">
+            <label> <br />
+              <%= submit_tag nil, :class => "button tiny" %>
+            </label>
+          </div>
+
+        </div>
+
+    <% end %>
+
+
     <div class="profile-section employee-profile-detail">
 
       <span class="subheader"> <i class="fa fa-lg fa-user"></i> Profile Details </span>
