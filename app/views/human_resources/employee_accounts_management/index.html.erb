@@ -7,7 +7,7 @@
 
       <%= form_tag( "employee_accounts_management", method: ":get", id: "search_employee_accounts_management") do %>
       <div class="row collapse" style="float: left">
-        <div class="small-5 columns"><%= text_field_tag("search_employees", value=nil ,options = {placeholder: "Search Employees", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64", :"data-parsley-type"=>"alphanum" }) %></div>
+        <div class="small-5 columns"><%= text_field_tag("search_generic_table", value=nil ,options = {placeholder: "Search Employees", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64", :"data-parsley-type"=>"alphanum" }) %></div>
         <div class="small-1 columns"><input type="submit" class="button postfix" value="&#128269;" /></div>
         <div class="small-5 columns"></div>
       </div>
@@ -76,7 +76,7 @@
 
 
   <div style="float: right">
-    <a href="/human_resources/employee_accounts_management" class="small button" >Reset Search</a>
+    <a href="/human_resources/reset_search_employee_acccounts_management" class="small button" >Reset Search</a>
     <a href="/human_resources/employee_registration" class="small button">Add New Employee</a>
   </div>
 
