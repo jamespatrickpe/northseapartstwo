@@ -9,7 +9,11 @@
       <div class="row collapse" style="float: left">
         <div class="small-5 columns"><%= text_field_tag("search_generic_table", value=nil ,options = {placeholder: "Search Employees", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64", :"data-parsley-type"=>"alphanum" }) %></div>
         <div class="small-1 columns"><input type="submit" class="button postfix" value="&#128269;" /></div>
-        <div class="small-5 columns"></div>
+        <div class="small-1 columns">&nbsp;</div>
+        <div class="small-4 columns">
+          Searching with: <%= flash["search_generic_table"] %> | <%= flash["order_parameter"] %> | <%= flash["order_orientation"] %> at <%= flash["current_limit"] = nil %> per page
+        </div>
+        <div class="small-1 columns">&nbsp;</div>
       </div>
       <% end %>
 
@@ -39,7 +43,7 @@
           <th>
             Last Updated
             <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "employees.updated_at", :order_orientation => table_orientation["order_orientation"] } )%>
-          </th>git
+          </th>
           <th class="actions">&nbsp;</th>
         </tr>
         </thead>
@@ -72,8 +76,6 @@
         $(".generic_table").replaceWith(html)
       </script>
   <% end %>
-
-
 
   <div style="float: right">
     <a href="/human_resources/reset_search_employee_acccounts_management" class="small button" >Reset Search</a>
