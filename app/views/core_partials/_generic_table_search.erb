@@ -1,8 +1,22 @@
 <%= form_tag( form_link, method: ":get", id: form_id) do %>
     <div class="row collapse" style="float: left">
       <div class="small-5 columns"><%= text_field_tag( "search_field" , value=nil ,options = {id: "search_field_employee", class: "search_generic_table", placeholder: placeholdertext, :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64", :"data-parsley-type"=>"alphanum" }) %></div>
+
+      <div class="small-2 columns">
+        <select name="current_limit" id="current_limit">
+          <option value="" disabled selected>Limit per Page</option>
+          <option value="10">10</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="250">250</option>
+          <option value="500">500</option>
+          <option value="1000">1000</option>
+        </select>
+      </div>
+
       <div class="small-1 columns"><input type="submit" class="button postfix" value="&#128269;" /></div>
-      <div class="small-6 columns"></div>
+
+      <div class="small-3 columns"></div>
     </div>
     <% if flash["search_field"].empty? == false  %>
         <div class="subdescription" style="float: left">

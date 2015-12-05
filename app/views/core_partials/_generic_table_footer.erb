@@ -1,0 +1,27 @@
+<div class="pagination_set">
+  <span><%= paginate result_set %></span>
+</div>
+
+<div class="generic_table_options">
+  <a class='tiny button' href=<%= reset_link %>  > Reset Search</a>
+  <a class='tiny button' href=<%= add_link %> > Add New Employee</a>
+  <a class="tiny button export_to_csv"> Export to CSV </a>
+  <a class="tiny button print_table" target="_blank"> Printable Format </a>
+</div>
+
+<script>
+    $('.print_table').click(function() {
+        $("table.generic_table").css({"font-size": 12,"font-family": "arial"});
+        $("a.table_orientation_indicator").remove()
+        $("table.generic_table th:last-child, table.generic_table td.actions").remove();
+        table = $("table.generic_table").get();
+        $("body").empty();
+        $("body").html(table);
+        $("a").removeAttr("href");
+        $("head").empty();
+    });
+
+    $('.export_to_csv').click(function() {
+        exportTableToCSV.apply(this, [$('.generic_table'), 'export_table.csv']);
+    });
+</script>

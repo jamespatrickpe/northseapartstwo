@@ -1,13 +1,12 @@
 module ApplicationHelper
-
   def sortable(column, title = nil)
     title ||= column.titleize
     direction = (column == params[:order_by] && params[:arrangement] == "asc") ? "desc" : "asc"
     link_to title, :order_by => column, :arrangement => direction, :employee_id => @employee_id, :offset => @offset
   end
 
-  def generic_table_add_and_reset(add_link, reset_link)
-    render(:partial => "core_partials/generic_table_add_and_reset", :locals => { :add_link => add_link, :reset_link => reset_link})
+  def generic_table_footer(add_link, reset_link, result_set, table_id)
+    render(:partial => "core_partials/generic_table_footer", :locals => { :add_link => add_link, :reset_link => reset_link, :result_set => result_set, :table_id => table_id})
   end
 
   def generic_table_search(form_link, form_id, placeholdertext)
