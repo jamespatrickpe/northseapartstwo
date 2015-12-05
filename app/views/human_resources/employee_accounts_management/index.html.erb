@@ -3,6 +3,10 @@
   <div class='subdescription'> Manage the Accounts of Employees</div>
   <hr>
 
+
+  <%= generic_table_search('employee_accounts_management', 'search_employee_accounts_management', 'Search Employees') %>
+
+
   <% if flash[:deleteEmployeeNotice] %>
       <div data-alert id="alert_success_add_duty" class="alert-box success radius">
         <%= flash[:deleteEmployeeNotice] %>
@@ -10,11 +14,8 @@
       </div>
   <% end %>
 
-  <%= generic_table_search('employee_accounts_management', 'search_employee_accounts_management', 'Search Employees') %>
 
-
-
-  <% begin %>
+<% begin %>
       <% table_orientation = shift_table_orientation %>
       <table class="generic_table">
         <thead>
@@ -80,7 +81,7 @@
           html = "<hr><p align='center'> No records found. Please try again. </p><hr>"
           $(".generic_table").replaceWith(html)
       </script>
-  <% end %>
+<% end %>
 
   <%= generic_table_add_and_reset('/human_resources/employee_registration', '/human_resources/reset_search_employees', '/human_resources/duty_create') %>
 
