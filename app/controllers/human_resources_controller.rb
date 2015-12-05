@@ -77,7 +77,6 @@ class HumanResourcesController < ApplicationController
       render 'human_resources/employee_accounts_management/employee_profile'
     else
       flash[:notice] = 'Failed to assign Duty:' + @assignedDuty.label + ' to ' + @assignedDuty.actor.name
-      Add a comment to this line
       render 'human_resources/employee_accounts_management/employee_profile'
     end
 
@@ -239,10 +238,11 @@ class HumanResourcesController < ApplicationController
   def delete_employee
     @employees = Employee.all()
     employee = Employee.find(params[:employee_id])
+    deleteEmployeeName = employee.actor.name
     employee.destroy
+    flash[:deleteEmployeeNotice] = 'Employee ' + deleteEmployeeName + ' was successfully deleted.'
 
     reset_search_employees
-
     # render 'human_resources/employee_accounts_management/index'
 
   end

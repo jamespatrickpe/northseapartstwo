@@ -9,11 +9,17 @@
       </span>
     </div>
 
-    <%= link_to( "Back to List" ,{:action => 'employee_accounts_management'} ) %>
+    <!--<td class="actions">-->
+      <!--<a href="" class="action_button" >[ EDIT DETAILS &#9998; ]</a>-->
+      <!--&nbsp;-->
+      <!--<a href="" class="action_button" >[ DELETE &#10006; ]</a>-->
+    <!--</td>-->
+
+    <%= link_to( "[ BACK TO LIST ]" ,{:action => 'employee_accounts_management' }, :class => "action_button action-link-grey" ) %>
     &nbsp;
-    <%= link_to( "Delete Employee" ,{:action => 'delete_employee', :employee_id => @employee.id} ) %>
+    <%= link_to( "[ DELETE ]" ,{:action => 'delete_employee', :employee_id => @employee.id}, :class => "action_button action-link-grey" ) %>
     &nbsp;
-    <%= link_to( "Edit Employee Details" ,{:action => 'edit_employee_page', :employee_id => @employee.id, :actor_id => @employee.actor.id} ) %>
+    <%= link_to( "[ EDIT DETAILS ] " ,{:action => 'edit_employee_page', :employee_id => @employee.id, :actor_id => @employee.actor.id}, :class => "action_button action-link-grey" ) %>
 
     <div class="profile-section employee-profile-detail">
 
