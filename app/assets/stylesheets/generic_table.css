@@ -70,3 +70,8 @@
 .autocomplete-suggestions strong { font-weight: normal; color: orange; }
 .autocomplete-group { padding: 2px 5px; }
 .autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
+
+.generic_table_options
+{
+    float: right;
+}
