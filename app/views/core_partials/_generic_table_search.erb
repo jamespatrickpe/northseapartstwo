@@ -1,7 +1,18 @@
-<%= form_tag( form_link, method: ":get", id: form_id) do %>
-    <div class="row collapse" style="float: left">
-      <div class="small-5 columns"><%= text_field_tag( "search_field" , value=nil ,options = {id: "search_field_employee", class: "search_generic_table", placeholder: placeholdertext, :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64", :"data-parsley-type"=>"alphanum" }) %></div>
+<%= form_tag( form_link, method: ":get", class: "search_form") do %>
 
+    <div class="row collapse" style="float: left">
+      <div class="small-5 columns">
+        <%= text_field_tag( "search_field",
+                            value=nil,
+                            options = {id: form_input_id,
+                                       class: 'generic_table_search_field',
+                                       placeholder: placeholdertext,
+                                       :"data-parsley-trigger" => "keyup",
+                                       :"data-parsley-minlength"=>"3" ,
+                                       :"data-parsley-maxlength"=>"64",
+                                       :"data-parsley-type"=>"alphanum"
+                            }) %>
+      </div>
       <div class="small-2 columns">
         <select name="current_limit" id="current_limit">
           <option value="" disabled selected>Limit per Page</option>
@@ -13,23 +24,25 @@
           <option value="1000">1000</option>
         </select>
       </div>
-
       <div class="small-1 columns"><input type="submit" class="button postfix" value="&#128269;" /></div>
-
       <div class="small-3 columns"></div>
     </div>
+    <br>
+    <!-- Search Status -->
     <% if flash["search_field"].empty? == false  %>
         <div class="subdescription" style="float: left">
-          Searching for "<%= flash["search_field"] %>" with "<%= flash["order_parameter"] %>" ordered by "<%= flash["order_orientation"] %>" at <%= flash["current_limit"] %> per page
+          Searching for "<%= flash["search_field"] %>"
+          with "<%= flash["order_parameter"] %>"
+          ordered by "<%= flash["order_orientation"] %>"
+          at <%= flash["current_limit"] %> per page
         </div>
     <% end %>
+
 <% end %>
 
 <script type="text/javascript">
-
-    $('#search_field_employee').autocomplete({
-        serviceUrl: '/human_resources/search_suggestions_employees',
+    $('#<%= form_input_id %>').autocomplete({
+        serviceUrl: '<%= service_url %>',
         minChars: 3
     });
-
 </script>
