@@ -3,7 +3,7 @@
 <div class='subdescription'> Manage the Accounts of Employees</div>
 <hr>
 
-<%= generic_table_search('employee_accounts_management', 'search_employee_accounts_management', 'Search Employees') %>
+<%= generic_table_search( 'employee_accounts_search_input', 'employee_accounts_management','Search Employees' , '/human_resources/search_suggestions_employees') %>
 
 <% begin %>
       <% table_orientation = shift_table_orientation %>
@@ -51,9 +51,9 @@
                   <td><%= employee_accounts[4] %></td>
                   <td><%= employee_accounts[5] %></td>
                   <td class="actions">
-                    <a href="" class="action_button" >[ EDIT &#9998; ]</a>
-                    &nbsp;
-                    <a href="" class="action_button" >[ DELETE &#10006; ]</a>
+                    <%= link_to( "[ EDIT &#9998; ]".html_safe ,{:action => 'delete_employee', :employee_id => employee_accounts[0]} ) %>
+                    <a href="" class="action_button" >[ EDIT &#9998; ]</a>\
+                    <%= link_to( "[ DELETE &#10006; ]".html_safe ,{:action => 'delete_employee', :employee_id => employee_accounts[0]} ) %>
                   </td>
                 </tr>
             <% end %>

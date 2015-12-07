@@ -8,6 +8,8 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/index'
   end
 
+  # ================== Employee Accounts Management ================== #
+
   def employee_accounts_management
 
     # Obtain and Process Parameters
@@ -54,6 +56,15 @@ class HumanResourcesController < ApplicationController
       format.all { render :text => direct}
     end
   end
+
+  def delete_employee
+    employee = Employee.find(params[:employee_id])
+    employee.destroy
+    flash[:general_flash_notifcation] = "Employee Deleted"
+    redirect_to action: "employee_accounts_management"
+  end
+
+  # ================== Employee Accounts Management ================== #
 
   def employee_accounts_data
 
@@ -193,38 +204,22 @@ class HumanResourcesController < ApplicationController
 
   end
 
-  def delete_employee
-    @employees = Employee.all()
-    employee = Employee.find(params[:employee_id])
-    employee.destroy
-    render 'human_resources/employee_accounts_management/index'
-
-  end
-
   def register_employee
-
     actor = Actor.new(actor_params)
     @employee = Employee.new
     @biodata = Biodatum.new(biodata_params)
     @employee.actor = actor
     @biodata.actor = actor
-
     @biodata.save!
     @employee.save!
 
     if @employee.save!
-
       # Message Constants
       @success_message = 'Successfully registered new employee, ' + @employee.actor.name + '.'
-
       render 'core_partials/employee_registration_success'
-
     else
-
       render 'human_resources/employee_accounts_management/employee_registration'
-
     end
-
   end
 
   private

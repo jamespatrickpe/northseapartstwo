@@ -5,12 +5,16 @@ module ApplicationHelper
     link_to title, :order_by => column, :arrangement => direction, :employee_id => @employee_id, :offset => @offset
   end
 
+  def generic_table_theadlink(action, order_parameter)
+    render(:partial => "core_partials/generic_table_footer", :locals => { :action => action, :order_parameter => order_parameter})
+  end
+
   def generic_table_footer(add_link, reset_link, result_set, table_id)
     render(:partial => "core_partials/generic_table_footer", :locals => { :add_link => add_link, :reset_link => reset_link, :result_set => result_set, :table_id => table_id})
   end
 
-  def generic_table_search(form_link, form_id, placeholdertext)
-    render(:partial => "core_partials/generic_table_search", :locals => { :form_link => form_link, :form_id => form_id, :placeholdertext => placeholdertext})
+  def generic_table_search(form_input_id, form_link, placeholdertext, service_url)
+    render(:partial => "core_partials/generic_table_search", :locals => {  :form_input_id => form_input_id, :form_link => form_link, :placeholdertext => placeholdertext,  :service_url => service_url})
   end
 
   def generateReadableID()
