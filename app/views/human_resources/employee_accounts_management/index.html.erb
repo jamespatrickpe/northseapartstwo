@@ -2,8 +2,7 @@
 <div class='mainheader'> Employee Accounts Management </div>
 <div class='subdescription'> Manage the Accounts of Employees</div>
 <hr>
-
-<%= generic_table_search( 'employee_accounts_search_input', 'employee_accounts_management','Search Employees' , '/human_resources/search_suggestions_employees') %>
+  <%= generic_table_search( 'employee_accounts_search_input', 'employee_accounts_management','Search Employees' , '/human_resources/search_suggestions_employees') %>
 
 <% begin %>
       <% table_orientation = shift_table_orientation %>
@@ -11,28 +10,22 @@
         <thead>
         <tr>
           <th>
-            Employee ID
-            <%= link_to( table_orientation["orientation_symbol"].html_safe  ,{:action => 'employee_accounts_management', :order_parameter => "employees.id", :order_orientation => table_orientation["order_orientation"] } ,class: "table_orientation_indicator" ) %>
+            Employee ID <%= generic_table_theadlink('employee_accounts_management','employees.id', table_orientation) %>
           </th>
           <th>
-            Name
-            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "actors.name", :order_orientation => table_orientation["order_orientation"] } ,class: "table_orientation_indicator")%>
+            Name <%= generic_table_theadlink('employee_accounts_management','actors.name', table_orientation) %>
           </th>
           <th>
-            Status
-            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "dutystatus.label", :order_orientation => table_orientation["order_orientation"] } ,class: "table_orientation_indicator")%>
+            Status <%= generic_table_theadlink('employee_accounts_management','dutystatus.label', table_orientation) %>
           </th>
           <th>
-            Branch
-            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "branches.name", :order_orientation => table_orientation["order_orientation"] } ,class: "table_orientation_indicator")%>
+            Branch <%= generic_table_theadlink('employee_accounts_management','branches.name', table_orientation) %>
           </th>
           <th>
-            Date Registered
-            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "employees.created_at", :order_orientation => table_orientation["order_orientation"] } ,class: "table_orientation_indicator")%>
+            Date Registered <%= generic_table_theadlink('employee_accounts_management','employees.created_at', table_orientation) %>
           </th>
           <th>
-            Last Updated
-            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "employees.updated_at", :order_orientation => table_orientation["order_orientation"] } ,class: "table_orientation_indicator")%>
+            Last Updated <%= generic_table_theadlink('employee_accounts_management','employees.updated_at', table_orientation) %>
           </th>
           <th class="actions">&nbsp;</th>
         </tr>
@@ -51,16 +44,14 @@
                   <td><%= employee_accounts[4] %></td>
                   <td><%= employee_accounts[5] %></td>
                   <td class="actions">
-                    <%= link_to( "[ EDIT &#9998; ]".html_safe ,{:action => 'delete_employee', :employee_id => employee_accounts[0]} ) %>
-                    <a href="" class="action_button" >[ EDIT &#9998; ]</a>\
-                    <%= link_to( "[ DELETE &#10006; ]".html_safe ,{:action => 'delete_employee', :employee_id => employee_accounts[0]} ) %>
+                    <%= link_to( "[ EDIT &#9998; ]".html_safe ,{:action => 'edit_employee', :employee_id => employee_accounts[0]}, class: 'action_button ' ) %>
+                    <%= link_to( "[ DELETE &#10006; ]".html_safe ,{:action => 'delete_employee', :employee_id => employee_accounts[0]}, class: 'action_button delete_item' ) %>
                   </td>
                 </tr>
             <% end %>
             </tbody>
         <% end %>
       </table>
-
 <% rescue %>
       <script>
         html = "<hr><p align='center'> No records found. Please try again. </p><hr>"
@@ -68,6 +59,8 @@
       </script>
 <% end %>
 
-<%= generic_table_footer('/human_resources/employee_registration', '/human_resources/reset_search_employees', @employee_accounts, 'employee_accounts_table') %>
-
+<%= generic_table_footer('employee_registration',
+                         '/human_resources/employee_accounts_management',
+                         @employee_accounts
+    ) %>
 </section>

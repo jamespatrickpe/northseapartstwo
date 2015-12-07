@@ -1,71 +1,56 @@
 <section class='small-10 columns'>
-  <div class='mainheader'> Rest Days </div>
-  <div class='subdescription'> Set Rest Days for Employees aside from the given Default </div>
+  <div class='mainheader'> Rest Days Management </div>
+  <div class='subdescription'> Manage Rest Days</div>
   <hr>
-
-  <%= generic_table_search('rest_days', 'search_rest_days', 'Search Rest Day') %>
-
+  <%= generic_table_search( 'rest_days_search_input', 'rest_days',' Search Rest Days' , '/human_resources/search_suggestions_rest_days') %>
+  <% table_orientation = shift_table_orientation %>
   <% begin %>
-      <% table_orientation = shift_table_orientation %>
       <table class="generic_table" id="rest_days_table">
         <thead>
         <tr>
           <th>
-            Employee ID
-            <%= link_to( table_orientation["orientation_symbol"].html_safe  ,{:action => 'rest_days', :order_parameter => "rest_days.id", :order_orientation => table_orientation["order_orientation"] } ,class: "table_orientation_indicator" ) %>
+            Rest Days ID<%= generic_table_theadlink('rest_days','rest_days.id', table_orientation) %>
           </th>
           <th>
-            Name
-            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'rest_days', :order_parameter => "actors.name", :order_orientation => table_orientation["order_orientation"] } ,class: "table_orientation_indicator")%>
+            Employee <%= generic_table_theadlink('rest_days','actors.name', table_orientation) %>
           </th>
           <th>
-            Status
-            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'rest_days', :order_parameter => "dutystatus.label", :order_orientation => table_orientation["order_orientation"] } ,class: "table_orientation_indicator")%>
+            Day <%= generic_table_theadlink('rest_days','rest_days.day', table_orientation) %>
           </th>
           <th>
-            Branch
-            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'rest_days', :order_parameter => "branches.name", :order_orientation => table_orientation["order_orientation"] } ,class: "table_orientation_indicator")%>
+            Date Registered <%= generic_table_theadlink('rest_days','rest_days.created_at', table_orientation) %>
           </th>
           <th>
-            Date Registered
-            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'rest_days', :order_parameter => "employees.created_at", :order_orientation => table_orientation["order_orientation"] } ,class: "table_orientation_indicator")%>
-          </th>
-          <th>
-            Last Updated
-            <%= link_to( table_orientation["orientation_symbol"].html_safe ,{:action => 'employee_accounts_management', :order_parameter => "employees.updated_at", :order_orientation => table_orientation["order_orientation"] } ,class: "table_orientation_indicator")%>
+            Last Updated <%= generic_table_theadlink('rest_days','rest_days.updated_at', table_orientation) %>
           </th>
           <th class="actions">&nbsp;</th>
         </tr>
         </thead>
-        <% if @employee_accounts.empty? == true %>
+        <% if @rest_days.empty? == true %>
             <% raise exception %>
         <% else %>
             <tbody>
-            <% @employee_accounts.each do |employee_accounts| %>
+            <% @rest_days.each do |rest_day| %>
                 <tr>
-                  <td><%= employee_accounts[0] %></td>
-                  <td><%= link_to( employee_accounts[1] ,{:action => 'employee_profile', :employee_id => employee_accounts[0], :actor_id => employee_accounts[6]} ) %>
-                  </td>
-                  <td><%= employee_accounts[2] %></td>
-                  <td><%= employee_accounts[3] %></td>
-                  <td><%= employee_accounts[4] %></td>
-                  <td><%= employee_accounts[5] %></td>
+                  <td><%= rest_day.id %></td>
+                  <td><%= rest_day.employee.actor.name %> </td>
+                  <td><%= rest_day.day %> </td>
+                  <td><%= rest_day.created_at %></td>
+                  <td><%= rest_day.updated_at %></td>
                   <td class="actions">
-                    <%= link_to( "[ EDIT &#9998; ]".html_safe ,{:action => 'edit_employee', :employee_id => employee_accounts[0]}, class: "action_button" ) %>
-                    <%= link_to( "[ DELETE &#10006; ]".html_safe ,{:action => 'delete_employee', :employee_id => employee_accounts[0]} , class: "action_button" ) %>
+                    <%= link_to( "[ EDIT &#9998; ]".html_safe ,{:action => 'edit_rest_day', :rest_day_id => rest_day.id}, class: 'action_button' ) %>
+                    <%= link_to( "[ DELETE &#10006; ]".html_safe ,{:action => 'delete_rest_day', :rest_day_id => rest_day.id}, class: 'action_button' ) %>
                   </td>
                 </tr>
             <% end %>
             </tbody>
         <% end %>
       </table>
-  <% rescue %>
+      <%= generic_table_footer('new_rest_day','/human_resources/rest_days',@rest_days) %>
+      <% rescue %>
       <script>
           html = "<hr><p align='center'> No records found. Please try again. </p><hr>"
           $(".generic_table").replaceWith(html)
       </script>
-  <% end %>
-
-  <%= generic_table_footer('/human_resources/employee_registration', '/human_resources/reset_search_employees', @employee_accounts, 'employee_accounts_table') %>
-
+      <% end %>
 </section>

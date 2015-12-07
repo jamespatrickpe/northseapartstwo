@@ -3,10 +3,10 @@
 </div>
 
 <div class="generic_table_options">
-  <a class='tiny button' href=<%= reset_link %>  > Reset Search</a>
-  <a class='tiny button' href=<%= add_link %> > Add New Employee</a>
-  <a class="tiny button export_to_csv"> Export to CSV </a>
-  <a class="tiny button print_table" target="_blank"> Printable Format </a>
+  <%= link_to( "Reset Search" ,{:controller => 'application',:action => 'reset_search', :reset_search_redirect => reset_search_redirect}, class: 'tiny button')%>
+  <%= link_to( "Add New Record" ,{:action => add_link}, class: 'tiny button')%>
+  <a class="tiny button export_to_csv">Export to CSV</a>
+  <a class="tiny button print_table">Printable Format</a>
 </div>
 
 <script>

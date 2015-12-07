@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
     flash["order_orientation"] = nil
     flash["current_limit"] = nil
     flash["search_field"] = nil
+    redirect_to params[:reset_search_redirect]
   end
 
   # Stores previous search queries for aggregated results
@@ -29,7 +30,7 @@ class ApplicationController < ActionController::Base
       actual_query_parameter = default
     end
     flash[key] = actual_query_parameter
-    return actual_query_parameter
+    return default
   end
 
   # Shifts the ASC/DESC on the header of table
