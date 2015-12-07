@@ -78,9 +78,10 @@ class HumanResourcesController < ApplicationController
     order_orientation = aggregated_search_queries(params[:order_orientation], "order_orientation", "DESC")
     current_limit = aggregated_search_queries(params[:current_limit], "current_limit","10")
     search_field = aggregated_search_queries(params[:search_field], "search_field","")
-
+    @search_field = search_field
+    @params_search_field = params[:search_field]
     begin
-      @rest_days = Restday.includes(employee: [:actor]).joins(employee: [:actor]).order(order_parameter + ' ' + order_orientation)
+      @rest_days = Restday.includes(employee: [:actor]).joins(employee: [:actor]).where("actors.name LIKE ? OR restdays.id LIKE ? OR restdays.day LIKE ? OR restdays.created_at LIKE ? OR restdays.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" ).order(order_parameter + ' ' + order_orientation)
       @rest_days = Kaminari.paginate_array(@rest_days).page(params[:page]).per(current_limit)
     rescue
       flash[:general_flash_notification] = "Error has Occured"

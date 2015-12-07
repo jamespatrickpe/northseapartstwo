@@ -18,19 +18,15 @@ class ApplicationController < ActionController::Base
 
   # Stores previous search queries for aggregated results
   def aggregated_search_queries(value, key, default)
-
     if(value)
-      #Priortize actual parameter
       actual_query_parameter = value
     elsif (flash[key])
-      #If there is no parameter; pass from cookie
       actual_query_parameter = flash[key]
     else
-      # if nothing else; set default
       actual_query_parameter = default
     end
     flash[key] = actual_query_parameter
-    return default
+    return actual_query_parameter
   end
 
   # Shifts the ASC/DESC on the header of table
