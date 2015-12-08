@@ -8,6 +8,8 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/index'
   end
 
+  # ================== Employee Accounts Management ================== #
+
   def employee_accounts_management
 
     # Obtain and Process Parameters
@@ -42,34 +44,25 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/employee_accounts_management/index'
   end
 
-  def reset_search_employees
-    reset_search
-    redirect_to action: "employee_accounts_management"
-  end
-
   def search_suggestions_employees
     employees = Employee.includes(:actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     @direct = "{\"query\": \"Unit\",\"suggestions\":" + employees.to_s + "}" # default format for plugin
-    render '/test/index'
+
     # respond_to do |format|
     #   format.all { render :text => direct}
     # end
   end
 
-  def employee_accounts_data
-
-  end
-
-  def employee_account_history
-
-    # @duties = Duty.where( employee_id: params[:employee][:employee_id] )
-    render 'human_resources/employee_accounts_management/employee_account_history'
+  def delete_employee
+    employee = Employee.find(params[:employee_id])
+    employee.destroy
+    flash[:general_flash_notification] = "Employee Deleted"
+    redirect_to action: "employee_accounts_management"
   end
 
   def employee_registration
     render 'human_resources/employee_accounts_management/employee_registration'
   end
-
 
   def assign_duty
     # page data
@@ -133,6 +126,7 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/employee_accounts_management/employee_profile'
   end
 
+  # ================== Rest Day ================== #
   def assign_duty
 
     # page data
@@ -152,8 +146,33 @@ class HumanResourcesController < ApplicationController
       flash[:notice] = 'Failed to assign Duty:' + @assignedDuty.label + ' to ' + @assignedDuty.actor.name
       employee_profile
     end
+  def rest_days
+    order_parameter = aggregated_search_queries(params[:order_parameter], "order_parameter" ,"restdays.created_at")
+    order_orientation = aggregated_search_queries(params[:order_orientation], "order_orientation", "DESC")
+    current_limit = aggregated_search_queries(params[:current_limit], "current_limit","10")
+    search_field = aggregated_search_queries(params[:search_field], "search_field","")
+    @search_field = search_field
+    @params_search_field = params[:search_field]
+    begin
+      @rest_days = Restday.includes(employee: [:actor]).joins(employee: [:actor]).where("actors.name LIKE ? OR restdays.id LIKE ? OR restdays.day LIKE ? OR restdays.created_at LIKE ? OR restdays.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" ).order(order_parameter + ' ' + order_orientation)
+      @rest_days = Kaminari.paginate_array(@rest_days).page(params[:page]).per(current_limit)
+    rescue
+      flash[:general_flash_notification] = "Error has Occured"
+    end
+    render 'human_resources/compensation_benefits/rest_days'
+  end
+
+  def employee_accounts_data
 
   end
+
+  def employee_account_history
+
+    # @duties = Duty.where( employee_id: params[:employee][:employee_id] )
+    render 'human_resources/employee_accounts_management/employee_account_history'
+  end
+
+
 
   def attendance
     render 'human_resources/attendance/index'
@@ -218,11 +237,6 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/compensation_benefits/lump_adjustments'
   end
 
-  def rest_days
-    @restdays = Restday.all()
-    render 'human_resources/compensation_benefits/rest_days'
-  end
-
   def regular_work_periods
     @regularWorkPeriods = RegularWorkPeriod.all()
     render 'human_resources/compensation_benefits/regular_work_periods'
@@ -273,43 +287,28 @@ class HumanResourcesController < ApplicationController
 
   end
 
-  def delete_employee
-    @employees = Employee.all()
-    employee = Employee.find(params[:employee_id])
     deleteEmployeeName = employee.actor.name
-    employee.destroy
     flash[:deleteEmployeeNotice] = 'Employee ' + deleteEmployeeName + ' was successfully deleted.'
 
     reset_search_employees
     # render 'human_resources/employee_accounts_management/index'
-
-  end
-
   def register_employee
-
     actor = Actor.new(actor_params)
     @employee = Employee.new
     @biodata = Biodatum.new(biodata_params)
     @employee.actor = actor
     @biodata.actor = actor
-
     @biodata.save!
     @employee.save!
     @actorReference = actor
 
     if @employee.save!
-
       # Message Constants
       @success_message = 'Successfully registered new employee, ' + @employee.actor.name + '.'
-
       render 'core_partials/employee_registration_success'
-
     else
-
       render 'human_resources/employee_accounts_management/employee_registration'
-
     end
-
   end
 
   private

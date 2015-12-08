@@ -188,7 +188,7 @@ numberOfPositions.times do |i|
 end
 
 #ENTITIES
-numberOfActors = 10000
+numberOfActors = 50
 numberOfActors.times do |i|
   #Actor
   myActor = Actor.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true), logo: 'barack_obama.jpg')
@@ -274,7 +274,8 @@ numberOfActors.times do |i|
     myEmployee = Employee.new( actor: myActor, branch: Branch.all.shuffle.first )
 
     dayOfWeek = Faker::Time.between(7.days.ago, Time.now, :all).strftime("%A")
-    restday = Restday.new(day: dayOfWeek, employee: myEmployee); restday.save
+    restday = Restday.new(day: dayOfWeek, employee: myEmployee);
+    restday.save
 
     numberOfDuties = rand(1..5)
     numberOfDuties.times do
