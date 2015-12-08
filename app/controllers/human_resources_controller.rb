@@ -146,6 +146,10 @@ class HumanResourcesController < ApplicationController
       flash[:notice] = 'Failed to assign Duty:' + @assignedDuty.label + ' to ' + @assignedDuty.actor.name
       employee_profile
     end
+
+  end
+
+
   def rest_days
     order_parameter = aggregated_search_queries(params[:order_parameter], "order_parameter" ,"restdays.created_at")
     order_orientation = aggregated_search_queries(params[:order_orientation], "order_orientation", "DESC")
@@ -287,11 +291,18 @@ class HumanResourcesController < ApplicationController
 
   end
 
+  def delete_employee
+    @employees = Employee.all()
+    employee = Employee.find(params[:employee_id])
     deleteEmployeeName = employee.actor.name
+    employee.destroy
     flash[:deleteEmployeeNotice] = 'Employee ' + deleteEmployeeName + ' was successfully deleted.'
 
     reset_search_employees
     # render 'human_resources/employee_accounts_management/index'
+
+  end
+
   def register_employee
     actor = Actor.new(actor_params)
     @employee = Employee.new
