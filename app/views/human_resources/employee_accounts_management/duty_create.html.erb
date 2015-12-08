@@ -2,6 +2,10 @@
   <div class="mainheader"> Duty Creation </div>
   <div class="subdescription"> Create and Assign a New Duty </div>
 
+  <%= link_to( "[ BACK TO LIST ]" ,{:action => 'employee_accounts_management' }, :class => "action_button action-link-grey" ) %>
+
+  <div class="sm-spacer"></div>
+
   <% if flash[:notice] %>
       <div data-alert id="alert_success_add_duty" class="alert-box success radius">
         <%= flash[:notice] %>
@@ -22,12 +26,6 @@
         <div class="large-3 columns">
           <label>Duty Description
             <%= text_area_tag("duty[description]", value = nil, options = {placeholder: "Description", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64"}) %>
-          </label>
-        </div>
-
-        <div class="large-3 columns">
-          <label>Assign to
-            <%= select_tag 'employee_dd', options_for_select(@employees.collect{ |e| [e.actor.name, e.id] }) %>
           </label>
         </div>
 

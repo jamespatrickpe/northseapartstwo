@@ -49,10 +49,11 @@ class HumanResourcesController < ApplicationController
 
   def search_suggestions_employees
     employees = Employee.includes(:actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
-    direct = "{\"query\": \"Unit\",\"suggestions\":" + employees.to_s + "}" # default format for plugin
-    respond_to do |format|
-      format.all { render :text => direct}
-    end
+    @direct = "{\"query\": \"Unit\",\"suggestions\":" + employees.to_s + "}" # default format for plugin
+    render '/test/index'
+    # respond_to do |format|
+    #   format.all { render :text => direct}
+    # end
   end
 
   def employee_accounts_data
@@ -106,24 +107,52 @@ class HumanResourcesController < ApplicationController
     newduty = DutyStatus.new(dutyStatus_params)
 
     # set duty id to the employee
-    newduty.employee_id = params[:employee_dd]
-    employee = Employee.find(params[:employee_dd])
+    # newduty.employee_id = params[:employee_dd]
+    # employee = Employee.find(params[:employee_dd])
 
     if newduty.save!
-      flash[:notice] = 'Duty ' + newduty.label + ' was successfully assigned to ' + employee.actor.name
+      flash[:notice] = 'Duty ' + newduty.label + ' was successfully created'
       redirect_to :action => "duty_create"
     else
-      flash[:notice] = 'Failed to assign Duty:' + newduty.label + ' to ' + employee.actor.name
+      flash[:notice] = 'Failed to create Duty:' + newduty.label
       redirect_to :action => "duty_create"
     end
 
   end
 
   def employee_profile
-
     @employee = Employee.find(params[:employee_id])
     @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
+    @duties = DutyStatus.where(employee_id: nil)
+
+    @currentDuty = DutyStatus.find_by_employee_id(params[:employee_id])
+
+
+    @employeeDuties = DutyStatus.where({ employee_id: params[:employee_id]})
+
     render 'human_resources/employee_accounts_management/employee_profile'
+  end
+
+  def assign_duty
+
+    # page data
+    @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
+    @duties = DutyStatus.all()
+    @employee = Employee.find(params[:employee_id])
+
+    @assignedDuty =  DutyStatus.find(params[:duty_dd])
+    @assignedDuty.employee_id = @employee.id
+
+    @assignedDuty.save!
+
+    if @assignedDuty.save!
+      flash[:notice] = 'Duty ' + @assignedDuty.label + ' was successfully assigned to ' + @employee.actor.name
+      employee_profile
+    else
+      flash[:notice] = 'Failed to assign Duty:' + @assignedDuty.label + ' to ' + @assignedDuty.actor.name
+      employee_profile
+    end
+
   end
 
   def attendance

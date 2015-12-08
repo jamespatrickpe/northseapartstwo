@@ -60,6 +60,11 @@ body {
   border-left-style: solid;
 }
 
+span.subheader {
+  border : 1px solid maroon;
+  font-size: 2em;
+}
+
 //SUB HEADER DESCRIPTION
 .subdescription
 {
@@ -67,6 +72,10 @@ body {
   padding-left: 15px;
   font-size: 12px;
   text-transform: uppercase;
+}
+
+.context-info {
+  color : red;
 }
 
 .whitebackgroundlink

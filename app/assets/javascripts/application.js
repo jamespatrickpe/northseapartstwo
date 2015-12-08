@@ -29,7 +29,7 @@
 //= require jquery-tablesorter/addons/pager/jquery.tablesorter.pager
 //= require jquery-tablesorter/widgets/widget-repeatheaders
 //= require jquery-tablesorter/parsers/parser-metric
-//= require jquery.autocomplete.min
+    //= require jquery.autocomplete.min
 //= #require jquery-tablesorter/extras/jquery.quicksearch
 //= #require jquery-tablesorter/jquery.metadata
 //= //require turbolinks // CAUSES ERROR
