@@ -1,10 +1,19 @@
 <section class='small-10 columns'>
-<div class='mainheader'> Employee Accounts Management </div>
-<div class='subdescription'> Manage the Accounts of Employees</div>
-<hr>
+  <div class='mainheader'> Employee Accounts Management </div>
+  <div class='subdescription'> Manage the Accounts of Employees</div>
+  <hr>
   <%= generic_table_search( 'employee_accounts_search_input', 'employee_accounts_management','Search Employees' , '/human_resources/search_suggestions_employees') %>
+  <% if flash[:deleteEmployeeNotice] %>
+      <div data-alert id="alert_success_add_duty" class="alert-box success radius">
+        <%= flash[:deleteEmployeeNotice] %>
+        <a href="#" class="close">&times;</a>
+      </div>
+  <% end %>
 
-<% begin %>
+
+
+
+  <% begin %>
       <% table_orientation = shift_table_orientation %>
       <table class="generic_table" id="employee_accounts_table">
         <thead>
@@ -27,11 +36,13 @@
           <th>
             Last Updated <%= generic_table_theadlink('employee_accounts_management','employees.updated_at', table_orientation) %>
           </th>
-          <th class="actions">&nbsp;</th>
+          <th>
+            Actions
+          </th>
         </tr>
         </thead>
         <% if @employee_accounts.empty? == true %>
-        <% raise exception %>
+            <% raise exception %>
         <% else %>
             <tbody>
             <% @employee_accounts.each do |employee_accounts| %>
@@ -52,12 +63,12 @@
             </tbody>
         <% end %>
       </table>
-<% rescue %>
+  <% rescue %>
       <script>
-        html = "<hr><p align='center'> No records found. Please try again. </p><hr>"
-        $(".generic_table").replaceWith(html)
+          html = "<hr><p align='center'> No records found. Please try again. </p><hr>"
+          $(".generic_table").replaceWith(html)
       </script>
-<% end %>
+  <% end %>
 
 <%= generic_table_footer('employee_registration',
                          '/human_resources/employee_accounts_management',
