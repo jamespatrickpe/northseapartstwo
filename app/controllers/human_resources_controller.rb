@@ -46,7 +46,7 @@ class HumanResourcesController < ApplicationController
 
   def search_suggestions_employees
     employees = Employee.includes(:actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
-    direct = "{\"query\": \"Unit\",\"suggestions\":" + employees.to_s + "}" # default format for plugin
+    @direct = "{\"query\": \"Unit\",\"suggestions\":" + employees.to_s + "}" # default format for plugin
 
     respond_to do |format|
       format.all { render :text => direct}
@@ -64,14 +64,91 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/employee_accounts_management/employee_registration'
   end
 
+  def assign_duty
+    # page data
+    @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
+    @duties = Duty.all()
+    @employee = Employee.find(params[:employee_id])
+
+    @assignedDuty =  Duty.find(params[:duty_dd])
+    @assignedDuty.employee_id = @employee.id
+
+    @assignedDuty.save!
+
+    if @assignedDuty.save!
+      flash[:notice] = 'Duty ' + @assignedDuty.label + ' was successfully assigned to ' + @employee.actor.name
+      render 'human_resources/employee_accounts_management/employee_profile'
+    else
+      flash[:notice] = 'Failed to assign Duty:' + @assignedDuty.label + ' to ' + @assignedDuty.actor.name
+      render 'human_resources/employee_accounts_management/employee_profile'
+    end
+
+  end
+
+  def duty_create
+
+    @duties = DutyStatus.page(params[:page]).per(10)
+    @employees = Employee.all()
+    render 'human_resources/employee_accounts_management/duty_create'
+  end
+
+  def create_duty
+
+    @employees = Employee.all()
+    @duties = DutyStatus.page(params[:page]).per(10)
+
+    newduty = DutyStatus.new(dutyStatus_params)
+
+    # set duty id to the employee
+    # newduty.employee_id = params[:employee_dd]
+    # employee = Employee.find(params[:employee_dd])
+
+    if newduty.save!
+      flash[:notice] = 'Duty ' + newduty.label + ' was successfully created'
+      redirect_to :action => "duty_create"
+    else
+      flash[:notice] = 'Failed to create Duty:' + newduty.label
+      redirect_to :action => "duty_create"
+    end
+
+  end
+
   def employee_profile
     @employee = Employee.find(params[:employee_id])
     @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
+    @duties = DutyStatus.where(employee_id: nil)
+
+    @currentDuty = DutyStatus.find_by_employee_id(params[:employee_id])
+
+
+    @employeeDuties = DutyStatus.where({ employee_id: params[:employee_id]})
 
     render 'human_resources/employee_accounts_management/employee_profile'
   end
 
   # ================== Rest Day ================== #
+  def assign_duty
+
+    # page data
+    @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
+    @duties = DutyStatus.all()
+    @employee = Employee.find(params[:employee_id])
+
+    @assignedDuty =  DutyStatus.find(params[:duty_dd])
+    @assignedDuty.employee_id = @employee.id
+
+    @assignedDuty.save!
+
+    if @assignedDuty.save!
+      flash[:notice] = 'Duty ' + @assignedDuty.label + ' was successfully assigned to ' + @employee.actor.name
+      employee_profile
+    else
+      flash[:notice] = 'Failed to assign Duty:' + @assignedDuty.label + ' to ' + @assignedDuty.actor.name
+      employee_profile
+    end
+
+  end
+
 
   def rest_days
     order_parameter = aggregated_search_queries(params[:order_parameter], 'rest_days', "order_parameter" ,"restdays.created_at")
@@ -175,6 +252,7 @@ class HumanResourcesController < ApplicationController
 
     @employee = Employee.find(params[:employee_id])
     @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
+    @actorReference = Actor.find(params[:actor_id])
 
     render 'human_resources/employee_accounts_management/edit_employee_profile'
   end
@@ -184,6 +262,7 @@ class HumanResourcesController < ApplicationController
     # find existing employee and biodata using the id from the params
     @employee = Employee.find(params[:employee_id])
     @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
+    @actorReference = Actor.find(params[:actor_id])
 
     # the actual update method passing the parameters set from the pagee
     @biodatum.update_attributes(biodata_params)
@@ -211,6 +290,18 @@ class HumanResourcesController < ApplicationController
 
   end
 
+  def delete_employee
+    @employees = Employee.all()
+    employee = Employee.find(params[:employee_id])
+    deleteEmployeeName = employee.actor.name
+    employee.destroy
+    flash[:deleteEmployeeNotice] = 'Employee ' + deleteEmployeeName + ' was successfully deleted.'
+
+    reset_search_employees
+    # render 'human_resources/employee_accounts_management/index'
+
+  end
+
   def register_employee
     actor = Actor.new(actor_params)
     @employee = Employee.new
@@ -219,6 +310,7 @@ class HumanResourcesController < ApplicationController
     @biodata.actor = actor
     @biodata.save!
     @employee.save!
+    @actorReference = actor
 
     if @employee.save!
       # Message Constants
@@ -255,6 +347,14 @@ class HumanResourcesController < ApplicationController
             :notable_accomplishments,
             :emergency_contact,
             :languages_spoken
+        )
+  end
+
+  def dutyStatus_params
+    params.require(:duty)
+        .permit(
+            :label,
+            :description
         )
   end
 

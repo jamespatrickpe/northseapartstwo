@@ -30,7 +30,7 @@
 //= require jquery-tablesorter/addons/pager/jquery.tablesorter.pager
 //= require jquery-tablesorter/widgets/widget-repeatheaders
 //= require jquery-tablesorter/parsers/parser-metric
-//= require jquery.autocomplete.min
+    //= require jquery.autocomplete.min
 //= require generic_table.js
 //= #require jquery-tablesorter/extras/jquery.quicksearch
 //= #require jquery-tablesorter/jquery.metadata
@@ -39,7 +39,9 @@
 
 //$(function(){ $(document).foundation(); });
 
-
+//= require foundation
+$(document).foundation();
+$(document).foundation('alert','events');
 
 // For generic_table
 $(document).ready(function(){
