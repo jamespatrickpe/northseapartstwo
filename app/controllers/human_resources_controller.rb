@@ -48,9 +48,9 @@ class HumanResourcesController < ApplicationController
     employees = Employee.includes(:actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     @direct = "{\"query\": \"Unit\",\"suggestions\":" + employees.to_s + "}" # default format for plugin
 
-    # respond_to do |format|
-    #   format.all { render :text => direct}
-    # end
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
   end
 
   def delete_employee
