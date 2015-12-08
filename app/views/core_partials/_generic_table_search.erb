@@ -28,13 +28,20 @@
       <div class="small-3 columns"></div>
     </div>
     <br>
+
     <!-- Search Status -->
-    <% if flash["search_field"].empty? == false  %>
+    <%
+       search_field = unique_flash_variable + '_' + 'search_field'
+       order_parameters = unique_flash_variable + '_' + 'order_parameters'
+       order_orientation = unique_flash_variable + '_' + 'order_orientation'
+       current_limit = unique_flash_variable + '_' + 'current_limit'
+       if (flash[search_field].empty? == false)
+    %>
         <div class="subdescription" style="float: left">
-          Searching for "<%= flash["search_field"] %>"
-          with "<%= flash["order_parameter"] %>"
-          ordered by "<%= flash["order_orientation"] %>"
-          at <%= flash["current_limit"] %> per page
+          Searching for "<%= flash[search_field] %>"
+          with "<%= flash[order_parameters] %>"
+          ordered by "<%= flash[order_orientation] %>"
+          at <%= flash[current_limit] %> per page
         </div>
     <% end %>
 

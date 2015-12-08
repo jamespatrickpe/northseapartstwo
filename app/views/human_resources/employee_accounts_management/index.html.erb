@@ -1,18 +1,9 @@
 <section class='small-10 columns'>
-  <div class='mainheader'> Employee Accounts Management </div>
-  <div class='subdescription'> Manage the Accounts of Employees</div>
-  <hr>
-  <%= generic_table_search( 'employee_accounts_search_input', 'employee_accounts_management','Search Employees' , '/human_resources/search_suggestions_employees') %>
-  <% if flash[:deleteEmployeeNotice] %>
-      <div data-alert id="alert_success_add_duty" class="alert-box success radius">
-        <%= flash[:deleteEmployeeNotice] %>
-        <a href="#" class="close">&times;</a>
-      </div>
-  <% end %>
-
-
-
-
+<<<<<<< HEAD
+<div class='mainheader'> Employee Accounts Management </div>
+<div class='subdescription'> Manage the Accounts of Employees</div>
+<hr>
+  <%= generic_table_search( 'employee_accounts_search_input', 'employee_accounts_management','Search Employees' , '/human_resources/search_suggestions_employees', 'employee_accounts_management') %>
   <% begin %>
       <% table_orientation = shift_table_orientation %>
       <table class="generic_table" id="employee_accounts_table">
@@ -70,8 +61,6 @@
       </script>
   <% end %>
 
-<%= generic_table_footer('employee_registration',
-                         '/human_resources/employee_accounts_management',
-                         @employee_accounts
-    ) %>
+  <%= generic_table_footer('employee_registration','/human_resources/employee_accounts_management',@employee_accounts) %>
+
 </section>

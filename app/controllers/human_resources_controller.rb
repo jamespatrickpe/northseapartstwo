@@ -13,10 +13,10 @@ class HumanResourcesController < ApplicationController
   def employee_accounts_management
 
     # Obtain and Process Parameters
-    order_parameter = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:order_parameter], "order_parameter" ,"created_at")).gsub("'", '')
-    order_orientation = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:order_orientation], "order_orientation", "DESC")).gsub("'", '')
-    current_limit = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:current_limit], "current_limit","10")).gsub("'", '')
-    search_field = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:search_field], "search_field","")).gsub("'", '')
+    order_parameter = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:order_parameter], 'employee_accounts_management', "order_parameter" ,"created_at")).gsub("'", '')
+    order_orientation = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:order_orientation], 'employee_accounts_management',"order_orientation", "DESC")).gsub("'", '')
+    current_limit = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:current_limit], 'employee_accounts_management',"current_limit","10")).gsub("'", '')
+    search_field = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:search_field], 'employee_accounts_management',"search_field","")).gsub("'", '')
 
     # Get and Process Records
     # This is BAD practice - used only becuase the query was very complicated - always use active record to construct queries; There is better way to do this.
@@ -151,12 +151,11 @@ class HumanResourcesController < ApplicationController
 
 
   def rest_days
-    order_parameter = aggregated_search_queries(params[:order_parameter], "order_parameter" ,"restdays.created_at")
-    order_orientation = aggregated_search_queries(params[:order_orientation], "order_orientation", "DESC")
-    current_limit = aggregated_search_queries(params[:current_limit], "current_limit","10")
-    search_field = aggregated_search_queries(params[:search_field], "search_field","")
-    @search_field = search_field
-    @params_search_field = params[:search_field]
+    order_parameter = aggregated_search_queries(params[:order_parameter], 'rest_days', "order_parameter" ,"restdays.created_at")
+    order_orientation = aggregated_search_queries(params[:order_orientation], 'rest_days', "order_orientation", "DESC")
+    current_limit = aggregated_search_queries(params[:current_limit], 'rest_days', "current_limit","10")
+    search_field = aggregated_search_queries(params[:search_field], 'rest_days', "search_field","")
+
     begin
       @rest_days = Restday.includes(employee: [:actor]).joins(employee: [:actor]).where("actors.name LIKE ? OR restdays.id LIKE ? OR restdays.day LIKE ? OR restdays.created_at LIKE ? OR restdays.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" ).order(order_parameter + ' ' + order_orientation)
       @rest_days = Kaminari.paginate_array(@rest_days).page(params[:page]).per(current_limit)

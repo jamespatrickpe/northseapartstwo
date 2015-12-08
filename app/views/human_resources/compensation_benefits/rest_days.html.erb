@@ -2,7 +2,7 @@
   <div class='mainheader'> Rest Days Management </div>
   <div class='subdescription'> Manage Rest Days for each Employee </div>
   <hr>
-  <%= generic_table_search( 'rest_days_search_input', 'rest_days',' Search Rest Days' , '/human_resources/search_suggestions_rest_days') %>
+  <%= generic_table_search( 'rest_days_search_input', 'rest_days',' Search Rest Days' , '/human_resources/search_suggestions_rest_days', 'rest_days') %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
       <table class="generic_table" id="rest_days_table">
@@ -46,11 +46,11 @@
             </tbody>
         <% end %>
       </table>
-      <%= generic_table_footer('new_rest_day','/human_resources/rest_days',@rest_days) %>
       <% rescue %>
       <script>
           html = "<hr><p align='center'> No records found. Please try again. </p><hr>"
           $(".generic_table").replaceWith(html)
       </script>
       <% end %>
+      <%= generic_table_footer('new_rest_day','/human_resources/rest_days',@rest_days) %>
 </section>
