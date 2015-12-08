@@ -2,7 +2,7 @@
 <div class='mainheader'> Employee Accounts Management </div>
 <div class='subdescription'> Manage the Accounts of Employees</div>
 <hr>
-  <%= generic_table_search( 'employee_accounts_search_input', 'employee_accounts_management','Search Employees' , '/human_resources/search_suggestions_employees') %>
+  <%= generic_table_search( 'employee_accounts_search_input', 'employee_accounts_management','Search Employees' , '/human_resources/search_suggestions_employees', 'employee_accounts_management') %>
 
 <% begin %>
       <% table_orientation = shift_table_orientation %>
@@ -59,8 +59,6 @@
       </script>
 <% end %>
 
-<%= generic_table_footer('employee_registration',
-                         '/human_resources/employee_accounts_management',
-                         @employee_accounts
-    ) %>
+  <%= generic_table_footer('employee_registration','/human_resources/employee_accounts_management',@employee_accounts) %>
+
 </section>

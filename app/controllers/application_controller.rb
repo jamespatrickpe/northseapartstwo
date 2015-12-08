@@ -9,23 +9,22 @@ class ApplicationController < ActionController::Base
 
   #Reset Search Common Paremeters
   def reset_search
-    flash["order_parameter"] = nil
-    flash["order_orientation"] = nil
-    flash["current_limit"] = nil
-    flash["search_field"] = nil
+    flash.clear
+    flash[:general_flash_notification] = 'Search Queries Cleared'
+    flash[:general_flash_notification_type] = 'affirmative'
     redirect_to params[:reset_search_redirect]
   end
 
   # Stores previous search queries for aggregated results
-  def aggregated_search_queries(value, key, default)
-    if(value)
+  def aggregated_search_queries(value, table_id, key, default)
+    if value
       actual_query_parameter = value
-    elsif (flash[key])
-      actual_query_parameter = flash[key]
+    elsif flash[table_id + '_' + key]
+      actual_query_parameter = flash[table_id + '_' + key]
     else
       actual_query_parameter = default
     end
-    flash[key] = actual_query_parameter
+    flash[table_id + '_' + key] = actual_query_parameter
     return actual_query_parameter
   end
 
