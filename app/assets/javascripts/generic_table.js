@@ -5,4 +5,11 @@ $(function() {
             location.href = this.href;
         }
     });
-});d
+});
+
+// For generic_table
+$(document).ready(function(){
+    $(".generic_table > tbody > tr").hover(
+        function(){$(this).find("td.actions > *").css("visibility", "visible");},
+        function(){$(this).find("td.actions > *").css("visibility", "hidden");})
+});
