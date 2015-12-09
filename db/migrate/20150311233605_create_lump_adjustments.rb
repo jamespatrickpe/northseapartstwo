@@ -6,8 +6,8 @@ class CreateLumpAdjustments < ActiveRecord::Migration
       t.string :id, limit: 36, primary: true, null: false
 
       t.decimal :amount, :limit => 16, :precision => 16, :scale => 2
-      t.string :signed_type, :limit => 64 # Determines if deduction or addition
-      t.string :description, :limit => 256
+      t.boolean :signed_type, :required => true, default: true
+      t.string :remark, :limit => 256
       t.string :employee_id, limit: 36,:required => true
       t.datetime :date_of_effectivity, :required => true
 

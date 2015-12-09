@@ -47,6 +47,11 @@
     visibility: hidden;
 }
 
+.generic_table > tbody > tr > td
+{
+    padding: 5px;
+}
+
 .generic_table > tbody > tr > td.actions > a:hover
 {
     background-color: #721314;
