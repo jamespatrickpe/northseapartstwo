@@ -1,3 +1,4 @@
+// deletable item confirmation
 $(function() {
     $('.delete_item').click(function(e) {
         e.preventDefault();
