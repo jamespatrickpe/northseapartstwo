@@ -25,10 +25,12 @@
 //= require export_to_csv
 //= require jquery.autocomplete.min
 //= require generic_table.js
+//= require foundation
 //= //require turbolinks // CAUSES ERROR
 //= //require_tree .  // CAUSES ERROR
 
-//$(function(){ $(document).foundation(); });
+$(document).foundation();
+$(document).foundation('alert','events');
 
 // For Contact Details
 function GetURLParameter(sParam)
@@ -55,8 +57,13 @@ function convertSQLTimeToHTML5Input(myDate)
 }
 
 $(document).ready(function(){
+
     $(".deletable_item").click(function(){
         return confirm("Are you sure you want to delete this item?");
+    });
+
+    $( "[title]").mouseover(function(){
+        tooltip = "<div style='z-index: 10;'></div>"
     });
 });
 

@@ -1,3 +1,31 @@
+<style>
+
+    .subheader {
+        border-bottom : 1px solid #cccccc;
+        display: block;
+        padding : 4px;
+        font-size : 1.2em;
+    }
+
+    .duty-entry {
+        border-left : 4px solid maroon;
+        display : inline-block;
+        margin : 8px 4px;
+        padding : 8px;
+        width : 49%
+    }
+
+    .duty-entry section {
+        display : inline-block;
+        text-align: left;
+    }
+
+    /*.duty-entry section {*/
+        /*border : 1px solid maroon;*/
+    /*}*/
+
+</style>
+
 <section class="small-10 columns">
 
   <div class="content">
@@ -9,11 +37,18 @@
       </span>
     </div>
 
-    <%= link_to( "Back to List" ,{:action => 'employee_accounts_management'} ) %>
+    <%= link_to( "[ BACK TO LIST ]" ,{:action => 'employee_accounts_management' }, :class => "action_button action-link-grey" ) %>
     &nbsp;
-    <%= link_to( "Delete Employee" ,{:action => 'delete_employee', :employee_id => @employee.id} ) %>
+    <%= link_to( "[ DELETE ]" ,{:action => 'delete_employee', :employee_id => @employee.id}, :class => "action_button action-link-grey" ) %>
     &nbsp;
-    <%= link_to( "Edit Employee Details" ,{:action => 'edit_employee_page', :employee_id => @employee.id, :actor_id => @employee.actor.id} ) %>
+    <%= link_to( "[ EDIT DETAILS ] " ,{:action => 'edit_employee_page', :employee_id => @employee.id, :actor_id => @employee.actor.id}, :class => "action_button action-link-grey" ) %>
+
+    <% if flash[:notice] %>
+        <div data-alert id="alert_success_add_duty" class="alert-box success radius">
+          <%= flash[:notice] %>
+          <a href="#" class="close">&times;</a>
+        </div>
+    <% end %>
 
     <div class="profile-section employee-profile-detail">
 
@@ -125,17 +160,68 @@
 
     </div>
 
-    <!--&lt;!&ndash; employee accounts profile history &ndash;&gt;-->
-    <!--<div class="profile-section employee-account-notifications">-->
-      <!--<span class="subheader"> <i class="fa fa-lg fa-info-circle"></i> Notifications </span>-->
-    <!--</div>-->
+    <% if !@employeeDuties.nil? %>
 
-    <!--&lt;!&ndash; employee accounts profile history &ndash;&gt;-->
-    <!--<div class="profile-section employee-account-remarks">-->
-      <!--<span class="subheader"> <i class="fa fa-lg fa-edit"></i> Remarks </span>-->
-    <!--</div>-->
+        <div class="profile-section employee-profile-detail">
 
-    <div class="lg-spacer"></div>
+          <span class="subheader"> <i class="fa fa-lg fa-user"></i> On Going Duty </span>
+
+          <br />
+
+          <% @employeeDuties.each do |e| %>
+
+              <div class="employee-profile-detail-content duty-entry">
+
+                <section>
+                  <span>Status </span>
+                  <span><%= e.label %></span>
+                </section>
+
+                <section>
+                  <span>Description </span>
+                  <span><%= e.description %></span>
+                </section>
+
+                <section>
+                  <span>Duty creation date</span>
+                  <span><%= e.created_at %></span>
+                </section>
+
+              </div>
+
+          <% end %>
+
+        </div>
+
+    <% else %>
+
+    <% end %>
+
+    <div class="profile-section employee-profile-detail">
+
+      <%= form_tag({action: :"assign_duty", :employee_id => @employee.id, :actor_id => @employee.actor.id}, multipart: true, id: "assign_duty_form", :"data-parsley-validate" => "" ) do %>
+
+          <div class="row">
+
+            <div class="md-spacer"></div>
+
+            <div>
+              <label>Assign open duty
+                <%= select_tag 'duty_dd', options_for_select(@duties.collect{ |d| [d.label + ' - ' + d.description, d.id] }) %>
+              </label>
+            </div>
+
+            <div>
+              <label> <br />
+                <%= submit_tag nil, :class => "button tiny" %>
+              </label>
+            </div>
+
+          </div>
+
+      <% end %>
+
+    </div>
 
     <div class="lg-spacer"></div>
 

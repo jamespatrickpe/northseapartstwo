@@ -13,23 +13,23 @@ class HumanResourcesController < ApplicationController
   def employee_accounts_management
 
     # Obtain and Process Parameters
-    order_parameter = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:order_parameter], "order_parameter" ,"created_at")).gsub("'", '')
-    order_orientation = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:order_orientation], "order_orientation", "DESC")).gsub("'", '')
-    current_limit = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:current_limit], "current_limit","10")).gsub("'", '')
-    search_field = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:search_field], "search_field","")).gsub("'", '')
+    order_parameter = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:order_parameter], 'employee_accounts_management', "order_parameter" ,"created_at")).gsub("'", '')
+    order_orientation = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:order_orientation], 'employee_accounts_management',"order_orientation", "DESC")).gsub("'", '')
+    current_limit = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:current_limit], 'employee_accounts_management',"current_limit","10")).gsub("'", '')
+    search_field = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:search_field], 'employee_accounts_management',"search_field","")).gsub("'", '')
 
     # Get and Process Records
     # This is BAD practice - used only becuase the query was very complicated - always use active record to construct queries; There is better way to do this.
     begin
-      sql = "SELECT employees.id as id, actors.name as name, dutystatus.label as label, branches.name as branch_name, employees.created_at as created_at, employees.updated_at as updated_at, actors.id  as actors_id
+      sql = "SELECT employees.id as id, actors.name as name, dutystatus.active as active, branches.name as branch_name, employees.created_at as created_at, employees.updated_at as updated_at, actors.id  as actors_id
     FROM employees
     INNER JOIN actors ON employees.actor_id = actors.id
     INNER JOIN branches ON employees.branch_id = branches.id
-    INNER JOIN ( SELECT employee_id, label, max(duty_statuses.created_at) FROM duty_statuses GROUP BY employee_id )
+    INNER JOIN ( SELECT employee_id, active, max(duty_statuses.created_at) FROM duty_statuses GROUP BY employee_id )
     AS dutystatus ON dutystatus.employee_id = employees.id WHERE" +
           "(employees.id LIKE '%" + search_field + "%' " + ")" + " OR " +
           "(actors.name LIKE '%" + search_field + "%' " + ")" + " OR " +
-          "(dutystatus.label LIKE '%" + search_field + "%' " + ")" + " OR " +
+          "(dutystatus.active LIKE '%" + search_field + "%' " + ")" + " OR " +
           "(branches.name LIKE '%" + search_field + "%' " + ")" + " OR " +
           "(employees.created_at LIKE '%" + search_field + "%' " + ")" + " OR " +
           "(employees.updated_at LIKE '%" + search_field + "%' " + ")" + " " +
@@ -46,8 +46,7 @@ class HumanResourcesController < ApplicationController
 
   def search_suggestions_employees
     employees = Employee.includes(:actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
-    direct = "{\"query\": \"Unit\",\"suggestions\":" + employees.to_s + "}" # default format for plugin
-
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + employees.to_s + "}"
     respond_to do |format|
       format.all { render :text => direct}
     end
@@ -64,30 +63,159 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/employee_accounts_management/employee_registration'
   end
 
-  def employee_profile
-    @employee = Employee.find(params[:employee_id])
-    @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
-
-    render 'human_resources/employee_accounts_management/employee_profile'
-  end
-
-  # ================== Rest Day ================== #
+  # ================== Rest Days ================== #
 
   def rest_days
-    order_parameter = aggregated_search_queries(params[:order_parameter], "order_parameter" ,"restdays.created_at")
-    order_orientation = aggregated_search_queries(params[:order_orientation], "order_orientation", "DESC")
-    current_limit = aggregated_search_queries(params[:current_limit], "current_limit","10")
-    search_field = aggregated_search_queries(params[:search_field], "search_field","")
-    @search_field = search_field
-    @params_search_field = params[:search_field]
+    order_parameter = aggregated_search_queries(params[:order_parameter], 'rest_days', "order_parameter" ,"restdays.created_at")
+    order_orientation = aggregated_search_queries(params[:order_orientation], 'rest_days', "order_orientation", "DESC")
+    current_limit = aggregated_search_queries(params[:current_limit], 'rest_days', "current_limit","10")
+    search_field = aggregated_search_queries(params[:search_field], 'rest_days', "search_field","")
+
     begin
-      @rest_days = Restday.includes(employee: [:actor]).joins(employee: [:actor]).where("actors.name LIKE ? OR restdays.id LIKE ? OR restdays.day LIKE ? OR restdays.created_at LIKE ? OR restdays.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" ).order(order_parameter + ' ' + order_orientation)
+      @rest_days = Restday
+                       .includes(employee: [:actor])
+                       .joins(employee: [:actor])
+                       .where("actors.name LIKE ? OR restdays.id LIKE ? OR restdays.day LIKE ? OR restdays.created_at LIKE ? OR restdays.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" )
+                       .order(order_parameter + ' ' + order_orientation)
       @rest_days = Kaminari.paginate_array(@rest_days).page(params[:page]).per(current_limit)
     rescue
       flash[:general_flash_notification] = "Error has Occured"
     end
     render 'human_resources/compensation_benefits/rest_days'
   end
+
+  # ================== Regular Work Periods ================== #
+
+  def regular_work_periods
+
+    order_parameter = aggregated_search_queries(params[:order_parameter], 'regular_work_periods', "order_parameter" ,"regular_work_periods.created_at")
+    order_orientation = aggregated_search_queries(params[:order_orientation], 'regular_work_periods', "order_orientation", "DESC")
+    current_limit = aggregated_search_queries(params[:current_limit], 'regular_work_periods', "current_limit","10")
+    search_field = aggregated_search_queries(params[:search_field], 'regular_work_periods', "search_field","")
+
+    begin
+      @regular_work_periods = RegularWorkPeriod.includes(employee: [:actor])
+                                  .joins(employee: [:actor])
+                                  .where("actors.name LIKE ? OR regular_work_periods.id LIKE ? OR regular_work_periods.start_time LIKE ? OR regular_work_periods.end_time LIKE ? OR regular_work_periods.remark LIKE ? OR regular_work_periods.created_at LIKE ? OR regular_work_periods.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" )
+                                  .order(order_parameter + ' ' + order_orientation)
+      @regular_work_periods = Kaminari.paginate_array(@regular_work_periods).page(params[:page]).per(current_limit)
+    rescue
+      flash[:general_flash_notification] = "Error has Occured"
+    end
+
+    render 'human_resources/compensation_benefits/regular_work_periods'
+  end
+
+  # ================== Lump Sum Adjustments ================== #
+
+  def lump_adjustments
+
+    order_parameter = aggregated_search_queries(params[:order_parameter], 'lump_adjustments', "order_parameter" ,"lump_adjustments.created_at")
+    order_orientation = aggregated_search_queries(params[:order_orientation], 'lump_adjustments', "order_orientation", "DESC")
+    current_limit = aggregated_search_queries(params[:current_limit], 'lump_adjustments', "current_limit","10")
+    search_field = aggregated_search_queries(params[:search_field], 'lump_adjustments', "search_field","")
+
+    begin
+      @lump_adjustments = LumpAdjustment.includes(employee: [:actor])
+                                  .joins(employee: [:actor])
+                                  .where("actors.name LIKE ? OR lump_adjustments.id LIKE ? OR lump_adjustments.amount LIKE ? OR lump_adjustments.signed_type LIKE ? OR lump_adjustments.remark LIKE ? OR lump_adjustments.date_of_effectivity LIKE ? OR lump_adjustments.created_at LIKE ? OR lump_adjustments.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" )
+                                  .order(order_parameter + ' ' + order_orientation)
+      @lump_adjustments = Kaminari.paginate_array(@lump_adjustments).page(params[:page]).per(current_limit)
+    rescue
+      flash[:general_flash_notification] = "Error has Occured"
+    end
+
+    render 'human_resources/compensation_benefits/lump_adjustments'
+  end
+
+  # ================== END ================== #
+
+  def assign_duty
+    # page data
+    @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
+    @duties = Duty.all()
+    @employee = Employee.find(params[:employee_id])
+
+    @assignedDuty =  Duty.find(params[:duty_dd])
+    @assignedDuty.employee_id = @employee.id
+
+    @assignedDuty.save!
+
+    if @assignedDuty.save!
+      flash[:notice] = 'Duty ' + @assignedDuty.label + ' was successfully assigned to ' + @employee.actor.name
+      render 'human_resources/employee_accounts_management/employee_profile'
+    else
+      flash[:notice] = 'Failed to assign Duty:' + @assignedDuty.label + ' to ' + @assignedDuty.actor.name
+      render 'human_resources/employee_accounts_management/employee_profile'
+    end
+
+  end
+
+  def duty_create
+
+    @duties = DutyStatus.page(params[:page]).per(10)
+    @employees = Employee.all()
+    render 'human_resources/employee_accounts_management/duty_create'
+  end
+
+  def create_duty
+
+    @employees = Employee.all()
+    @duties = DutyStatus.page(params[:page]).per(10)
+
+    newduty = DutyStatus.new(dutyStatus_params)
+
+    # set duty id to the employee
+    # newduty.employee_id = params[:employee_dd]
+    # employee = Employee.find(params[:employee_dd])
+
+    if newduty.save!
+      flash[:notice] = 'Duty ' + newduty.label + ' was successfully created'
+      redirect_to :action => "duty_create"
+    else
+      flash[:notice] = 'Failed to create Duty:' + newduty.label
+      redirect_to :action => "duty_create"
+    end
+
+  end
+
+  def employee_profile
+    @employee = Employee.find(params[:employee_id])
+    @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
+    @duties = DutyStatus.where(employee_id: nil)
+
+    @currentDuty = DutyStatus.find_by_employee_id(params[:employee_id])
+
+
+    @employeeDuties = DutyStatus.where({ employee_id: params[:employee_id]})
+
+    render 'human_resources/employee_accounts_management/employee_profile'
+  end
+
+  def assign_duty
+
+    # page data
+    @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
+    @duties = DutyStatus.all()
+    @employee = Employee.find(params[:employee_id])
+
+    @assignedDuty =  DutyStatus.find(params[:duty_dd])
+    @assignedDuty.employee_id = @employee.id
+
+    @assignedDuty.save!
+
+    if @assignedDuty.save!
+      flash[:notice] = 'Duty ' + @assignedDuty.label + ' was successfully assigned to ' + @employee.actor.name
+      employee_profile
+    else
+      flash[:notice] = 'Failed to assign Duty:' + @assignedDuty.label + ' to ' + @assignedDuty.actor.name
+      employee_profile
+    end
+
+  end
+
+
+
 
   def employee_accounts_data
 
@@ -159,16 +287,6 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/compensation_benefits/printable_format'
   end
 
-  def lump_adjustments
-    @lumpAdjustment = LumpAdjustment.all()
-    render 'human_resources/compensation_benefits/lump_adjustments'
-  end
-
-  def regular_work_periods
-    @regularWorkPeriods = RegularWorkPeriod.all()
-    render 'human_resources/compensation_benefits/regular_work_periods'
-  end
-
   def edit_employee_page
 
     puts params[:employee_id]
@@ -176,6 +294,7 @@ class HumanResourcesController < ApplicationController
 
     @employee = Employee.find(params[:employee_id])
     @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
+    @actorReference = Actor.find(params[:actor_id])
 
     render 'human_resources/employee_accounts_management/edit_employee_profile'
   end
@@ -185,6 +304,7 @@ class HumanResourcesController < ApplicationController
     # find existing employee and biodata using the id from the params
     @employee = Employee.find(params[:employee_id])
     @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
+    @actorReference = Actor.find(params[:actor_id])
 
     # the actual update method passing the parameters set from the pagee
     @biodatum.update_attributes(biodata_params)
@@ -212,6 +332,18 @@ class HumanResourcesController < ApplicationController
 
   end
 
+  def delete_employee
+    @employees = Employee.all()
+    employee = Employee.find(params[:employee_id])
+    deleteEmployeeName = employee.actor.name
+    employee.destroy
+    flash[:deleteEmployeeNotice] = 'Employee ' + deleteEmployeeName + ' was successfully deleted.'
+
+    reset_search_employees
+    # render 'human_resources/employee_accounts_management/index'
+
+  end
+
   def register_employee
     actor = Actor.new(actor_params)
     @employee = Employee.new
@@ -220,6 +352,7 @@ class HumanResourcesController < ApplicationController
     @biodata.actor = actor
     @biodata.save!
     @employee.save!
+    @actorReference = actor
 
     if @employee.save!
       # Message Constants
@@ -256,6 +389,14 @@ class HumanResourcesController < ApplicationController
             :notable_accomplishments,
             :emergency_contact,
             :languages_spoken
+        )
+  end
+
+  def dutyStatus_params
+    params.require(:duty)
+        .permit(
+            :label,
+            :description
         )
   end
 

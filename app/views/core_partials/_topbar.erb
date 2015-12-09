@@ -26,8 +26,18 @@
   </section>
 </nav>
 
-<% if( flash[:general_flash_notification] ) %>
-<div class="tiny button" id="general_flash_notification" > <%= flash[:general_flash_notification] %> &nbsp; &nbsp; &nbsp; &#10060; </div>
+<% if flash[:general_flash_notification] %>
+    <% if flash[:general_flash_notification_type] == 'affirmative'%>
+        <div class="tiny button notification_affirmative" id="general_flash_notification">
+          <%= flash[:general_flash_notification] %>
+          &nbsp; &nbsp; &nbsp; &#10060;
+        </div>
+    <% else %>
+        <div class="tiny button notification_negative" id="general_flash_notification">
+          <%= flash[:general_flash_notification] %>
+          &nbsp; &nbsp; &nbsp; &#10060;
+        </div>
+    <% end %>
 <% end %>
 
 <script>

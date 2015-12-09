@@ -61,6 +61,11 @@ body {
   border-left-style: solid;
 }
 
+span.subheader {
+  border : 1px solid maroon;
+  font-size: 2em;
+}
+
 //SUB HEADER DESCRIPTION
 .subdescription
 {
@@ -68,6 +73,10 @@ body {
   padding-left: 15px;
   font-size: 12px;
   text-transform: uppercase;
+}
+
+.context-info {
+  color : red;
 }
 
 .whitebackgroundlink
@@ -80,14 +89,25 @@ body {
   color: #FF6600;
 }
 
-#general_flash_notification
+.notification_negative
 {
   background-color: #FF6600;
   width: 100%;
 }
-#general_flash_notification:hover
+
+.notification_negative:hover
 {
   background-color: #c64700
+}
+
+.notification_affirmative
+{
+  background-color: seagreen;
+  width: 100%;
+}
+.notification_affirmative:hover
+{
+  background-color: green;
 }
 
 .border-light {

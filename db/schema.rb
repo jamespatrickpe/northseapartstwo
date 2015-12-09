@@ -162,12 +162,12 @@ ActiveRecord::Schema.define(version: 20151130014042) do
   end
 
   create_table "duty_statuses", id: false, force: :cascade do |t|
-    t.string   "id",          limit: 36,  null: false
-    t.string   "description", limit: 256
-    t.string   "label",       limit: 64
+    t.string   "id",          limit: 36,                  null: false
+    t.string   "remark",      limit: 256
+    t.boolean  "active",      limit: 1,   default: false
     t.string   "employee_id", limit: 36
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
   create_table "employees", id: false, force: :cascade do |t|
@@ -257,14 +257,14 @@ ActiveRecord::Schema.define(version: 20151130014042) do
   end
 
   create_table "lump_adjustments", id: false, force: :cascade do |t|
-    t.string   "id",                  limit: 36,                           null: false
+    t.string   "id",                  limit: 36,                                          null: false
     t.decimal  "amount",                          precision: 16, scale: 2
-    t.string   "signed_type",         limit: 64
-    t.string   "description",         limit: 256
+    t.boolean  "signed_type",         limit: 1,                            default: true
+    t.string   "remark",              limit: 256
     t.string   "employee_id",         limit: 36
     t.datetime "date_of_effectivity"
-    t.datetime "created_at",                                               null: false
-    t.datetime "updated_at",                                               null: false
+    t.datetime "created_at",                                                              null: false
+    t.datetime "updated_at",                                                              null: false
   end
 
   create_table "performance_appraisals", id: false, force: :cascade do |t|
@@ -299,12 +299,13 @@ ActiveRecord::Schema.define(version: 20151130014042) do
   end
 
   create_table "regular_work_periods", id: false, force: :cascade do |t|
-    t.string   "id",          limit: 36, null: false
-    t.time     "start"
-    t.time     "end"
+    t.string   "id",          limit: 36,                                  null: false
+    t.time     "start_time",              default: '2000-01-01 08:00:00'
+    t.time     "end_time",                default: '2000-01-01 17:00:00'
+    t.string   "remark",      limit: 256
     t.string   "employee_id", limit: 36
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
   end
 
   create_table "repaid_payments_from_employees", id: false, force: :cascade do |t|
