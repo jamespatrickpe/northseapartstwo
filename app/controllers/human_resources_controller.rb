@@ -135,6 +135,36 @@ class HumanResourcesController < ApplicationController
     # end
   end
 
+  def search_suggestions_lump_adjustments
+
+    # belongs_to
+    # get related ActiveRecord EMPLOYEE from LUMPADJUSTMENTS
+    # get related ActiveRecord ACTOR from EMPLOYEE
+    # but just use ACTOR NAME field for search and suggestions, logical to use ACTOR NAME for search to know FOR WHOM the adjustments are for
+    adjustments = LumpAdjustment.includes(employee: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    @direct = "{\"query\": \"Unit\",\"suggestions\":" + adjustments.uniq.to_s + "}" # default format for plugin
+    render '/test/index'
+
+    # respond_to do |format|
+    #   format.all { render :text => direct}
+    # end
+  end
+
+  def search_suggestions_base_rates
+
+    # belongs_to
+    # get related ActiveRecord EMPLOYEE from BASERATES
+    # get related ActiveRecord ACTOR from EMPLOYEE
+    # but just use ACTOR NAME field for search and suggestions, logical to use ACTOR NAME for search to know FOR WHOM the adjustments are for
+    baseRates = BaseRate.includes(employee: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    @direct = "{\"query\": \"Unit\",\"suggestions\":" + baseRates.uniq.to_s + "}" # default format for plugin
+    render '/test/index'
+
+    # respond_to do |format|
+    #   format.all { render :text => direct}
+    # end
+  end
+
 
   # ================== Delete methods / PURGE ================== #
 
