@@ -121,7 +121,7 @@ class HumanResourcesController < ApplicationController
                                   .where("actors.name LIKE ? OR lump_adjustments.id LIKE ? OR lump_adjustments.amount LIKE ? OR lump_adjustments.signed_type LIKE ? OR lump_adjustments.remark LIKE ? OR lump_adjustments.date_of_effectivity LIKE ? OR lump_adjustments.created_at LIKE ? OR lump_adjustments.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" )
                                   .order(order_parameter + ' ' + order_orientation)
       @lump_adjustments = Kaminari.paginate_array(@lump_adjustments).page(params[:page]).per(current_limit)
-    rescue ex
+    rescue
       flash[:general_flash_notification] = "Error has Occured"
     end
 

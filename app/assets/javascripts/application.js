@@ -30,7 +30,7 @@
 //= require jquery-tablesorter/addons/pager/jquery.tablesorter.pager
 //= require jquery-tablesorter/widgets/widget-repeatheaders
 //= require jquery-tablesorter/parsers/parser-metric
-    //= require jquery.autocomplete.min
+//= require jquery.autocomplete.min
 //= require generic_table.js
 //= #require jquery-tablesorter/extras/jquery.quicksearch
 //= #require jquery-tablesorter/jquery.metadata
@@ -75,8 +75,13 @@ function convertSQLTimeToHTML5Input(myDate)
 }
 
 $(document).ready(function(){
+
     $(".deletable_item").click(function(){
         return confirm("Are you sure you want to delete this item?");
+    });
+
+    $( "[title]").mouseover(function(){
+        tooltip = "<div style='z-index: 10;'></div>"
     });
 });
 

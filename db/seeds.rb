@@ -401,7 +401,7 @@ numberOfActors.times do |i|
       lumpAdjustment.amount = randomMoney(100.10,1000.00)
       lumpAdjustment.signed_type = signed_type.call
       lumpAdjustment.employee = myEmployee
-      lumpAdjustment.remark = Faker::Lorem.sentence
+      lumpAdjustment.remark = Faker::Lorem.word
       lumpAdjustment.date_of_effectivity = rand(720..72000).hours.ago
       lumpAdjustment.save!
     end

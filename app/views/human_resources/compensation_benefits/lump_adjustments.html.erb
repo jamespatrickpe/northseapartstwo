@@ -9,19 +9,24 @@
         <thead>
         <tr>
           <th>
-            Lump Adjustments ID<%= generic_table_theadlink('lump_adjustments','lump_adjustments.id', table_orientation) %>
+            Lump Adjustments ID
+            <%= generic_table_theadlink('lump_adjustments','lump_adjustments.id', table_orientation) %>
           </th>
           <th>
-            Employee <%= generic_table_theadlink('lump_adjustments','actors.name', table_orientation) %>
+            Employee
+            <%= generic_table_theadlink('lump_adjustments','actors.name', table_orientation) %>
           </th>
           <th>
-            Date of Effectivity <%= generic_table_theadlink('lump_adjustments','lump_adjustments.date_of_effectivity', table_orientation) %>
+            Date of Effectivity
+            <%= generic_table_theadlink('lump_adjustments','lump_adjustments.date_of_effectivity', table_orientation) %>
           </th>
           <th>
-            Type <%= generic_table_theadlink('lump_adjustments','lump_adjustments.signed_type', table_orientation) %>
+            Type
+            <%= generic_table_theadlink('lump_adjustments','lump_adjustments.signed_type', table_orientation) %>
           </th>
           <th>
-            Amount <%= generic_table_theadlink('lump_adjustments','lump_adjustments.amount', table_orientation) %>
+            Amount
+            <%= generic_table_theadlink('lump_adjustments','lump_adjustments.amount', table_orientation) %>
           </th>
           <th>
             Remark <%= generic_table_theadlink('lump_adjustments','lump_adjustments.remark', table_orientation) %>
@@ -36,7 +41,7 @@
         </tr>
         </thead>
         <% if @lump_adjustments.empty? == true %>
-            <% raise exception = "dfasdf" %>
+            <% raise exception %>
         <% else %>
             <tbody>
             <% @lump_adjustments.each do |lump_adjustment| %>
@@ -44,13 +49,22 @@
                   <td><%= lump_adjustment.id %></td>
                   <td><%= link_to( lump_adjustment.employee.actor.name ,{:action => 'employee_profile', :employee_id => lump_adjustment.employee.id} ) %></td>
                   <td><%= lump_adjustment.date_of_effectivity %> </td>
+                  <td>
+                    <%=
+                        if(lump_adjustment.signed_type)
+                          "ADDITIONAL"
+                        else
+                          "SUBSTRACTIONAL"
+                        end
+                    %>
+                  </td>
                   <td><%= lump_adjustment.amount %> </td>
                   <td><%= lump_adjustment.remark %> </td>
                   <td><%= lump_adjustment.created_at %></td>
                   <td><%= lump_adjustment.updated_at %></td>
                   <td class="actions">
-                    <%= link_to( "[ EDIT &#9998; ]".html_safe ,{:action => 'edit_regular_work_period', :regular_work_period_id => regular_work_period.id}, class: 'action_button' ) %> <br>
-                    <%= link_to( "[ DELETE &#10006; ]".html_safe ,{:action => 'delete_regular_work_period', :regular_work_period_id => regular_work_period.id}, class: 'action_button' ) %>
+                    <%= link_to( "&#9998;".html_safe ,{:action => 'edit_lump_adjustment_period', :lump_adjustment_id => lump_adjustment.id}, class: 'action_button', tooltip: 'This is my links tooltip message!') %> <br>
+                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_lump_adjustment_period', :lump_adjustment_id => lump_adjustment.id}, class: 'action_button', tooltip: 'This is my links tooltip message!') %>
                   </td>
                 </tr>
             <% end %>
@@ -59,7 +73,7 @@
       </table>
   <% rescue %>
       <script>
-          html = "<hr><p align='center'> No records found. Please try again. <%= exception %></p><hr>"
+          html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
           $(".generic_table").replaceWith(html)
       </script>
   <% end %>
