@@ -1,6 +1,7 @@
 <section class='small-10 columns'>
 <div class='mainheader'> Employee Accounts Management </div>
 <div class='subdescription'> Manage the Accounts of Employees</div>
+  <%=  @order_parameter %>
 <hr>
   <%= generic_table_search( 'employee_accounts_search_input', 'employee_accounts_management','Search Employees' , '/human_resources/search_suggestions_employees', 'employee_accounts_management') %>
   <% begin %>
