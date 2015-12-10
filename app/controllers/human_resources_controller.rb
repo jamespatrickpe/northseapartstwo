@@ -15,6 +15,8 @@ class HumanResourcesController < ApplicationController
     current_limit = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:current_limit], 'employee_accounts_management',"current_limit","10")).gsub("'", '')
     search_field = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:search_field], 'employee_accounts_management',"search_field","")).gsub("'", '')
 
+    @order_parameter = order_parameter
+
     begin
       sql = "SELECT employees.id as id, actors.name as name, dutystatus.active as active, branches.name as branch_name, employees.created_at as created_at, employees.updated_at as updated_at, actors.id  as actors_id
     FROM employees
@@ -80,6 +82,7 @@ class HumanResourcesController < ApplicationController
     order_orientation = aggregated_search_queries(params[:order_orientation], 'regular_work_periods', "order_orientation", "DESC")
     current_limit = aggregated_search_queries(params[:current_limit], 'regular_work_periods', "current_limit","10")
     search_field = aggregated_search_queries(params[:search_field], 'regular_work_periods', "search_field","")
+
 
     begin
       @regular_work_periods = RegularWorkPeriod.includes(employee: [:actor])

@@ -142,17 +142,19 @@ InstitutionalAdjustment.create( institution_employee: myPhilhealth, start_range:
 InstitutionalAdjustment.create( institution_employee: myPagibig, start_range: 0.00, end_range: 99999999999.99, employer_contribution: 100.00, employee_contribution:  100.00 , period_of_time: "MONTH")
 
 # Branches
-Branch.create(name: "GRECO Warehouse")
-Branch.create(name: "BIOFIN")
-Branch.create(name: "GREEN TERRAIN")
-Branch.create(name: "North Sea Cainta")
-Branch.create(name: "Ampid Diesel Trading")
-Branch.create(name: "Generic")
+Branch.create(name: 'GRECO Warehouse')
+Branch.create(name: 'BIOFIN')
+Branch.create(name: 'GREEN TERRAIN')
+Branch.create(name: 'North Sea Cainta')
+Branch.create(name: 'Ampid Diesel Trading')
+Branch.create(name: 'Generic')
 
 #Constants
-Constant.create( name: "human_resources.minimum_wage", constant: "362.50", description: "Minimum Wage")
-Constant.create( name: "human_resources.preferred_rest_day", constant: "SUNDAY", description: "Preferred Rest Day" )
-Constant.create( name: "human_resources.default_duration_of_contract_days", constant: "366", description: "Default Duration of Contract (Days)" )
+Constant.create( constant_type: 'human_resources.minimum_wage', constant: '362.50', name: 'Minimum Wage')
+Constant.create( constant_type: 'human_resources.preferred_rest_day', constant: 'SUNDAY', name: 'Preferred Rest Day' )
+Constant.create( constant_type: 'human_resources.contract_days', constant: '366', name: 'Default Duration of Contract (Days)' )
+Constant.create( constant_type: 'human_resources.time_start', constant: '08:00', name: 'Usual time Start for Employee' )
+Constant.create( constant_type: 'human_resources.time_end', constant: '17:00', name: 'Usual time End for Employee' )
 
 #Departments
 hr = Department.new(label: "Human Resources", description: "no description")

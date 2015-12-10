@@ -80,3 +80,9 @@
 {
     float: right;
 }
+
+.search_query_description
+{
+    float: left;
+    font-size: 15px;
+}
