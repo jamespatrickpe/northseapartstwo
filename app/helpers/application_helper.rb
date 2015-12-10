@@ -1,5 +1,9 @@
 module ApplicationHelper
 
+  def generic_table_options()
+
+  end
+
   #Boolean to Words
   def boolean_to_words(x)
     if x == 1

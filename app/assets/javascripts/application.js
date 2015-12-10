@@ -26,6 +26,7 @@
 //= require jquery.autocomplete.min
 //= require generic_table.js
 //= require foundation
+//= require jquery.qtip.min.js
 //= //require turbolinks // CAUSES ERROR
 //= //require_tree .  // CAUSES ERROR
 

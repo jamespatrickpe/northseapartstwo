@@ -45,8 +45,8 @@
                   <td><%= employee_accounts[4] %></td>
                   <td><%= employee_accounts[5] %></td>
                   <td class="actions">
-                    <%= link_to( "[ EDIT &#9998; ]".html_safe ,{:action => 'edit_employee', :employee_id => employee_accounts[0]}, class: 'action_button ' ) %>
-                    <%= link_to( "[ DELETE &#10006; ]".html_safe ,{:action => 'delete_employee', :employee_id => employee_accounts[0]}, class: 'action_button delete_item' ) %>
+                    <%= link_to( "&#9998;".html_safe ,{:action => 'edit_employee', :employee_id => employee_accounts[0]}, class: 'action_button ', tooltip: 'Edit' ) %>
+                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_employee', :employee_id => employee_accounts[0]}, class: 'action_button delete_item', tooltip: 'Delete' ) %>
                   </td>
                 </tr>
             <% end %>

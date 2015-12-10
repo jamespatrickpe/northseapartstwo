@@ -37,7 +37,7 @@
           <th>
             Last Updated <%= generic_table_theadlink('lump_adjustments','lump_adjustments.updated_at', table_orientation) %>
           </th>
-          <th class="actions">&nbsp;</th>
+          <th class="actions" align="center">&nbsp;</th>
         </tr>
         </thead>
         <% if @lump_adjustments.empty? == true %>
@@ -63,8 +63,8 @@
                   <td><%= lump_adjustment.created_at %></td>
                   <td><%= lump_adjustment.updated_at %></td>
                   <td class="actions">
-                    <%= link_to( "&#9998;".html_safe ,{:action => 'edit_lump_adjustment_period', :lump_adjustment_id => lump_adjustment.id}, class: 'action_button', tooltip: 'This is my links tooltip message!') %> <br>
-                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_lump_adjustment_period', :lump_adjustment_id => lump_adjustment.id}, class: 'action_button', tooltip: 'This is my links tooltip message!') %>
+                    <%= link_to( "&#9998;".html_safe ,{:action => 'edit_lump_adjustment_period', :lump_adjustment_id => lump_adjustment.id}, class: 'action_button', tooltip: 'Edit') %>
+                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_lump_adjustment_period', :lump_adjustment_id => lump_adjustment.id}, class: 'action_button', tooltip: 'Delete') %>
                   </td>
                 </tr>
             <% end %>
@@ -77,4 +77,5 @@
           $(".generic_table").replaceWith(html)
       </script>
   <% end %>
+  <%= generic_table_footer('new_lump_adjustment','/human_resources/lump_adjustments',@lump_adjustments) %>
 </section>
