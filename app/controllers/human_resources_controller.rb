@@ -11,15 +11,11 @@ class HumanResourcesController < ApplicationController
   # ================== Employee Accounts Management ================== #
 
   def employee_accounts_management
-
-    # Obtain and Process Parameters
     order_parameter = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:order_parameter], 'employee_accounts_management', "order_parameter" ,"created_at")).gsub("'", '')
     order_orientation = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:order_orientation], 'employee_accounts_management',"order_orientation", "DESC")).gsub("'", '')
     current_limit = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:current_limit], 'employee_accounts_management',"current_limit","10")).gsub("'", '')
     search_field = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:search_field], 'employee_accounts_management',"search_field","")).gsub("'", '')
 
-    # Get and Process Records
-    # This is BAD practice - used only becuase the query was very complicated - always use active record to construct queries; There is better way to do this.
     begin
       sql = "SELECT employees.id as id, actors.name as name, dutystatus.active as active, branches.name as branch_name, employees.created_at as created_at, employees.updated_at as updated_at, actors.id  as actors_id
     FROM employees
@@ -44,23 +40,16 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/employee_accounts_management/index'
   end
 
+  def employee_registration
+    render 'human_resources/employee_accounts_management/employee_registration'
+  end
+
   def search_suggestions_employees
     employees = Employee.includes(:actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + employees.to_s + "}"
     respond_to do |format|
       format.all { render :text => direct}
     end
-  end
-
-  def delete_employee
-    employee = Employee.find(params[:employee_id])
-    employee.destroy
-    flash[:general_flash_notification] = "Employee Deleted"
-    redirect_to action: "employee_accounts_management"
-  end
-
-  def employee_registration
-    render 'human_resources/employee_accounts_management/employee_registration'
   end
 
   # ================== Rest Days ================== #
@@ -109,24 +98,85 @@ class HumanResourcesController < ApplicationController
   # ================== Lump Sum Adjustments ================== #
 
   def lump_adjustments
-
     order_parameter = aggregated_search_queries(params[:order_parameter], 'lump_adjustments', "order_parameter" ,"lump_adjustments.created_at")
     order_orientation = aggregated_search_queries(params[:order_orientation], 'lump_adjustments', "order_orientation", "DESC")
     current_limit = aggregated_search_queries(params[:current_limit], 'lump_adjustments', "current_limit","10")
     search_field = aggregated_search_queries(params[:search_field], 'lump_adjustments', "search_field","")
-
     begin
       @lump_adjustments = LumpAdjustment.includes(employee: [:actor])
-                                  .joins(employee: [:actor])
-                                  .where("actors.name LIKE ? OR lump_adjustments.id LIKE ? OR lump_adjustments.amount LIKE ? OR lump_adjustments.signed_type LIKE ? OR lump_adjustments.remark LIKE ? OR lump_adjustments.date_of_effectivity LIKE ? OR lump_adjustments.created_at LIKE ? OR lump_adjustments.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" )
-                                  .order(order_parameter + ' ' + order_orientation)
+                              .joins(employee: [:actor])
+                              .where("actors.name LIKE ? OR lump_adjustments.id LIKE ? OR lump_adjustments.amount LIKE ? OR lump_adjustments.signed_type LIKE ? OR lump_adjustments.remark LIKE ? OR lump_adjustments.date_of_effectivity LIKE ? OR lump_adjustments.created_at LIKE ? OR lump_adjustments.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" )
+                              .order(order_parameter + ' ' + order_orientation)
       @lump_adjustments = Kaminari.paginate_array(@lump_adjustments).page(params[:page]).per(current_limit)
     rescue
       flash[:general_flash_notification] = "Error has Occured"
     end
-
     render 'human_resources/compensation_benefits/lump_adjustments'
   end
+
+  def search_suggestions_lump_adjustments
+    adjustments = LumpAdjustment.includes(employee: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + adjustments.uniq.to_s + "}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
+  # ================== Base Rates ================== #
+
+  def search_suggestions_base_rates
+    baseRates = BaseRate.includes(employee: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + baseRates.uniq.to_s + "}" # default format for plugin
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
+  # ================== Search Suggestion Queries ================== #
+
+  def search_suggestions_employee_attendances_history
+    attendances = Attendance.includes(employee: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + attendances.uniq.to_s + "}" # default format for plugin
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
+  def search_suggestions_branch_attendances
+    branchesFromAttendance = Attendance.includes(employee: :branch).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("branches.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + branchesFromAttendance.uniq.to_s + "}" # default format for plugin
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
+
+  def search_suggestions_advanced_payments_to_employees
+    actorNameFromAdvPayment = AdvancedPaymentsToEmployee.includes(employee: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + actorNameFromAdvPayment.uniq.to_s + "}" # default format for plugin
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
+  def search_suggestions_holiday
+    holidays = Holiday.includes(:holiday_type).where("holidays.name LIKE (?)", "%#{ params[:query] }%").pluck("holidays.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + holidays.uniq.to_s + "}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
+  # ================== Delete methods / PURGE ================== #
+
+  def delete_employee
+    employee = Employee.find(params[:employee_id])
+    employee.destroy
+    flash[:general_flash_notification] = "Employee Deleted"
+    redirect_to action: "employee_accounts_management"
+  end
+
+
 
   # ================== END ================== #
 
@@ -400,149 +450,172 @@ class HumanResourcesController < ApplicationController
         )
   end
 
+  def search_suggestions_branches
+    branches = Branch.where("branches.name LIKE (?)", "%#{ params[:query] }%").pluck("branches.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + branches.to_s + "}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
 
-##################################3
+  def search_suggestions_accesses
+    accesses = Access.includes(:actor).where("accesses.username LIKE (?)", "%#{ params[:query] }%").pluck("accesses.username")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + accesses.to_s + "}" # default format for plugin
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
+  ##################################
 
 
-# OLD CODE; PLEASE USE AS REFERENCE
 
-# def candidate_registration
-#   idSet = Biodatum.pluck(:actor_id)
-#   @accesses = Access.where.not(id: idSet)
-# end
-#
-# def registerCandidate
-#   action_redirect = ""
-#   id = ""
-#   ActiveRecord::Base.transaction do
-#       begin
-#       processSystemAccount(params)
-#       processRelatedFiles(params)
-#       processRelatedLinks(params)
-#
-#       @biodata = Biodatum.new(
-#           date_of_birth: params[:biodatum][:birthday],
-#           height: params[:biodatum][:height],
-#           family_members: params[:biodatum][:family_members],
-#           gender: params[:biodatum][:gender],
-#           complexion: params[:biodatum][:complexion],
-#           marital_status: params[:biodatum][:marital_status],
-#           blood_type: params[:biodatum][:blood_type],
-#           religion: params[:biodatum][:religion],
-#           education: params[:biodatum][:education],
-#           career_experience: params[:biodatum][:career_experience],
-#           notable_accomplishments: params[:biodatum][:notable_accomplishments],
-#           emergency_contact: params[:biodatum][:emergency_contact],
-#           languages_spoken: params[:biodatum][:languages_spoken]
-#       )
-#       @biodata.actor = @actor
-#       @biodata.save!
-#
-#       @employee = Employee.new()
-#       @employee.actor = @actor
-#       @employee.save!
-#
-#       processTemporaryEmail(params)
-#     end
-#   end
-# end
-#
-# def success_candidate_registration
-#   access_id = params[:access_id]
-#   @nextLink = {
-#       0 => {:url => "../home/verification_delivery?access_id=#{access_id}", :label => "Resend Verification"},
-#       1 => {:url => "candidate_registration", :label => "Add Another Candidate"},
-#       2 => {:url => "employee_status", :label => "Set Service Status of Employees"}
-#   }
-#   @message = "Candidate may start using account if necessary after email verification completes"
-#   @title = "Candidate Registration Successful"
-# end
-#
-# def index
-#   @employees = Employee.all()
-# end
-#
-# def employee_profile
-# end
-#
-# def compensation_benefits
-#   @employees = Employee.all()
-# end
-#
-# def base_rates
-#   getEmployees();
-#   @base_rates = BaseRate.where(employee_id: @employee_id)
-# end
-#
-# def lump_adjustments
-#   getEmployees();
-#   @lump_adjustments = LumpAdjustment.where(employee_id: @employee_id)
-# end
-#
-# def deleteBaseRate
-#   baseRateID = params[:base_rate_id]
-#   employee_id = params[:employee_id]
-#   BaseRate.find(baseRateID).destroy
-#   redirect_to  :action => "base_rates", :employee_id => employee_id
-# end
-#
-# def addNewBaseRate
-#   action_redirect = "base_rates"
-#   employee_id = params[:employee_id]
-#
-#   ActiveRecord::Base.transaction do
-#     begin
-#       signed_type = params[:signed_type]
-#       amount = params[:amount]
-#       period_of_time = params[:period_of_time]
-#       start_of_effectivity = DateTime.parse(params[:start_of_effectivity].to_s).strftime("%Y/%m/%d %H:%M:%S")
-#       end_of_effectivity = DateTime.parse(params[:end_of_effectivity].to_s).strftime("%Y/%m/%d %H:%M:%S")
-#       description = params[:description]
-#       if(BaseRate.exists?(params[:base_rate_id]))
-#         currentBaseRate = BaseRate.find_by(id: params[:base_rate_id])
-#         currentBaseRate.update(signed_type:signed_type, amount:amount, period_of_time:period_of_time, start_of_effectivity:start_of_effectivity, end_of_effectivity:end_of_effectivity,description:description)
-#       else
-#         currentBaseRate = BaseRate.new(description:description, employee_id:employee_id, signed_type:signed_type, amount:amount, period_of_time:period_of_time, start_of_effectivity:start_of_effectivity, end_of_effectivity:end_of_effectivity )
-#         currentBaseRate.save!
-#       end
-#       flash[:collective_responses] = "Entry Successful!"
-#     rescue StandardError => e
-#       flash[:collective_responses] = "An error of type #{e.class} happened, message is #{e.message}"
-#     end
-#   end
-#   redirect_to  :action => action_redirect, :employee_id => employee_id
-# end
-#
-# def addLumpAdjustment
-#   action_redirect = "lump_adjustments"
-#   employee_id = params[:employee_id]
-#
-#   ActiveRecord::Base.transaction do
-#     begin
-#       signed_type = params[:signed_type]
-#       amount = params[:amount]
-#       date_of_effectivity = DateTime.parse(params[:date_of_effectivity].to_s).strftime("%Y/%m/%d %H:%M:%S")
-#       description = params[:description]
-#       if(LumpAdjustment.exists?(params[:lump_adjustment_id]))
-#         currentLumpAdjustment = LumpAdjustment.find_by(id: params[:lump_adjustment_id])
-#         currentLumpAdjustment.update(employee_id:employee_id, signed_type:signed_type, amount:amount, date_of_effectivity:date_of_effectivity,description:description)
-#       else
-#         currentLumpAdjustment = LumpAdjustment.new(description:description, employee_id:employee_id, signed_type:signed_type, amount:amount, date_of_effectivity:date_of_effectivity, )
-#         currentLumpAdjustment.save!
-#       end
-#       flash[:collective_responses] = "Entry Successful!"
-#     rescue StandardError => e
-#       flash[:collective_responses] = "An error of type #{e.class} happened, message is #{e.message}"
-#     end
-#   end
-#   redirect_to  :action => action_redirect, :employee_id => employee_id
-# end
-#
-# def deleteLumpAdjustment
-#   lumpAdjustmentID = params[:lump_adjustment_id]
-#   employee_id = params[:employee_id]
-#   LumpAdjustment.find(lumpAdjustmentID).destroy
-#   redirect_to  :action => "lump_adjustments", :employee_id => employee_id
-# end
+
+
+
+
+  ##################################3
+
+
+  # OLD CODE; PLEASE USE AS REFERENCE
+
+  # def candidate_registration
+  #   idSet = Biodatum.pluck(:actor_id)
+  #   @accesses = Access.where.not(id: idSet)
+  # end
+  #
+  # def registerCandidate
+  #   action_redirect = ""
+  #   id = ""
+  #   ActiveRecord::Base.transaction do
+  #       begin
+  #       processSystemAccount(params)
+  #       processRelatedFiles(params)
+  #       processRelatedLinks(params)
+  #
+  #       @biodata = Biodatum.new(
+  #           date_of_birth: params[:biodatum][:birthday],
+  #           height: params[:biodatum][:height],
+  #           family_members: params[:biodatum][:family_members],
+  #           gender: params[:biodatum][:gender],
+  #           complexion: params[:biodatum][:complexion],
+  #           marital_status: params[:biodatum][:marital_status],
+  #           blood_type: params[:biodatum][:blood_type],
+  #           religion: params[:biodatum][:religion],
+  #           education: params[:biodatum][:education],
+  #           career_experience: params[:biodatum][:career_experience],
+  #           notable_accomplishments: params[:biodatum][:notable_accomplishments],
+  #           emergency_contact: params[:biodatum][:emergency_contact],
+  #           languages_spoken: params[:biodatum][:languages_spoken]
+  #       )
+  #       @biodata.actor = @actor
+  #       @biodata.save!
+  #
+  #       @employee = Employee.new()
+  #       @employee.actor = @actor
+  #       @employee.save!
+  #
+  #       processTemporaryEmail(params)
+  #     end
+  #   end
+  # end
+  #
+  # def success_candidate_registration
+  #   access_id = params[:access_id]
+  #   @nextLink = {
+  #       0 => {:url => "../home/verification_delivery?access_id=#{access_id}", :label => "Resend Verification"},
+  #       1 => {:url => "candidate_registration", :label => "Add Another Candidate"},
+  #       2 => {:url => "employee_status", :label => "Set Service Status of Employees"}
+  #   }
+  #   @message = "Candidate may start using account if necessary after email verification completes"
+  #   @title = "Candidate Registration Successful"
+  # end
+  #
+  # def index
+  #   @employees = Employee.all()
+  # end
+  #
+  # def employee_profile
+  # end
+  #
+  # def compensation_benefits
+  #   @employees = Employee.all()
+  # end
+  #
+  # def base_rates
+  #   getEmployees();
+  #   @base_rates = BaseRate.where(employee_id: @employee_id)
+  # end
+  #
+  # def lump_adjustments
+  #   getEmployees();
+  #   @lump_adjustments = LumpAdjustment.where(employee_id: @employee_id)
+  # end
+  #
+  # def deleteBaseRate
+  #   baseRateID = params[:base_rate_id]
+  #   employee_id = params[:employee_id]
+  #   BaseRate.find(baseRateID).destroy
+  #   redirect_to  :action => "base_rates", :employee_id => employee_id
+  # end
+  #
+  # def addNewBaseRate
+  #   action_redirect = "base_rates"
+  #   employee_id = params[:employee_id]
+  #
+  #   ActiveRecord::Base.transaction do
+  #     begin
+  #       signed_type = params[:signed_type]
+  #       amount = params[:amount]
+  #       period_of_time = params[:period_of_time]
+  #       start_of_effectivity = DateTime.parse(params[:start_of_effectivity].to_s).strftime("%Y/%m/%d %H:%M:%S")
+  #       end_of_effectivity = DateTime.parse(params[:end_of_effectivity].to_s).strftime("%Y/%m/%d %H:%M:%S")
+  #       description = params[:description]
+  #       if(BaseRate.exists?(params[:base_rate_id]))
+  #         currentBaseRate = BaseRate.find_by(id: params[:base_rate_id])
+  #         currentBaseRate.update(signed_type:signed_type, amount:amount, period_of_time:period_of_time, start_of_effectivity:start_of_effectivity, end_of_effectivity:end_of_effectivity,description:description)
+  #       else
+  #         currentBaseRate = BaseRate.new(description:description, employee_id:employee_id, signed_type:signed_type, amount:amount, period_of_time:period_of_time, start_of_effectivity:start_of_effectivity, end_of_effectivity:end_of_effectivity )
+  #         currentBaseRate.save!
+  #       end
+  #       flash[:collective_responses] = "Entry Successful!"
+  #     rescue StandardError => e
+  #       flash[:collective_responses] = "An error of type #{e.class} happened, message is #{e.message}"
+  #     end
+  #   end
+  #   redirect_to  :action => action_redirect, :employee_id => employee_id
+  # end
+  #
+  # def addLumpAdjustment
+  #   action_redirect = "lump_adjustments"
+  #   employee_id = params[:employee_id]
+  #
+  #   ActiveRecord::Base.transaction do
+  #     begin
+  #       signed_type = params[:signed_type]
+  #       amount = params[:amount]
+  #       date_of_effectivity = DateTime.parse(params[:date_of_effectivity].to_s).strftime("%Y/%m/%d %H:%M:%S")
+  #       description = params[:description]
+  #       if(LumpAdjustment.exists?(params[:lump_adjustment_id]))
+  #         currentLumpAdjustment = LumpAdjustment.find_by(id: params[:lump_adjustment_id])
+  #         currentLumpAdjustment.update(employee_id:employee_id, signed_type:signed_type, amount:amount, date_of_effectivity:date_of_effectivity,description:description)
+  #       else
+  #         currentLumpAdjustment = LumpAdjustment.new(description:description, employee_id:employee_id, signed_type:signed_type, amount:amount, date_of_effectivity:date_of_effectivity, )
+  #         currentLumpAdjustment.save!
+  #       end
+  #       flash[:collective_responses] = "Entry Successful!"
+  #     rescue StandardError => e
+  #       flash[:collective_responses] = "An error of type #{e.class} happened, message is #{e.message}"
+  #     end
+  #   end
+  #   redirect_to  :action => action_redirect, :employee_id => employee_id
+  # end
+  #
+  # def deleteLumpAdjustment
+  #   lumpAdjustmentID = params[:lump_adjustment_id]
+  #   employee_id = params[:employee_id]
+  #   LumpAdjustment.find(lumpAdjustmentID).destroy
+  #   redirect_to  :action => "lump_adjustments", :employee_id => employee_id
+  # end
 
 end
