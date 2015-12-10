@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 20151130014042) do
     t.string   "signed_type",          limit: 64
     t.decimal  "amount",                           precision: 16, scale: 2
     t.string   "period_of_time",       limit: 64
-    t.string   "description",          limit: 256
+    t.string   "remark",               limit: 256
     t.datetime "start_of_effectivity"
     t.datetime "end_of_effectivity"
     t.datetime "created_at",                                                null: false
