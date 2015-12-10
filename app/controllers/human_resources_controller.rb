@@ -2,7 +2,6 @@ class HumanResourcesController < ApplicationController
   include ApplicationHelper
 
   layout "application_loggedin"
-  skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
 
   def index
     render 'human_resources/index'
