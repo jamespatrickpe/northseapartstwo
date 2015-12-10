@@ -23,32 +23,15 @@
 //= require jquery.sapling.min
 //= require parsley
 //= require export_to_csv
-//= require jquery.dataTables
-//= require jquery-tablesorter
-//= require jquery-tablesorter/jquery.tablesorter
-//= require jquery-tablesorter/jquery.tablesorter.widgets
-//= require jquery-tablesorter/addons/pager/jquery.tablesorter.pager
-//= require jquery-tablesorter/widgets/widget-repeatheaders
-//= require jquery-tablesorter/parsers/parser-metric
-    //= require jquery.autocomplete.min
+//= require jquery.autocomplete.min
 //= require generic_table.js
-//= #require jquery-tablesorter/extras/jquery.quicksearch
-//= #require jquery-tablesorter/jquery.metadata
+//= require foundation
+//= require jquery.qtip.min.js
 //= //require turbolinks // CAUSES ERROR
 //= //require_tree .  // CAUSES ERROR
 
-//$(function(){ $(document).foundation(); });
-
-//= require foundation
 $(document).foundation();
 $(document).foundation('alert','events');
-
-// For generic_table
-$(document).ready(function(){
-    $(".generic_table > tbody > tr").hover(
-        function(){$(this).find("td.actions > *").css("visibility", "visible");},
-        function(){$(this).find("td.actions > *").css("visibility", "hidden");})
-});
 
 // For Contact Details
 function GetURLParameter(sParam)
@@ -75,8 +58,13 @@ function convertSQLTimeToHTML5Input(myDate)
 }
 
 $(document).ready(function(){
+
     $(".deletable_item").click(function(){
         return confirm("Are you sure you want to delete this item?");
+    });
+
+    $( "[title]").mouseover(function(){
+        tooltip = "<div style='z-index: 10;'></div>"
     });
 });
 

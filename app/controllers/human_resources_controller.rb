@@ -11,25 +11,21 @@ class HumanResourcesController < ApplicationController
   # ================== Employee Accounts Management ================== #
 
   def employee_accounts_management
-
-    # Obtain and Process Parameters
     order_parameter = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:order_parameter], 'employee_accounts_management', "order_parameter" ,"created_at")).gsub("'", '')
     order_orientation = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:order_orientation], 'employee_accounts_management',"order_orientation", "DESC")).gsub("'", '')
     current_limit = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:current_limit], 'employee_accounts_management',"current_limit","10")).gsub("'", '')
     search_field = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:search_field], 'employee_accounts_management',"search_field","")).gsub("'", '')
 
-    # Get and Process Records
-    # This is BAD practice - used only becuase the query was very complicated - always use active record to construct queries; There is better way to do this.
     begin
-      sql = "SELECT employees.id as id, actors.name as name, dutystatus.label as label, branches.name as branch_name, employees.created_at as created_at, employees.updated_at as updated_at, actors.id  as actors_id
+      sql = "SELECT employees.id as id, actors.name as name, dutystatus.active as active, branches.name as branch_name, employees.created_at as created_at, employees.updated_at as updated_at, actors.id  as actors_id
     FROM employees
     INNER JOIN actors ON employees.actor_id = actors.id
     INNER JOIN branches ON employees.branch_id = branches.id
-    INNER JOIN ( SELECT employee_id, label, max(duty_statuses.created_at) FROM duty_statuses GROUP BY employee_id )
+    INNER JOIN ( SELECT employee_id, active, max(duty_statuses.created_at) FROM duty_statuses GROUP BY employee_id )
     AS dutystatus ON dutystatus.employee_id = employees.id WHERE" +
           "(employees.id LIKE '%" + search_field + "%' " + ")" + " OR " +
           "(actors.name LIKE '%" + search_field + "%' " + ")" + " OR " +
-          "(dutystatus.label LIKE '%" + search_field + "%' " + ")" + " OR " +
+          "(dutystatus.active LIKE '%" + search_field + "%' " + ")" + " OR " +
           "(branches.name LIKE '%" + search_field + "%' " + ")" + " OR " +
           "(employees.created_at LIKE '%" + search_field + "%' " + ")" + " OR " +
           "(employees.updated_at LIKE '%" + search_field + "%' " + ")" + " " +
@@ -44,127 +40,132 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/employee_accounts_management/index'
   end
 
+  def employee_registration
+    render 'human_resources/employee_accounts_management/employee_registration'
+  end
+
+  def search_suggestions_employees
+    employees = Employee.includes(:actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + employees.to_s + "}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
+  # ================== Rest Days ================== #
+
+  def rest_days
+    order_parameter = aggregated_search_queries(params[:order_parameter], 'rest_days', "order_parameter" ,"restdays.created_at")
+    order_orientation = aggregated_search_queries(params[:order_orientation], 'rest_days', "order_orientation", "DESC")
+    current_limit = aggregated_search_queries(params[:current_limit], 'rest_days', "current_limit","10")
+    search_field = aggregated_search_queries(params[:search_field], 'rest_days', "search_field","")
+
+    begin
+      @rest_days = Restday
+                       .includes(employee: [:actor])
+                       .joins(employee: [:actor])
+                       .where("actors.name LIKE ? OR restdays.id LIKE ? OR restdays.day LIKE ? OR restdays.created_at LIKE ? OR restdays.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" )
+                       .order(order_parameter + ' ' + order_orientation)
+      @rest_days = Kaminari.paginate_array(@rest_days).page(params[:page]).per(current_limit)
+    rescue
+      flash[:general_flash_notification] = "Error has Occured"
+    end
+    render 'human_resources/compensation_benefits/rest_days'
+  end
+
+  # ================== Regular Work Periods ================== #
+
+  def regular_work_periods
+
+    order_parameter = aggregated_search_queries(params[:order_parameter], 'regular_work_periods', "order_parameter" ,"regular_work_periods.created_at")
+    order_orientation = aggregated_search_queries(params[:order_orientation], 'regular_work_periods', "order_orientation", "DESC")
+    current_limit = aggregated_search_queries(params[:current_limit], 'regular_work_periods', "current_limit","10")
+    search_field = aggregated_search_queries(params[:search_field], 'regular_work_periods', "search_field","")
+
+    begin
+      @regular_work_periods = RegularWorkPeriod.includes(employee: [:actor])
+                                  .joins(employee: [:actor])
+                                  .where("actors.name LIKE ? OR regular_work_periods.id LIKE ? OR regular_work_periods.start_time LIKE ? OR regular_work_periods.end_time LIKE ? OR regular_work_periods.remark LIKE ? OR regular_work_periods.created_at LIKE ? OR regular_work_periods.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" )
+                                  .order(order_parameter + ' ' + order_orientation)
+      @regular_work_periods = Kaminari.paginate_array(@regular_work_periods).page(params[:page]).per(current_limit)
+    rescue
+      flash[:general_flash_notification] = "Error has Occured"
+    end
+
+    render 'human_resources/compensation_benefits/regular_work_periods'
+  end
+
+  # ================== Lump Sum Adjustments ================== #
+
+  def lump_adjustments
+    order_parameter = aggregated_search_queries(params[:order_parameter], 'lump_adjustments', "order_parameter" ,"lump_adjustments.created_at")
+    order_orientation = aggregated_search_queries(params[:order_orientation], 'lump_adjustments', "order_orientation", "DESC")
+    current_limit = aggregated_search_queries(params[:current_limit], 'lump_adjustments', "current_limit","10")
+    search_field = aggregated_search_queries(params[:search_field], 'lump_adjustments', "search_field","")
+    begin
+      @lump_adjustments = LumpAdjustment.includes(employee: [:actor])
+                              .joins(employee: [:actor])
+                              .where("actors.name LIKE ? OR lump_adjustments.id LIKE ? OR lump_adjustments.amount LIKE ? OR lump_adjustments.signed_type LIKE ? OR lump_adjustments.remark LIKE ? OR lump_adjustments.date_of_effectivity LIKE ? OR lump_adjustments.created_at LIKE ? OR lump_adjustments.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" )
+                              .order(order_parameter + ' ' + order_orientation)
+      @lump_adjustments = Kaminari.paginate_array(@lump_adjustments).page(params[:page]).per(current_limit)
+    rescue
+      flash[:general_flash_notification] = "Error has Occured"
+    end
+    render 'human_resources/compensation_benefits/lump_adjustments'
+  end
+
+  def search_suggestions_lump_adjustments
+    adjustments = LumpAdjustment.includes(employee: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + adjustments.uniq.to_s + "}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
+  # ================== Base Rates ================== #
+
+  def search_suggestions_base_rates
+    baseRates = BaseRate.includes(employee: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + baseRates.uniq.to_s + "}" # default format for plugin
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
 
   # ================== Search Suggestion Queries ================== #
 
-  def search_suggestions_employees
-
-    # plain search suggestion using employee names
-    employees = Employee.includes(:actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
-    @direct = "{\"query\": \"Unit\",\"suggestions\":" + employees.to_s + "}" # default format for plugin
-    render '/test/index'
-
-    # respond_to do |format|
-    #   format.all { render :text => direct}
-    # end
-  end
-
-  def search_suggestions_branches
-
-    # plain branch search suggestion using branch name
-    branches = Branch.where("branches.name LIKE (?)", "%#{ params[:query] }%").pluck("branches.name")
-    @direct = "{\"query\": \"Unit\",\"suggestions\":" + branches.to_s + "}" # default format for plugin
-    render '/test/index'
-
-    # respond_to do |format|
-    #   format.all { render :text => direct}
-    # end
-  end
-
-  def search_suggestions_accesses
-
-    # belongs_to
-    # get related ActiveRecord ACTOR from ACCESS
-    accesses = Access.includes(:actor).where("accesses.username LIKE (?)", "%#{ params[:query] }%").pluck("accesses.username")
-    @direct = "{\"query\": \"Unit\",\"suggestions\":" + accesses.to_s + "}" # default format for plugin
-    render '/test/index'
-
-    # respond_to do |format|
-    #   format.all { render :text => direct}
-    # end
-  end
-
   def search_suggestions_employee_attendances_history
-
-    # nested belongs_to
-    # get related ActiveRecord EMPLOYEE from ATTENDANCE
-    # get related ActiveRecord ACTOR from EMPLOYEE
-    # pluck actors' name
-    # use method .uniq to sanitize results and remove duplicates from resulting JSON response
     attendances = Attendance.includes(employee: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
-    @direct = "{\"query\": \"Unit\",\"suggestions\":" + attendances.uniq.to_s + "}" # default format for plugin
-    render '/test/index'
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + attendances.uniq.to_s + "}" # default format for plugin
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
   end
 
   def search_suggestions_branch_attendances
-
-    # nested belongs_to
-    # get related ActiveRecord EMPLOYEE from ATTENDANCE
-    # get related ActiveRecord BRANCHES from EMPLOYEE
-    # pluck branches' name
-    # use method .uniq to sanitize results and remove duplicates from resulting JSON response
     branchesFromAttendance = Attendance.includes(employee: :branch).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("branches.name")
-    @direct = "{\"query\": \"Unit\",\"suggestions\":" + branchesFromAttendance.uniq.to_s + "}" # default format for plugin
-    render '/test/index'
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + branchesFromAttendance.uniq.to_s + "}" # default format for plugin
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
   end
 
 
   def search_suggestions_advanced_payments_to_employees
-
-    # nested belongs_to
-    # get related ActiveRecord EMPLOYEE from ADVPAYMENTS
-    # get related ActiveRecord ACTOR from EMPLOYEE
-    # pluck advPay's actor name (the requestor of the advanced payment)
-    # use method .uniq to sanitize results and remove duplicates from resulting JSON response
     actorNameFromAdvPayment = AdvancedPaymentsToEmployee.includes(employee: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
-    @direct = "{\"query\": \"Unit\",\"suggestions\":" + actorNameFromAdvPayment.uniq.to_s + "}" # default format for plugin
-    render '/test/index'
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + actorNameFromAdvPayment.uniq.to_s + "}" # default format for plugin
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
   end
 
   def search_suggestions_holiday
-
-    # belongs_to
-    # get related ActiveRecord HOLIDAY from HOLIDAYTYPE
-    # but just use simple holiday NAME field for search and suggestion
     holidays = Holiday.includes(:holiday_type).where("holidays.name LIKE (?)", "%#{ params[:query] }%").pluck("holidays.name")
-    @direct = "{\"query\": \"Unit\",\"suggestions\":" + holidays.uniq.to_s + "}" # default format for plugin
-    render '/test/index'
-
-    # respond_to do |format|
-    #   format.all { render :text => direct}
-    # end
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + holidays.uniq.to_s + "}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
   end
-
-  def search_suggestions_lump_adjustments
-
-    # belongs_to
-    # get related ActiveRecord EMPLOYEE from LUMPADJUSTMENTS
-    # get related ActiveRecord ACTOR from EMPLOYEE
-    # but just use ACTOR NAME field for search and suggestions, logical to use ACTOR NAME for search to know FOR WHOM the adjustments are for
-    adjustments = LumpAdjustment.includes(employee: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
-    @direct = "{\"query\": \"Unit\",\"suggestions\":" + adjustments.uniq.to_s + "}" # default format for plugin
-    render '/test/index'
-
-    # respond_to do |format|
-    #   format.all { render :text => direct}
-    # end
-  end
-
-  def search_suggestions_base_rates
-
-    # belongs_to
-    # get related ActiveRecord EMPLOYEE from BASERATES
-    # get related ActiveRecord ACTOR from EMPLOYEE
-    # but just use ACTOR NAME field for search and suggestions, logical to use ACTOR NAME for search to know FOR WHOM the adjustments are for
-    baseRates = BaseRate.includes(employee: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
-    @direct = "{\"query\": \"Unit\",\"suggestions\":" + baseRates.uniq.to_s + "}" # default format for plugin
-    render '/test/index'
-
-    # respond_to do |format|
-    #   format.all { render :text => direct}
-    # end
-  end
-
 
   # ================== Delete methods / PURGE ================== #
 
@@ -175,9 +176,9 @@ class HumanResourcesController < ApplicationController
     redirect_to action: "employee_accounts_management"
   end
 
-  def employee_registration
-    render 'human_resources/employee_accounts_management/employee_registration'
-  end
+
+
+  # ================== END ================== #
 
   def assign_duty
     # page data
@@ -241,7 +242,6 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/employee_accounts_management/employee_profile'
   end
 
-  # ================== Rest Day ================== #
   def assign_duty
 
     # page data
@@ -265,20 +265,7 @@ class HumanResourcesController < ApplicationController
   end
 
 
-  def rest_days
-    order_parameter = aggregated_search_queries(params[:order_parameter], 'rest_days', "order_parameter" ,"restdays.created_at")
-    order_orientation = aggregated_search_queries(params[:order_orientation], 'rest_days', "order_orientation", "DESC")
-    current_limit = aggregated_search_queries(params[:current_limit], 'rest_days', "current_limit","10")
-    search_field = aggregated_search_queries(params[:search_field], 'rest_days', "search_field","")
 
-    begin
-      @rest_days = Restday.includes(employee: [:actor]).joins(employee: [:actor]).where("actors.name LIKE ? OR restdays.id LIKE ? OR restdays.day LIKE ? OR restdays.created_at LIKE ? OR restdays.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" ).order(order_parameter + ' ' + order_orientation)
-      @rest_days = Kaminari.paginate_array(@rest_days).page(params[:page]).per(current_limit)
-    rescue
-      flash[:general_flash_notification] = "Error has Occured"
-    end
-    render 'human_resources/compensation_benefits/rest_days'
-  end
 
   def employee_accounts_data
 
@@ -348,16 +335,6 @@ class HumanResourcesController < ApplicationController
 
   def printable_format
     render 'human_resources/compensation_benefits/printable_format'
-  end
-
-  def lump_adjustments
-    @lumpAdjustment = LumpAdjustment.all()
-    render 'human_resources/compensation_benefits/lump_adjustments'
-  end
-
-  def regular_work_periods
-    @regularWorkPeriods = RegularWorkPeriod.all()
-    render 'human_resources/compensation_benefits/regular_work_periods'
   end
 
   def edit_employee_page
@@ -473,6 +450,21 @@ class HumanResourcesController < ApplicationController
         )
   end
 
+  def search_suggestions_branches
+    branches = Branch.where("branches.name LIKE (?)", "%#{ params[:query] }%").pluck("branches.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + branches.to_s + "}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
+  def search_suggestions_accesses
+    accesses = Access.includes(:actor).where("accesses.username LIKE (?)", "%#{ params[:query] }%").pluck("accesses.username")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + accesses.to_s + "}" # default format for plugin
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
 
   ##################################
 

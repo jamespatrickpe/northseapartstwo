@@ -9,7 +9,7 @@ class CreateBaseRates < ActiveRecord::Migration
       t.decimal :amount, :limit => 16, :precision => 16, :scale => 2
       t.string :period_of_time, :limit => 64
 
-      t.string :description, :limit => 256
+      t.string :remark, :limit => 256
 
       t.datetime :start_of_effectivity, :required => true
       t.datetime :end_of_effectivity

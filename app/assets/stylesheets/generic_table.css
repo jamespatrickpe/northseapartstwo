@@ -47,6 +47,11 @@
     visibility: hidden;
 }
 
+.generic_table > tbody > tr > td
+{
+    padding: 5px;
+}
+
 .generic_table > tbody > tr > td.actions > a:hover
 {
     background-color: #721314;
@@ -55,8 +60,8 @@
 
 .generic_table > tbody > tr > td > .action_button
 {
-    padding: 2px;
-    font-size: 10px;
+    margin: 5px;
+    font-size: 20px;
 }
 
 .generic_table > tbody > tr > th

@@ -188,7 +188,7 @@ numberOfPositions.times do |i|
 end
 
 #ENTITIES
-numberOfActors = 10
+numberOfActors = 20
 numberOfActors.times do |i|
   #Actor
   myActor = Actor.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true), logo: 'barack_obama.jpg')
@@ -277,15 +277,37 @@ numberOfActors.times do |i|
     dayOfWeek = Faker::Time.between(7.days.ago, Time.now, :all).strftime("%A")
     restday = Restday.new(day: dayOfWeek, employee: myEmployee)
     restday.created_at = rand(720..72000).hours.ago
-    restday.save
+    restday.save!
+    end
+
+    numberOfWorkPeriods = rand(1..4)
+    numberOfWorkPeriods.times do
+      pickWorkHours = rand(1..5)
+      if(pickWorkHours == 1)
+        start_time = '08:00:00'
+        end_time = '17:00:00'
+      elsif (pickWorkHours == 2)
+        start_time = '09:00:00'
+        end_time = '18:00:00'
+      elsif (pickWorkHours == 3)
+        start_time = '17:00:00'
+        end_time = '05:00:00'
+      else
+        start_time = '01:00:00'
+        end_time = '06:00:00'
+      end
+      workperiod = RegularWorkPeriod.new(remark: Faker::Lorem.word, employee: myEmployee, start_time: start_time, end_time: end_time )
+      workperiod.created_at = rand(720..72000).hours.ago
+      workperiod.save!
     end
 
     numberOfDuties = rand(1..5)
     numberOfDuties.times do
-      myStatus = ["ACTIVE","INACTIVE"].sample
-      dutyStatus = DutyStatus.new(description: Faker::Lorem.words(16), label: myStatus, employee: myEmployee)
+      dutyStatus = DutyStatus.new(remark: Faker::Lorem.sentence, employee: myEmployee)
+      active = -> { [false,true].sample }
+      dutyStatus.active = active.call
       dutyStatus.created_at = rand(720..72000).hours.ago
-      dutyStatus.save
+      dutyStatus.save!
     end
 
     myEmployee.save
@@ -328,8 +350,7 @@ numberOfActors.times do |i|
     randomNumberofBaseRates = rand(10..30)
     randomNumberofBaseRates.times do |i|
 
-      periodsOfTime = ["DAY", "WEEK", "HOUR", "MONTH"]
-      periodOfTime = periodsOfTime[rand(periodsOfTime.length)]
+      periodOfTime = ["DAY", "WEEK", "HOUR", "MONTH"].sample
 
       if( periodOfTime == "DAY" )
         amountOfMoney = randomMoney(267.32,600.05)
@@ -341,7 +362,7 @@ numberOfActors.times do |i|
         amountOfMoney = randomMoney(15000.99,25000.05)
       end
 
-      myBaseRate = BaseRate.new(description: Faker::Lorem.words(4) ,amount: amountOfMoney, period_of_time: periodOfTime, employee: myEmployee, start_of_effectivity: Faker::Time.between(Time.now, Time.now - 300.days, :all), end_of_effectivity: Faker::Time.between(Time.now + 300.days, Time.now, :all), signed_type: ["ADDITION", "DEDUCTION"].sample )
+      myBaseRate = BaseRate.new(remark: Faker::Lorem.sentence(4) ,amount: amountOfMoney, period_of_time: periodOfTime, employee: myEmployee, start_of_effectivity: Faker::Time.between(Time.now, Time.now - 300.days, :all), end_of_effectivity: Faker::Time.between(Time.now + 300.days, Time.now, :all), signed_type: ["ADDITION", "DEDUCTION"].sample )
       myBaseRate.save
     end
 
@@ -362,9 +383,26 @@ numberOfActors.times do |i|
     end
 
     # For Lump Adjustment
+
+    numberOfDuties = rand(1..5)
+    numberOfDuties.times do
+      dutyStatus = DutyStatus.new(remark: Faker::Lorem.sentence, employee: myEmployee)
+      active = -> { [false,true].sample }
+      dutyStatus.active = active.call
+      dutyStatus.created_at = rand(720..72000).hours.ago
+      dutyStatus.save!
+    end
+
     randomNumberOfLumpAdjustment = rand(0..30)
     randomNumberOfLumpAdjustment.times do |i|
-      LumpAdjustment.create( amount: randomMoney(100.10,1000.00), signed_type: ["ADDITION", "DEDUCTION"].sample, employee: myEmployee, description: Faker::Lorem.words(4), date_of_effectivity:Faker::Time.between(Time.now, Time.now - 300.days, :all))
+      lumpAdjustment = LumpAdjustment.new()
+      signed_type = -> { [false,true].sample }
+      lumpAdjustment.amount = randomMoney(100.10,1000.00)
+      lumpAdjustment.signed_type = signed_type.call
+      lumpAdjustment.employee = myEmployee
+      lumpAdjustment.remark = Faker::Lorem.word
+      lumpAdjustment.date_of_effectivity = rand(720..72000).hours.ago
+      lumpAdjustment.save!
     end
 
     # For Rate Adjustment

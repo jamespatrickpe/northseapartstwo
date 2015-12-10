@@ -38,8 +38,8 @@
                   <td><%= rest_day.created_at %></td>
                   <td><%= rest_day.updated_at %></td>
                   <td class="actions">
-                    <%= link_to( "[ EDIT &#9998; ]".html_safe ,{:action => 'edit_rest_day', :rest_day_id => rest_day.id}, class: 'action_button' ) %>
-                    <%= link_to( "[ DELETE &#10006; ]".html_safe ,{:action => 'delete_rest_day', :rest_day_id => rest_day.id}, class: 'action_button' ) %>
+                    <%= link_to( "&#9998;".html_safe ,{:action => 'edit_rest_day', :rest_day_id => rest_day.id}, class: 'action_button', tooltip: 'Edit' ) %>
+                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_rest_day', :rest_day_id => rest_day.id}, class: 'action_button', tooltip: 'Delete' ) %>
                   </td>
                 </tr>
             <% end %>

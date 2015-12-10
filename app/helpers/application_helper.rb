@@ -1,4 +1,18 @@
 module ApplicationHelper
+
+  def generic_table_options()
+
+  end
+
+  #Boolean to Words
+  def boolean_to_words(x)
+    if x == 1
+      return 'true'
+    else
+      return 'false'
+    end
+  end
+
   def sortable(column, title = nil)
     title ||= column.titleize
     direction = (column == params[:order_by] && params[:arrangement] == "asc") ? "desc" : "asc"

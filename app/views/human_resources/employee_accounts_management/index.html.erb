@@ -1,5 +1,4 @@
 <section class='small-10 columns'>
-
 <div class='mainheader'> Employee Accounts Management </div>
 <div class='subdescription'> Manage the Accounts of Employees</div>
 <hr>
@@ -16,7 +15,7 @@
             Name <%= generic_table_theadlink('employee_accounts_management','actors.name', table_orientation) %>
           </th>
           <th>
-            Status <%= generic_table_theadlink('employee_accounts_management','dutystatus.label', table_orientation) %>
+            Active <%= generic_table_theadlink('employee_accounts_management','dutystatus.active', table_orientation) %>
           </th>
           <th>
             Branch <%= generic_table_theadlink('employee_accounts_management','branches.name', table_orientation) %>
@@ -41,13 +40,13 @@
                   <td><%= employee_accounts[0] %></td>
                   <td><%= link_to( employee_accounts[1] ,{:action => 'employee_profile', :employee_id => employee_accounts[0]} ) %>
                   </td>
-                  <td><%= employee_accounts[2] %></td>
+                  <td><%= boolean_to_words(employee_accounts[2]) %></td>
                   <td><%= employee_accounts[3] %></td>
                   <td><%= employee_accounts[4] %></td>
                   <td><%= employee_accounts[5] %></td>
                   <td class="actions">
-                    <%= link_to( "[ EDIT &#9998; ]".html_safe ,{:action => 'edit_employee', :employee_id => employee_accounts[0]}, class: 'action_button ' ) %>
-                    <%= link_to( "[ DELETE &#10006; ]".html_safe ,{:action => 'delete_employee', :employee_id => employee_accounts[0]}, class: 'action_button delete_item' ) %>
+                    <%= link_to( "&#9998;".html_safe ,{:action => 'edit_employee', :employee_id => employee_accounts[0]}, class: 'action_button ', tooltip: 'Edit' ) %>
+                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_employee', :employee_id => employee_accounts[0]}, class: 'action_button delete_item', tooltip: 'Delete' ) %>
                   </td>
                 </tr>
             <% end %>
@@ -60,7 +59,5 @@
           $(".generic_table").replaceWith(html)
       </script>
   <% end %>
-
   <%= generic_table_footer('employee_registration','/human_resources/employee_accounts_management',@employee_accounts) %>
-
 </section>
