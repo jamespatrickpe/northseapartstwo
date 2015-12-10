@@ -89,7 +89,7 @@ ActiveRecord::Schema.define(version: 20151130014042) do
   create_table "base_rates", id: false, force: :cascade do |t|
     t.string   "id",                   limit: 36,                           null: false
     t.string   "employee_id",          limit: 36
-    t.string   "signed_type",          limit: 64
+    t.boolean  "signed_type",          limit: 1
     t.decimal  "amount",                           precision: 16, scale: 2
     t.string   "period_of_time",       limit: 64
     t.string   "remark",               limit: 256

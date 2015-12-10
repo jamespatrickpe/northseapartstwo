@@ -4,7 +4,7 @@ class CreateBaseRates < ActiveRecord::Migration
       t.string :id, limit: 36, primary: true, null: false
 
       t.string :employee_id,limit: 36, :required => true
-      t.string :signed_type, limit: 64, :required => true
+      t.boolean :signed_type, :required => true
 
       t.decimal :amount, :limit => 16, :precision => 16, :scale => 2
       t.string :period_of_time, :limit => 64

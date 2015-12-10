@@ -347,7 +347,7 @@ numberOfActors.times do |i|
       end
     end
 
-    randomNumberofBaseRates = rand(10..30)
+    randomNumberofBaseRates = rand(1..5)
     randomNumberofBaseRates.times do |i|
 
       periodOfTime = ["DAY", "WEEK", "HOUR", "MONTH"].sample
@@ -362,7 +362,14 @@ numberOfActors.times do |i|
         amountOfMoney = randomMoney(15000.99,25000.05)
       end
 
-      myBaseRate = BaseRate.new(remark: Faker::Lorem.sentence(4) ,amount: amountOfMoney, period_of_time: periodOfTime, employee: myEmployee, start_of_effectivity: Faker::Time.between(Time.now, Time.now - 300.days, :all), end_of_effectivity: Faker::Time.between(Time.now + 300.days, Time.now, :all), signed_type: ["ADDITION", "DEDUCTION"].sample )
+      signed_type = -> { [false,true].sample }
+      myBaseRate = BaseRate.new(remark: Faker::Lorem.sentence(4),
+                                amount: amountOfMoney,
+                                period_of_time: periodOfTime,
+                                employee: myEmployee,
+                                start_of_effectivity: Faker::Time.between(Time.now, Time.now - 300.days, :all),
+                                end_of_effectivity: Faker::Time.between(Time.now + 300.days, Time.now, :all),
+                                signed_type: signed_type.call)
       myBaseRate.save
     end
 

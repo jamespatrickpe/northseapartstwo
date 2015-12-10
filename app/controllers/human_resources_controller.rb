@@ -124,6 +124,25 @@ class HumanResourcesController < ApplicationController
 
   # ================== Base Rates ================== #
 
+  def base_rates
+    order_parameter = aggregated_search_queries(params[:order_parameter], 'base_rates', 'order_parameter' ,'base_rates.created_at')
+    order_orientation = aggregated_search_queries(params[:order_orientation], 'base_rates', 'order_orientation', 'DESC')
+    current_limit = aggregated_search_queries(params[:current_limit], 'base_rates', 'current_limit','10')
+    search_field = aggregated_search_queries(params[:search_field], 'base_rates', 'search_field','')
+
+    begin
+      @base_rates = BaseRate.includes(employee: [:actor])
+                              .joins(employee: [:actor])
+                              .where("actors.name LIKE ? OR base_rates.id LIKE ? OR base_rates.signed_type LIKE ? OR base_rates.signed_type LIKE ? OR base_rates.amount LIKE ? OR base_rates.period_of_time LIKE ? OR base_rates.remark LIKE ? OR base_rates.start_of_effectivity LIKE ? OR base_rates.end_of_effectivity LIKE ? OR base_rates.created_at LIKE ? OR base_rates.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" )
+                              .order(order_parameter + ' ' + order_orientation)
+      @base_rates = Kaminari.paginate_array(@base_rates).page(params[:page]).per(current_limit)
+    rescue
+      flash[:general_flash_notification] = "Error has Occured"
+    end
+
+    render 'human_resources/compensation_benefits/base_rates'
+  end
+
   def search_suggestions_base_rates
     baseRates = BaseRate.includes(employee: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + baseRates.uniq.to_s + "}" # default format for plugin
