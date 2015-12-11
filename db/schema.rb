@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151130014042) do
+ActiveRecord::Schema.define(version: 20151211011431) do
 
   create_table "accesses", id: false, force: :cascade do |t|
     t.string   "id",              limit: 36,                  null: false
@@ -197,21 +197,23 @@ ActiveRecord::Schema.define(version: 20151130014042) do
   end
 
   create_table "holiday_types", id: false, force: :cascade do |t|
-    t.string   "id",                                  limit: 36,                                          null: false
-    t.string   "type_name",                           limit: 64
-    t.decimal  "additional_rate",                                precision: 16, scale: 2
-    t.decimal  "additional_rate_overtime",                       precision: 16, scale: 2
-    t.decimal  "additional_rate_rest_day_priveleges",            precision: 16, scale: 2
-    t.boolean  "no_work_pay",                         limit: 1,                           default: false
-    t.datetime "created_at",                                                                              null: false
-    t.datetime "updated_at",                                                                              null: false
+    t.string   "id",                           limit: 36,                                          null: false
+    t.string   "type_name",                    limit: 64
+    t.decimal  "rate_multiplier",                         precision: 16, scale: 2
+    t.decimal  "overtime_multiplier",                     precision: 16, scale: 2
+    t.decimal  "rest_day_multiplier",                     precision: 16, scale: 2
+    t.decimal  "overtime_rest_day_multiplier",            precision: 16, scale: 2
+    t.boolean  "no_work_pay",                  limit: 1,                           default: false
+    t.datetime "created_at",                                                                       null: false
+    t.datetime "updated_at",                                                                       null: false
   end
 
   create_table "holidays", id: false, force: :cascade do |t|
     t.string   "id",                     limit: 36,  null: false
+    t.string   "holiday_type_id",        limit: 36
     t.string   "description",            limit: 256
     t.string   "name",                   limit: 64
-    t.string   "holiday_type_id",        limit: 36
+    t.string   "remark",                 limit: 256
     t.date     "date_of_implementation"
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
@@ -276,6 +278,15 @@ ActiveRecord::Schema.define(version: 20151130014042) do
     t.decimal  "score",                   precision: 16, scale: 2
     t.datetime "created_at",                                       null: false
     t.datetime "updated_at",                                       null: false
+  end
+
+  create_table "permissions", id: false, force: :cascade do |t|
+    t.string   "id",         limit: 36,  null: false
+    t.string   "access_id",  limit: 36
+    t.string   "can",        limit: 256
+    t.string   "remark",     limit: 256
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "positions", id: false, force: :cascade do |t|
