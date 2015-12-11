@@ -130,9 +130,10 @@ ActiveRecord::Schema.define(version: 20151130014042) do
 
   create_table "constants", id: false, force: :cascade do |t|
     t.string   "id",            limit: 36,  null: false
-    t.string   "constant",      limit: 64
+    t.string   "value",         limit: 64
     t.string   "name",          limit: 256
     t.string   "constant_type", limit: 64
+    t.string   "remark",        limit: 64
     t.datetime "created_at"
     t.datetime "updated_at"
   end

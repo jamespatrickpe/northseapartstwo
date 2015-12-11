@@ -1,0 +1,71 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Duty Statuses </div>
+  <div class='subdescription'> Status for the Duty of an Employee  </div>
+  <hr>
+  <%= generic_table_search( 'duty_statuses_search_input', 'duty_statuses',' Search Duty Status' , '/human_resources/search_suggestions_duty_statuses', 'duty_statuses') %>
+  <% table_orientation = shift_table_orientation %>
+  <% begin %>
+      <table class="generic_table" id="duty_statuses_table">
+        <thead>
+        <tr>
+          <th>
+            Duty Status ID
+            <%= generic_table_theadlink('duty_statuses','duty_statuses.id', table_orientation) %>
+          </th>
+          <th>
+            Employee
+            <%= generic_table_theadlink('duty_statuses','actors.name', table_orientation) %>
+          </th>
+          <th>
+            Active
+            <%= generic_table_theadlink('duty_statuses','duty_statuses.active', table_orientation) %>
+          </th>
+          <th>
+            Remark <%= generic_table_theadlink('duty_statuses','duty_statuses.remark', table_orientation) %>
+          </th>
+          <th>
+            Date Created <%= generic_table_theadlink('duty_statuses','duty_statuses.created_at', table_orientation) %>
+          </th>
+          <th>
+            Last Updated <%= generic_table_theadlink('duty_statuses','duty_statuses.updated_at', table_orientation) %>
+          </th>
+          <th class="actions" align="center">&nbsp;</th>
+        </tr>
+        </thead>
+        <% if @duty_statuses.empty? == true %>
+            <% raise exception %>
+        <% else %>
+            <tbody>
+            <% @duty_statuses.each do |duty_status| %>
+                <tr>
+                  <td><%= duty_status.id %></td>
+                  <td><%= link_to( duty_status.employee.actor.name ,{:action => 'employee_profile', :employee_id => duty_status.employee.id} ) %></td>
+                  <td>
+                    <%=
+                        if(duty_status.active)
+                          "TRUE"
+                        else
+                          "FALSE"
+                        end
+                    %>
+                  </td>
+                  <td><%= duty_status.remark %> </td>
+                  <td><%= duty_status.created_at %></td>
+                  <td><%= duty_status.updated_at %></td>
+                  <td class="actions">
+                    <%= link_to( "&#9998;".html_safe ,{:action => 'edit_duty_status_period', :duty_status_id => duty_status.id}, class: 'action_button', tooltip: 'Edit') %>
+                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_duty_status_period', :duty_status_id => duty_status.id}, class: 'action_button', tooltip: 'Delete') %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+        <% end %>
+      </table>
+  <% rescue %>
+      <script>
+          html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
+          $(".generic_table").replaceWith(html)
+      </script>
+  <% end %>
+  <%= generic_table_footer('new_duty_status','/human_resources/duty_statuses',@duty_statuses) %>
+</section>

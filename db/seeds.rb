@@ -150,11 +150,11 @@ Branch.create(name: 'Ampid Diesel Trading')
 Branch.create(name: 'Generic')
 
 #Constants
-Constant.create( constant_type: 'human_resources.minimum_wage', constant: '362.50', name: 'Minimum Wage')
-Constant.create( constant_type: 'human_resources.preferred_rest_day', constant: 'SUNDAY', name: 'Preferred Rest Day' )
-Constant.create( constant_type: 'human_resources.contract_days', constant: '366', name: 'Default Duration of Contract (Days)' )
-Constant.create( constant_type: 'human_resources.time_start', constant: '08:00', name: 'Usual time Start for Employee' )
-Constant.create( constant_type: 'human_resources.time_end', constant: '17:00', name: 'Usual time End for Employee' )
+Constant.create( constant_type: 'human_resources.minimum_wage', value: '362.50', name: 'Minimum Wage', remark: Faker::Lorem.sentence)
+Constant.create( constant_type: 'human_resources.preferred_rest_day', value: 'SUNDAY', name: 'Preferred Rest Day', remark: Faker::Lorem.sentence )
+Constant.create( constant_type: 'human_resources.contract_days', value: '366', name: 'Default Duration of Contract (Days)', remark: Faker::Lorem.sentence )
+Constant.create( constant_type: 'human_resources.time_start', value: '08:00', name: 'Usual time Start for Employee', remark: Faker::Lorem.sentence )
+Constant.create( constant_type: 'human_resources.time_end', value: '17:00', name: 'Usual time End for Employee', remark: Faker::Lorem.sentence )
 
 #Departments
 hr = Department.new(label: "Human Resources", description: "no description")
