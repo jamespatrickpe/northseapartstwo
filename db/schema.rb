@@ -87,16 +87,17 @@ ActiveRecord::Schema.define(version: 20151211011431) do
   end
 
   create_table "base_rates", id: false, force: :cascade do |t|
-    t.string   "id",                   limit: 36,                           null: false
+    t.string   "id",                   limit: 36,                                             null: false
     t.string   "employee_id",          limit: 36
     t.boolean  "signed_type",          limit: 1
     t.decimal  "amount",                           precision: 16, scale: 2
     t.string   "period_of_time",       limit: 64
+    t.string   "rate_type",            limit: 64,                           default: "other"
     t.string   "remark",               limit: 256
     t.datetime "start_of_effectivity"
     t.datetime "end_of_effectivity"
-    t.datetime "created_at",                                                null: false
-    t.datetime "updated_at",                                                null: false
+    t.datetime "created_at",                                                                  null: false
+    t.datetime "updated_at",                                                                  null: false
   end
 
   create_table "biodata", id: false, force: :cascade do |t|
@@ -133,7 +134,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.string   "value",         limit: 64
     t.string   "name",          limit: 256
     t.string   "constant_type", limit: 64
-    t.string   "remark",        limit: 64
+    t.string   "remark",        limit: 256
     t.datetime "created_at"
     t.datetime "updated_at"
   end

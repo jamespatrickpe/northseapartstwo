@@ -116,3 +116,26 @@ window.Parsley.addAsyncValidator('validate-email', function (xhr)
     }
 }, '/application/check_email_exists');
 
+//Validates if Employee if exists in Database
+window.Parsley.addAsyncValidator('validate-select_employee', function (xhr)
+{
+    //alert(xhr.status);
+    var obj = $.parseJSON(xhr.responseText);
+    var employee_select_field = $(".employee_select_field").parsley();
+    if (obj['exists'] == true)
+    {
+        window.ParsleyUI.removeError(employee_select_field, "myCustomError");
+        return true;
+    }
+    else if (obj['exists'] == false)
+    {
+        window.ParsleyUI.removeError(employee_select_field, "myCustomError");
+        window.ParsleyUI.addError(employee_select_field, "myCustomError", 'Employee does not Exist');
+        return false;
+    }
+    else
+    {
+        window.ParsleyUI.addError(employee_select_field, "myCustomError", 'Cannot Connect to Database');
+        return false;
+    }
+}, '/application/check_employee_name_exists');

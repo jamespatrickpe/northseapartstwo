@@ -122,12 +122,12 @@ span.subheader {
 
 /************************************************************************* FORMS*/
 
-/*
-Unsure of what this is
-form div.row {
-  margin : 16px 0;
+form.create_form > *
+{
+  width: auto;
 }
-*/
 
-/************************************************************************* CUSTOM PARSLEY STYLES*/
-
+form.create_form > * > *
+{
+  width: auto;
+}

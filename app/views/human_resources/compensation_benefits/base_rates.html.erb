@@ -22,6 +22,10 @@
             <%= generic_table_theadlink('base_rates','base_rates.signed_type', table_orientation) %>
           </th>
           <th>
+            Type
+            <%= generic_table_theadlink('base_rates','base_rates.rate_type', table_orientation) %>
+          </th>
+          <th>
             Amount
             <%= generic_table_theadlink('base_rates','base_rates.amount', table_orientation) %>
           </th>
@@ -69,6 +73,7 @@
                         end
                     %>
                   </td>
+                  <td><%= base_rate.rate_type %> </td>
                   <td><%= base_rate.amount %> </td>
                   <td><%= base_rate.period_of_time %> </td>
                   <td><%= base_rate.remark %> </td>
