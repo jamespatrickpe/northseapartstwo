@@ -1,6 +1,6 @@
 <fieldset id="actor_set">
 <%= text_field_tag("actor[name]", value = nil, options = {placeholder: "Name", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64"}) %>
-<%= text_area_tag("actor[description]", content = "Description", options = {class: "actor_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128"}) %>
+<%= text_area_tag("actor[description]", content = "", options = {class: "actor_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :placeholder => "Description"}) %>
 
 Upload your picture:
 <%= file_field_tag "actor[logo]", options = { "accept" => "image/*", :"data-parsley-trigger" => "change", "data-parsley-filesize"=>3000000, "data-parsley-filetype"=>"image"} %>

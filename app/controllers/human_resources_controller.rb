@@ -210,13 +210,12 @@ class HumanResourcesController < ApplicationController
   end
 
   def search_suggestions_employees_with_id
-    employees = Employee.includes(:actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    employees = Employee.includes(:actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck('actors.name', 'id')
     direct = "{\"query\": \"Unit\",\"suggestions\":" + employees.to_s + "}"
     respond_to do |format|
       format.all { render :text => direct}
     end
   end
-
 
   def duty_status_form
     @employees = Employee.includes(:actor).joins(:actor)

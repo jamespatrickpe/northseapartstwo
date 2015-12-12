@@ -3,52 +3,47 @@
   <div class='subdescription'> Set the Status of an Employee </div>
   <hr>
 
-  <div class='small-3 columns'>
+  <div class='small-4 columns'>
   <%= form_tag( {action: :process_duty_status}, multipart: true, class: 'create_form', id: "new_duty_status_form", :"data-parsley-validate" => "" ) do %>
-      <%= select_tag( "employee_select_field",
-                        options_from_collection_for_select(@employees, "employees.id", "actors.name"),
-                        options = {id: 'new_duty_status_employee',
-                                   class: 'employee_select_field',
-                                   placeholder: 'Employee Name',
-                                   :"data-parsley-trigger" => "keyup",
-                                   :"data-parsley-minlength"=>"3" ,
-                                   :"data-parsley-maxlength"=>"64",
-                                   :"data-parsley-remote" => "" ,
-                                   :"data-parsley-remote-options" => "{ 'type': 'POST', 'dataType': 'json'}",
-                                   :"data-parsley-remote-validator" => "validate-select_employee"
-                        }) %>
 
-    <select id="new_duty_status_active" name="new_duty_status_active" required="required">
+    <select name='employee_select_field'
+            id='new_duty_status_employee'
+            class='employee_select_field'>
+      <option value="" disabled selected>Select Employee</option>
+      <% @employees.each do |employee| %>
+          <option value=<%= employee.id %>><%= employee.actor.name %></option>
+      <% end %>
+    </select>
+
+    <select id="new_duty_status_active" name="new_duty_status_active" required="required" >
       <option value='1'>ACTIVE</option>
       <option value='0'>INACTIVE</option>
     </select>
 
-    <%= text_area_tag( "remark_add_field",
-                        value=nil,
-                        options = {id: 'new_duty_status_remark',
-                                   class: 'remark_add_field',
-                                   placeholder: 'remark',
-                                   :"data-parsley-trigger" => "keyup",
-                                   :"data-parsley-minlength"=>"3" ,
-                                   :"data-parsley-maxlength"=>"256"
-                        }) %>
-    <input type="submit" class="button" value="submit" />
+    <%= text_area_tag("duty_status[remark]", content = "", options = {class: "remark_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :placeholder => 'Remarks'}) %>
+
+    <input type="submit" class="small button" value="submit" />
   <% end %>
   </div>
 
-  <div class='small-9 columns'>
-    dfasdfsdakjf;asldkfj <br>
-    dfasdfsdakjf;asldkfj <br>
-    dfasdfsdakjf;asldkfj <br>
-    dfasdfsdakjf;asldkfj <br>
-    dfasdfsdakjf;asldkfj <br>
-    dfasdfsdakjf;asldkfj <br>
+  <div class='small-8 columns employee_summary_display'>
+    <img class='employee_summary_picture' src="../../uploads/entity_avatars/default.jpg"/>
+    <div class='employee_summary_description'>
+      adlfkj;askfjalkj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;s;sdjf facts and shit <br>
+      adlfkj;askfjalkj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;s;sdjf facts and shit <br>
+      adlfkj;askfjkj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;sal;sdjf facts and shit <br>
+      adlfkj;askfjakj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;sl;sdjf facts and shit <br>
+    </div>
   </div>
 </section>
 
 <script type="text/javascript">
-    $('.employee_select_field').autocomplete({
-        serviceUrl: 'search_suggestions_employees',
-        minChars: 3
+
+    $('.employee_select_field').selectize({
+        sortField: 'text'
+    });
+
+    $('.employee_select_field').change(function(){
+
     });
 </script>
