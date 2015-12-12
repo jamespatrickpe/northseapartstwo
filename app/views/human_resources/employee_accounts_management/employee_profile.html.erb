@@ -43,13 +43,6 @@
     &nbsp;
     <%= link_to( "[ EDIT DETAILS ] " ,{:action => 'edit_employee_page', :employee_id => @employee.id, :actor_id => @employee.actor.id}, :class => "action_button action-link-grey" ) %>
 
-    <% if flash[:notice] %>
-        <div data-alert id="alert_success_add_duty" class="alert-box success radius">
-          <%= flash[:notice] %>
-          <a href="#" class="close">&times;</a>
-        </div>
-    <% end %>
-
     <div class="profile-section employee-profile-detail">
 
       <span class="subheader"> <i class="fa fa-lg fa-user"></i> Profile Details </span>
@@ -174,12 +167,12 @@
 
                 <section>
                   <span>Status </span>
-                  <span><%= e.label %></span>
+                  <span><%= e.remark %></span>
                 </section>
 
                 <section>
                   <span>Description </span>
-                  <span><%= e.description %></span>
+                  <span><%= e.active %></span>
                 </section>
 
                 <section>
@@ -207,7 +200,7 @@
 
             <div>
               <label>Assign open duty
-                <%= select_tag 'duty_dd', options_for_select(@duties.collect{ |d| [d.label + ' - ' + d.description, d.id] }) %>
+                <%= select_tag 'duty_dd', options_for_select(@duties.collect{ |d| [d.remark, d.id] }) %>
               </label>
             </div>
 

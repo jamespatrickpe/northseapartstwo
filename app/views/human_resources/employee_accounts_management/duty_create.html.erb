@@ -19,13 +19,13 @@
 
         <div class="large-3 columns">
           <label>Duty Label
-            <%= text_field_tag("duty[label]", value = nil, options = {placeholder: "Label", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64"}) %>
+            <%= text_field_tag("dutyStatus[remark]", value = nil, options = {placeholder: "Label", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64"}) %>
           </label>
         </div>
 
         <div class="large-3 columns">
           <label>Duty Description
-            <%= text_area_tag("duty[description]", value = nil, options = {placeholder: "Description", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64"}) %>
+            <%= text_area_tag("dutyStatus[active]", value = nil, options = {placeholder: "Description", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64"}) %>
           </label>
         </div>
 
@@ -72,8 +72,8 @@
             <% @duties.each do |d| %>
                 <tr>
                   <td><%= d.id %></td>
-                  <td><%= d.description %></td>
-                  <td><%= d.label %></td>
+                  <td><%= d.remark %></td>
+                  <td><%= d.active %></td>
                   <td><%= d.created_at %></td>
                 </tr>
             <% end %>

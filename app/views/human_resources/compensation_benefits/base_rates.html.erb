@@ -1,7 +1,11 @@
 <section class='small-10 columns'>
   <div class='mainheader'> Base Rates </div>
   <div class='subdescription'> Rates for an Employee through a Period in Time  </div>
+
+  <%= link_to( "[ BACK TO LIST ]" ,{:action => 'employee_accounts_management' }, :class => "action_button action-link-grey" ) %>
+
   <hr>
+
   <%= generic_table_search('base_rates_search_input', 'base_rates',' Search Base Rates' , '/human_resources/search_suggestions_base_rates', 'base_rates') %>
 
   <% table_orientation = shift_table_orientation %>
@@ -83,7 +87,7 @@
                   <td><%= base_rate.updated_at %></td>
                   <td class="actions">
                     <%= link_to( "&#9998;".html_safe ,{:action => 'edit_base_rate', :base_rate_id => base_rate.id}, class: 'action_button', tooltip: 'Edit') %>
-                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_base_rate', :base_rate_id => base_rate.id}, class: 'action_button', tooltip: 'Delete') %>
+                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_base_rate', :base_rate_id => base_rate.id}, class: 'action_button delete_item', tooltip: 'Delete') %>
                   </td>
                 </tr>
             <% end %>

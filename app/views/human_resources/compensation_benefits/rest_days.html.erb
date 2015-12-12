@@ -1,6 +1,9 @@
 <section class='small-10 columns'>
   <div class='mainheader'> Rest Days Management </div>
   <div class='subdescription'> Manage Rest Days for each Employee </div>
+
+  <%= link_to( "[ BACK TO LIST ]" ,{:action => 'employee_accounts_management' }, :class => "action_button action-link-grey" ) %>
+
   <hr>
   <%= generic_table_search( 'rest_days_search_input', 'rest_days',' Search Rest Days' , '/human_resources/search_suggestions_rest_days', 'rest_days') %>
   <% table_orientation = shift_table_orientation %>
@@ -39,7 +42,7 @@
                   <td><%= rest_day.updated_at %></td>
                   <td class="actions">
                     <%= link_to( "&#9998;".html_safe ,{:action => 'edit_rest_day', :rest_day_id => rest_day.id}, class: 'action_button', tooltip: 'Edit' ) %>
-                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_rest_day', :rest_day_id => rest_day.id}, class: 'action_button', tooltip: 'Delete' ) %>
+                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_rest_day', :rest_day_id => rest_day.id}, class: 'action_button delete_item', tooltip: 'Delete' ) %>
                   </td>
                 </tr>
             <% end %>

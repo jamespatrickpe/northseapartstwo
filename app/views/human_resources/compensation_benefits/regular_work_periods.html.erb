@@ -1,6 +1,9 @@
 <section class='small-10 columns'>
   <div class='mainheader'> Regular Work Periods </div>
   <div class='subdescription'> Regular Working Hours for an Employee </div>
+
+  <%= link_to( "[ BACK TO LIST ]" ,{:action => 'employee_accounts_management' }, :class => "action_button action-link-grey" ) %>
+
   <hr>
   <%= generic_table_search( 'regular_work_periods_search_input', 'regular_work_periods',' Search Regular Work Period' , '/human_resources/search_suggestions_regular_work_periods', 'regular_work_periods') %>
   <% table_orientation = shift_table_orientation %>
@@ -47,7 +50,7 @@
                   <td><%= regular_work_period.updated_at %></td>
                   <td class="actions">
                     <%= link_to( "&#9998;".html_safe ,{:action => 'edit_regular_work_period', :regular_work_period_id => regular_work_period.id}, class: 'action_button', tooltip: 'Edit' ) %>
-                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_regular_work_period', :regular_work_period_id => regular_work_period.id}, class: 'action_button', tooltip: 'Delete' ) %>
+                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_regular_work_period', :regular_work_period_id => regular_work_period.id}, class: 'action_button delete_item', tooltip: 'Delete' ) %>
                   </td>
                 </tr>
             <% end %>
