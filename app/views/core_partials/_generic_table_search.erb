@@ -1,4 +1,4 @@
-<%= form_tag( form_link, method: ":get", class: "search_form") do %>
+<%= form_tag( form_link, method: ":get", class: "search_form", :"data-parsley-validate" => "") do %>
 
     <div class="row collapse" style="float: left">
       <div class="small-5 columns">
@@ -32,12 +32,12 @@
     <!-- Search Status -->
     <%
        search_field = unique_flash_variable + '_' + 'search_field'
-       order_parameters = unique_flash_variable + '_' + 'order_parameters'
+       order_parameters = unique_flash_variable + '_' + 'order_parameter'
        order_orientation = unique_flash_variable + '_' + 'order_orientation'
        current_limit = unique_flash_variable + '_' + 'current_limit'
        if (flash[search_field].empty? == false)
     %>
-        <div class="subdescription" style="float: left">
+        <div class="search_query_description">
           Searching for "<%= flash[search_field] %>"
           with "<%= flash[order_parameters] %>"
           ordered by "<%= flash[order_orientation] %>"

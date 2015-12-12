@@ -11,8 +11,8 @@ include ApplicationHelper
 #  ----------------------------------------------------------------------------------- OFFICIAL STARTER DATA ------------------------------------------------------------------------
 
 #Administrator
-myActor = Actor.create(name: 'James Patrick Pe', description: 'Administrator')
-myActor.save
+myActor = Actor.create(name: 'James Patrick Pe', description: 'Administrator', logo: 'default.jpg')
+myActor.save!
 
 access = Access.new
 access.actor = myActor
@@ -22,50 +22,68 @@ access.password = 'ilovetess'
 access.password_confirmation = 'ilovetess'
 access.hashlink = generateRandomString
 access.verification = true
-access.save
+access.save!
+
+permission = Permission.new
+permission.access = access
+permission.can = 'assess_vale'
+permission.remark = Faker::Lorem.sentence
+permission.save!
+
+permission = Permission.new
+permission.access = access
+permission.can = 'human_resources'
+permission.remark =  Faker::Lorem.sentence
+permission.save!
+
+permission = Permission.new
+permission.access = access
+permission.can = 'access_control'
+permission.remark =  Faker::Lorem.sentence
+permission.save!
 
 allowableSet = AllowableSet.create( security_level: 'ADMIN', controller: 'ALL', action: 'ALL')
 allowableSet.access = access
-allowableSet.save
+allowableSet.save!
 
 #HUMAN RESOURCES
 
 #Holiday
-regularHoliday = HolidayType.create( type_name: "Regular Holiday", additional_rate: 2.00, additional_rate_overtime: 1.30, additional_rate_rest_day_priveleges: 1.3, no_work_pay: true)
-specialNonWorkingHoliday = HolidayType.create( type_name: "Special Non Working Holiday", additional_rate: 1.3, additional_rate_overtime: 1.30, additional_rate_rest_day_priveleges: 1.5, no_work_pay: false)
+regularHoliday = HolidayType.create( type_name: "regular", rate_multiplier: 2, overtime_multiplier: 2.6, rest_day_multiplier: 1.3, no_work_pay: true, overtime_rest_day_multiplier: 2.6)
+specialNonWorkingHoliday = HolidayType.create( type_name: "special_non_working", rate_multiplier: 1.3, overtime_multiplier: 1.69, rest_day_multiplier: 1.5, no_work_pay: false, overtime_rest_day_multiplier: 1.95)
 
-Holiday.create( date_of_implementation: Date.new(2016,1,1) , name: "New Year's Day", holiday_type: regularHoliday)
-Holiday.create( date_of_implementation: Date.new(2016,2,8) , name: "Chinese Lunar New Year's Day", holiday_type: specialNonWorkingHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,3,24) , name: "Maundy Thursday", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,3,25) , name: "Good Friday", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,4,9) , name: "The Day of Valor", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,5,1) , name: "Labor Day", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,6,12) , name: "Ninoy Aquino Day", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,8,21) , name: "National Heroes Day", holiday_type: specialNonWorkingHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,8,28) , name: "National Heroes Day holiday", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,11,1) , name: "All Saints' Day", holiday_type: specialNonWorkingHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,12,25) , name: "Christmas Day", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,12,30) , name: "Rizal Day", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,12,31) , name: "New Year's Eve", holiday_type: specialNonWorkingHoliday )
+Holiday.create( date_of_implementation: Date.new(2016,1,1) , name: "New Year's Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence)
+Holiday.create( date_of_implementation: Date.new(2016,2,8) , name: "Chinese Lunar New Year's Day", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,3,24) , name: "Maundy Thursday", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,3,25) , name: "Good Friday", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,4,9) , name: "The Day of Valor", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,5,1) , name: "Labor Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,6,12) , name: "Ninoy Aquino Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,8,21) , name: "National Heroes Day", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,8,28) , name: "National Heroes Day holiday", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,11,1) , name: "All Saints' Day", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,12,25) , name: "Christmas Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,12,30) , name: "Rizal Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,12,31) , name: "New Year's Eve", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
 
-Holiday.create( date_of_implementation: Date.new(2015,1,1) , name: "New Year's Day", holiday_type: regularHoliday)
-Holiday.create( date_of_implementation: Date.new(2015,1,2) , name: "Special non-working day after New Year", holiday_type: specialNonWorkingHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,2,19) , name: "Chinese Lunar New Year's Day", holiday_type: specialNonWorkingHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,4,2) , name: "Maundy Thursday", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,4,3) , name: "Good Friday", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,4,4) , name: "Holy Saturday", holiday_type: specialNonWorkingHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,4,9) , name: "The Day of Valor", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,5,1) , name: "Labor Day", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,5,12) , name: "Independence Day", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,8,21) , name: "Ninoy Aquino Day", holiday_type: specialNonWorkingHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,8,30) , name: "National Heroes Day", holiday_type: specialNonWorkingHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,8,31) , name: "National Heroes Day Holiday", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,11,1) , name: "All Saints' Day", holiday_type: specialNonWorkingHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,11,30) , name: "Bonifacio Day", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,12,24) , name: "Christmas Eve", holiday_type: specialNonWorkingHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,12,25) , name: "Christmas Day", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,12,30) , name: "Rizal Day", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,12,31) , name: "New Year's Eve", holiday_type: specialNonWorkingHoliday )
+Holiday.create( date_of_implementation: Date.new(2015,1,1) , name: "New Year's Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence)
+Holiday.create( date_of_implementation: Date.new(2015,1,2) , name: "Special non-working day after New Year", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,2,19) , name: "Chinese Lunar New Year's Day", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,4,2) , name: "Maundy Thursday", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,4,3) , name: "Good Friday", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,4,4) , name: "Holy Saturday", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,4,9) , name: "The Day of Valor", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,5,1) , name: "Labor Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,5,12) , name: "Independence Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,8,21) , name: "Ninoy Aquino Day", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,8,30) , name: "National Heroes Day", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,8,31) , name: "National Heroes Day Holiday", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,11,1) , name: "All Saints' Day", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,11,30) , name: "Bonifacio Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,12,24) , name: "Christmas Eve", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,12,25) , name: "Christmas Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,12,30) , name: "Rizal Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,12,31) , name: "New Year's Eve", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
 
 #Institutional Adjustment
 
@@ -142,17 +160,22 @@ InstitutionalAdjustment.create( institution_employee: myPhilhealth, start_range:
 InstitutionalAdjustment.create( institution_employee: myPagibig, start_range: 0.00, end_range: 99999999999.99, employer_contribution: 100.00, employee_contribution:  100.00 , period_of_time: "MONTH")
 
 # Branches
-Branch.create(name: "GRECO Warehouse")
-Branch.create(name: "BIOFIN")
-Branch.create(name: "GREEN TERRAIN")
-Branch.create(name: "North Sea Cainta")
-Branch.create(name: "Ampid Diesel Trading")
-Branch.create(name: "Generic")
+Branch.create(name: 'GRECO Warehouse')
+Branch.create(name: 'BIOFIN')
+Branch.create(name: 'GREEN TERRAIN')
+Branch.create(name: 'North Sea Cainta')
+Branch.create(name: 'Ampid Diesel Trading')
+Branch.create(name: 'Generic')
 
 #Constants
-Constant.create( name: "human_resources.minimum_wage", constant: "362.50", description: "Minimum Wage")
-Constant.create( name: "human_resources.preferred_rest_day", constant: "SUNDAY", description: "Preferred Rest Day" )
-Constant.create( name: "human_resources.default_duration_of_contract_days", constant: "366", description: "Default Duration of Contract (Days)" )
+Constant.create( constant_type: 'human_resources.minimum_wage', value: '362.50', name: 'Minimum Wage', remark: Faker::Lorem.sentence)
+Constant.create( constant_type: 'human_resources.preferred_rest_day', value: 'SUNDAY', name: 'Preferred Rest Day', remark: Faker::Lorem.sentence )
+Constant.create( constant_type: 'human_resources.contract_days', value: '366', name: 'Default Duration of Contract (Days)', remark: Faker::Lorem.sentence )
+Constant.create( constant_type: 'human_resources.time_start', value: '08:00', name: 'Usual time Start for Employee', remark: Faker::Lorem.sentence )
+Constant.create( constant_type: 'human_resources.time_end', value: '17:00', name: 'Usual time End for Employee', remark: Faker::Lorem.sentence )
+Constant.create( constant_type: 'human_resources.night_shift_differential_start', value: '22:00', name: 'Start of Night Shift Differential', remark: Faker::Lorem.sentence )
+Constant.create( constant_type: 'human_resources.night_shift_differential_end', value: '05:00', name: 'End of Night Shift Differential', remark: Faker::Lorem.sentence )
+Constant.create( constant_type: 'human_resources.night_shift_differential_multiplier', value: '0.1', name: 'Multiplier for NSD', remark: Faker::Lorem.sentence )
 
 #Departments
 hr = Department.new(label: "Human Resources", description: "no description")
@@ -191,8 +214,9 @@ end
 numberOfActors = 20
 numberOfActors.times do |i|
   #Actor
-  myActor = Actor.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true), logo: 'barack_obama.jpg')
-  myActor.save
+  myActor = Actor.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true), logo: 'default.jpg')
+  myActor[:logo] = 'default.jpg'
+  myActor.save!
 
   # ACCESS
   if (randomBoolean())
@@ -218,6 +242,12 @@ numberOfActors.times do |i|
     myAccess.hashlink = generateRandomString
     myAccess.verification = randomBoolean
     myAccess.save
+
+    permission = Permission.new
+    permission.access = access
+    permission.can = ['access_control','assess_vale','human_resources'].sample
+    permission.remark =  Faker::Lorem.sentence
+    permission.save!
 
     #ContactDetail
     myContactDetail = ContactDetail.create( actor: myActor)
@@ -347,11 +377,9 @@ numberOfActors.times do |i|
       end
     end
 
-    randomNumberofBaseRates = rand(10..30)
-    randomNumberofBaseRates.times do |i|
-
+    # Base Rate
+    rand(1..5).times do |i|
       periodOfTime = ["DAY", "WEEK", "HOUR", "MONTH"].sample
-
       if( periodOfTime == "DAY" )
         amountOfMoney = randomMoney(267.32,600.05)
       elsif( periodOfTime == "WEEK" )
@@ -361,8 +389,16 @@ numberOfActors.times do |i|
       elsif( periodOfTime == "MONTH" )
         amountOfMoney = randomMoney(15000.99,25000.05)
       end
-
-      myBaseRate = BaseRate.new(remark: Faker::Lorem.sentence(4) ,amount: amountOfMoney, period_of_time: periodOfTime, employee: myEmployee, start_of_effectivity: Faker::Time.between(Time.now, Time.now - 300.days, :all), end_of_effectivity: Faker::Time.between(Time.now + 300.days, Time.now, :all), signed_type: ["ADDITION", "DEDUCTION"].sample )
+      signed_type = -> { [false,true].sample }
+      myBaseRate = BaseRate.new(remark: Faker::Lorem.sentence(4),
+                                amount: amountOfMoney,
+                                period_of_time: periodOfTime,
+                                employee: myEmployee,
+                                start_of_effectivity: Faker::Time.between(Time.now, Time.now - 300.days, :all),
+                                end_of_effectivity: Faker::Time.between(Time.now + 300.days, Time.now, :all),
+                                signed_type: signed_type.call,
+                                rate_type: ['base','COLA','CTPA','SEA','other'].sample
+      )
       myBaseRate.save
     end
 

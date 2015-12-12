@@ -2,7 +2,6 @@ class HumanResourcesController < ApplicationController
   include ApplicationHelper
 
   layout "application_loggedin"
-  skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
 
   def index
     render 'human_resources/index'
@@ -52,6 +51,15 @@ class HumanResourcesController < ApplicationController
     end
   end
 
+  def delete_employee
+    @employees = Employee.all()
+    employee = Employee.find(params[:employee_id])
+    deleteEmployeeName = employee.actor.name
+    employee.destroy
+    flash[:deleteEmployeeNotice] = 'Employee ' + deleteEmployeeName + ' was successfully deleted.'
+    redirect_to 'human_resources/employee_accounts_management/index'
+  end
+
   # ================== Rest Days ================== #
 
   def rest_days
@@ -59,7 +67,6 @@ class HumanResourcesController < ApplicationController
     order_orientation = aggregated_search_queries(params[:order_orientation], 'rest_days', "order_orientation", "DESC")
     current_limit = aggregated_search_queries(params[:current_limit], 'rest_days', "current_limit","10")
     search_field = aggregated_search_queries(params[:search_field], 'rest_days', "search_field","")
-
     begin
       @rest_days = Restday
                        .includes(employee: [:actor])
@@ -76,7 +83,6 @@ class HumanResourcesController < ApplicationController
   # ================== Regular Work Periods ================== #
 
   def regular_work_periods
-
     order_parameter = aggregated_search_queries(params[:order_parameter], 'regular_work_periods', "order_parameter" ,"regular_work_periods.created_at")
     order_orientation = aggregated_search_queries(params[:order_orientation], 'regular_work_periods', "order_orientation", "DESC")
     current_limit = aggregated_search_queries(params[:current_limit], 'regular_work_periods', "current_limit","10")
@@ -91,7 +97,6 @@ class HumanResourcesController < ApplicationController
     rescue
       flash[:general_flash_notification] = "Error has Occured"
     end
-
     render 'human_resources/compensation_benefits/regular_work_periods'
   end
 
@@ -124,12 +129,97 @@ class HumanResourcesController < ApplicationController
 
   # ================== Base Rates ================== #
 
+  def base_rates
+    order_parameter = aggregated_search_queries(params[:order_parameter], 'base_rates', 'order_parameter' ,'base_rates.created_at')
+    order_orientation = aggregated_search_queries(params[:order_orientation], 'base_rates', 'order_orientation', 'DESC')
+    current_limit = aggregated_search_queries(params[:current_limit], 'base_rates', 'current_limit','10')
+    search_field = aggregated_search_queries(params[:search_field], 'base_rates', 'search_field','')
+    begin
+      @base_rates = BaseRate.includes(employee: [:actor])
+                              .joins(employee: [:actor])
+                              .where("actors.name LIKE ? OR base_rates.id LIKE ? OR base_rates.signed_type LIKE ? OR base_rates.signed_type LIKE ? OR base_rates.amount LIKE ? OR base_rates.period_of_time LIKE ? OR base_rates.remark LIKE ? OR base_rates.start_of_effectivity LIKE ? OR base_rates.end_of_effectivity LIKE ? OR base_rates.created_at LIKE ? OR base_rates.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" )
+                              .order(order_parameter + ' ' + order_orientation)
+      @base_rates = Kaminari.paginate_array(@base_rates).page(params[:page]).per(current_limit)
+    rescue
+      flash[:general_flash_notification] = "Error has Occured"
+    end
+    render 'human_resources/compensation_benefits/base_rates'
+  end
+
   def search_suggestions_base_rates
     baseRates = BaseRate.includes(employee: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + baseRates.uniq.to_s + "}" # default format for plugin
     respond_to do |format|
       format.all { render :text => direct}
     end
+  end
+
+  # ================== Constants ================== #
+
+  def constants
+    order_parameter = aggregated_search_queries(params[:order_parameter], 'constants', 'order_parameter' ,'constants.created_at')
+    order_orientation = aggregated_search_queries(params[:order_orientation], 'constants', 'order_orientation', 'DESC')
+    current_limit = aggregated_search_queries(params[:current_limit], 'constants', 'current_limit','10')
+    search_field = aggregated_search_queries(params[:search_field], 'constants', 'search_field','')
+    begin
+      @constants = Constant
+      .where("constants.id LIKE ? OR constants.value LIKE ? OR constants.name LIKE ? OR constants.constant_type LIKE ? OR constants.remark LIKE ? OR constants.created_at LIKE ? OR constants.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%")
+      .order(order_parameter + ' ' + order_orientation)
+      @constants = Kaminari.paginate_array(@constants).page(params[:page]).per(current_limit)
+    rescue
+      flash[:general_flash_notification] = "Error has Occured"
+    end
+    render 'human_resources/settings/constants'
+  end
+
+  # ================== Holiday ================== #
+
+  def holidays
+    order_parameter = aggregated_search_queries(params[:order_parameter], 'holidays', 'order_parameter' ,'constants.created_at')
+    order_orientation = aggregated_search_queries(params[:order_orientation], 'holidays', 'order_orientation', 'DESC')
+    current_limit = aggregated_search_queries(params[:current_limit], 'holidays', 'current_limit','10')
+    search_field = aggregated_search_queries(params[:search_field], 'holidays', 'search_field','')
+    begin
+      @holidays = Holiday
+      .where("constants.id LIKE ? OR constants.value LIKE ? OR constants.name LIKE ? OR constants.constant_type LIKE ? OR constants.remark LIKE ? OR constants.created_at LIKE ? OR constants.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%")
+      .order(order_parameter + ' ' + order_orientation)
+      @holidays = Kaminari.paginate_array(@holidays).page(params[:page]).per(current_limit)
+    rescue
+      flash[:general_flash_notification] = "Error has Occured"
+    end
+    render 'human_resources/settings/constants'
+  end
+
+  # ================== Duty Statuses ================== #
+
+  def duty_statuses
+    order_parameter = aggregated_search_queries(params[:order_parameter], 'duty_statuses', 'order_parameter' ,'duty_statuses.created_at')
+    order_orientation = aggregated_search_queries(params[:order_orientation], 'duty_statuses', 'order_orientation', 'DESC')
+    current_limit = aggregated_search_queries(params[:current_limit], 'duty_statuses', 'current_limit','10')
+    search_field = aggregated_search_queries(params[:search_field], 'duty_statuses', 'search_field','')
+    begin
+      @duty_statuses = DutyStatus.includes(employee: [:actor])
+      .joins(employee: [:actor])
+      .where("duty_statuses.id LIKE ? OR duty_statuses.remark LIKE ? OR duty_statuses.active LIKE ? OR actors.name LIKE ? OR duty_statuses.created_at LIKE ? OR duty_statuses.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%")
+      .order(order_parameter + ' ' + order_orientation)
+      @duty_statuses = Kaminari.paginate_array(@duty_statuses).page(params[:page]).per(current_limit)
+    rescue
+      flash[:general_flash_notification] = "Error has Occured"
+    end
+    render 'human_resources/employee_accounts_management/duty_statuses'
+  end
+
+  def search_suggestions_employees_with_id
+    employees = Employee.includes(:actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck('actors.name', 'id')
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + employees.to_s + "}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
+  def duty_status_form
+    @employees = Employee.includes(:actor).joins(:actor)
+    render 'human_resources/employee_accounts_management/duty_status_form'
   end
 
   # ================== Search Suggestion Queries ================== #
@@ -166,17 +256,6 @@ class HumanResourcesController < ApplicationController
       format.all { render :text => direct}
     end
   end
-
-  # ================== Delete methods / PURGE ================== #
-
-  def delete_employee
-    employee = Employee.find(params[:employee_id])
-    employee.destroy
-    flash[:general_flash_notification] = "Employee Deleted"
-    redirect_to action: "employee_accounts_management"
-  end
-
-
 
   # ================== END ================== #
 
@@ -264,9 +343,6 @@ class HumanResourcesController < ApplicationController
 
   end
 
-
-
-
   def employee_accounts_data
 
   end
@@ -276,8 +352,6 @@ class HumanResourcesController < ApplicationController
     # @duties = Duty.where( employee_id: params[:employee][:employee_id] )
     render 'human_resources/employee_accounts_management/employee_account_history'
   end
-
-
 
   def attendance
     render 'human_resources/attendance/index'
@@ -294,12 +368,6 @@ class HumanResourcesController < ApplicationController
   def settings
     @constants = Constant.where( 'name ILIKE ?', "%human_resources%" )
     render 'human_resources/settings/index'
-  end
-
-  def holidays
-    @holidays = Holiday.all()
-    @holiday_types = HolidayType.all()
-    render 'human_resources/settings/holidays'
   end
 
   def institutional_adjustments
@@ -382,17 +450,7 @@ class HumanResourcesController < ApplicationController
 
   end
 
-  def delete_employee
-    @employees = Employee.all()
-    employee = Employee.find(params[:employee_id])
-    deleteEmployeeName = employee.actor.name
-    employee.destroy
-    flash[:deleteEmployeeNotice] = 'Employee ' + deleteEmployeeName + ' was successfully deleted.'
 
-    reset_search_employees
-    # render 'human_resources/employee_accounts_management/index'
-
-  end
 
   def register_employee
     actor = Actor.new(actor_params)

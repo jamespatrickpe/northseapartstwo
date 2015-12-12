@@ -6,6 +6,7 @@ class Access < ActiveRecord::Base
 
   has_secure_password
   belongs_to :actor, autosave: true
+  has_many :permissions
 
 
   validates_presence_of :username

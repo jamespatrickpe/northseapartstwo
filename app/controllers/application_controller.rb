@@ -55,6 +55,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def check_employee_name_exists
+    employee_name = params[:employee_select_field]
+    result = Employee.includes(:actor).joins(:actor).where("actors.name = ?","#{employee_name}").exists?
+    respond_to do |format|
+      format.json { render json: {:"exists" => result}.to_json }
+      format.html
+    end
+  end
+
   def check_username_exists
     username_exists = Access.exists?(username: params[:access][:username])
     respond_to do |format|

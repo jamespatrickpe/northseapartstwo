@@ -115,4 +115,3 @@ window.Parsley.addAsyncValidator('validate-email', function (xhr)
         return false;
     }
 }, '/application/check_email_exists');
-

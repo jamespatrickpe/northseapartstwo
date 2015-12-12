@@ -120,14 +120,36 @@ span.subheader {
   padding : 16px;
 }
 
-/************************************************************************* FORMS*/
+/*************************************** FORMS ***********************************/
 
-/*
-Unsure of what this is
-form div.row {
-  margin : 16px 0;
+form.create_form > *
+{
+  width: auto;
 }
-*/
 
-/************************************************************************* CUSTOM PARSLEY STYLES*/
+.selectize-input > input[type='text']
+{
+  height: auto;
+}
 
+.employee_summary_display
+{
+  border-left-style: solid;
+  border-left-width: 2px;
+  border-left-color: #999999;
+}
+
+.employee_summary_picture
+{
+  float: left;
+  width: 50%;
+  overflow-x: hidden;
+}
+
+.employee_summary_description
+{
+  float: left;
+  padding-left: 10px;
+  width: 50%;
+  overflow-wrap: break-word;
+}

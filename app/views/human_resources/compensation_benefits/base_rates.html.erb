@@ -1,0 +1,100 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Base Rates </div>
+  <div class='subdescription'> Rates for an Employee through a Period in Time  </div>
+  <hr>
+  <%= generic_table_search('base_rates_search_input', 'base_rates',' Search Base Rates' , '/human_resources/search_suggestions_base_rates', 'base_rates') %>
+
+  <% table_orientation = shift_table_orientation %>
+  <% begin %>
+      <table class='generic_table' id='lump_adjustments_table'>
+        <thead>
+        <tr>
+          <th>
+            Base Rates ID
+            <%= generic_table_theadlink('base_rates','base_rates.id', table_orientation) %>
+          </th>
+          <th>
+            Employee
+            <%= generic_table_theadlink('base_rates','actors.name', table_orientation) %>
+          </th>
+          <th>
+            Signed Type
+            <%= generic_table_theadlink('base_rates','base_rates.signed_type', table_orientation) %>
+          </th>
+          <th>
+            Type
+            <%= generic_table_theadlink('base_rates','base_rates.rate_type', table_orientation) %>
+          </th>
+          <th>
+            Amount
+            <%= generic_table_theadlink('base_rates','base_rates.amount', table_orientation) %>
+          </th>
+          <th>
+            Period of Time
+            <%= generic_table_theadlink('base_rates','base_rates.period_of_time', table_orientation) %>
+          </th>
+          <th>
+            Remark
+            <%= generic_table_theadlink('base_rates','base_rates.remark', table_orientation) %>
+          </th>
+          <th>
+            Start of Effectivity
+            <%= generic_table_theadlink('base_rates','base_rates.start_of_effectivity', table_orientation) %>
+          </th>
+          <th>
+            End of Effectivity
+            <%= generic_table_theadlink('base_rates','base_rates.end_of_effectivity', table_orientation) %>
+          </th>
+          <th>
+            Date Created
+            <%= generic_table_theadlink('base_rates','base_rates.created_at', table_orientation) %>
+          </th>
+          <th>
+            Last Updated
+            <%= generic_table_theadlink('base_rates','base_rates.updated_at', table_orientation) %>
+          </th>
+          <th class="actions" align="center">&nbsp;</th>
+        </tr>
+        </thead>
+        <% if @base_rates.empty? == true %>
+            <% raise exception %>
+        <% else %>
+            <tbody>
+            <% @base_rates.each do |base_rate| %>
+                <tr>
+                  <td><%= base_rate.id %></td>
+                  <td><%= link_to( base_rate.employee.actor.name ,{:action => 'employee_profile', :employee_id => base_rate.employee.id} ) %></td>
+                  <td>
+                    <%=
+                        if(base_rate.signed_type)
+                          "ADDITIONAL"
+                        else
+                          "SUBSTRACTIONAL"
+                        end
+                    %>
+                  </td>
+                  <td><%= base_rate.rate_type %> </td>
+                  <td><%= base_rate.amount %> </td>
+                  <td><%= base_rate.period_of_time %> </td>
+                  <td><%= base_rate.remark %> </td>
+                  <td><%= base_rate.start_of_effectivity %> </td>
+                  <td><%= base_rate.end_of_effectivity %> </td>
+                  <td><%= base_rate.created_at %></td>
+                  <td><%= base_rate.updated_at %></td>
+                  <td class="actions">
+                    <%= link_to( "&#9998;".html_safe ,{:action => 'edit_base_rate', :base_rate_id => base_rate.id}, class: 'action_button', tooltip: 'Edit') %>
+                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_base_rate', :base_rate_id => base_rate.id}, class: 'action_button', tooltip: 'Delete') %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+        <% end %>
+      </table>
+  <% rescue %>
+      <script>
+          html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
+          $(".generic_table").replaceWith(html)
+      </script>
+  <% end %>
+  <%= generic_table_footer('new_base_rate','/human_resources/base_rates',@base_rates) %>
+</section>

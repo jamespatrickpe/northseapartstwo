@@ -10,6 +10,6 @@ class Employee < ActiveRecord::Base
 
 
   validates_presence_of :actor
-  # validates_presence_of :branch
+  validates_presence_of :branch
 
 end
