@@ -209,6 +209,20 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/employee_accounts_management/duty_statuses'
   end
 
+  def search_suggestions_employees_with_id
+    employees = Employee.includes(:actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + employees.to_s + "}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
+
+  def duty_status_form
+    @employees = Employee.includes(:actor).joins(:actor)
+    render 'human_resources/employee_accounts_management/duty_status_form'
+  end
+
   # ================== Search Suggestion Queries ================== #
 
   def search_suggestions_employee_attendances_history

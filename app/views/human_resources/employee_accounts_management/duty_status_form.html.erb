@@ -1,0 +1,54 @@
+<section class='small-10 columns' xmlns="http://www.w3.org/1999/html">
+  <div class='mainheader'> Duty Status Form </div>
+  <div class='subdescription'> Set the Status of an Employee </div>
+  <hr>
+
+  <div class='small-3 columns'>
+  <%= form_tag( {action: :process_duty_status}, multipart: true, class: 'create_form', id: "new_duty_status_form", :"data-parsley-validate" => "" ) do %>
+      <%= select_tag( "employee_select_field",
+                        options_from_collection_for_select(@employees, "employees.id", "actors.name"),
+                        options = {id: 'new_duty_status_employee',
+                                   class: 'employee_select_field',
+                                   placeholder: 'Employee Name',
+                                   :"data-parsley-trigger" => "keyup",
+                                   :"data-parsley-minlength"=>"3" ,
+                                   :"data-parsley-maxlength"=>"64",
+                                   :"data-parsley-remote" => "" ,
+                                   :"data-parsley-remote-options" => "{ 'type': 'POST', 'dataType': 'json'}",
+                                   :"data-parsley-remote-validator" => "validate-select_employee"
+                        }) %>
+
+    <select id="new_duty_status_active" name="new_duty_status_active" required="required">
+      <option value='1'>ACTIVE</option>
+      <option value='0'>INACTIVE</option>
+    </select>
+
+    <%= text_area_tag( "remark_add_field",
+                        value=nil,
+                        options = {id: 'new_duty_status_remark',
+                                   class: 'remark_add_field',
+                                   placeholder: 'remark',
+                                   :"data-parsley-trigger" => "keyup",
+                                   :"data-parsley-minlength"=>"3" ,
+                                   :"data-parsley-maxlength"=>"256"
+                        }) %>
+    <input type="submit" class="button" value="submit" />
+  <% end %>
+  </div>
+
+  <div class='small-9 columns'>
+    dfasdfsdakjf;asldkfj <br>
+    dfasdfsdakjf;asldkfj <br>
+    dfasdfsdakjf;asldkfj <br>
+    dfasdfsdakjf;asldkfj <br>
+    dfasdfsdakjf;asldkfj <br>
+    dfasdfsdakjf;asldkfj <br>
+  </div>
+</section>
+
+<script type="text/javascript">
+    $('.employee_select_field').autocomplete({
+        serviceUrl: 'search_suggestions_employees',
+        minChars: 3
+    });
+</script>

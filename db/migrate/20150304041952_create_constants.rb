@@ -6,7 +6,7 @@ class CreateConstants < ActiveRecord::Migration
       t.string :value, :limit => 64
       t.string :name, :limit => 256
       t.string :constant_type, :limit => 64
-      t.string :remark, :limit => 64
+      t.string :remark, :limit => 256
 
       t.timestamps
     end

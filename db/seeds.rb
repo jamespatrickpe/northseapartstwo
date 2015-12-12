@@ -11,7 +11,7 @@ include ApplicationHelper
 #  ----------------------------------------------------------------------------------- OFFICIAL STARTER DATA ------------------------------------------------------------------------
 
 #Administrator
-myActor = Actor.create(name: 'James Patrick Pe', description: 'Administrator')
+myActor = Actor.create(name: 'James Patrick Pe', description: 'Administrator', logo: 'default.jpg')
 myActor.save!
 
 access = Access.new
@@ -175,6 +175,7 @@ Constant.create( constant_type: 'human_resources.time_start', value: '08:00', na
 Constant.create( constant_type: 'human_resources.time_end', value: '17:00', name: 'Usual time End for Employee', remark: Faker::Lorem.sentence )
 Constant.create( constant_type: 'human_resources.night_shift_differential_start', value: '22:00', name: 'Start of Night Shift Differential', remark: Faker::Lorem.sentence )
 Constant.create( constant_type: 'human_resources.night_shift_differential_end', value: '05:00', name: 'End of Night Shift Differential', remark: Faker::Lorem.sentence )
+Constant.create( constant_type: 'human_resources.night_shift_differential_multiplier', value: '0.1', name: 'Multiplier for NSD', remark: Faker::Lorem.sentence )
 
 #Departments
 hr = Department.new(label: "Human Resources", description: "no description")
@@ -213,8 +214,9 @@ end
 numberOfActors = 20
 numberOfActors.times do |i|
   #Actor
-  myActor = Actor.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true), logo: 'barack_obama.jpg')
-  myActor.save
+  myActor = Actor.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true), logo: 'default.jpg')
+  myActor[:logo] = 'default.jpg'
+  myActor.save!
 
   # ACCESS
   if (randomBoolean())
@@ -375,11 +377,9 @@ numberOfActors.times do |i|
       end
     end
 
-    randomNumberofBaseRates = rand(1..5)
-    randomNumberofBaseRates.times do |i|
-
+    # Base Rate
+    rand(1..5).times do |i|
       periodOfTime = ["DAY", "WEEK", "HOUR", "MONTH"].sample
-
       if( periodOfTime == "DAY" )
         amountOfMoney = randomMoney(267.32,600.05)
       elsif( periodOfTime == "WEEK" )
@@ -389,7 +389,6 @@ numberOfActors.times do |i|
       elsif( periodOfTime == "MONTH" )
         amountOfMoney = randomMoney(15000.99,25000.05)
       end
-
       signed_type = -> { [false,true].sample }
       myBaseRate = BaseRate.new(remark: Faker::Lorem.sentence(4),
                                 amount: amountOfMoney,
@@ -397,7 +396,9 @@ numberOfActors.times do |i|
                                 employee: myEmployee,
                                 start_of_effectivity: Faker::Time.between(Time.now, Time.now - 300.days, :all),
                                 end_of_effectivity: Faker::Time.between(Time.now + 300.days, Time.now, :all),
-                                signed_type: signed_type.call)
+                                signed_type: signed_type.call,
+                                rate_type: ['base','COLA','CTPA','SEA','other'].sample
+      )
       myBaseRate.save
     end
 
