@@ -40,6 +40,7 @@ class HumanResourcesController < ApplicationController
   end
 
   def employee_registration
+    @branches = Branch.all()
     render 'human_resources/employee_accounts_management/employee_registration'
   end
 
@@ -352,6 +353,7 @@ class HumanResourcesController < ApplicationController
   def employee_profile
     @employee = Employee.find(params[:employee_id])
     @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
+    @branch = Branch.find(@employee.branch_id)
     @duties = DutyStatus.where(employee_id: nil)
 
     @currentDuty = DutyStatus.find_by_employee_id(params[:employee_id])
@@ -448,9 +450,8 @@ class HumanResourcesController < ApplicationController
 
   def edit_employee_page
 
-    puts params[:employee_id]
-    puts params[:actor_id]
-
+    # get all necessary employee details
+    @branches = Branch.all()
     @employee = Employee.find(params[:employee_id])
     @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
     @actorReference = Actor.find(params[:actor_id])
@@ -468,6 +469,9 @@ class HumanResourcesController < ApplicationController
     # the actual update method passing the parameters set from the pagee
     @biodatum.update_attributes(biodata_params)
     @employee.update_attributes(employee_params)
+
+    branch =  Branch.find(params[:branches_dd])
+    @employee.branch_id = branch.id
 
     # find the existing actor
     actor = Actor.find(params[:actor_id])
@@ -491,13 +495,14 @@ class HumanResourcesController < ApplicationController
 
   end
 
-
-
   def register_employee
     actor = Actor.new(actor_params)
     @employee = Employee.new
     @biodata = Biodatum.new(biodata_params)
+    @branches = Branch.all()
+    branch =  Branch.find(params[:branches_dd])
     @employee.actor = actor
+    @employee.branch_id = branch.id
     @biodata.actor = actor
     @biodata.save!
     @employee.save!
