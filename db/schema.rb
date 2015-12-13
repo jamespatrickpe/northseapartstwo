@@ -13,8 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20151211011431) do
 
-  create_table "accesses", id: false, force: :cascade do |t|
-    t.string   "id",              limit: 36,                  null: false
+  create_table "accesses", force: :cascade do |t|
     t.string   "actor_id",        limit: 36
     t.string   "username",        limit: 64
     t.string   "password_digest", limit: 512
@@ -27,16 +26,14 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at"
   end
 
-  create_table "actor_connectors", id: false, force: :cascade do |t|
-    t.string   "id",                limit: 36, null: false
+  create_table "actor_connectors", force: :cascade do |t|
     t.string   "relationship",      limit: 64
     t.string   "relationship_type", limit: 64
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "actors", id: false, force: :cascade do |t|
-    t.string   "id",          limit: 36,  null: false
+  create_table "actors", force: :cascade do |t|
     t.string   "name",        limit: 64
     t.string   "description", limit: 256
     t.string   "logo",        limit: 512
@@ -44,8 +41,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at"
   end
 
-  create_table "addresses", id: false, force: :cascade do |t|
-    t.string   "id",                limit: 36,                            null: false
+  create_table "addresses", force: :cascade do |t|
     t.string   "contact_detail_id", limit: 36
     t.string   "description",       limit: 256
     t.decimal  "longitude",                     precision: 18, scale: 12
@@ -54,8 +50,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at"
   end
 
-  create_table "advanced_payments_to_employees", id: false, force: :cascade do |t|
-    t.string   "id",              limit: 36,                                               null: false
+  create_table "advanced_payments_to_employees", force: :cascade do |t|
     t.string   "employee_id",     limit: 36
     t.decimal  "amount",                     precision: 16, scale: 2
     t.string   "description",     limit: 64
@@ -66,18 +61,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at",                                                               null: false
   end
 
-  create_table "allowable_sets", id: false, force: :cascade do |t|
-    t.string   "id",             limit: 36, null: false
-    t.string   "access_id",      limit: 36
-    t.string   "security_level", limit: 64
-    t.string   "controller",     limit: 64
-    t.string   "action",         limit: 64
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "attendances", id: false, force: :cascade do |t|
-    t.string   "id",          limit: 36,  null: false
+  create_table "attendances", force: :cascade do |t|
     t.string   "employee_id", limit: 36
     t.datetime "timein"
     t.datetime "timeout"
@@ -86,8 +70,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at",              null: false
   end
 
-  create_table "base_rates", id: false, force: :cascade do |t|
-    t.string   "id",                   limit: 36,                                             null: false
+  create_table "base_rates", force: :cascade do |t|
     t.string   "employee_id",          limit: 36
     t.boolean  "signed_type",          limit: 1
     t.decimal  "amount",                           precision: 16, scale: 2
@@ -100,8 +83,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at",                                                                  null: false
   end
 
-  create_table "biodata", id: false, force: :cascade do |t|
-    t.string   "id",                      limit: 36,  null: false
+  create_table "biodata", force: :cascade do |t|
     t.string   "actor_id",                limit: 36
     t.string   "education",               limit: 256
     t.string   "career_experience",       limit: 256
@@ -122,15 +104,13 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at"
   end
 
-  create_table "branches", id: false, force: :cascade do |t|
-    t.string   "id",         limit: 36, null: false
+  create_table "branches", force: :cascade do |t|
     t.string   "name",       limit: 36
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
   end
 
-  create_table "constants", id: false, force: :cascade do |t|
-    t.string   "id",            limit: 36,  null: false
+  create_table "constants", force: :cascade do |t|
     t.string   "value",         limit: 64
     t.string   "name",          limit: 256
     t.string   "constant_type", limit: 64
@@ -139,23 +119,20 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at"
   end
 
-  create_table "contact_details", id: false, force: :cascade do |t|
-    t.string   "id",         limit: 36, null: false
+  create_table "contact_details", force: :cascade do |t|
     t.string   "actor_id",   limit: 36
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "departments", id: false, force: :cascade do |t|
-    t.string   "id",          limit: 36,  null: false
+  create_table "departments", force: :cascade do |t|
     t.string   "description", limit: 256
     t.string   "label",       limit: 64
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
   end
 
-  create_table "digitals", id: false, force: :cascade do |t|
-    t.string   "id",                limit: 36,  null: false
+  create_table "digitals", force: :cascade do |t|
     t.string   "contact_detail_id", limit: 36
     t.string   "url",               limit: 512
     t.string   "description",       limit: 256
@@ -172,16 +149,14 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at",                              null: false
   end
 
-  create_table "employees", id: false, force: :cascade do |t|
-    t.string   "id",         limit: 36, null: false
+  create_table "employees", force: :cascade do |t|
     t.string   "actor_id",   limit: 36
     t.string   "branch_id",  limit: 36
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
   end
 
-  create_table "file_sets", id: false, force: :cascade do |t|
-    t.string   "id",                limit: 36,  null: false
+  create_table "file_sets", force: :cascade do |t|
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.string   "path",              limit: 512
@@ -190,15 +165,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.string   "rel_file_set_type", limit: 255
   end
 
-  create_table "guitars", force: :cascade do |t|
-    t.string   "manufacturer", limit: 255
-    t.string   "model",        limit: 255
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-  end
-
-  create_table "holiday_types", id: false, force: :cascade do |t|
-    t.string   "id",                           limit: 36,                                          null: false
+  create_table "holiday_types", force: :cascade do |t|
     t.string   "type_name",                    limit: 64
     t.decimal  "rate_multiplier",                         precision: 16, scale: 2
     t.decimal  "overtime_multiplier",                     precision: 16, scale: 2
@@ -209,8 +176,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at",                                                                       null: false
   end
 
-  create_table "holidays", id: false, force: :cascade do |t|
-    t.string   "id",                     limit: 36,  null: false
+  create_table "holidays", force: :cascade do |t|
     t.string   "holiday_type_id",        limit: 36
     t.string   "description",            limit: 256
     t.string   "name",                   limit: 64
@@ -220,16 +186,14 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at",                         null: false
   end
 
-  create_table "institution_employees", id: false, force: :cascade do |t|
-    t.string   "id",                limit: 36, null: false
+  create_table "institution_employees", force: :cascade do |t|
     t.string   "compensation_type", limit: 64
     t.string   "actor_id",          limit: 36
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
   end
 
-  create_table "institutional_adjustment_sets", id: false, force: :cascade do |t|
-    t.string  "id",                          limit: 36,                 null: false
+  create_table "institutional_adjustment_sets", force: :cascade do |t|
     t.string  "employee_id",                 limit: 36
     t.string  "institution_employee_id",     limit: 36
     t.string  "institutional_adjustment_id", limit: 36
@@ -237,8 +201,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.boolean "activated",                   limit: 1,   default: true
   end
 
-  create_table "institutional_adjustments", id: false, force: :cascade do |t|
-    t.string   "id",                      limit: 36,                           null: false
+  create_table "institutional_adjustments", force: :cascade do |t|
     t.string   "institution_employee_id", limit: 36
     t.decimal  "start_range",                         precision: 16, scale: 2
     t.decimal  "end_range",                           precision: 16, scale: 2
@@ -250,8 +213,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at",                                                   null: false
   end
 
-  create_table "link_sets", id: false, force: :cascade do |t|
-    t.string   "id",                limit: 36,  null: false
+  create_table "link_sets", force: :cascade do |t|
     t.string   "label",             limit: 64
     t.string   "url",               limit: 512
     t.string   "rel_link_set_id",   limit: 36
@@ -260,8 +222,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at",                    null: false
   end
 
-  create_table "lump_adjustments", id: false, force: :cascade do |t|
-    t.string   "id",                  limit: 36,                                          null: false
+  create_table "lump_adjustments", force: :cascade do |t|
     t.decimal  "amount",                          precision: 16, scale: 2
     t.boolean  "signed_type",         limit: 1,                            default: true
     t.string   "remark",              limit: 256
@@ -271,8 +232,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at",                                                              null: false
   end
 
-  create_table "performance_appraisals", id: false, force: :cascade do |t|
-    t.string   "id",          limit: 36,                           null: false
+  create_table "performance_appraisals", force: :cascade do |t|
     t.string   "employee_id", limit: 36
     t.string   "description", limit: 256
     t.string   "category",    limit: 64
@@ -290,8 +250,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at",             null: false
   end
 
-  create_table "positions", id: false, force: :cascade do |t|
-    t.string   "id",            limit: 36,  null: false
+  create_table "positions", force: :cascade do |t|
     t.string   "description",   limit: 256
     t.string   "label",         limit: 64
     t.string   "department_id", limit: 36
@@ -299,8 +258,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at",                null: false
   end
 
-  create_table "rate_adjustments", id: false, force: :cascade do |t|
-    t.string   "id",           limit: 36,                                          null: false
+  create_table "rate_adjustments", force: :cascade do |t|
     t.string   "employee_id",  limit: 36
     t.decimal  "amount",                   precision: 16, scale: 2
     t.string   "signed_type",  limit: 64
@@ -311,8 +269,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at",                                                       null: false
   end
 
-  create_table "regular_work_periods", id: false, force: :cascade do |t|
-    t.string   "id",          limit: 36,                                  null: false
+  create_table "regular_work_periods", force: :cascade do |t|
     t.time     "start_time",              default: '2000-01-01 08:00:00'
     t.time     "end_time",                default: '2000-01-01 17:00:00'
     t.string   "remark",      limit: 256
@@ -321,16 +278,14 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at",                                              null: false
   end
 
-  create_table "repaid_payments_from_employees", id: false, force: :cascade do |t|
-    t.string   "id",                               limit: 36,                          null: false
+  create_table "repaid_payments_from_employees", force: :cascade do |t|
     t.decimal  "amount",                                      precision: 16, scale: 2
     t.string   "advanced_payments_to_employee_id", limit: 36
     t.datetime "created_at",                                                           null: false
     t.datetime "updated_at",                                                           null: false
   end
 
-  create_table "restdays", id: false, force: :cascade do |t|
-    t.string   "id",          limit: 36,                    null: false
+  create_table "restdays", force: :cascade do |t|
     t.string   "day",         limit: 64, default: "SUNDAY"
     t.string   "employee_id", limit: 36
     t.datetime "created_at",                                null: false
@@ -347,8 +302,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at",             null: false
   end
 
-  create_table "telephones", id: false, force: :cascade do |t|
-    t.string   "id",                limit: 36,  null: false
+  create_table "telephones", force: :cascade do |t|
     t.string   "contact_detail_id", limit: 36
     t.string   "digits",            limit: 64
     t.string   "description",       limit: 256

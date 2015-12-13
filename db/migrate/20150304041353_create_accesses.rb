@@ -1,7 +1,6 @@
 class CreateAccesses < ActiveRecord::Migration
   def change
     create_table :accesses, :id => false  do |t|
-
       t.string :id, limit: 36, primary: true, null: false
       t.string :actor_id, limit: 36, :required => true
       t.string :username, :limit => 64
@@ -13,5 +12,6 @@ class CreateAccesses < ActiveRecord::Migration
       t.boolean :remember_me, :default => 0
       t.timestamps
     end
+    execute "ALTER TABLE accesses ADD PRIMARY KEY (id);"
   end
 end

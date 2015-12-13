@@ -42,10 +42,6 @@ permission.can = 'access_control'
 permission.remark =  Faker::Lorem.sentence
 permission.save!
 
-allowableSet = AllowableSet.create( security_level: 'ADMIN', controller: 'ALL', action: 'ALL')
-allowableSet.access = access
-allowableSet.save!
-
 #HUMAN RESOURCES
 
 #Holiday
@@ -443,7 +439,7 @@ numberOfActors.times do |i|
 
     # For Rate Adjustment
     if(randomBoolean() && randomBoolean() )
-      RateAdjustment.create( amount: randomMoney(100.10,1000.00), signed_type: ["ADDITION", "DEDUCTION"].sample, employee: myEmployee, description: Faker::Lorem.words(4), rate_of_time: ["DAY", "WEEK", "MONTH"].sample, activated: randomBoolean())
+      RateAdjustment.create( amount: randomMoney(100.10,1000.00), signed_type: ["ADDITION", "DEDUCTION"].sample, employee: myEmployee, description: Faker::Lorem.sentence, rate_of_time: ["DAY", "WEEK", "MONTH"].sample, activated: randomBoolean())
     end
 
     # For AdvancedPaymentsToEmployee
