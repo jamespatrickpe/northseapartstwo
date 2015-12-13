@@ -153,6 +153,25 @@
 
     </div>
 
+    <div class="profile-section employee-profile-detail">
+
+      <span class="subheader"> <i class="fa fa-lg fa-user"></i> Branch Details </span>
+
+      <div class="employee-profile-detail-content">
+
+        <section>
+          <span>ID </span>
+          <span><%= @branch.id %></span>
+        </section>
+
+        <section>
+          <span>Branch Name </span>
+          <span><%= @branch.name %></span>
+        </section>
+
+      </div>
+    </div>
+
     <% if !@employeeDuties.nil? %>
 
         <div class="profile-section employee-profile-detail">
