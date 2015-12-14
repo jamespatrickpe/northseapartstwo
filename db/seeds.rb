@@ -210,8 +210,9 @@ end
 numberOfActors = 100
 numberOfActors.times do |i|
   #Actor
-  myActor = Actor.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true), logo: 'default.jpg')
-  myActor[:logo] = 'default.jpg'
+  current_logo = ['default_1.jpg','default_2.jpg','default_3.jpg','default_4.jpg','default_5.jpg','default_6.jpg','default_7.jpg','default_8.jpg','default_9.jpg','default_10.jpg','default.jpg'].sample
+  myActor = Actor.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true))
+  myActor[:logo] = current_logo
   myActor.save!
 
   # ACCESS

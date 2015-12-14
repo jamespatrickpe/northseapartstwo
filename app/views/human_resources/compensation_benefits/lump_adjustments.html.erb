@@ -67,8 +67,8 @@
                   <td><%= lump_adjustment.created_at %></td>
                   <td><%= lump_adjustment.updated_at %></td>
                   <td class="actions">
-                    <%= link_to( "&#9998;".html_safe ,{:action => 'edit_lump_adjustment_period', :lump_adjustment_id => lump_adjustment.id}, class: 'action_button', tooltip: 'Edit') %>
-                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_lump_adjustment_period', :lump_adjustment_id => lump_adjustment.id}, class: 'action_button delete_item', tooltip: 'Delete') %>
+                    <%= link_to( "&#9998;".html_safe ,{:action => 'edit_lump_adjustment', :lump_adjustment_id => lump_adjustment.id}, class: 'action_button', tooltip: 'Edit') %>
+                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_lump_adjustment', :lump_adjustment_id => lump_adjustment.id}, class: 'action_button delete_item', tooltip: 'Delete') %>
                   </td>
                 </tr>
             <% end %>

@@ -19,20 +19,19 @@
       <option value='1'>ACTIVE</option>
       <option value='0'>INACTIVE</option>
     </select>
-
     <%= text_area_tag("duty_status[remark]", content = "", options = {class: "remark_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :placeholder => 'Remarks'}) %>
-
     <input type="submit" class="small button" value="submit" />
   <% end %>
   </div>
-
   <div class='small-8 columns employee_summary_display'>
-    <img class='employee_summary_picture' src="/../../../app/uploads/entity_avatars/default.jpg"/>
+    <img class='employee_summary_picture' id='employee_summary_picture' src='/entity_avatars/default.jpg'/>
     <div class='employee_summary_description'>
-      adlfkj;askfjalkj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;s;sdjf facts and shit <br>
-      adlfkj;askfjalkj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;s;sdjf facts and shit <br>
-      adlfkj;askfjkj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;sal;sdjf facts and shit <br>
-      adlfkj;askfjakj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;skj;askfjal;sl;sdjf facts and shit <br>
+      <h2 id="summary_display_actor_name"></h2>
+      <hr>
+      <ul>
+      <li> <strong>Employee ID:</strong> </strong><div id="summary_display_employee_id"></div> </li>
+      <li> <strong>Description:</strong> <div id="summary_display_actor_description"></div> </li>
+      </ul>
     </div>
   </div>
 </section>
@@ -45,5 +44,14 @@
 
     $('.employee_select_field').change(function(){
         employee_ID = $(this).val()
+        $.post( "/application/employee_overview_profile", { employee_ID: employee_ID})
+                .done(function( employee_overview_profile ) {
+                    var obj = jQuery.parseJSON( employee_overview_profile );
+                    $('#summary_display_actor_name').html( obj['actor']['name'] );
+                    $('#summary_display_employee_id').html( obj['id'] );
+                    $('#summary_display_actor_description').html( obj['actor']['description'] );
+                    $('#employee_summary_picture').attr( 'src', obj['actor']['logo']['url'] );
+
+                });
     });
 </script>

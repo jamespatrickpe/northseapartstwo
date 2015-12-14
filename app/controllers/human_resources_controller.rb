@@ -87,9 +87,7 @@ class HumanResourcesController < ApplicationController
     restDayOwner = Employee.find(restDayToBeDeleted.employee_id)
     restDayToBeDeleted.destroy
     flash[:general_flash_notification] = 'Rest day ' + restDayToBeDeleted.day + ' for employee ' + restDayOwner.actor.name + ' has been deleted.'
-
     rest_days
-
   end
 
   # ================== Regular Work Periods ================== #
@@ -141,7 +139,7 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/compensation_benefits/lump_adjustments'
   end
 
-  def delete_lump_adjustment_period
+  def delete_lump_adjustment
     lumpAdjustmentToBeDeleted = LumpAdjustment.find(params[:lump_adjustment_id])
     lumpAdjustmentOwner = Employee.find(lumpAdjustmentToBeDeleted.employee_id)
     lumpAdjustmentToBeDeleted.destroy

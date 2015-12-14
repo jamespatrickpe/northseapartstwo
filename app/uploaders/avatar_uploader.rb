@@ -13,11 +13,11 @@ class AvatarUploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    "uploads/entity_avatars/"
+    "entity_avatars/"
   end
 
   def cache_dir
-    "uploads/entity_avatars/tmp/"
+    "entity_avatars/tmp"
   end
 
   def default_url
