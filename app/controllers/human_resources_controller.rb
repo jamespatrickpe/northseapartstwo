@@ -56,10 +56,10 @@ class HumanResourcesController < ApplicationController
     @employees = Employee.all()
     employee = Employee.find(params[:employee_id])
     deleteEmployeeName = employee.actor.name
+    flash[:general_flash_notification] = 'Employee ' + deleteEmployeeName + ' was successfully deleted.'
+    flash[:general_flash_notification_type] = 'affirmative'
     employee.destroy
-    flash[:general_flash_notification] = 'Employee ' + deleteEmployeeName + 'was successfully deleted.'
-    employee_accounts_management
-
+    redirect_to :action => "employee_accounts_management"
   end
 
   # ================== Rest Days ================== #
@@ -85,9 +85,11 @@ class HumanResourcesController < ApplicationController
   def delete_rest_day
     restDayToBeDeleted = Restday.find(params[:rest_day_id])
     restDayOwner = Employee.find(restDayToBeDeleted.employee_id)
+    flash[:general_flash_notification_type] = 'Rest day ' + restDayToBeDeleted.day + ' for employee ' + restDayOwner.actor.name + ' has been deleted.'
+    flash[:general_flash_notification_type] = 'affirmative'
     restDayToBeDeleted.destroy
     flash[:general_flash_notification] = 'Rest day ' + restDayToBeDeleted.day + ' for employee ' + restDayOwner.actor.name + ' has been deleted.'
-    rest_days
+    redirect_to :action => "rest_days"
   end
 
   # ================== Regular Work Periods ================== #
@@ -113,11 +115,10 @@ class HumanResourcesController < ApplicationController
   def delete_regular_work_period
     regularWorkPeriodToBeDeleted = RegularWorkPeriod.find(params[:regular_work_period_id])
     regularWorkPeriodOwner = Employee.find(regularWorkPeriodToBeDeleted.employee_id)
-    regularWorkPeriodToBeDeleted.destroy
     flash[:general_flash_notification] = 'Regular work period with Time IN : ' + regularWorkPeriodToBeDeleted.start_time.to_s + ' and Time OUT : ' + regularWorkPeriodToBeDeleted.end_time.to_s + ' for employee ' + regularWorkPeriodOwner.actor.name + ' has been successfully deleted.'
-
-    regular_work_periods
-
+    flash[:general_flash_notification_type] = 'affirmative'
+    regularWorkPeriodToBeDeleted.destroy
+    redirect_to :action => "regular_work_periods"
   end
 
   # ================== Lump Sum Adjustments ================== #
@@ -142,10 +143,11 @@ class HumanResourcesController < ApplicationController
   def delete_lump_adjustment
     lumpAdjustmentToBeDeleted = LumpAdjustment.find(params[:lump_adjustment_id])
     lumpAdjustmentOwner = Employee.find(lumpAdjustmentToBeDeleted.employee_id)
-    lumpAdjustmentToBeDeleted.destroy
     flash[:general_flash_notification] = 'Lump adjustment for employee ' + lumpAdjustmentOwner.actor.name + ' has been deleted.'
+    flash[:general_flash_notification_type] = 'affirmative'
+    lumpAdjustmentToBeDeleted.destroy
 
-    lump_adjustments
+    redirect_to :action => "lump_adjustments"
 
   end
 
@@ -179,10 +181,11 @@ class HumanResourcesController < ApplicationController
   def delete_base_rate
     baseRateToBeDeleted = BaseRate.find(params[:base_rate_id])
     baseRateOwner = Employee.find(baseRateToBeDeleted.employee_id)
-    baseRateToBeDeleted.destroy
     flash[:general_flash_notification] = baseRateOwner.actor.name + '\'s base rate of ' + baseRateToBeDeleted.amount.to_s + ' per ' + baseRateToBeDeleted.period_of_time + ' has been successfully deleted.'
+    flash[:general_flash_notification_type] = 'affirmative'
+    baseRateToBeDeleted.destroy
 
-    base_rates
+    redirect_to :action => "base_rates"
 
   end
 
@@ -312,6 +315,7 @@ class HumanResourcesController < ApplicationController
 
     if @assignedDuty.save!
       flash[:general_flash_notification] = 'Duty ' + @assignedDuty.remark + ' was successfully assigned to ' + @employee.actor.name
+      flash[:general_flash_notification_type] = 'affirmative'
       render 'human_resources/employee_accounts_management/employee_profile'
     else
       flash[:general_flash_notification] = 'Failed to assign Duty:' + @assignedDuty.remark + ' to ' + @assignedDuty.actor.name
@@ -340,6 +344,7 @@ class HumanResourcesController < ApplicationController
 
     if newduty.save!
       flash[:general_flash_notification] = 'Duty ' + newduty.remark + ' was successfully created'
+      flash[:general_flash_notification_type] = 'affirmative'
       redirect_to :action => "duty_create"
     else
       flash[:general_flash_notification] = 'Failed to create Duty:' + newduty.remark
@@ -376,6 +381,7 @@ class HumanResourcesController < ApplicationController
 
     if @assignedDuty.save!
       flash[:general_flash_notification] = 'Duty was successfully assigned to ' + @employee.actor.name
+      flash[:general_flash_notification_type] = 'affirmative'
       employee_profile
     else
       flash[:general_flash_notification] = 'Failed to assign Duty to ' + @assignedDuty.actor.name
