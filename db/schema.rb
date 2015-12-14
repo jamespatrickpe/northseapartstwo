@@ -140,8 +140,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at"
   end
 
-  create_table "duty_statuses", id: false, force: :cascade do |t|
-    t.string   "id",          limit: 36,                  null: false
+  create_table "duty_statuses", force: :cascade do |t|
     t.string   "remark",      limit: 256
     t.boolean  "active",      limit: 1,   default: false
     t.string   "employee_id", limit: 36
@@ -241,8 +240,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at",                                       null: false
   end
 
-  create_table "permissions", id: false, force: :cascade do |t|
-    t.string   "id",         limit: 36,  null: false
+  create_table "permissions", force: :cascade do |t|
     t.string   "access_id",  limit: 36
     t.string   "can",        limit: 256
     t.string   "remark",     limit: 256
@@ -290,16 +288,6 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.string   "employee_id", limit: 36
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
-  end
-
-  create_table "roles", id: false, force: :cascade do |t|
-    t.string   "id",         limit: 36,  null: false
-    t.string   "access_id",  limit: 36
-    t.string   "label",      limit: 256
-    t.string   "level",      limit: 256
-    t.string   "remark",     limit: 256
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
   end
 
   create_table "telephones", force: :cascade do |t|
