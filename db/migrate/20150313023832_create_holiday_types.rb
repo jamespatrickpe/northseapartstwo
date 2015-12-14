@@ -10,5 +10,6 @@ class CreateHolidayTypes < ActiveRecord::Migration
       t.boolean :no_work_pay, :default => false
       t.timestamps null: false
     end
+    execute "ALTER TABLE holiday_types ADD PRIMARY KEY (id);"
   end
 end

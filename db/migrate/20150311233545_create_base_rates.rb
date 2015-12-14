@@ -10,8 +10,8 @@ class CreateBaseRates < ActiveRecord::Migration
       t.string :remark, :limit => 256
       t.datetime :start_of_effectivity, :required => true
       t.datetime :end_of_effectivity
-
       t.timestamps null: false
     end
+    execute "ALTER TABLE base_rates ADD PRIMARY KEY (id);"
   end
 end

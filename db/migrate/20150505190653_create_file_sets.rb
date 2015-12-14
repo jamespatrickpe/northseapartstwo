@@ -7,8 +7,7 @@ class CreateFileSets < ActiveRecord::Migration
       t.string :description, :limit => 256
       t.string :rel_file_set_id, limit: 36, required: true
       t.string :rel_file_set_type, required: true
-      #t.references :rel_file_set, polymorphic: true
-
     end
+    execute "ALTER TABLE file_sets ADD PRIMARY KEY (id);"
   end
 end

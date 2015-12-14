@@ -8,8 +8,8 @@ class CreateRegularWorkPeriods < ActiveRecord::Migration
       t.time :end_time,:required => true, default: '17:00:00'
       t.string :remark, limit: 256
       t.string :employee_id, limit: 36,:required => true
-
       t.timestamps null: false
     end
+    execute "ALTER TABLE regular_work_periods ADD PRIMARY KEY (id);"
   end
 end

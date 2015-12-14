@@ -5,8 +5,8 @@ class CreatePositions < ActiveRecord::Migration
       t.string :description, :limit => 256
       t.string :label, :limit => 64
       t.string :department_id,limit: 36, :required => true
-
       t.timestamps null: false
     end
+    execute "ALTER TABLE positions ADD PRIMARY KEY (id);"
   end
 end

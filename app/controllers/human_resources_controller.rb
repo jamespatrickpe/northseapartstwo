@@ -59,9 +59,7 @@ class HumanResourcesController < ApplicationController
     flash[:general_flash_notification] = 'Employee ' + deleteEmployeeName + ' was successfully deleted.'
     flash[:general_flash_notification_type] = 'affirmative'
     employee.destroy
-
     redirect_to :action => "employee_accounts_management"
-
   end
 
   # ================== Rest Days ================== #
@@ -90,10 +88,8 @@ class HumanResourcesController < ApplicationController
     flash[:general_flash_notification_type] = 'Rest day ' + restDayToBeDeleted.day + ' for employee ' + restDayOwner.actor.name + ' has been deleted.'
     flash[:general_flash_notification_type] = 'affirmative'
     restDayToBeDeleted.destroy
-
+    flash[:general_flash_notification] = 'Rest day ' + restDayToBeDeleted.day + ' for employee ' + restDayOwner.actor.name + ' has been deleted.'
     redirect_to :action => "rest_days"
-
-
   end
 
   # ================== Regular Work Periods ================== #
@@ -122,9 +118,7 @@ class HumanResourcesController < ApplicationController
     flash[:general_flash_notification] = 'Regular work period with Time IN : ' + regularWorkPeriodToBeDeleted.start_time.to_s + ' and Time OUT : ' + regularWorkPeriodToBeDeleted.end_time.to_s + ' for employee ' + regularWorkPeriodOwner.actor.name + ' has been successfully deleted.'
     flash[:general_flash_notification_type] = 'affirmative'
     regularWorkPeriodToBeDeleted.destroy
-
     redirect_to :action => "regular_work_periods"
-
   end
 
   # ================== Lump Sum Adjustments ================== #
@@ -146,7 +140,7 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/compensation_benefits/lump_adjustments'
   end
 
-  def delete_lump_adjustment_period
+  def delete_lump_adjustment
     lumpAdjustmentToBeDeleted = LumpAdjustment.find(params[:lump_adjustment_id])
     lumpAdjustmentOwner = Employee.find(lumpAdjustmentToBeDeleted.employee_id)
     flash[:general_flash_notification] = 'Lump adjustment for employee ' + lumpAdjustmentOwner.actor.name + ' has been deleted.'

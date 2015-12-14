@@ -4,7 +4,7 @@ class CreateBranches < ActiveRecord::Migration
       t.string :id, limit: 36, primary: true, null: false
       t.string :name, limit: 36,:required => true
       t.timestamps null: false
-
     end
+    execute "ALTER TABLE branches ADD PRIMARY KEY (id);"
   end
 end

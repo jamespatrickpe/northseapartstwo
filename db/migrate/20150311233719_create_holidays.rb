@@ -9,5 +9,6 @@ class CreateHolidays < ActiveRecord::Migration
       t.date :date_of_implementation, :required => true
       t.timestamps null: false
     end
+    execute "ALTER TABLE holidays ADD PRIMARY KEY (id);"
   end
 end
