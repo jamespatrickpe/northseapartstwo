@@ -187,6 +187,16 @@
             </div>
           </div>
 
+          <h5>Branch</h5>
+
+          <div class="row">
+            <div class="medium-8 columns">
+              <label>
+                <%= select_tag 'branches_dd', options_for_select(@branches.collect{ |b| [b.name, b.id] }) %>
+              </label>
+            </div>
+          </div>
+
           <div class="row">
             <div class="medium-8 columns">
               <%= submit_tag nil, :class => "button small" %>

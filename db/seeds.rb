@@ -207,7 +207,7 @@ numberOfPositions.times do |i|
 end
 
 #ENTITIES
-numberOfActors = 20
+numberOfActors = 100
 numberOfActors.times do |i|
   #Actor
   myActor = Actor.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true), logo: 'default.jpg')
