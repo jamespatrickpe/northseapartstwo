@@ -1,0 +1,76 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Attendances </div>
+  <div class='subdescription'> Period of Presence of an Employee  </div>
+
+  <%= link_to( "[ BACK TO LIST ]" ,{:action => 'attendances' }, :class => "action_button action-link-grey" ) %>
+
+  <hr>
+
+  <%= generic_table_search('attendances_search_input', 'attendances',' Search Attendances' , '/human_resources/search_suggestions_attendances', 'attendances') %>
+
+  <% table_orientation = shift_table_orientation %>
+  <% begin %>
+      <table class='generic_table' id='attendances_table'>
+        <thead>
+        <tr>
+          <th>
+            Attendance ID
+            <%= generic_table_theadlink('attendances','attendances.id', table_orientation) %>
+          </th>
+          <th>
+            Employee
+            <%= generic_table_theadlink('attendances','actors.name', table_orientation) %>
+          </th>
+          <th>
+            Time In
+            <%= generic_table_theadlink('attendances','attendances.timein', table_orientation) %>
+          </th>
+          <th>
+            Time Out
+            <%= generic_table_theadlink('attendances','attendances.timeout', table_orientation) %>
+          </th>
+          <th>
+            Remark
+            <%= generic_table_theadlink('attendances','attendances.remark', table_orientation) %>
+          </th>
+          <th>
+            Date Created
+            <%= generic_table_theadlink('attendances','attendances.created_at', table_orientation) %>
+          </th>
+          <th>
+            Last Updated
+            <%= generic_table_theadlink('attendances','attendances.updated_at', table_orientation) %>
+          </th>
+          <th class="actions" align="center">&nbsp;</th>
+        </tr>
+        </thead>
+        <% if @attendances.empty? == true %>
+            <% raise exception %>
+        <% else %>
+            <tbody>
+            <% @attendances.each do |attendance| %>
+                <tr>
+                  <td><%= attendance.id %></td>
+                  <td><%= link_to( attendance.employee.actor.name ,{:action => 'employee_profile', :employee_id => attendance.employee.id} ) %></td>
+                  <td><%= attendance.timein %> </td>
+                  <td><%= attendance.timeout %> </td>
+                  <td><%= attendance.remark %> </td>
+                  <td><%= attendance.created_at %></td>
+                  <td><%= attendance.updated_at %></td>
+                  <td class="actions">
+                    <%= link_to( "&#9998;".html_safe ,{:action => 'edit_attendance', :attendance_id => attendance.id}, class: 'action_button', tooltip: 'Edit') %>
+                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_attendance', :attendance_id => attendance.id}, class: 'action_button delete_item', tooltip: 'Delete') %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+        <% end %>
+      </table>
+  <% rescue => ex %>
+      <script>
+          html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
+          $(".generic_table").replaceWith(html)
+      </script>
+  <% end %>
+  <%= generic_table_footer('new_attendance','/human_resources/attendances',@attendances) %>
+</section>

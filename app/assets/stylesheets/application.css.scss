@@ -16,6 +16,8 @@
  *= require parsley_overrides
  *= require selectize
  *= require jquery.dataTables
+ *= require employee_quick_profile
+ *= require generic_form
  *= pagination
  *= topbar
  *= sidenavigation
@@ -130,26 +132,4 @@ form.create_form > *
 .selectize-input > input[type='text']
 {
   height: auto;
-}
-
-.employee_summary_display
-{
-  border-left-style: solid;
-  border-left-width: 2px;
-  border-left-color: #999999;
-}
-
-.employee_summary_picture
-{
-  float: left;
-  width: 25%;
-  overflow-x: hidden;
-}
-
-.employee_summary_description
-{
-  float: left;
-  padding-left: 10px;
-  width: 50%;
-  overflow-wrap: break-word;
 }

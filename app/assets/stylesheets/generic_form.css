@@ -1,0 +1,12 @@
+.generic_form
+{
+    font-size: 12px;
+}
+
+.current_edit_id
+{
+    background-color: #808080;
+    padding: 5px;
+    color: white;
+    width: auto;
+}

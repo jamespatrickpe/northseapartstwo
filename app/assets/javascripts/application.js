@@ -27,6 +27,7 @@
 //= require generic_table.js
 //= require foundation
 //= require jquery.qtip.min.js
+//= require employee_quick_profile.js
 //= //require turbolinks // CAUSES ERROR
 //= //require_tree .  // CAUSES ERROR
 

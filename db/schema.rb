@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.string   "employee_id", limit: 36
     t.datetime "timein"
     t.datetime "timeout"
-    t.string   "description", limit: 256
+    t.string   "remark",      limit: 256
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
   end
@@ -141,11 +141,12 @@ ActiveRecord::Schema.define(version: 20151211011431) do
   end
 
   create_table "duty_statuses", force: :cascade do |t|
-    t.string   "remark",      limit: 256
-    t.boolean  "active",      limit: 1,   default: false
-    t.string   "employee_id", limit: 36
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.string   "remark",              limit: 256
+    t.boolean  "active",              limit: 1,   default: false
+    t.string   "employee_id",         limit: 36
+    t.datetime "date_of_effectivity",             default: '2015-12-15 11:20:04'
+    t.datetime "created_at",                                                      null: false
+    t.datetime "updated_at",                                                      null: false
   end
 
   create_table "employees", force: :cascade do |t|

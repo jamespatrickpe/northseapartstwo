@@ -5,7 +5,7 @@ class CreateAttendances < ActiveRecord::Migration
       t.string :employee_id, limit: 36,:required => true
       t.datetime :timein
       t.datetime :timeout
-      t.string :description, :limit => 256
+      t.string :remark, :limit => 256
       t.timestamps null: false
     end
     execute "ALTER TABLE attendances ADD PRIMARY KEY (id);"

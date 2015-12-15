@@ -1,6 +1,6 @@
 <section class='small-10 columns'>
   <div class='mainheader'> Duty Statuses </div>
-  <div class='subdescription'> Status for the Duty of an Employee  </div>
+  <div class='subdescription'> The 'Status' of an Employee is 'ACTIVE' when he or she is on duty; 'INACTIVE' when not. Duty Status establishes the period of time Payroll of an employee is implemented.  </div>
   <hr>
   <%= generic_table_search( 'duty_statuses_search_input', 'duty_statuses',' Search Duty Status' , '/human_resources/search_suggestions_duty_statuses', 'duty_statuses') %>
   <% table_orientation = shift_table_orientation %>
@@ -22,6 +22,9 @@
           </th>
           <th>
             Remark <%= generic_table_theadlink('duty_statuses','duty_statuses.remark', table_orientation) %>
+          </th>
+          <th>
+            Date of Effectivity <%= generic_table_theadlink('duty_statuses','duty_statuses.date_of_effectivity', table_orientation) %>
           </th>
           <th>
             Date Created <%= generic_table_theadlink('duty_statuses','duty_statuses.created_at', table_orientation) %>
@@ -50,11 +53,12 @@
                     %>
                   </td>
                   <td><%= duty_status.remark %> </td>
+                  <td><%= duty_status.date_of_effectivity %> </td>
                   <td><%= duty_status.created_at %></td>
                   <td><%= duty_status.updated_at %></td>
                   <td class="actions">
-                    <%= link_to( "&#9998;".html_safe ,{:action => 'edit_duty_status_period', :duty_status_id => duty_status.id}, class: 'action_button', tooltip: 'Edit') %>
-                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_duty_status_period', :duty_status_id => duty_status.id}, class: 'action_button', tooltip: 'Delete') %>
+                    <%= link_to( "&#9998;".html_safe ,{:action => 'edit_duty_status', :duty_status_id => duty_status.id}, class: 'action_button', tooltip: 'Edit') %>
+                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_duty_status', :duty_status_id => duty_status.id}, class: 'action_button', tooltip: 'Delete') %>
                   </td>
                 </tr>
             <% end %>
