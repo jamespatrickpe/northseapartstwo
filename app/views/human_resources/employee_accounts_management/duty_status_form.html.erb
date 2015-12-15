@@ -1,18 +1,10 @@
 <%
-   # If an duty_status is passed; these transfer it to variables; if not, some default values.
-   if(@selected_duty_status.present?)
-     selected_duty_status_id = @selected_duty_status.id
-     selected_duty_status_employee_id = @selected_duty_status.employee_id
-     selected_duty_status_active = @selected_duty_status.active
-     selected_duty_status_date_of_effectivity = @selected_duty_status.date_of_effectivity
-     selected_duty_status_remark = @selected_duty_status.remark
-   else
-     selected_duty_status_id = ''
-     selected_duty_status_employee_id = ''
-     selected_duty_status_active = ''
-     selected_duty_status_date_of_effectivity = Time.now
-     selected_duty_status_remark = ''
-   end
+   # If there is no duty_status; transfer to these variables.
+   @selected_duty_status.id ||= ''
+   @selected_duty_status.employee_id ||= ''
+   @selected_duty_status.active ||= ''
+   @selected_duty_status.date_of_effectivity  ||= Time.now #Time.now because placeholder value wont accept nil or 'time in'
+   @selected_duty_status.remark ||= ''
 %>
 
 <section class='small-10 columns'>
@@ -20,11 +12,11 @@
   <div class='subdescription'> Set the Status of an Employee </div>
   <hr>
   <div class='small-6 columns generic_form'>
-  <% if selected_duty_status_id.present? %>
-        <span class="current_edit_id"> <%= 'Editing Duty Status ID: ' + selected_duty_status_id %> </span> <br><br> <!-- this is for the current Duty Status ID or OBJECT ID; not employee-->
+  <% if @selected_duty_status.id.present? %>
+        <span class="current_edit_id"> <%= 'Editing Duty Status ID: ' + @selected_duty_status.id %> </span> <br><br> <!-- this is for the current Duty Status ID or OBJECT ID; not employee-->
   <% end %>
   <%= form_tag( {action: :process_duty_status_form}, multipart: true, class: 'create_form', id: "new_duty_status_form", :"data-parsley-validate" => "" ) do %>
-    <%= hidden_field_tag('duty_status[id]', selected_duty_status_id ) %>
+    <%= hidden_field_tag('duty_status[id]', @selected_duty_status.id ) %>
     <select name='duty_status[employee_id]'
             id='new_duty_status_employee'
             class='employee_select_field'
@@ -32,7 +24,7 @@
       <!-- DO NOT CHANGE class 'employee_select_field'; this is for the employee_quick_profile thing; do change other attributes in the select field -->
       <option value="" disabled selected>Select Employee</option>
       <% @employees.each do |employee| %> <!-- This selects the current employee and marks the option 'selected' if found -->
-          <% if(  employee.id == selected_duty_status_employee_id ) %>
+          <% if employee.id == @selected_duty_status.employee_id %>
               <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
           <% else %>
               <option value=<%= employee.id %>><%= employee.actor.name %></option>
@@ -41,17 +33,17 @@
     </select>
         <!-- This selects the duty_status.active and marks the option 'selected' if found -->
     <select id="new_duty_status_active" name="duty_status[active]" required="required" style="width: 50%">
-      <% if(selected_duty_status_active == true) %>
+      <% if @selected_duty_status.active == true %>
           <option value='' disabled>Duty Status</option><option value='1' selected>ACTIVE</option><option value='0'>INACTIVE</option>
-      <% elsif(selected_duty_status_active == false) %>
+      <% elsif @selected_duty_status.active == false %>
           <option value='' disabled>Duty Status</option><option value='1'>ACTIVE</option><option value='0' selected>INACTIVE</option>
       <% else %>
           <option value='' disabled selected>Duty Status</option><option value='1'>ACTIVE</option><option value='0'>INACTIVE</option>
       <% end %>
     </select>
     <!-- input of type datetime-local do not have a placeholder so you have to write the label manually outside the input -->
-    <div>Date of Effectivity: <input type="datetime-local" required="required" name="duty_status[date_of_effectivity]" style="width: 50%" value= <%= selected_duty_status_date_of_effectivity.strftime('%FT%T') %> ></div> <!-- take note of time format! -->
-    <%= text_area_tag("duty_status[remark]", content = selected_duty_status_remark, options = {class: "remark_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :placeholder => 'Remarks' }) %>
+    <div>Date of Effectivity: <input type="datetime-local" required="required" name="duty_status[date_of_effectivity]" style="width: 50%" value= <%= @selected_duty_status.date_of_effectivity.strftime('%FT%T') %> ></div> <!-- take note of time format! -->
+    <%= text_area_tag("duty_status[remark]", content = @selected_duty_status.remark, options = {class: "remark_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :placeholder => 'Remarks' }) %>
     <input type="submit" class="small button" value="SUBMIT" />
     <% end %>
   </div>

@@ -1,18 +1,10 @@
 <%
-   # If an attendance is passed; these transfer it to variables; if not, some default values.
-   if(@selected_attendance.present?)
-     selected_attendance_id = @selected_attendance.id
-     selected_attendance_employee_id = @selected_attendance.employee_id
-     selected_attendance_timein = @selected_attendance.timein
-     selected_attendance_timeout = @selected_attendance.timeout
-     selected_attendance_remark = @selected_attendance.remark
-   else
-     selected_attendance_id = ''
-     selected_attendance_employee_id = ''
-     selected_attendance_timein = Time.now
-     selected_attendance_timeout = Time.now
-     selected_attendance_remark = ''
-   end
+   # If there is no attendance; transfer to these variables.
+   @selected_attendance.id ||= ''
+   @selected_attendance.employee_id ||= ''
+   @selected_attendance.timein ||= Time.now #Time.now because placeholder value wont accept nil or 'time in'
+   @selected_attendance.timeout ||= Time.now #Time.now because placeholder value wont accept nil or 'time in'
+   @selected_attendance.remark ||= ''
 %>
 
 <section class='small-10 columns'>
@@ -21,10 +13,10 @@
   <hr>
   <div class='small-6 columns generic_form'>
     <% if @selected_attendance.present? %>
-        <span class="current_edit_id"> <%= 'Editing Attendance ID: ' + selected_attendance_id %> </span> <br><br> <!-- this is for the current ATTENDANCE ID or OBJECT ID; not employee-->
+        <span class="current_edit_id"> <%= 'Editing Attendance ID: ' + @selected_attendance.id %> </span> <br><br> <!-- this is for the current ATTENDANCE ID or OBJECT ID; not employee-->
     <% end %>
-    <%= form_tag( {action: :process_duty_status_form}, multipart: true, class: 'create_form', id: "new_attendance_form", :"data-parsley-validate" => "" ) do %>
-        <%= hidden_field_tag('attendance[id]', @selected_attendance_id ) %> <!-- Hidden Field from ID -->
+    <%= form_tag( {action: :process_attendance_form}, multipart: true, class: 'create_form', id: "new_attendance_form", :"data-parsley-validate" => "" ) do %>
+        <%= hidden_field_tag('attendance[id]', @selected_attendance.id ) %> <!-- Hidden Field from ID -->
         <select name='attendance[employee_id]'
                 id='new_attendance_employee'
                 class='employee_select_field'
@@ -32,7 +24,7 @@
           <!-- DO NOT CHANGE class 'employee_select_field'; this is for the employee_quick_profile thing; do change other attributes in the select field -->
           <option value="" disabled selected>Select Employee</option>
           <% @employees.each do |employee| %> <!-- This selects the current employee and marks the option 'selected' if found -->
-              <% if(  employee.id == @selected_attendance_employee_id ) %>
+              <% if employee.id == @selected_attendance.employee_id %>
                   <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
               <% else %>
                   <option value=<%= employee.id %>><%= employee.actor.name %></option>
@@ -40,9 +32,9 @@
           <% end %>
         </select>
         <!-- input of type datetime-local do not have a placeholder so you have to write the label manually outside the input -->
-        <div>Time In: <input type="datetime-local" required="required" name="attendance[timein]" style="width: 50%" value= <%= selected_attendance_timein.strftime('%FT%T') %> ></div> <!-- take note of time format! -->
-        <div>Time Out: <input type="datetime-local" required="required" name="attendance[timeout]" style="width: 50%" value= <%= selected_attendance_timeout.strftime('%FT%T') %> ></div> <!-- take note of time format! -->
-        <%= text_area_tag("attendance[remark]", content = selected_attendance_remark, options = {class: "remark_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :placeholder => 'Remarks' }) %>
+        <div>Time In: <input type="datetime-local" required="required" name="attendance[timein]" style="width: 50%" value= <%= @selected_attendance.timein.strftime('%FT%T') %> ></div> <!-- take note of time format! -->
+        <div>Time Out: <input type="datetime-local" required="required" name="attendance[timeout]" style="width: 50%" value= <%= @selected_attendance.timeout.strftime('%FT%T') %> ></div> <!-- take note of time format! -->
+        <%= text_area_tag("attendance[remark]", content = @selected_attendance.remark, options = {class: "remark_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :placeholder => 'Remarks' }) %>
         <input type="submit" class="small button" value="SUBMIT" />
 
     <% end %>

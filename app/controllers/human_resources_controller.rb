@@ -93,6 +93,7 @@ class HumanResourcesController < ApplicationController
 
   def new_attendance
     initialize_employee_selection
+    @selected_attendance = Attendance.new
     render 'human_resources/attendance/attendance_form'
   end
 
@@ -100,6 +101,26 @@ class HumanResourcesController < ApplicationController
     initialize_employee_selection
     @selected_attendance = Attendance.find(params[:attendance_id])
     render 'human_resources/attendance/attendance_form'
+  end
+
+  def process_attendance_form
+    begin
+      if( params[:attendance][:id].present? )
+        myAttendance = Attendance.find(params[:attendance][:id])
+      else
+        myAttendance = Attendance.new()
+      end
+      myAttendance.employee_id = params[:attendance][:employee_id]
+      myAttendance.timein = params[:attendance][:timein]
+      myAttendance.timeout = params[:attendance][:timeout]
+      myAttendance.remark = params[:attendance][:remark]
+      myAttendance.save!
+      flash[:general_flash_notification] = 'Attendance Added'
+      flash[:general_flash_notification_type] = 'affirmative'
+    rescue => ex
+      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
+    end
+    redirect_to :action => 'attendances'
   end
 
   # ================== Rest Days ================== #
@@ -222,9 +243,7 @@ class HumanResourcesController < ApplicationController
     flash[:general_flash_notification] = baseRateOwner.actor.name + '\'s base rate of ' + baseRateToBeDeleted.amount.to_s + ' per ' + baseRateToBeDeleted.period_of_time + ' has been successfully deleted.'
     flash[:general_flash_notification_type] = 'affirmative'
     baseRateToBeDeleted.destroy
-
     redirect_to :action => "base_rates"
-
   end
 
   def search_suggestions_base_rates
@@ -300,6 +319,7 @@ class HumanResourcesController < ApplicationController
 
   def new_duty_status
     initialize_employee_selection
+    @selected_duty_status = DutyStatus.new
     render 'human_resources/employee_accounts_management/duty_status_form'
   end
 
