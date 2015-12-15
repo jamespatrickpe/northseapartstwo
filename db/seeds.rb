@@ -207,7 +207,7 @@ numberOfPositions.times do |i|
 end
 
 #ENTITIES
-numberOfActors = 100
+numberOfActors = 25
 numberOfActors.times do |i|
   #Actor
   current_logo = ['default_1.jpg','default_2.jpg','default_3.jpg','default_4.jpg','default_5.jpg','default_6.jpg','default_7.jpg','default_8.jpg','default_9.jpg','default_10.jpg','default.jpg'].sample
@@ -333,7 +333,7 @@ numberOfActors.times do |i|
       dutyStatus = DutyStatus.new(remark: Faker::Lorem.sentence, employee: myEmployee)
       active = -> { [false,true].sample }
       dutyStatus.active = active.call
-      dutyStatus.created_at = rand(720..72000).hours.ago
+      dutyStatus.date_of_effectivity = rand(720..72000).hours.ago
       dutyStatus.save!
     end
 
@@ -352,26 +352,24 @@ numberOfActors.times do |i|
       amountOfMoney = randomMoney(15000.99,25000.05)
     end
 
-    randomNumberOfAttendances = rand(0..30)
-    randomNumberOfAttendances.times do |i|
-      day = i.days.ago
-      timein = Faker::Time.between(day, Time.now, :morning)
-      timeout = Faker::Time.between(day, Time.now, :evening)
-
+    #Attendances
+    rand(0..360).times do |i|
+      myDate = Date.new( rand(2001..2016) , rand(1..12) , rand(1..28))
+      timein = DateTime.new( myDate.year, myDate.month, myDate.day, rand(0..12), rand(0..59), rand(0..59) )
+      timeout = DateTime.new( myDate.year, myDate.month, myDate.day, rand(12..23), rand(0..59), rand(0..59) )
+      remark = Faker::Lorem.sentence
       if randomBoolean() && randomBoolean() && randomBoolean() && randomBoolean()
         # SIMULATE OVERNIGHT
-        currentDay = i.days.ago
-        timein = Faker::Time.between(currentDay, Time.now, :all)
-        timeout = Faker::Time.between(currentDay+1.day, Time.now, :all)
-        myAttendance = Attendance.new(timein: timein, employee: myEmployee )
+        myAttendance = Attendance.new(timein: timein, employee: myEmployee, remark: remark )
         myAttendance.save
-        myAttendance = Attendance.new( timeout: timeout, employee: myEmployee )
+        myAttendance = Attendance.new(timeout: timeout+1.day, employee: myEmployee, remark: remark )
         myAttendance.save
       else
         # SIMULATE REGULAR ATTENDANCE
-        myAttendance = Attendance.new( timein: timein, timeout: timeout, employee: myEmployee )
+        myAttendance = Attendance.new(timein: timein, timeout: timeout, employee: myEmployee, remark: remark )
         myAttendance.save
       end
+
     end
 
     # Base Rate

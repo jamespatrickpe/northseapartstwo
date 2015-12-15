@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
   helper_method :error_messages_for, :shift_table_orientation
 
+  def initialize_employee_selection
+    @employees = Employee.includes(:actor).joins(:actor)
+  end
+
   def employee_overview_profile
     respond_to do |format|
       employee_overview_profile = Employee.find(params[:employee_ID]).to_json({ :include => :actor })

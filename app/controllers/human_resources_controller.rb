@@ -62,6 +62,67 @@ class HumanResourcesController < ApplicationController
     redirect_to :action => "employee_accounts_management"
   end
 
+  # ================== Attendances ================== #
+
+  def index
+  end
+
+  def attendances
+    order_parameter = aggregated_search_queries(params[:order_parameter], 'attendances', "order_parameter" ,"attendances.created_at")
+    order_orientation = aggregated_search_queries(params[:order_orientation], 'attendances', "order_orientation", "DESC")
+    current_limit = aggregated_search_queries(params[:current_limit], 'attendances', "current_limit","10")
+    search_field = aggregated_search_queries(params[:search_field], 'attendances', "search_field","")
+    begin
+      @attendances = Attendance
+      .includes(employee: [:actor])
+      .joins(employee: [:actor])
+      .where("actors.name LIKE ? OR attendances.id LIKE ? OR attendances.timein LIKE ? OR attendances.timeout LIKE ? OR attendances.remark LIKE ? OR attendances.updated_at LIKE ? OR attendances.created_at LIKE ?", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" )
+      .order(order_parameter + ' ' + order_orientation)
+      @attendances = Kaminari.paginate_array(@attendances).page(params[:page]).per(current_limit)
+    rescue => ex
+      flash[:general_flash_notification] = "Error has Occured"
+    end
+    render 'human_resources/attendance/attendances'
+  end
+
+  def branch_attendance_sheet
+  end
+
+  def employee_attendance_history
+  end
+
+  def new_attendance
+    initialize_employee_selection
+    @selected_attendance = Attendance.new
+    render 'human_resources/attendance/attendance_form'
+  end
+
+  def edit_attendance
+    initialize_employee_selection
+    @selected_attendance = Attendance.find(params[:attendance_id])
+    render 'human_resources/attendance/attendance_form'
+  end
+
+  def process_attendance_form
+    begin
+      if( params[:attendance][:id].present? )
+        myAttendance = Attendance.find(params[:attendance][:id])
+      else
+        myAttendance = Attendance.new()
+      end
+      myAttendance.employee_id = params[:attendance][:employee_id]
+      myAttendance.timein = params[:attendance][:timein]
+      myAttendance.timeout = params[:attendance][:timeout]
+      myAttendance.remark = params[:attendance][:remark]
+      myAttendance.save!
+      flash[:general_flash_notification] = 'Attendance Added'
+      flash[:general_flash_notification_type] = 'affirmative'
+    rescue => ex
+      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
+    end
+    redirect_to :action => 'attendances'
+  end
+
   # ================== Rest Days ================== #
 
   def rest_days
@@ -146,9 +207,7 @@ class HumanResourcesController < ApplicationController
     flash[:general_flash_notification] = 'Lump adjustment for employee ' + lumpAdjustmentOwner.actor.name + ' has been deleted.'
     flash[:general_flash_notification_type] = 'affirmative'
     lumpAdjustmentToBeDeleted.destroy
-
     redirect_to :action => "lump_adjustments"
-
   end
 
   def search_suggestions_lump_adjustments
@@ -184,9 +243,7 @@ class HumanResourcesController < ApplicationController
     flash[:general_flash_notification] = baseRateOwner.actor.name + '\'s base rate of ' + baseRateToBeDeleted.amount.to_s + ' per ' + baseRateToBeDeleted.period_of_time + ' has been successfully deleted.'
     flash[:general_flash_notification_type] = 'affirmative'
     baseRateToBeDeleted.destroy
-
     redirect_to :action => "base_rates"
-
   end
 
   def search_suggestions_base_rates
@@ -260,9 +317,36 @@ class HumanResourcesController < ApplicationController
     end
   end
 
-  def duty_status_form
-    @employees = Employee.includes(:actor).joins(:actor)
+  def new_duty_status
+    initialize_employee_selection
+    @selected_duty_status = DutyStatus.new
     render 'human_resources/employee_accounts_management/duty_status_form'
+  end
+
+  def edit_duty_status
+    initialize_employee_selection
+    @selected_duty_status = DutyStatus.find(params[:duty_status_id])
+    render 'human_resources/employee_accounts_management/duty_status_form'
+  end
+
+  def process_duty_status_form
+    begin
+      if( params[:duty_status][:id].present? )
+        myDutyStatus = DutyStatus.find(params[:duty_status][:id])
+      else
+        myDutyStatus = DutyStatus.new()
+      end
+      myDutyStatus.active = params[:duty_status][:active]
+      myDutyStatus.employee_id = params[:duty_status][:employee_id]
+      myDutyStatus.date_of_effectivity = params[:duty_status][:date_of_effectivity]
+      myDutyStatus.remark = params[:duty_status][:remark]
+      myDutyStatus.save!
+      flash[:general_flash_notification] = 'Duty Status Added'
+      flash[:general_flash_notification_type] = 'affirmative'
+    rescue => ex
+      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
+    end
+    redirect_to :action => 'duty_statuses'
   end
 
   # ================== Search Suggestion Queries ================== #
