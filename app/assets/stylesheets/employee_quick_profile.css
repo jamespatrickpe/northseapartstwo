@@ -1,0 +1,62 @@
+.employee_quick_actor_description
+{
+    padding-left: 10px;
+    margin-bottom: 5px;
+}
+
+.employee_quick_employee_id
+{
+    padding-left: 10px;
+    margin-bottom: 5px;
+}
+
+.employee_quick_profile_data
+{
+    padding-left: 10px; float: left; font-size: 12px;
+}
+
+.employee_quick_actor_name
+{
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.employee_quick_profile
+{
+    display: none;
+}
+
+.employee_quick_actor_link
+{
+
+    background-color: #721314;
+    color:white;
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.employee_quick_actor_link:hover
+{
+    color:white;
+    background-color: #8B141F;
+}
+
+.employee_quick_picture
+{
+    float: left;
+    width: 25%;
+    overflow-x: hidden;
+    border-color: #999999;
+    border-style: solid;
+    border-width: 1px;
+    padding: 5px;
+}
+
+.employee_quick_profile_data
+{
+    /*float: left;*/
+    /*padding-left: 10px;*/
+    /*width: 50%;*/
+    /*overflow-wrap: break-word;*/
+}

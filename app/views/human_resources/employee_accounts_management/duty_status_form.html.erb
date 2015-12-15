@@ -2,11 +2,9 @@
   <div class='mainheader'> Duty Status Form </div>
   <div class='subdescription'> Set the Status of an Employee </div>
   <hr>
-
-  <div class='small-4 columns'>
-  <%= form_tag( {action: :process_duty_status}, multipart: true, class: 'create_form', id: "new_duty_status_form", :"data-parsley-validate" => "" ) do %>
-
-    <select name='employee_select_field'
+  <div class='small-6 columns'>
+  <%= form_tag( {action: :process_duty_status_form}, multipart: true, class: 'create_form', id: "new_duty_status_form", :"data-parsley-validate" => "" ) do %>
+    <select name='duty_status[employee_id]'
             id='new_duty_status_employee'
             class='employee_select_field'>
       <option value="" disabled selected>Select Employee</option>
@@ -14,44 +12,15 @@
           <option value=<%= employee.id %>><%= employee.actor.name %></option>
       <% end %>
     </select>
-
-    <select id="new_duty_status_active" name="new_duty_status_active" required="required" >
+    <select id="new_duty_status_active" name="duty_status[actived]" required="required" style="width: 50%">
+      <option value='' disabled selected>Duty Status</option>
       <option value='1'>ACTIVE</option>
       <option value='0'>INACTIVE</option>
     </select>
+    <div>Date of Effectivity: <input type="datetime-local" name="duty_status[date_of_effectivity]" style="width: 50%"></div>
     <%= text_area_tag("duty_status[remark]", content = "", options = {class: "remark_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :placeholder => 'Remarks'}) %>
     <input type="submit" class="small button" value="submit" />
-  <% end %>
+    <% end %>
   </div>
-  <div class='small-8 columns employee_summary_display'>
-    <img class='employee_summary_picture' id='employee_summary_picture' src='/entity_avatars/default.jpg'/>
-    <div class='employee_summary_description'>
-      <h2 id="summary_display_actor_name"></h2>
-      <hr>
-      <ul>
-      <li> <strong>Employee ID:</strong> </strong><div id="summary_display_employee_id"></div> </li>
-      <li> <strong>Description:</strong> <div id="summary_display_actor_description"></div> </li>
-      </ul>
-    </div>
-  </div>
+  <%= renderCorePartial('employee_quick_profile') %>
 </section>
-
-<script type="text/javascript">
-
-    $('.employee_select_field').selectize({
-        sortField: 'text'
-    });
-
-    $('.employee_select_field').change(function(){
-        employee_ID = $(this).val()
-        $.post( "/application/employee_overview_profile", { employee_ID: employee_ID})
-                .done(function( employee_overview_profile ) {
-                    var obj = jQuery.parseJSON( employee_overview_profile );
-                    $('#summary_display_actor_name').html( obj['actor']['name'] );
-                    $('#summary_display_employee_id').html( obj['id'] );
-                    $('#summary_display_actor_description').html( obj['actor']['description'] );
-                    $('#employee_summary_picture').attr( 'src', obj['actor']['logo']['url'] );
-
-                });
-    });
-</script>

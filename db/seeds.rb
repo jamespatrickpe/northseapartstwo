@@ -333,7 +333,7 @@ numberOfActors.times do |i|
       dutyStatus = DutyStatus.new(remark: Faker::Lorem.sentence, employee: myEmployee)
       active = -> { [false,true].sample }
       dutyStatus.active = active.call
-      dutyStatus.created_at = rand(720..72000).hours.ago
+      dutyStatus.date_of_effectivity = rand(720..72000).hours.ago
       dutyStatus.save!
     end
 

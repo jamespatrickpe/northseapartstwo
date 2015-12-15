@@ -146,9 +146,7 @@ class HumanResourcesController < ApplicationController
     flash[:general_flash_notification] = 'Lump adjustment for employee ' + lumpAdjustmentOwner.actor.name + ' has been deleted.'
     flash[:general_flash_notification_type] = 'affirmative'
     lumpAdjustmentToBeDeleted.destroy
-
     redirect_to :action => "lump_adjustments"
-
   end
 
   def search_suggestions_lump_adjustments
@@ -260,9 +258,22 @@ class HumanResourcesController < ApplicationController
     end
   end
 
-  def duty_status_form
+  def new_duty_status
     @employees = Employee.includes(:actor).joins(:actor)
     render 'human_resources/employee_accounts_management/duty_status_form'
+  end
+
+  def edit_duty_status
+    @employees = Employee.includes(:actor).joins(:actor)
+    @selected_employee = Employee.find(params[:employee_id])
+    render 'human_resources/employee_accounts_management/duty_status_form'
+  end
+
+  def process_duty_status_form
+
+    flash[:general_flash_notification] = 'Duty Status Added'
+    flash[:general_flash_notification_type] = 'affirmative'
+    redirect_to :action => 'duty_statuses'
   end
 
   # ================== Search Suggestion Queries ================== #
