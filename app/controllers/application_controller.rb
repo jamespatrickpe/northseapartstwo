@@ -59,6 +59,8 @@ class ApplicationController < ActionController::Base
     if( Access.exists?( session[:access_id]) )
       @myAccess = Access.find(session[:access_id])
       @myActor = @myAccess.actor
+      @myAccess.last_login = Time.now
+      @myAccess.save!
       @sign_in_affirmative = true
     else
       flash[:general_flash_notification] = "Invalid Login Credentials"

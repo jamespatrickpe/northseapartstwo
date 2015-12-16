@@ -1,0 +1,17 @@
+.employee_profile_field
+{
+    font-size: 12px;
+    font-family: arial;
+    padding: 5px;
+}
+
+.employee_profile_title
+{
+    border-bottom-color: #000000;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    font-size: 14px;
+    margin-bottom: 3px;
+    font-weight: 500;
+    padding: 5px;
+}

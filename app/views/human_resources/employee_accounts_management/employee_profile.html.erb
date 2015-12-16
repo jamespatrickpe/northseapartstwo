@@ -1,242 +1,105 @@
-<style>
-
-    .subheader {
-        border-bottom : 1px solid #cccccc;
-        display: block;
-        padding : 4px;
-        font-size : 1.2em;
-    }
-
-    .duty-entry {
-        border-left : 4px solid maroon;
-        display : inline-block;
-        margin : 8px 4px;
-        padding : 8px;
-        width : 49%
-    }
-
-    .duty-entry section {
-        display : inline-block;
-        text-align: left;
-    }
-
-    /*.duty-entry section {*/
-    /*border : 1px solid maroon;*/
-    /*}*/
-
-</style>
-
-<section class="small-10 columns">
-
-  <div class="content">
-
-    <div id="profile-header" class="mainheader">
-      <span><%= @employee.actor.name %></span>
-      <span id="profile-link-container">
-        <!--<a href="/human_resources/employee_accounts_management/employee_account_history"><i class="fa fa-lg fa-list"></i></a>-->
-      </span>
-    </div>
-
-    <%= link_to( "[ BACK TO LIST ]" ,{:action => 'employee_accounts_management' }, :class => "action_button action-link-grey" ) %>
-    &nbsp;
-    <%= link_to( "[ DELETE ]" ,{:action => 'delete_employee', :employee_id => @employee.id}, :class => "action_button action-link-grey" ) %>
-    &nbsp;
-    <%= link_to( "[ EDIT DETAILS ] " ,{:action => 'edit_employee_page', :employee_id => @employee.id, :actor_id => @employee.actor.id}, :class => "action_button action-link-grey" ) %>
-
-    <div class="profile-section employee-profile-detail">
-
-      <span class="subheader"> <i class="fa fa-lg fa-user"></i> Profile Details </span>
-
-      <div class="employee-profile-detail-content">
-
-        <section>
-          <span>ID </span>
-          <span><%= @employee.id %></span>
-        </section>
-
-        <section>
-          <span>Actor ID </span>
-          <span><%= @employee.actor_id %></span>
-        </section>
-
-        <section>
-          <span>Created at </span>
-          <span><%= @employee.created_at %></span>
-        </section>
-
-        <section>
-          <span>Updated at </span>
-          <span><%= @employee.updated_at %></span>
-        </section>
-
-        <section>
-          <span>Description </span>
-          <span><%= @employee.actor.description %></span>
-        </section>
-
-      </div>
-    </div>
-
-    <!-- employee accounts profile history -->
-    <div class="profile-section employee-profile-detail">
-
-      <span class="subheader"> <i class="fa fa-lg fa-list"></i> Biodata </span>
-
-      <div class="employee-profile-detail-content">
-
-        <section>
-          <span>Date of Birth </span>
-          <span><%= @biodatum.date_of_birth %></span>
-        </section>
-
-        <section>
-          <span>Height </span>
-          <span><%= @biodatum.height %></span>
-        </section>
-
-        <section>
-          <span>Sex </span>
-          <span><%= @biodatum.gender %></span>
-        </section>
-
-        <section>
-          <span>Family Members </span>
-          <span><%= @biodatum.family_members %></span>
-        </section>
-
-        <section>
-          <span>Complexion </span>
-          <span><%= @biodatum.complexion %></span>
-        </section>
-
-        <section>
-          <span>Marital Status </span>
-          <span><%= @biodatum.marital_status %></span>
-        </section>
-
-        <section>
-          <span>Blood Type </span>
-          <span><%= @biodatum.blood_type %></span>
-        </section>
-
-        <section>
-          <span>Religion </span>
-          <span><%= @biodatum.religion %></span>
-        </section>
-
-        <section>
-          <span>Education </span>
-          <span><%= @biodatum.education %></span>
-        </section>
-
-        <section>
-          <span>Career Experience </span>
-          <span><%= @biodatum.career_experience %></span>
-        </section>
-
-        <section>
-          <span>Notable Accomplishments </span>
-          <span><%= @biodatum.notable_accomplishments %></span>
-        </section>
-
-        <section>
-          <span>Emergency Contact </span>
-          <span><%= @biodatum.emergency_contact %></span>
-        </section>
-
-        <section>
-          <span>Languages Spoken </span>
-          <span><%= @biodatum.languages_spoken %></span>
-        </section>
-
-      </div>
-
-    </div>
-
-    <div class="profile-section employee-profile-detail">
-
-      <span class="subheader"> <i class="fa fa-lg fa-user"></i> Branch Details </span>
-
-      <div class="employee-profile-detail-content">
-
-        <section>
-          <span>ID </span>
-          <span><%= @branch.id %></span>
-        </section>
-
-        <section>
-          <span>Branch Name </span>
-          <span><%= @branch.name %></span>
-        </section>
-
-      </div>
-    </div>
-
-    <% if !@employeeDuties.nil? %>
-
-        <div class="profile-section employee-profile-detail">
-
-          <span class="subheader"> <i class="fa fa-lg fa-user"></i> On Going Duty </span>
-
-          <br />
-
-          <% @employeeDuties.each do |e| %>
-
-              <div class="employee-profile-detail-content duty-entry">
-
-                <section>
-                  <span>Status </span>
-                  <span><%= e.remark %></span>
-                </section>
-
-                <section>
-                  <span>Description </span>
-                  <span><%= e.active %></span>
-                </section>
-
-                <section>
-                  <span>Duty creation date</span>
-                  <span><%= e.created_at %></span>
-                </section>
-
-              </div>
-
-          <% end %>
-
-        </div>
-
-    <% else %>
-
-    <% end %>
-
-    <div class="profile-section employee-profile-detail">
-
-      <%= form_tag({action: :"assign_duty", :employee_id => @employee.id, :actor_id => @employee.actor.id}, multipart: true, id: "assign_duty_form", :"data-parsley-validate" => "" ) do %>
-
-          <div class="row">
-
-            <div class="md-spacer"></div>
-
-            <div>
-              <label>Assign open duty
-                <%= select_tag 'duty_dd', options_for_select(@duties.collect{ |d| [d.remark, d.id] }) %>
-              </label>
-            </div>
-
-            <div>
-              <label> <br />
-                <%= submit_tag nil, :class => "button tiny" %>
-              </label>
-            </div>
-
-          </div>
-
+<%
+   # If there is no duty_status; transfer to these variables.
+   @selected_employee.attributes.each do |attr_name, attr_value|
+     attr_name ||= ''
+   end
+   @selected_actor.attributes.each do |attr_name, attr_value|
+     attr_name ||= ''
+   end
+   @selected_branch.attributes.each do |attr_name, attr_value|
+     attr_name ||= ''
+   end
+   @selected_access.attributes.each do |attr_name, attr_value|
+     attr_name ||= ''
+   end
+   @selected_biodata.attributes.each do |attr_name, attr_value|
+     attr_name ||= ''
+   end
+   @selected_access.username ||= 'n/a'
+   @selected_access.email ||= 'n/a'
+%>
+
+<section class='small-10 columns'>
+  <div class='mainheader'> Employee Profile </div>
+  <div class='subdescription'> Information about the Employee </div>
+  <hr>
+  <div class="row" style="font-size: 12px;">
+  <div class='small-4 columns'>
+    <div class='generic_form'>
+      <%= form_tag( {action: :employee_profile}, multipart: true, class: 'create_form', id: "employee_profile", :"data-parsley-validate" => "" ) do %>
+          <select name='employee[id]'
+                  id='read_employee'
+                  class='employee_select_field'
+                  required="required" >
+            <option value="" disabled selected>Select Employee</option>
+            <% @employees.each do |employee| %>
+                <% if employee.id == @selected_employee.id %>
+                    <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
+                <% else %>
+                    <option value=<%= employee.id %>><%= employee.actor.name %></option>
+                <% end %>
+            <% end %>
+          </select>
       <% end %>
-
     </div>
 
-    <div class="lg-spacer"></div>
+    <div class="employee_profile_title"> Employee Data </div>
+    <div class="employee_profile_field"> Employee ID: <br> <%= @selected_employee.id %> </div>
+    <div class="employee_profile_field"> Branch: <br> <%= @selected_branch.name %> </div>
+    <div class="employee_profile_field"> Username: <br>
+      <%= link_to( @selected_access.username ,{:controller => 'access', :action => 'signin'}, class: 'tiny button') %>
+    </div>
+    <div class="employee_profile_field"> Email: <br>
+      <a class="tiny button" href="mailto:<%= @selected_access.email %>" target="_top"><%= @selected_access.email %> </a>
+    </div>
+    <div class="employee_profile_field"> Last Login: <br> <%= @selected_access.last_login %> </div>
+    <div class="employee_profile_field"> Registered At: <br> <%= @selected_employee.created_at %> </div>
+    <div class="employee_profile_field"> Updated At: <br> <%= @selected_employee.updated_at %> </div>
+  </div>
+
+  <div class='small-4 columns'>
+    <div class="employee_profile_title"> Biodata: </div>
+    <div class="employee_profile_field"> Education: <br> <%= @selected_biodata.education %> </div>
+    <div class="employee_profile_field"> Career Experience: <br> <%= @selected_biodata.career_experience %> </div>
+    <div class="employee_profile_field"> Notable Accomplishments: <br> <%= @selected_biodata.notable_accomplishments %> </div>
+    <div class="employee_profile_field"> Date of Birth: <br> <%= @selected_biodata.date_of_birth %> </div>
+    <div class="employee_profile_field"> Family Members: <br> <%= @selected_biodata.family_members %> </div>
+    <div class="employee_profile_field"> Citizenship: <br> <%= @selected_biodata.citizenship %> </div>
+    <div class="employee_profile_field"> Gender: <br> <%= @selected_biodata.gender %> </div>
+    <div class="employee_profile_field"> Place of Birth: <br> <%= @selected_biodata.place_of_birth %> </div>
+    <div class="employee_profile_field"> Emergency Contact: <br> <a class='tiny button' href=tel:<%= @selected_biodata.emergency_contact %> > <%= @selected_biodata.emergency_contact %> </a> </div>
+    <div class="employee_profile_field"> Languages Spoken: <br> <%= @selected_biodata.languages_spoken %> </div>
+    <div class="employee_profile_field"> Complexion: <br> <%= @selected_biodata.complexion %> </div>
+    <div class="employee_profile_field"> Height (cm): <br> <%= @selected_biodata.height_cm %> </div>
+    <div class="employee_profile_field"> Marital Status: <br> <%= @selected_biodata.marital_status %> </div>
+    <div class="employee_profile_field"> Blood Type: <br> <%= @selected_biodata.blood_type %> </div>
+    <div class="employee_profile_field"> Religion: <br> <%= @selected_biodata.religion %> </div>
+  </div>
+
+  <div class='small-4 columns'>
+    <div class="employee_profile_title"> Profile Picture </div>
+    <img style='padding: 5px' src= <%= @selected_actor.logo %> />
+    <div class="employee_profile_title"> Associated Images </div>
+    <div class="employee_profile_title"> Associated Files </div>
+  </div>
 
   </div>
 
+  <div class="row">
+    <div class="employee_profile_title"> Contact Information </div>
+  </div>
+
 </section>
+
+<script type="application/javascript">
+    $(document).ready(function()
+    {
+        $('.employee_select_field')
+                .selectize({sortField: 'text'})
+                .change(function(){
+                    employee_id = $('#read_employee').val();
+                    current_page = '/human_resources/employee_profile';
+                    window.location = current_page + '?employee_id=' + employee_id;
+                });
+    });
+</script>

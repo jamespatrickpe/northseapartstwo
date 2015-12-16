@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.string   "email",           limit: 512
     t.string   "hashlink",        limit: 512
     t.integer  "attempts",        limit: 1,   default: 0
+    t.datetime "last_login"
     t.boolean  "verification",    limit: 1,   default: false
     t.boolean  "remember_me",     limit: 1,   default: false
     t.datetime "created_at"
@@ -96,7 +97,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.string   "emergency_contact",       limit: 256
     t.string   "languages_spoken",        limit: 256
     t.string   "complexion",              limit: 256
-    t.string   "height",                  limit: 256
+    t.decimal  "height_cm",                           precision: 10
     t.string   "marital_status",          limit: 256
     t.string   "blood_type",              limit: 256
     t.string   "religion",                limit: 256
@@ -144,7 +145,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.string   "remark",              limit: 256
     t.boolean  "active",              limit: 1,   default: false
     t.string   "employee_id",         limit: 36
-    t.datetime "date_of_effectivity",             default: '2015-12-15 11:20:04'
+    t.datetime "date_of_effectivity",             default: '2015-12-16 05:44:59'
     t.datetime "created_at",                                                      null: false
     t.datetime "updated_at",                                                      null: false
   end

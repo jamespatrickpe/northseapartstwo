@@ -13,11 +13,11 @@ class RelatedFileUploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    "/northseapartsuploads/related_files/"
+    "related_files/"
   end
 
   def cache_dir
-    "/northseapartsuploads/related_files/tmp/"
+    "related_files/tmp/"
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:

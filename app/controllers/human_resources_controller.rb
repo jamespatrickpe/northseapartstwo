@@ -62,6 +62,27 @@ class HumanResourcesController < ApplicationController
     redirect_to :action => "employee_accounts_management"
   end
 
+  def employee_profile
+    initialize_employee_selection
+    if( params[:employee_id])
+      @selected_employee = Employee.find(params[:employee_id])
+      @selected_actor = @selected_employee.actor
+      @selected_access = Access.find_by_actor_id(@selected_actor.id)
+      @selected_biodata = Biodatum.find_by_actor_id(@selected_actor.id)
+      @selected_contact_details = ContactDetail.find_by_actor_id(@selected_actor.id)
+      @selected_branch = Branch.find( @selected_employee.branch )
+    end
+
+    @selected_employee ||= Employee.new
+    @selected_actor ||= Actor.new
+    @selected_access ||= Access.new
+    @selected_biodata ||= Biodatum.new
+    @selected_contact_details ||= ContactDetail.new
+    @selected_branch ||= Branch.new
+
+    render 'human_resources/employee_accounts_management/employee_profile'
+  end
+
   # ================== Attendances ================== #
 
   def index
@@ -140,7 +161,7 @@ class HumanResourcesController < ApplicationController
     rescue
       flash[:general_flash_notification] = "Error has Occured"
     end
-    render 'human_resources/compensation_benefits/rest_days'
+    render 'human_resources/attendance/rest_days'
   end
 
   def delete_rest_day
@@ -170,7 +191,7 @@ class HumanResourcesController < ApplicationController
     rescue
       flash[:general_flash_notification] = "Error has Occured"
     end
-    render 'human_resources/compensation_benefits/regular_work_periods'
+    render 'human_resources/attendance/regular_work_periods'
   end
 
   def delete_regular_work_period
@@ -306,7 +327,7 @@ class HumanResourcesController < ApplicationController
     rescue
       flash[:general_flash_notification] = "Error has Occured"
     end
-    render 'human_resources/employee_accounts_management/duty_statuses'
+    render 'human_resources/attendance/duty_statuses'
   end
 
   def search_suggestions_employees_with_id
@@ -320,13 +341,13 @@ class HumanResourcesController < ApplicationController
   def new_duty_status
     initialize_employee_selection
     @selected_duty_status = DutyStatus.new
-    render 'human_resources/employee_accounts_management/duty_status_form'
+    render 'human_resources/attendance/duty_status_form'
   end
 
   def edit_duty_status
     initialize_employee_selection
     @selected_duty_status = DutyStatus.find(params[:duty_status_id])
-    render 'human_resources/employee_accounts_management/duty_status_form'
+    render 'human_resources/attendance/duty_status_form'
   end
 
   def process_duty_status_form
@@ -437,19 +458,7 @@ class HumanResourcesController < ApplicationController
 
   end
 
-  def employee_profile
-    @employee = Employee.find(params[:employee_id])
-    @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
-    @branch = Branch.find(@employee.branch_id)
-    @duties = DutyStatus.where(employee_id: nil)
 
-    @currentDuty = DutyStatus.find_by_employee_id(params[:employee_id])
-
-
-    @employeeDuties = DutyStatus.where({ employee_id: params[:employee_id]})
-
-    render 'human_resources/employee_accounts_management/employee_profile'
-  end
 
   def assign_duty
 
