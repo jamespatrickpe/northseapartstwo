@@ -72,7 +72,7 @@ class HumanResourcesController < ApplicationController
       @selected_contact_details = ContactDetail.find_by_actor_id(@selected_actor.id)
       @selected_branch = Branch.find( @selected_employee.branch )
       @selected_file_set = FileSet.where("rel_file_set_id = ? AND rel_file_set_type = 'Actor'", "#{@selected_actor.id}")
-      @selected_image_set = ImageSet.where("rel_image_set_id = ? AND rel_image_set_type = 'Actor'", "#{@selected_actor.id}")
+      @selected_image_set = ImageSet.where("rel_image_set_id = ? AND rel_image_set_type = 'Actor'", "#{@selected_actor.id}").order('priority DESC')
     end
 
     @selected_employee ||= Employee.new

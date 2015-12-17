@@ -20,7 +20,7 @@ access.username = 'joojieman'
 access.email = 'jamespatrickpe@northseaparts.com'
 access.password = 'ilovetess'
 access.password_confirmation = 'ilovetess'
-access.hashlink = generateRandomString
+access.hash_link = generateRandomString
 access.verification = true
 access.save!
 
@@ -241,7 +241,7 @@ numberOfActors.times do |i|
     myAccess.email = randomEmail
     myAccess.password = randomPassword
     myAccess.password_confirmation = randomPassword
-    myAccess.hashlink = generateRandomString
+    myAccess.hash_link = generateRandomString
     myAccess.verification = randomBoolean
     myAccess.last_login = Time.now - rand(0..72000).hours
     myAccess.save!
@@ -251,7 +251,7 @@ numberOfActors.times do |i|
       if randomBoolean
         myFileSet = FileSet.new
         myFileSet[:file] = ['export_table_1.csv','export_table_2.csv','export_table_3.csv','export_table_4.csv','export_table_5.csv'].sample
-        myFileSet.description = Faker::Lorem.sentence
+        myFileSet.label = Faker::Lorem.sentence
         myFileSet.rel_file_set_id = myActor.id
         myFileSet.rel_file_set_type = 'Actor'
         myFileSet.save!
@@ -281,30 +281,25 @@ numberOfActors.times do |i|
       end
     end
 
-    #ContactDetail
-    myContactDetail = ContactDetail.create( actor: myActor)
-    randomNumberOfAddresses = rand(0..5)
-    randomNumberOfTelephony = rand(0..5)
-    randomNumberOfDigital = rand(0..5)
-
     #Addresses
-    randomNumberOfAddresses.times do |i|
+    rand(0..5).times do |i|
       completeAddress = Faker::Address.building_number + Faker::Address.street_name + Faker::Address.street_address + Faker::Address.city + Faker::Address.country
-      myAddress = Address.new( description: completeAddress, longitude: Faker::Address.longitude, latitude: Faker::Address.latitude, contact_detail: myContactDetail  )
-      myAddress.save
+      myAddress = Address.new( description: completeAddress, longitude: Faker::Address.longitude, latitude: Faker::Address.latitude, actor: myActor  )
+      myAddress.save!
     end
 
     #Telephony
-    randomNumberOfTelephony.times do |i|
-      myTelephony = Telephone.new( description: Faker::Lorem.sentences(1), digits: Faker::PhoneNumber.phone_number, contact_detail: myContactDetail  )
-      myTelephony.save
+    rand(0..5).times do |i|
+      myTelephony = Telephone.new( description: Faker::Lorem.sentence, digits: Faker::PhoneNumber.phone_number, actor: myActor  )
+      myTelephony.save!
     end
 
     #Digital
-    randomNumberOfDigital.times do |i|
-      myDigital = Digital.new( description: Faker::Lorem.sentences(1), url: Faker::Internet.url, contact_detail: myContactDetail )
-      myDigital.save
+    rand(0..5).times do |i|
+      myDigital = Digital.new( description: Faker::Lorem.sentence, url: Faker::Internet.url, actor: myActor )
+      myDigital.save!
     end
+
   end
 
   # BIODATA

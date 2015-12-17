@@ -43,7 +43,12 @@
     </select>
     <!-- input of type datetime-local do not have a placeholder so you have to write the label manually outside the input -->
     <div>Date of Effectivity: <input type="datetime-local" required="required" name="duty_status[date_of_effectivity]" style="width: 50%" value= <%= @selected_duty_status.date_of_effectivity.strftime('%FT%T') %> ></div> <!-- take note of time format! -->
-    <%= text_area_tag("duty_status[remark]", content = @selected_duty_status.remark, options = {class: "remark_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :placeholder => 'Remarks' }) %>
+    <%= text_area_tag("duty_status[remark]",
+                      content = @selected_duty_status.remark,
+                      options = {class: "remark_description",
+                                 :"data-parsley-trigger" => "keyup",
+                                 :"data-parsley-maxlength"=>"128",
+                                 :placeholder => 'Remarks' }) %>
     <input type="submit" class="small button" value="SUBMIT" />
     <% end %>
   </div>

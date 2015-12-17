@@ -14,8 +14,8 @@ class Access < ActiveRecord::Base
   validates_length_of :username, maximum: 64
   validates_length_of :username, minimum: 3
 
-  validates :hashlink, uniqueness: true
-  validates_presence_of :hashlink
+  validates :hash_link, uniqueness: true
+  validates_presence_of :hash_link
   validates :email, uniqueness: true
   validates_presence_of :email
 

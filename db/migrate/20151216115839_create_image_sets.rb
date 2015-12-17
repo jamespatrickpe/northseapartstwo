@@ -4,6 +4,7 @@ class CreateImageSets < ActiveRecord::Migration
       t.string :id, limit: 36, primary: true, null: false
       t.string :picture, :limit => 512
       t.string :description, :limit => 256
+      t.integer :priority, :default => 0
       t.string :rel_image_set_id, limit: 36, required: true
       t.string :rel_image_set_type, required: true
       t.timestamps null: false

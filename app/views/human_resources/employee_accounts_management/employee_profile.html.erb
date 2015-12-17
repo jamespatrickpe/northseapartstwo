@@ -61,7 +61,7 @@
         <div class="employee_profile_title"> Associated Files </div>
         <% @selected_file_set.each do |file_set| %>
             <div class="employee_profile_field">
-              <a class="employee_profile_small_button" href=<%=file_set.file %>> <%= file_set.description %></a>
+              <a class="employee_profile_small_button" href=<%=file_set.file %>> <%= file_set.label %></a>
             </div>
         <% end %>
     <% end %>
@@ -94,9 +94,18 @@
     <div class="employee_profile_title"> Associated Images </div>
         <ul class="small-block-grid-3" >
           <% @selected_image_set.each do |image_set| %>
-          <li style="height: 50px; overflow-y: hidden; padding: 5px; "><a target="_blank" href=<%= image_set.picture.url %>  ><img src=<%= image_set.picture %> /></a></li>
+          <li tooltip=<%= image_set.description %> class='employee_profile_image_container' style='height: 50px;overflow-y: hidden;padding: 5px;'><a class='employee_profile_image_link' target="_blank" href=<%= image_set.picture.url %>> <img src=<%= image_set.picture %>/> </a></li>
           <% end %>
         </ul>
+    <% end %>
+  </div>
+
+  <div class='small-12 columns'>
+    <div class="employee_profile_title"> Contact Details </div>
+    <% if @selected_contact_details.present? %>
+        <% @selected_contact_details.each do |contact_details| %>
+            <%= contact_details.to_s %>
+        <% end %>
     <% end %>
   </div>
 
@@ -112,5 +121,14 @@
                     current_page = '/human_resources/employee_profile';
                     window.location = current_page + '?employee_id=' + employee_id;
                 });
+
+        $('.employee_profile_image_container').qtip({
+            content: $(this).attr('tooltipd'),
+            position:
+            {
+                target: 'mouse',
+                adjust: {mouse: false}
+            }
+        });
     });
 </script>
