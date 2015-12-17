@@ -17,13 +17,14 @@
    end
    @selected_access.username ||= 'n/a'
    @selected_access.email ||= 'n/a'
+   @selected_biodata.emergency_contact ||= 'n/a'
 %>
 
 <section class='small-10 columns'>
   <div class='mainheader'> Employee Profile </div>
   <div class='subdescription'> Information about the Employee </div>
   <hr>
-  <div class="row" style="font-size: 12px;">
+
   <div class='small-4 columns'>
     <div class='generic_form'>
       <%= form_tag( {action: :employee_profile}, multipart: true, class: 'create_form', id: "employee_profile", :"data-parsley-validate" => "" ) do %>
@@ -47,14 +48,24 @@
     <div class="employee_profile_field"> Employee ID: <br> <%= @selected_employee.id %> </div>
     <div class="employee_profile_field"> Branch: <br> <%= @selected_branch.name %> </div>
     <div class="employee_profile_field"> Username: <br>
-      <%= link_to( @selected_access.username ,{:controller => 'access', :action => 'signin'}, class: 'tiny button') %>
+      <%= link_to( @selected_access.username ,{:controller => 'access', :action => 'signin'}, class: 'employee_profile_small_button') %>
     </div>
     <div class="employee_profile_field"> Email: <br>
-      <a class="tiny button" href="mailto:<%= @selected_access.email %>" target="_top"><%= @selected_access.email %> </a>
+      <a class="employee_profile_small_button" href="mailto:<%= @selected_access.email %>" target="_top"><%= @selected_access.email %> </a>
     </div>
     <div class="employee_profile_field"> Last Login: <br> <%= @selected_access.last_login %> </div>
     <div class="employee_profile_field"> Registered At: <br> <%= @selected_employee.created_at %> </div>
     <div class="employee_profile_field"> Updated At: <br> <%= @selected_employee.updated_at %> </div>
+
+    <% if @selected_file_set.present? %>
+        <div class="employee_profile_title"> Associated Files </div>
+        <% @selected_file_set.each do |file_set| %>
+            <div class="employee_profile_field">
+              <a class="employee_profile_small_button" href=<%=file_set.file %>> <%= file_set.description %></a>
+            </div>
+        <% end %>
+    <% end %>
+
   </div>
 
   <div class='small-4 columns'>
@@ -67,7 +78,7 @@
     <div class="employee_profile_field"> Citizenship: <br> <%= @selected_biodata.citizenship %> </div>
     <div class="employee_profile_field"> Gender: <br> <%= @selected_biodata.gender %> </div>
     <div class="employee_profile_field"> Place of Birth: <br> <%= @selected_biodata.place_of_birth %> </div>
-    <div class="employee_profile_field"> Emergency Contact: <br> <a class='tiny button' href=tel:<%= @selected_biodata.emergency_contact %> > <%= @selected_biodata.emergency_contact %> </a> </div>
+    <div class="employee_profile_field"> Emergency Contact: <br> <a class='employee_profile_small_button' href=tel:<%= @selected_biodata.emergency_contact %> > <%= @selected_biodata.emergency_contact %> </a> </div>
     <div class="employee_profile_field"> Languages Spoken: <br> <%= @selected_biodata.languages_spoken %> </div>
     <div class="employee_profile_field"> Complexion: <br> <%= @selected_biodata.complexion %> </div>
     <div class="employee_profile_field"> Height (cm): <br> <%= @selected_biodata.height_cm %> </div>
@@ -79,14 +90,14 @@
   <div class='small-4 columns'>
     <div class="employee_profile_title"> Profile Picture </div>
     <img style='padding: 5px' src= <%= @selected_actor.logo %> />
+    <% if @selected_image_set.present? %>
     <div class="employee_profile_title"> Associated Images </div>
-    <div class="employee_profile_title"> Associated Files </div>
-  </div>
-
-  </div>
-
-  <div class="row">
-    <div class="employee_profile_title"> Contact Information </div>
+        <ul class="small-block-grid-3" >
+          <% @selected_image_set.each do |image_set| %>
+          <li style="height: 50px; overflow-y: hidden; padding: 5px; "><a target="_blank" href=<%= image_set.picture.url %>  ><img src=<%= image_set.picture %> /></a></li>
+          <% end %>
+        </ul>
+    <% end %>
   </div>
 
 </section>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151211011431) do
+ActiveRecord::Schema.define(version: 20151216115839) do
 
   create_table "accesses", force: :cascade do |t|
     t.string   "actor_id",        limit: 36
@@ -145,7 +145,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.string   "remark",              limit: 256
     t.boolean  "active",              limit: 1,   default: false
     t.string   "employee_id",         limit: 36
-    t.datetime "date_of_effectivity",             default: '2015-12-16 05:44:59'
+    t.datetime "date_of_effectivity",             default: '2015-12-16 14:43:08'
     t.datetime "created_at",                                                      null: false
     t.datetime "updated_at",                                                      null: false
   end
@@ -158,12 +158,12 @@ ActiveRecord::Schema.define(version: 20151211011431) do
   end
 
   create_table "file_sets", force: :cascade do |t|
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
-    t.string   "path",              limit: 512
+    t.string   "file",              limit: 512
     t.string   "description",       limit: 256
     t.string   "rel_file_set_id",   limit: 36
     t.string   "rel_file_set_type", limit: 255
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   create_table "holiday_types", force: :cascade do |t|
@@ -185,6 +185,15 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.date     "date_of_implementation"
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
+  end
+
+  create_table "image_sets", force: :cascade do |t|
+    t.string   "picture",            limit: 512
+    t.string   "description",        limit: 256
+    t.string   "rel_image_set_id",   limit: 36
+    t.string   "rel_image_set_type", limit: 255
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   create_table "institution_employees", force: :cascade do |t|

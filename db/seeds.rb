@@ -246,6 +246,31 @@ numberOfActors.times do |i|
     myAccess.last_login = Time.now - rand(0..72000).hours
     myAccess.save!
 
+    #Related File Sets
+    rand(0..10).times do |i|
+      if randomBoolean
+        myFileSet = FileSet.new
+        myFileSet[:file] = ['export_table_1.csv','export_table_2.csv','export_table_3.csv','export_table_4.csv','export_table_5.csv'].sample
+        myFileSet.description = Faker::Lorem.sentence
+        myFileSet.rel_file_set_id = myActor.id
+        myFileSet.rel_file_set_type = 'Actor'
+        myFileSet.save!
+      end
+    end
+
+    #Related Image Sets
+    rand(0..10).times do |i|
+      if randomBoolean
+        myImageSet = ImageSet.new
+        myImageSet[:picture] = ['file_01.jpg','file_02.png','file_03.gif','file_04.jpg','file_05.jpg'].sample
+        myImageSet.description = Faker::Lorem.sentence
+        myImageSet.rel_image_set_id = myActor.id
+        myImageSet.rel_image_set_type = 'Actor'
+        myImageSet.save!
+      end
+    end
+
+    #Permission
     rand(0..2).times do |i|
       if randomBoolean
         permission = Permission.new
