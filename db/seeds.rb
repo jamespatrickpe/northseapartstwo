@@ -283,7 +283,7 @@ numberOfActors.times do |i|
 
     #Addresses
     rand(0..5).times do |i|
-      completeAddress = Faker::Address.building_number + Faker::Address.street_name + Faker::Address.street_address + Faker::Address.city + Faker::Address.country
+      completeAddress = Faker::Address.building_number + ' '+ Faker::Address.street_name + ' ' + Faker::Address.street_address + ' ' + Faker::Address.city + ' ' + Faker::Address.country
       myAddress = Address.new( description: completeAddress, longitude: Faker::Address.longitude, latitude: Faker::Address.latitude, actor: myActor  )
       myAddress.save!
     end
