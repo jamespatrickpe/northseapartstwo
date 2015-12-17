@@ -207,18 +207,14 @@ numberOfPositions.times do |i|
 end
 
 #ENTITIES
-numberOfActors = 25
+numberOfActors = 50
 numberOfActors.times do |i|
+
   #Actor
   current_logo = ['default_1.jpg','default_2.jpg','default_3.jpg','default_4.jpg','default_5.jpg','default_6.jpg','default_7.jpg','default_8.jpg','default_9.jpg','default_10.jpg','default.jpg'].sample
   myActor = Actor.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true))
   myActor[:logo] = current_logo
   myActor.save!
-
-  # File Set
-  if randomBoolean
-
-  end
 
   # ACCESS
   if (randomBoolean())
@@ -246,30 +242,6 @@ numberOfActors.times do |i|
     myAccess.last_login = Time.now - rand(0..72000).hours
     myAccess.save!
 
-    #Related File Sets
-    rand(0..10).times do |i|
-      if randomBoolean
-        myFileSet = FileSet.new
-        myFileSet[:file] = ['export_table_1.csv','export_table_2.csv','export_table_3.csv','export_table_4.csv','export_table_5.csv'].sample
-        myFileSet.label = Faker::Lorem.sentence
-        myFileSet.rel_file_set_id = myActor.id
-        myFileSet.rel_file_set_type = 'Actor'
-        myFileSet.save!
-      end
-    end
-
-    #Related Image Sets
-    rand(0..10).times do |i|
-      if randomBoolean
-        myImageSet = ImageSet.new
-        myImageSet[:picture] = ['file_01.jpg','file_02.png','file_03.gif','file_04.jpg','file_05.jpg'].sample
-        myImageSet.description = Faker::Lorem.sentence
-        myImageSet.rel_image_set_id = myActor.id
-        myImageSet.rel_image_set_type = 'Actor'
-        myImageSet.save!
-      end
-    end
-
     #Permission
     rand(0..2).times do |i|
       if randomBoolean
@@ -280,26 +252,49 @@ numberOfActors.times do |i|
         permission.save!
       end
     end
+  end
 
-    #Addresses
-    rand(0..5).times do |i|
-      completeAddress = Faker::Address.building_number + ' '+ Faker::Address.street_name + ' ' + Faker::Address.street_address + ' ' + Faker::Address.city + ' ' + Faker::Address.country
-      myAddress = Address.new( description: completeAddress, longitude: Faker::Address.longitude, latitude: Faker::Address.latitude, actor: myActor  )
-      myAddress.save!
+  #Related File Sets
+  rand(0..10).times do |i|
+    if randomBoolean
+      myFileSet = FileSet.new
+      myFileSet[:file] = ['export_table_1.csv','export_table_2.csv','export_table_3.csv','export_table_4.csv','export_table_5.csv'].sample
+      myFileSet.label = Faker::Lorem.sentence
+      myFileSet.rel_file_set_id = myActor.id
+      myFileSet.rel_file_set_type = 'Actor'
+      myFileSet.save!
     end
+  end
 
-    #Telephony
-    rand(0..5).times do |i|
-      myTelephony = Telephone.new( description: Faker::Lorem.sentence, digits: Faker::PhoneNumber.phone_number, actor: myActor  )
-      myTelephony.save!
+  #Related Image Sets
+  rand(0..10).times do |i|
+    if randomBoolean
+      myImageSet = ImageSet.new
+      myImageSet[:picture] = ['file_01.jpg','file_02.png','file_03.gif','file_04.jpg','file_05.jpg'].sample
+      myImageSet.description = Faker::Lorem.sentence
+      myImageSet.rel_image_set_id = myActor.id
+      myImageSet.rel_image_set_type = 'Actor'
+      myImageSet.save!
     end
+  end
 
-    #Digital
-    rand(0..5).times do |i|
-      myDigital = Digital.new( description: Faker::Lorem.sentence, url: Faker::Internet.url, actor: myActor )
-      myDigital.save!
-    end
+  #Digital
+  rand(0..5).times do |i|
+    myDigital = Digital.new( description: Faker::Lorem.sentence, url: Faker::Internet.url, actor: myActor )
+    myDigital.save!
+  end
 
+  #Telephony
+  rand(0..5).times do |i|
+    myTelephony = Telephone.new( description: Faker::Lorem.sentence, digits: Faker::PhoneNumber.phone_number, actor: myActor  )
+    myTelephony.save!
+  end
+
+  #Addresses
+  rand(0..5).times do |i|
+    completeAddress = Faker::Address.building_number + ' '+ Faker::Address.street_name + ' ' + Faker::Address.street_address + ' ' + Faker::Address.city + ' ' + Faker::Address.country
+    myAddress = Address.new( description: completeAddress, longitude: Faker::Address.longitude, latitude: Faker::Address.latitude, actor: myActor  )
+    myAddress.save!
   end
 
   # BIODATA

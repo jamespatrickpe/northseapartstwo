@@ -139,7 +139,7 @@ ActiveRecord::Schema.define(version: 20151216115839) do
     t.string   "remark",              limit: 256
     t.boolean  "active",              limit: 1,   default: false
     t.string   "employee_id",         limit: 36
-    t.datetime "date_of_effectivity",             default: '2015-12-17 11:03:41'
+    t.datetime "date_of_effectivity",             default: '2015-12-17 11:47:12'
     t.datetime "created_at",                                                      null: false
     t.datetime "updated_at",                                                      null: false
   end
