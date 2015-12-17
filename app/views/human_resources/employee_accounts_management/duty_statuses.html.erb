@@ -58,7 +58,7 @@
                   <td><%= duty_status.updated_at %></td>
                   <td class="actions">
                     <%= link_to( "&#9998;".html_safe ,{:action => 'edit_duty_status', :duty_status_id => duty_status.id}, class: 'action_button', tooltip: 'Edit') %>
-                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_duty_status', :duty_status_id => duty_status.id}, class: 'action_button', tooltip: 'Delete') %>
+                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_duty_status', :duty_status_id => duty_status.id}, class: 'action_button delete_item', tooltip: 'Delete') %>
                   </td>
                 </tr>
             <% end %>

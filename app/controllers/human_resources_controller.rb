@@ -85,6 +85,15 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/attendance/attendances'
   end
 
+  def delete_attendance
+    attendaceToBeDeleted = Attendance.find(params[:attendance_id])
+    attendanceOwner = Employee.find(attendaceToBeDeleted.employee_id)
+    flash[:general_flash_notification] = 'Attendance for ' + attendanceOwner.actor.name + ' has been deleted.'
+    flash[:general_flash_notification_type] = 'affirmative'
+    attendaceToBeDeleted.destroy
+    redirect_to :action => "attendances"
+  end
+
   def branch_attendance_sheet
   end
 
@@ -327,6 +336,15 @@ class HumanResourcesController < ApplicationController
     initialize_employee_selection
     @selected_duty_status = DutyStatus.find(params[:duty_status_id])
     render 'human_resources/employee_accounts_management/duty_status_form'
+  end
+
+  def delete_duty_status
+    dutyStatusToBeDeleted = DutyStatus.find(params[:duty_status_id])
+    dutyStatusOwner = Employee.find(dutyStatusToBeDeleted.employee_id)
+    flash[:general_flash_notification] = 'A Duty status for ' + dutyStatusOwner.actor.name + ' has been deleted.'
+    flash[:general_flash_notification_type] = 'affirmative'
+    dutyStatusToBeDeleted.destroy
+    redirect_to :action => "duty_statuses"
   end
 
   def process_duty_status_form
