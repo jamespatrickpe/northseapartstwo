@@ -14,7 +14,7 @@ class CreateBiodata < ActiveRecord::Migration
       t.string :emergency_contact, :limit => 256
       t.string :languages_spoken, :limit => 256
       t.string :complexion, :limit => 256
-      t.string :height, :limit => 256
+      t.decimal :height_cm, :limit => 256
       t.string :marital_status, :limit => 256
       t.string :blood_type, :limit => 256
       t.string :religion, :limit => 256

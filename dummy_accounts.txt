@@ -1,0 +1,13 @@
+Dummy Accounts for North Sea Parts Testing:
+
+username: juno_siojo_xtra_kewl
+password: juno_siojo_xtra_kewl_42!
+email: juno_siojo_xtra_kewl@gmail.com
+
+username: no_more_chinese_way
+password: no_more_chinese_way_42!
+email: no_more_chinese_way@yahoo.com
+
+username: iamdovhakinfusrodah
+password: iamdovhakinfusrodah_42!
+email: iamdovhakinfusrodah@hotmail.com

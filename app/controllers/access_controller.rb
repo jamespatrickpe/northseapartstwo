@@ -55,19 +55,65 @@ class AccessController < ApplicationController
 
   #Process the Registration Form
   def register
-    urlRedirect = "";
-    ActiveRecord::Base.transaction do
+    urlRedirect =  "/access/success_registration?email="+params[:access][:email]
       begin
-        processActor(params)
-        processAccess(params)
-        processContactDetails(params)
-        processUserTypeSelection(params)
+        Actor.transaction do
+          # Process Actor
+          actor = Actor.new
+          actor.name = params[:actor][:name]
+          actor.description = params[:actor][:description];
+          actor.logo = params[:actor][:logo]
+          actor.save!
+
+          # Process Access
+          access = Access.new
+          access.username = params[:access][:username]
+          access.password = params[:access][:password]
+          access.password_confirmation = params[:access][:password_confirmation]
+          access.email = params[:access][:email]
+          access.hash_link = create_unique_hash_link
+          access.actor = actor
+          access.save!
+
+          # Sends Email
+          VerificationMailer.verification_email( params[:access][:email], access.hash_link  ).deliver
+
+          address_set = params[:address]
+          telephony_set = params[:telephony]
+          digital_set = params[:digital]
+
+          #Address Processing
+          address_set.each do |key, value|
+            myAddress = Address.new
+            myAddress.description = value[:description]
+            myAddress.longitude = value[:longitude]
+            myAddress.latitude = value[:latitude]
+            myAddress.actor = actor
+            myAddress.save!
+          end
+
+          #Telephony Processing
+          telephony_set.each do |key, value|
+            myTelephony = Telephone.new
+            myTelephony.description = value[:description]
+            myTelephony.digits = value[:digits]
+            myTelephony.actor = actor
+            myTelephony.save!
+          end
+
+          #Digital Processing
+          digital_set.each do |key, value|
+            myDigital = Digital.new
+            myDigital.description = value[:description]
+            myDigital.url = value[:url]
+            myDigital.actor = actor
+            myDigital.save!
+          end
+        end
       rescue StandardError => error
-        flash[:collective_response] = error
-        urlRedirect =  "/access/developer_error"
+        flash[:general_flash_notification] = "There has been a problem with your submission; Please contact System Administrator." + error.to_s
+        urlRedirect = "/access/registration"
       end
-      urlRedirect =  "/access/success_registration?email="+params[:access][:email]
-    end
     redirect_to urlRedirect
   end
 
@@ -84,10 +130,10 @@ class AccessController < ApplicationController
 
   def verify
     flash[:general_flash_notification] = "Verification Error; Account is not Verified"
-    verificationCode = params[:hashlink]
-    if(Access.exists?( hashlink: verificationCode ) )
+    verificationCode = params[:hash_link]
+    if(Access.exists?( hash_link: verificationCode ) )
       flash[:general_flash_notification] = "Verification Success! Please try signing in."
-      myAccess = Access.find_by_hashlink( verificationCode )
+      myAccess = Access.find_by_hash_link( verificationCode )
       myAccess.verification = 1
       myAccess.save!
     end
@@ -98,7 +144,7 @@ class AccessController < ApplicationController
     myAccess = Access.find_by_email( params[:email] )
     flash[:general_flash_notification] = "No Account with Email '" + params[:email] + "'"
     if(myAccess)
-      VerificationMailer.verification_email( myAccess.email, myAccess.hashlink  ).deliver
+      VerificationMailer.verification_email( myAccess.email, myAccess.hash_link  ).deliver
       flash[:general_flash_notification] = "Resent Verification Email '" + params[:email] + "'"
     end
 
@@ -159,7 +205,7 @@ class AccessController < ApplicationController
     myAccess = Access.find_by email: params[:email]
     flash[:general_flash_notification] = "No Account with Email '" + params[:email] + "'"
     if(myAccess)
-      AccountRecoveryMailer.account_recovery_email( params[:email], myAccess.hashlink ).deliver
+      AccountRecoveryMailer.account_recovery_email( params[:email], myAccess.hash_link ).deliver
       flash[:general_flash_notification] = "Sent Verification Email '" + params[:email] + "'"
       currentRedirect = "/access/email_recovery_verification?email="+params[:email]
     end
@@ -178,7 +224,7 @@ class AccessController < ApplicationController
   def resetPassword
     reset_session
     begin
-      myAccess = Access.find_by_hashlink(params[:code])
+      myAccess = Access.find_by_hash_link(params[:code])
       myAccess.password = params[:password]
       myAccess.password_confirmation = params[:password_confirmation]
       myAccess.save
