@@ -16,7 +16,6 @@
 //= require jquery
 //= require jquery-ui
 //= require selectize.js
-//= require googlemaps120714.js
 //= require locationpicker.jquery.js
 //= require file-validator.js
 //= require jquery.validate
@@ -28,8 +27,6 @@
 //= require foundation
 //= require jquery.qtip.min.js
 //= require employee_quick_profile.js
-//= //require turbolinks // CAUSES ERROR
-//= //require_tree .  // CAUSES ERROR
 
 $(document).foundation();
 $(document).foundation('alert','events');

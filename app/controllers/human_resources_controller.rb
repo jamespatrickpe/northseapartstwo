@@ -69,7 +69,6 @@ class HumanResourcesController < ApplicationController
       @selected_actor = @selected_employee.actor
       @selected_access = Access.find_by_actor_id(@selected_actor.id)
       @selected_biodata = Biodatum.find_by_actor_id(@selected_actor.id)
-      @selected_contact_details = ContactDetail.find_by_actor_id(@selected_actor.id)
       @selected_branch = Branch.find( @selected_employee.branch )
       @selected_file_set = FileSet.where("rel_file_set_id = ? AND rel_file_set_type = 'Actor'", "#{@selected_actor.id}")
       @selected_image_set = ImageSet.where("rel_image_set_id = ? AND rel_image_set_type = 'Actor'", "#{@selected_actor.id}").order('priority DESC')
@@ -79,7 +78,6 @@ class HumanResourcesController < ApplicationController
     @selected_actor ||= Actor.new
     @selected_access ||= Access.new
     @selected_biodata ||= Biodatum.new
-    @selected_contact_details ||= ContactDetail.new
     @selected_branch ||= Branch.new
 
     render 'human_resources/employee_accounts_management/employee_profile'
