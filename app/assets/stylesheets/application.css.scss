@@ -16,19 +16,25 @@
  *= require parsley_overrides
  *= require selectize
  *= require jquery.dataTables
+ *= require employee_quick_profile
+ *= require employee_profile
+ *= require generic_form
  *= pagination
  *= topbar
  *= sidenavigation
  *= spacers
  *= generic_table
+ *= require jquery.qtip.min.css
  *= require_tree .
  *= require_self
+
  */
 
 /* Application Wide Styles */
 
 body {
   min-width: 1360px;
+  overflow-x: hidden;
 }
 
 .northsea-red {
@@ -59,6 +65,11 @@ body {
   border-left-style: solid;
 }
 
+span.subheader {
+  border : 1px solid maroon;
+  font-size: 2em;
+}
+
 //SUB HEADER DESCRIPTION
 .subdescription
 {
@@ -66,6 +77,10 @@ body {
   padding-left: 15px;
   font-size: 12px;
   text-transform: uppercase;
+}
+
+.context-info {
+  color : red;
 }
 
 .whitebackgroundlink
@@ -78,14 +93,25 @@ body {
   color: #FF6600;
 }
 
-#general_flash_notification
+.notification_negative
 {
   background-color: #FF6600;
   width: 100%;
 }
-#general_flash_notification:hover
+
+.notification_negative:hover
 {
   background-color: #c64700
+}
+
+.notification_affirmative
+{
+  background-color: seagreen;
+  width: 100%;
+}
+.notification_affirmative:hover
+{
+  background-color: green;
 }
 
 .border-light {
@@ -97,14 +123,14 @@ body {
   padding : 16px;
 }
 
-/************************************************************************* FORMS*/
+/*************************************** FORMS ***********************************/
 
-/*
-Unsure of what this is
-form div.row {
-  margin : 16px 0;
+form.create_form > *
+{
+  width: auto;
 }
-*/
 
-/************************************************************************* CUSTOM PARSLEY STYLES*/
-
+.selectize-input > input[type='text']
+{
+  height: auto;
+}

@@ -1,9 +1,34 @@
 module ApplicationHelper
 
+  def generic_table_options()
+
+  end
+
+  #Boolean to Words
+  def boolean_to_words(x)
+    if x == 1
+      return 'true'
+    else
+      return 'false'
+    end
+  end
+
   def sortable(column, title = nil)
     title ||= column.titleize
     direction = (column == params[:order_by] && params[:arrangement] == "asc") ? "desc" : "asc"
     link_to title, :order_by => column, :arrangement => direction, :employee_id => @employee_id, :offset => @offset
+  end
+
+  def generic_table_theadlink(link_action, order_parameter, table_orientation)
+    render(:partial => 'core_partials/generic_table_theadlink', :locals => { :link_action => link_action, :order_parameter => order_parameter, :table_orientation => table_orientation})
+  end
+
+  def generic_table_footer(add_link, reset_search_redirect, result_set)
+    render(:partial => 'core_partials/generic_table_footer', :locals => { :add_link => add_link, :reset_search_redirect => reset_search_redirect, :result_set => result_set})
+  end
+
+  def generic_table_search(form_input_id, form_link, placeholdertext, service_url, unique_flash_variable)
+    render(:partial => 'core_partials/generic_table_search', :locals => {:form_input_id => form_input_id, :form_link => form_link, :placeholdertext => placeholdertext,  :service_url => service_url, :unique_flash_variable => unique_flash_variable})
   end
 
   def generateReadableID()
@@ -21,10 +46,6 @@ module ApplicationHelper
     return placeholdervariable
   end
 
-  def rendercorepartial(partialname,partialinks={})
-    render(:partial => "core_partials/"+partialname, :locals => partialinks)
-  end
-
   def renderCorePartial(partialname,partialinks={})
     render(:partial => "core_partials/"+partialname, :locals => partialinks)
   end
@@ -38,7 +59,7 @@ module ApplicationHelper
   end
 
   def renderItemListerButtons(description,add,minus)
-    rendercorepartial("itemlisterbuttons",{ :description => description, :add => add, :minus => minus})
+    renderCorePartial("itemlisterbuttons",{ :description => description, :add => add, :minus => minus})
   end
 
   def error_messages_for(object)

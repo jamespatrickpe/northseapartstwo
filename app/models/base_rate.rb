@@ -4,9 +4,10 @@ class BaseRate < ActiveRecord::Base
 
   belongs_to :employee
   validates_presence_of :employee
+  validates_presence_of :rate_type
 
   validates_presence_of :employee, :period_of_time
-  validates_length_of :description , maximum: 256
+  validates_length_of :remark , maximum: 256
   validates_numericality_of :amount
 
 end

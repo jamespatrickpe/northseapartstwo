@@ -11,8 +11,8 @@ include ApplicationHelper
 #  ----------------------------------------------------------------------------------- OFFICIAL STARTER DATA ------------------------------------------------------------------------
 
 #Administrator
-myActor = Actor.create(name: 'James Patrick Pe', description: 'Administrator')
-myActor.save
+myActor = Actor.create(name: 'James Patrick Pe', description: 'Administrator', logo: 'default.jpg')
+myActor.save!
 
 access = Access.new
 access.actor = myActor
@@ -20,52 +20,66 @@ access.username = 'joojieman'
 access.email = 'jamespatrickpe@northseaparts.com'
 access.password = 'ilovetess'
 access.password_confirmation = 'ilovetess'
-access.hashlink = generateRandomString
+access.hash_link = generateRandomString
 access.verification = true
-access.save
+access.save!
 
-allowableSet = AllowableSet.create( security_level: 'ADMIN', controller: 'ALL', action: 'ALL')
-allowableSet.access = access
-allowableSet.save
+permission = Permission.new
+permission.access = access
+permission.can = 'assess_vale'
+permission.remark = Faker::Lorem.sentence
+permission.save!
+
+permission = Permission.new
+permission.access = access
+permission.can = 'human_resources'
+permission.remark =  Faker::Lorem.sentence
+permission.save!
+
+permission = Permission.new
+permission.access = access
+permission.can = 'access_control'
+permission.remark =  Faker::Lorem.sentence
+permission.save!
 
 #HUMAN RESOURCES
 
 #Holiday
-regularHoliday = HolidayType.create( type_name: "Regular Holiday", additional_rate: 2.00, additional_rate_overtime: 1.30, additional_rate_rest_day_priveleges: 1.3, no_work_pay: true)
-specialNonWorkingHoliday = HolidayType.create( type_name: "Special Non Working Holiday", additional_rate: 1.3, additional_rate_overtime: 1.30, additional_rate_rest_day_priveleges: 1.5, no_work_pay: false)
+regularHoliday = HolidayType.create( type_name: "regular", rate_multiplier: 2, overtime_multiplier: 2.6, rest_day_multiplier: 1.3, no_work_pay: true, overtime_rest_day_multiplier: 2.6)
+specialNonWorkingHoliday = HolidayType.create( type_name: "special_non_working", rate_multiplier: 1.3, overtime_multiplier: 1.69, rest_day_multiplier: 1.5, no_work_pay: false, overtime_rest_day_multiplier: 1.95)
 
-Holiday.create( date_of_implementation: Date.new(2016,1,1) , name: "New Year's Day", holiday_type: regularHoliday)
-Holiday.create( date_of_implementation: Date.new(2016,2,8) , name: "Chinese Lunar New Year's Day", holiday_type: specialNonWorkingHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,3,24) , name: "Maundy Thursday", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,3,25) , name: "Good Friday", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,4,9) , name: "The Day of Valor", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,5,1) , name: "Labor Day", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,6,12) , name: "Ninoy Aquino Day", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,8,21) , name: "National Heroes Day", holiday_type: specialNonWorkingHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,8,28) , name: "National Heroes Day holiday", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,11,1) , name: "All Saints' Day", holiday_type: specialNonWorkingHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,12,25) , name: "Christmas Day", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,12,30) , name: "Rizal Day", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2016,12,31) , name: "New Year's Eve", holiday_type: specialNonWorkingHoliday )
+Holiday.create( date_of_implementation: Date.new(2016,1,1) , name: "New Year's Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence)
+Holiday.create( date_of_implementation: Date.new(2016,2,8) , name: "Chinese Lunar New Year's Day", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,3,24) , name: "Maundy Thursday", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,3,25) , name: "Good Friday", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,4,9) , name: "The Day of Valor", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,5,1) , name: "Labor Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,6,12) , name: "Ninoy Aquino Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,8,21) , name: "National Heroes Day", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,8,28) , name: "National Heroes Day holiday", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,11,1) , name: "All Saints' Day", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,12,25) , name: "Christmas Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,12,30) , name: "Rizal Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2016,12,31) , name: "New Year's Eve", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
 
-Holiday.create( date_of_implementation: Date.new(2015,1,1) , name: "New Year's Day", holiday_type: regularHoliday)
-Holiday.create( date_of_implementation: Date.new(2015,1,2) , name: "Special non-working day after New Year", holiday_type: specialNonWorkingHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,2,19) , name: "Chinese Lunar New Year's Day", holiday_type: specialNonWorkingHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,4,2) , name: "Maundy Thursday", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,4,3) , name: "Good Friday", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,4,4) , name: "Holy Saturday", holiday_type: specialNonWorkingHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,4,9) , name: "The Day of Valor", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,5,1) , name: "Labor Day", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,5,12) , name: "Independence Day", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,8,21) , name: "Ninoy Aquino Day", holiday_type: specialNonWorkingHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,8,30) , name: "National Heroes Day", holiday_type: specialNonWorkingHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,8,31) , name: "National Heroes Day Holiday", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,11,1) , name: "All Saints' Day", holiday_type: specialNonWorkingHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,11,30) , name: "Bonifacio Day", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,12,24) , name: "Christmas Eve", holiday_type: specialNonWorkingHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,12,25) , name: "Christmas Day", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,12,30) , name: "Rizal Day", holiday_type: regularHoliday )
-Holiday.create( date_of_implementation: Date.new(2015,12,31) , name: "New Year's Eve", holiday_type: specialNonWorkingHoliday )
+Holiday.create( date_of_implementation: Date.new(2015,1,1) , name: "New Year's Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence)
+Holiday.create( date_of_implementation: Date.new(2015,1,2) , name: "Special non-working day after New Year", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,2,19) , name: "Chinese Lunar New Year's Day", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,4,2) , name: "Maundy Thursday", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,4,3) , name: "Good Friday", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,4,4) , name: "Holy Saturday", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,4,9) , name: "The Day of Valor", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,5,1) , name: "Labor Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,5,12) , name: "Independence Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,8,21) , name: "Ninoy Aquino Day", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,8,30) , name: "National Heroes Day", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,8,31) , name: "National Heroes Day Holiday", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,11,1) , name: "All Saints' Day", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,11,30) , name: "Bonifacio Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,12,24) , name: "Christmas Eve", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,12,25) , name: "Christmas Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,12,30) , name: "Rizal Day", holiday_type: regularHoliday, remark: Faker::Lorem.sentence )
+Holiday.create( date_of_implementation: Date.new(2015,12,31) , name: "New Year's Eve", holiday_type: specialNonWorkingHoliday, remark: Faker::Lorem.sentence )
 
 #Institutional Adjustment
 
@@ -142,17 +156,22 @@ InstitutionalAdjustment.create( institution_employee: myPhilhealth, start_range:
 InstitutionalAdjustment.create( institution_employee: myPagibig, start_range: 0.00, end_range: 99999999999.99, employer_contribution: 100.00, employee_contribution:  100.00 , period_of_time: "MONTH")
 
 # Branches
-Branch.create(name: "GRECO Warehouse")
-Branch.create(name: "BIOFIN")
-Branch.create(name: "GREEN TERRAIN")
-Branch.create(name: "North Sea Cainta")
-Branch.create(name: "Ampid Diesel Trading")
-Branch.create(name: "Generic")
+Branch.create(name: 'GRECO Warehouse')
+Branch.create(name: 'BIOFIN')
+Branch.create(name: 'GREEN TERRAIN')
+Branch.create(name: 'North Sea Cainta')
+Branch.create(name: 'Ampid Diesel Trading')
+Branch.create(name: 'Generic')
 
 #Constants
-Constant.create( name: "human_resources.minimum_wage", constant: "362.50", description: "Minimum Wage")
-Constant.create( name: "human_resources.preferred_rest_day", constant: "SUNDAY", description: "Preferred Rest Day" )
-Constant.create( name: "human_resources.default_duration_of_contract_days", constant: "366", description: "Default Duration of Contract (Days)" )
+Constant.create( constant_type: 'human_resources.minimum_wage', value: '362.50', name: 'Minimum Wage', remark: Faker::Lorem.sentence)
+Constant.create( constant_type: 'human_resources.preferred_rest_day', value: 'SUNDAY', name: 'Preferred Rest Day', remark: Faker::Lorem.sentence )
+Constant.create( constant_type: 'human_resources.contract_days', value: '366', name: 'Default Duration of Contract (Days)', remark: Faker::Lorem.sentence )
+Constant.create( constant_type: 'human_resources.time_start', value: '08:00', name: 'Usual time Start for Employee', remark: Faker::Lorem.sentence )
+Constant.create( constant_type: 'human_resources.time_end', value: '17:00', name: 'Usual time End for Employee', remark: Faker::Lorem.sentence )
+Constant.create( constant_type: 'human_resources.night_shift_differential_start', value: '22:00', name: 'Start of Night Shift Differential', remark: Faker::Lorem.sentence )
+Constant.create( constant_type: 'human_resources.night_shift_differential_end', value: '05:00', name: 'End of Night Shift Differential', remark: Faker::Lorem.sentence )
+Constant.create( constant_type: 'human_resources.night_shift_differential_multiplier', value: '0.1', name: 'Multiplier for NSD', remark: Faker::Lorem.sentence )
 
 #Departments
 hr = Department.new(label: "Human Resources", description: "no description")
@@ -188,11 +207,18 @@ numberOfPositions.times do |i|
 end
 
 #ENTITIES
-numberOfActors = 100
+numberOfActors = 25
 numberOfActors.times do |i|
   #Actor
-  myActor = Actor.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true), logo: 'barack_obama.jpg')
-  myActor.save
+  current_logo = ['default_1.jpg','default_2.jpg','default_3.jpg','default_4.jpg','default_5.jpg','default_6.jpg','default_7.jpg','default_8.jpg','default_9.jpg','default_10.jpg','default.jpg'].sample
+  myActor = Actor.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true))
+  myActor[:logo] = current_logo
+  myActor.save!
+
+  # File Set
+  if randomBoolean
+
+  end
 
   # ACCESS
   if (randomBoolean())
@@ -215,34 +241,65 @@ numberOfActors.times do |i|
     myAccess.email = randomEmail
     myAccess.password = randomPassword
     myAccess.password_confirmation = randomPassword
-    myAccess.hashlink = generateRandomString
+    myAccess.hash_link = generateRandomString
     myAccess.verification = randomBoolean
-    myAccess.save
+    myAccess.last_login = Time.now - rand(0..72000).hours
+    myAccess.save!
 
-    #ContactDetail
-    myContactDetail = ContactDetail.create( actor: myActor)
-    randomNumberOfAddresses = rand(0..5)
-    randomNumberOfTelephony = rand(0..5)
-    randomNumberOfDigital = rand(0..5)
+    #Related File Sets
+    rand(0..10).times do |i|
+      if randomBoolean
+        myFileSet = FileSet.new
+        myFileSet[:file] = ['export_table_1.csv','export_table_2.csv','export_table_3.csv','export_table_4.csv','export_table_5.csv'].sample
+        myFileSet.label = Faker::Lorem.sentence
+        myFileSet.rel_file_set_id = myActor.id
+        myFileSet.rel_file_set_type = 'Actor'
+        myFileSet.save!
+      end
+    end
+
+    #Related Image Sets
+    rand(0..10).times do |i|
+      if randomBoolean
+        myImageSet = ImageSet.new
+        myImageSet[:picture] = ['file_01.jpg','file_02.png','file_03.gif','file_04.jpg','file_05.jpg'].sample
+        myImageSet.description = Faker::Lorem.sentence
+        myImageSet.rel_image_set_id = myActor.id
+        myImageSet.rel_image_set_type = 'Actor'
+        myImageSet.save!
+      end
+    end
+
+    #Permission
+    rand(0..2).times do |i|
+      if randomBoolean
+        permission = Permission.new
+        permission.access = access
+        permission.can = ['access_control','assess_vale','human_resources'].sample
+        permission.remark =  Faker::Lorem.sentence
+        permission.save!
+      end
+    end
 
     #Addresses
-    randomNumberOfAddresses.times do |i|
+    rand(0..5).times do |i|
       completeAddress = Faker::Address.building_number + Faker::Address.street_name + Faker::Address.street_address + Faker::Address.city + Faker::Address.country
-      myAddress = Address.new( description: completeAddress, longitude: Faker::Address.longitude, latitude: Faker::Address.latitude, contact_detail: myContactDetail  )
-      myAddress.save
+      myAddress = Address.new( description: completeAddress, longitude: Faker::Address.longitude, latitude: Faker::Address.latitude, actor: myActor  )
+      myAddress.save!
     end
 
     #Telephony
-    randomNumberOfTelephony.times do |i|
-      myTelephony = Telephone.new( description: Faker::Lorem.sentences(1), digits: Faker::PhoneNumber.phone_number, contact_detail: myContactDetail  )
-      myTelephony.save
+    rand(0..5).times do |i|
+      myTelephony = Telephone.new( description: Faker::Lorem.sentence, digits: Faker::PhoneNumber.phone_number, actor: myActor  )
+      myTelephony.save!
     end
 
     #Digital
-    randomNumberOfDigital.times do |i|
-      myDigital = Digital.new( description: Faker::Lorem.sentences(1), url: Faker::Internet.url, contact_detail: myContactDetail )
-      myDigital.save
+    rand(0..5).times do |i|
+      myDigital = Digital.new( description: Faker::Lorem.sentence, url: Faker::Internet.url, actor: myActor )
+      myDigital.save!
     end
+
   end
 
   # BIODATA
@@ -250,7 +307,7 @@ numberOfActors.times do |i|
     myBioData = Biodatum.new()
     myBioData.actor = myActor
     myBioData.education = Faker::Company.name
-    myBioData.career_experience = Faker::Lorem.words(4)
+    myBioData.career_experience = Faker::Lorem.sentence(3, false, 4)
     myBioData.notable_accomplishments = Faker::Lorem.sentence(3, false, 4)
     myBioData.date_of_birth = Faker::Date.between(600.months.ago, 216.months.ago)
     myBioData.family_members = Faker::Lorem.sentence(3, false, 4)
@@ -258,12 +315,12 @@ numberOfActors.times do |i|
     myBioData.gender = ["male", "female"].sample
     myBioData.place_of_birth = Faker::Address.city
     myBioData.emergency_contact = Faker::PhoneNumber.phone_number
-    myBioData.languages_spoken = Faker::Lorem.words(4)
-    myBioData.complexion = Faker::Lorem.words(1)
-    myBioData.height = Faker::Number.number(3)
-    myBioData.marital_status = ["single", "married"].sample
+    myBioData.languages_spoken = Faker::Lorem.sentence(3, false, 4)
+    myBioData.complexion = Faker::Lorem.sentence(3, false, 4)
+    myBioData.height_cm = Faker::Number.number(3)
+    myBioData.marital_status = ["single", "married", "married with 2 wives"].sample
     myBioData.blood_type = ["O", "A", "B-","B+"].sample
-    myBioData.religion = Faker::Lorem.words(1)
+    myBioData.religion = Faker::Lorem.sentence(3, false, 4)
     myBioData.save
   end
 
@@ -273,15 +330,41 @@ numberOfActors.times do |i|
     # myBranch = Branch.where(id: ids)
     myEmployee = Employee.new( actor: myActor, branch: Branch.all.shuffle.first )
 
+    rand(1..3).times do |i|
     dayOfWeek = Faker::Time.between(7.days.ago, Time.now, :all).strftime("%A")
-    restday = Restday.new(day: dayOfWeek, employee: myEmployee); restday.save
+    restday = Restday.new(day: dayOfWeek, employee: myEmployee)
+    restday.created_at = rand(720..72000).hours.ago
+    restday.save!
+    end
+
+    numberOfWorkPeriods = rand(1..4)
+    numberOfWorkPeriods.times do
+      pickWorkHours = rand(1..5)
+      if(pickWorkHours == 1)
+        start_time = '08:00:00'
+        end_time = '17:00:00'
+      elsif (pickWorkHours == 2)
+        start_time = '09:00:00'
+        end_time = '18:00:00'
+      elsif (pickWorkHours == 3)
+        start_time = '17:00:00'
+        end_time = '05:00:00'
+      else
+        start_time = '01:00:00'
+        end_time = '06:00:00'
+      end
+      workperiod = RegularWorkPeriod.new(remark: Faker::Lorem.word, employee: myEmployee, start_time: start_time, end_time: end_time )
+      workperiod.created_at = rand(720..72000).hours.ago
+      workperiod.save!
+    end
 
     numberOfDuties = rand(1..5)
     numberOfDuties.times do
-      myStatus = ["ACTIVE","INACTIVE"].sample
-      dutyStatus = DutyStatus.new(description: Faker::Lorem.words(16), label: myStatus, employee: myEmployee)
-      dutyStatus.created_at = rand(720..72000).hours.ago
-      dutyStatus.save
+      dutyStatus = DutyStatus.new(remark: Faker::Lorem.sentence, employee: myEmployee)
+      active = -> { [false,true].sample }
+      dutyStatus.active = active.call
+      dutyStatus.date_of_effectivity = rand(720..72000).hours.ago
+      dutyStatus.save!
     end
 
     myEmployee.save
@@ -299,34 +382,29 @@ numberOfActors.times do |i|
       amountOfMoney = randomMoney(15000.99,25000.05)
     end
 
-    randomNumberOfAttendances = rand(0..30)
-    randomNumberOfAttendances.times do |i|
-      day = i.days.ago
-      timein = Faker::Time.between(day, Time.now, :morning)
-      timeout = Faker::Time.between(day, Time.now, :evening)
-
+    #Attendances
+    rand(0..360).times do |i|
+      myDate = Date.new( rand(2001..2016) , rand(1..12) , rand(1..28))
+      timein = DateTime.new( myDate.year, myDate.month, myDate.day, rand(0..12), rand(0..59), rand(0..59) )
+      timeout = DateTime.new( myDate.year, myDate.month, myDate.day, rand(12..23), rand(0..59), rand(0..59) )
+      remark = Faker::Lorem.sentence
       if randomBoolean() && randomBoolean() && randomBoolean() && randomBoolean()
         # SIMULATE OVERNIGHT
-        currentDay = i.days.ago
-        timein = Faker::Time.between(currentDay, Time.now, :all)
-        timeout = Faker::Time.between(currentDay+1.day, Time.now, :all)
-        myAttendance = Attendance.new(timein: timein, employee: myEmployee )
+        myAttendance = Attendance.new(timein: timein, employee: myEmployee, remark: remark )
         myAttendance.save
-        myAttendance = Attendance.new( timeout: timeout, employee: myEmployee )
+        myAttendance = Attendance.new(timeout: timeout+1.day, employee: myEmployee, remark: remark )
         myAttendance.save
       else
         # SIMULATE REGULAR ATTENDANCE
-        myAttendance = Attendance.new( timein: timein, timeout: timeout, employee: myEmployee )
+        myAttendance = Attendance.new(timein: timein, timeout: timeout, employee: myEmployee, remark: remark )
         myAttendance.save
       end
+
     end
 
-    randomNumberofBaseRates = rand(10..30)
-    randomNumberofBaseRates.times do |i|
-
-      periodsOfTime = ["DAY", "WEEK", "HOUR", "MONTH"]
-      periodOfTime = periodsOfTime[rand(periodsOfTime.length)]
-
+    # Base Rate
+    rand(1..5).times do |i|
+      periodOfTime = ["DAY", "WEEK", "HOUR", "MONTH"].sample
       if( periodOfTime == "DAY" )
         amountOfMoney = randomMoney(267.32,600.05)
       elsif( periodOfTime == "WEEK" )
@@ -336,8 +414,16 @@ numberOfActors.times do |i|
       elsif( periodOfTime == "MONTH" )
         amountOfMoney = randomMoney(15000.99,25000.05)
       end
-
-      myBaseRate = BaseRate.new(description: Faker::Lorem.words(4) ,amount: amountOfMoney, period_of_time: periodOfTime, employee: myEmployee, start_of_effectivity: Faker::Time.between(Time.now, Time.now - 300.days, :all), end_of_effectivity: Faker::Time.between(Time.now + 300.days, Time.now, :all), signed_type: ["ADDITION", "DEDUCTION"].sample )
+      signed_type = -> { [false,true].sample }
+      myBaseRate = BaseRate.new(remark: Faker::Lorem.sentence(4),
+                                amount: amountOfMoney,
+                                period_of_time: periodOfTime,
+                                employee: myEmployee,
+                                start_of_effectivity: Faker::Time.between(Time.now, Time.now - 300.days, :all),
+                                end_of_effectivity: Faker::Time.between(Time.now + 300.days, Time.now, :all),
+                                signed_type: signed_type.call,
+                                rate_type: ['base','COLA','CTPA','SEA','other'].sample
+      )
       myBaseRate.save
     end
 
@@ -358,14 +444,31 @@ numberOfActors.times do |i|
     end
 
     # For Lump Adjustment
+
+    numberOfDuties = rand(1..5)
+    numberOfDuties.times do
+      dutyStatus = DutyStatus.new(remark: Faker::Lorem.sentence, employee: myEmployee)
+      active = -> { [false,true].sample }
+      dutyStatus.active = active.call
+      dutyStatus.created_at = rand(720..72000).hours.ago
+      dutyStatus.save!
+    end
+
     randomNumberOfLumpAdjustment = rand(0..30)
     randomNumberOfLumpAdjustment.times do |i|
-      LumpAdjustment.create( amount: randomMoney(100.10,1000.00), signed_type: ["ADDITION", "DEDUCTION"].sample, employee: myEmployee, description: Faker::Lorem.words(4), date_of_effectivity:Faker::Time.between(Time.now, Time.now - 300.days, :all))
+      lumpAdjustment = LumpAdjustment.new()
+      signed_type = -> { [false,true].sample }
+      lumpAdjustment.amount = randomMoney(100.10,1000.00)
+      lumpAdjustment.signed_type = signed_type.call
+      lumpAdjustment.employee = myEmployee
+      lumpAdjustment.remark = Faker::Lorem.word
+      lumpAdjustment.date_of_effectivity = rand(720..72000).hours.ago
+      lumpAdjustment.save!
     end
 
     # For Rate Adjustment
     if(randomBoolean() && randomBoolean() )
-      RateAdjustment.create( amount: randomMoney(100.10,1000.00), signed_type: ["ADDITION", "DEDUCTION"].sample, employee: myEmployee, description: Faker::Lorem.words(4), rate_of_time: ["DAY", "WEEK", "MONTH"].sample, activated: randomBoolean())
+      RateAdjustment.create( amount: randomMoney(100.10,1000.00), signed_type: ["ADDITION", "DEDUCTION"].sample, employee: myEmployee, description: Faker::Lorem.sentence, rate_of_time: ["DAY", "WEEK", "MONTH"].sample, activated: randomBoolean())
     end
 
     # For AdvancedPaymentsToEmployee

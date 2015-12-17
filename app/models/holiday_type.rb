@@ -3,8 +3,14 @@ class HolidayType < ActiveRecord::Base
   include UUIDHelper
 
   validates_presence_of :type_name
-  validates_numericality_of :additional_rate
-  validates_numericality_of :additional_rate_overtime
-  validates_numericality_of :additional_rate_rest_day_priveleges
+  validates_presence_of :rate_multiplier
+  validates_presence_of :overtime_multiplier
+  validates_presence_of :rest_day_multiplier
+  validates_presence_of :overtime_rest_day_multiplier
+
+  validates_numericality_of :rate_multiplier
+  validates_numericality_of :overtime_multiplier
+  validates_numericality_of :rest_day_multiplier
+  validates_numericality_of :overtime_rest_day_multiplier
 
 end

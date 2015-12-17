@@ -7,27 +7,44 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
   helper_method :error_messages_for, :shift_table_orientation
 
+  def create_unique_hash_link
+    # Generates Unique Hash for Email Verification
+    hash_link = generateRandomString
+    if Access.exists?( hash_link: hash_link ) #secures against similar hashlinks; for it to be unique
+      hash_link = generateRandomString
+    end
+    return hash_link
+  end
+
+  def initialize_employee_selection
+    @employees = Employee.includes(:actor).joins(:actor)
+  end
+
+  def employee_overview_profile
+    respond_to do |format|
+      employee_overview_profile = Employee.find(params[:employee_ID]).to_json({ :include => :actor })
+      format.all { render :json => employee_overview_profile}
+    end
+  end
+
   #Reset Search Common Paremeters
   def reset_search
-    flash["order_parameter"] = nil
-    flash["order_orientation"] = nil
-    flash["current_limit"] = nil
-    flash["search_generic_table"] = nil
+    flash.clear
+    flash[:general_flash_notification] = 'Search Queries Cleared'
+    flash[:general_flash_notification_type] = 'affirmative'
+    redirect_to params[:reset_search_redirect]
   end
 
   # Stores previous search queries for aggregated results
-  def aggregated_search_queries(value, key, default)
-    if(value)
-      #Priortize actual parameter
+  def aggregated_search_queries(value, table_id, key, default)
+    if value
       actual_query_parameter = value
-    elsif (flash[key])
-      #If there is no parameter; pass from cookie
-      actual_query_parameter = flash[key]
+    elsif flash[table_id + '_' + key]
+      actual_query_parameter = flash[table_id + '_' + key]
     else
-      # if nothing else; set default
       actual_query_parameter = default
     end
-    flash[key] = actual_query_parameter
+    flash[table_id + '_' + key] = actual_query_parameter
     return actual_query_parameter
   end
 
@@ -51,11 +68,21 @@ class ApplicationController < ActionController::Base
     if( Access.exists?( session[:access_id]) )
       @myAccess = Access.find(session[:access_id])
       @myActor = @myAccess.actor
+      @myAccess.last_login = Time.now
+      @myAccess.save!
       @sign_in_affirmative = true
-      #uploader = AvatarUploader.new
     else
       flash[:general_flash_notification] = "Invalid Login Credentials"
       redirect_to "/access/signin"
+    end
+  end
+
+  def check_employee_name_exists
+    employee_name = params[:employee_select_field]
+    result = Employee.includes(:actor).joins(:actor).where("actors.name = ?","#{employee_name}").exists?
+    respond_to do |format|
+      format.json { render json: {:"exists" => result}.to_json }
+      format.html
     end
   end
 
@@ -126,68 +153,6 @@ class ApplicationController < ActionController::Base
       @actor = Actor.find(actorID)
     else
       raise("No Option Found")
-    end
-  end
-
-  def processActor(params)
-    #@actor = Actor.new( name: params[:actor][:name], description: params[:actor][:description], logo: params[:actor][:logo])
-    @actor = Actor.new
-    @actor.name = params[:actor][:name];
-    @actor.description = params[:actor][:description];
-    @actor.logo = params[:actor][:logo]
-    @actor.save!
-  end
-
-  def processAccess(params)
-
-    #Generates Unique Hash for Email Verification
-    hashlink = generateRandomString()
-    if Access.exists?( hashlink: hashlink ) #secures against similar hashlinks; for it to be unique
-      hashlink = generateRandomString()
-    else
-    end
-
-    @access = Access.new
-    @access.username = params[:access][:username]
-    @access.password = params[:access][:password]
-    @access.password_confirmation = params[:access][:password_confirmation]
-    @access.email = params[:access][:email]
-    @access.hashlink = hashlink
-    @access.actor = @actor
-    @access.save
-
-    VerificationMailer.verification_email( params[:access][:email], @access.hashlink  ).deliver
-  end
-
-  def processContactDetails(params)
-    @addressSet = params[:address]
-    @telephoneSet = params[:telephony]
-    @digitalSet = params[:digital]
-
-    #Contact Detail Processing
-    @contactDetail = ContactDetail.new()
-    @contactDetail.actor = @actor
-    @contactDetail.save!
-
-    #Address Processing
-    @addressSet.each do |key, value|
-      @address = Address.new( description: value[:description], longitude: value[:longitude], latitude: value[:latitude] )
-      @address.contact_detail = @contactDetail
-      @address.save!
-    end
-
-    #Telephony Processing
-    @telephoneSet.each do |key, value|
-      @telephony = Telephone.new( description: value[:description], digits: value[:digits] )
-      @telephony.contact_detail = @contactDetail
-      @telephony.save!
-    end
-
-    #Digital Processing
-    @digitalSet.each do |key, value|
-      @digital = Digital.new( description: value[:description], url: value[:url] )
-      @digital.contact_detail = @contactDetail
-      @digital.save!
     end
   end
 

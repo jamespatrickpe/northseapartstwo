@@ -3,7 +3,6 @@ class CreateBiodata < ActiveRecord::Migration
     create_table :biodata, :id => false   do |t|
       t.string :id, limit: 36, primary: true, null: false
       t.string :actor_id, limit: 36,:required => true
-
       t.string :education, :limit => 256
       t.string :career_experience, :limit => 256
       t.string :notable_accomplishments, :limit => 256
@@ -15,12 +14,12 @@ class CreateBiodata < ActiveRecord::Migration
       t.string :emergency_contact, :limit => 256
       t.string :languages_spoken, :limit => 256
       t.string :complexion, :limit => 256
-      t.string :height, :limit => 256
+      t.decimal :height_cm, :limit => 256
       t.string :marital_status, :limit => 256
       t.string :blood_type, :limit => 256
       t.string :religion, :limit => 256
-
       t.timestamps
     end
+    execute "ALTER TABLE biodata ADD PRIMARY KEY (id);"
   end
 end

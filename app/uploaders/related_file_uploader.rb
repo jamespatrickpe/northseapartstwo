@@ -13,11 +13,11 @@ class RelatedFileUploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    "/northseapartsuploads/related_files/"
+    "related_files/"
   end
 
   def cache_dir
-    "/northseapartsuploads/related_files/tmp/"
+    "related_files/tmp/"
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
@@ -53,13 +53,14 @@ class RelatedFileUploader < CarrierWave::Uploader::Base
   # end
 
   def filename
-    "#{secure_token(10)}.#{file.extension}" if original_filename.present?
+    "#{secure_token}.#{file.extension}" if original_filename.present?
   end
 
   protected
-  def secure_token(length=16)
+  def secure_token
     var = :"@#{mounted_as}_secure_token"
-    model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.hex(length/2))
+    model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.uuid)
   end
+
 
 end

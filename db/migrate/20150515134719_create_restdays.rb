@@ -6,8 +6,8 @@ class CreateRestdays < ActiveRecord::Migration
       t.string :id, limit: 36, primary: true, null: false
       t.string :day, :limit => 64, :default => "SUNDAY"
       t.string :employee_id, limit: 36,:required => true
-
       t.timestamps null: false
     end
+    execute "ALTER TABLE restdays ADD PRIMARY KEY (id);"
   end
 end
