@@ -1,52 +1,44 @@
 <%
    # If there is no duty_status; transfer to these variables.
-   @selected_employee.attributes.each do |attr_name, attr_value|
-     attr_name ||= ''
-   end
-   @selected_actor.attributes.each do |attr_name, attr_value|
-     attr_name ||= ''
-   end
-   @selected_branch.attributes.each do |attr_name, attr_value|
-     attr_name ||= ''
-   end
-   @selected_access.attributes.each do |attr_name, attr_value|
-     attr_name ||= ''
-   end
-   @selected_biodata.attributes.each do |attr_name, attr_value|
-     attr_name ||= ''
-   end
    @selected_access.username ||= 'n/a'
    @selected_access.email ||= 'n/a'
    @selected_biodata.emergency_contact ||= 'n/a'
 %>
 
 <section class='small-10 columns'>
-  <div class='mainheader'> Employee Profile </div>
-  <div class='subdescription'> Information about the Employee </div>
+  <div class='mainheader'> <%= @selected_model %> Profile </div>
+  <div class='subdescription'> Information about the <%= @selected_model %> </div>
   <hr>
 
   <div class='small-4 columns'>
     <div class='generic_form'>
       <%= form_tag( {action: :employee_profile}, multipart: true, class: 'create_form', id: "employee_profile", :"data-parsley-validate" => "" ) do %>
-          <select name='employee[id]'
-                  id='read_employee'
-                  class='employee_select_field'
+          <select name='actor[id]'
+                  id='read_actor'
+                  class='actor_select_field'
                   required="required" >
             <option value="" disabled selected>Select Employee</option>
-            <% @employees.each do |employee| %>
-                <% if employee.id == @selected_employee.id %>
-                    <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
+            <% @actors.each do |actor| %>
+                <% if actor.id == @selected_actor.id %>
+                    <option value=<%= actor.id %> selected><%= actor.name %></option>
                 <% else %>
-                    <option value=<%= employee.id %>><%= employee.actor.name %></option>
+                    <option value=<%= actor.id %>><%= actor.name %></option>
                 <% end %>
             <% end %>
           </select>
       <% end %>
     </div>
 
+    <% if @selected_employee.present? %>
     <div class="employee_profile_title"> Employee Data </div>
     <div class="employee_profile_field"> Employee ID: <br> <%= @selected_employee.id %> </div>
     <div class="employee_profile_field"> Branch: <br> <%= @selected_branch.name %> </div>
+    <div class="employee_profile_field"> Registered At: <br> <%= @selected_employee.created_at %> </div>
+    <div class="employee_profile_field"> Updated At: <br> <%= @selected_employee.updated_at %> </div>
+    <% end %>
+
+    <% if @selected_access.present? %>
+    <div class="employee_profile_title"> Access </div>
     <div class="employee_profile_field"> Username: <br>
       <%= link_to( @selected_access.username ,{:controller => 'access', :action => 'signin'}, class: 'employee_profile_small_button') %>
     </div>
@@ -54,8 +46,7 @@
       <a class="employee_profile_small_button" href="mailto:<%= @selected_access.email %>" target="_top"><%= @selected_access.email %> </a>
     </div>
     <div class="employee_profile_field"> Last Login: <br> <%= @selected_access.last_login %> </div>
-    <div class="employee_profile_field"> Registered At: <br> <%= @selected_employee.created_at %> </div>
-    <div class="employee_profile_field"> Updated At: <br> <%= @selected_employee.updated_at %> </div>
+    <% end %>
 
     <% if @selected_file_set.present? %>
         <div class="employee_profile_title"> Associated Files </div>
@@ -70,6 +61,7 @@
 
   <div class='small-4 columns'>
     <div class="employee_profile_title"> Biodata: </div>
+  <% if @selected_biodata.present? %>
     <div class="employee_profile_field"> Education: <br> <%= @selected_biodata.education %> </div>
     <div class="employee_profile_field"> Career Experience: <br> <%= @selected_biodata.career_experience %> </div>
     <div class="employee_profile_field"> Notable Accomplishments: <br> <%= @selected_biodata.notable_accomplishments %> </div>
@@ -85,6 +77,9 @@
     <div class="employee_profile_field"> Marital Status: <br> <%= @selected_biodata.marital_status %> </div>
     <div class="employee_profile_field"> Blood Type: <br> <%= @selected_biodata.blood_type %> </div>
     <div class="employee_profile_field"> Religion: <br> <%= @selected_biodata.religion %> </div>
+  <% else %>
+      <hr><div align="center"> n/a </div><hr>
+  <% end %>
   </div>
 
   <div class='small-4 columns'>
@@ -103,35 +98,41 @@
   <div class='small-12 columns'>
     <div class="employee_profile_title"> Contact Details </div>
     <div class='small-4 columns'>
+      <div class="employee_profile_field">ADDRESSES:</div>
       <% if @selected_address_set.present? %>
-          <div class="employee_profile_field">ADDRESSES:</div>
           <% @selected_address_set.each do |address| %>
               <div class="employee_profile_field">
                 <%= link_to address.description, 'https://www.google.com/maps/preview/@'+address.latitude.to_s+','+address.longitude.to_s+',10z', class: "employee_profile_small_button", target: "_blank" %>
               </div>
           <% end %>
+      <% else %>
+          <hr><div align="center"> n/a </div><hr>
       <% end %>
     </div>
     <div class='small-4 columns'>
+      <div class="employee_profile_field">TELEPHONES:</div>
       <% if @selected_telephone_set.present? %>
-          <div class="employee_profile_field">TELEPHONES:</div>
           <% @selected_telephone_set.each do |telephone| %>
               <div class="employee_profile_field">
                 <%= telephone.description %> <br>
                 <%= link_to telephone.digits, 'tel:'+telephone.digits, class: "employee_profile_small_button", target: "_blank" %>
               </div>
           <% end %>
+      <% else %>
+          <hr><div align="center"> n/a </div><hr>
       <% end %>
     </div>
     <div class='small-4 columns'>
+      <div class="employee_profile_field">DIGITALS:</div>
       <% if @selected_digital_set.present? %>
-          <div class="employee_profile_field">DIGITALS:</div>
           <% @selected_digital_set.each do |digital| %>
               <div class="employee_profile_field">
                 <%= digital.description %> <br>
                 <%= link_to digital.url, digital.url, class: "employee_profile_small_button", target: "_blank" %>
               </div>
           <% end %>
+      <% else %>
+          <hr><div align="center"> n/a </div><hr>
       <% end %>
     </div>
   </div>
@@ -141,12 +142,13 @@
 <script type="application/javascript">
     $(document).ready(function()
     {
-        $('.employee_select_field')
+        $('.actor_select_field')
                 .selectize({sortField: 'text'})
                 .change(function(){
-                    employee_id = $('#read_employee').val();
-                    current_page = '/human_resources/employee_profile';
-                    window.location = current_page + '?employee_id=' + employee_id;
+                    var actor_id = $('#read_actor').val();
+                    alert( $.get('/application/get_controller') );
+                    //current_page = '/human_resources/employee_profile';
+                    //window.location = current_page + '?actor_id=' + actor_id;
                 });
 
         $('.employee_profile_image_container').qtip({

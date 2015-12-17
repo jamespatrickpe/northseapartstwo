@@ -7,6 +7,33 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
   helper_method :error_messages_for, :shift_table_orientation
 
+  def get_controller
+    respond_to do |format|
+      format.all { render :text => 'employee_overview_profile'}
+    end
+  end
+
+  def initialize_actor_selection
+    @employees = Employee.includes(:actor).joins(:actor)
+  end
+
+  def actor_profile
+    if( params[:actor_id] )
+      @selected_actor = Actor.find(params[:actor_id])
+      @selected_access = Access.find_by_actor_id(@selected_actor.id)
+      @selected_biodata = Biodatum.find_by_actor_id(@selected_actor.id)
+      @selected_address_set = Address.where("actor_id = ?", "#{@selected_actor.id}")
+      @selected_telephone_set = Telephone.where("actor_id = ?", "#{@selected_actor.id}")
+      @selected_digital_set = Digital.where("actor_id = ?", "#{@selected_actor.id}")
+      @selected_file_set = FileSet.where("rel_file_set_id = ? AND rel_file_set_type = 'Actor'", "#{@selected_actor.id}")
+      @selected_image_set = ImageSet.where("rel_image_set_id = ? AND rel_image_set_type = 'Actor'", "#{@selected_actor.id}").order('priority DESC')
+    else
+      @selected_actor ||= Actor.new
+      @selected_access ||= Access.new
+      @selected_biodata ||= Biodatum.new
+    end
+  end
+
   def create_unique_hash_link
     # Generates Unique Hash for Email Verification
     hash_link = generateRandomString

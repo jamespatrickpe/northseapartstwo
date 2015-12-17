@@ -63,27 +63,13 @@ class HumanResourcesController < ApplicationController
   end
 
   def employee_profile
-    initialize_employee_selection
-    if( params[:employee_id])
-      @selected_employee = Employee.find(params[:employee_id])
-      @selected_actor = @selected_employee.actor
-      @selected_access = Access.find_by_actor_id(@selected_actor.id)
-      @selected_biodata = Biodatum.find_by_actor_id(@selected_actor.id)
-      @selected_branch = Branch.find( @selected_employee.branch )
-      @selected_address_set = Address.where("actor_id = ?", "#{@selected_actor.id}")
-      @selected_telephone_set = Telephone.where("actor_id = ?", "#{@selected_actor.id}")
-      @selected_digital_set = Digital.where("actor_id = ?", "#{@selected_actor.id}")
-      @selected_file_set = FileSet.where("rel_file_set_id = ? AND rel_file_set_type = 'Actor'", "#{@selected_actor.id}")
-      @selected_image_set = ImageSet.where("rel_image_set_id = ? AND rel_image_set_type = 'Actor'", "#{@selected_actor.id}").order('priority DESC')
+    @actors = Actor.includes(:employee).joins(:employee)
+    actor_profile
+    @selected_employee = Employee.find_by_actor_id( params[:actor_id] )
+    if @selected_employee.present?
+      @selected_branch = Branch.find(@selected_employee.branch_id)
     end
-
-    @selected_employee ||= Employee.new
-    @selected_actor ||= Actor.new
-    @selected_access ||= Access.new
-    @selected_biodata ||= Biodatum.new
-    @selected_branch ||= Branch.new
-
-    render 'human_resources/employee_accounts_management/employee_profile'
+    render 'shared/actor_profile'
   end
 
   # ================== Attendances ================== #
@@ -112,6 +98,9 @@ class HumanResourcesController < ApplicationController
   def branch_attendance_sheet
   end
 
+  def process_branch_attendance_sheet
+  end
+
   def employee_attendance_history
   end
 
@@ -132,7 +121,7 @@ class HumanResourcesController < ApplicationController
       if( params[:attendance][:id].present? )
         myAttendance = Attendance.find(params[:attendance][:id])
       else
-        myAttendance = Attendance.new()
+        myAttendance = Attendance.new
       end
       myAttendance.employee_id = params[:attendance][:employee_id]
       myAttendance.timein = params[:attendance][:timein]
