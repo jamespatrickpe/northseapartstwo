@@ -42,7 +42,7 @@
             <% @regular_work_periods.each do |regular_work_period| %>
                 <tr>
                   <td><%= regular_work_period.id %></td>
-                  <td><%= link_to( regular_work_period.employee.actor.name ,{:action => 'employee_profile', :employee_id => regular_work_period.employee.id} ) %></td>
+                  <td><%= link_to( regular_work_period.employee.actor.name ,{:action => 'employee_profile', :actor_id => regular_work_period.employee.actor.id} ) %></td>
                   <td><%= regular_work_period.start_time.strftime("%H:%M") %> </td>
                   <td><%= regular_work_period.end_time.strftime("%H:%M") %> </td>
                   <td><%= regular_work_period.remark %> </td>

@@ -1,13 +1,6 @@
-<%
-   # If there is no duty_status; transfer to these variables.
-   @selected_access.username ||= 'n/a'
-   @selected_access.email ||= 'n/a'
-   @selected_biodata.emergency_contact ||= 'n/a'
-%>
-
 <section class='small-10 columns'>
-  <div class='mainheader'> <%= @selected_model %> Profile </div>
-  <div class='subdescription'> Information about the <%= @selected_model %> </div>
+  <div class='mainheader'> <%= @selected_model ||= 'Actor' %> Profiler </div>
+  <div class='subdescription'> Information about a Specific <%= @selected_model ||= 'Actor' %> </div>
   <hr>
 
   <div class='small-4 columns'>
@@ -31,21 +24,23 @@
 
     <% if @selected_employee.present? %>
     <div class="employee_profile_title"> Employee Data </div>
-    <div class="employee_profile_field"> Employee ID: <br> <%= @selected_employee.id %> </div>
-    <div class="employee_profile_field"> Branch: <br> <%= @selected_branch.name %> </div>
-    <div class="employee_profile_field"> Registered At: <br> <%= @selected_employee.created_at %> </div>
-    <div class="employee_profile_field"> Updated At: <br> <%= @selected_employee.updated_at %> </div>
+    <div class="employee_profile_field"> Employee ID: <br> <%= @selected_employee.id.present? ? (@selected_employee.id) : ('n/a') %> </div>
+    <div class="employee_profile_field"> Branch: <br> <%= @selected_branch.name.present? ? (@selected_branch.name) : ('n/a') %> </div>
+    <div class="employee_profile_field"> Registered At: <br> <%= @selected_employee.created_at.present? ? (@selected_employee.created_at) : ('n/a') %> </div>
+    <div class="employee_profile_field"> Updated At: <br> <%= @selected_employee.updated_at.present? ? (@selected_employee.updated_at) : ('n/a') %> </div>
     <% end %>
 
-    <% if @selected_access.present? %>
     <div class="employee_profile_title"> Access </div>
+    <% if @selected_access.present? %>
     <div class="employee_profile_field"> Username: <br>
       <%= link_to( @selected_access.username ,{:controller => 'access', :action => 'signin'}, class: 'employee_profile_small_button') %>
     </div>
     <div class="employee_profile_field"> Email: <br>
-      <a class="employee_profile_small_button" href="mailto:<%= @selected_access.email %>" target="_top"><%= @selected_access.email %> </a>
+      <a class="employee_profile_small_button" href="mailto:<%= @selected_access.email.present? ? (@selected_access.email) : ('') %>" target="_top"><%= @selected_access.email.present? ?  (@selected_access.email) : ('n/a')%> </a>
     </div>
-    <div class="employee_profile_field"> Last Login: <br> <%= @selected_access.last_login %> </div>
+    <div class="employee_profile_field"> Last Login: <br> <%= @selected_access.last_login.present? ? (@selected_access.last_login) : ('n/a')%> </div>
+    <% else %>
+    <hr><div align="center"> n/a </div><hr>
     <% end %>
 
     <% if @selected_file_set.present? %>
@@ -84,7 +79,11 @@
 
   <div class='small-4 columns'>
     <div class="employee_profile_title"> Profile Picture </div>
+    <% if @selected_actor.logo.present? %>
     <img style='padding: 5px' src= <%= @selected_actor.logo %> />
+    <% else %>
+        <hr><div align="center"> n/a </div><hr>
+    <% end %>
     <% if @selected_image_set.present? %>
     <div class="employee_profile_title"> Associated Images </div>
         <ul class="small-block-grid-3" >
@@ -146,9 +145,7 @@
                 .selectize({sortField: 'text'})
                 .change(function(){
                     var actor_id = $('#read_actor').val();
-                    alert( $.get('/application/get_controller') );
-                    //current_page = '/human_resources/employee_profile';
-                    //window.location = current_page + '?actor_id=' + actor_id;
+                    window.location.href = '/' + controller_name + '/' + action_name + '?actor_id=' + actor_id;
                 });
 
         $('.employee_profile_image_container').qtip({

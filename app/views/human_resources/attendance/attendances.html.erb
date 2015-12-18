@@ -51,7 +51,7 @@
             <% @attendances.each do |attendance| %>
                 <tr>
                   <td><%= attendance.id %></td>
-                  <td><%= link_to( attendance.employee.actor.name ,{:action => 'employee_profile', :employee_id => attendance.employee.id} ) %></td>
+                  <td><%= link_to( attendance.employee.actor.name ,{:action => 'employee_profile', :actor_id => attendance.employee.actor.id} ) %></td>
                   <td><%= attendance.timein %> </td>
                   <td><%= attendance.timeout %> </td>
                   <td><%= attendance.remark %> </td>

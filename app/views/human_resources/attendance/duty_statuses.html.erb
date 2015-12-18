@@ -1,6 +1,6 @@
 <section class='small-10 columns'>
   <div class='mainheader'> Duty Statuses </div>
-  <div class='subdescription'> The 'Status' of an Employee is 'ACTIVE' when he or she is on duty; 'INACTIVE' when not. Duty Status establishes the period of time Payroll of an employee is implemented.  </div>
+  <div class='subdescription'> Status Designation of an Employee. 'Active' when on duty; 'Inactive' when out of service.  </div>
   <hr>
   <%= generic_table_search( 'duty_statuses_search_input', 'duty_statuses',' Search Duty Status' , '/human_resources/search_suggestions_duty_statuses', 'duty_statuses') %>
   <% table_orientation = shift_table_orientation %>
@@ -42,13 +42,13 @@
             <% @duty_statuses.each do |duty_status| %>
                 <tr>
                   <td><%= duty_status.id %></td>
-                  <td><%= link_to( duty_status.employee.actor.name ,{:action => 'employee_profile', :employee_id => duty_status.employee.id} ) %></td>
+                  <td><%= link_to( duty_status.employee.actor.name ,{:action => 'employee_profile', :actor_id => duty_status.employee.actor.id} ) %></td>
                   <td>
                     <%=
                         if(duty_status.active)
-                          "TRUE"
+                          "ACTIVE"
                         else
-                          "FALSE"
+                          "INACTIVE"
                         end
                     %>
                   </td>

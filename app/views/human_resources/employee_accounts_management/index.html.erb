@@ -36,7 +36,7 @@
             <% @employee_accounts.each do |employee_accounts| %>
                 <tr>
                   <td><%= employee_accounts[0] %></td>
-                  <td><%= link_to( employee_accounts[1] ,{:action => 'employee_profile', :employee_id => employee_accounts[0]} ) %>
+                  <td><%= link_to( employee_accounts[1] ,{:action => 'employee_profile', :actor_id => employee_accounts[6]} ) %>
                   </td>
                   <td><%= boolean_to_words(employee_accounts[2]) %></td>
                   <td><%= employee_accounts[3] %></td>

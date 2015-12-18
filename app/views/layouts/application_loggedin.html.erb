@@ -1,35 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title><%= content_for?(:title) ? yield(:title) : "North Sea Parts" %></title>
-
-    <%= stylesheet_link_tag "application" %>
-    <%= javascript_include_tag "vendor/modernizr" %>
-    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
-    <%= javascript_include_tag params[:controller] %>
-    <script type="text/javascript">
-        var rails_root = '<%= Rails.root %>';
-    </script>
-    <%= csrf_meta_tags %>
+    <%= renderCorePartial("common_head"); %>
   </head>
-
   <body>
-
     <%= renderCorePartial("topbar"); %>
     <br>
     <%= renderCorePartial("sidenavigation"); %>
     <%= yield %>
-
-    <script>
-        $(document).ready(function() {
-            $("#<%= controller.action_name %>").css("background-color", "#721314");
-            $("#<%= controller.action_name %>").css("padding", "1px");
-        });
-    </script>
-
   </body>
 </html>
-

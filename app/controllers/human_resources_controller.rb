@@ -63,6 +63,7 @@ class HumanResourcesController < ApplicationController
   end
 
   def employee_profile
+    @selected_model = 'Employee'
     @actors = Actor.includes(:employee).joins(:employee)
     actor_profile
     @selected_employee = Employee.find_by_actor_id( params[:actor_id] )
@@ -96,9 +97,21 @@ class HumanResourcesController < ApplicationController
   end
 
   def branch_attendance_sheet
+    @branches = Branch.all
+    @start_date = DateTime.strptime(params[:start_date],"%Y-%m-%d")
+    @end_date = DateTime.strptime(params[:end_date],"%Y-%m-%d")
+    @number_of_days = (@end_date - @start_date).to_i + 1
+    if params[:branch][:id] && params[:start_date] && params[:end_date]
+      @selected_branch = Branch.find(params[:branch][:id])
+      @employees_by_branch = Employee.includes(:actor).joins(:actor).where("branch_id = ?", "#{@selected_branch.id}")
+    end
+    @selected_branch ||= Branch.new
+    render 'human_resources/attendance/branch_attendance_sheet'
   end
 
   def process_branch_attendance_sheet
+    @sample = params[:attendance]
+    render 'test/index'
   end
 
   def employee_attendance_history
