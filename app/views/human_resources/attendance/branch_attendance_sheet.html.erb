@@ -39,7 +39,10 @@
               <% current_set = 0%>
               <% @employees_by_branch.each do |employee| %>
                   <tr>
-                    <td align="center" style="border-right: solid #721314 thin; background-color: grey; color: white"><%= employee.actor.name %></td>
+                    <td align="center" style="border-right: solid #721314 thin; background-color: grey; color: white">
+                      <%= get_current_duty_status(employee.id) %>
+                      <%= employee.actor.name %>
+                    </td>
                     <% @number_of_days.times do |i| %>
                         <% current_set = current_set + 1 %>
                         <% current_date = @start_date + i.days %>

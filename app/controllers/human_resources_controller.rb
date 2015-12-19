@@ -103,7 +103,7 @@ class HumanResourcesController < ApplicationController
       @end_date = DateTime.strptime(params[:end_date],"%Y-%m-%d")
       @number_of_days = (@end_date - @start_date).abs.to_i + 1
       @selected_branch = Branch.find(params[:branch][:id])
-      @employees_by_branch = Employee.includes(:actor, :duty_status).joins(:actor, :duty_status).where("branch_id = ? AND duty_statuses.active = 1", "#{@selected_branch.id}")
+      @employees_by_branch = Employee.includes(:actor, :duty_status).joins(:actor, :duty_status).where("branch_id = ?", "#{@selected_branch.id}")
     end
     @selected_branch ||= Branch.new
 

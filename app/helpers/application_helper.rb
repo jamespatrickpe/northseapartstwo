@@ -4,6 +4,11 @@ module ApplicationHelper
 
   end
 
+  def get_current_duty_status( employee_ID )
+    currentEmployee = Employee.includes(:duty_status).joins(:duty_status).where("(employees.id = ?)", "#{employee_ID}").order('duty_statuses.date_of_effectivity DESC').first
+    return currentEmployee.duty_status.first.active
+  end
+
   #Boolean to Words
   def boolean_to_words(x)
     if x == 1
