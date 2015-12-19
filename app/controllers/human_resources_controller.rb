@@ -162,6 +162,14 @@ class HumanResourcesController < ApplicationController
     redirect_to :action => "rest_days"
   end
 
+  def search_suggestions_rest_days
+    restdays = Restday.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + restdays.uniq.to_s + "}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
   # ================== Regular Work Periods ================== #
 
   def regular_work_periods
@@ -190,6 +198,16 @@ class HumanResourcesController < ApplicationController
     regularWorkPeriodToBeDeleted.destroy
     redirect_to :action => "regular_work_periods"
   end
+
+  def search_suggestions_regular_work_periods
+    regularWorkPeriods = RegularWorkPeriod.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + regularWorkPeriods.uniq.to_s + "}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
+
 
   # ================== Lump Sum Adjustments ================== #
 
@@ -220,7 +238,7 @@ class HumanResourcesController < ApplicationController
   end
 
   def search_suggestions_lump_adjustments
-    adjustments = LumpAdjustment.includes(employee: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    adjustments = LumpAdjustment.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + adjustments.uniq.to_s + "}"
     respond_to do |format|
       format.all { render :text => direct}
@@ -256,7 +274,7 @@ class HumanResourcesController < ApplicationController
   end
 
   def search_suggestions_base_rates
-    baseRates = BaseRate.includes(employee: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    baseRates = BaseRate.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + baseRates.uniq.to_s + "}" # default format for plugin
     respond_to do |format|
       format.all { render :text => direct}
@@ -321,6 +339,14 @@ class HumanResourcesController < ApplicationController
   def search_suggestions_employees_with_id
     employees = Employee.includes(:actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck('actors.name', 'id')
     direct = "{\"query\": \"Unit\",\"suggestions\":" + employees.to_s + "}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
+  def search_suggestions_duty_statuses
+    dutyStatuses = DutyStatus.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + dutyStatuses.uniq.to_s + "}"
     respond_to do |format|
       format.all { render :text => direct}
     end
