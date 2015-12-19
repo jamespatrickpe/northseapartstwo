@@ -61,3 +61,4 @@ gem "parsley-rails"
 gem 'selectize-rails'
 gem 'uuidtools'
 gem 'devise'
+gem 'probability'

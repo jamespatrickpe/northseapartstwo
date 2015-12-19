@@ -4,60 +4,68 @@
   <hr>
 
   <%= form_tag( {action: :branch_attendance_sheet}, multipart: true, class: 'form_branch_attendance_sheet', id: "new_batch_process_form", :"data-parsley-validate" => "" ) do %>
-  <select name='branch[id]' id='branch_attendance_selector' class='branch_select_field' style="width: 25%; display: inline;" required="required" >
-    <option value="" disabled selected>Select Branch</option>
-    <% @branches.each do |branch| %>
-        <% if branch.id == @selected_branch.id %>
-            <option value=<%= branch.id %> selected><%= branch.name %></option>
-        <% else %>
-            <option value=<%= branch.id %>><%= branch.name %></option>
+      <select name='branch[id]' id='branch_attendance_selector' class='branch_select_field' style="width: 25%; display: inline;" required="required" >
+        <option value="" disabled selected>Select Branch</option>
+        <% @branches.each do |branch| %>
+            <% if branch.id == @selected_branch.id %>
+                <option value=<%= branch.id %> selected><%= branch.name %></option>
+            <% else %>
+                <option value=<%= branch.id %>><%= branch.name %></option>
+            <% end %>
         <% end %>
-    <% end %>
-  </select>
-  <input name='start_date' value="<%= params[:start_date] ||= Time.now.strftime("%Y-%m-%d") %>" type="date" style="width: 25%; display: inline;" required="required">
-  <input name='end_date' value="<%= params[:end_date] ||= Time.now.strftime("%Y-%m-%d") %>" type="date" style="width: 25%; display: inline;" required="required">
-  <input type="submit" class="small button" value="Generate Form">
+      </select>
+      <input name='start_date' value="<%= @start_date.present? ? @start_date.strftime("%Y-%m-%d") : Time.now.strftime("%Y-%m-%d") %>" type="date" style="width: 25%; display: inline;" required="required">
+      <input name='end_date' value="<%= @end_date.present? ? @end_date.strftime("%Y-%m-%d") : Time.now.strftime("%Y-%m-%d") %>" type="date" style="width: 25%; display: inline;" required="required">
+      <input type="submit" class="tiny button" value="Generate Attendance Sheet">
   <% end %>
 
-  <% if @selected_branch.present? %>
-  <%= form_tag( {action: :process_branch_attendance_sheet}, multipart: true, class: 'form_branch_attendance_sheet', id: "new_batch_process_form", :"data-parsley-validate" => "" ) do %>
-  <div style="overflow-x: scroll;">
-  <table class="generic_table">
-    <thead class="branch_attendance_sheet_table_head">
-    <tr>
-      <th>Employees</th>
-      <% @number_of_days.times do |i| %>
-      <th>
-        <% current_date = @start_date + i.days %>
-        <%= current_date.strftime("%D") %> <br>
-        <%= current_date.strftime("%A") %>
-      </th>
+  <% if @selected_branch.id.present? %>
+      <%= form_tag( {action: :process_branch_attendance_sheet}, multipart: true, class: 'form_branch_attendance_sheet', id: "new_batch_process_form", :"data-parsley-validate" => "" ) do %>
+          <div style="overflow-x: scroll;">
+            <table class="generic_table">
+              <thead class="branch_attendance_sheet_table_head">
+              <tr>
+                <th>Employees</th>
+                <% @number_of_days.times do |i| %>
+                    <th>
+                      <% current_date = @start_date + i.days %>
+                      <%= current_date.strftime("%D") %> <br>
+                      <%= current_date.strftime("%A") %>
+                    </th>
+                <% end %>
+              </tr>
+              </thead>
+              <tbody>
+              <% current_set = 0%>
+              <% @employees_by_branch.each do |employee| %>
+                  <tr>
+                    <td align="center" style="border-right: solid #721314 thin; background-color: grey; color: white">
+                      <%= get_current_duty_status(employee.id) %>
+                      <%= employee.actor.name %>
+                    </td>
+                    <% @number_of_days.times do |i| %>
+                        <% current_set = current_set + 1 %>
+                        <% current_date = @start_date + i.days %>
+                        <% current_date_formatted = current_date.strftime("%D") %>
+                        <td>
+                          Time In: <input name=<%="attendance["+current_set.to_s+"][timeout]"%> type="time">
+                          Time Out: <input name=<%="attendance["+current_set.to_s+"][timein]"%> type="time">
+                          <input type="hidden" name=<%="attendance["+current_set.to_s+"][employee_id]"%> value=<%= employee.id %>>
+                          <input type="hidden" name=<%="attendance["+current_set.to_s+"][date]"%> value=<%= current_date_formatted %>>
+                        </td>
+                    <% end %>
+                  </tr>
+              <% end %>
+              </tbody>
+              <input type="hidden" name="total_current_set" value=<%= current_set %>>
+            </table>
+          </div>
+          <div align="right"><br>
+            <input class="small button" type="button" value="Printable Attendance Sheet" />
+            <input class="small button" type="button" value="Export to CSV" />
+            <input class="small button" type="submit" value="Record Attendance" />
+          </div>
       <% end %>
-    </tr>
-    </thead>
-    <tbody>
-    <% @employees_by_branch.each do |employee| %>
-    <tr>
-      <td align="center" style="border-right: solid #721314 thin; background-color: grey; color: white"><%= employee.actor.name %></td>
-      <% @number_of_days.times do |i| %>
-      <td>
-        Time In: <input name=<%= "attendance[timeout][" + employee.id + "][" + i.to_s + "]"%> type="time">
-        Time Out: <input name=<%="attendance[timein][" + employee.id + "][" + i.to_s + "]"%> type="time">
-      </td>
-      <% end %>
-    </tr>
-    <% end %>
-    </tbody>
-  </table>
-  </div>
-  <div align="right"><br>
-    <input class="small button" type="button" value="Printable Attendance Sheet" />
-    <input class="small button" type="button" value="Export to CSV" />
-    <input class="small button" type="submit" value="Record Attendance" />
-  </div>
-  <% end %>
   <% end %>
 
 </section>
-<script>
-</script>

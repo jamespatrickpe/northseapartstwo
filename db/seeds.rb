@@ -217,7 +217,7 @@ numberOfActors.times do |i|
   myActor.save!
 
   # ACCESS
-  if (randomBoolean())
+  if ( 8.in(10) )
     #Access
     randomPassword = Faker::Internet.password(10, 20)
     randomEmail = Faker::Internet.email

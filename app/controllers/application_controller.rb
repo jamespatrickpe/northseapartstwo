@@ -7,12 +7,6 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
   helper_method :error_messages_for, :shift_table_orientation
 
-  def get_controller
-    respond_to do |format|
-      format.all { render :text => 'employee_overview_profile'}
-    end
-  end
-
   def initialize_actor_selection
     @employees = Employee.includes(:actor).joins(:actor)
   end

@@ -98,14 +98,15 @@ class HumanResourcesController < ApplicationController
 
   def branch_attendance_sheet
     @branches = Branch.all
-    @start_date = DateTime.strptime(params[:start_date],"%Y-%m-%d")
-    @end_date = DateTime.strptime(params[:end_date],"%Y-%m-%d")
-    @number_of_days = (@end_date - @start_date).to_i + 1
-    if params[:branch][:id] && params[:start_date] && params[:end_date]
+    if params[:branch].present? && params[:start_date].present? && params[:end_date].present?
+      @start_date = DateTime.strptime(params[:start_date],"%Y-%m-%d")
+      @end_date = DateTime.strptime(params[:end_date],"%Y-%m-%d")
+      @number_of_days = (@end_date - @start_date).abs.to_i + 1
       @selected_branch = Branch.find(params[:branch][:id])
-      @employees_by_branch = Employee.includes(:actor).joins(:actor).where("branch_id = ?", "#{@selected_branch.id}")
+      @employees_by_branch = Employee.includes(:actor, :duty_status).joins(:actor, :duty_status).where("branch_id = ?", "#{@selected_branch.id}")
     end
     @selected_branch ||= Branch.new
+
     render 'human_resources/attendance/branch_attendance_sheet'
   end
 
