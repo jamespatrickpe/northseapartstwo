@@ -38,23 +38,25 @@
               <tbody>
               <% current_set = 0%>
               <% @employees_by_branch.each do |employee| %>
+                  <% if get_current_duty_status(employee.id) == true %>
                   <tr>
-                    <td align="center" style="border-right: solid #721314 thin; background-color: grey; color: white">
-                      <%= get_current_duty_status(employee.id) %>
-                      <%= employee.actor.name %>
+                    <td align="center" style="border-right: solid #721314 thin; background-color: grey; color: white; text-align: center">
+                    <%= link_to employee.actor.name, {action: 'employee_profile'}, actor_id: employee.actor.id, style: "color: white; text-align:center; padding: 5px;"  %>
                     </td>
                     <% @number_of_days.times do |i| %>
-                        <% current_set = current_set + 1 %>
                         <% current_date = @start_date + i.days %>
-                        <% current_date_formatted = current_date.strftime("%D") %>
+                        <% current_date_formatted = current_date.strftime("%m/%d/%Y") %>
                         <td>
                           Time In: <input name=<%="attendance["+current_set.to_s+"][timeout]"%> type="time">
                           Time Out: <input name=<%="attendance["+current_set.to_s+"][timein]"%> type="time">
+                          <input type="input" name=<%="attendance["+current_set.to_s+"][remark]"%> placeholder="remark">
                           <input type="hidden" name=<%="attendance["+current_set.to_s+"][employee_id]"%> value=<%= employee.id %>>
                           <input type="hidden" name=<%="attendance["+current_set.to_s+"][date]"%> value=<%= current_date_formatted %>>
                         </td>
+                        <% current_set = current_set + 1 %>
                     <% end %>
                   </tr>
+                  <% end %>
               <% end %>
               </tbody>
               <input type="hidden" name="total_current_set" value=<%= current_set %>>

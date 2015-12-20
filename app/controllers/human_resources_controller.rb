@@ -98,6 +98,7 @@ class HumanResourcesController < ApplicationController
 
   def branch_attendance_sheet
     @branches = Branch.all
+    begin
     if params[:branch].present? && params[:start_date].present? && params[:end_date].present?
       @start_date = DateTime.strptime(params[:start_date],"%Y-%m-%d")
       @end_date = DateTime.strptime(params[:end_date],"%Y-%m-%d")
@@ -106,13 +107,42 @@ class HumanResourcesController < ApplicationController
       @employees_by_branch = Employee.includes(:actor, :duty_status).joins(:actor, :duty_status).where("branch_id = ?", "#{@selected_branch.id}")
     end
     @selected_branch ||= Branch.new
-
+    rescue
+      flash[:general_flash_notification] = "Error has Occurred"
+    end
     render 'human_resources/attendance/branch_attendance_sheet'
   end
 
+  def branch_attendance
+
+  end
+
   def process_branch_attendance_sheet
-    @sample = params[:attendance]
-    render 'test/index'
+    total_current_set = params[:total_current_set].to_i
+    begin
+    total_current_set.times do |i|
+      myAttendance = Attendance.new
+      myDate = Date.strptime(params[:attendance][i.to_s][:date],"%m/%d/%Y")
+      if params[:attendance][i.to_s][:timein].present?
+        myTimeIn = Time.strptime(params[:attendance][i.to_s][:timein],"%H:%M")
+        timein = DateTime.new( myDate.year, myDate.month, myDate.day, myTimeIn.hour, myTimeIn.min, myTimeIn.sec )
+        myAttendance.timein = timein
+      end
+      if params[:attendance][i.to_s][:timeout].present?
+        myTimeOut = Time.strptime(params[:attendance][i.to_s][:timeout],"%H:%M")
+        timeout = DateTime.new( myDate.year, myDate.month, myDate.day, myTimeOut.hour, myTimeOut.min, myTimeOut.sec )
+        myAttendance.timeout = timeout
+      end
+      myAttendance.employee_id = params[:attendance][i.to_s][:employee_id]
+      myAttendance.remark = params[:attendance][i.to_s][:remark]
+      myAttendance.save!
+    end
+    flash[:general_flash_notification] = 'Attendance Recorded'
+    flash[:general_flash_notification_type] = 'affirmative'
+    rescue
+    flash[:general_flash_notification] = 'Error has Occurred; Please Contact Administrator'
+    end
+    redirect_to :action => 'branch_attendance_sheet'
   end
 
   def employee_attendance_history

@@ -45,6 +45,18 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def employee_overview_duty_status
+    currentEmployee = Employee.includes(:duty_status).joins(:duty_status).where("(employees.id = ?)", "#{params[:employee_ID]}").order('duty_statuses.date_of_effectivity DESC').first
+    if currentEmployee.duty_status.first.active == true
+      sample = 'ACTIVE'
+    else
+      sample = 'INACTIVE'
+    end
+    respond_to do |format|
+      format.all { render :text => sample}
+    end
+  end
+
   #Reset Search Common Paremeters
   def reset_search
     flash.clear

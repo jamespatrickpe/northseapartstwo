@@ -334,14 +334,13 @@ numberOfActors.times do |i|
 
     numberOfWorkPeriods = rand(1..4)
     numberOfWorkPeriods.times do
-      pickWorkHours = rand(1..5)
-      if(pickWorkHours == 1)
+      if 7.in(10)
         start_time = '08:00:00'
         end_time = '17:00:00'
-      elsif (pickWorkHours == 2)
+      elsif 3.in(10)
         start_time = '09:00:00'
         end_time = '18:00:00'
-      elsif (pickWorkHours == 3)
+      elsif 2.in(10)
         start_time = '17:00:00'
         end_time = '05:00:00'
       else
@@ -378,23 +377,22 @@ numberOfActors.times do |i|
     end
 
     #Attendances
-    rand(0..360).times do |i|
-      myDate = Date.new( rand(2001..2016) , rand(1..12) , rand(1..28))
-      timein = DateTime.new( myDate.year, myDate.month, myDate.day, rand(0..12), rand(0..59), rand(0..59) )
+    rand(360..720).times do |i|
+      myDate = DateTime.now - i.days
+      timein = DateTime.new( myDate.year , myDate.month, myDate.day, rand(0..12), rand(0..59), rand(0..59) )
       timeout = DateTime.new( myDate.year, myDate.month, myDate.day, rand(12..23), rand(0..59), rand(0..59) )
       remark = Faker::Lorem.sentence
-      if randomBoolean() && randomBoolean() && randomBoolean() && randomBoolean()
-        # SIMULATE OVERNIGHT
+      if 10.in(100)
         myAttendance = Attendance.new(timein: timein, employee: myEmployee, remark: remark )
         myAttendance.save
-        myAttendance = Attendance.new(timeout: timeout+1.day, employee: myEmployee, remark: remark )
+        myAttendance = Attendance.new(timeout: timeout+(rand(12..24).hours), employee: myEmployee, remark: remark )
         myAttendance.save
+      elsif 10.in(100)
+        myDate = myDate - rand(1..10).days
       else
-        # SIMULATE REGULAR ATTENDANCE
         myAttendance = Attendance.new(timein: timein, timeout: timeout, employee: myEmployee, remark: remark )
         myAttendance.save
       end
-
     end
 
     # Base Rate
