@@ -1,0 +1,34 @@
+.attendance_day_type_caption
+{
+    font-size: 10px;
+    padding: 10px;
+}
+
+.no_data_absent
+{
+    color: black;
+}
+
+.present
+{
+    background-color: #b3ffcc;
+}
+
+.overtime
+{
+    background-color: #ffd6cc;
+}
+
+.undertime
+{
+    background-color: #ffffb3;
+}
+
+.restday_holiday
+{
+    background-color: #e5f2ff;
+}
+
+.mark_absent
+{
+}

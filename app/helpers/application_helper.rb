@@ -1,7 +1,23 @@
 module ApplicationHelper
 
-  def generic_table_options()
+  def isHoliday( current_date )
+    holidays = Holiday.all
+    is_holiday = false
+    holidays.each do |holiday|
+      if holiday.date_of_implementation == current_date
+          is_holiday = true
+      end
+    end
+    return is_holiday
+  end
 
+  def isRestDay(employee_id, current_day)
+    rest_day = Restday.find_by_employee_id(employee_id)
+    is_rest_day = false
+    if rest_day.day == current_day
+      is_rest_day = true
+    end
+    return is_rest_day
   end
 
   def get_current_duty_status( employee_ID )
