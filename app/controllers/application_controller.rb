@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   def employee_overview_profile
+    puts '+++++++++++++++++++++++++ ' + params[:employee_ID]
     respond_to do |format|
       employee_overview_profile = Employee.find(params[:employee_ID]).to_json({ :include => :actor })
       format.all { render :json => employee_overview_profile}

@@ -1,5 +1,6 @@
 function update_quick_profile(){
     var employee_ID = $('.employee_select_field').val();
+    console.log('jcgofredo' + employee_ID);
     $.post( "/application/employee_overview_profile", { employee_ID: employee_ID})
         .done(function( employee_overview_profile ) {
             var obj = jQuery.parseJSON( employee_overview_profile );

@@ -1,0 +1,37 @@
+<%
+   # If there is no rest_day; transfer to these variables.
+   @selected_rest_day.id ||= ''
+   @selected_rest_day.employee_id ||= ''
+   @selected_rest_day.day ||= ''
+
+%>
+
+<section class='small-10 columns'>
+  <div class='mainheader'> Rest Day Form </div>
+  <div class='subdescription'> Set the Status of an Employee </div>
+  <hr>
+  <div class='small-6 columns generic_form'>
+    <% if @selected_rest_day.id.present? %>
+        <span class="current_edit_id"> <%= 'Editing Rest Day with ID: ' + @selected_rest_day.id %> </span> <br><br> <!-- this is for the current Duty Status ID or OBJECT ID; not employee-->
+    <% end %>
+    <%= form_tag( {action: :process_rest_day_form}, multipart: true, class: 'create_form', id: "new_rest_day_form", :"data-parsley-validate" => "" ) do %>
+        <%= hidden_field_tag('rest_day[id]', @selected_rest_day.id ) %>
+        <select name='rest_day[employee_id]'
+                id='new_rest_day_employee'
+                class='employee_select_field'
+                required="required" >
+          <!-- DO NOT CHANGE class 'employee_select_field'; this is for the employee_quick_profile thing; do change other attributes in the select field -->
+          <option value="" disabled selected>Select Employee</option>
+          <% @employees.each do |employee| %> <!-- This selects the current employee and marks the option 'selected' if found -->
+              <% if employee.id == @selected_rest_day.employee_id %>
+                  <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
+              <% else %>
+                  <option value=<%= employee.id %>><%= employee.actor.name %></option>
+              <% end %>
+          <% end %>
+        </select>
+        <input type="submit" class="small button" value="SUBMIT" />
+    <% end %>
+  </div>
+  <%= renderCorePartial('employee_quick_profile') %>
+</section>

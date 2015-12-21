@@ -1,0 +1,47 @@
+<%
+   # If there is no base_rate; transfer to these variables.
+   @selected_base_rate.id ||= ''
+   @selected_base_rate.employee_id ||= ''
+   @selected_base_rate.signed_type ||= ''
+   @selected_base_rate.amount ||= ''
+   @selected_base_rate.period_of_time ||= ''
+   @selected_base_rate.rate_type ||= ''
+   @selected_base_rate.remark ||= ''
+   @selected_base_rate.start_of_effectivity ||= Time.now #Time.now because placeholder value wont accept nil or 'time in'
+   @selected_base_rate.end_of_effectivity ||= ''
+%>
+
+<section class='small-10 columns'>
+  <div class='mainheader'> Base Rate Form </div>
+  <div class='subdescription'> Set the Base Rate of an Employee </div>
+  <hr>
+  <div class='small-6 columns generic_form'>
+    <% if @selected_base_rate.id.present? %>
+        <span class="current_edit_id"> <%= 'Editing Base Rate with ID: ' + @selected_base_rate.id %> </span> <br><br> <!-- this is for the current Base Rate ID or OBJECT ID; not employee-->
+    <% end %>
+    <%= form_tag( {action: :process_base_rate_form}, multipart: true, class: 'create_form', id: "new_base_rate_form", :"data-parsley-validate" => "" ) do %>
+        <%= hidden_field_tag('base_rate[id]', @selected_base_rate.id ) %>
+        <select name='base_rate[employee_id]'
+                id='new_base_rate_employee'
+                class='employee_select_field'
+                required="required" >
+          <!-- DO NOT CHANGE class 'employee_select_field'; this is for the employee_quick_profile thing; do change other attributes in the select field -->
+          <option value="" disabled selected>Select Employee</option>
+          <% @employees.each do |employee| %> <!-- This selects the current employee and marks the option 'selected' if found -->
+              <% if employee.id == @selected_base_rate.employee_id %>
+                  <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
+              <% else %>
+                  <option value=<%= employee.id %>><%= employee.actor.name %></option>
+              <% end %>
+          <% end %>
+        </select>
+
+        <%= text_field_tag("base_rate[signed_type]", content = @selected_base_rate.signed_type, options = {class: "remark_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :placeholder => 'Enter Signed Type' }) %>
+
+        <%= text_area_tag("base_rate[remark]", content = @selected_base_rate.remark, options = {class: "remark_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :placeholder => 'Remarks' }) %>
+
+        <input type="submit" class="small button" value="SUBMIT" />
+    <% end %>
+  </div>
+  <%= renderCorePartial('employee_quick_profile') %>
+</section>
