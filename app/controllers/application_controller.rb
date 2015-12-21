@@ -7,6 +7,15 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
   helper_method :error_messages_for, :shift_table_orientation
 
+  def create_unique_hash_link
+    # Generates Unique Hash for Email Verification
+    hash_link = generateRandomString
+    if Access.exists?( hash_link: hash_link ) #secures against similar hashlinks; for it to be unique
+      hash_link = generateRandomString
+    end
+    return hash_link
+  end
+
   def initialize_employee_selection
     @employees = Employee.includes(:actor).joins(:actor)
   end
@@ -60,6 +69,8 @@ class ApplicationController < ActionController::Base
     if( Access.exists?( session[:access_id]) )
       @myAccess = Access.find(session[:access_id])
       @myActor = @myAccess.actor
+      @myAccess.last_login = Time.now
+      @myAccess.save!
       @sign_in_affirmative = true
     else
       flash[:general_flash_notification] = "Invalid Login Credentials"
@@ -143,68 +154,6 @@ class ApplicationController < ActionController::Base
       @actor = Actor.find(actorID)
     else
       raise("No Option Found")
-    end
-  end
-
-  def processActor(params)
-    #@actor = Actor.new( name: params[:actor][:name], description: params[:actor][:description], logo: params[:actor][:logo])
-    @actor = Actor.new
-    @actor.name = params[:actor][:name];
-    @actor.description = params[:actor][:description];
-    @actor.logo = params[:actor][:logo]
-    @actor.save!
-  end
-
-  def processAccess(params)
-
-    #Generates Unique Hash for Email Verification
-    hashlink = generateRandomString()
-    if Access.exists?( hashlink: hashlink ) #secures against similar hashlinks; for it to be unique
-      hashlink = generateRandomString()
-    else
-    end
-
-    @access = Access.new
-    @access.username = params[:access][:username]
-    @access.password = params[:access][:password]
-    @access.password_confirmation = params[:access][:password_confirmation]
-    @access.email = params[:access][:email]
-    @access.hashlink = hashlink
-    @access.actor = @actor
-    @access.save
-
-    VerificationMailer.verification_email( params[:access][:email], @access.hashlink  ).deliver
-  end
-
-  def processContactDetails(params)
-    @addressSet = params[:address]
-    @telephoneSet = params[:telephony]
-    @digitalSet = params[:digital]
-
-    #Contact Detail Processing
-    @contactDetail = ContactDetail.new()
-    @contactDetail.actor = @actor
-    @contactDetail.save!
-
-    #Address Processing
-    @addressSet.each do |key, value|
-      @address = Address.new( description: value[:description], longitude: value[:longitude], latitude: value[:latitude] )
-      @address.contact_detail = @contactDetail
-      @address.save!
-    end
-
-    #Telephony Processing
-    @telephoneSet.each do |key, value|
-      @telephony = Telephone.new( description: value[:description], digits: value[:digits] )
-      @telephony.contact_detail = @contactDetail
-      @telephony.save!
-    end
-
-    #Digital Processing
-    @digitalSet.each do |key, value|
-      @digital = Digital.new( description: value[:description], url: value[:url] )
-      @digital.contact_detail = @contactDetail
-      @digital.save!
     end
   end
 

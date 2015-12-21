@@ -20,7 +20,7 @@ access.username = 'joojieman'
 access.email = 'jamespatrickpe@northseaparts.com'
 access.password = 'ilovetess'
 access.password_confirmation = 'ilovetess'
-access.hashlink = generateRandomString
+access.hash_link = generateRandomString
 access.verification = true
 access.save!
 
@@ -207,8 +207,9 @@ numberOfPositions.times do |i|
 end
 
 #ENTITIES
-numberOfActors = 25
+numberOfActors = 50
 numberOfActors.times do |i|
+
   #Actor
   current_logo = ['default_1.jpg','default_2.jpg','default_3.jpg','default_4.jpg','default_5.jpg','default_6.jpg','default_7.jpg','default_8.jpg','default_9.jpg','default_10.jpg','default.jpg'].sample
   myActor = Actor.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true))
@@ -236,40 +237,64 @@ numberOfActors.times do |i|
     myAccess.email = randomEmail
     myAccess.password = randomPassword
     myAccess.password_confirmation = randomPassword
-    myAccess.hashlink = generateRandomString
+    myAccess.hash_link = generateRandomString
     myAccess.verification = randomBoolean
-    myAccess.save
+    myAccess.last_login = Time.now - rand(0..72000).hours
+    myAccess.save!
 
-    permission = Permission.new
-    permission.access = access
-    permission.can = ['access_control','assess_vale','human_resources'].sample
-    permission.remark =  Faker::Lorem.sentence
-    permission.save!
-
-    #ContactDetail
-    myContactDetail = ContactDetail.create( actor: myActor)
-    randomNumberOfAddresses = rand(0..5)
-    randomNumberOfTelephony = rand(0..5)
-    randomNumberOfDigital = rand(0..5)
-
-    #Addresses
-    randomNumberOfAddresses.times do |i|
-      completeAddress = Faker::Address.building_number + Faker::Address.street_name + Faker::Address.street_address + Faker::Address.city + Faker::Address.country
-      myAddress = Address.new( description: completeAddress, longitude: Faker::Address.longitude, latitude: Faker::Address.latitude, contact_detail: myContactDetail  )
-      myAddress.save
+    #Permission
+    rand(0..2).times do |i|
+      if randomBoolean
+        permission = Permission.new
+        permission.access = access
+        permission.can = ['access_control','assess_vale','human_resources'].sample
+        permission.remark =  Faker::Lorem.sentence
+        permission.save!
+      end
     end
+  end
 
-    #Telephony
-    randomNumberOfTelephony.times do |i|
-      myTelephony = Telephone.new( description: Faker::Lorem.sentences(1), digits: Faker::PhoneNumber.phone_number, contact_detail: myContactDetail  )
-      myTelephony.save
+  #Related File Sets
+  rand(0..10).times do |i|
+    if randomBoolean
+      myFileSet = FileSet.new
+      myFileSet[:file] = ['export_table_1.csv','export_table_2.csv','export_table_3.csv','export_table_4.csv','export_table_5.csv'].sample
+      myFileSet.label = Faker::Lorem.sentence
+      myFileSet.rel_file_set_id = myActor.id
+      myFileSet.rel_file_set_type = 'Actor'
+      myFileSet.save!
     end
+  end
 
-    #Digital
-    randomNumberOfDigital.times do |i|
-      myDigital = Digital.new( description: Faker::Lorem.sentences(1), url: Faker::Internet.url, contact_detail: myContactDetail )
-      myDigital.save
+  #Related Image Sets
+  rand(0..10).times do |i|
+    if randomBoolean
+      myImageSet = ImageSet.new
+      myImageSet[:picture] = ['file_01.jpg','file_02.png','file_03.gif','file_04.jpg','file_05.jpg'].sample
+      myImageSet.description = Faker::Lorem.sentence
+      myImageSet.rel_image_set_id = myActor.id
+      myImageSet.rel_image_set_type = 'Actor'
+      myImageSet.save!
     end
+  end
+
+  #Digital
+  rand(0..5).times do |i|
+    myDigital = Digital.new( description: Faker::Lorem.sentence, url: Faker::Internet.url, actor: myActor )
+    myDigital.save!
+  end
+
+  #Telephony
+  rand(0..5).times do |i|
+    myTelephony = Telephone.new( description: Faker::Lorem.sentence, digits: Faker::PhoneNumber.phone_number, actor: myActor  )
+    myTelephony.save!
+  end
+
+  #Addresses
+  rand(0..5).times do |i|
+    completeAddress = Faker::Address.building_number + ' '+ Faker::Address.street_name + ' ' + Faker::Address.street_address + ' ' + Faker::Address.city + ' ' + Faker::Address.country
+    myAddress = Address.new( description: completeAddress, longitude: Faker::Address.longitude, latitude: Faker::Address.latitude, actor: myActor  )
+    myAddress.save!
   end
 
   # BIODATA
@@ -277,7 +302,7 @@ numberOfActors.times do |i|
     myBioData = Biodatum.new()
     myBioData.actor = myActor
     myBioData.education = Faker::Company.name
-    myBioData.career_experience = Faker::Lorem.words(4)
+    myBioData.career_experience = Faker::Lorem.sentence(3, false, 4)
     myBioData.notable_accomplishments = Faker::Lorem.sentence(3, false, 4)
     myBioData.date_of_birth = Faker::Date.between(600.months.ago, 216.months.ago)
     myBioData.family_members = Faker::Lorem.sentence(3, false, 4)
@@ -285,12 +310,12 @@ numberOfActors.times do |i|
     myBioData.gender = ["male", "female"].sample
     myBioData.place_of_birth = Faker::Address.city
     myBioData.emergency_contact = Faker::PhoneNumber.phone_number
-    myBioData.languages_spoken = Faker::Lorem.words(4)
-    myBioData.complexion = Faker::Lorem.words(1)
-    myBioData.height = Faker::Number.number(3)
-    myBioData.marital_status = ["single", "married"].sample
+    myBioData.languages_spoken = Faker::Lorem.sentence(3, false, 4)
+    myBioData.complexion = Faker::Lorem.sentence(3, false, 4)
+    myBioData.height_cm = Faker::Number.number(3)
+    myBioData.marital_status = ["single", "married", "married with 2 wives"].sample
     myBioData.blood_type = ["O", "A", "B-","B+"].sample
-    myBioData.religion = Faker::Lorem.words(1)
+    myBioData.religion = Faker::Lorem.sentence(3, false, 4)
     myBioData.save
   end
 

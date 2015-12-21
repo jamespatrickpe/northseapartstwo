@@ -11,15 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151211011431) do
+ActiveRecord::Schema.define(version: 20151216115839) do
 
   create_table "accesses", force: :cascade do |t|
     t.string   "actor_id",        limit: 36
     t.string   "username",        limit: 64
     t.string   "password_digest", limit: 512
     t.string   "email",           limit: 512
-    t.string   "hashlink",        limit: 512
+    t.string   "hash_link",       limit: 512
     t.integer  "attempts",        limit: 1,   default: 0
+    t.datetime "last_login"
     t.boolean  "verification",    limit: 1,   default: false
     t.boolean  "remember_me",     limit: 1,   default: false
     t.datetime "created_at"
@@ -42,10 +43,10 @@ ActiveRecord::Schema.define(version: 20151211011431) do
   end
 
   create_table "addresses", force: :cascade do |t|
-    t.string   "contact_detail_id", limit: 36
-    t.string   "description",       limit: 256
-    t.decimal  "longitude",                     precision: 18, scale: 12
-    t.decimal  "latitude",                      precision: 18, scale: 12
+    t.string   "actor_id",    limit: 36
+    t.string   "description", limit: 256
+    t.decimal  "longitude",               precision: 18, scale: 12
+    t.decimal  "latitude",                precision: 18, scale: 12
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -96,7 +97,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.string   "emergency_contact",       limit: 256
     t.string   "languages_spoken",        limit: 256
     t.string   "complexion",              limit: 256
-    t.string   "height",                  limit: 256
+    t.decimal  "height_cm",                           precision: 10
     t.string   "marital_status",          limit: 256
     t.string   "blood_type",              limit: 256
     t.string   "religion",                limit: 256
@@ -119,12 +120,6 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.datetime "updated_at"
   end
 
-  create_table "contact_details", force: :cascade do |t|
-    t.string   "actor_id",   limit: 36
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "departments", force: :cascade do |t|
     t.string   "description", limit: 256
     t.string   "label",       limit: 64
@@ -133,9 +128,9 @@ ActiveRecord::Schema.define(version: 20151211011431) do
   end
 
   create_table "digitals", force: :cascade do |t|
-    t.string   "contact_detail_id", limit: 36
-    t.string   "url",               limit: 512
-    t.string   "description",       limit: 256
+    t.string   "actor_id",    limit: 36
+    t.string   "url",         limit: 512
+    t.string   "description", limit: 256
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -144,7 +139,7 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.string   "remark",              limit: 256
     t.boolean  "active",              limit: 1,   default: false
     t.string   "employee_id",         limit: 36
-    t.datetime "date_of_effectivity",             default: '2015-12-17 11:29:51'
+    t.datetime "date_of_effectivity",             default: '2015-12-17 11:47:12'
     t.datetime "created_at",                                                      null: false
     t.datetime "updated_at",                                                      null: false
   end
@@ -157,12 +152,12 @@ ActiveRecord::Schema.define(version: 20151211011431) do
   end
 
   create_table "file_sets", force: :cascade do |t|
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
-    t.string   "path",              limit: 512
-    t.string   "description",       limit: 256
+    t.string   "file",              limit: 512
+    t.string   "label",             limit: 256
     t.string   "rel_file_set_id",   limit: 36
     t.string   "rel_file_set_type", limit: 255
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   create_table "holiday_types", force: :cascade do |t|
@@ -184,6 +179,16 @@ ActiveRecord::Schema.define(version: 20151211011431) do
     t.date     "date_of_implementation"
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
+  end
+
+  create_table "image_sets", force: :cascade do |t|
+    t.string   "picture",            limit: 512
+    t.string   "description",        limit: 256
+    t.integer  "priority",           limit: 4,   default: 0
+    t.string   "rel_image_set_id",   limit: 36
+    t.string   "rel_image_set_type", limit: 255
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
   end
 
   create_table "institution_employees", force: :cascade do |t|
@@ -292,9 +297,9 @@ ActiveRecord::Schema.define(version: 20151211011431) do
   end
 
   create_table "telephones", force: :cascade do |t|
-    t.string   "contact_detail_id", limit: 36
-    t.string   "digits",            limit: 64
-    t.string   "description",       limit: 256
+    t.string   "actor_id",    limit: 36
+    t.string   "digits",      limit: 64
+    t.string   "description", limit: 256
     t.datetime "created_at"
     t.datetime "updated_at"
   end
