@@ -60,7 +60,8 @@
                           <br><br>
                           <input type="hidden" name=<%="attendance["+current_set.to_s+"][employee_id]"%> value=<%= employee.id %>>
                           <input type="hidden" name=<%="attendance["+current_set.to_s+"][date]"%> value=<%= current_date_formatted %>>
-                            <%= get_duration_regular_work_hours(employee.id, current_date) %>
+                            <%= get_duration_regular_work_hours(employee.id, current_date)/3600 %>
+                            <%= employee.id %>
                         </td>
                         <% current_set = current_set + 1 %>
                     <% end %>

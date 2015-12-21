@@ -27,16 +27,23 @@ module ApplicationHelper
 
   def get_duration_regular_work_hours(employee_ID, specific_day)
     currentEmployee = Employee.includes(:regular_work_period).joins(:regular_work_period).where("(employees.id = ?) AND regular_work_periods.created_at <= ?", "#{employee_ID}","#{specific_day}").order('regular_work_periods.created_at DESC').first
-    number_of_hours = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time)/3600)
-    if number_of_hours < 0
-      number_of_hours = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time)/3600).abs
+    number_of_seconds = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time))
+    if number_of_seconds < 0
+      number_of_seconds = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time)).abs
     end
-    return number_of_hours.to_i
+    return number_of_seconds
   end
 
   def get_duration_actual_work_hours(employee_ID, specific_day)
-    currentEmployee = Employee.includes(:regular_work_period).joins(:regular_work_period).where("(employees.id = ?) AND regular_work_periods.created_at <= ?", "#{employee_ID}","#{specific_day}").order('regular_work_periods.created_at DESC')
-    return actual_hours.to_i
+    attendances = Attendance.includes(:employee).joins(:employee).where("(employees.id = ?) AND (attendances.timein LIKE ?)", "#{employee_ID}", "#{specific_day.strftime("%Y-%m-%d")}%").order('attendances.created_at DESC')
+    total_number_of_seconds = 0
+    attendances.each do |attendance|
+      attendance.timein.nil? ?  time_in = Time.new(attendance.timeout.year, attendance.timeout.month, attendance.timeout.day, 0,0,0) : time_in = attendance.timein
+      attendance.timeout.nil? ?  time_out = Time.new(attendance.timein.year, attendance.timein.month, attendance.timein.day, 0,0,0) : time_out = attendance.timeout
+      number_of_seconds = time_out - time_in
+      total_number_of_seconds = total_number_of_seconds + number_of_seconds
+    end
+    return total_number_of_seconds/3600
   end
 
   #Boolean to Words
