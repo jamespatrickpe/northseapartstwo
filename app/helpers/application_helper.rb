@@ -25,6 +25,20 @@ module ApplicationHelper
     return currentEmployee.duty_status.first.active
   end
 
+  def get_duration_regular_work_hours(employee_ID, specific_day)
+    currentEmployee = Employee.includes(:regular_work_period).joins(:regular_work_period).where("(employees.id = ?) AND regular_work_periods.created_at <= ?", "#{employee_ID}","#{specific_day}").order('regular_work_periods.created_at DESC').first
+    number_of_hours = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time)/3600)
+    if number_of_hours < 0
+      number_of_hours = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time)/3600).abs
+    end
+    return number_of_hours.to_i
+  end
+
+  def get_duration_actual_work_hours(employee_ID, specific_day)
+    currentEmployee = Employee.includes(:regular_work_period).joins(:regular_work_period).where("(employees.id = ?) AND regular_work_periods.created_at <= ?", "#{employee_ID}","#{specific_day}").order('regular_work_periods.created_at DESC')
+    return actual_hours.to_i
+  end
+
   #Boolean to Words
   def boolean_to_words(x)
     if x == 1

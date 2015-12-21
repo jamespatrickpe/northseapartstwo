@@ -140,10 +140,10 @@ class HumanResourcesController < ApplicationController
       myAttendance.remark = params[:attendance][i.to_s][:remark]
       myAttendance.save!
     end
-    flash[:general_flash_notification] = 'Attendance Recorded'
-    flash[:general_flash_notification_type] = 'affirmative'
+      flash[:general_flash_notification] = 'Attendance Recorded'
+      flash[:general_flash_notification_type] = 'Affirmative'
     rescue
-    flash[:general_flash_notification] = 'Error has Occurred; Please Contact Administrator'
+      flash[:general_flash_notification] = 'Error has Occurred; Please Contact Administrator'
     end
     redirect_to :action => 'branch_attendance_sheet'
   end
