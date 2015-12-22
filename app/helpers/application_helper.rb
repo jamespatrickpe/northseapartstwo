@@ -31,19 +31,28 @@ module ApplicationHelper
     if number_of_seconds < 0
       number_of_seconds = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time)).abs
     end
-    return number_of_seconds
+    return number_of_seconds/3600
   end
 
   def get_duration_actual_work_hours(employee_ID, specific_day)
-    attendances = Attendance.includes(:employee).joins(:employee).where("(employees.id = ?) AND (attendances.timein LIKE ?)", "#{employee_ID}", "#{specific_day.strftime("%Y-%m-%d")}%").order('attendances.created_at DESC')
-    total_number_of_seconds = 0
+    attendances = Attendance.includes(:employee).joins(:employee).where("(employees.id = ?) AND ((attendances.timein LIKE ?) OR (attendances.timeout LIKE ?) )", "#{employee_ID}", "#{specific_day.strftime("%Y-%m-%d")}%" , "#{specific_day.strftime("%Y-%m-%d")}%").order('attendances.created_at DESC')
+    time_in = nil
+    time_out = nil
+    number_of_seconds = 0
+    my_seconds = 0
     attendances.each do |attendance|
-      attendance.timein.nil? ?  time_in = Time.new(attendance.timeout.year, attendance.timeout.month, attendance.timeout.day, 0,0,0) : time_in = attendance.timein
-      attendance.timeout.nil? ?  time_out = Time.new(attendance.timein.year, attendance.timein.month, attendance.timein.day, 0,0,0) : time_out = attendance.timeout
-      number_of_seconds = time_out - time_in
-      total_number_of_seconds = total_number_of_seconds + number_of_seconds
+      time_in = attendance[:timein]
+      time_out = attendance[:timeout]
+      if time_in.strftime('%Y%m%d') == time_out.strftime('%Y%m%d')
+        my_seconds = (time_in - time_out).abs
+      elsif time_in.strftime('%Y%m%d') < time_out.strftime('%Y%m%d')
+        my_seconds = 0
+      end
+      number_of_seconds = number_of_seconds + my_seconds
     end
-    return total_number_of_seconds/3600
+    #return number_of_seconds/3600
+    #return time_in
+    return time_in.class
   end
 
   #Boolean to Words

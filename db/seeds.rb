@@ -320,11 +320,31 @@ numberOfActors.times do |i|
   end
 
   # HUMAN RESOURCES
-  if(randomBoolean())
+  if 50.in(100)
     # ids = Branch.pluck(:id).shuffle
     # myBranch = Branch.where(id: ids)
     myEmployee = Employee.new( actor: myActor, branch: Branch.all.shuffle.first )
 
+    #Attendances
+    rand(360..720).times do |i|
+      myDate = DateTime.now - i.days
+      timein = DateTime.new( myDate.year , myDate.month, myDate.day, rand(0..12), rand(0..59), rand(0..59) )
+      timeout = DateTime.new( myDate.year, myDate.month, myDate.day, rand(12..23), rand(0..59), rand(0..59) )
+      remark = Faker::Lorem.sentence + ' ' + i.to_s
+      if 10.in(100)
+        myAttendance = Attendance.new(timein: timein, employee: myEmployee, remark: remark )
+        myAttendance.save
+        myAttendance = Attendance.new(timeout: timeout+(rand(12..24).hours), employee: myEmployee, remark: remark )
+        myAttendance.save
+      elsif 10.in(100)
+        myDate = myDate - rand(1..10).days
+      else
+        myAttendance = Attendance.new(timein: timein, timeout: timeout, employee: myEmployee, remark: remark )
+        myAttendance.save
+      end
+    end
+
+    # Rest Days
     rand(1..3).times do |i|
     dayOfWeek = Faker::Time.between(7.days.ago, Time.now, :all).strftime("%A")
     restday = Restday.new(day: dayOfWeek, employee: myEmployee)
@@ -374,25 +394,6 @@ numberOfActors.times do |i|
       amountOfMoney = randomMoney(60.80,82.21)
     elsif( periodOfTime == "MONTH" )
       amountOfMoney = randomMoney(15000.99,25000.05)
-    end
-
-    #Attendances
-    rand(360..720).times do |i|
-      myDate = DateTime.now - i.days
-      timein = DateTime.new( myDate.year , myDate.month, myDate.day, rand(0..12), rand(0..59), rand(0..59) )
-      timeout = DateTime.new( myDate.year, myDate.month, myDate.day, rand(12..23), rand(0..59), rand(0..59) )
-      remark = Faker::Lorem.sentence
-      if 10.in(100)
-        myAttendance = Attendance.new(timein: timein, employee: myEmployee, remark: remark )
-        myAttendance.save
-        myAttendance = Attendance.new(timeout: timeout+(rand(12..24).hours), employee: myEmployee, remark: remark )
-        myAttendance.save
-      elsif 10.in(100)
-        myDate = myDate - rand(1..10).days
-      else
-        myAttendance = Attendance.new(timein: timein, timeout: timeout, employee: myEmployee, remark: remark )
-        myAttendance.save
-      end
     end
 
     # Base Rate

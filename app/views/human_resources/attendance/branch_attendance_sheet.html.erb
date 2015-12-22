@@ -31,7 +31,6 @@
                       <% current_date = @start_date + i.days %>
                       <%= current_date.strftime("%D") %> <br>
                       <%= current_date.strftime("%A") %>
-
                     </th>
                 <% end %>
               </tr>
@@ -60,7 +59,8 @@
                           <br><br>
                           <input type="hidden" name=<%="attendance["+current_set.to_s+"][employee_id]"%> value=<%= employee.id %>>
                           <input type="hidden" name=<%="attendance["+current_set.to_s+"][date]"%> value=<%= current_date_formatted %>>
-                            <%= get_duration_regular_work_hours(employee.id, current_date)/3600 %>
+                            Regular: <%= get_duration_regular_work_hours(employee.id, current_date) %> <br>
+                            Actual: <%= get_duration_actual_work_hours(employee.id, current_date) %> <br>
                             <%= employee.id %>
                         </td>
                         <% current_set = current_set + 1 %>
