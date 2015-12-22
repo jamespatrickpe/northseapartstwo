@@ -41,21 +41,21 @@
             <tbody>
             <% @duty_statuses.each do |duty_status| %>
                 <tr>
-                  <td><%= duty_status.id %></td>
+                  <td><%= duty_status[:id] %></td>
                   <td><%= link_to( duty_status.employee.actor.name ,{:action => 'employee_profile', :actor_id => duty_status.employee.actor.id} ) %></td>
                   <td>
                     <%=
-                        if(duty_status.active)
+                        if(duty_status[:active])
                           "ACTIVE"
                         else
                           "INACTIVE"
                         end
                     %>
                   </td>
-                  <td><%= duty_status.remark %> </td>
-                  <td><%= duty_status.date_of_effectivity %> </td>
-                  <td><%= duty_status.created_at %></td>
-                  <td><%= duty_status.updated_at %></td>
+                  <td><%= duty_status[:remark] %> </td>
+                  <td><%= duty_status[:date_of_effectivity] %> </td>
+                  <td><%= duty_status[:created_at] %></td>
+                  <td><%= duty_status[:updated_at] %></td>
                   <td class="actions">
                     <%= link_to( "&#9998;".html_safe ,{:action => 'edit_duty_status', :duty_status_id => duty_status.id}, class: 'action_button delete_item', tooltip: 'Edit') %>
                     <%= link_to( "&#10006;".html_safe ,{:action => 'delete_duty_status', :duty_status_id => duty_status.id}, class: 'action_button delete_item', tooltip: 'Delete') %>

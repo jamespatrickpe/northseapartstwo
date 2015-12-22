@@ -63,12 +63,13 @@ ActiveRecord::Schema.define(version: 20151216115839) do
   end
 
   create_table "attendances", force: :cascade do |t|
-    t.string   "employee_id", limit: 36
-    t.datetime "timein"
-    t.datetime "timeout"
-    t.string   "remark",      limit: 256
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "employee_id",        limit: 36
+    t.date     "date_of_attendance"
+    t.time     "timein",                         default: '2000-01-01 00:00:00'
+    t.time     "timeout",                        default: '2000-01-02 00:00:00'
+    t.string   "remark",             limit: 256
+    t.datetime "created_at",                                                     null: false
+    t.datetime "updated_at",                                                     null: false
   end
 
   create_table "base_rates", force: :cascade do |t|
@@ -139,7 +140,7 @@ ActiveRecord::Schema.define(version: 20151216115839) do
     t.string   "remark",              limit: 256
     t.boolean  "active",              limit: 1,   default: false
     t.string   "employee_id",         limit: 36
-    t.datetime "date_of_effectivity",             default: '2015-12-21 19:54:02'
+    t.datetime "date_of_effectivity",             default: '2015-12-22 09:05:54'
     t.datetime "created_at",                                                      null: false
     t.datetime "updated_at",                                                      null: false
   end

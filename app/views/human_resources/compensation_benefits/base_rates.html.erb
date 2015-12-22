@@ -66,25 +66,25 @@
             <tbody>
             <% @base_rates.each do |base_rate| %>
                 <tr>
-                  <td><%= base_rate.id %></td>
+                  <td><%= base_rate[:id] %></td>
                   <td><%= link_to( base_rate.employee.actor.name ,{:action => 'employee_profile', :actor_id => base_rate.employee.actor.id} ) %></td>
                   <td>
                     <%=
-                        if(base_rate.signed_type)
+                        if(base_rate[:signed_type])
                           "ADDITIONAL"
                         else
                           "SUBSTRACTIONAL"
                         end
                     %>
                   </td>
-                  <td><%= base_rate.rate_type %> </td>
-                  <td><%= base_rate.amount %> </td>
-                  <td><%= base_rate.period_of_time %> </td>
-                  <td><%= base_rate.remark %> </td>
-                  <td><%= base_rate.start_of_effectivity %> </td>
-                  <td><%= base_rate.end_of_effectivity %> </td>
-                  <td><%= base_rate.created_at %></td>
-                  <td><%= base_rate.updated_at %></td>
+                  <td><%= base_rate[:rate_type] %> </td>
+                  <td><%= base_rate[:amount] %> </td>
+                  <td><%= base_rate[:period_of_time] %> </td>
+                  <td><%= base_rate[:remark] %> </td>
+                  <td><%= base_rate[:start_of_effectivity] %> </td>
+                  <td><%= base_rate[:end_of_effectivity] %> </td>
+                  <td><%= base_rate[:created_at] %></td>
+                  <td><%= base_rate[:updated_at] %></td>
                   <td class="actions">
                     <%= link_to( "&#9998;".html_safe ,{:action => 'edit_base_rate', :base_rate_id => base_rate.id}, class: 'action_button', tooltip: 'Edit') %>
                     <%= link_to( "&#10006;".html_safe ,{:action => 'delete_base_rate', :base_rate_id => base_rate.id}, class: 'action_button delete_item', tooltip: 'Delete') %>

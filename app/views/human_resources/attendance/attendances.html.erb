@@ -22,6 +22,10 @@
             <%= generic_table_theadlink('attendances','actors.name', table_orientation) %>
           </th>
           <th>
+            Date of Attendance
+            <%= generic_table_theadlink('attendances','attendances.date_of_attendance', table_orientation) %>
+          </th>
+          <th>
             Time In
             <%= generic_table_theadlink('attendances','attendances.timein', table_orientation) %>
           </th>
@@ -51,12 +55,13 @@
             <% @attendances.each do |attendance| %>
                 <tr>
                   <td><%= attendance.id %></td>
-                  <td><%= link_to( attendance.employee.actor.name ,{:action => 'employee_profile', :actor_id => attendance.employee.actor.id} ) %></td>
-                  <td><%= attendance.timein %> </td>
-                  <td><%= attendance.timeout %> </td>
-                  <td><%= attendance.remark %> </td>
-                  <td><%= attendance.created_at %></td>
-                  <td><%= attendance.updated_at %></td>
+                  <td><%= link_to( attendance.employee.actor.name ,{:action => 'employee_profile', :employee_id => attendance.employee.id} ) %></td>
+                  <td><%= attendance[:date_of_attendance] %> </td>
+                  <td><%= attendance[:timein].present? ? attendance[:timein].strftime("%H:%M:%S") : "n/a" %> </td>
+                  <td><%= attendance[:timeout].present? ? attendance[:timeout].strftime("%H:%M:%S") : "n/a" %> </td>
+                  <td><%= attendance[:remark] %> </td>
+                  <td><%= attendance[:created_at] %></td>
+                  <td><%= attendance[:updated_at] %></td>
                   <td class="actions">
                     <%= link_to( "&#9998;".html_safe ,{:action => 'edit_attendance', :attendance_id => attendance.id}, class: 'action_button', tooltip: 'Edit') %>
                     <%= link_to( "&#10006;".html_safe ,{:action => 'delete_attendance', :attendance_id => attendance.id}, class: 'action_button delete_item', tooltip: 'Delete') %>

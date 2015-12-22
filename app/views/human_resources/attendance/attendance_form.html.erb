@@ -32,8 +32,8 @@
           <% end %>
         </select>
         <!-- input of type datetime-local do not have a placeholder so you have to write the label manually outside the input -->
-        <div>Time In: <input type="datetime-local" required="required" name="attendance[timein]" style="width: 50%" value= <%= @selected_attendance.timein.strftime('%FT%T') %> ></div> <!-- take note of time format! -->
-        <div>Time Out: <input type="datetime-local" required="required" name="attendance[timeout]" style="width: 50%" value= <%= @selected_attendance.timeout.strftime('%FT%T') %> ></div> <!-- take note of time format! -->
+        <div>Time In: <input type="datetime-local" required="required" name="attendance[timein]" style="width: 50%" value= <%= @selected_attendance[:timein].strftime('%FT%T') %> ></div> <!-- take note of time format! -->
+        <div>Time Out: <input type="datetime-local" required="required" name="attendance[timeout]" style="width: 50%" value= <%= @selected_attendance[:timeout].strftime('%FT%T') %> ></div> <!-- take note of time format! -->
         <%= text_area_tag("attendance[remark]", content = @selected_attendance.remark, options = {class: "remark_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :placeholder => 'Remarks' }) %>
         <input type="submit" class="small button" value="SUBMIT" />
 

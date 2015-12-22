@@ -328,18 +328,22 @@ numberOfActors.times do |i|
     #Attendances
     rand(360..720).times do |i|
       myDate = DateTime.now - i.days
-      timein = DateTime.new( myDate.year , myDate.month, myDate.day, rand(0..12), rand(0..59), rand(0..59) )
-      timeout = DateTime.new( myDate.year, myDate.month, myDate.day, rand(12..23), rand(0..59), rand(0..59) )
+      dateOfAttendance = Date.new(myDate.year , myDate.month, myDate.day)
+      # timein = Time.new( myDate.year , myDate.month, myDate.day, (0..12), rand(0..59), rand(0..59) )
+      # timeout = Time.new( myDate.year , myDate.month, myDate.day, rand(12..23), rand(0..59), rand(0..59) )
+      time_in = rand(0..12).to_s+':'+rand(0..59).to_s+':'+rand(0..59).to_s
+      time_out = rand(12..23).to_s+':'+rand(0..59).to_s+':'+rand(0..59).to_s
       remark = Faker::Lorem.sentence + ' ' + i.to_s
       if 10.in(100)
-        myAttendance = Attendance.new(timein: timein, employee: myEmployee, remark: remark )
+        myAttendance = Attendance.new(date_of_attendance: dateOfAttendance, timein: time_in, employee: myEmployee, remark: remark )
         myAttendance.save
-        myAttendance = Attendance.new(timeout: timeout+(rand(12..24).hours), employee: myEmployee, remark: remark )
+        time_out = rand(0..12).to_s+':'+rand(0..59).to_s+':'+rand(0..59).to_s
+        myAttendance = Attendance.new(date_of_attendance: dateOfAttendance + 1.day, timeout: time_out, employee: myEmployee, remark: remark )
         myAttendance.save
       elsif 10.in(100)
         myDate = myDate - rand(1..10).days
       else
-        myAttendance = Attendance.new(timein: timein, timeout: timeout, employee: myEmployee, remark: remark )
+        myAttendance = Attendance.new(date_of_attendance: dateOfAttendance, timein: time_in, timeout: time_out, employee: myEmployee, remark: remark )
         myAttendance.save
       end
     end

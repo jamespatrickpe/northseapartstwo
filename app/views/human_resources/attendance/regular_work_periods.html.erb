@@ -41,13 +41,13 @@
             <tbody>
             <% @regular_work_periods.each do |regular_work_period| %>
                 <tr>
-                  <td><%= regular_work_period.id %></td>
+                  <td><%= regular_work_period[:id] %></td>
                   <td><%= link_to( regular_work_period.employee.actor.name ,{:action => 'employee_profile', :actor_id => regular_work_period.employee.actor.id} ) %></td>
-                  <td><%= regular_work_period.start_time.strftime("%H:%M") %> </td>
-                  <td><%= regular_work_period.end_time.strftime("%H:%M") %> </td>
-                  <td><%= regular_work_period.remark %> </td>
-                  <td><%= regular_work_period.created_at %></td>
-                  <td><%= regular_work_period.updated_at %></td>
+                  <td><%= regular_work_period[:start_time].strftime("%H:%M") %> </td>
+                  <td><%= regular_work_period[:end_time].strftime("%H:%M") %> </td>
+                  <td><%= regular_work_period[:remark] %> </td>
+                  <td><%= regular_work_period[:created_at] %></td>
+                  <td><%= regular_work_period[:updated_at] %></td>
                   <td class="actions">
                     <%= link_to( "&#9998;".html_safe ,{:action => 'edit_regular_work_period', :regular_work_period_id => regular_work_period.id}, class: 'action_button', tooltip: 'Edit' ) %>
                     <%= link_to( "&#10006;".html_safe ,{:action => 'delete_regular_work_period', :regular_work_period_id => regular_work_period.id}, class: 'action_button delete_item', tooltip: 'Delete' ) %>
