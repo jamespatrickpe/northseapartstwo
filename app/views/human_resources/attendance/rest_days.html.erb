@@ -5,6 +5,7 @@
   <%= link_to( "[ BACK TO LIST ]" ,{:action => 'employee_accounts_management' }, :class => "action_button action-link-grey" ) %>
 
   <hr>
+
   <%= generic_table_search( 'rest_days_search_input', 'rest_days',' Search Rest Days' , '/human_resources/search_suggestions_rest_days', 'rest_days') %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
