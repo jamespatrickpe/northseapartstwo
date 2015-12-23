@@ -202,24 +202,25 @@ class HumanResourcesController < ApplicationController
 
   def edit_rest_day
     initialize_employee_selection
-    @selected_duty_status = Restday.find(params[:rest_day_id])
+    @selected_rest_day = Restday.find(params[:rest_day_id])
     render 'human_resources/employee_accounts_management/rest_day_form'
   end
 
   def process_rest_day_form
     begin
       if( params[:rest_day][:id].present? )
-        restDay = Restday.find(params[:duty_status][:id])
+        restDay = Restday.find(params[:rest_day][:id])
       else
         restDay = Restday.new()
       end
-      restDay.id = params[:rest_day][:active]
-      restDay.day = params[:rest_day][:employee_id]
-      restDay.employee_id = params[:rest_day][:date_of_effectivity]
+      restDay.id = params[:rest_day][:id]
+      restDay.day = params[:rest_day][:day]
+      restDay.employee_id = params[:rest_day][:employee_id]
       restDay.save!
       flash[:general_flash_notification] = 'Rest Day Added'
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex
+      puts ex
       flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
     end
     redirect_to :action => 'rest_days'
@@ -271,24 +272,33 @@ class HumanResourcesController < ApplicationController
 
   def edit_regular_work_period
     initialize_employee_selection
-    @selected_duty_status = RegularWorkPeriod.find(params[:regular_work_period_id])
+    @selected_regular_work_period = RegularWorkPeriod.find(params[:regular_work_period_id])
     render 'human_resources/employee_accounts_management/regular_work_period_form'
   end
 
   def process_regular_work_period_form
     begin
       if( params[:regular_work_period][:id].present? )
-        regularWorkPeriod = RegularWorkPeriod.find(params[:duty_status][:id])
+        regularWorkPeriod = RegularWorkPeriod.find(params[:regular_work_period][:id])
       else
         regularWorkPeriod = RegularWorkPeriod.new()
       end
+
+      regularWorkPeriod.employee_id = params[:regular_work_period][:employee_id]
+
+      employee = Employee.find(params[:regular_work_period][:employee_id])
+      regularWorkPeriod.employee = employee
+      regularWorkPeriod.start_time = params[:regular_work_period][:start_time]
+      regularWorkPeriod.end_time = params[:regular_work_period][:end_time]
+      regularWorkPeriod.remark = params[:regular_work_period][:remark]
       regularWorkPeriod.save!
-      flash[:general_flash_notification] = 'Rest Day Added'
+      flash[:general_flash_notification] = 'Regular Work Period Added'
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex
+      puts ex
       flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
     end
-    redirect_to :action => 'rest_days'
+    redirect_to :action => 'regular_work_periods'
   end
 
 
@@ -336,7 +346,7 @@ class HumanResourcesController < ApplicationController
 
   def edit_lump_adjustment
     initialize_employee_selection
-    @selected_base_rate = LumpAdjustment.find(params[:lump_adjustment_id])
+    @selected_lump_adjustment = LumpAdjustment.find(params[:lump_adjustment_id])
     render 'human_resources/employee_accounts_management/lump_adjustment_form'
   end
 
@@ -347,19 +357,17 @@ class HumanResourcesController < ApplicationController
       else
         lumpAdjustment = LumpAdjustment.new()
       end
-      lumpAdjustment.id = params[:base_rate][:id]
+      lumpAdjustment.id = params[:lump_adjustment][:id]
+      lumpAdjustment.amount = params[:lump_adjustment][:amount]
       lumpAdjustment.employee_id = params[:lump_adjustment][:employee_id]
-      # baseRate.signed_type = params[:base_rate][:signed_type]
-      # baseRate.amount = params[:base_rate][:amount]
-      # baseRate.period_of_time = params[:base_rate][:period_of_time]
-      # baseRate.rate_type = params[:base_rate][:rate_type]
+      lumpAdjustment.signed_type = params[:lump_adjustment][:signed_type]
       lumpAdjustment.remark = params[:lump_adjustment][:remark]
-      # lumpAdjustment.date_of_effectivity = params[:base_rate][:date_of_effectivity]
-      # baseRate.end_of_effectivity = params[:base_rate][:end_of_effectivity]
+      lumpAdjustment.date_of_effectivity = params[:lump_adjustment][:date_of_effectivity]
       lumpAdjustment.save!
       flash[:general_flash_notification] = 'Lump Adjustment Added'
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex
+      puts ex
       flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
     end
     redirect_to :action => 'lump_adjustments'
@@ -397,25 +405,33 @@ class HumanResourcesController < ApplicationController
   end
 
   def process_base_rate_form
+
     begin
       if( params[:base_rate][:id].present? )
+        puts 'inside if ==================================== a'
         baseRate = BaseRate.find(params[:base_rate][:id])
       else
         baseRate = BaseRate.new()
+        puts 'inside else ==================================== b '
       end
-      baseRate.id = params[:base_rate][:id]
+
       baseRate.employee_id = params[:base_rate][:employee_id]
-      # baseRate.signed_type = params[:base_rate][:signed_type]
-      # baseRate.amount = params[:base_rate][:amount]
-      # baseRate.period_of_time = params[:base_rate][:period_of_time]
-      # baseRate.rate_type = params[:base_rate][:rate_type]
+
+      employee = Employee.find(params[:base_rate][:employee_id])
+      baseRate.employee = employee
+
+      baseRate.signed_type = params[:base_rate][:signed_type]
+      baseRate.amount = params[:base_rate][:amount]
+      baseRate.period_of_time = params[:base_rate][:period_of_time]
+      baseRate.rate_type = params[:base_rate][:rate_type]
       baseRate.remark = params[:base_rate][:remark]
-      # baseRate.start_of_effectivity = params[:base_rate][:start_of_effectivity]
-      # baseRate.end_of_effectivity = params[:base_rate][:end_of_effectivity]
+      baseRate.start_of_effectivity = params[:base_rate][:start_of_effectivity]
+      baseRate.end_of_effectivity = params[:base_rate][:end_of_effectivity]
       baseRate.save!
       flash[:general_flash_notification] = 'Base Rate Added'
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex
+      puts ex
       flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
     end
     redirect_to :action => 'base_rates'

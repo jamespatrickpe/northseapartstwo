@@ -8,12 +8,15 @@
    @selected_base_rate.rate_type ||= ''
    @selected_base_rate.remark ||= ''
    @selected_base_rate.start_of_effectivity ||= Time.now #Time.now because placeholder value wont accept nil or 'time in'
-   @selected_base_rate.end_of_effectivity ||= ''
+   @selected_base_rate.end_of_effectivity ||= Time.now #Time.now because placeholder value wont accept nil or 'time in'
 %>
 
 <section class='small-10 columns'>
   <div class='mainheader'> Base Rate Form </div>
   <div class='subdescription'> Set the Base Rate of an Employee </div>
+
+  <%= link_to( "[ BACK TO HOME ]" ,{:action => 'base_rates' }, :class => "action_button action-link-grey" ) %>
+
   <hr>
   <div class='small-6 columns generic_form'>
     <% if @selected_base_rate.id.present? %>
@@ -21,27 +24,120 @@
     <% end %>
     <%= form_tag( {action: :process_base_rate_form}, multipart: true, class: 'create_form', id: "new_base_rate_form", :"data-parsley-validate" => "" ) do %>
         <%= hidden_field_tag('base_rate[id]', @selected_base_rate.id ) %>
-        <select name='base_rate[employee_id]'
-                id='new_base_rate_employee'
-                class='employee_select_field'
-                required="required" >
-          <!-- DO NOT CHANGE class 'employee_select_field'; this is for the employee_quick_profile thing; do change other attributes in the select field -->
-          <option value="" disabled selected>Select Employee</option>
-          <% @employees.each do |employee| %> <!-- This selects the current employee and marks the option 'selected' if found -->
-              <% if employee.id == @selected_base_rate.employee_id %>
-                  <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
-              <% else %>
-                  <option value=<%= employee.id %>><%= employee.actor.name %></option>
+
+        <div class="form-block">
+          <section class="form-block-label">Employee</section>
+          <section class="form-block-control">
+            <select name='base_rate[employee_id]'
+                    id='new_base_rate_employee'
+                    class='employee_select_field'
+                    required="required" >
+              <!-- DO NOT CHANGE class 'employee_select_field'; this is for the employee_quick_profile thing; do change other attributes in the select field -->
+              <option value="" disabled selected>Select Employee</option>
+              <% @employees.each do |employee| %> <!-- This selects the current employee and marks the option 'selected' if found -->
+                  <% if employee.id == @selected_base_rate.employee_id %>
+                      <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
+                  <% else %>
+                      <option value=<%= employee.id %>><%= employee.actor.name %></option>
+                  <% end %>
               <% end %>
-          <% end %>
-        </select>
+            </select>
+          </section>
+        </div>
 
-        <%= text_field_tag("base_rate[signed_type]", content = @selected_base_rate.signed_type, options = {class: "remark_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :placeholder => 'Enter Signed Type' }) %>
+        <div class="form-block">
+          <section class="form-block-label">Amount</section>
+          <section class="form-block-control">
+            <%= text_field_tag("base_rate[amount]",
+                               content = @selected_base_rate.amount,
+                               options = {placeholder: "Enter amount",
+                                          required: "required",
+                                          :"data-parsley-trigger" => "keyup",
+                                          :"data-parsley-step" => "0.01",
+                                          :"data-parsley-type" => "number"}) %>
 
-        <%= text_area_tag("base_rate[remark]", content = @selected_base_rate.remark, options = {class: "remark_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :placeholder => 'Remarks' }) %>
+          </section>
+        </div>
+
+        <div class="form-block">
+          <section class="form-block-label">Period of Time</section>
+          <section class="form-block-control">
+            <!-- period_of_time -->
+            <%= radio_button_tag('base_rate[period_of_time]', "HOUR") %>
+            <%= label_tag('[base_rate[period_of_time]_HOUR', "HOUR") %>
+            <%= radio_button_tag('base_rate[period_of_time]', "DAY") %>
+            <%= label_tag('[base_rate[period_of_time]_DAY', "DAY") %>
+            <%= radio_button_tag('base_rate[period_of_time]', "WEEK") %>
+            <%= label_tag('[base_rate[period_of_time]_WEEK', "WEEK") %>
+            <%= radio_button_tag('base_rate[period_of_time]', "MONTH") %>
+            <%= label_tag('[base_rate[period_of_time]_MONTH', "MONTH") %>
+          </section>
+        </div>
+
+        <div class="form-block">
+          <section class="form-block-label">Rate Type</section>
+          <section class="form-block-control">
+            <!-- rate_type -->
+            <%= radio_button_tag('base_rate[rate_type]', "CTPA") %>
+            <%= label_tag('[base_rate[rate_type]_CTPA', "CTPA") %>
+            <%= radio_button_tag('base_rate[rate_type]', "SEA") %>
+            <%= label_tag('[base_rate[rate_type]_SEA', "SEA") %>
+            <%= radio_button_tag('base_rate[rate_type]', "COLA") %>
+            <%= label_tag('[base_rate[rate_type]_COLA', "COLA") %>
+            <%= radio_button_tag('base_rate[rate_type]', "base") %>
+            <%= label_tag('[base_rate[rate_type]_base', "base") %>
+            <%= radio_button_tag('base_rate[rate_type]', "other") %>
+            <%= label_tag('[base_rate[rate_type]_other', "other") %>
+          </section>
+        </div>
+
+        <div class="form-block">
+          <section class="form-block-label">Signed  Type</section>
+          <section class="form-block-control">
+            <!-- signed_type -->
+            <%= radio_button_tag('base_rate[signed_type]', 1) %>
+            <%= label_tag('[base_rate[signed_type]_true', 'ADDITIONAL (+)') %>
+            <%= radio_button_tag('base_rate[signed_type]', 0) %>
+            <%= label_tag('[base_rate[signed_type]_false', 'SUBTRACTIONAL (-)') %>
+          </section>
+        </div>
+
+        <div class="form-block">
+          <section class="form-block-label">Start of Effectivity</section>
+          <section class="form-block-control">
+            <input type="datetime-local" required="required" name="base_rate[start_of_effectivity]" style="width: 50%" value= <%= @selected_base_rate.start_of_effectivity.strftime('%FT%T') %> >
+          </section>
+        </div> <!-- take note of time format! -->
+
+        <div class="form-block">
+          <section class="form-block-label">End of Effectivity</section>
+          <section class="form-block-control">
+            <input type="datetime-local" required="required" name="base_rate[end_of_effectivity]" style="width: 50%" value= <%= @selected_base_rate.end_of_effectivity.strftime('%FT%T') %> ><!-- take note of time format! -->
+          </section>
+        </div>
+
+        <div class="form-block">
+          <section class="form-block-label">Remark/s</section>
+          <section class="form-block-control">
+            <%= text_area_tag("base_rate[remark]",
+                              content = @selected_base_rate.remark,
+                              options = {class: "remark_description",
+                                         :"data-parsley-trigger" => "keyup",
+                                         :"data-parsley-maxlength"=>"128",
+                                         :placeholder => 'Remarks' }) %>
+          </section>
+        </div>
+
+        <hr />
 
         <input type="submit" class="small button" value="SUBMIT" />
+
     <% end %>
+
   </div>
+
   <%= renderCorePartial('employee_quick_profile') %>
+
 </section>
+
+<div class="md-spacer"></div>

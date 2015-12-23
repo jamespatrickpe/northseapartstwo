@@ -1,4 +1,5 @@
-  <div class='small-6 columns employee_quick_profile'>
+<div class='small-6 columns employee_quick_profile'>
+  <div class="employee_quick-profile-content">
     <img class='employee_quick_picture' id='employee_quick_picture' src='/entity_avatars/default.jpg'/>
     <div class='employee_quick_profile_data' id='employee_quick_profile_data'>
       <div class='employee_quick_actor_name' id="employee_quick_actor_name">
@@ -10,11 +11,12 @@
       <div class='employee_quick_actor_description' id="employee_quick_actor_description"> N/A </div>
     </div>
   </div>
+</div>
 
-  <script type='text/javascript'>
-      $(document).ready(function(){$('.employee_select_field').selectize({sortField: 'text'})});
-      $(document).ready(function(){
-//          update_quick_profile();
-          $('.employee_select_field').change(function(){update_quick_profile();});
-      });
-  </script>
+<script type='text/javascript'>
+    $(document).ready(function(){$('.employee_select_field').selectize({sortField: 'text'})});
+    $(document).ready(function(){
+        update_quick_profile();
+        $('.employee_select_field').change(function(){update_quick_profile();});
+    });
+</script>

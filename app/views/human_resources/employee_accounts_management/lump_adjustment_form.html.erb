@@ -3,14 +3,18 @@
    @selected_lump_adjustment.id ||= ''
    @selected_lump_adjustment.amount ||= ''
    @selected_lump_adjustment.signed_type ||= ''
-   @selected_lump_adjustment.remark ||=
+   @selected_lump_adjustment.remark ||= ''
    @selected_lump_adjustment.employee_id ||= ''
-   @selected_lump_adjustment.date_of_effectivity ||= ''
+   @selected_lump_adjustment.date_of_effectivity ||= Time.now #Time.now because placeholder value wont accept nil or 'time in'
+
 %>
 
 <section class='small-10 columns'>
   <div class='mainheader'> Lump Adjustment Form </div>
   <div class='subdescription'> Set the Status of a Lump Adjustment </div>
+
+  <%= link_to( "[ BACK TO HOME ]" ,{:action => 'lump_adjustments' }, :class => "action_button action-link-grey" ) %>
+
   <hr>
   <div class='small-6 columns generic_form'>
     <% if @selected_lump_adjustment.id.present? %>
@@ -18,24 +22,76 @@
     <% end %>
     <%= form_tag( {action: :process_lump_adjustment_form}, multipart: true, class: 'create_form', id: "new_lump_adjustment_form", :"data-parsley-validate" => "" ) do %>
         <%= hidden_field_tag('lump_adjustment[id]', @selected_lump_adjustment.id ) %>
-        <select name='lump_adjustment[employee_id]'
-                id='new_lump_adjustment_employee'
-                class='employee_select_field'
-                required="required" >
-          <!-- DO NOT CHANGE class 'employee_select_field'; this is for the employee_quick_profile thing; do change other attributes in the select field -->
-          <option value="" disabled selected>Select Employee</option>
-          <% @employees.each do |employee| %> <!-- This selects the current employee and marks the option 'selected' if found -->
-              <% if employee.id == @selected_lump_adjustment.employee_id %>
-                  <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
-              <% else %>
-                  <option value=<%= employee.id %>><%= employee.actor.name %></option>
+
+        <div class="form-block">
+          <section class="form-block-label">Employee</section>
+          <section class="form-block-control">
+            <select name='lump_adjustment[employee_id]'
+                    id='new_lump_adjustment_employee'
+                    class='employee_select_field'
+                    required="required" >
+              <!-- DO NOT CHANGE class 'employee_select_field'; this is for the employee_quick_profile thing; do change other attributes in the select field -->
+              <option value="" disabled selected>Select Employee</option>
+              <% @employees.each do |employee| %> <!-- This selects the current employee and marks the option 'selected' if found -->
+                  <% if employee.id == @selected_lump_adjustment.employee_id %>
+                      <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
+                  <% else %>
+                      <option value=<%= employee.id %>><%= employee.actor.name %></option>
+                  <% end %>
               <% end %>
-          <% end %>
-        </select>
-        <!-- input of type datetime-local do not have a placeholder so you have to write the label manually outside the input -->
-        <%= text_area_tag("lump_adjustment[remark]", content = @selected_lump_adjustment.remark, options = {class: "remark_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :placeholder => 'Remarks' }) %>
+            </select>
+          </section>
+        </div>
+
+        <div class="form-block">
+          <section class="form-block-label">Amount</section>
+          <section class="form-block-control">
+            <%= text_field_tag("lump_adjustment[amount]",
+                               content = @selected_lump_adjustment.amount,
+                               options = {placeholder: "Enter amount",
+                                          required: "required",
+                                          :"data-parsley-trigger" => "keyup",
+                                          :"data-parsley-step" => "0.01",
+                                          :"data-parsley-type" => "number"}) %>
+
+          </section>
+        </div>
+
+        <div class="form-block">
+          <section class="form-block-label">Signed Type</section>
+          <section class="form-block-control">
+            <%= radio_button_tag('lump_adjustment[signed_type]', 1) %>
+            <%= label_tag('[lump_adjustment[signed_type]_true', 'ADDITIONAL (+)') %>
+            <%= radio_button_tag('lump_adjustment[signed_type]', 0) %>
+            <%= label_tag('[lump_adjustment[signed_type]_false', 'SUBTRACTIONAL (-)') %>
+          </section>
+        </div>
+
+        <div class="form-block">
+          <section class="form-block-label">Date of Effectivity</section>
+          <section class="form-block-control">
+            <input type="datetime-local" required="required" name="lump_adjustment[date_of_effectivity]" style="width: 50%" value= <%= @selected_lump_adjustment.date_of_effectivity.strftime('%FT%T') %> ><!-- take note of time format! -->
+          </section>
+        </div>
+
+        <div class="form-block">
+          <section class="form-block-label">Remark/s</section>
+          <section class="form-block-control">
+            <%= text_area_tag("lump_adjustment[remark]",
+                              content = @selected_lump_adjustment.remark,
+                              options = {class: "remark_description",
+                                         :"data-parsley-trigger" => "keyup",
+                                         :"data-parsley-maxlength"=>"128",
+                                         :placeholder => 'Remarks' }) %>
+          </section>
+        </div>
+
         <input type="submit" class="small button" value="SUBMIT" />
+
     <% end %>
+
   </div>
+
   <%= renderCorePartial('employee_quick_profile') %>
+
 </section>

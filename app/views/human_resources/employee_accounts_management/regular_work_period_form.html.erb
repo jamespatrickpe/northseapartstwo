@@ -10,29 +10,69 @@
 <section class='small-10 columns'>
   <div class='mainheader'> Regular Work Period Form </div>
   <div class='subdescription'> Manage Regular work period of an employee </div>
+
+  <%= link_to( "[ BACK TO HOME ]" ,{:action => 'regular_work_periods' }, :class => "action_button action-link-grey" ) %>
   <hr>
+
   <div class='small-6 columns generic_form'>
     <% if @selected_regular_work_period.id.present? %>
         <span class="current_edit_id"> <%= 'Editing Duty Status ID: ' + @selected_regular_work_period.id %> </span> <br><br> <!-- this is for the current Duty Status ID or OBJECT ID; not employee-->
     <% end %>
     <%= form_tag( {action: :process_regular_work_period_form}, multipart: true, class: 'create_form', id: "new_regular_work_period_form", :"data-parsley-validate" => "" ) do %>
         <%= hidden_field_tag('regular_work_period[id]', @selected_regular_work_period.id ) %>
-        <select name='regular_work_period[employee_id]'
-                id='new_regular_work_period_employee'
-                class='employee_select_field'
-                required="required" >
-          <!-- DO NOT CHANGE class 'employee_select_field'; this is for the employee_quick_profile thing; do change other attributes in the select field -->
-          <option value="" disabled selected>Select Employee</option>
-          <% @employees.each do |employee| %> <!-- This selects the current employee and marks the option 'selected' if found -->
-              <% if employee.id == @selected_regular_work_period.employee_id %>
-                  <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
-              <% else %>
-                  <option value=<%= employee.id %>><%= employee.actor.name %></option>
+
+        <div class="form-block">
+          <section class="form-block-label">Employee</section>
+          <section class="form-block-control">
+            <select name='regular_work_period[employee_id]'
+                    id='new_regular_work_period_employee'
+                    class='employee_select_field'
+                    required="required" >
+              <!-- DO NOT CHANGE class 'employee_select_field'; this is for the employee_quick_profile thing; do change other attributes in the select field -->
+              <option value="" disabled selected>Select Employee</option>
+              <% @employees.each do |employee| %> <!-- This selects the current employee and marks the option 'selected' if found -->
+                  <% if employee.id == @selected_regular_work_period.employee_id %>
+                      <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
+                  <% else %>
+                      <option value=<%= employee.id %>><%= employee.actor.name %></option>
+                  <% end %>
               <% end %>
-          <% end %>
-        </select>
+            </select>
+          </section>
+        </div>
+
+        <div class="form-block">
+          <section class="form-block-label">Start Time</section>
+          <section class="form-block-control">
+            <%= time_field(:regular_work_period, :start_time, :required => true) %>
+          </section>
+        </div>
+
+        <div class="form-block">
+          <section class="form-block-label">End Time</section>
+          <section class="form-block-control">
+            <%= time_field(:regular_work_period, :end_time, :required => true) %>
+          </section>
+        </div>
+
+        <div class="form-block">
+          <section class="form-block-label">Remark/s</section>
+          <section class="form-block-control">
+            <%= text_area_tag("regular_work_period[remark]",
+                              content = @selected_regular_work_period.remark,
+                              options = {class: "remark_description",
+                                         :"data-parsley-trigger" => "keyup",
+                                         :"data-parsley-maxlength"=>"128",
+                                         :placeholder => 'Remarks' }) %>
+          </section>
+        </div>
+
         <input type="submit" class="small button" value="SUBMIT" />
+
     <% end %>
+
   </div>
+
   <%= renderCorePartial('employee_quick_profile') %>
+
 </section>
