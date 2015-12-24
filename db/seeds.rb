@@ -340,8 +340,12 @@ numberOfActors.times do |i|
         time_out = rand(0..12).to_s+':'+rand(0..59).to_s+':'+rand(0..59).to_s
         myAttendance = Attendance.new(date_of_attendance: dateOfAttendance + 1.day, timeout: time_out, employee: myEmployee, remark: remark )
         myAttendance.save
+        myDate = myDate + 1.days
       elsif 10.in(100)
         myDate = myDate - rand(1..10).days
+      elsif 70.in(100)
+        myAttendance = Attendance.new(date_of_attendance: dateOfAttendance, timein: "08:00:00", timeout: "17:00:00", employee: myEmployee, remark: remark )
+        myAttendance.save
       else
         myAttendance = Attendance.new(date_of_attendance: dateOfAttendance, timein: time_in, timeout: time_out, employee: myEmployee, remark: remark )
         myAttendance.save

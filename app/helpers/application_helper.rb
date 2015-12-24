@@ -1,18 +1,18 @@
 module ApplicationHelper
 
-  def isHoliday( current_date )
+  def whatHoliday( current_date )
     holidays = Holiday.all
-    is_holiday = false
+    what_holiday = false
     holidays.each do |holiday|
       if holiday.date_of_implementation == current_date
-          is_holiday = true
+        what_holiday = holiday.name
       end
     end
-    return is_holiday
+    return what_holiday
   end
 
   def isRestDay(employee_id, current_day)
-    rest_day = Restday.find_by_employee_id(employee_id)
+    rest_day = Restday.where("(employee_id = ?)", "#{employee_id}").order('restdays.created_at DESC').first
     is_rest_day = false
     if rest_day.day == current_day
       is_rest_day = true
@@ -35,24 +35,15 @@ module ApplicationHelper
   end
 
   def get_duration_actual_work_hours(employee_ID, specific_day)
-    attendances = Attendance.includes(:employee).joins(:employee).where("(employees.id = ?) AND ((attendances.timein LIKE ?) OR (attendances.timeout LIKE ?) )", "#{employee_ID}", "#{specific_day.strftime("%Y-%m-%d")}%" , "#{specific_day.strftime("%Y-%m-%d")}%").order('attendances.created_at DESC')
-    time_in = nil
-    time_out = nil
-    number_of_seconds = 0
-    my_seconds = 0
+    attendances = Attendance.includes(:employee).joins(:employee).where("(employees.id = ?) AND (attendances.date_of_attendance LIKE ?)", "#{employee_ID}", "#{specific_day.strftime("%Y-%m-%d")}%").order('attendances.created_at DESC')
+    total_seconds = 0
     attendances.each do |attendance|
       time_in = attendance[:timein]
       time_out = attendance[:timeout]
-      if time_in.strftime('%Y%m%d') == time_out.strftime('%Y%m%d')
-        my_seconds = (time_in - time_out).abs
-      elsif time_in.strftime('%Y%m%d') < time_out.strftime('%Y%m%d')
-        my_seconds = 0
+      my_seconds = (time_in - time_out).abs
+      total_seconds = my_seconds + total_seconds
       end
-      number_of_seconds = number_of_seconds + my_seconds
-    end
-    #return number_of_seconds/3600
-    #return time_in
-    return time_in.class
+    return total_seconds/3600
   end
 
   #Boolean to Words

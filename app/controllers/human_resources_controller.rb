@@ -136,6 +136,7 @@ class HumanResourcesController < ApplicationController
         timeout = DateTime.new( myDate.year, myDate.month, myDate.day, myTimeOut.hour, myTimeOut.min, myTimeOut.sec, "+8" )
         myAttendance.timeout = timeout
       end
+      myAttendance.date_of_attendance = myDate
       myAttendance.employee_id = params[:attendance][i.to_s][:employee_id]
       myAttendance.remark = params[:attendance][i.to_s][:remark]
       myAttendance.save!
@@ -171,6 +172,7 @@ class HumanResourcesController < ApplicationController
         myAttendance = Attendance.new
       end
       myAttendance.employee_id = params[:attendance][:employee_id]
+      myAttendance.date_of_attendance = params[:attendance][:date_of_attendance]
       myAttendance.timein = params[:attendance][:timein]
       myAttendance.timeout = params[:attendance][:timeout]
       myAttendance.remark = params[:attendance][:remark]
