@@ -96,6 +96,15 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/attendance/attendances'
   end
 
+  def delete_attendance
+    attendaceToBeDeleted = Attendance.find(params[:attendance_id])
+    attendanceOwner = Employee.find(attendaceToBeDeleted.employee_id)
+    flash[:general_flash_notification] = 'Attendance for ' + attendanceOwner.actor.name + ' has been deleted.'
+    flash[:general_flash_notification_type] = 'affirmative'
+    attendaceToBeDeleted.destroy
+    redirect_to :action => "attendances"
+  end
+
   def branch_attendance_sheet
     @branches = Branch.all
     begin
@@ -213,6 +222,46 @@ class HumanResourcesController < ApplicationController
     redirect_to :action => "rest_days"
   end
 
+  def search_suggestions_rest_days
+    restdays = Restday.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + restdays.uniq.to_s + "}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
+  def new_rest_day
+    initialize_employee_selection
+    @selected_rest_day = Restday.new
+    render 'human_resources/employee_accounts_management/rest_day_form'
+  end
+
+  def edit_rest_day
+    initialize_employee_selection
+    @selected_rest_day = Restday.find(params[:rest_day_id])
+    render 'human_resources/employee_accounts_management/rest_day_form'
+  end
+
+  def process_rest_day_form
+    begin
+      if( params[:rest_day][:id].present? )
+        restDay = Restday.find(params[:rest_day][:id])
+      else
+        restDay = Restday.new()
+      end
+      restDay.id = params[:rest_day][:id]
+      restDay.day = params[:rest_day][:day]
+      restDay.employee_id = params[:rest_day][:employee_id]
+      restDay.save!
+      flash[:general_flash_notification] = 'Rest Day Added'
+      flash[:general_flash_notification_type] = 'affirmative'
+    rescue => ex
+      puts ex
+      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
+    end
+    redirect_to :action => 'rest_days'
+  end
+
   # ================== Regular Work Periods ================== #
 
   def regular_work_periods
@@ -241,6 +290,53 @@ class HumanResourcesController < ApplicationController
     regularWorkPeriodToBeDeleted.destroy
     redirect_to :action => "regular_work_periods"
   end
+
+  def search_suggestions_regular_work_periods
+    regularWorkPeriods = RegularWorkPeriod.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + regularWorkPeriods.uniq.to_s + "}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
+
+  def new_regular_work_period
+    initialize_employee_selection
+    @selected_regular_work_period = RegularWorkPeriod.new
+    render 'human_resources/employee_accounts_management/regular_work_period_form'
+  end
+
+  def edit_regular_work_period
+    initialize_employee_selection
+    @selected_regular_work_period = RegularWorkPeriod.find(params[:regular_work_period_id])
+    render 'human_resources/employee_accounts_management/regular_work_period_form'
+  end
+
+  def process_regular_work_period_form
+    begin
+      if( params[:regular_work_period][:id].present? )
+        regularWorkPeriod = RegularWorkPeriod.find(params[:regular_work_period][:id])
+      else
+        regularWorkPeriod = RegularWorkPeriod.new()
+      end
+
+      regularWorkPeriod.employee_id = params[:regular_work_period][:employee_id]
+
+      employee = Employee.find(params[:regular_work_period][:employee_id])
+      regularWorkPeriod.employee = employee
+      regularWorkPeriod.start_time = params[:regular_work_period][:start_time]
+      regularWorkPeriod.end_time = params[:regular_work_period][:end_time]
+      regularWorkPeriod.remark = params[:regular_work_period][:remark]
+      regularWorkPeriod.save!
+      flash[:general_flash_notification] = 'Regular Work Period Added'
+      flash[:general_flash_notification_type] = 'affirmative'
+    rescue => ex
+      puts ex
+      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
+    end
+    redirect_to :action => 'regular_work_periods'
+  end
+
 
   # ================== Lump Sum Adjustments ================== #
 
@@ -271,11 +367,46 @@ class HumanResourcesController < ApplicationController
   end
 
   def search_suggestions_lump_adjustments
-    adjustments = LumpAdjustment.includes(employee: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    adjustments = LumpAdjustment.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + adjustments.uniq.to_s + "}"
     respond_to do |format|
       format.all { render :text => direct}
     end
+  end
+
+  def new_lump_adjustment
+    initialize_employee_selection
+    @selected_lump_adjustment = LumpAdjustment.new
+    render 'human_resources/employee_accounts_management/lump_adjustment_form'
+  end
+
+  def edit_lump_adjustment
+    initialize_employee_selection
+    @selected_lump_adjustment = LumpAdjustment.find(params[:lump_adjustment_id])
+    render 'human_resources/employee_accounts_management/lump_adjustment_form'
+  end
+
+  def process_lump_adjustment_form
+    begin
+      if( params[:lump_adjustment][:id].present? )
+        lumpAdjustment = LumpAdjustment.find(params[:lump_adjustment][:id])
+      else
+        lumpAdjustment = LumpAdjustment.new()
+      end
+      lumpAdjustment.id = params[:lump_adjustment][:id]
+      lumpAdjustment.amount = params[:lump_adjustment][:amount]
+      lumpAdjustment.employee_id = params[:lump_adjustment][:employee_id]
+      lumpAdjustment.signed_type = params[:lump_adjustment][:signed_type]
+      lumpAdjustment.remark = params[:lump_adjustment][:remark]
+      lumpAdjustment.date_of_effectivity = params[:lump_adjustment][:date_of_effectivity]
+      lumpAdjustment.save!
+      flash[:general_flash_notification] = 'Lump Adjustment Added'
+      flash[:general_flash_notification_type] = 'affirmative'
+    rescue => ex
+      puts ex
+      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
+    end
+    redirect_to :action => 'lump_adjustments'
   end
 
   # ================== Base Rates ================== #
@@ -297,6 +428,51 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/compensation_benefits/base_rates'
   end
 
+  def new_base_rate
+    initialize_employee_selection
+    @selected_base_rate = BaseRate.new
+    render 'human_resources/employee_accounts_management/base_rate_form'
+  end
+
+  def edit_base_rate
+    initialize_employee_selection
+    @selected_base_rate = BaseRate.find(params[:base_rate_id])
+    render 'human_resources/employee_accounts_management/base_rate_form'
+  end
+
+  def process_base_rate_form
+
+    begin
+      if( params[:base_rate][:id].present? )
+        puts 'inside if ==================================== a'
+        baseRate = BaseRate.find(params[:base_rate][:id])
+      else
+        baseRate = BaseRate.new()
+        puts 'inside else ==================================== b '
+      end
+
+      baseRate.employee_id = params[:base_rate][:employee_id]
+
+      employee = Employee.find(params[:base_rate][:employee_id])
+      baseRate.employee = employee
+
+      baseRate.signed_type = params[:base_rate][:signed_type]
+      baseRate.amount = params[:base_rate][:amount]
+      baseRate.period_of_time = params[:base_rate][:period_of_time]
+      baseRate.rate_type = params[:base_rate][:rate_type]
+      baseRate.remark = params[:base_rate][:remark]
+      baseRate.start_of_effectivity = params[:base_rate][:start_of_effectivity]
+      baseRate.end_of_effectivity = params[:base_rate][:end_of_effectivity]
+      baseRate.save!
+      flash[:general_flash_notification] = 'Base Rate Added'
+      flash[:general_flash_notification_type] = 'affirmative'
+    rescue => ex
+      puts ex
+      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
+    end
+    redirect_to :action => 'base_rates'
+  end
+
   def delete_base_rate
     baseRateToBeDeleted = BaseRate.find(params[:base_rate_id])
     baseRateOwner = Employee.find(baseRateToBeDeleted.employee_id)
@@ -307,7 +483,7 @@ class HumanResourcesController < ApplicationController
   end
 
   def search_suggestions_base_rates
-    baseRates = BaseRate.includes(employee: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    baseRates = BaseRate.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + baseRates.uniq.to_s + "}" # default format for plugin
     respond_to do |format|
       format.all { render :text => direct}
@@ -377,6 +553,14 @@ class HumanResourcesController < ApplicationController
     end
   end
 
+  def search_suggestions_duty_statuses
+    dutyStatuses = DutyStatus.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + dutyStatuses.uniq.to_s + "}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
   def new_duty_status
     initialize_employee_selection
     @selected_duty_status = DutyStatus.new
@@ -387,6 +571,15 @@ class HumanResourcesController < ApplicationController
     initialize_employee_selection
     @selected_duty_status = DutyStatus.find(params[:duty_status_id])
     render 'human_resources/attendance/duty_status_form'
+  end
+
+  def delete_duty_status
+    dutyStatusToBeDeleted = DutyStatus.find(params[:duty_status_id])
+    dutyStatusOwner = Employee.find(dutyStatusToBeDeleted.employee_id)
+    flash[:general_flash_notification] = 'A Duty status for ' + dutyStatusOwner.actor.name + ' has been deleted.'
+    flash[:general_flash_notification_type] = 'affirmative'
+    dutyStatusToBeDeleted.destroy
+    redirect_to :action => "duty_statuses"
   end
 
   def process_duty_status_form

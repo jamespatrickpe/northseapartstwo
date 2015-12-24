@@ -1,7 +1,5 @@
 function update_quick_profile(){
-
     var employee_ID = $('.employee_select_field').val();
-
     $.post( "/application/employee_overview_profile", { employee_ID: employee_ID})
         .done(function( employee_overview_profile ) {
             var obj = jQuery.parseJSON( employee_overview_profile );
@@ -17,6 +15,4 @@ function update_quick_profile(){
         .done(function( duty_status ) {
             $('#employee_quick_actor_duty_status').html( duty_status );
         });
-
-
 }
