@@ -1,7 +1,53 @@
 module ApplicationHelper
 
-  def generic_table_options()
+  def insertTimeIntoDate(myDate, myTime)
+    return DateTime.new(myDate.year, myDate.month, myDate.day, myTime.hour, myTime.min, myTime.sec, "+8" )
+  end
 
+  def whatHoliday( current_date )
+    holidays = Holiday.all
+    what_holiday = false
+    holidays.each do |holiday|
+      if holiday.date_of_implementation == current_date
+        what_holiday = holiday.name
+      end
+    end
+    return what_holiday
+  end
+
+  def whatRestDay(employee_id, current_day)
+    rest_day = Restday.where("(employee_id = ?)", "#{employee_id}").order('restdays.created_at DESC').first
+    what_rest_day = false
+    if rest_day.day == current_day
+      what_rest_day = rest_day.id
+    end
+    return what_rest_day
+  end
+
+  def get_current_duty_status( employee_ID )
+    currentEmployee = Employee.includes(:duty_status).joins(:duty_status).where("(employees.id = ?)", "#{employee_ID}").order('duty_statuses.date_of_effectivity DESC').first
+    return currentEmployee.duty_status.first.active
+  end
+
+  def get_duration_regular_work_hours(employee_ID, specific_day)
+    currentEmployee = Employee.includes(:regular_work_period).joins(:regular_work_period).where("(employees.id = ?) AND regular_work_periods.created_at <= ?", "#{employee_ID}","#{specific_day}").order('regular_work_periods.created_at DESC').first
+    number_of_seconds = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time))
+    if number_of_seconds < 0
+      number_of_seconds = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time)).abs
+    end
+    return (number_of_seconds/3600).round
+  end
+
+  def get_duration_actual_work_hours(employee_ID, specific_day)
+    attendances = Attendance.includes(:employee).joins(:employee).where("(employees.id = ?) AND (attendances.date_of_attendance LIKE ?)", "#{employee_ID}", "#{specific_day.strftime("%Y-%m-%d")}%").order('attendances.created_at DESC')
+    total_seconds = 0
+    attendances.each do |attendance|
+      time_in = attendance[:timein]
+      time_out = attendance[:timeout]
+      my_seconds = (time_in - time_out).abs
+      total_seconds = my_seconds + total_seconds
+      end
+    return (total_seconds/3600).round
   end
 
   #Boolean to Words

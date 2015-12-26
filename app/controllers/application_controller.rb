@@ -5,7 +5,66 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   layout "application_loggedin"
   skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
-  helper_method :error_messages_for, :shift_table_orientation
+  helper_method :error_messages_for, :shift_table_orientation, :insertTimeIntoDate
+  include ApplicationHelper
+
+  def initialize_actor_selection
+    @employees = Employee.includes(:actor).joins(:actor)
+  end
+
+  def actor_profile
+    if( params[:actor_id] )
+      @selected_actor = Actor.find(params[:actor_id])
+      @selected_access = Access.find_by_actor_id(@selected_actor.id)
+      @selected_biodata = Biodatum.find_by_actor_id(@selected_actor.id)
+      @selected_address_set = Address.where("actor_id = ?", "#{@selected_actor.id}")
+      @selected_telephone_set = Telephone.where("actor_id = ?", "#{@selected_actor.id}")
+      @selected_digital_set = Digital.where("actor_id = ?", "#{@selected_actor.id}")
+      @selected_file_set = FileSet.where("rel_file_set_id = ? AND rel_file_set_type = 'Actor'", "#{@selected_actor.id}")
+      @selected_image_set = ImageSet.where("rel_image_set_id = ? AND rel_image_set_type = 'Actor'", "#{@selected_actor.id}").order('priority DESC')
+    end
+    @selected_actor ||= Actor.new
+  end
+
+  def check_time_if_between
+    time_check = false
+    my_time = Time.strptime(params[:time],"%H:%M")
+    employee_id = params[:employee_id]
+    my_date = Date.strptime(params[:date],"%F")
+    current_time = DateTime.new(my_date.year, my_date.month, my_date.day, my_time.hour, my_time.min, my_time.sec, "+8" )
+    similar_attendances = Attendance.where("(employee_id = ?) AND (date_of_attendance = ?)", "#{employee_id}", "#{my_date}")
+    similar_attendances.each do | similar_attendance |
+      similar_attendance_timein = insertTimeIntoDate(my_date, similar_attendance[:timein])
+      similar_attendance_timeout = insertTimeIntoDate(my_date, similar_attendance[:timeout])
+      if current_time.between?(similar_attendance_timein, similar_attendance_timeout)
+        time_check = true
+      end
+    end
+    respond_to do |format|
+      format.all { render :text => time_check}
+    end
+  end
+
+  def check_time_if_overlap
+    time_check = false
+    timein = Time.strptime(params[:timein],"%H:%M")
+    timeout = Time.strptime(params[:timeout],"%H:%M")
+    my_date = Date.strptime(params[:date],"%F")
+    employee_id = params[:employee_id]
+    current_time_in = DateTime.new(my_date.year, my_date.month, my_date.day, timein.hour, timein.min, timein.sec, "+8" )
+    current_time_out = DateTime.new(my_date.year, my_date.month, my_date.day, timeout.hour, timeout.min, timeout.sec, "+8" )
+    similar_attendances = Attendance.where("(employee_id = ?) AND (date_of_attendance = ?)", "#{employee_id}", "#{my_date}")
+    similar_attendances.each do | similar_attendance |
+      similar_attendance_timein = insertTimeIntoDate(my_date, similar_attendance[:timein])
+      similar_attendance_timeout = insertTimeIntoDate(my_date, similar_attendance[:timeout])
+      if (current_time_in..current_time_out).overlaps?(similar_attendance_timein..similar_attendance_timeout)
+        time_check = true
+      end
+    end
+    respond_to do |format|
+      format.all { render :text => time_check}
+    end
+  end
 
   def create_unique_hash_link
     # Generates Unique Hash for Email Verification
@@ -25,6 +84,18 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       employee_overview_profile = Employee.find(params[:employee_ID]).to_json({ :include => :actor })
       format.all { render :json => employee_overview_profile}
+    end
+  end
+
+  def employee_overview_duty_status
+    currentEmployee = Employee.includes(:duty_status).joins(:duty_status).where("(employees.id = ?)", "#{params[:employee_ID]}").order('duty_statuses.date_of_effectivity DESC').first
+    if currentEmployee.duty_status.first.active == true
+      sample = 'ACTIVE'
+    else
+      sample = 'INACTIVE'
+    end
+    respond_to do |format|
+      format.all { render :text => sample}
     end
   end
 

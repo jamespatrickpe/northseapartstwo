@@ -36,11 +36,11 @@
             <tbody>
             <% @rest_days.each do |rest_day| %>
                 <tr>
-                  <td><%= rest_day.id %></td>
-                  <td><%= link_to( rest_day.employee.actor.name ,{:action => 'employee_profile', :employee_id => rest_day.employee.id} ) %></td>
-                  <td><%= rest_day.day %> </td>
-                  <td><%= rest_day.created_at %></td>
-                  <td><%= rest_day.updated_at %></td>
+                  <td><%= rest_day[:id] %></td>
+                  <td><%= link_to( rest_day.employee.actor.name ,{:action => 'employee_profile', :actor_id => rest_day.employee.actor.id} ) %></td>
+                  <td><%= rest_day[:day] %> </td>
+                  <td><%= rest_day[:created_at] %></td>
+                  <td><%= rest_day[:updated_at] %></td>
                   <td class="actions">
                     <%= link_to( "&#9998;".html_safe ,{:action => 'edit_rest_day', :rest_day_id => rest_day.id}, class: 'action_button', tooltip: 'Edit' ) %>
                     <%= link_to( "&#10006;".html_safe ,{:action => 'delete_rest_day', :rest_day_id => rest_day.id}, class: 'action_button delete_item', tooltip: 'Delete' ) %>

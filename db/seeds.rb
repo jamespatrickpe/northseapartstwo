@@ -217,7 +217,7 @@ numberOfActors.times do |i|
   myActor.save!
 
   # ACCESS
-  if (randomBoolean())
+  if ( 8.in(10) )
     #Access
     randomPassword = Faker::Internet.password(10, 20)
     randomEmail = Faker::Internet.email
@@ -320,11 +320,39 @@ numberOfActors.times do |i|
   end
 
   # HUMAN RESOURCES
-  if(randomBoolean())
+  if 50.in(100)
     # ids = Branch.pluck(:id).shuffle
     # myBranch = Branch.where(id: ids)
     myEmployee = Employee.new( actor: myActor, branch: Branch.all.shuffle.first )
 
+    #Attendances
+    rand(360..720).times do |i|
+      myDate = DateTime.now - i.days
+      dateOfAttendance = Date.new(myDate.year , myDate.month, myDate.day)
+      # timein = Time.new( myDate.year , myDate.month, myDate.day, (0..12), rand(0..59), rand(0..59) )
+      # timeout = Time.new( myDate.year , myDate.month, myDate.day, rand(12..23), rand(0..59), rand(0..59) )
+      time_in = rand(0..12).to_s+':'+rand(0..59).to_s+':'+rand(0..59).to_s
+      time_out = rand(12..23).to_s+':'+rand(0..59).to_s+':'+rand(0..59).to_s
+      remark = Faker::Lorem.sentence + ' ' + i.to_s
+      if 10.in(100)
+        myAttendance = Attendance.new(date_of_attendance: dateOfAttendance, timein: time_in, employee: myEmployee, remark: remark )
+        myAttendance.save
+        time_out = rand(0..12).to_s+':'+rand(0..59).to_s+':'+rand(0..59).to_s
+        myAttendance = Attendance.new(date_of_attendance: dateOfAttendance + 1.day, timeout: time_out, employee: myEmployee, remark: remark )
+        myAttendance.save
+        myDate = myDate + 1.days
+      elsif 10.in(100)
+        myDate = myDate - rand(1..10).days
+      elsif 70.in(100)
+        myAttendance = Attendance.new(date_of_attendance: dateOfAttendance, timein: "08:00:00", timeout: "17:00:00", employee: myEmployee, remark: remark )
+        myAttendance.save
+      else
+        myAttendance = Attendance.new(date_of_attendance: dateOfAttendance, timein: time_in, timeout: time_out, employee: myEmployee, remark: remark )
+        myAttendance.save
+      end
+    end
+
+    # Rest Days
     rand(1..3).times do |i|
     dayOfWeek = Faker::Time.between(7.days.ago, Time.now, :all).strftime("%A")
     restday = Restday.new(day: dayOfWeek, employee: myEmployee)
@@ -334,14 +362,13 @@ numberOfActors.times do |i|
 
     numberOfWorkPeriods = rand(1..4)
     numberOfWorkPeriods.times do
-      pickWorkHours = rand(1..5)
-      if(pickWorkHours == 1)
+      if 7.in(10)
         start_time = '08:00:00'
         end_time = '17:00:00'
-      elsif (pickWorkHours == 2)
+      elsif 3.in(10)
         start_time = '09:00:00'
         end_time = '18:00:00'
-      elsif (pickWorkHours == 3)
+      elsif 2.in(10)
         start_time = '17:00:00'
         end_time = '05:00:00'
       else
@@ -377,26 +404,6 @@ numberOfActors.times do |i|
       amountOfMoney = randomMoney(15000.99,25000.05)
     end
 
-    #Attendances
-    rand(0..360).times do |i|
-      myDate = Date.new( rand(2001..2016) , rand(1..12) , rand(1..28))
-      timein = DateTime.new( myDate.year, myDate.month, myDate.day, rand(0..12), rand(0..59), rand(0..59) )
-      timeout = DateTime.new( myDate.year, myDate.month, myDate.day, rand(12..23), rand(0..59), rand(0..59) )
-      remark = Faker::Lorem.sentence
-      if randomBoolean() && randomBoolean() && randomBoolean() && randomBoolean()
-        # SIMULATE OVERNIGHT
-        myAttendance = Attendance.new(timein: timein, employee: myEmployee, remark: remark )
-        myAttendance.save
-        myAttendance = Attendance.new(timeout: timeout+1.day, employee: myEmployee, remark: remark )
-        myAttendance.save
-      else
-        # SIMULATE REGULAR ATTENDANCE
-        myAttendance = Attendance.new(timein: timein, timeout: timeout, employee: myEmployee, remark: remark )
-        myAttendance.save
-      end
-
-    end
-
     # Base Rate
     rand(1..5).times do |i|
       periodOfTime = ["DAY", "WEEK", "HOUR", "MONTH"].sample
@@ -417,7 +424,7 @@ numberOfActors.times do |i|
                                 start_of_effectivity: Faker::Time.between(Time.now, Time.now - 300.days, :all),
                                 end_of_effectivity: Faker::Time.between(Time.now + 300.days, Time.now, :all),
                                 signed_type: signed_type.call,
-                                rate_type: ['base','COLA','CTPA','SEA','other'].sample
+                                rate_type: ['base', 'allowance', 'other'].sample
       )
       myBaseRate.save
     end
