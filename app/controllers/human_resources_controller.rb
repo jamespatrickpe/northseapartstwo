@@ -530,20 +530,45 @@ class HumanResourcesController < ApplicationController
   # ================== Holiday ================== #
 
   def holidays
-    order_parameter = aggregated_search_queries(params[:order_parameter], 'holidays', 'order_parameter' ,'constants.created_at')
+    order_parameter = aggregated_search_queries(params[:order_parameter], 'holidays', 'order_parameter' ,'holidays.created_at')
     order_orientation = aggregated_search_queries(params[:order_orientation], 'holidays', 'order_orientation', 'DESC')
     current_limit = aggregated_search_queries(params[:current_limit], 'holidays', 'current_limit','10')
     search_field = aggregated_search_queries(params[:search_field], 'holidays', 'search_field','')
     begin
       @holidays = Holiday
-                      .where("constants.id LIKE ? OR constants.value LIKE ? OR constants.name LIKE ? OR constants.constant_type LIKE ? OR constants.remark LIKE ? OR constants.created_at LIKE ? OR constants.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%")
+                      .includes(:holiday_type).joins(:holiday_type)
+                      .where("holidays.id LIKE ? OR holiday_types.type_name LIKE ? OR holidays.description LIKE ? OR holidays.name LIKE ? OR holidays.description LIKE ? OR holidays.date_of_implementation LIKE ? OR holidays.created_at LIKE ? OR holidays.updated_at", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%")
                       .order(order_parameter + ' ' + order_orientation)
       @holidays = Kaminari.paginate_array(@holidays).page(params[:page]).per(current_limit)
-    rescue
-      flash[:general_flash_notification] = "Error has Occured"
+    rescue => ex
+      flash[:general_flash_notification] = "Error has Occured" + ex.to_s
     end
-    render 'human_resources/settings/constants'
+    render 'human_resources/settings/holidays'
   end
+
+  def new_holiday
+    @selected_holiday = Holiday.new
+    render 'human_resources/settings/holiday_form'
+  end
+
+  def edit_holiday
+    @selected_holiday = Holiday.find(params[:holiday_id])
+    render 'human_resources/settings/holiday_form'
+  end
+
+  def delete_holiday
+    holiday_to_be_deleted = Holiday.find(params[:holiday_id])
+    flash[:general_flash_notification] = 'A Holiday for ' + holiday_to_be_deleted.name + ' has been deleted.'
+    flash[:general_flash_notification_type] = 'affirmative'
+    holiday_to_be_deleted.destroy
+    redirect_to :action => "holidays"
+  end
+
+  def process_holiday_form
+
+  end
+
+
 
   # ================== Duty Statuses ================== #
 

@@ -55,19 +55,15 @@ function convertSQLTimeToHTML5Input(myDate)
     return currentDateTwo;
 }
 
-$(document).ready(function(){
-
-    $(".deletable_item").click(function(){
-        return confirm("Are you sure you want to delete this item?");
-    });
-
+$(document).ready(function()
+{
     $( "[title]").mouseover(function(){
         tooltip = "<div style='z-index: 10;'></div>"
     });
 });
 
 $(function() {
-    $('.delete_item').click(function(e) {
+    $('.deletable_item').click(function(e) {
         e.preventDefault();
         if (window.confirm("Are you sure you want to delete this item?")) {
             location.href = this.href;

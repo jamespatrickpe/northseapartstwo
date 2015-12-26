@@ -1,11 +1,7 @@
 <section class='small-10 columns'>
   <div class='mainheader'> Lump Adjustments </div>
   <div class='subdescription'> Payroll Adjustments for a Specific Period in Time  </div>
-
-  <%= link_to( "[ BACK TO LIST ]" ,{:action => 'employee_accounts_management' }, :class => "action_button action-link-grey" ) %>
-
   <hr>
-
   <%= generic_table_search( 'lump_adjustments_search_input', 'lump_adjustments',' Search Lump Adjustments' , '/human_resources/search_suggestions_lump_adjustments', 'lump_adjustments') %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
