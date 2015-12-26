@@ -1,13 +1,8 @@
 <section class='small-10 columns'>
   <div class='mainheader'> Base Rates </div>
   <div class='subdescription'> Rates for an Employee through a Period in Time  </div>
-
-  <%= link_to( "[ BACK TO LIST ]" ,{:action => 'employee_accounts_management' }, :class => "action_button action-link-grey" ) %>
-
   <hr>
-
   <%= generic_table_search('base_rates_search_input', 'base_rates',' Search Base Rates' , '/human_resources/search_suggestions_base_rates', 'base_rates') %>
-
   <% table_orientation = shift_table_orientation %>
   <% begin %>
       <table class='generic_table' id='lump_adjustments_table'>

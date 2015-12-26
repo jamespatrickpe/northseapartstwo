@@ -83,10 +83,12 @@
         %>
 
         <%=
+            if @selected_attendance[:id].present?
             link_to( "DELETE".html_safe,
                      {:action => 'delete_attendance',
                       :attendance_id => @selected_attendance[:id]},
                      class: 'tiny button delete_item')
+            end
         %>
 
         <input type="reset" class="tiny button" value="RESET" />

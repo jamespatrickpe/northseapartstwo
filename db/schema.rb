@@ -140,7 +140,7 @@ ActiveRecord::Schema.define(version: 20151216115839) do
     t.string   "remark",              limit: 256
     t.boolean  "active",              limit: 1,   default: false
     t.string   "employee_id",         limit: 36
-    t.datetime "date_of_effectivity",             default: '2015-12-24 20:45:20'
+    t.datetime "date_of_effectivity",             default: '2015-12-26 21:12:01'
     t.datetime "created_at",                                                      null: false
     t.datetime "updated_at",                                                      null: false
   end
@@ -176,7 +176,6 @@ ActiveRecord::Schema.define(version: 20151216115839) do
     t.string   "holiday_type_id",        limit: 36
     t.string   "description",            limit: 256
     t.string   "name",                   limit: 64
-    t.string   "remark",                 limit: 256
     t.date     "date_of_implementation"
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
