@@ -114,6 +114,7 @@ class HumanResourcesController < ApplicationController
       @number_of_days = (@end_date - @start_date).abs.to_i + 1
       @selected_branch = Branch.find(params[:branch][:id])
       @employees_by_branch = Employee.includes(:actor, :duty_status).joins(:actor, :duty_status).where("branch_id = ?", "#{@selected_branch.id}")
+      @attendances_per_employee_in_branch = Attendance.includes(:employee).joins(:employee).where("employees.branch_id = ?", "#{@selected_branch.id}")
     end
     @selected_branch ||= Branch.new
     rescue
@@ -122,40 +123,58 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/attendance/branch_attendance_sheet'
   end
 
-  def branch_attendance
-
-  end
-
   def check_time_between_employee(attendance_time, employee)
   end
 
   def process_branch_attendance_sheet
-    begin
-    total_current_set = params[:total_current_set].to_i
-    total_current_set.times do |i|
-      myAttendance = Attendance.new
-      myDate = Date.strptime(params[:attendance][i.to_s][:date],"%m/%d/%Y")
-      if params[:attendance][i.to_s][:timein].present?
-        myTimeIn = Time.strptime(params[:attendance][i.to_s][:timein],"%H:%M")
-        timein = DateTime.new( myDate.year, myDate.month, myDate.day, myTimeIn.hour, myTimeIn.min, myTimeIn.sec, "+8")
-        myAttendance.timein = timein
+    branch_id = params[:branch][:id]
+    start_date = params[:start_date]
+    end_date = params[:end_date]
+    flash[:general_flash_notification] = 'Attendance (if any) has been recorded.'
+    flash[:general_flash_notification_type] = 'Affirmative'
+    Attendance.transaction do
+      begin
+        total_items = params[:total_items].to_i
+        total_items.times do |i|
+          if params[:attendance][i.to_s][:timein].present? || params[:attendance][i.to_s][:timeout].present?
+            myAttendance = Attendance.new
+            myDate = Date.strptime(params[:attendance][i.to_s][:date],"%F")
+            if params[:attendance][i.to_s][:timein].present?
+              myTimeIn = Time.parse(params[:attendance][i.to_s][:timein], myDate)
+              timein = DateTime.new( myDate.year, myDate.month, myDate.day, myTimeIn.hour, myTimeIn.min, myTimeIn.sec, "+8")
+              myAttendance.timein = timein
+            end
+            if params[:attendance][i.to_s][:timeout].present?
+              myTimeOut = Time.parse(params[:attendance][i.to_s][:timeout], myDate)
+              timeout = DateTime.new( myDate.year, myDate.month, myDate.day, myTimeOut.hour, myTimeOut.min, myTimeOut.sec, "+8" )
+              myAttendance.timeout = timeout
+            end
+            similar_attendances = Attendance.where("(employee_id = ?) AND (date_of_attendance = ?)", "#{params[:attendance][i.to_s][:employee_id]}", "#{myDate.strftime("%Y-%m-%d")}")
+            similar_attendances.each do | similar_attendance |
+                similar_attendance_timein = insertTimeIntoDate(myDate, similar_attendance[:timein])
+                similar_attendance_timeout = insertTimeIntoDate(myDate, similar_attendance[:timeout])
+                actor_name = params[:attendance][i.to_s][:employee_actor_name]
+                date_conflict = myDate.month.to_s + '/' + myDate.day.to_s + '/' + myDate.year.to_s
+                if timein.between?(similar_attendance_timein, similar_attendance_timeout) || timeout.between?(similar_attendance_timein, similar_attendance_timeout)
+                  raise 'No Attendance has been recorded; Time Conflict for ' + actor_name +  ' on the date of ' + date_conflict
+                elsif (timein..timeout).overlaps?(similar_attendance_timein..similar_attendance_timeout)
+                  raise 'No Attendance has been recorded; Overlap Conflict for ' + actor_name +  ' on the date of ' + date_conflict
+                elsif timein.to_i > timeout.to_i
+                  raise 'No Attendance has been recorded; Time In is more than Time Out for ' + actor_name +  ' on the date of ' + date_conflict
+                else
+                end
+            end
+            myAttendance.date_of_attendance = myDate
+            myAttendance.employee_id = params[:attendance][i.to_s][:employee_id]
+            myAttendance.remark = params[:attendance][i.to_s][:remark]
+            myAttendance.save!
+          end
+        end
+      rescue => ex
+        ex.message.present? ? flash[:general_flash_notification] = ex.message : flash[:general_flash_notification] = 'Error has Occurred; Please Contact Administrator'
       end
-      if params[:attendance][i.to_s][:timeout].present?
-        myTimeOut = Time.strptime(params[:attendance][i.to_s][:timeout],"%H:%M")
-        timeout = DateTime.new( myDate.year, myDate.month, myDate.day, myTimeOut.hour, myTimeOut.min, myTimeOut.sec, "+8" )
-        myAttendance.timeout = timeout
-      end
-      myAttendance.date_of_attendance = myDate
-      myAttendance.employee_id = params[:attendance][i.to_s][:employee_id]
-      myAttendance.remark = params[:attendance][i.to_s][:remark]
-      myAttendance.save!
     end
-      flash[:general_flash_notification] = 'Attendance Recorded'
-      flash[:general_flash_notification_type] = 'Affirmative'
-    rescue
-      flash[:general_flash_notification] = 'Error has Occurred; Please Contact Administrator'
-    end
-    redirect_to :action => 'branch_attendance_sheet'
+    redirect_to :action => 'branch_attendance_sheet', :branch => {:id => branch_id}, :start_date => start_date, :end_date => end_date
   end
 
   def employee_attendance_history
@@ -454,10 +473,8 @@ class HumanResourcesController < ApplicationController
       end
 
       baseRate.employee_id = params[:base_rate][:employee_id]
-
       employee = Employee.find(params[:base_rate][:employee_id])
       baseRate.employee = employee
-
       baseRate.signed_type = params[:base_rate][:signed_type]
       baseRate.amount = params[:base_rate][:amount]
       baseRate.period_of_time = params[:base_rate][:period_of_time]
@@ -891,157 +908,5 @@ class HumanResourcesController < ApplicationController
       format.all { render :text => direct}
     end
   end
-
-##################################
-
-
-
-
-
-
-
-##################################3
-
-
-# OLD CODE; PLEASE USE AS REFERENCE
-
-# def candidate_registration
-#   idSet = Biodatum.pluck(:actor_id)
-#   @accesses = Access.where.not(id: idSet)
-# end
-#
-# def registerCandidate
-#   action_redirect = ""
-#   id = ""
-#   ActiveRecord::Base.transaction do
-#       begin
-#       processSystemAccount(params)
-#       processRelatedFiles(params)
-#       processRelatedLinks(params)
-#
-#       @biodata = Biodatum.new(
-#           date_of_birth: params[:biodatum][:birthday],
-#           height: params[:biodatum][:height],
-#           family_members: params[:biodatum][:family_members],
-#           gender: params[:biodatum][:gender],
-#           complexion: params[:biodatum][:complexion],
-#           marital_status: params[:biodatum][:marital_status],
-#           blood_type: params[:biodatum][:blood_type],
-#           religion: params[:biodatum][:religion],
-#           education: params[:biodatum][:education],
-#           career_experience: params[:biodatum][:career_experience],
-#           notable_accomplishments: params[:biodatum][:notable_accomplishments],
-#           emergency_contact: params[:biodatum][:emergency_contact],
-#           languages_spoken: params[:biodatum][:languages_spoken]
-#       )
-#       @biodata.actor = @actor
-#       @biodata.save!
-#
-#       @employee = Employee.new()
-#       @employee.actor = @actor
-#       @employee.save!
-#
-#       processTemporaryEmail(params)
-#     end
-#   end
-# end
-#
-# def success_candidate_registration
-#   access_id = params[:access_id]
-#   @nextLink = {
-#       0 => {:url => "../home/verification_delivery?access_id=#{access_id}", :label => "Resend Verification"},
-#       1 => {:url => "candidate_registration", :label => "Add Another Candidate"},
-#       2 => {:url => "employee_status", :label => "Set Service Status of Employees"}
-#   }
-#   @message = "Candidate may start using account if necessary after email verification completes"
-#   @title = "Candidate Registration Successful"
-# end
-#
-# def index
-#   @employees = Employee.all()
-# end
-#
-# def employee_profile
-# end
-#
-# def compensation_benefits
-#   @employees = Employee.all()
-# end
-#
-# def base_rates
-#   getEmployees();
-#   @base_rates = BaseRate.where(employee_id: @employee_id)
-# end
-#
-# def lump_adjustments
-#   getEmployees();
-#   @lump_adjustments = LumpAdjustment.where(employee_id: @employee_id)
-# end
-#
-# def deleteBaseRate
-#   baseRateID = params[:base_rate_id]
-#   employee_id = params[:employee_id]
-#   BaseRate.find(baseRateID).destroy
-#   redirect_to  :action => "base_rates", :employee_id => employee_id
-# end
-#
-# def addNewBaseRate
-#   action_redirect = "base_rates"
-#   employee_id = params[:employee_id]
-#
-#   ActiveRecord::Base.transaction do
-#     begin
-#       signed_type = params[:signed_type]
-#       amount = params[:amount]
-#       period_of_time = params[:period_of_time]
-#       start_of_effectivity = DateTime.parse(params[:start_of_effectivity].to_s).strftime("%Y/%m/%d %H:%M:%S")
-#       end_of_effectivity = DateTime.parse(params[:end_of_effectivity].to_s).strftime("%Y/%m/%d %H:%M:%S")
-#       description = params[:description]
-#       if(BaseRate.exists?(params[:base_rate_id]))
-#         currentBaseRate = BaseRate.find_by(id: params[:base_rate_id])
-#         currentBaseRate.update(signed_type:signed_type, amount:amount, period_of_time:period_of_time, start_of_effectivity:start_of_effectivity, end_of_effectivity:end_of_effectivity,description:description)
-#       else
-#         currentBaseRate = BaseRate.new(description:description, employee_id:employee_id, signed_type:signed_type, amount:amount, period_of_time:period_of_time, start_of_effectivity:start_of_effectivity, end_of_effectivity:end_of_effectivity )
-#         currentBaseRate.save!
-#       end
-#       flash[:collective_responses] = "Entry Successful!"
-#     rescue StandardError => e
-#       flash[:collective_responses] = "An error of type #{e.class} happened, message is #{e.message}"
-#     end
-#   end
-#   redirect_to  :action => action_redirect, :employee_id => employee_id
-# end
-#
-# def addLumpAdjustment
-#   action_redirect = "lump_adjustments"
-#   employee_id = params[:employee_id]
-#
-#   ActiveRecord::Base.transaction do
-#     begin
-#       signed_type = params[:signed_type]
-#       amount = params[:amount]
-#       date_of_effectivity = DateTime.parse(params[:date_of_effectivity].to_s).strftime("%Y/%m/%d %H:%M:%S")
-#       description = params[:description]
-#       if(LumpAdjustment.exists?(params[:lump_adjustment_id]))
-#         currentLumpAdjustment = LumpAdjustment.find_by(id: params[:lump_adjustment_id])
-#         currentLumpAdjustment.update(employee_id:employee_id, signed_type:signed_type, amount:amount, date_of_effectivity:date_of_effectivity,description:description)
-#       else
-#         currentLumpAdjustment = LumpAdjustment.new(description:description, employee_id:employee_id, signed_type:signed_type, amount:amount, date_of_effectivity:date_of_effectivity, )
-#         currentLumpAdjustment.save!
-#       end
-#       flash[:collective_responses] = "Entry Successful!"
-#     rescue StandardError => e
-#       flash[:collective_responses] = "An error of type #{e.class} happened, message is #{e.message}"
-#     end
-#   end
-#   redirect_to  :action => action_redirect, :employee_id => employee_id
-# end
-#
-# def deleteLumpAdjustment
-#   lumpAdjustmentID = params[:lump_adjustment_id]
-#   employee_id = params[:employee_id]
-#   LumpAdjustment.find(lumpAdjustmentID).destroy
-#   redirect_to  :action => "lump_adjustments", :employee_id => employee_id
-# end
 
 end

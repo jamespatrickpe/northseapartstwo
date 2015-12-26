@@ -1,5 +1,9 @@
 module ApplicationHelper
 
+  def insertTimeIntoDate(myDate, myTime)
+    return DateTime.new(myDate.year, myDate.month, myDate.day, myTime.hour, myTime.min, myTime.sec, "+8" )
+  end
+
   def whatHoliday( current_date )
     holidays = Holiday.all
     what_holiday = false
@@ -11,13 +15,13 @@ module ApplicationHelper
     return what_holiday
   end
 
-  def isRestDay(employee_id, current_day)
+  def whatRestDay(employee_id, current_day)
     rest_day = Restday.where("(employee_id = ?)", "#{employee_id}").order('restdays.created_at DESC').first
-    is_rest_day = false
+    what_rest_day = false
     if rest_day.day == current_day
-      is_rest_day = true
+      what_rest_day = rest_day.id
     end
-    return is_rest_day
+    return what_rest_day
   end
 
   def get_current_duty_status( employee_ID )
@@ -31,7 +35,7 @@ module ApplicationHelper
     if number_of_seconds < 0
       number_of_seconds = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time)).abs
     end
-    return number_of_seconds/3600
+    return (number_of_seconds/3600).round
   end
 
   def get_duration_actual_work_hours(employee_ID, specific_day)
@@ -43,7 +47,7 @@ module ApplicationHelper
       my_seconds = (time_in - time_out).abs
       total_seconds = my_seconds + total_seconds
       end
-    return total_seconds/3600
+    return (total_seconds/3600).round
   end
 
   #Boolean to Words

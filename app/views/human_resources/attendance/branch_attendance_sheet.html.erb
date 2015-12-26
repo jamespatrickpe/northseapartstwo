@@ -20,16 +20,23 @@
   <% end %>
 
   <% if @selected_branch.id.present? %>
-      <%= form_tag( {action: :process_branch_attendance_sheet}, multipart: true, class: 'form_branch_attendance_sheet', id: "new_batch_process_form", :"data-parsley-validate" => "" ) do %>
+      <%= form_tag( {action: :process_branch_attendance_sheet}, class: 'form_branch_attendance_sheet', id: "new_batch_process_form", :"data-parsley-validate" => "" ) do %>
+          <input type="hidden" name=<%="branch[id]"%> value=<%= @selected_branch[:id] %>>
+          <input type="hidden" name=<%="start_date"%> value=<%= @start_date %>>
+          <input type="hidden" name=<%="end_date"%> value=<%= @end_date %>>
           <div style="overflow-x: scroll;">
             <table class="generic_table">
               <thead class="branch_attendance_sheet_table_head">
               <tr>
-                <th>Employees</th>
+                <th style="text-align: center">Employees</th>
                 <% @number_of_days.times do |i| %>
-                    <th>
-                      <% current_date = @start_date + i.days %>
-                      <%= current_date.strftime("%D") %> <br>
+                    <% current_date = @start_date + i.days %>
+                    <% if current_date.strftime("%Y-%m-%d") == Date.today.to_s %>
+                        <th style="background-color: #c64700;">
+                    <% else %>
+                        <th>
+                    <% end %>
+                      <%= current_date.strftime("%m/%d/%Y") %> <br>
                       <%= current_date.strftime("%A") %>
                       <% if whatHoliday( current_date ) %>
                           (<%= whatHoliday( current_date ) %>)
@@ -62,15 +69,61 @@
                         <% else %>
                         <td>
                         <% end %>
-                          Time In: <input name=<%="attendance["+current_set.to_s+"][timein]"%> type="time" value="<%= %>">
-                          Time Out: <input name=<%="attendance["+current_set.to_s+"][timeout]"%> type="time" value="<%= %>">
-                          <input type="input" name=<%="attendance["+current_set.to_s+"][remark]"%> placeholder="remark">
-                          <br><br>
-                          <input type="hidden" name=<%="attendance["+current_set.to_s+"][employee_id]"%> value=<%= employee.id %>>
-                          <input type="hidden" name=<%="attendance["+current_set.to_s+"][date]"%> value=<%= current_date_formatted %>>
-                            <% if isRestDay( employee.id , current_date.strftime("%A") ) %>
-                            ( Rest Day for Employee )
-                            <% end %>
+
+                          <div class="toggable_attendance_content">
+                          Time In: <input id="attendance_timein_<%= current_set.to_s %>"
+                                          step="1"
+                                          name=<%="attendance["+current_set.to_s+"][timein]"%>
+                                          type="time"
+                                          data-parsley-trigger="change"
+                                          data-parsley-time_order="<%= current_set.to_s %>"
+                                          data-parsley-time_overlap="<%= current_set.to_s %>"
+                                          data-parsley-time_between="<%= current_set.to_s %>">
+
+                          Time Out: <input id="attendance_timeout_<%= current_set.to_s %>"
+                                           step="1"
+                                           name=<%="attendance["+current_set.to_s+"][timeout]"%>
+                                           type="time"
+                                           data-parsley-trigger="change"
+                                           data-parsley-time_order="<%= current_set.to_s %>"
+                                           data-parsley-time_overlap="<%= current_set.to_s %>"
+                                           data-parsley-time_between="<%= current_set.to_s %>">
+
+                          <input style="font-size: 12px;" type="input" id="attendance_remark_<%= current_set.to_s %>" name=<%="attendance["+current_set.to_s+"][remark]"%> placeholder="remark"><br>
+                          </div>
+
+                          <div class="toggable_attendance_content" style="display: none; width: 150px;">
+                              <ul>
+                              <% @attendances_per_employee_in_branch.each do |attendance| %>
+                                  <% if (attendance[:employee_id] == employee.id) && (attendance[:date_of_attendance] == current_date) %>
+                                  <li style="padding: 3px;"><div>
+                                    <a target="_blank" class="attendance_link" style="color:white" href="/human_resources/edit_attendance?attendance_id=<%= attendance[:id]%>">
+                                      <%= attendance[:timein].strftime("%r") %> to <%= attendance[:timeout].strftime("%r") %>
+                                      <%= attendance[:remark].present? ? "(" + attendance[:remark] + ")" : "" %>
+                                    </a>
+                                  </div></li>
+                                  <% end %>
+                              <% end %>
+
+                              <% if whatRestDay(employee.id,current_date.strftime("%A")) %>
+                              <li style="padding: 3px;">
+                                <a style="color:white"
+                                   target="_blank"
+                                   class="attendance_link"
+                                   href="/human_resources/edit_rest_day?rest_day_id=<%=whatRestDay(employee.id,current_date.strftime("%A"))%>" >
+                                Rest Day for Employee
+                                </a></li>
+                              <% else %>
+                              <br>
+                              <% end %>
+                              </ul>
+                          </div>
+
+                          <input type="hidden" id="attendance_employee_id_<%= current_set.to_s %>" name=<%="attendance["+current_set.to_s+"][employee_id]"%> value=<%= employee.id %>>
+                          <input type="hidden" id="attendance_employee_actor_name_<%= current_set.to_s %>" name=<%="attendance["+current_set.to_s+"][employee_actor_name]"%> value='<%= employee.actor.name %>'>
+                          <input type="hidden" id="attendance_date_<%= current_set.to_s %>" name=<%="attendance["+current_set.to_s+"][date]"%> value=<%= current_date.strftime("%F") %>>
+                          <input type="hidden" id="attendance_set_<%= current_set.to_s %>" name=<%="attendance[set]"%> value=<%= current_set.to_s %>>
+
                         </td>
                         <% current_set = current_set + 1 %>
                     <% end %>
@@ -78,7 +131,7 @@
                   <% end %>
               <% end %>
               </tbody>
-              <input type="hidden" name="total_current_set" value=<%= current_set %>>
+              <input type="hidden" name="total_items" value=<%= current_set %>>
             </table>
           </div>
           <br>
@@ -87,14 +140,38 @@
             <span class="attendance_day_type_caption present">PRESENT</span>
             <span class="attendance_day_type_caption overtime">OVERTIME</span>
             <span class="attendance_day_type_caption undertime">UNDERTIME</span>
-            <span class="attendance_day_type_caption restday_holiday">RESTDAY OR HOLIDAY</span>
           </div>
           <div style="float:right">
             <input class="tiny button" type="reset" value="Reset Attendance" />
-            <input class="tiny button" type="button" value="Printable Attendance Sheet" />
-            <input class="tiny button" type="button" value="Export to CSV" />
+            <input class="tiny button" id="printable_attendance_sheet" type="button" value="Printable Attendance Sheet" />
+            <input class="tiny button" id="toggle_attendance_content" type="button" value="Toggle Records" />
             <input class="tiny button record_attendance" type="submit" value="Record Attendance" />
           </div>
       <% end %>
   <% end %>
 </section>
+
+<script>
+    $(document).ready(function(){
+        $( "#toggle_attendance_content" ).click(function() {
+            $( ".toggable_attendance_content" ).toggle();
+        });
+
+        $( "#printable_attendance_sheet" ).click(function() {
+            $("table.generic_table").css({"font-size": 12,"font-family": "arial"});
+            $("a.table_orientation_indicator").remove();
+            $("table.generic_table table.generic_table td.actions").remove();
+            $(".toggable_attendance_content").empty().append(
+                            "<div>TIME IN: ________________________ </div><br>" +
+                            "<div>TIME OUT: ________________________ </div><br>" +
+                            "<div>SIGNATURE: ________________________ </div><br>" +
+                            "<div>REMARK: ________________________ </div><br>" );
+            table = $("table.generic_table").get();
+            $("body").empty();
+            $("body").html(table);
+            $("a").removeAttr("href");
+            $("head").empty();
+        });
+
+    });
+</script>

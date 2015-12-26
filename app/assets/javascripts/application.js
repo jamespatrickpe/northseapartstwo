@@ -66,6 +66,16 @@ $(document).ready(function(){
     });
 });
 
+$(function() {
+    $('.delete_item').click(function(e) {
+        e.preventDefault();
+        if (window.confirm("Are you sure you want to delete this item?")) {
+            location.href = this.href;
+        }
+    });
+});
+
+
 //Validates if username already exists in Database
 window.Parsley.addAsyncValidator('validate-username', function (xhr)
 {
@@ -113,3 +123,89 @@ window.Parsley.addAsyncValidator('validate-email', function (xhr)
         return false;
     }
 }, '/application/check_email_exists');
+
+window.Parsley
+    .addValidator('time_between', {
+        requirementType: 'string',
+        validateString: function(value, requirement)
+        {
+            var employee_id = $("#attendance_employee_id_"+requirement).val();
+            var date = $("#attendance_date_"+requirement).val();
+            var response = ''
+            $.ajax({
+                method: "POST",
+                url: "/application/check_time_if_between",
+                data: { time: value, employee_id: employee_id, date: date },
+                async: false
+            }).done(function( msg ) {
+                if(msg == 'false')
+                {
+                    response = true;
+                }
+                else
+                {
+                    response = false;
+                }
+            });
+            return response;
+        },
+        messages: {
+            en: 'Time has already been occupied by a previous Attendance Record.'
+        }
+    });
+
+window.Parsley
+    .addValidator('time_order', {
+        requirementType: 'string',
+        validateString: function(value, requirement)
+        {
+            var timein = $("#attendance_timein_"+requirement).val();
+            var timeout = $("#attendance_timeout_"+requirement).val();
+            if( (timein > timeout) && timein != '' && timeout != '')
+            {
+                return false
+            }
+            else
+            {
+                return true
+            }
+        },
+        messages: {
+            en: 'Invalid time Input. Time is backwards.'
+        }
+    });
+
+window.Parsley
+    .addValidator('time_overlap', {
+        requirementType: 'string',
+        validateString: function(value, requirement)
+        {
+            var timein = $("#attendance_timein_"+requirement).val();
+            var timeout = $("#attendance_timeout_"+requirement).val();
+            var date = $("#attendance_date_"+requirement).val();
+            var employee_id = $("#attendance_employee_id_"+requirement).val();
+            var response = ''
+            if ( timein != '' && timeout != '' )
+            {
+                $.ajax({
+                    method: "POST",
+                    url: "/application/check_time_if_overlap",
+                    data: { timein: timein, timeout: timeout, date: date, employee_id: employee_id },
+                    async: false
+                }).done(function( msg ) {
+                    if(msg == 'false')
+                    {
+                        response = true;
+                    }
+                    else
+                    {
+                        response = false;
+                    }
+                });
+                return response;
+            }
+        },
+        messages: {
+            en: 'Invalid time Input. Time overlaps with a previous Attendance Record.'
+        }
+    });

@@ -65,8 +65,8 @@ ActiveRecord::Schema.define(version: 20151216115839) do
   create_table "attendances", force: :cascade do |t|
     t.string   "employee_id",        limit: 36
     t.date     "date_of_attendance"
-    t.time     "timein",                         default: '2000-01-01 00:00:00'
-    t.time     "timeout",                        default: '2000-01-02 00:00:00'
+    t.time     "timein",                         default: '2000-01-01 00:00:01'
+    t.time     "timeout",                        default: '2000-01-01 23:59:59'
     t.string   "remark",             limit: 256
     t.datetime "created_at",                                                     null: false
     t.datetime "updated_at",                                                     null: false
@@ -140,7 +140,7 @@ ActiveRecord::Schema.define(version: 20151216115839) do
     t.string   "remark",              limit: 256
     t.boolean  "active",              limit: 1,   default: false
     t.string   "employee_id",         limit: 36
-    t.datetime "date_of_effectivity",             default: '2015-12-22 09:58:37'
+    t.datetime "date_of_effectivity",             default: '2015-12-24 20:45:20'
     t.datetime "created_at",                                                      null: false
     t.datetime "updated_at",                                                      null: false
   end

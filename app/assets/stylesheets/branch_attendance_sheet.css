@@ -26,9 +26,26 @@
 
 .restday_holiday
 {
-    background-color: #e5f2ff;
+
 }
 
 .mark_absent
+{
+}
+
+.attendance_link
+{
+    font-size: 10px;
+    padding: 3px;
+    background-color: grey;
+    color: white;
+}
+
+.attendance_link:hover
+{
+    background-color: #721314;
+}
+
+.attendance_time
 {
 }

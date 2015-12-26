@@ -1,44 +1,101 @@
-<%
-   # If there is no attendance; transfer to these variables.
-   @selected_attendance[:id] ||= ''
-   @selected_attendance[:employee_id] ||= ''
-   @selected_attendance[:timein] ||= Time.now #Time.now because placeholder value wont accept nil or 'time in'
-   @selected_attendance[:timeout] ||= Time.now #Time.now because placeholder value wont accept nil or 'time in'
-   @selected_attendance[:remark] ||= ''
-%>
-
 <section class='small-10 columns'>
   <div class='mainheader'> Attendance Form </div>
   <div class='subdescription'> Set the Attendance of an Employee </div>
   <hr>
   <div class='small-6 columns generic_form'>
     <% if @selected_attendance.present? %>
-        <span class="current_edit_id"> <%= 'Editing Attendance ID: ' + @selected_attendance[:id] %> </span> <br><br> <!-- this is for the current ATTENDANCE ID or OBJECT ID; not employee-->
+        <span class="current_edit_id">
+          <%= 'Editing Attendance ID: ' + @selected_attendance[:id].to_s %>
+        </span>
+        <br><br>
     <% end %>
-    <%= form_tag( {action: :process_attendance_form}, multipart: true, class: 'create_form', id: "new_attendance_form", :"data-parsley-validate" => "" ) do %>
-        <%= hidden_field_tag('attendance[id]', @selected_attendance[:id] ) %> <!-- Hidden Field from ID -->
+    <%=
+        form_tag( {action: :process_attendance_form},
+                  multipart: true,
+                  class: 'create_form',
+                  id: "new_attendance_form",
+                  :"data-parsley-validate" => "" ) do
+    %>
+
+        <%= hidden_field_tag('attendance[id]', @selected_attendance[:id] ) %>
+
         <select name='attendance[employee_id]'
-                id='new_attendance_employee'
+                id='attendance_employee_id_0'
                 class='employee_select_field'
                 required="required" >
-          <!-- DO NOT CHANGE class 'employee_select_field'; this is for the employee_quick_profile thing; do change other attributes in the select field -->
+
           <option value="" disabled selected>Select Employee</option>
-          <% @employees.each do |employee| %> <!-- This selects the current employee and marks the option 'selected' if found -->
+
+          <% @employees.each do |employee| %>
               <% if employee.id == @selected_attendance[:employee_id] %>
                   <option value=<%= employee[:id] %> selected><%= employee.actor.name %></option>
               <% else %>
                   <option value=<%= employee[:id] %>><%= employee.actor.name %></option>
               <% end %>
           <% end %>
+
         </select>
-        <!-- input of type datetime-local do not have a placeholder so you have to write the label manually outside the input -->
-        <div>Date: <input type="date" required="required" name="attendance[date_of_attendance]" style="width: 50%" value= <%= @selected_attendance[:date_of_attendance].strftime('%Y-%m-%d') %> ></div>
-        <div>Time In: <input type="time" required="required" name="attendance[timein]" style="width: 50%" value= <%= @selected_attendance[:timein].strftime('%T') %> ></div> <!-- take note of time format! -->
-        <div>Time Out: <input type="time" required="required" name="attendance[timeout]" style="width: 50%" value= <%= @selected_attendance[:timeout].strftime('%T') %> ></div> <!-- take note of time format! -->
-        <%= text_area_tag("attendance[remark]", content = @selected_attendance[:remark], options = {class: "remark_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128", :placeholder => 'Remarks' }) %>
-        <input type="submit" class="small button" value="SUBMIT" />
+
+        <div>
+        Date:
+        <input type="date"
+               required="required"
+               name="attendance[date_of_attendance]"
+               id="attendance_date_0"
+               style="width: 50%"
+               value= <%= @selected_attendance[:date_of_attendance].present? ? @selected_attendance[:date_of_attendance].strftime('%Y-%m-%d') : '' %>>
+        </div>
+
+        <div>
+          Time In: <input type="time"
+                             id="attendance_timein_0"
+                             step = 1
+                             required="required"
+                             name="attendance[timein]"
+                             data-parsley-trigger="change"
+                             data-parsley-time_order="0"
+                             data-parsley-time_overlap="0"
+                             data-parsley-time_between="0"
+                             style="width: 50%"
+                             value= <%= @selected_attendance[:timein].strftime('%T') %> >
+        </div>
+        <div>
+          Time Out: <input type="time"
+                              id="attendance_timeout_0"
+                              step = 1
+                              required="required"
+                              name="attendance[timeout]"
+                              data-parsley-trigger="change"
+                              data-parsley-time_order="0"
+                              data-parsley-time_overlap="0"
+                              data-parsley-time_between="0"
+                              style="width: 50%"
+                              value= <%= @selected_attendance[:timeout].strftime('%T') %> >
+        </div>
+
+        <%=
+            text_area_tag("attendance[remark]",
+                          content = @selected_attendance[:remark],
+                          options = {class: "remark_description",
+                                     :"data-parsley-trigger" => "keyup",
+                                     :"data-parsley-maxlength"=>"128",
+                                     :placeholder => 'Remarks' })
+        %>
+
+        <%=
+            link_to( "DELETE".html_safe,
+                     {:action => 'delete_attendance',
+                      :attendance_id => @selected_attendance[:id]},
+                     class: 'tiny button delete_item')
+        %>
+
+        <input type="reset" class="tiny button" value="RESET" />
+        <input type="submit" class="tiny button" value="SUBMIT" />
 
     <% end %>
+
   </div>
+
   <%= renderCorePartial('employee_quick_profile') %>
+
 </section>
