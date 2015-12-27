@@ -120,6 +120,23 @@ window.Parsley.addAsyncValidator('validate-email', function (xhr)
     }
 }, '/application/check_email_exists');
 
+window.Parsley.addAsyncValidator('unique-holiday-date', function (xhr)
+{
+    var obj = $.parseJSON(xhr.responseText);
+    var uniqueDate = $("#holiday_date_0").parsley();
+    if (obj['exists'] == false)
+    {
+        window.ParsleyUI.removeError(uniqueDate, "myCustomError");
+        return true;
+    }
+    else if (obj['exists'] == true)
+    {
+        window.ParsleyUI.removeError(uniqueDate, "myCustomError");
+        window.ParsleyUI.addError(uniqueDate, "myCustomError", 'Date for Holiday has already been taken. In case of Double Holiday please delete current Holiday and State Double Holiday in a New Form');
+        return false;
+    }
+}, '/application/check_unique_holiday_date');
+
 window.Parsley
     .addValidator('time_between', {
         requirementType: 'string',
@@ -205,3 +222,4 @@ window.Parsley
             en: 'Invalid time Input. Time overlaps with a previous Attendance Record.'
         }
     });
+
