@@ -140,7 +140,7 @@ ActiveRecord::Schema.define(version: 20151216115839) do
     t.string   "remark",              limit: 256
     t.boolean  "active",              limit: 1,   default: false
     t.string   "employee_id",         limit: 36
-    t.datetime "date_of_effectivity",             default: '2015-12-26 21:12:01'
+    t.datetime "date_of_effectivity",             default: '2015-12-29 17:53:01'
     t.datetime "created_at",                                                      null: false
     t.datetime "updated_at",                                                      null: false
   end
@@ -274,12 +274,13 @@ ActiveRecord::Schema.define(version: 20151216115839) do
   end
 
   create_table "regular_work_periods", force: :cascade do |t|
-    t.time     "start_time",              default: '2000-01-01 08:00:00'
-    t.time     "end_time",                default: '2000-01-01 17:00:00'
-    t.string   "remark",      limit: 256
-    t.string   "employee_id", limit: 36
-    t.datetime "created_at",                                              null: false
-    t.datetime "updated_at",                                              null: false
+    t.time     "start_time",                      default: '2000-01-01 08:00:00'
+    t.time     "end_time",                        default: '2000-01-01 17:00:00'
+    t.datetime "date_of_effectivity",             default: '2015-12-29 17:52:59'
+    t.string   "remark",              limit: 256
+    t.string   "employee_id",         limit: 36
+    t.datetime "created_at",                                                      null: false
+    t.datetime "updated_at",                                                      null: false
   end
 
   create_table "repaid_payments_from_employees", force: :cascade do |t|
@@ -289,11 +290,12 @@ ActiveRecord::Schema.define(version: 20151216115839) do
     t.datetime "updated_at",                                                           null: false
   end
 
-  create_table "restdays", force: :cascade do |t|
-    t.string   "day",         limit: 64, default: "SUNDAY"
-    t.string   "employee_id", limit: 36
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
+  create_table "rest_days", force: :cascade do |t|
+    t.string   "day",                 limit: 64, default: "SUNDAY"
+    t.string   "employee_id",         limit: 36
+    t.datetime "date_of_effectivity"
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
   end
 
   create_table "telephones", force: :cascade do |t|

@@ -321,7 +321,7 @@ numberOfActors.times do |i|
   end
 
   # HUMAN RESOURCES
-  if 50.in(100)
+  if 80.in(100)
     # ids = Branch.pluck(:id).shuffle
     # myBranch = Branch.where(id: ids)
     myEmployee = Employee.new( actor: myActor, branch: Branch.all.shuffle.first )
@@ -356,8 +356,8 @@ numberOfActors.times do |i|
     # Rest Days
     rand(1..3).times do |i|
     dayOfWeek = Faker::Time.between(7.days.ago, Time.now, :all).strftime("%A")
-    restday = Restday.new(day: dayOfWeek, employee: myEmployee)
-    restday.created_at = rand(720..72000).hours.ago
+    restday = RestDay.new(day: dayOfWeek, employee: myEmployee)
+    restday.date_of_effectivity = rand(720..72000).hours.ago
     restday.save!
     end
 
@@ -377,14 +377,19 @@ numberOfActors.times do |i|
         end_time = '06:00:00'
       end
       workperiod = RegularWorkPeriod.new(remark: Faker::Lorem.word, employee: myEmployee, start_time: start_time, end_time: end_time )
-      workperiod.created_at = rand(720..72000).hours.ago
+      workperiod.date_of_effectivity = rand(720..72000).hours.ago
       workperiod.save!
     end
 
     numberOfDuties = rand(1..5)
     numberOfDuties.times do
       dutyStatus = DutyStatus.new(remark: Faker::Lorem.sentence, employee: myEmployee)
-      active = -> { [false,true].sample }
+      if 7.in(10)
+        active = -> { true }
+      else
+        active = -> { false }
+      end
+
       dutyStatus.active = active.call
       dutyStatus.date_of_effectivity = rand(720..72000).hours.ago
       dutyStatus.save!

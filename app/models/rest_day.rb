@@ -1,4 +1,4 @@
-class Restday < ActiveRecord::Base
+class RestDay < ActiveRecord::Base
 
   include UUIDHelper
 
@@ -6,5 +6,6 @@ class Restday < ActiveRecord::Base
 
   validates_length_of :day , maximum: 64
   validates_presence_of :employee
+  validates_presence_of :date_of_effectivity
 
 end

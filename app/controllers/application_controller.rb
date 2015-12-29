@@ -26,6 +26,13 @@ class ApplicationController < ActionController::Base
     @selected_actor ||= Actor.new
   end
 
+  def check_unique_holiday_date
+    date_of_implementation_exists = Holiday.exists?(date_of_implementation: params[:holiday][:date_of_implementation])
+    respond_to do |format|
+      format.json { render json: {:"exists" => date_of_implementation_exists}.to_json }
+    end
+  end
+
   def check_time_if_between
     time_check = false
     my_time = Time.strptime(params[:time],"%H:%M")
@@ -118,6 +125,14 @@ class ApplicationController < ActionController::Base
     end
     flash[table_id + '_' + key] = actual_query_parameter
     return actual_query_parameter
+  end
+
+  def generic_table_aggregated_queries( mysql_table_name, mysql_created_at, my_order = 'DESC', my_limit = '10')
+    order_parameter = aggregated_search_queries(params[:order_parameter], mysql_table_name, 'order_parameter' , mysql_created_at)
+    order_orientation = aggregated_search_queries(params[:order_orientation], mysql_table_name, 'order_orientation', my_order)
+    current_limit = aggregated_search_queries(params[:current_limit], mysql_table_name, 'current_limit', my_limit)
+    search_field = aggregated_search_queries(params[:search_field], mysql_table_name, 'search_field','')
+    return {:order_parameter => order_parameter, :order_orientation => order_orientation, :current_limit => current_limit, :search_field => search_field}
   end
 
   # Shifts the ASC/DESC on the header of table
