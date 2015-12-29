@@ -66,6 +66,7 @@
                                  :placeholder => 'Description' })
     %>
 
+    <%= link_to( "BACK".html_safe, {:action => 'holidays'}, class: 'tiny button') %>
     <%=
         if @selected_holiday[:id].present?
         link_to( "DELETE".html_safe,

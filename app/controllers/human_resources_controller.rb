@@ -7,6 +7,23 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/index'
   end
 
+
+  def settings
+    render '/human_resources/settings/index'
+  end
+
+  def attendance
+    render 'human_resources/attendance/index'
+  end
+
+  def compensation_and_benefits
+    render 'human_resources/compensation_benefits/index'
+  end
+
+  def employee_accounts_management
+    render 'human_resources/employee_accounts_management/index'
+  end
+
   # ================== Employee Accounts Management ================== #
 
   def employee_accounts_management
@@ -505,13 +522,13 @@ class HumanResourcesController < ApplicationController
   def new_base_rate
     initialize_employee_selection
     @selected_base_rate = BaseRate.new
-    render 'human_resources/employee_accounts_management/base_rate_form'
+    render 'human_resources/compensation_benefits/base_rate_form'
   end
 
   def edit_base_rate
     initialize_employee_selection
     @selected_base_rate = BaseRate.find(params[:base_rate_id])
-    render 'human_resources/employee_accounts_management/base_rate_form'
+    render 'human_resources/compensation_benefits/base_rate_form'
   end
 
   def process_base_rate_form

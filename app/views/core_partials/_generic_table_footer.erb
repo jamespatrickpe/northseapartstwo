@@ -3,6 +3,7 @@
 </div>
 
 <div class="generic_table_options">
+  <%= link_to( "Back" ,{:action => submodule_action}, class: 'tiny button')%>
   <%= link_to( "Reset Search" ,{:controller => 'application',:action => 'reset_search', :reset_search_redirect => reset_search_redirect}, class: 'tiny button')%>
   <%= link_to( "Add New Record" ,{:action => add_link}, class: 'tiny button')%>
   <a class="tiny button export_to_csv">Export to CSV</a>
