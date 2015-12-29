@@ -50,7 +50,7 @@
                   <td><%= regular_work_period[:updated_at] %></td>
                   <td class="actions">
                     <%= link_to( "&#9998;".html_safe ,{:action => 'edit_regular_work_period', :regular_work_period_id => regular_work_period.id}, class: 'action_button', tooltip: 'Edit' ) %>
-                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_regular_work_period', :regular_work_period_id => regular_work_period.id}, class: 'action_button delete_item', tooltip: 'Delete' ) %>
+                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_regular_work_period', :regular_work_period_id => regular_work_period.id}, class: 'action_button deletable_item', tooltip: 'Delete' ) %>
                   </td>
                 </tr>
             <% end %>

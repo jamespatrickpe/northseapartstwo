@@ -356,7 +356,7 @@ numberOfActors.times do |i|
     # Rest Days
     rand(1..3).times do |i|
     dayOfWeek = Faker::Time.between(7.days.ago, Time.now, :all).strftime("%A")
-    restday = Restday.new(day: dayOfWeek, employee: myEmployee)
+    restday = RestDay.new(day: dayOfWeek, employee: myEmployee)
     restday.created_at = rand(720..72000).hours.ago
     restday.save!
     end

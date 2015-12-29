@@ -1,5 +1,3 @@
-# Defines a regular work period for a certain employee; e.g. 8-6pm
-
 class CreateRegularWorkPeriods < ActiveRecord::Migration
   def change
     create_table :regular_work_periods, :id => false    do |t|

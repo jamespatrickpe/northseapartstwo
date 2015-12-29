@@ -16,7 +16,7 @@ module ApplicationHelper
   end
 
   def whatRestDay(employee_id, current_day)
-    rest_day = Restday.where("(employee_id = ?)", "#{employee_id}").order('restdays.created_at DESC').first
+    rest_day = RestDay.where("(employee_id = ?)", "#{employee_id}").order('restdays.created_at DESC').first
     what_rest_day = false
     if rest_day.day == current_day
       what_rest_day = rest_day.id

@@ -14,7 +14,6 @@ class HumanResourcesController < ApplicationController
     order_orientation = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:order_orientation], 'employee_accounts_management',"order_orientation", "DESC")).gsub("'", '')
     current_limit = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:current_limit], 'employee_accounts_management',"current_limit","10")).gsub("'", '')
     search_field = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:search_field], 'employee_accounts_management',"search_field","")).gsub("'", '')
-
     begin
       sql = "SELECT employees.id as id, actors.name as name, dutystatus.active as active, branches.name as branch_name, employees.created_at as created_at, employees.updated_at as updated_at, actors.id  as actors_id
     FROM employees
@@ -34,9 +33,7 @@ class HumanResourcesController < ApplicationController
     rescue
       flash[:general_flash_notification] = "Error has Occured"
     end
-
-    #Render
-    render 'human_resources/employee_accounts_management/index'
+    render 'human_resources/employee_accounts_management/employees'
   end
 
   def employee_registration
@@ -71,17 +68,27 @@ class HumanResourcesController < ApplicationController
   end
 
   def attendances
-    order_parameter = aggregated_search_queries(params[:order_parameter], 'attendances', "order_parameter" ,"attendances.created_at")
-    order_orientation = aggregated_search_queries(params[:order_orientation], 'attendances', "order_orientation", "DESC")
-    current_limit = aggregated_search_queries(params[:current_limit], 'attendances', "current_limit","10")
-    search_field = aggregated_search_queries(params[:search_field], 'attendances', "search_field","")
+    query = generic_table_aggregated_queries('attendances','attendances.created_at')
     begin
       @attendances = Attendance
       .includes(employee: [:actor])
       .joins(employee: [:actor])
-      .where("actors.name LIKE ? OR attendances.id LIKE ? OR attendances.timein LIKE ? OR attendances.timeout LIKE ? OR attendances.remark LIKE ? OR attendances.updated_at LIKE ? OR attendances.created_at LIKE ?", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" )
-      .order(order_parameter + ' ' + order_orientation)
-      @attendances = Kaminari.paginate_array(@attendances).page(params[:page]).per(current_limit)
+      .where("actors.name LIKE ? OR " +
+             "attendances.id LIKE ? OR " +
+             "attendances.timein LIKE ? OR " +
+             "attendances.timeout LIKE ? OR " +
+             "attendances.remark LIKE ? OR " +
+             "attendances.updated_at LIKE ? OR " +
+             "attendances.created_at LIKE ?",
+             "%#{query[:search_field]}%",
+             "%#{query[:search_field]}%",
+             "%#{query[:search_field]}%",
+             "%#{query[:search_field]}%",
+             "%#{query[:search_field]}%",
+             "%#{query[:search_field]}%",
+             "%#{query[:search_field]}%")
+      .order(query[:order_parameter] + ' ' + query[:order_orientation])
+      @attendances = Kaminari.paginate_array(@attendances).page(params[:page]).per(query[:current_limit])
     rescue => ex
       flash[:general_flash_notification] = "Error has Occured"
     end
@@ -208,25 +215,39 @@ class HumanResourcesController < ApplicationController
   # ================== Rest Days ================== #
 
   def rest_days
-    order_parameter = aggregated_search_queries(params[:order_parameter], 'rest_days', "order_parameter" ,"restdays.created_at")
-    order_orientation = aggregated_search_queries(params[:order_orientation], 'rest_days', "order_orientation", "DESC")
-    current_limit = aggregated_search_queries(params[:current_limit], 'rest_days', "current_limit","10")
-    search_field = aggregated_search_queries(params[:search_field], 'rest_days', "search_field","")
+    query = generic_table_aggregated_queries('rest_days','rest_days.created_at')
     begin
-      @rest_days = Restday
+      @rest_days = RestDay
                        .includes(employee: [:actor])
                        .joins(employee: [:actor])
-                       .where("actors.name LIKE ? OR restdays.id LIKE ? OR restdays.day LIKE ? OR restdays.created_at LIKE ? OR restdays.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" )
-                       .order(order_parameter + ' ' + order_orientation)
-      @rest_days = Kaminari.paginate_array(@rest_days).page(params[:page]).per(current_limit)
-    rescue
-      flash[:general_flash_notification] = "Error has Occured"
+                       .where("actors.name LIKE ? OR " +
+                              "rest_days.id LIKE ? OR " +
+                              "rest_days.day LIKE ? OR " +
+                              "rest_days.created_at LIKE ? OR " +
+                              "rest_days.updated_at LIKE ? ",
+                              "%#{query[:search_field]}%",
+                              "%#{query[:search_field]}%",
+                              "%#{query[:search_field]}%",
+                              "%#{query[:search_field]}%",
+                              "%#{query[:search_field]}%")
+                       .order(query[:order_parameter] + ' ' + query[:order_orientation])
+      @rest_days = Kaminari.paginate_array(@rest_days).page(params[:page]).per(query[:current_limit])
+    rescue => ex
+      flash[:general_flash_notification] = "Error has Occured" + ex.to_s
     end
     render 'human_resources/attendance/rest_days'
   end
 
+  def search_suggestions_rest_days
+    restdays = RestDay.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + restdays.uniq.to_s + "}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
   def delete_rest_day
-    restDayToBeDeleted = Restday.find(params[:rest_day_id])
+    restDayToBeDeleted = RestDay.find(params[:rest_day_id])
     restDayOwner = Employee.find(restDayToBeDeleted.employee_id)
     flash[:general_flash_notification_type] = 'Rest day ' + restDayToBeDeleted.day + ' for employee ' + restDayOwner.actor.name + ' has been deleted.'
     flash[:general_flash_notification_type] = 'affirmative'
@@ -237,22 +258,22 @@ class HumanResourcesController < ApplicationController
 
   def new_rest_day
     initialize_employee_selection
-    @selected_rest_day = Restday.new
+    @selected_rest_day = RestDay.new
     render 'human_resources/employee_accounts_management/rest_day_form'
   end
 
   def edit_rest_day
     initialize_employee_selection
-    @selected_rest_day = Restday.find(params[:rest_day_id])
+    @selected_rest_day = RestDay.find(params[:rest_day_id])
     render 'human_resources/employee_accounts_management/rest_day_form'
   end
 
   def process_rest_day_form
     begin
       if( params[:rest_day][:id].present? )
-        restDay = Restday.find(params[:rest_day][:id])
+        restDay = RestDay.find(params[:rest_day][:id])
       else
-        restDay = Restday.new()
+        restDay = RestDay.new()
       end
       restDay.id = params[:rest_day][:id]
       restDay.day = params[:rest_day][:day]
@@ -270,21 +291,39 @@ class HumanResourcesController < ApplicationController
   # ================== Regular Work Periods ================== #
 
   def regular_work_periods
-    order_parameter = aggregated_search_queries(params[:order_parameter], 'regular_work_periods', "order_parameter" ,"regular_work_periods.created_at")
-    order_orientation = aggregated_search_queries(params[:order_orientation], 'regular_work_periods', "order_orientation", "DESC")
-    current_limit = aggregated_search_queries(params[:current_limit], 'regular_work_periods', "current_limit","10")
-    search_field = aggregated_search_queries(params[:search_field], 'regular_work_periods', "search_field","")
-
+    query = generic_table_aggregated_queries('regular_work_periods','regular_work_periods.created_at')
     begin
-      @regular_work_periods = RegularWorkPeriod.includes(employee: [:actor])
+      @regular_work_periods = RegularWorkPeriod
+                                  .includes(employee: [:actor])
                                   .joins(employee: [:actor])
-                                  .where("actors.name LIKE ? OR regular_work_periods.id LIKE ? OR regular_work_periods.start_time LIKE ? OR regular_work_periods.end_time LIKE ? OR regular_work_periods.remark LIKE ? OR regular_work_periods.created_at LIKE ? OR regular_work_periods.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" )
-                                  .order(order_parameter + ' ' + order_orientation)
-      @regular_work_periods = Kaminari.paginate_array(@regular_work_periods).page(params[:page]).per(current_limit)
+                                  .where("actors.name LIKE ? OR " +
+                                         "regular_work_periods.id LIKE ? OR " +
+                                         "regular_work_periods.start_time LIKE ? OR " +
+                                         "regular_work_periods.end_time LIKE ? OR " +
+                                         "regular_work_periods.remark LIKE ? OR " +
+                                         "regular_work_periods.created_at LIKE ? OR " +
+                                         "regular_work_periods.updated_at LIKE ?",
+                                         "%#{query[:search_field]}%",
+                                         "%#{query[:search_field]}%",
+                                         "%#{query[:search_field]}%",
+                                         "%#{query[:search_field]}%",
+                                         "%#{query[:search_field]}%",
+                                         "%#{query[:search_field]}%",
+                                         "%#{query[:search_field]}%" )
+                                  .order(query[:order_parameter] + ' ' + query[:order_orientation])
+      @regular_work_periods = Kaminari.paginate_array(@regular_work_periods).page(params[:page]).per(query[:current_limit])
     rescue
       flash[:general_flash_notification] = "Error has Occured"
     end
     render 'human_resources/attendance/regular_work_periods'
+  end
+
+  def search_suggestions_regular_work_periods
+    regularWorkPeriods = RegularWorkPeriod.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + regularWorkPeriods.uniq.to_s + "}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
   end
 
   def delete_regular_work_period
@@ -299,13 +338,13 @@ class HumanResourcesController < ApplicationController
   def new_regular_work_period
     initialize_employee_selection
     @selected_regular_work_period = RegularWorkPeriod.new
-    render 'human_resources/employee_accounts_management/regular_work_period_form'
+    render 'human_resources/attendance/regular_work_period_form'
   end
 
   def edit_regular_work_period
     initialize_employee_selection
     @selected_regular_work_period = RegularWorkPeriod.find(params[:regular_work_period_id])
-    render 'human_resources/employee_accounts_management/regular_work_period_form'
+    render 'human_resources/attendance/regular_work_period_form'
   end
 
   def process_regular_work_period_form
@@ -337,20 +376,41 @@ class HumanResourcesController < ApplicationController
   # ================== Lump Sum Adjustments ================== #
 
   def lump_adjustments
-    order_parameter = aggregated_search_queries(params[:order_parameter], 'lump_adjustments', "order_parameter" ,"lump_adjustments.created_at")
-    order_orientation = aggregated_search_queries(params[:order_orientation], 'lump_adjustments', "order_orientation", "DESC")
-    current_limit = aggregated_search_queries(params[:current_limit], 'lump_adjustments', "current_limit","10")
-    search_field = aggregated_search_queries(params[:search_field], 'lump_adjustments', "search_field","")
+    query = generic_table_aggregated_queries('lump_adjustments','lump_adjustments.created_at')
     begin
-      @lump_adjustments = LumpAdjustment.includes(employee: [:actor])
+      @lump_adjustments = LumpAdjustment
+                              .includes(employee: [:actor])
                               .joins(employee: [:actor])
-                              .where("actors.name LIKE ? OR lump_adjustments.id LIKE ? OR lump_adjustments.amount LIKE ? OR lump_adjustments.signed_type LIKE ? OR lump_adjustments.remark LIKE ? OR lump_adjustments.date_of_effectivity LIKE ? OR lump_adjustments.created_at LIKE ? OR lump_adjustments.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" )
-                              .order(order_parameter + ' ' + order_orientation)
-      @lump_adjustments = Kaminari.paginate_array(@lump_adjustments).page(params[:page]).per(current_limit)
+                              .where("actors.name LIKE ? OR " +
+                                     "lump_adjustments.id LIKE ? OR " +
+                                     "lump_adjustments.amount LIKE ? OR " +
+                                     "lump_adjustments.signed_type LIKE ? OR " +
+                                     "lump_adjustments.remark LIKE ? OR " +
+                                     "lump_adjustments.date_of_effectivity LIKE ? OR " +
+                                     "lump_adjustments.created_at LIKE ? OR " +
+                                     "lump_adjustments.updated_at LIKE ?",
+                                     "%#{query[:search_field]}%",
+                                     "%#{query[:search_field]}%",
+                                     "%#{query[:search_field]}%",
+                                     "%#{query[:search_field]}%",
+                                     "%#{query[:search_field]}%",
+                                     "%#{query[:search_field]}%",
+                                     "%#{query[:search_field]}%",
+                                     "%#{query[:search_field]}%")
+                              .order(query[:order_parameter] + ' ' + query[:order_orientation])
+      @lump_adjustments = Kaminari.paginate_array(@lump_adjustments).page(params[:page]).per(query[:current_limit])
     rescue
       flash[:general_flash_notification] = "Error has Occured"
     end
     render 'human_resources/compensation_benefits/lump_adjustments'
+  end
+
+  def search_suggestions_lump_adjustments
+    adjustments = LumpAdjustment.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + adjustments.uniq.to_s + "}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
   end
 
   def delete_lump_adjustment
@@ -400,20 +460,46 @@ class HumanResourcesController < ApplicationController
   # ================== Base Rates ================== #
 
   def base_rates
-    order_parameter = aggregated_search_queries(params[:order_parameter], 'base_rates', 'order_parameter' ,'base_rates.created_at')
-    order_orientation = aggregated_search_queries(params[:order_orientation], 'base_rates', 'order_orientation', 'DESC')
-    current_limit = aggregated_search_queries(params[:current_limit], 'base_rates', 'current_limit','10')
-    search_field = aggregated_search_queries(params[:search_field], 'base_rates', 'search_field','')
+    query = generic_table_aggregated_queries('base_rates','base_rates.created_at')
     begin
       @base_rates = BaseRate.includes(employee: [:actor])
                         .joins(employee: [:actor])
-                        .where("actors.name LIKE ? OR base_rates.id LIKE ? OR base_rates.signed_type LIKE ? OR base_rates.signed_type LIKE ? OR base_rates.amount LIKE ? OR base_rates.period_of_time LIKE ? OR base_rates.remark LIKE ? OR base_rates.start_of_effectivity LIKE ? OR base_rates.end_of_effectivity LIKE ? OR base_rates.created_at LIKE ? OR base_rates.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%" )
-                        .order(order_parameter + ' ' + order_orientation)
-      @base_rates = Kaminari.paginate_array(@base_rates).page(params[:page]).per(current_limit)
+                        .where("actors.name LIKE ? OR " +
+                               "base_rates.id LIKE ? OR " +
+                               "base_rates.signed_type LIKE ? OR " +
+                               "base_rates.signed_type LIKE ? OR " +
+                               "base_rates.amount LIKE ? OR " +
+                               "base_rates.period_of_time LIKE ? OR " +
+                               "base_rates.remark LIKE ? OR " +
+                               "base_rates.start_of_effectivity LIKE ? OR " +
+                               "base_rates.end_of_effectivity LIKE ? OR " +
+                               "base_rates.created_at LIKE ? OR " +
+                               "base_rates.updated_at LIKE ?",
+                               "%#{query[:search_field]}%",
+                               "%#{query[:search_field]}%",
+                               "%#{query[:search_field]}%",
+                               "%#{query[:search_field]}%",
+                               "%#{query[:search_field]}%",
+                               "%#{query[:search_field]}%",
+                               "%#{query[:search_field]}%",
+                               "%#{query[:search_field]}%",
+                               "%#{query[:search_field]}%",
+                               "%#{query[:search_field]}%",
+                               "%#{query[:search_field]}%")
+                        .order(query[:order_parameter] + ' ' + query[:order_orientation])
+      @base_rates = Kaminari.paginate_array(@base_rates).page(params[:page]).per(query[:current_limit])
     rescue
       flash[:general_flash_notification] = "Error has Occured"
     end
     render 'human_resources/compensation_benefits/base_rates'
+  end
+
+  def search_suggestions_base_rates
+    baseRates = BaseRate.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + baseRates.uniq.to_s + "}" # default format for plugin
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
   end
 
   def new_base_rate
@@ -429,7 +515,6 @@ class HumanResourcesController < ApplicationController
   end
 
   def process_base_rate_form
-
     begin
       if( params[:base_rate][:id].present? )
         puts 'inside if ==================================== a'
@@ -438,7 +523,6 @@ class HumanResourcesController < ApplicationController
         baseRate = BaseRate.new()
         puts 'inside else ==================================== b '
       end
-
       baseRate.employee_id = params[:base_rate][:employee_id]
       employee = Employee.find(params[:base_rate][:employee_id])
       baseRate.employee = employee
@@ -471,15 +555,25 @@ class HumanResourcesController < ApplicationController
   # ================== Constants ================== #
 
   def constants
-    order_parameter = aggregated_search_queries(params[:order_parameter], 'constants', 'order_parameter' ,'constants.created_at')
-    order_orientation = aggregated_search_queries(params[:order_orientation], 'constants', 'order_orientation', 'DESC')
-    current_limit = aggregated_search_queries(params[:current_limit], 'constants', 'current_limit','10')
-    search_field = aggregated_search_queries(params[:search_field], 'constants', 'search_field','')
+    query = generic_table_aggregated_queries('constants','constants.created_at')
     begin
       @constants = Constant
-                       .where("constants.id LIKE ? OR constants.value LIKE ? OR constants.name LIKE ? OR constants.constant_type LIKE ? OR constants.remark LIKE ? OR constants.created_at LIKE ? OR constants.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%")
-                       .order(order_parameter + ' ' + order_orientation)
-      @constants = Kaminari.paginate_array(@constants).page(params[:page]).per(current_limit)
+                       .where("constants.id LIKE ? OR " +
+                              "constants.value LIKE ? OR " +
+                              "constants.name LIKE ? OR " +
+                              "constants.constant_type LIKE ? OR " +
+                              "constants.remark LIKE ? OR " +
+                              "constants.created_at LIKE ? OR " +
+                              "constants.updated_at LIKE ?",
+                              "%#{query[:search_field]}%",
+                              "%#{query[:search_field]}%",
+                              "%#{query[:search_field]}%",
+                              "%#{query[:search_field]}%",
+                              "%#{query[:search_field]}%",
+                              "%#{query[:search_field]}%",
+                              "%#{query[:search_field]}%")
+                       .order(query[:order_parameter] + ' ' + query[:order_orientation])
+      @constants = Kaminari.paginate_array(@constants).page(params[:page]).per(query[:current_limit])
     rescue
       flash[:general_flash_notification] = "Error has Occured"
     end
@@ -657,16 +751,24 @@ class HumanResourcesController < ApplicationController
   # ================== Duty Statuses ================== #
 
   def duty_statuses
-    order_parameter = aggregated_search_queries(params[:order_parameter], 'duty_statuses', 'order_parameter' ,'duty_statuses.created_at')
-    order_orientation = aggregated_search_queries(params[:order_orientation], 'duty_statuses', 'order_orientation', 'DESC')
-    current_limit = aggregated_search_queries(params[:current_limit], 'duty_statuses', 'current_limit','10')
-    search_field = aggregated_search_queries(params[:search_field], 'duty_statuses', 'search_field','')
+    query = generic_table_aggregated_queries('duty_statuses','duty_statuses.created_at')
     begin
       @duty_statuses = DutyStatus.includes(employee: [:actor])
                            .joins(employee: [:actor])
-                           .where("duty_statuses.id LIKE ? OR duty_statuses.remark LIKE ? OR duty_statuses.active LIKE ? OR actors.name LIKE ? OR duty_statuses.created_at LIKE ? OR duty_statuses.updated_at LIKE ?", "%#{search_field}%", "%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%","%#{search_field}%")
-                           .order(order_parameter + ' ' + order_orientation)
-      @duty_statuses = Kaminari.paginate_array(@duty_statuses).page(params[:page]).per(current_limit)
+                           .where("duty_statuses.id LIKE ? OR " +
+                                  "duty_statuses.remark LIKE ? OR " +
+                                  "duty_statuses.active LIKE ? OR " +
+                                  "actors.name LIKE ? OR " +
+                                  "duty_statuses.created_at LIKE ? OR " +
+                                  "duty_statuses.updated_at LIKE ?",
+                                  "%#{query[:search_field]}%",
+                                  "%#{query[:search_field]}%",
+                                  "%#{query[:search_field]}%",
+                                  "%#{query[:search_field]}%",
+                                  "%#{query[:search_field]}%",
+                                  "%#{query[:search_field]}%")
+                           .order(query[:order_parameter] + ' ' + query[:order_orientation])
+      @duty_statuses = Kaminari.paginate_array(@duty_statuses).page(params[:page]).per(query[:current_limit])
     rescue
       flash[:general_flash_notification] = "Error has Occured"
     end
@@ -975,38 +1077,6 @@ class HumanResourcesController < ApplicationController
   # def search_suggestions_employees
   #   employees = Employee.includes(:actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
   #   direct = "{\"query\": \"Unit\",\"suggestions\":" + employees.to_s + "}"
-  #   respond_to do |format|
-  #     format.all { render :text => direct}
-  #   end
-  # end
-  #
-  # def search_suggestions_rest_days
-  #   restdays = Restday.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
-  #   direct = "{\"query\": \"Unit\",\"suggestions\":" + restdays.uniq.to_s + "}"
-  #   respond_to do |format|
-  #     format.all { render :text => direct}
-  #   end
-  # end
-  #
-  # def search_suggestions_regular_work_periods
-  #   regularWorkPeriods = RegularWorkPeriod.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
-  #   direct = "{\"query\": \"Unit\",\"suggestions\":" + regularWorkPeriods.uniq.to_s + "}"
-  #   respond_to do |format|
-  #     format.all { render :text => direct}
-  #   end
-  # end
-  #
-  # def search_suggestions_lump_adjustments
-  #   adjustments = LumpAdjustment.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
-  #   direct = "{\"query\": \"Unit\",\"suggestions\":" + adjustments.uniq.to_s + "}"
-  #   respond_to do |format|
-  #     format.all { render :text => direct}
-  #   end
-  # end
-  #
-  # def search_suggestions_base_rates
-  #   baseRates = BaseRate.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
-  #   direct = "{\"query\": \"Unit\",\"suggestions\":" + baseRates.uniq.to_s + "}" # default format for plugin
   #   respond_to do |format|
   #     format.all { render :text => direct}
   #   end

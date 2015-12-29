@@ -140,7 +140,7 @@ ActiveRecord::Schema.define(version: 20151216115839) do
     t.string   "remark",              limit: 256
     t.boolean  "active",              limit: 1,   default: false
     t.string   "employee_id",         limit: 36
-    t.datetime "date_of_effectivity",             default: '2015-12-26 22:38:02'
+    t.datetime "date_of_effectivity",             default: '2015-12-28 13:38:08'
     t.datetime "created_at",                                                      null: false
     t.datetime "updated_at",                                                      null: false
   end
@@ -289,7 +289,7 @@ ActiveRecord::Schema.define(version: 20151216115839) do
     t.datetime "updated_at",                                                           null: false
   end
 
-  create_table "restdays", force: :cascade do |t|
+  create_table "rest_days", force: :cascade do |t|
     t.string   "day",         limit: 64, default: "SUNDAY"
     t.string   "employee_id", limit: 36
     t.datetime "created_at",                                null: false

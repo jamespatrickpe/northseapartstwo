@@ -1,0 +1,92 @@
+<%
+   # If there is no rest_day; transfer to these variables.
+   @selected_rest_day.id ||= ''
+   @selected_rest_day.employee_id ||= ''
+   @selected_rest_day.day ||= ''
+
+%>
+
+<section class='small-10 columns'>
+  <div class='mainheader'> Rest Day Form </div>
+  <div class='subdescription'> Set the Status of an Employee </div>
+
+  <%= link_to( "[ BACK TO HOME ]" ,{:action => 'rest_days' }, :class => "action_button action-link-grey" ) %>
+
+  <hr>
+  <div class='small-6 columns generic_form'>
+    <% if @selected_rest_day.id.present? %>
+        <span class="current_edit_id"> <%= 'Editing Rest Day with ID: ' + @selected_rest_day.id %> </span> <br><br> <!-- this is for the current Duty Status ID or OBJECT ID; not employee-->
+    <% end %>
+    <%= form_tag( {action: :process_rest_day_form}, multipart: true, class: 'create_form', id: "new_rest_day_form", :"data-parsley-validate" => "" ) do %>
+        <%= hidden_field_tag('rest_day[id]', @selected_rest_day.id ) %>
+
+        <div class="form-block">
+          <section class="form-block-label">Employee</section>
+          <section class="form-block-control">
+            <select name='rest_day[employee_id]'
+                    id='new_rest_day_employee'
+                    class='employee_select_field'
+                    required="required" >
+              <!-- DO NOT CHANGE class 'employee_select_field'; this is for the employee_quick_profile thing; do change other attributes in the select field -->
+              <option value="" disabled selected>Select Employee</option>
+              <% @employees.each do |employee| %> <!-- This selects the current employee and marks the option 'selected' if found -->
+                  <% if employee.id == @selected_rest_day.employee_id %>
+                      <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
+                  <% else %>
+                      <option value=<%= employee.id %>><%= employee.actor.name %></option>
+                  <% end %>
+              <% end %>
+            </select>
+          </section>
+        </div>
+
+        <div class="form-block no-border">
+          <section class="form-block-label">Rest Day</section>
+          <section class="form-block-control">
+
+            <%= radio_button_tag('rest_day[day]', 'Sunday') %>
+            <%= label_tag('[rest_day[day]_Sunday', 'Sunday') %>
+
+            <br />
+
+            <%= radio_button_tag('rest_day[day]', 'Monday') %>
+            <%= label_tag('[rest_day[day]_Monday', 'Monday') %>
+
+            <br />
+
+            <%= radio_button_tag('rest_day[day]', 'Tuesday') %>
+            <%= label_tag('[rest_day[day]_Tuesday', 'Tuesday') %>
+
+            <br />
+
+            <%= radio_button_tag('rest_day[day]', 'Wednesday') %>
+            <%= label_tag('[rest_day[day]_Wednesday', 'Wednesday') %>
+
+            <br />
+
+            <%= radio_button_tag('rest_day[day]', 'Thursday') %>
+            <%= label_tag('[rest_day[day]_Thursday', 'Thursday') %>
+
+            <br />
+
+            <%= radio_button_tag('rest_day[day]', 'Friday') %>
+            <%= label_tag('[rest_day[day]_Friday', 'Friday') %>
+
+            <br />
+
+            <%= radio_button_tag('rest_day[day]', 'Saturday') %>
+            <%= label_tag('[rest_day[day]_Saturday', 'Saturday') %>
+
+          </section>
+
+        </div>
+
+        <input type="submit" class="small button" value="SUBMIT" />
+
+    <% end %>
+
+  </div>
+
+  <%= renderCorePartial('employee_quick_profile') %>
+
+</section>

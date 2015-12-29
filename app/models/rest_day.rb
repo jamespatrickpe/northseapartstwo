@@ -1,4 +1,4 @@
-class Restday < ActiveRecord::Base
+class RestDay < ActiveRecord::Base
 
   include UUIDHelper
 
