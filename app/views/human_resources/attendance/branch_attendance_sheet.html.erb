@@ -105,12 +105,12 @@
                                   <% end %>
                               <% end %>
 
-                              <% if whatRestDay(employee.id,current_date.strftime("%A")) %>
+                              <% if whatRestDay(employee.id, current_date) %>
                               <li style="padding: 3px;">
                                 <a style="color:white"
                                    target="_blank"
                                    class="attendance_link"
-                                   href="/human_resources/edit_rest_day?rest_day_id=<%=whatRestDay(employee.id,current_date.strftime("%A"))%>" >
+                                   href="/human_resources/edit_rest_day?rest_day_id=<%= whatRestDay(employee.id,current_date) %>" >
                                 Rest Day for Employee
                                 </a></li>
                               <% else %>

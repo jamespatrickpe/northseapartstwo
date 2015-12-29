@@ -16,21 +16,31 @@ module ApplicationHelper
   end
 
   def whatRestDay(employee_id, current_day)
-    rest_day = RestDay.where("(employee_id = ?)", "#{employee_id}").order('restdays.created_at DESC').first
+    rest_day = RestDay
+                   .where("(employee_id = ?) AND (date_of_effectivity <= ?)", "#{employee_id}", "#{current_day}")
+                   .order('rest_days.date_of_effectivity DESC').first
     what_rest_day = false
-    if rest_day.day == current_day
+    if rest_day.day == current_day.strftime("%A")
       what_rest_day = rest_day.id
     end
     return what_rest_day
   end
 
   def get_current_duty_status( employee_ID )
-    currentEmployee = Employee.includes(:duty_status).joins(:duty_status).where("(employees.id = ?)", "#{employee_ID}").order('duty_statuses.date_of_effectivity DESC').first
+    currentEmployee = Employee
+                          .includes(:duty_status)
+                          .joins(:duty_status)
+                          .where("(employees.id = ?)", "#{employee_ID}")
+                          .order('duty_statuses.date_of_effectivity DESC').first
     return currentEmployee.duty_status.first.active
   end
 
   def get_duration_regular_work_hours(employee_ID, specific_day)
-    currentEmployee = Employee.includes(:regular_work_period).joins(:regular_work_period).where("(employees.id = ?) AND regular_work_periods.created_at <= ?", "#{employee_ID}","#{specific_day}").order('regular_work_periods.created_at DESC').first
+    currentEmployee = Employee
+                          .includes(:regular_work_period)
+                          .joins(:regular_work_period)
+                          .where("(employees.id = ?) AND (regular_work_periods.date_of_effectivity <= ?)", "#{employee_ID}", "#{specific_day}")
+                          .order("regular_work_periods.date_of_effectivity DESC").first
     number_of_seconds = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time))
     if number_of_seconds < 0
       number_of_seconds = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time)).abs

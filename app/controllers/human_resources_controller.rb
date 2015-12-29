@@ -112,7 +112,10 @@ class HumanResourcesController < ApplicationController
       @end_date = DateTime.strptime(params[:end_date],"%Y-%m-%d")
       @number_of_days = (@end_date - @start_date).abs.to_i + 1
       @selected_branch = Branch.find(params[:branch][:id])
-      @employees_by_branch = Employee.includes(:actor, :duty_status).joins(:actor, :duty_status).where("branch_id = ?", "#{@selected_branch.id}")
+      @employees_by_branch = Employee
+                                 .includes(:actor, :duty_status)
+                                 .joins(:actor, :duty_status)
+                                 .where("branch_id = ?", "#{@selected_branch.id}")
       @attendances_per_employee_in_branch = Attendance.includes(:employee).joins(:employee).where("employees.branch_id = ?", "#{@selected_branch.id}")
     end
     @selected_branch ||= Branch.new
@@ -259,13 +262,13 @@ class HumanResourcesController < ApplicationController
   def new_rest_day
     initialize_employee_selection
     @selected_rest_day = RestDay.new
-    render 'human_resources/employee_accounts_management/rest_day_form'
+    render 'human_resources/attendance/rest_day_form'
   end
 
   def edit_rest_day
     initialize_employee_selection
     @selected_rest_day = RestDay.find(params[:rest_day_id])
-    render 'human_resources/employee_accounts_management/rest_day_form'
+    render 'human_resources/attendance/rest_day_form'
   end
 
   def process_rest_day_form
@@ -277,13 +280,13 @@ class HumanResourcesController < ApplicationController
       end
       restDay.id = params[:rest_day][:id]
       restDay.day = params[:rest_day][:day]
-      restDay.employee_id = params[:rest_day][:employee_id]
+      restDay.date_of_effectivity = params[:rest_day][:date_of_effectivity]
+      restDay.employee = Employee.find(params[:rest_day][:employee_id])
       restDay.save!
       flash[:general_flash_notification] = 'Rest Day Added'
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex
-      puts ex
-      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
+      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.' + ex.to_s
     end
     redirect_to :action => 'rest_days'
   end
@@ -354,13 +357,10 @@ class HumanResourcesController < ApplicationController
       else
         regularWorkPeriod = RegularWorkPeriod.new()
       end
-
-      regularWorkPeriod.employee_id = params[:regular_work_period][:employee_id]
-
-      employee = Employee.find(params[:regular_work_period][:employee_id])
-      regularWorkPeriod.employee = employee
+      regularWorkPeriod.employee = Employee.find(params[:regular_work_period][:employee_id])
       regularWorkPeriod.start_time = params[:regular_work_period][:start_time]
       regularWorkPeriod.end_time = params[:regular_work_period][:end_time]
+      regularWorkPeriod.date_of_effectivity = params[:regular_work_period][:date_of_effectivity]
       regularWorkPeriod.remark = params[:regular_work_period][:remark]
       regularWorkPeriod.save!
       flash[:general_flash_notification] = 'Regular Work Period Added'

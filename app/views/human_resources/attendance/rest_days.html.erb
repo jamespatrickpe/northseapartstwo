@@ -18,6 +18,9 @@
             Day <%= generic_table_theadlink('rest_days','rest_days.day', table_orientation) %>
           </th>
           <th>
+            Date of Effectivity <%= generic_table_theadlink('rest_days','rest_days.date_of_effectivity', table_orientation) %>
+          </th>
+          <th>
             Date Registered <%= generic_table_theadlink('rest_days','rest_days.created_at', table_orientation) %>
           </th>
           <th>
@@ -35,11 +38,12 @@
                   <td><%= rest_day[:id] %></td>
                   <td><%= link_to( rest_day.employee.actor.name,{:action => 'employee_profile', :actor_id => rest_day.employee.actor.id} ) %></td>
                   <td><%= rest_day[:day] %> </td>
+                  <td><%= rest_day[:date_of_effectivity] %> </td>
                   <td><%= rest_day[:created_at] %></td>
                   <td><%= rest_day[:updated_at] %></td>
                   <td class="actions">
                     <%= link_to( "&#9998;".html_safe ,{:action => 'edit_rest_day', :rest_day_id => rest_day[:id]}, class: 'action_button', tooltip: 'Edit' ) %>
-                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_rest_day', :rest_day_id => rest_day[:id]}, class: 'action_button delete_item', tooltip: 'Delete' ) %>
+                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_rest_day', :rest_day_id => rest_day[:id]}, class: 'action_button deletable_item', tooltip: 'Delete' ) %>
                   </td>
                 </tr>
             <% end %>
