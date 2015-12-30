@@ -442,13 +442,13 @@ class HumanResourcesController < ApplicationController
   def new_lump_adjustment
     initialize_employee_selection
     @selected_lump_adjustment = LumpAdjustment.new
-    render 'human_resources/employee_accounts_management/lump_adjustment_form'
+    render 'human_resources/compensation_benefits/lump_adjustment_form'
   end
 
   def edit_lump_adjustment
     initialize_employee_selection
     @selected_lump_adjustment = LumpAdjustment.find(params[:lump_adjustment_id])
-    render 'human_resources/employee_accounts_management/lump_adjustment_form'
+    render 'human_resources/compensation_benefits/lump_adjustment_form'
   end
 
   def process_lump_adjustment_form
@@ -567,6 +567,12 @@ class HumanResourcesController < ApplicationController
     flash[:general_flash_notification_type] = 'affirmative'
     baseRateToBeDeleted.destroy
     redirect_to :action => "base_rates"
+  end
+
+  # ================== Vales ================== #
+
+  def vales
+
   end
 
   # ================== Constants ================== #
@@ -789,19 +795,19 @@ class HumanResourcesController < ApplicationController
     rescue
       flash[:general_flash_notification] = "Error has Occured"
     end
-    render 'human_resources/attendance/duty_statuses'
+    render 'human_resources/employee_accounts_management/duty_statuses'
   end
 
   def new_duty_status
     initialize_employee_selection
     @selected_duty_status = DutyStatus.new
-    render 'human_resources/attendance/duty_status_form'
+    render 'human_resources/employee_accounts_management/duty_status_form'
   end
 
   def edit_duty_status
     initialize_employee_selection
     @selected_duty_status = DutyStatus.find(params[:duty_status_id])
-    render 'human_resources/attendance/duty_status_form'
+    render 'human_resources/employee_accounts_management/duty_status_form'
   end
 
   def delete_duty_status

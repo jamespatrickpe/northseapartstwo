@@ -47,11 +47,17 @@
             <!-- This selects the duty_status.active and marks the option 'selected' if found -->
             <select id="new_duty_status_active" name="duty_status[active]" required="required" style="width: 50%">
               <% if @selected_duty_status.active == true %>
-                  <option value='' disabled>Duty Status</option><option value='1' selected>ACTIVE</option><option value='0'>INACTIVE</option>
+                  <option value='' disabled>Duty Status</option>
+                  <option value='1' selected>ACTIVE</option>
+                  <option value='0'>INACTIVE</option>
               <% elsif @selected_duty_status.active == false %>
-                  <option value='' disabled>Duty Status</option><option value='1'>ACTIVE</option><option value='0' selected>INACTIVE</option>
+                  <option value='' disabled>Duty Status</option>
+                  <option value='1'>ACTIVE</option>
+                  <option value='0' selected>INACTIVE</option>
               <% else %>
-                  <option value='' disabled selected>Duty Status</option><option value='1'>ACTIVE</option><option value='0'>INACTIVE</option>
+                  <option value='' disabled selected>Duty Status</option>
+                  <option value='1'>ACTIVE</option>
+                  <option value='0'>INACTIVE</option>
               <% end %>
             </select>
           </section>
@@ -79,7 +85,17 @@
           </section>
         </div>
 
-        <input type="submit" class="small button" value="SUBMIT" />
+        <%= link_to( "BACK".html_safe, {:action => 'duty_statuses'}, class: 'tiny button') %>
+        <%=
+            if @selected_duty_status[:id].present?
+              link_to( "DELETE".html_safe,
+                       {:action => 'delete_duty_status',
+                        :holiday_id => @selected_duty_status[:id]},
+                       class: 'tiny button deletable_item')
+            end
+        %>
+        <input type="reset" class="tiny button" value="RESET" />
+        <input type="submit" class="tiny button" value="SUBMIT" />
 
     <% end %>
 
