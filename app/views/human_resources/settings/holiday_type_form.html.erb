@@ -81,6 +81,7 @@
         </select>
 
         <br><br>
+        <%= link_to( "BACK".html_safe, {:action => 'holiday_types'}, class: 'tiny button') %>
         <%=
             if @selected_holiday_type[:id].present?
               link_to( "DELETE".html_safe,

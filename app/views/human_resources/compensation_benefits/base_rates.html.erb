@@ -66,9 +66,9 @@
                   <td>
                     <%=
                         if(base_rate[:signed_type])
-                          "ADDITIONAL"
+                          "ADDITIVE"
                         else
-                          "SUBSTRACTIONAL"
+                          "DEDUCTIVE"
                         end
                     %>
                   </td>
@@ -82,7 +82,7 @@
                   <td><%= base_rate[:updated_at] %></td>
                   <td class="actions">
                     <%= link_to( "&#9998;".html_safe ,{:action => 'edit_base_rate', :base_rate_id => base_rate[:id]}, class: 'action_button', tooltip: 'Edit') %>
-                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_base_rate', :base_rate_id => base_rate[:id]}, class: 'action_button delete_item', tooltip: 'Delete') %>
+                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_base_rate', :base_rate_id => base_rate[:id]}, class: 'action_button deletable_item', tooltip: 'Delete') %>
                   </td>
                 </tr>
             <% end %>
@@ -95,5 +95,5 @@
           $(".generic_table").replaceWith(html)
       </script>
   <% end %>
-  <%= generic_table_footer('new_base_rate','/human_resources/base_rates',@base_rates) %>
+  <%= generic_table_footer('new_base_rate','/human_resources/base_rates',@base_rates,'compensation_and_benefits') %>
 </section>

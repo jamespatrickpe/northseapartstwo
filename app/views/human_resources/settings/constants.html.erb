@@ -54,7 +54,7 @@
                   <td><%= constant[:updated_at] %></td>
                   <td class="actions">
                     <%= link_to( "&#9998;".html_safe ,{:action => 'edit_constant', :constant_id => constant.id}, class: 'action_button', tooltip: 'Edit') %>
-                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_constant', :constant_id => constant.id}, class: 'action_button', tooltip: 'Delete') %>
+                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_constant', :constant_id => constant.id}, class: 'deletable_item action_button', tooltip: 'Delete') %>
                   </td>
                 </tr>
             <% end %>
@@ -67,5 +67,5 @@
           $(".generic_table").replaceWith(html)
       </script>
   <% end %>
-  <%= generic_table_footer('new_constant','/human_resources/constants',@constants) %>
+  <%= generic_table_footer('new_constant','/human_resources/constants',@constants, 'settings') %>
 </section>

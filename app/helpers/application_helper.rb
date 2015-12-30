@@ -79,8 +79,8 @@ module ApplicationHelper
     render(:partial => 'core_partials/generic_table_theadlink', :locals => { :link_action => link_action, :order_parameter => order_parameter, :table_orientation => table_orientation})
   end
 
-  def generic_table_footer(add_link, reset_search_redirect, result_set)
-    render(:partial => 'core_partials/generic_table_footer', :locals => { :add_link => add_link, :reset_search_redirect => reset_search_redirect, :result_set => result_set})
+  def generic_table_footer(add_link, reset_search_redirect, result_set, submodule_action='index')
+    render(:partial => 'core_partials/generic_table_footer', :locals => { :add_link => add_link, :reset_search_redirect => reset_search_redirect, :result_set => result_set, :submodule_action => submodule_action})
   end
 
   def generic_table_search(form_input_id, form_link, placeholdertext, service_url, unique_flash_variable)

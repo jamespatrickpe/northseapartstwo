@@ -54,6 +54,7 @@
                                      :"data-parsley-trigger" => "keyup",
                                      :"data-parsley-maxlength"=>"128",
                                      :placeholder => 'Remarks' }) %>
+
         <%= link_to( "BACK".html_safe, {:action => 'regular_work_periods'}, class: 'tiny button') %>
         <%=
             if @selected_regular_work_period[:id].present?

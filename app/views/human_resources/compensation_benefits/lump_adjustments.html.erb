@@ -52,9 +52,9 @@
                   <td>
                     <%=
                         if(lump_adjustment[:signed_type])
-                          "ADDITIONAL"
+                          "ADDITIVE"
                         else
-                          "SUBSTRACTIONAL"
+                          "DEDUCTIVE"
                         end
                     %>
                   </td>
@@ -64,7 +64,7 @@
                   <td><%= lump_adjustment[:updated_at] %></td>
                   <td class="actions">
                     <%= link_to( "&#9998;".html_safe ,{:action => 'edit_lump_adjustment', :lump_adjustment_id => lump_adjustment.id}, class: 'action_button', tooltip: 'Edit') %>
-                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_lump_adjustment', :lump_adjustment_id => lump_adjustment.id}, class: 'action_button delete_item', tooltip: 'Delete') %>
+                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_lump_adjustment', :lump_adjustment_id => lump_adjustment.id}, class: 'action_button deletable_item', tooltip: 'Delete') %>
                   </td>
                 </tr>
             <% end %>
@@ -77,5 +77,5 @@
           $(".generic_table").replaceWith(html)
       </script>
   <% end %>
-  <%= generic_table_footer('new_lump_adjustment','/human_resources/lump_adjustments',@lump_adjustments) %>
+  <%= generic_table_footer('new_lump_adjustment','/human_resources/lump_adjustments',@lump_adjustments,'compensation_and_benefits') %>
 </section>
