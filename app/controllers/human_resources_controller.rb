@@ -7,11 +7,6 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/index'
   end
 
-
-  def settings
-    render '/human_resources/settings/index'
-  end
-
   def attendance
     render 'human_resources/attendance/index'
   end
@@ -19,6 +14,7 @@ class HumanResourcesController < ApplicationController
   def compensation_and_benefits
     render 'human_resources/compensation_benefits/index'
   end
+
 
   def employee_accounts_management
     render 'human_resources/employee_accounts_management/index'
@@ -80,9 +76,6 @@ class HumanResourcesController < ApplicationController
   end
 
   # ================== Attendances ================== #
-
-  def index
-  end
 
   def attendances
     query = generic_table_aggregated_queries('attendances','attendances.created_at')
@@ -577,31 +570,7 @@ class HumanResourcesController < ApplicationController
 
   # ================== Constants ================== #
 
-  def constants
-    query = generic_table_aggregated_queries('constants','constants.created_at')
-    begin
-      @constants = Constant
-                       .where("constants.id LIKE ? OR " +
-                              "constants.value LIKE ? OR " +
-                              "constants.name LIKE ? OR " +
-                              "constants.constant_type LIKE ? OR " +
-                              "constants.remark LIKE ? OR " +
-                              "constants.created_at LIKE ? OR " +
-                              "constants.updated_at LIKE ?",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%")
-                       .order(query[:order_parameter] + ' ' + query[:order_orientation])
-      @constants = Kaminari.paginate_array(@constants).page(params[:page]).per(query[:current_limit])
-    rescue
-      flash[:general_flash_notification] = "Error has Occured"
-    end
-    render 'human_resources/settings/constants'
-  end
+
 
   # ================== Holiday ================== #
 
@@ -931,15 +900,6 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/employee_accounts_management/employee_account_history'
   end
 
-  def attendance
-    render 'human_resources/attendance/index'
-  end
-
-  def settings
-    @constants = Constant.where( 'name ILIKE ?', "%human_resources%" )
-    render 'human_resources/settings/index'
-  end
-
   def institutional_adjustments
     @institutionalAdjustment = InstitutionalAdjustment.all()
     @institutionEmployee = InstitutionEmployee.all()
@@ -1145,5 +1105,4 @@ class HumanResourcesController < ApplicationController
   #     format.all { render :text => direct}
   #   end
   # end
-
 end

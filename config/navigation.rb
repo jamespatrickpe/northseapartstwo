@@ -110,7 +110,7 @@ SimpleNavigation::Configuration.run do |navigation|
         tertiary.item :performance_review, 'performance_review', defaultURL #CRUD Performance Review
       end
 
-      secondary.item :constants, 'Constants', '/human_resources/constants' #Constants involved
+      secondary.item :settings, 'Constants', '/human_resources/settings' #Constants involved
     end
 
     primary.item :accounting_and_finance, 'Accounting and Finance', defaultURL, options do |sub_nav|

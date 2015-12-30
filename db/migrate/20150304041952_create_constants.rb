@@ -8,6 +8,6 @@ class CreateConstants < ActiveRecord::Migration
       t.string :remark, :limit => 256
       t.timestamps
     end
-    execute "ALTER TABLE constants ADD PRIMARY KEY (id);"
+    execute "ALTER TABLE settings ADD PRIMARY KEY (id);"
   end
 end

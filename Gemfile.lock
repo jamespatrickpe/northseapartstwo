@@ -215,7 +215,6 @@ DEPENDENCIES
   bcrypt-ruby
   byebug
   carrierwave
-  coffee-rails (~> 4.1.0)
   country_select (~> 2.2.0)
   devise
   faker

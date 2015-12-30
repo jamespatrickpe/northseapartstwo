@@ -112,7 +112,7 @@ ActiveRecord::Schema.define(version: 20151216115839) do
     t.datetime "updated_at",            null: false
   end
 
-  create_table "constants", force: :cascade do |t|
+  create_table "settings", force: :cascade do |t|
     t.string   "value",         limit: 64
     t.string   "name",          limit: 256
     t.string   "constant_type", limit: 64

@@ -83,8 +83,12 @@ module ApplicationHelper
     render(:partial => 'core_partials/generic_table_footer', :locals => { :add_link => add_link, :reset_search_redirect => reset_search_redirect, :result_set => result_set, :submodule_action => submodule_action})
   end
 
-  def generic_table_search(form_input_id, form_link, placeholdertext, service_url, unique_flash_variable)
-    render(:partial => 'core_partials/generic_table_search', :locals => {:form_input_id => form_input_id, :form_link => form_link, :placeholdertext => placeholdertext,  :service_url => service_url, :unique_flash_variable => unique_flash_variable})
+  def generic_table_search(form_search_input_id, form_search_placeholder_text, search_suggestions_service_url, search_query_set_identifier)
+    render(:partial => 'core_partials/generic_table_search',
+           :locals => {:form_search_input_id => form_search_input_id,
+                       :form_search_placeholder_text => form_search_placeholder_text,
+                       :search_suggestions_service_url => search_suggestions_service_url,
+                       :search_query_set_identifier => search_query_set_identifier})
   end
 
   def generateReadableID()

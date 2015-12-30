@@ -2,11 +2,13 @@
 
 # Version of your assets, change this if you want to expire all your assets.
 Rails.application.config.assets.version = '1.0'
-Rails.application.config.assets.precompile += %w( access.js )
-Rails.application.config.assets.precompile += %w( human_resources.js )
-Rails.application.config.assets.precompile += %w( home.js )
-Rails.application.config.assets.precompile += %w( test.js )
-Rails.application.config.assets.precompile += %w( vendor/modernizr.js )
+Rails.application.config.assets.precompile += %w( *.js )
+# Rails.application.config.assets.precompile += %w( access.js )
+# Rails.application.config.assets.precompile += %w( human_resources.js )
+# Rails.application.config.assets.precompile += %w( home.js )
+# Rails.application.config.assets.precompile += %w( test.js )
+# Rails.application.config.assets.precompile += %w( vendor/modernizr.js )
+
 
 
 # Add additional assets to the asset load path
