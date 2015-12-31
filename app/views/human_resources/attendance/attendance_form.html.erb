@@ -23,9 +23,7 @@
                 id='attendance_employee_id_0'
                 class='employee_select_field'
                 required="required" >
-
           <option value="" disabled selected>Select Employee</option>
-
           <% @employees.each do |employee| %>
               <% if employee.id == @selected_attendance[:employee_id] %>
                   <option value=<%= employee[:id] %> selected><%= employee.actor.name %></option>
@@ -33,7 +31,6 @@
                   <option value=<%= employee[:id] %>><%= employee.actor.name %></option>
               <% end %>
           <% end %>
-
         </select>
 
         <div>

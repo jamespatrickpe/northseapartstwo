@@ -16,21 +16,31 @@ module ApplicationHelper
   end
 
   def whatRestDay(employee_id, current_day)
-    rest_day = Restday.where("(employee_id = ?)", "#{employee_id}").order('restdays.created_at DESC').first
+    rest_day = RestDay
+                   .where("(employee_id = ?) AND (date_of_effectivity <= ?)", "#{employee_id}", "#{current_day}")
+                   .order('rest_days.date_of_effectivity DESC').first
     what_rest_day = false
-    if rest_day.day == current_day
+    if rest_day.day == current_day.strftime("%A")
       what_rest_day = rest_day.id
     end
     return what_rest_day
   end
 
   def get_current_duty_status( employee_ID )
-    currentEmployee = Employee.includes(:duty_status).joins(:duty_status).where("(employees.id = ?)", "#{employee_ID}").order('duty_statuses.date_of_effectivity DESC').first
+    currentEmployee = Employee
+                          .includes(:duty_status)
+                          .joins(:duty_status)
+                          .where("(employees.id = ?)", "#{employee_ID}")
+                          .order('duty_statuses.date_of_effectivity DESC').first
     return currentEmployee.duty_status.first.active
   end
 
   def get_duration_regular_work_hours(employee_ID, specific_day)
-    currentEmployee = Employee.includes(:regular_work_period).joins(:regular_work_period).where("(employees.id = ?) AND regular_work_periods.created_at <= ?", "#{employee_ID}","#{specific_day}").order('regular_work_periods.created_at DESC').first
+    currentEmployee = Employee
+                          .includes(:regular_work_period)
+                          .joins(:regular_work_period)
+                          .where("(employees.id = ?) AND (regular_work_periods.date_of_effectivity <= ?)", "#{employee_ID}", "#{specific_day}")
+                          .order("regular_work_periods.date_of_effectivity DESC").first
     number_of_seconds = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time))
     if number_of_seconds < 0
       number_of_seconds = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time)).abs
@@ -69,8 +79,8 @@ module ApplicationHelper
     render(:partial => 'core_partials/generic_table_theadlink', :locals => { :link_action => link_action, :order_parameter => order_parameter, :table_orientation => table_orientation})
   end
 
-  def generic_table_footer(add_link, reset_search_redirect, result_set)
-    render(:partial => 'core_partials/generic_table_footer', :locals => { :add_link => add_link, :reset_search_redirect => reset_search_redirect, :result_set => result_set})
+  def generic_table_footer(add_link, reset_search_redirect, result_set, submodule_action='index')
+    render(:partial => 'core_partials/generic_table_footer', :locals => { :add_link => add_link, :reset_search_redirect => reset_search_redirect, :result_set => result_set, :submodule_action => submodule_action})
   end
 
   def generic_table_search(form_input_id, form_link, placeholdertext, service_url, unique_flash_variable)

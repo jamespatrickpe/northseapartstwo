@@ -1,6 +1,6 @@
 <section class='small-10 columns'>
   <div class='mainheader'> Holidays </div>
-  <div class='subdescription'> The Labor Code of the Philippines specifies two types of holidays: the "regular holiday" and the "special non-working day"  </div>
+  <div class='subdescription'> A day fixed by law or custom on which ordinary business is suspended in commemoration of some event or in honor of some person.  </div>
   <hr>
   <%= generic_table_search( 'holidays_search_input', 'holidays',' Search Holidays' , '/human_resources/search_suggestions_holidays', 'holidays') %>
   <% table_orientation = shift_table_orientation %>
@@ -44,7 +44,7 @@
             <% @holidays.each do |holiday| %>
                 <tr>
                   <td><%= holiday[:id] %></td>
-                  <td><%= holiday.holiday_type.type_name %></td>
+                  <td><%= link_to( holiday.holiday_type.type_name ,{:action => 'edit_holiday_type', :holiday_type_id => holiday.holiday_type.id} ) %></td>
                   <td><%= holiday[:name] %></td>
                   <td><%= holiday[:description] %></td>
                   <td><%= holiday[:date_of_implementation] %></td>
@@ -65,5 +65,5 @@
           $(".generic_table").replaceWith(html)
       </script>
   <% end %>
-  <%= generic_table_footer('new_holiday','/human_resources/holidays',@holidays) %>
+  <%= generic_table_footer('new_holiday','/human_resources/holidays',@holidays,'settings') %>
 </section>
