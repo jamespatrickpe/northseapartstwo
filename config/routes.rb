@@ -1,13 +1,30 @@
 Rails.application.routes.draw do
 
+  concern :generic_table do
+      get :search_suggestions
+  end
+
   get 'human_resources/' => 'human_resources#index'
   namespace :human_resources do
     get 'settings/' => 'settings#index'
     namespace :settings do
-      get 'constants/' => 'constants#index'
-      resources :constants
+      resources :constants, :holidays, :holiday_types do
+        collection do
+          concerns :generic_table
+        end
+      end
+    end
+    namespace :employee_accounts_management do
+    end
+    namespace :compensation_and_benefits do
+    end
+    namespace :attendance do
     end
   end
+
+  get 'application/reset_search' => 'application#reset_search'
+
+
 
   resources :test, only: :index
   root to: 'home#index'

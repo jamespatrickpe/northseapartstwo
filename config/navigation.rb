@@ -95,7 +95,7 @@ SimpleNavigation::Configuration.run do |navigation|
         tertiary.item :employee_profile, 'Employee Profile', '/human_resources/employee_profile' #View an Employees' Profile
       end
 
-      secondary.item :compensation_benefits, 'Compensation and Benefits', '/human_resources/compensation_benefits', options do |tertiary| #Association of All Related Employee Compensation and Benefits to an Account
+      secondary.item :compensation_and_benefits, 'Compensation and Benefits', '/human_resources/compensation_benefits', options do |tertiary| #Association of All Related Employee Compensation and Benefits to an Account
         tertiary.item :base_rates, 'Base Rates', '/human_resources/base_rates' #CRUD Base Rates
         tertiary.item :lump_adjustments, 'Lump Adjustments', '/human_resources/lump_adjustments' #CRUD Additions or Deductions
         tertiary.item :institutional_adjustment, 'Institutional Adjustment', '/human_resources/institutional_adjustment' #CRUD Government

@@ -5,7 +5,7 @@ class AccessController < ApplicationController
          only:
              [
                  :dashboard,
-                 :index,
+                 :'index.html.erb',
                  :my_account
              ]
   skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.

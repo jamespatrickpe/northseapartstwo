@@ -26,4 +26,24 @@ class HumanResources::Settings::ConstantsController < HumanResources::SettingsCo
     render 'human_resources/settings/constants/index'
   end
 
+  def new
+
+  end
+
+  def create
+
+  end
+
+  def edit
+
+  end
+
+  def update
+
+  end
+
+  def destroy
+
+  end
+
 end

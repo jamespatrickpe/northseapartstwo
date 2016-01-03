@@ -7,9 +7,9 @@
       <div class="small-5 columns">
         <%= text_field_tag( "search_field",
                             value=nil,
-                            options = {id: form_search_input_id,
+                            options = {id: controller.controller_name+"_search_input",
                                        class: 'generic_table_search_field',
-                                       placeholder: form_search_placeholder_text,
+                                       placeholder: ("search in " + controller.controller_name).to_s.gsub('_',' '),
                                        :"data-parsley-trigger" => "keyup",
                                        :"data-parsley-minlength"=>"3" ,
                                        :"data-parsley-maxlength"=>"64"
@@ -31,10 +31,10 @@
     </div>
     <br>
     <%
-       search_field = search_query_set_identifier + '_' + 'search_field'
-       order_parameters = search_query_set_identifier + '_' + 'order_parameter'
-       order_orientation = search_query_set_identifier + '_' + 'order_orientation'
-       current_limit = search_query_set_identifier + '_' + 'current_limit'
+       search_field = controller.controller_name + '_' + 'search_field'
+       order_parameters = controller.controller_name + '_' + 'order_parameter'
+       order_orientation = controller.controller_name + '_' + 'order_orientation'
+       current_limit = controller.controller_name + '_' + 'current_limit'
        if (flash[search_field].empty? == false)
     %>
         <div class="search_query_description">
@@ -48,8 +48,8 @@
 <% end %>
 
 <script type="text/javascript">
-    $('#<%= form_search_input_id %>').autocomplete({
-        serviceUrl: '<%= search_suggestions_service_url %>',
+    $('#<%= controller.controller_name+"_search_input" %>').autocomplete({
+        serviceUrl: '<%= controller.controller_name+"/search_suggestions" %>',
         minChars: 3
     });
 </script>

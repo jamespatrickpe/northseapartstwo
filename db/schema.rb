@@ -112,7 +112,7 @@ ActiveRecord::Schema.define(version: 20151216115839) do
     t.datetime "updated_at",            null: false
   end
 
-  create_table "settings", force: :cascade do |t|
+  create_table "constants", force: :cascade do |t|
     t.string   "value",         limit: 64
     t.string   "name",          limit: 256
     t.string   "constant_type", limit: 64
@@ -140,7 +140,7 @@ ActiveRecord::Schema.define(version: 20151216115839) do
     t.string   "remark",              limit: 256
     t.boolean  "active",              limit: 1,   default: false
     t.string   "employee_id",         limit: 36
-    t.datetime "date_of_effectivity",             default: '2015-12-29 17:53:01'
+    t.datetime "date_of_effectivity",             default: '2016-01-03 22:07:05'
     t.datetime "created_at",                                                      null: false
     t.datetime "updated_at",                                                      null: false
   end
@@ -276,7 +276,7 @@ ActiveRecord::Schema.define(version: 20151216115839) do
   create_table "regular_work_periods", force: :cascade do |t|
     t.time     "start_time",                      default: '2000-01-01 08:00:00'
     t.time     "end_time",                        default: '2000-01-01 17:00:00'
-    t.datetime "date_of_effectivity",             default: '2015-12-29 17:52:59'
+    t.datetime "date_of_effectivity",             default: '2016-01-03 22:07:03'
     t.string   "remark",              limit: 256
     t.string   "employee_id",         limit: 36
     t.datetime "created_at",                                                      null: false

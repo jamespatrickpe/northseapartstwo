@@ -3,12 +3,9 @@
 </div>
 
 <div class="generic_table_options">
-  <%= link_to( "Back" ,{:action => submodule_action}, class: 'tiny button')%>
-  <%= link_to( "Reset Search" ,{:controller => '../../application',
-                                :action => 'reset_search',
-                                :reset_search_redirect => reset_search_redirect},
-                                class: 'tiny button')%>
-  <%= link_to( "Add New Record" ,{:action => add_link}, class: 'tiny button')%>
+  <%= renderCorePartial('generic_back_button') %>
+  <%= link_to("Reset Search", application_reset_search_path(reset_search_redirect: request.path), class: 'tiny button') %>
+  <%= link_to( "Add New Record" ,{:action => "new"}, class: 'tiny button')%>
   <a class="tiny button export_to_csv">Export to CSV</a>
   <a class="tiny button print_table">Printable Format</a>
 </div>

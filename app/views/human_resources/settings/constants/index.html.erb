@@ -2,7 +2,7 @@
   <div class='mainheader'> Constants </div>
   <div class='subdescription'> Constants used in Human Resources and the Industry  </div>
   <hr>
-  <%= generic_table_search('constants_search_input', ' Search Constants' , '/human_resources/search_suggestions_constants', 'constants') %>
+  <%= generic_table_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
       <table class='generic_table' id='constants_table'>
@@ -10,31 +10,31 @@
         <tr>
           <th>
             Constant ID
-            <%= generic_table_theadlink('constants','constants.id', table_orientation) %>
+            <%= generic_table_theadlink('constants.id', table_orientation) %>
           </th>
           <th>
             Type
-            <%= generic_table_theadlink('constants','constants.constant_type', table_orientation) %>
+            <%= generic_table_theadlink('constants.constant_type', table_orientation) %>
           </th>
           <th>
             Name
-            <%= generic_table_theadlink('constants','constants.name', table_orientation) %>
+            <%= generic_table_theadlink('constants.name', table_orientation) %>
           </th>
           <th>
             Value
-            <%= generic_table_theadlink('constants','constants.value', table_orientation) %>
+            <%= generic_table_theadlink('constants.value', table_orientation) %>
           </th>
           <th>
             Remark
-            <%= generic_table_theadlink('constants','constants.remark', table_orientation) %>
+            <%= generic_table_theadlink('constants.remark', table_orientation) %>
           </th>
           <th>
             Date Created
-            <%= generic_table_theadlink('constants','constants.created_at', table_orientation) %>
+            <%= generic_table_theadlink('constants.created_at', table_orientation) %>
           </th>
           <th>
             Last Updated
-            <%= generic_table_theadlink('constants','constants.updated_at', table_orientation) %>
+            <%= generic_table_theadlink('constants.updated_at', table_orientation) %>
           </th>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
@@ -53,8 +53,8 @@
                   <td><%= constant[:created_at] %></td>
                   <td><%= constant[:updated_at] %></td>
                   <td class="actions">
-                    <%= link_to( "&#9998;".html_safe ,{:action => 'edit_constant', :constant_id => constant.id}, class: 'action_button', tooltip: 'Edit') %>
-                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_constant', :constant_id => constant.id}, class: 'deletable_item action_button', tooltip: 'Delete') %>
+                    <%= link_to( "&#9998;".html_safe ,{:action => 'edit', :id => constant.id}, class: 'action_button', tooltip: 'Edit') %>
+                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete', :id => constant.id}, class: 'deletable_item action_button', tooltip: 'Delete') %>
                   </td>
                 </tr>
             <% end %>
@@ -67,5 +67,5 @@
           $(".generic_table").replaceWith(html)
       </script>
   <% end %>
-  <%= generic_table_footer('new_constant','/human_resources/settings/constants',@constants, 'constants') %>
+  <%= generic_table_footer(@constants) %>
 </section>

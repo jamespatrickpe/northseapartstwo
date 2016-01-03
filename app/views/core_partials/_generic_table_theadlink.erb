@@ -1,6 +1,6 @@
 <%= link_to(
             table_orientation["orientation_symbol"].html_safe,
-            {:action => link_action,
+            {:action => 'index',
              :order_parameter => order_parameter,
              :order_orientation => table_orientation["order_orientation"] },
             class: "table_orientation_indicator" )
