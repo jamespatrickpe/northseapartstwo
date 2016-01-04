@@ -1,0 +1,2 @@
+class HumanResources::CompensationAndBenefitsController < HumanResourcesController
+end

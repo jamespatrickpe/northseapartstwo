@@ -1,0 +1,2 @@
+module HumanResources::EmployeeAccountsManagementHelper
+end

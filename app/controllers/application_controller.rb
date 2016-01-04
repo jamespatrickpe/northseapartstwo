@@ -239,7 +239,7 @@ class ApplicationController < ActionController::Base
   def processUserTypeSelection(params)
     @roles = params[:access][:role]
     @roles.each do |role|
-      if(role == "employee")
+      if(role == "employees")
 
       end
     end

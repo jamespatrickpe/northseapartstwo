@@ -49,7 +49,7 @@ module ApplicationHelper
   end
 
   def get_duration_actual_work_hours(employee_ID, specific_day)
-    attendances = Attendance.includes(:employee).joins(:employee).where("(employees.id = ?) AND (attendances.date_of_attendance LIKE ?)", "#{employee_ID}", "#{specific_day.strftime("%Y-%m-%d")}%").order('attendances.created_at DESC')
+    attendances = Attendance.includes(:employee).joins(:employees).where("(employees.id = ?) AND (attendances.date_of_attendance LIKE ?)", "#{employee_ID}", "#{specific_day.strftime("%Y-%m-%d")}%").order('attendances.created_at DESC')
     total_seconds = 0
     attendances.each do |attendance|
       time_in = attendance[:timein]

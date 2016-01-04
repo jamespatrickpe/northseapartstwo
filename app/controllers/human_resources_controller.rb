@@ -8,7 +8,7 @@ class HumanResourcesController < ApplicationController
   end
 
   def attendance
-    render 'human_resources/attendance/index'
+    render 'human_resources/attendance_performance/index'
   end
 
   def compensation_and_benefits
@@ -66,7 +66,7 @@ class HumanResourcesController < ApplicationController
 
   def employee_profile
     @selected_model = 'Employee'
-    @actors = Actor.includes(:employee).joins(:employee)
+    @actors = Actor.includes(:employee).joins(:employees)
     actor_profile
     @selected_employee = Employee.find_by_actor_id( params[:actor_id] )
     if @selected_employee.present?
@@ -82,7 +82,7 @@ class HumanResourcesController < ApplicationController
     begin
       @attendances = Attendance
       .includes(employee: [:actor])
-      .joins(employee: [:actor])
+      .joins(employees: [:actor])
       .where("actors.name LIKE ? OR " +
              "attendances.id LIKE ? OR " +
              "attendances.timein LIKE ? OR " +
@@ -102,7 +102,7 @@ class HumanResourcesController < ApplicationController
     rescue => ex
       flash[:general_flash_notification] = "Error has Occured"
     end
-    render 'human_resources/attendance/attendances'
+    render 'human_resources/attendance_performance/attendances'
   end
 
   def delete_attendance
@@ -126,13 +126,13 @@ class HumanResourcesController < ApplicationController
                                  .includes(:actor, :duty_status)
                                  .joins(:actor, :duty_status)
                                  .where("branch_id = ?", "#{@selected_branch.id}")
-      @attendances_per_employee_in_branch = Attendance.includes(:employee).joins(:employee).where("employees.branch_id = ?", "#{@selected_branch.id}")
+      @attendances_per_employee_in_branch = Attendance.includes(:employee).joins(:employees).where("employees.branch_id = ?", "#{@selected_branch.id}")
     end
     @selected_branch ||= Branch.new
     rescue
       flash[:general_flash_notification] = "Error has Occurred"
     end
-    render 'human_resources/attendance/branch_attendance_sheet'
+    render 'human_resources/attendance_performance/branch_attendance_sheet'
   end
 
   def check_time_between_employee(attendance_time, employee)
@@ -148,24 +148,24 @@ class HumanResourcesController < ApplicationController
       begin
         total_items = params[:total_items].to_i
         total_items.times do |i|
-          if params[:attendance][i.to_s][:timein].present? || params[:attendance][i.to_s][:timeout].present?
+          if params[:attendance_performance][i.to_s][:timein].present? || params[:attendance_performance][i.to_s][:timeout].present?
             myAttendance = Attendance.new
-            myDate = Date.strptime(params[:attendance][i.to_s][:date],"%F")
-            if params[:attendance][i.to_s][:timein].present?
-              myTimeIn = Time.parse(params[:attendance][i.to_s][:timein], myDate)
+            myDate = Date.strptime(params[:attendance_performance][i.to_s][:date],"%F")
+            if params[:attendance_performance][i.to_s][:timein].present?
+              myTimeIn = Time.parse(params[:attendance_performance][i.to_s][:timein], myDate)
               timein = DateTime.new( myDate.year, myDate.month, myDate.day, myTimeIn.hour, myTimeIn.min, myTimeIn.sec, "+8")
               myAttendance.timein = timein
             end
-            if params[:attendance][i.to_s][:timeout].present?
-              myTimeOut = Time.parse(params[:attendance][i.to_s][:timeout], myDate)
+            if params[:attendance_performance][i.to_s][:timeout].present?
+              myTimeOut = Time.parse(params[:attendance_performance][i.to_s][:timeout], myDate)
               timeout = DateTime.new( myDate.year, myDate.month, myDate.day, myTimeOut.hour, myTimeOut.min, myTimeOut.sec, "+8" )
               myAttendance.timeout = timeout
             end
-            similar_attendances = Attendance.where("(employee_id = ?) AND (date_of_attendance = ?)", "#{params[:attendance][i.to_s][:employee_id]}", "#{myDate.strftime("%Y-%m-%d")}")
+            similar_attendances = Attendance.where("(employee_id = ?) AND (date_of_attendance = ?)", "#{params[:attendance_performance][i.to_s][:employee_id]}", "#{myDate.strftime("%Y-%m-%d")}")
             similar_attendances.each do | similar_attendance |
                 similar_attendance_timein = insertTimeIntoDate(myDate, similar_attendance[:timein])
                 similar_attendance_timeout = insertTimeIntoDate(myDate, similar_attendance[:timeout])
-                actor_name = params[:attendance][i.to_s][:employee_actor_name]
+                actor_name = params[:attendance_performance][i.to_s][:employee_actor_name]
                 date_conflict = myDate.month.to_s + '/' + myDate.day.to_s + '/' + myDate.year.to_s
                 if timein.between?(similar_attendance_timein, similar_attendance_timeout) || timeout.between?(similar_attendance_timein, similar_attendance_timeout)
                   raise 'No Attendance has been recorded; Time Conflict for ' + actor_name +  ' on the date of ' + date_conflict
@@ -177,8 +177,8 @@ class HumanResourcesController < ApplicationController
                 end
             end
             myAttendance.date_of_attendance = myDate
-            myAttendance.employee_id = params[:attendance][i.to_s][:employee_id]
-            myAttendance.remark = params[:attendance][i.to_s][:remark]
+            myAttendance.employee_id = params[:attendance_performance][i.to_s][:employee_id]
+            myAttendance.remark = params[:attendance_performance][i.to_s][:remark]
             myAttendance.save!
           end
         end
@@ -195,27 +195,27 @@ class HumanResourcesController < ApplicationController
   def new_attendance
     initialize_employee_selection
     @selected_attendance = Attendance.new
-    render 'human_resources/attendance/attendance_form'
+    render 'human_resources/attendance_performance/attendance_form'
   end
 
   def edit_attendance
     initialize_employee_selection
     @selected_attendance = Attendance.find(params[:attendance_id])
-    render 'human_resources/attendance/attendance_form'
+    render 'human_resources/attendance_performance/attendance_form'
   end
 
   def process_attendance_form
     begin
-      if( params[:attendance][:id].present? )
-        myAttendance = Attendance.find(params[:attendance][:id])
+      if( params[:attendance_performance][:id].present? )
+        myAttendance = Attendance.find(params[:attendance_performance][:id])
       else
         myAttendance = Attendance.new
       end
-      myAttendance.employee_id = params[:attendance][:employee_id]
-      myAttendance.date_of_attendance = params[:attendance][:date_of_attendance]
-      myAttendance.timein = params[:attendance][:timein]
-      myAttendance.timeout = params[:attendance][:timeout]
-      myAttendance.remark = params[:attendance][:remark]
+      myAttendance.employee_id = params[:attendance_performance][:employee_id]
+      myAttendance.date_of_attendance = params[:attendance_performance][:date_of_attendance]
+      myAttendance.timein = params[:attendance_performance][:timein]
+      myAttendance.timeout = params[:attendance_performance][:timeout]
+      myAttendance.remark = params[:attendance_performance][:remark]
       myAttendance.save!
       flash[:general_flash_notification] = 'Attendance Added'
       flash[:general_flash_notification_type] = 'affirmative'
@@ -225,82 +225,6 @@ class HumanResourcesController < ApplicationController
     redirect_to :action => 'attendances'
   end
 
-  # ================== Rest Days ================== #
-
-  def rest_days
-    query = generic_table_aggregated_queries('rest_days','rest_days.created_at')
-    begin
-      @rest_days = RestDay
-                       .includes(employee: [:actor])
-                       .joins(employee: [:actor])
-                       .where("actors.name LIKE ? OR " +
-                              "rest_days.id LIKE ? OR " +
-                              "rest_days.day LIKE ? OR " +
-                              "rest_days.created_at LIKE ? OR " +
-                              "rest_days.updated_at LIKE ? ",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%")
-                       .order(query[:order_parameter] + ' ' + query[:order_orientation])
-      @rest_days = Kaminari.paginate_array(@rest_days).page(params[:page]).per(query[:current_limit])
-    rescue => ex
-      flash[:general_flash_notification] = "Error has Occured" + ex.to_s
-    end
-    render 'human_resources/attendance/rest_days'
-  end
-
-  def search_suggestions_rest_days
-    restdays = RestDay.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
-    direct = "{\"query\": \"Unit\",\"suggestions\":" + restdays.uniq.to_s + "}"
-    respond_to do |format|
-      format.all { render :text => direct}
-    end
-  end
-
-  def delete_rest_day
-    restDayToBeDeleted = RestDay.find(params[:rest_day_id])
-    restDayOwner = Employee.find(restDayToBeDeleted.employee_id)
-    flash[:general_flash_notification_type] = 'Rest day ' + restDayToBeDeleted.day + ' for employee ' + restDayOwner.actor.name + ' has been deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    restDayToBeDeleted.destroy
-    flash[:general_flash_notification] = 'Rest day ' + restDayToBeDeleted.day + ' for employee ' + restDayOwner.actor.name + ' has been deleted.'
-    redirect_to :action => "rest_days"
-  end
-
-  def new_rest_day
-    initialize_employee_selection
-    @selected_rest_day = RestDay.new
-    render 'human_resources/attendance/rest_day_form'
-  end
-
-  def edit_rest_day
-    initialize_employee_selection
-    @selected_rest_day = RestDay.find(params[:rest_day_id])
-    render 'human_resources/attendance/rest_day_form'
-  end
-
-  def process_rest_day_form
-    begin
-      if( params[:rest_day][:id].present? )
-        restDay = RestDay.find(params[:rest_day][:id])
-      else
-        restDay = RestDay.new()
-      end
-      restDay.id = params[:rest_day][:id]
-      restDay.day = params[:rest_day][:day]
-      restDay.date_of_effectivity = params[:rest_day][:date_of_effectivity]
-      restDay.employee = Employee.find(params[:rest_day][:employee_id])
-      restDay.save!
-      flash[:general_flash_notification] = 'Rest Day Added'
-      flash[:general_flash_notification_type] = 'affirmative'
-    rescue => ex
-      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.' + ex.to_s
-    end
-    redirect_to :action => 'rest_days'
-  end
-
   # ================== Regular Work Periods ================== #
 
   def regular_work_periods
@@ -308,7 +232,7 @@ class HumanResourcesController < ApplicationController
     begin
       @regular_work_periods = RegularWorkPeriod
                                   .includes(employee: [:actor])
-                                  .joins(employee: [:actor])
+                                  .joins(employees: [:actor])
                                   .where("actors.name LIKE ? OR " +
                                          "regular_work_periods.id LIKE ? OR " +
                                          "regular_work_periods.start_time LIKE ? OR " +
@@ -328,7 +252,7 @@ class HumanResourcesController < ApplicationController
     rescue
       flash[:general_flash_notification] = "Error has Occured"
     end
-    render 'human_resources/attendance/regular_work_periods'
+    render 'human_resources/attendance_performance/regular_work_periods'
   end
 
   def search_suggestions_regular_work_periods
@@ -342,7 +266,7 @@ class HumanResourcesController < ApplicationController
   def delete_regular_work_period
     regularWorkPeriodToBeDeleted = RegularWorkPeriod.find(params[:regular_work_period_id])
     regularWorkPeriodOwner = Employee.find(regularWorkPeriodToBeDeleted.employee_id)
-    flash[:general_flash_notification] = 'Regular work period with Time IN : ' + regularWorkPeriodToBeDeleted.start_time.to_s + ' and Time OUT : ' + regularWorkPeriodToBeDeleted.end_time.to_s + ' for employee ' + regularWorkPeriodOwner.actor.name + ' has been successfully deleted.'
+    flash[:general_flash_notification] = 'Regular work period with Time IN : ' + regularWorkPeriodToBeDeleted.start_time.to_s + ' and Time OUT : ' + regularWorkPeriodToBeDeleted.end_time.to_s + ' for employees ' + regularWorkPeriodOwner.actor.name + ' has been successfully deleted.'
     flash[:general_flash_notification_type] = 'affirmative'
     regularWorkPeriodToBeDeleted.destroy
     redirect_to :action => "regular_work_periods"
@@ -351,13 +275,13 @@ class HumanResourcesController < ApplicationController
   def new_regular_work_period
     initialize_employee_selection
     @selected_regular_work_period = RegularWorkPeriod.new
-    render 'human_resources/attendance/regular_work_period_form'
+    render 'human_resources/attendance_performance/regular_work_period_form'
   end
 
   def edit_regular_work_period
     initialize_employee_selection
     @selected_regular_work_period = RegularWorkPeriod.find(params[:regular_work_period_id])
-    render 'human_resources/attendance/regular_work_period_form'
+    render 'human_resources/attendance_performance/regular_work_period_form'
   end
 
   def process_regular_work_period_form
@@ -390,7 +314,7 @@ class HumanResourcesController < ApplicationController
     begin
       @lump_adjustments = LumpAdjustment
                               .includes(employee: [:actor])
-                              .joins(employee: [:actor])
+                              .joins(employees: [:actor])
                               .where("actors.name LIKE ? OR " +
                                      "lump_adjustments.id LIKE ? OR " +
                                      "lump_adjustments.amount LIKE ? OR " +
@@ -426,7 +350,7 @@ class HumanResourcesController < ApplicationController
   def delete_lump_adjustment
     lumpAdjustmentToBeDeleted = LumpAdjustment.find(params[:lump_adjustment_id])
     lumpAdjustmentOwner = Employee.find(lumpAdjustmentToBeDeleted.employee_id)
-    flash[:general_flash_notification] = 'Lump adjustment for employee ' + lumpAdjustmentOwner.actor.name + ' has been deleted.'
+    flash[:general_flash_notification] = 'Lump adjustment for employees ' + lumpAdjustmentOwner.actor.name + ' has been deleted.'
     flash[:general_flash_notification_type] = 'affirmative'
     lumpAdjustmentToBeDeleted.destroy
     redirect_to :action => "lump_adjustments"
@@ -473,7 +397,7 @@ class HumanResourcesController < ApplicationController
     query = generic_table_aggregated_queries('base_rates','base_rates.created_at')
     begin
       @base_rates = BaseRate.includes(employee: [:actor])
-                        .joins(employee: [:actor])
+                        .joins(employees: [:actor])
                         .where("actors.name LIKE ? OR " +
                                "base_rates.id LIKE ? OR " +
                                "base_rates.signed_type LIKE ? OR " +
@@ -575,74 +499,6 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/settings/holiday_type_form'
   end
 
-  # ================== Duty Statuses ================== #
-
-  def duty_statuses
-    query = generic_table_aggregated_queries('duty_statuses','duty_statuses.created_at')
-    begin
-      @duty_statuses = DutyStatus.includes(employee: [:actor])
-                           .joins(employee: [:actor])
-                           .where("duty_statuses.id LIKE ? OR " +
-                                  "duty_statuses.remark LIKE ? OR " +
-                                  "duty_statuses.active LIKE ? OR " +
-                                  "actors.name LIKE ? OR " +
-                                  "duty_statuses.created_at LIKE ? OR " +
-                                  "duty_statuses.updated_at LIKE ?",
-                                  "%#{query[:search_field]}%",
-                                  "%#{query[:search_field]}%",
-                                  "%#{query[:search_field]}%",
-                                  "%#{query[:search_field]}%",
-                                  "%#{query[:search_field]}%",
-                                  "%#{query[:search_field]}%")
-                           .order(query[:order_parameter] + ' ' + query[:order_orientation])
-      @duty_statuses = Kaminari.paginate_array(@duty_statuses).page(params[:page]).per(query[:current_limit])
-    rescue
-      flash[:general_flash_notification] = "Error has Occured"
-    end
-    render 'human_resources/employee_accounts_management/duty_statuses'
-  end
-
-  def new_duty_status
-    initialize_employee_selection
-    @selected_duty_status = DutyStatus.new
-    render 'human_resources/employee_accounts_management/duty_status_form'
-  end
-
-  def edit_duty_status
-    initialize_employee_selection
-    @selected_duty_status = DutyStatus.find(params[:duty_status_id])
-    render 'human_resources/employee_accounts_management/duty_status_form'
-  end
-
-  def delete_duty_status
-    dutyStatusToBeDeleted = DutyStatus.find(params[:duty_status_id])
-    dutyStatusOwner = Employee.find(dutyStatusToBeDeleted.employee_id)
-    flash[:general_flash_notification] = 'A Duty status for ' + dutyStatusOwner.actor.name + ' has been deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    dutyStatusToBeDeleted.destroy
-    redirect_to :action => "duty_statuses"
-  end
-
-  def process_duty_status_form
-    begin
-      if( params[:duty_status][:id].present? )
-        myDutyStatus = DutyStatus.find(params[:duty_status][:id])
-      else
-        myDutyStatus = DutyStatus.new()
-      end
-      myDutyStatus.active = params[:duty_status][:active]
-      myDutyStatus.employee_id = params[:duty_status][:employee_id]
-      myDutyStatus.date_of_effectivity = params[:duty_status][:date_of_effectivity]
-      myDutyStatus.remark = params[:duty_status][:remark]
-      myDutyStatus.save!
-      flash[:general_flash_notification] = 'Duty Status Added'
-      flash[:general_flash_notification_type] = 'affirmative'
-    rescue => ex
-      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
-    end
-    redirect_to :action => 'duty_statuses'
-  end
-
   # ================== Search Suggestion Queries ================== #
 
 
@@ -685,9 +541,9 @@ class HumanResourcesController < ApplicationController
 
     newduty = DutyStatus.new(dutyStatus_params)
 
-    # set duty id to the employee
+    # set duty id to the employees
     # newduty.employee_id = params[:employee_dd]
-    # employee = Employee.find(params[:employee_dd])
+    # employees = Employee.find(params[:employee_dd])
 
     if newduty.save!
       flash[:general_flash_notification] = 'Duty ' + newduty.remark + ' was successfully created'
@@ -731,7 +587,7 @@ class HumanResourcesController < ApplicationController
 
   def employee_account_history
 
-    # @duties = Duty.where( employee_id: params[:employee][:employee_id] )
+    # @duties = Duty.where( employee_id: params[:employees][:employee_id] )
     render 'human_resources/employee_accounts_management/employee_account_history'
   end
 
@@ -771,7 +627,7 @@ class HumanResourcesController < ApplicationController
 
   def edit_employee_page
 
-    # get all necessary employee details
+    # get all necessary employees details
     @branches = Branch.all()
     @employee = Employee.find(params[:employee_id])
     @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
@@ -782,7 +638,7 @@ class HumanResourcesController < ApplicationController
 
   def edit_employee_data
 
-    # find existing employee and biodata using the id from the params
+    # find existing employees and biodata using the id from the params
     @employee = Employee.find(params[:employee_id])
     @biodatum = Biodatum.find_by_actor_id(params[:actor_id])
     @actorReference = Actor.find(params[:actor_id])
@@ -806,7 +662,7 @@ class HumanResourcesController < ApplicationController
     @biodatum.save!
 
     if @employee.save && @biodatum.save
-      @success_message = 'Successfully edited employee details for ' + @employee.actor.name + '.'
+      @success_message = 'Successfully edited employees details for ' + @employee.actor.name + '.'
       # render 'human_resources/employee_accounts_management/edit_employee_profile'
       render 'core_partials/employee_registration_success'
     else
@@ -831,7 +687,7 @@ class HumanResourcesController < ApplicationController
 
     if @employee.save!
       # Message Constants
-      @success_message = 'Successfully registered new employee, ' + @employee.actor.name + '.'
+      @success_message = 'Successfully registered new employees, ' + @employee.actor.name + '.'
       render 'core_partials/employee_registration_success'
     else
       render 'human_resources/employee_accounts_management/employee_registration'
@@ -909,7 +765,7 @@ class HumanResourcesController < ApplicationController
   # end
   #
   # def search_suggestions_duty_statuses
-  #   dutyStatuses = DutyStatus.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+  #   dutyStatuses = DutyStatus.includes(employees: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
   #   direct = "{\"query\": \"Unit\",\"suggestions\":" + dutyStatuses.uniq.to_s + "}"
   #   respond_to do |format|
   #     format.all { render :text => direct}
@@ -917,7 +773,7 @@ class HumanResourcesController < ApplicationController
   # end
   #
   # def search_suggestions_employee_attendances_history
-  #   attendances = Attendance.includes(employee: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+  #   attendances = Attendance.includes(employees: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
   #   direct = "{\"query\": \"Unit\",\"suggestions\":" + attendances.uniq.to_s + "}" # default format for plugin
   #   respond_to do |format|
   #     format.all { render :text => direct}
@@ -925,7 +781,7 @@ class HumanResourcesController < ApplicationController
   # end
   #
   # def search_suggestions_branch_attendances
-  #   branchesFromAttendance = Attendance.includes(employee: :branch).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("branches.name")
+  #   branchesFromAttendance = Attendance.includes(employees: :branch).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("branches.name")
   #   direct = "{\"query\": \"Unit\",\"suggestions\":" + branchesFromAttendance.uniq.to_s + "}" # default format for plugin
   #   respond_to do |format|
   #     format.all { render :text => direct}
@@ -934,7 +790,7 @@ class HumanResourcesController < ApplicationController
   #
   #
   # def search_suggestions_advanced_payments_to_employees
-  #   actorNameFromAdvPayment = AdvancedPaymentsToEmployee.includes(employee: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+  #   actorNameFromAdvPayment = AdvancedPaymentsToEmployee.includes(employees: :actor).where("employees.id LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
   #   direct = "{\"query\": \"Unit\",\"suggestions\":" + actorNameFromAdvPayment.uniq.to_s + "}" # default format for plugin
   #   respond_to do |format|
   #     format.all { render :text => direct}

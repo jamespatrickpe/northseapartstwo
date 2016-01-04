@@ -106,7 +106,7 @@ SimpleNavigation::Configuration.run do |navigation|
       end
 
       secondary.item :employee_performance, 'Employee Performance', defaultURL, options do |tertiary|
-        tertiary.item :attendance, 'Attendance', defaultURL #Attendance
+        tertiary.item :attendance_performance, 'Attendance', defaultURL #Attendance
         tertiary.item :performance_review, 'performance_review', defaultURL #CRUD Performance Review
       end
 

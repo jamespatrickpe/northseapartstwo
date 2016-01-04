@@ -1,0 +1,2 @@
+class HumanResources::EmployeeAccountsManagement::EmployeesController < HumanResources::EmployeeAccountsManagementController
+end

@@ -7,7 +7,7 @@
   <hr>
   <div class='small-6 columns generic_form'>
     <% if @selected_lump_adjustment.id.present? %>
-        <span class="current_edit_id"> <%= 'Editing Lump Adjustment with ID: ' + @selected_lump_adjustment.id %> </span> <br><br> <!-- this is for the current lump adjustment ID or OBJECT ID; not employee-->
+        <span class="current_edit_id"> <%= 'Editing Lump Adjustment with ID: ' + @selected_lump_adjustment.id %> </span> <br><br> <!-- this is for the current lump adjustment ID or OBJECT ID; not employees-->
     <% end %>
     <%= form_tag( {action: :process_lump_adjustment_form}, multipart: true, class: 'create_form', id: "new_lump_adjustment_form", :"data-parsley-validate" => "" ) do %>
         <%= hidden_field_tag('lump_adjustment[id]', @selected_lump_adjustment.id ) %>
@@ -19,7 +19,7 @@
                 required="required" >
           <!-- DO NOT CHANGE class 'employee_select_field'; this is for the employee_quick_profile thing; do change other attributes in the select field -->
           <option value="" disabled selected>Select Employee</option>
-          <% @employees.each do |employee| %> <!-- This selects the current employee and marks the option 'selected' if found -->
+          <% @employees.each do |employee| %> <!-- This selects the current employees and marks the option 'selected' if found -->
               <% if employee.id == @selected_lump_adjustment.employee_id %>
                   <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
               <% else %>

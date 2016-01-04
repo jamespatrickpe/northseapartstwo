@@ -91,7 +91,7 @@
         </select>
 
         <br><br>
-        <%= link_to( "BACK".html_safe, {:action => 'index'}, class: 'tiny button') %>
+        <%= renderCorePartial('generic_back_to_index_button') %>
         <%=
             if @selected_holiday_type[:id].present?
               link_to( "DELETE".html_safe,
