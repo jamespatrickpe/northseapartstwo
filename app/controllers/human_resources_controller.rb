@@ -7,74 +7,6 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/index'
   end
 
-  def attendance
-    render 'human_resources/attendance_performance/index'
-  end
-
-  def compensation_and_benefits
-    render 'human_resources/compensation_benefits/index'
-  end
-
-
-  def employee_accounts_management
-    render 'human_resources/employee_accounts_management/index'
-  end
-
-  # ================== Employee Accounts Management ================== #
-
-  def employee_accounts_management
-    order_parameter = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:order_parameter], 'employee_accounts_management', "order_parameter" ,"created_at")).gsub("'", '')
-    order_orientation = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:order_orientation], 'employee_accounts_management',"order_orientation", "DESC")).gsub("'", '')
-    current_limit = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:current_limit], 'employee_accounts_management',"current_limit","10")).gsub("'", '')
-    search_field = ActiveRecord::Base.sanitize(aggregated_search_queries(params[:search_field], 'employee_accounts_management',"search_field","")).gsub("'", '')
-    begin
-      sql = "SELECT employees.id as id, actors.name as name, dutystatus.active as active, branches.name as branch_name, employees.created_at as created_at, employees.updated_at as updated_at, actors.id  as actors_id
-    FROM employees
-    INNER JOIN actors ON employees.actor_id = actors.id
-    INNER JOIN branches ON employees.branch_id = branches.id
-    INNER JOIN ( SELECT employee_id, active, max(duty_statuses.created_at) FROM duty_statuses GROUP BY employee_id )
-    AS dutystatus ON dutystatus.employee_id = employees.id WHERE" +
-          "(employees.id LIKE '%" + search_field + "%' " + ")" + " OR " +
-          "(actors.name LIKE '%" + search_field + "%' " + ")" + " OR " +
-          "(dutystatus.active LIKE '%" + search_field + "%' " + ")" + " OR " +
-          "(branches.name LIKE '%" + search_field + "%' " + ")" + " OR " +
-          "(employees.created_at LIKE '%" + search_field + "%' " + ")" + " OR " +
-          "(employees.updated_at LIKE '%" + search_field + "%' " + ")" + " " +
-          "ORDER BY " + order_parameter + " " + order_orientation;
-      @employee_accounts = ActiveRecord::Base.connection.execute(sql)
-      @employee_accounts = Kaminari.paginate_array(@employee_accounts.each( :as => :array )).page(params[:page]).per(current_limit)
-    rescue
-      flash[:general_flash_notification] = "Error has Occured"
-    end
-    render 'human_resources/employee_accounts_management/employees'
-  end
-
-  def employee_registration
-    @branches = Branch.all()
-    render 'human_resources/employee_accounts_management/employee_registration'
-  end
-
-  def delete_employee
-    @employees = Employee.all()
-    employee = Employee.find(params[:employee_id])
-    deleteEmployeeName = employee.actor.name
-    flash[:general_flash_notification] = 'Employee ' + deleteEmployeeName + ' was successfully deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    employee.destroy
-    redirect_to :action => "employee_accounts_management"
-  end
-
-  def employee_profile
-    @selected_model = 'Employee'
-    @actors = Actor.includes(:employee).joins(:employees)
-    actor_profile
-    @selected_employee = Employee.find_by_actor_id( params[:actor_id] )
-    if @selected_employee.present?
-      @selected_branch = Branch.find(@selected_employee.branch_id)
-    end
-    render 'shared/actor_profile'
-  end
-
   # ================== Attendances ================== #
 
   def attendances
@@ -223,87 +155,6 @@ class HumanResourcesController < ApplicationController
       flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
     end
     redirect_to :action => 'attendances'
-  end
-
-  # ================== Regular Work Periods ================== #
-
-  def regular_work_periods
-    query = generic_table_aggregated_queries('regular_work_periods','regular_work_periods.created_at')
-    begin
-      @regular_work_periods = RegularWorkPeriod
-                                  .includes(employee: [:actor])
-                                  .joins(employees: [:actor])
-                                  .where("actors.name LIKE ? OR " +
-                                         "regular_work_periods.id LIKE ? OR " +
-                                         "regular_work_periods.start_time LIKE ? OR " +
-                                         "regular_work_periods.end_time LIKE ? OR " +
-                                         "regular_work_periods.remark LIKE ? OR " +
-                                         "regular_work_periods.created_at LIKE ? OR " +
-                                         "regular_work_periods.updated_at LIKE ?",
-                                         "%#{query[:search_field]}%",
-                                         "%#{query[:search_field]}%",
-                                         "%#{query[:search_field]}%",
-                                         "%#{query[:search_field]}%",
-                                         "%#{query[:search_field]}%",
-                                         "%#{query[:search_field]}%",
-                                         "%#{query[:search_field]}%" )
-                                  .order(query[:order_parameter] + ' ' + query[:order_orientation])
-      @regular_work_periods = Kaminari.paginate_array(@regular_work_periods).page(params[:page]).per(query[:current_limit])
-    rescue
-      flash[:general_flash_notification] = "Error has Occured"
-    end
-    render 'human_resources/attendance_performance/regular_work_periods'
-  end
-
-  def search_suggestions_regular_work_periods
-    regularWorkPeriods = RegularWorkPeriod.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
-    direct = "{\"query\": \"Unit\",\"suggestions\":" + regularWorkPeriods.uniq.to_s + "}"
-    respond_to do |format|
-      format.all { render :text => direct}
-    end
-  end
-
-  def delete_regular_work_period
-    regularWorkPeriodToBeDeleted = RegularWorkPeriod.find(params[:regular_work_period_id])
-    regularWorkPeriodOwner = Employee.find(regularWorkPeriodToBeDeleted.employee_id)
-    flash[:general_flash_notification] = 'Regular work period with Time IN : ' + regularWorkPeriodToBeDeleted.start_time.to_s + ' and Time OUT : ' + regularWorkPeriodToBeDeleted.end_time.to_s + ' for employees ' + regularWorkPeriodOwner.actor.name + ' has been successfully deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    regularWorkPeriodToBeDeleted.destroy
-    redirect_to :action => "regular_work_periods"
-  end
-
-  def new_regular_work_period
-    initialize_employee_selection
-    @selected_regular_work_period = RegularWorkPeriod.new
-    render 'human_resources/attendance_performance/regular_work_period_form'
-  end
-
-  def edit_regular_work_period
-    initialize_employee_selection
-    @selected_regular_work_period = RegularWorkPeriod.find(params[:regular_work_period_id])
-    render 'human_resources/attendance_performance/regular_work_period_form'
-  end
-
-  def process_regular_work_period_form
-    begin
-      if( params[:regular_work_period][:id].present? )
-        regularWorkPeriod = RegularWorkPeriod.find(params[:regular_work_period][:id])
-      else
-        regularWorkPeriod = RegularWorkPeriod.new()
-      end
-      regularWorkPeriod.employee = Employee.find(params[:regular_work_period][:employee_id])
-      regularWorkPeriod.start_time = params[:regular_work_period][:start_time]
-      regularWorkPeriod.end_time = params[:regular_work_period][:end_time]
-      regularWorkPeriod.date_of_effectivity = params[:regular_work_period][:date_of_effectivity]
-      regularWorkPeriod.remark = params[:regular_work_period][:remark]
-      regularWorkPeriod.save!
-      flash[:general_flash_notification] = 'Regular Work Period Added'
-      flash[:general_flash_notification_type] = 'affirmative'
-    rescue => ex
-      puts ex
-      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
-    end
-    redirect_to :action => 'regular_work_periods'
   end
 
 
@@ -484,12 +335,6 @@ class HumanResourcesController < ApplicationController
     flash[:general_flash_notification_type] = 'affirmative'
     baseRateToBeDeleted.destroy
     redirect_to :action => "base_rates"
-  end
-
-  # ================== Vales ================== #
-
-  def vales
-
   end
 
   # ================== Holiday Types ================== #

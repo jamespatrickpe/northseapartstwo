@@ -3,12 +3,8 @@
   <div class='subdescription'> Set the Status of an Employee </div>
   <hr>
   <div class='small-6 columns generic_form'>
-    <% if @selected_rest_day.id.present? %>
-        <span class="current_edit_id">
-          <%= 'Editing Rest Day with ID: ' + @selected_rest_day[:id] %>
-        </span>
-        <br><br>
-    <% end %>
+
+    <%= generic_form_edit_id_indicator(@selected_rest_day[:id]) %>
 
     <%
        @selected_rest_day[:id].present? ?
@@ -67,17 +63,7 @@
         </select>
 
         <br><br>
-        <%= renderCorePartial('generic_back_to_index_button') %>
-        <%=
-            if @selected_rest_day[:id].present?
-              link_to( "DELETE".html_safe,
-                       {:action => 'delete_rest_day',
-                        :id => @selected_rest_day[:id]},
-                       class: 'tiny button deletable_item')
-            end
-        %>
-        <input type="reset" class="tiny button" value="RESET" />
-        <input type="submit" class="tiny button" value="SUBMIT" />
+        <%= generic_form_footer(@selected_rest_day[:id]) %>
 
     <% end %>
 

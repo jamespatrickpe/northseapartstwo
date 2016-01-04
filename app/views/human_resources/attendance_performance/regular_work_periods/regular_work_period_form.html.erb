@@ -4,11 +4,7 @@
   <hr>
   <div class='small-6 columns generic_form'>
 
-    <% if @selected_regular_work_period[:id].present? %>
-        <span class="current_edit_id">
-          <%= 'Editing Regular Work Period ID: ' + @selected_regular_work_period[:id] %>
-        </span> <br><br>
-    <% end %>
+    <%= generic_form_edit_id_indicator(@selected_regular_work_period[:id]) %>
 
     <%
        @selected_regular_work_period[:id].present? ?
@@ -74,18 +70,7 @@
                                      :"data-parsley-maxlength"=>"128",
                                      :placeholder => 'Remarks' }) %>
 
-        <%= renderCorePartial('generic_back_to_index_button') %>
-        <%=
-            if @selected_regular_work_period[:id].present?
-              link_to( "DELETE".html_safe,
-                       {:action => 'delete_regular_work_perio',
-                        :id => @selected_regular_work_period[:id]},
-                       class: 'tiny button deletable_item')
-            end
-        %>
-        <input type="reset" class="tiny button" value="RESET" />
-        <input type="submit" class="tiny button" value="SUBMIT" />
-
+    <%= generic_form_footer(@selected_regular_work_period[:id]) %>
     <% end %>
 
   </div>

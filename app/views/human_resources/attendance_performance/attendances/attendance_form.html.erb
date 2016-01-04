@@ -3,12 +3,8 @@
   <div class='subdescription'> Set the Attendance of an Employee </div>
   <hr>
   <div class='small-6 columns generic_form'>
-    <% if @selected_attendance.present? %>
-        <span class="current_edit_id">
-          <%= 'Editing Attendance ID: ' + @selected_attendance[:id].to_s %>
-        </span>
-        <br><br>
-    <% end %>
+
+    <%= generic_form_edit_id_indicator(@selected_attendance[:id]) %>
 
     <%
        @selected_attendance[:id].present? ?

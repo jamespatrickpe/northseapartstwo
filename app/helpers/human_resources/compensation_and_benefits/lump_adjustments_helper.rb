@@ -1,0 +1,2 @@
+module HumanResources::CompensationAndBenefits::LumpAdjustmentsHelper
+end

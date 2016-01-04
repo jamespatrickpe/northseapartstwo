@@ -9,15 +9,27 @@ Rails.application.routes.draw do
 
     get 'employee_accounts_management/' => 'employee_accounts_management#index'
     namespace :employee_accounts_management do
+      resources :employees, :duty_statuses do
+        collection do
+          concerns :generic_table
+        end
+      end
     end
 
     get 'compensation_and_benefits/' => 'compensation_and_benefits#index'
     namespace :compensation_and_benefits do
+      resources :lump_adjustments, :base_rates do
+        collection do
+          concerns :generic_table
+        end
+      end
     end
 
     get 'attendance_performance/' => 'attendance_performance#index'
+    get 'attendance_performance/branch_attendance_sheet' => 'branch_attendance_sheet#index'
+    get 'attendance_performance/branch_attendance_sheet/process_branch_attendance_sheet' => 'branch_attendance_sheet#process_branch_attendance_sheet'
     namespace :attendance_performance do
-      resources :rest_days, :attendances, :regular_work_periods, :branch_attendance_sheet do
+      resources :rest_days, :attendances, :regular_work_periods do
         collection do
           concerns :generic_table
         end
