@@ -7,11 +7,6 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/index'
   end
 
-
-  def settings
-    render '/human_resources/settings/index'
-  end
-
   def attendance
     render 'human_resources/attendance/index'
   end
@@ -19,6 +14,7 @@ class HumanResourcesController < ApplicationController
   def compensation_and_benefits
     render 'human_resources/compensation_benefits/index'
   end
+
 
   def employee_accounts_management
     render 'human_resources/employee_accounts_management/index'
@@ -80,9 +76,6 @@ class HumanResourcesController < ApplicationController
   end
 
   # ================== Attendances ================== #
-
-  def index
-  end
 
   def attendances
     query = generic_table_aggregated_queries('attendances','attendances.created_at')
@@ -442,13 +435,13 @@ class HumanResourcesController < ApplicationController
   def new_lump_adjustment
     initialize_employee_selection
     @selected_lump_adjustment = LumpAdjustment.new
-    render 'human_resources/employee_accounts_management/lump_adjustment_form'
+    render 'human_resources/compensation_benefits/lump_adjustment_form'
   end
 
   def edit_lump_adjustment
     initialize_employee_selection
     @selected_lump_adjustment = LumpAdjustment.find(params[:lump_adjustment_id])
-    render 'human_resources/employee_accounts_management/lump_adjustment_form'
+    render 'human_resources/compensation_benefits/lump_adjustment_form'
   end
 
   def process_lump_adjustment_form
@@ -569,34 +562,9 @@ class HumanResourcesController < ApplicationController
     redirect_to :action => "base_rates"
   end
 
-  # ================== Constants ================== #
+  # ================== Vales ================== #
 
-  def constants
-    query = generic_table_aggregated_queries('constants','constants.created_at')
-    begin
-      @constants = Constant
-                       .where("constants.id LIKE ? OR " +
-                              "constants.value LIKE ? OR " +
-                              "constants.name LIKE ? OR " +
-                              "constants.constant_type LIKE ? OR " +
-                              "constants.remark LIKE ? OR " +
-                              "constants.created_at LIKE ? OR " +
-                              "constants.updated_at LIKE ?",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%")
-                       .order(query[:order_parameter] + ' ' + query[:order_orientation])
-      @constants = Kaminari.paginate_array(@constants).page(params[:page]).per(query[:current_limit])
-    rescue
-      flash[:general_flash_notification] = "Error has Occured"
-    end
-    render 'human_resources/settings/constants'
-  end
-
+  def vales
   def process_constant_form
     begin
       if( params[:constant][:id].present? )
@@ -646,172 +614,14 @@ class HumanResourcesController < ApplicationController
     end
   end
 
-  # ================== Holiday ================== #
 
-  def holidays
-    query = generic_table_aggregated_queries('holidays','holidays.created_at')
-    begin
-      @holidays = Holiday
-                      .includes(:holiday_type).joins(:holiday_type)
-                      .where("holidays.id LIKE ? OR " +
-                             "holiday_types.type_name LIKE ? OR " +
-                             "holidays.description LIKE ? OR " +
-                             "holidays.name LIKE ? OR " +
-                             "holidays.description LIKE ? OR " +
-                             "holidays.date_of_implementation LIKE ? OR " +
-                             "holidays.created_at LIKE ? OR " +
-                             "holidays.updated_at LIKE ? ",
-                             "%#{query[:search_field]}%",
-                             "%#{query[:search_field]}%",
-                             "%#{query[:search_field]}%",
-                             "%#{query[:search_field]}%",
-                             "%#{query[:search_field]}%",
-                             "%#{query[:search_field]}%",
-                             "%#{query[:search_field]}%",
-                             "%#{query[:search_field]}%")
-                      .order(query[:order_parameter] + ' ' + query[:order_orientation])
-      @holidays = Kaminari.paginate_array(@holidays).page(params[:page]).per(query[:current_limit])
-    rescue => ex
-      flash[:general_flash_notification] = "Error has Occured"
-    end
-    render 'human_resources/settings/holidays'
-  end
-
-  def new_holiday
-    @selected_holiday = Holiday.new
-    @holiday_types = HolidayType.all
-    render 'human_resources/settings/holiday_form'
-  end
-
-  def edit_holiday
-    @selected_holiday = Holiday.find(params[:holiday_id])
-    @holiday_types = HolidayType.all
-    render 'human_resources/settings/holiday_form'
-  end
-
-  def delete_holiday
-    holiday_to_be_deleted = Holiday.find(params[:holiday_id])
-    flash[:general_flash_notification] = 'A Holiday for ' + holiday_to_be_deleted.name + ' has been deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    holiday_to_be_deleted.destroy
-    redirect_to :action => "holidays"
-  end
-
-  def process_holiday_form
-    begin
-      if( params[:holiday][:id].present? )
-        myHoliday = Holiday.find(params[:holiday][:id])
-      else
-        myHoliday = Holiday.new()
-      end
-      myHoliday[:holiday_type_id] = params[:holiday][:holiday_type_id]
-      myHoliday[:description] = params[:holiday][:description]
-      myHoliday[:name] = params[:holiday][:name]
-      myHoliday[:date_of_implementation] = params[:holiday][:date_of_implementation]
-      myHoliday.save!
-      flash[:general_flash_notification] = 'Holiday Added: ' + myHoliday[:id]
-      flash[:general_flash_notification_type] = 'affirmative'
-    rescue => ex
-      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
-    end
-    redirect_to :action => 'holidays'
-  end
-
-  def search_suggestions_holidays
-    holidays = Holiday
-    .includes(:holiday_type)
-    .joins(:holiday_type)
-    .where("holidays.name LIKE ?","%#{params[:query]}%")
-    .pluck("holidays.name")
-    direct = "{\"query\": \"Unit\",\"suggestions\":[" + holidays.to_s.gsub!('[', '').gsub!(']', '') + "]}"
-    respond_to do |format|
-      format.all { render :text => direct}
-    end
-    #render 'test/index'
   end
 
   # ================== Holiday Types ================== #
 
-  def holiday_types
-    query = generic_table_aggregated_queries('holiday_types','holiday_types.created_at')
-    begin
-      @holiday_types = HolidayType
-      .where("holiday_types.id LIKE ? OR " +
-             "holiday_types.type_name LIKE ? OR " +
-             "holiday_types.rate_multiplier LIKE ? OR " +
-             "holiday_types.overtime_multiplier LIKE ? OR " +
-             "holiday_types.rest_day_multiplier LIKE ? OR " +
-             "holiday_types.overtime_rest_day_multiplier LIKE ? OR " +
-             "holiday_types.no_work_pay LIKE ? OR " +
-             "holiday_types.created_at LIKE ? OR " +
-             "holiday_types.updated_at LIKE ? ",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%")
-      .order(query[:order_parameter] + ' ' + query[:order_orientation])
-      @holiday_types = Kaminari.paginate_array(@holiday_types).page(params[:page]).per(query[:current_limit])
-    rescue => ex
-      flash[:general_flash_notification] = "Error has Occured" + ex.to_s
-    end
-    render 'human_resources/settings/holiday_types'
-  end
-
-  def new_holiday_type
-    @selected_holiday_type = HolidayType.new
-    render 'human_resources/settings/holiday_type_form'
-  end
-
   def edit_holiday_type
     @selected_holiday_type = HolidayType.find(params[:holiday_type_id])
     render 'human_resources/settings/holiday_type_form'
-  end
-
-  def delete_holiday_type
-    holiday_types_to_be_deleted = HolidayType.find(params[:holiday_type_id])
-    flash[:general_flash_notification] = 'A Holiday Type for ' + holiday_types_to_be_deleted[:type_name] + ' has been deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    holiday_types_to_be_deleted.destroy
-    redirect_to :action => "holiday_types"
-  end
-
-  def process_holiday_type_form
-    begin
-      if( params[:holiday_type][:id].present? )
-        my_holiday_type = HolidayType.find(params[:holiday_type][:id])
-      else
-        my_holiday_type = HolidayType.new()
-      end
-      my_holiday_type[:type_name] = params[:holiday_type][:type_name]
-      my_holiday_type[:rate_multiplier] = params[:holiday_type][:rate_multiplier]
-      my_holiday_type[:overtime_multiplier] = params[:holiday_type][:overtime_multiplier]
-      my_holiday_type[:rest_day_multiplier] = params[:holiday_type][:rest_day_multiplier]
-      my_holiday_type[:overtime_rest_day_multiplier] = params[:holiday_type][:overtime_rest_day_multiplier]
-      my_holiday_type[:no_work_pay] = params[:holiday_type][:no_work_pay]
-      my_holiday_type.save!
-      flash[:general_flash_notification] = 'Holiday Types Added: ' + my_holiday_type[:id]
-      flash[:general_flash_notification_type] = 'affirmative'
-    rescue => ex
-      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.' + ex.to_s
-    end
-    redirect_to :action => 'holiday_types'
-  end
-
-  def search_suggestions_holiday_types
-    holiday_types = HolidayType
-    .includes(:holiday_type)
-    .joins(:holiday_type)
-    .where("holiday_types.type_name LIKE ?","%#{params[:query]}%")
-    .pluck("holiday_types.type_name")
-    direct = "{\"query\": \"Unit\",\"suggestions\":[" + holiday_types.to_s.gsub!('[', '').gsub!(']', '') + "]}"
-    respond_to do |format|
-      format.all { render :text => direct}
-    end
   end
 
   # ================== Duty Statuses ================== #
@@ -838,19 +648,19 @@ class HumanResourcesController < ApplicationController
     rescue
       flash[:general_flash_notification] = "Error has Occured"
     end
-    render 'human_resources/attendance/duty_statuses'
+    render 'human_resources/employee_accounts_management/duty_statuses'
   end
 
   def new_duty_status
     initialize_employee_selection
     @selected_duty_status = DutyStatus.new
-    render 'human_resources/attendance/duty_status_form'
+    render 'human_resources/employee_accounts_management/duty_status_form'
   end
 
   def edit_duty_status
     initialize_employee_selection
     @selected_duty_status = DutyStatus.find(params[:duty_status_id])
-    render 'human_resources/attendance/duty_status_form'
+    render 'human_resources/employee_accounts_management/duty_status_form'
   end
 
   def delete_duty_status
@@ -972,15 +782,6 @@ class HumanResourcesController < ApplicationController
 
     # @duties = Duty.where( employee_id: params[:employee][:employee_id] )
     render 'human_resources/employee_accounts_management/employee_account_history'
-  end
-
-  def attendance
-    render 'human_resources/attendance/index'
-  end
-
-  def settings
-    @constants = Constant.where( 'name ILIKE ?', "%human_resources%" )
-    render 'human_resources/settings/index'
   end
 
   def institutional_adjustments
@@ -1188,5 +989,4 @@ class HumanResourcesController < ApplicationController
   #     format.all { render :text => direct}
   #   end
   # end
-
 end

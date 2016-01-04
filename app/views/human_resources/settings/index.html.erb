@@ -1,5 +1,13 @@
-<!--
-# CRUD TABLE: of all 'constants' that have the name human_resources.WILDCARD_HERE
-# BUTTON: Go to Holidays Management
-# BUTTON: Go to Institutional Adjustments Management
---!>
+<section class='small-10 columns'>
+  <div class='mainheader'> Settings </div>
+  <div class='subdescription'> Settings for the Human Resource Module  </div>
+  <hr>
+
+  <ul class="button-group">
+    <%= renderCorePartial('generic_back_button') %>
+    <li><a href="/human_resources/settings/constants" class="button tiny">Constants</a></li>
+    <li><a href="/human_resources/settings/holidays" class="button tiny">Holidays</a></li>
+    <li><a href="/human_resources/settings/holiday_types" class="button tiny">Holiday Types</a></li>
+  </ul>
+
+</section>
