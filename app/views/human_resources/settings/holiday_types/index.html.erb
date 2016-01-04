@@ -1,0 +1,86 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Holiday Types </div>
+  <div class='subdescription'> The Labor Code of the Philippines specifies two types of holidays: the "regular holiday" and the "special non-working day"  </div>
+  <hr>
+  <%= generic_table_search %>
+  <% table_orientation = shift_table_orientation %>
+  <% begin %>
+      <table class="generic_table" id="holidays_table">
+        <thead>
+        <tr>
+          <th>
+            Holidays ID
+            <%= generic_table_theadlink('holiday_types.id', table_orientation) %>
+          </th>
+          <th>
+            Type Name
+            <%= generic_table_theadlink('holiday_types.type_name', table_orientation) %>
+          </th>
+          <th>
+            Rate Multiplier
+            <%= generic_table_theadlink('holiday_types.rate_multiplier', table_orientation) %>
+          </th>
+          <th>
+            Overtime Multiplier
+            <%= generic_table_theadlink('holiday_types.overtime_multiplier', table_orientation) %>
+          </th>
+          <th>
+            Rest Day Multiplier
+            <%= generic_table_theadlink('holiday_types.rest_day_multiplier', table_orientation) %>
+          </th>
+          <th>
+            Overtime and Rest Day Multiplier
+            <%= generic_table_theadlink('holiday_types.overtime_rest_day_multiplier', table_orientation) %>
+          </th>
+          <th>
+            No Work No Pay?
+            <%= generic_table_theadlink('holiday_types.no_work_pay', table_orientation) %>
+          </th>
+          <th>
+            Date Created
+            <%= generic_table_theadlink('holiday_types.created_at', table_orientation) %>
+          </th>
+          <th>
+            Last Updated
+            <%= generic_table_theadlink('holiday_types.updated_at', table_orientation) %>
+          </th>
+          <th class="actions" align="center">&nbsp;</th>
+        </tr>
+        </thead>
+        <% if @holiday_types.empty? == true %>
+            <% raise exception %>
+        <% else %>
+            <tbody>
+            <% @holiday_types.each do |holiday_type| %>
+                <tr>
+                  <td><%= holiday_type[:id] %></td>
+                  <td><%= holiday_type[:type_name] %></td>
+                  <td><%= holiday_type[:rate_multiplier] %></td>
+                  <td><%= holiday_type[:overtime_multiplier] %></td>
+                  <td><%= holiday_type[:rest_day_multiplier] %></td>
+                  <td><%= holiday_type[:overtime_rest_day_multiplier] %></td>
+                  <td>
+                    <% if holiday_type[:no_work_pay] %>
+                        YES
+                    <% else %>
+                        NO
+                    <% end %>
+                  </td>
+                  <td><%= holiday_type[:created_at] %></td>
+                  <td><%= holiday_type[:updated_at] %></td>
+                  <td class="actions">
+                    <%= generic_table_actions(holiday_type[:id]) %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+        <% end %>
+      </table>
+  <% rescue => ex%>
+      <script>
+          html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
+          $(".generic_table").replaceWith(html)
+      </script>
+  <% end %>
+  <%= generic_table_footer(@holiday_types) %>
+</section>

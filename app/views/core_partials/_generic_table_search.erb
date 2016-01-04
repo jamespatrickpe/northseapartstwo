@@ -1,12 +1,15 @@
-<%= form_tag( form_link, method: ":get", class: "search_form", :"data-parsley-validate" => "") do %>
+<%= form_tag("",
+             method: :get,
+             class: "search_form",
+             :"data-parsley-validate" => "") do %>
 
     <div class="row collapse" style="float: left">
       <div class="small-5 columns">
         <%= text_field_tag( "search_field",
                             value=nil,
-                            options = {id: form_input_id,
+                            options = {id: controller.controller_name+"_search_input",
                                        class: 'generic_table_search_field',
-                                       placeholder: placeholdertext,
+                                       placeholder: ("search in " + controller.controller_name).to_s.gsub('_',' '),
                                        :"data-parsley-trigger" => "keyup",
                                        :"data-parsley-minlength"=>"3" ,
                                        :"data-parsley-maxlength"=>"64"
@@ -27,13 +30,11 @@
       <div class="small-3 columns"></div>
     </div>
     <br>
-
-    <!-- Search Status -->
     <%
-       search_field = unique_flash_variable + '_' + 'search_field'
-       order_parameters = unique_flash_variable + '_' + 'order_parameter'
-       order_orientation = unique_flash_variable + '_' + 'order_orientation'
-       current_limit = unique_flash_variable + '_' + 'current_limit'
+       search_field = controller.controller_name + '_' + 'search_field'
+       order_parameters = controller.controller_name + '_' + 'order_parameter'
+       order_orientation = controller.controller_name + '_' + 'order_orientation'
+       current_limit = controller.controller_name + '_' + 'current_limit'
        if (flash[search_field].empty? == false)
     %>
         <div class="search_query_description">
@@ -47,8 +48,8 @@
 <% end %>
 
 <script type="text/javascript">
-    $('#<%= form_input_id %>').autocomplete({
-        serviceUrl: '<%= service_url %>',
+    $('#<%= controller.controller_name+"_search_input" %>').autocomplete({
+        serviceUrl: '<%= controller.controller_name+"/search_suggestions" %>',
         minChars: 3
     });
 </script>

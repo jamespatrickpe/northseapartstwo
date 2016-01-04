@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-  layout "application_loggedin"
   skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
   helper_method :error_messages_for, :shift_table_orientation, :insertTimeIntoDate
   include ApplicationHelper
@@ -194,21 +193,15 @@ class ApplicationController < ActionController::Base
     @employee_id = params[:employee_id]
   end
 
-  def constants
-    currentController = params[:controller]
-    @constants = Constant.where('name LIKE ?', "%"+currentController+"%")
-    render "shared/constants"
-  end
-
   def processConstants
     flash[:notice] = "Save Successful!"
     currentController = params[:controller]
-    constantSet = params[:constants]
+    constantSet = params[:settings]
     constantSet.each do |key, value|
       temp_constant = Constant.find_by(name: key)
       temp_constant.update(constant: value)
     end
-    redirect_to "/"+currentController+"/constants"
+    redirect_to "/"+currentController+"/settings"
   end
 
   def processRelatedFiles(params)
