@@ -44,15 +44,4 @@ class HumanResources::EmployeeAccountsManagement::EmployeesController < HumanRes
     redirect_to :action => "employee_accounts_management"
   end
 
-  def employee_profile
-    @selected_model = 'Employee'
-    @actors = Actor.includes(:employee).joins(:employees)
-    actor_profile
-    @selected_employee = Employee.find_by_actor_id( params[:actor_id] )
-    if @selected_employee.present?
-      @selected_branch = Branch.find(@selected_employee.branch_id)
-    end
-    render 'shared/actor_profile'
-  end
-
 end

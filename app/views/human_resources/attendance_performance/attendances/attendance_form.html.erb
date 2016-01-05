@@ -22,7 +22,7 @@
         ) do
     %>
 
-        <%= hidden_field_tag('attendance_performance[id]', @selected_attendance[:id] ) %>
+        <%= hidden_field_tag('attendance[id]', @selected_attendance[:id] ) %>
 
         <select name='attendance[employee_id]'
                 id='attendance_employee_id_0'
@@ -52,12 +52,16 @@
           Time In: <input type="time"
                              id="attendance_timein_0"
                              step = 1
-                             required="required"
                              name="attendance[timein]"
+                             required = required
                              data-parsley-trigger="change"
-                             data-parsley-time_order="0"
-                             data-parsley-time_overlap="0"
-                             data-parsley-time_between="0"
+                             data-parsley-time_order_attendance="0"
+                             <%= @selected_attendance[:id].present? ? '' : (
+                             '
+                                  data-parsley-time_overlap_attendance=0
+                                  data-parsley-time_between_attendance=0
+                             '
+                             )%>
                              style="width: 50%"
                              value= <%= @selected_attendance[:timein].strftime('%T') %> >
         </div>
@@ -65,41 +69,32 @@
           Time Out: <input type="time"
                               id="attendance_timeout_0"
                               step = 1
-                              required="required"
                               name="attendance[timeout]"
+                              required = required
                               data-parsley-trigger="change"
-                              data-parsley-time_order="0"
-                              data-parsley-time_overlap="0"
-                              data-parsley-time_between="0"
+                              data-parsley-time_order_attendance="0"
+                              <%= @selected_attendance[:id].present? ? '' : (
+                              '
+                                  data-parsley-time_overlap_attendance=0
+                                  data-parsley-time_between_attendance=0
+                              '
+                              )%>
                               style="width: 50%"
                               value= <%= @selected_attendance[:timeout].strftime('%T') %> >
         </div>
 
         <%=
-            text_area_tag("attendance_performance[remark]",
+            text_area_tag("attendance[remark]",
                           content = @selected_attendance[:remark],
                           options = {class: "remark_description",
                                      :"data-parsley-trigger" => "keyup",
                                      :"data-parsley-maxlength"=>"128",
                                      :placeholder => 'Remarks' })
         %>
-        <%= renderCorePartial('generic_back_to_index_button') %>
-        <%=
-            if @selected_attendance[:id].present?
-            link_to( "DELETE".html_safe,
-                     {:action => 'delete_attendance',
-                      :id => @selected_attendance[:id]},
-                     class: 'tiny button delete_item')
-            end
-        %>
-
-        <input type="reset" class="tiny button" value="RESET" />
-        <input type="submit" class="tiny button" value="SUBMIT" />
+        <%= generic_form_footer(@selected_attendance[:id]) %>
 
     <% end %>
 
   </div>
-
   <%= renderCorePartial('employee_quick_profile') %>
-
 </section>

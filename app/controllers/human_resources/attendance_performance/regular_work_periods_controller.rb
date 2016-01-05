@@ -1,13 +1,11 @@
 class HumanResources::AttendancePerformance::RegularWorkPeriodsController < HumanResources::AttendancePerformanceController
 
-  # ================== Regular Work Periods ================== #
-
-  def regular_work_periods
+  def index
     query = generic_table_aggregated_queries('regular_work_periods','regular_work_periods.created_at')
     begin
       @regular_work_periods = RegularWorkPeriod
       .includes(employee: [:actor])
-      .joins(employees: [:actor])
+      .joins(employee: [:actor])
       .where("actors.name LIKE ? OR " +
                  "regular_work_periods.id LIKE ? OR " +
                  "regular_work_periods.start_time LIKE ? OR " +
@@ -27,10 +25,10 @@ class HumanResources::AttendancePerformance::RegularWorkPeriodsController < Huma
     rescue
       flash[:general_flash_notification] = "Error has Occured"
     end
-    render 'human_resources/attendance_performance/regular_work_periods'
+    render 'human_resources/attendance_performance/regular_work_periods/index'
   end
 
-  def search_suggestions_regular_work_periods
+  def search_suggestions
     regularWorkPeriods = RegularWorkPeriod.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + regularWorkPeriods.uniq.to_s + "}"
     respond_to do |format|
@@ -38,47 +36,53 @@ class HumanResources::AttendancePerformance::RegularWorkPeriodsController < Huma
     end
   end
 
-  def delete_regular_work_period
-    regularWorkPeriodToBeDeleted = RegularWorkPeriod.find(params[:regular_work_period_id])
+  def delete
+    regularWorkPeriodToBeDeleted = RegularWorkPeriod.find(params[:id])
     regularWorkPeriodOwner = Employee.find(regularWorkPeriodToBeDeleted.employee_id)
     flash[:general_flash_notification] = 'Regular work period with Time IN : ' + regularWorkPeriodToBeDeleted.start_time.to_s + ' and Time OUT : ' + regularWorkPeriodToBeDeleted.end_time.to_s + ' for employees ' + regularWorkPeriodOwner.actor.name + ' has been successfully deleted.'
     flash[:general_flash_notification_type] = 'affirmative'
     regularWorkPeriodToBeDeleted.destroy
-    redirect_to :action => "regular_work_periods"
+    redirect_to :action => "index"
   end
 
-  def new_regular_work_period
+  def new
     initialize_employee_selection
     @selected_regular_work_period = RegularWorkPeriod.new
-    render 'human_resources/attendance_performance/regular_work_period_form'
+    render 'human_resources/attendance_performance/regular_work_periods/regular_work_period_form'
   end
 
-  def edit_regular_work_period
+  def edit
     initialize_employee_selection
-    @selected_regular_work_period = RegularWorkPeriod.find(params[:regular_work_period_id])
-    render 'human_resources/attendance_performance/regular_work_period_form'
+    @selected_regular_work_period = RegularWorkPeriod.find(params[:id])
+    render 'human_resources/attendance_performance/regular_work_periods/regular_work_period_form'
   end
 
-  def process_regular_work_period_form
+  def process_regular_work_period_form(regularWorkPeriod)
     begin
-      if( params[:regular_work_period][:id].present? )
-        regularWorkPeriod = RegularWorkPeriod.find(params[:regular_work_period][:id])
-      else
-        regularWorkPeriod = RegularWorkPeriod.new()
-      end
       regularWorkPeriod.employee = Employee.find(params[:regular_work_period][:employee_id])
       regularWorkPeriod.start_time = params[:regular_work_period][:start_time]
       regularWorkPeriod.end_time = params[:regular_work_period][:end_time]
       regularWorkPeriod.date_of_effectivity = params[:regular_work_period][:date_of_effectivity]
       regularWorkPeriod.remark = params[:regular_work_period][:remark]
       regularWorkPeriod.save!
-      flash[:general_flash_notification] = 'Regular Work Period Added'
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex
       puts ex
       flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
     end
-    redirect_to :action => 'regular_work_periods'
+    redirect_to :action => 'index'
+  end
+
+  def create
+    regularWorkPeriod = RegularWorkPeriod.new()
+    flash[:general_flash_notification] = 'Regular Work Period Added'
+    process_regular_work_period_form(regularWorkPeriod)
+  end
+
+  def update
+    regularWorkPeriod = RegularWorkPeriod.find(params[:regular_work_period][:id])
+    flash[:general_flash_notification] = 'Regular Work Period Updated'
+    process_regular_work_period_form(regularWorkPeriod)
   end
 
 end

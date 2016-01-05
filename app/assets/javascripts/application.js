@@ -138,7 +138,7 @@ window.Parsley.addAsyncValidator('unique-holiday-date', function (xhr)
 }, '/application/check_unique_holiday_date');
 
 window.Parsley
-    .addValidator('time_between', {
+    .addValidator('time_between_attendance', {
         requirementType: 'string',
         validateString: function(value, requirement)
         {
@@ -147,7 +147,7 @@ window.Parsley
             var response = ''
             $.ajax({
                 method: "POST",
-                url: "/application/check_time_if_between",
+                url: "/application/check_time_if_between_attendance",
                 data: { time: value, employee_id: employee_id, date: date },
                 async: false
             }).done(function( msg ) {
@@ -168,7 +168,7 @@ window.Parsley
     });
 
 window.Parsley
-    .addValidator('time_order', {
+    .addValidator('time_order_attendance', {
         requirementType: 'string',
         validateString: function(value, requirement)
         {
@@ -189,7 +189,7 @@ window.Parsley
     });
 
 window.Parsley
-    .addValidator('time_overlap', {
+    .addValidator('time_overlap_attendance', {
         requirementType: 'string',
         validateString: function(value, requirement)
         {
@@ -202,7 +202,7 @@ window.Parsley
             {
                 $.ajax({
                     method: "POST",
-                    url: "/application/check_time_if_overlap",
+                    url: "/application/check_time_if_overlap_attendance",
                     data: { timein: timein, timeout: timeout, date: date, employee_id: employee_id },
                     async: false
                 }).done(function( msg ) {

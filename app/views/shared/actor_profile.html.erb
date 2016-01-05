@@ -5,7 +5,7 @@
 
   <div class='small-4 columns'>
     <div class='generic_form'>
-      <%= form_tag( {action: :employee_profile}, multipart: true, class: 'create_form', id: "employee_profile", :"data-parsley-validate" => "" ) do %>
+      <%= form_tag( {action: 'index'}, multipart: true, class: 'create_form', id: "employee_profile", :"data-parsley-validate" => "" ) do %>
           <select name='actor[id]'
                   id='read_actor'
                   class='actor_select_field'
