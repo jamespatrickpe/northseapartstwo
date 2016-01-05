@@ -28,10 +28,10 @@ Rails.application.routes.draw do
     end
 
     get 'attendance_performance/' => 'attendance_performance#index'
-    get 'attendance_performance/branch_attendance_sheet/process_branch_attendance_sheet' => 'branch_attendance_sheet#process_branch_attendance_sheet'
     namespace :attendance_performance do
       get '/branch_attendance_sheet' => 'branch_attendance_sheet#index'
-      get 'branch_attendance_sheet/index' => 'branch_attendance_sheet#index'
+      get '/branch_attendance_sheet/index' => 'branch_attendance_sheet#index'
+      match '/branch_attendance_sheet/process_branch_attendance_sheet', to: 'branch_attendance_sheet#process_branch_attendance_sheet', via: [:post]
       resources :rest_days, :attendances, :regular_work_periods do
         collection do
           concerns :generic_table
@@ -51,8 +51,6 @@ Rails.application.routes.draw do
   end
 
   get 'application/reset_search' => 'application#reset_search'
-
-
 
   resources :test, only: :index
   root to: 'home#index'

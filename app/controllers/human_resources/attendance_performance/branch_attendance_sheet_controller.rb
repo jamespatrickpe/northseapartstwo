@@ -27,12 +27,12 @@ class HumanResources::AttendancePerformance::BranchAttendanceSheetController < H
     end_date = params[:end_date]
     flash[:general_flash_notification] = 'Attendance (if any) has been recorded.'
     flash[:general_flash_notification_type] = 'Affirmative'
-    Attendance.transaction do
+    ::Attendance.transaction do
       begin
         total_items = params[:total_items].to_i
         total_items.times do |i|
           if params[:attendance_performance][i.to_s][:timein].present? || params[:attendance_performance][i.to_s][:timeout].present?
-            myAttendance = Attendance.new
+            myAttendance = ::Attendance.new
             myDate = Date.strptime(params[:attendance_performance][i.to_s][:date],"%F")
             if params[:attendance_performance][i.to_s][:timein].present?
               myTimeIn = Time.parse(params[:attendance_performance][i.to_s][:timein], myDate)
@@ -44,7 +44,7 @@ class HumanResources::AttendancePerformance::BranchAttendanceSheetController < H
               timeout = DateTime.new( myDate.year, myDate.month, myDate.day, myTimeOut.hour, myTimeOut.min, myTimeOut.sec, "+8" )
               myAttendance.timeout = timeout
             end
-            similar_attendances = Attendance.where("(employee_id = ?) AND (date_of_attendance = ?)", "#{params[:attendance_performance][i.to_s][:employee_id]}", "#{myDate.strftime("%Y-%m-%d")}")
+            similar_attendances = ::Attendance.where("(employee_id = ?) AND (date_of_attendance = ?)", "#{params[:attendance_performance][i.to_s][:employee_id]}", "#{myDate.strftime("%Y-%m-%d")}")
             similar_attendances.each do | similar_attendance |
               similar_attendance_timein = insertTimeIntoDate(myDate, similar_attendance[:timein])
               similar_attendance_timeout = insertTimeIntoDate(myDate, similar_attendance[:timeout])

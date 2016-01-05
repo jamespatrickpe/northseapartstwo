@@ -45,7 +45,17 @@
   <% end %>
 
   <% if @selected_branch.id.present? %>
-      <%= form_tag( {action: :process_branch_attendance_sheet}, class: 'form_branch_attendance_sheet', id: "new_batch_process_form", :"data-parsley-validate" => "" ) do %>
+
+      <%=
+          form_tag( {:action => 'process_branch_attendance_sheet'},
+                    {:method => :post,
+                     :class => 'form_branch_attendance_sheet',
+                     :id => "new_batch_process_form",
+                     :"data-parsley-validate" => ""
+                    },
+          ) do
+      %>
+
           <input type="hidden" name=<%="branch[id]"%> value=<%= @selected_branch[:id] %>>
           <input type="hidden" name=<%="start_date"%> value=<%= @start_date %>>
           <input type="hidden" name=<%="end_date"%> value=<%= @end_date %>>
