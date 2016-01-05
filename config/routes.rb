@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
     get 'employee_accounts_management/' => 'employee_accounts_management#index'
     namespace :employee_accounts_management do
+      get 'employee_profile/' => 'employee_profile#index'
+      get 'employee_profile/index' => 'employee_profile#index'
       resources :employees, :duty_statuses do
         collection do
           concerns :generic_table
@@ -26,9 +28,10 @@ Rails.application.routes.draw do
     end
 
     get 'attendance_performance/' => 'attendance_performance#index'
-    get 'attendance_performance/branch_attendance_sheet' => 'branch_attendance_sheet#index'
     get 'attendance_performance/branch_attendance_sheet/process_branch_attendance_sheet' => 'branch_attendance_sheet#process_branch_attendance_sheet'
     namespace :attendance_performance do
+      get '/branch_attendance_sheet' => 'branch_attendance_sheet#index'
+      get 'branch_attendance_sheet/index' => 'branch_attendance_sheet#index'
       resources :rest_days, :attendances, :regular_work_periods do
         collection do
           concerns :generic_table

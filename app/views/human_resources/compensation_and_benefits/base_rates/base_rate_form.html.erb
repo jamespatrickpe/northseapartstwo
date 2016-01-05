@@ -3,10 +3,25 @@
   <div class='subdescription'> Set the Base Rate of an Employee </div>
   <hr>
   <div class='small-6 columns generic_form'>
-    <% if @selected_base_rate.id.present? %>
-        <span class="current_edit_id"> <%= 'Editing Base Rate with ID: ' + @selected_base_rate.id %> </span> <br><br>
-    <% end %>
-    <%= form_tag( {action: :process_base_rate_form}, multipart: true, class: 'create_form', id: "new_base_rate_form", :"data-parsley-validate" => "" ) do %>
+
+    <%= generic_form_edit_id_indicator(@selected_base_rate[:id]) %>
+
+    <%
+       @selected_base_rate[:id].present? ?
+               (current_method = :patch; current_action = @selected_base_rate[:id] ) :
+               (current_method = :post; current_action = 'create')
+    %>
+
+    <%=
+        form_tag( {:action => current_action},
+                  {:method => current_method,
+                   :class => 'create_form',
+                   :id => "new_base_rate_form",
+                   :"data-parsley-validate" => ""
+                  },
+        ) do
+    %>
+
         <%= hidden_field_tag('base_rate[id]', @selected_base_rate.id ) %>
         <br>Employee:<br>
         <select name='base_rate[employee_id]'
@@ -136,17 +151,9 @@
                                      :"data-parsley-maxlength"=>"128",
                                      :placeholder => 'Remarks' }) %>
         <hr />
-        <%= link_to( "BACK".html_safe, {:action => 'base_rates'}, class: 'tiny button') %>
-        <%=
-            if @selected_base_rate[:id].present?
-              link_to( "DELETE".html_safe,
-                       {:action => 'delete_base_rate',
-                        :base_rate_id => @selected_base_rate[:id]},
-                       class: 'tiny button deletable_item')
-            end
-        %>
-        <input type="reset" class="tiny button" value="RESET" />
-        <input type="submit" class="tiny button" value="SUBMIT" />
+
+        <%= generic_form_footer(@selected_base_rate[:id]) %>
+
     <% end %>
   </div>
   <%= renderCorePartial('employee_quick_profile') %>

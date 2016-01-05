@@ -3,8 +3,21 @@
   <div class='subdescription'> Attendance Sheet for Selected Branch  </div>
   <hr>
 
-  <%= form_tag( {action: :branch_attendance_sheet}, multipart: true, class: 'form_branch_attendance_sheet', id: "new_batch_process_form", :"data-parsley-validate" => "" ) do %>
-      <select name='branch[id]' id='branch_attendance_selector' class='branch_select_field' style="width: 25%; display: inline;" required="required" >
+  <%=
+      form_tag( {:action => 'index'},
+                {:method => :get,
+                 :class => 'create_form',
+                 :id => "new_batch_process_form",
+                 :"data-parsley-validate" => ""
+                },
+      ) do
+  %>
+
+      <select name='branch[id]' id='branch_attendance_selector'
+              class='branch_select_field'
+              style="width: 25%; display: inline;"
+              required="required" >
+
         <option value="" disabled selected>Select Branch</option>
         <% @branches.each do |branch| %>
             <% if branch.id == @selected_branch.id %>
@@ -14,9 +27,21 @@
             <% end %>
         <% end %>
       </select>
-      <input name='start_date' value="<%= @start_date.present? ? @start_date.strftime("%Y-%m-%d") : Time.now.strftime("%Y-%m-%d") %>" type="date" style="width: 25%; display: inline;" required="required">
-      <input name='end_date' value="<%= @end_date.present? ? @end_date.strftime("%Y-%m-%d") : Time.now.strftime("%Y-%m-%d") %>" type="date" style="width: 25%; display: inline;" required="required">
-      <input type="submit" class="tiny button" value="Generate Attendance Sheet">
+
+      <input name='start_date'
+             value="<%= @start_date.present? ? @start_date.strftime("%Y-%m-%d") : Time.now.strftime("%Y-%m-%d") %>"
+             type="date" style="width: 25%; display: inline;"
+             required="required">
+
+      <input name='end_date'
+             value="<%= @end_date.present? ? @end_date.strftime("%Y-%m-%d") : Time.now.strftime("%Y-%m-%d") %>"
+             type="date" style="width: 25%; display: inline;"
+             required="required">
+
+      <input type="submit"
+             class="tiny button"
+             value="Generate Attendance Sheet">
+
   <% end %>
 
   <% if @selected_branch.id.present? %>

@@ -42,6 +42,7 @@
         Start Time:
         <input name="regular_work_period[start_time]"
                required="required"
+               data-parsley-trigger="change"
                value= <%= @selected_regular_work_period[:start_time].present? ?
                                   @selected_regular_work_period[:start_time].strftime('%T') :
                                   Time.now.strftime('%T') %>
@@ -50,6 +51,7 @@
         End Time:
         <input name="regular_work_period[end_time]"
                required="required"
+               data-parsley-trigger="change"
                value= <%= @selected_regular_work_period[:end_time].present? ?
                                   @selected_regular_work_period[:end_time].strftime('%T') :
                                   Time.now.strftime('%T') %>
