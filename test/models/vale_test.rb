@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AdvancedPaymentsToEmployeeTest < ActiveSupport::TestCase
+class ValeTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

@@ -336,19 +336,19 @@ numberOfActors.times do |i|
       time_out = rand(12..23).to_s+':'+rand(0..59).to_s+':'+rand(0..59).to_s
       remark = Faker::Lorem.sentence + ' ' + i.to_s
       if 10.in(100)
-        myAttendance = Attendance.new(date_of_attendance: dateOfAttendance, timein: time_in, employees: myEmployee, remark: remark )
+        myAttendance = Attendance.new(date_of_attendance: dateOfAttendance, timein: time_in, employee: myEmployee, remark: remark )
         myAttendance.save
         time_out = rand(0..12).to_s+':'+rand(0..59).to_s+':'+rand(0..59).to_s
-        myAttendance = Attendance.new(date_of_attendance: dateOfAttendance + 1.day, timeout: time_out, employees: myEmployee, remark: remark )
+        myAttendance = Attendance.new(date_of_attendance: dateOfAttendance + 1.day, timeout: time_out, employee: myEmployee, remark: remark )
         myAttendance.save
         myDate = myDate + 1.days
       elsif 10.in(100)
         myDate = myDate - rand(1..10).days
       elsif 70.in(100)
-        myAttendance = Attendance.new(date_of_attendance: dateOfAttendance, timein: "08:00:00", timeout: "17:00:00", employees: myEmployee, remark: remark )
+        myAttendance = Attendance.new(date_of_attendance: dateOfAttendance, timein: "08:00:00", timeout: "17:00:00", employee: myEmployee, remark: remark )
         myAttendance.save
       else
-        myAttendance = Attendance.new(date_of_attendance: dateOfAttendance, timein: time_in, timeout: time_out, employees: myEmployee, remark: remark )
+        myAttendance = Attendance.new(date_of_attendance: dateOfAttendance, timein: time_in, timeout: time_out, employee: myEmployee, remark: remark )
         myAttendance.save
       end
     end
@@ -356,7 +356,7 @@ numberOfActors.times do |i|
     # Rest Days
     rand(1..3).times do |i|
     dayOfWeek = Faker::Time.between(7.days.ago, Time.now, :all).strftime("%A")
-    restday = RestDay.new(day: dayOfWeek, employees: myEmployee)
+    restday = RestDay.new(day: dayOfWeek, employee: myEmployee)
     restday.date_of_effectivity = rand(720..72000).hours.ago
     restday.save!
     end
@@ -376,14 +376,14 @@ numberOfActors.times do |i|
         start_time = '01:00:00'
         end_time = '06:00:00'
       end
-      workperiod = RegularWorkPeriod.new(remark: Faker::Lorem.word, employees: myEmployee, start_time: start_time, end_time: end_time )
+      workperiod = RegularWorkPeriod.new(remark: Faker::Lorem.word, employee: myEmployee, start_time: start_time, end_time: end_time )
       workperiod.date_of_effectivity = rand(720..72000).hours.ago
       workperiod.save!
     end
 
     numberOfDuties = rand(1..5)
     numberOfDuties.times do
-      dutyStatus = DutyStatus.new(remark: Faker::Lorem.sentence, employees: myEmployee)
+      dutyStatus = DutyStatus.new(remark: Faker::Lorem.sentence, employee: myEmployee)
       if 7.in(10)
         active = -> { true }
       else
@@ -426,7 +426,7 @@ numberOfActors.times do |i|
       myBaseRate = BaseRate.new(remark: Faker::Lorem.sentence(4),
                                 amount: amountOfMoney,
                                 period_of_time: periodOfTime,
-                                employees: myEmployee,
+                                employee: myEmployee,
                                 start_of_effectivity: Faker::Time.between(Time.now, Time.now - 300.days, :all),
                                 end_of_effectivity: Faker::Time.between(Time.now + 300.days, Time.now, :all),
                                 signed_type: signed_type.call,
@@ -438,24 +438,24 @@ numberOfActors.times do |i|
 
     # For SSS Concerns
     if(randomBoolean())
-      myIAS = InstitutionalAdjustmentSet.create( employees: myEmployee, institution_employee: mySSS, institutional_ID: Faker::Number.number(12) , activated: randomBoolean() )
+      myIAS = InstitutionalAdjustmentSet.create( employee: myEmployee, institution_employee: mySSS, institutional_ID: Faker::Number.number(12) , activated: randomBoolean() )
     end
 
     # For Philhealth Concerns
     if(randomBoolean())
-      myIAS = InstitutionalAdjustmentSet.create( employees: myEmployee, institution_employee: myPhilhealth, institutional_ID: Faker::Number.number(12) , activated: randomBoolean() )
+      myIAS = InstitutionalAdjustmentSet.create( employee: myEmployee, institution_employee: myPhilhealth, institutional_ID: Faker::Number.number(12) , activated: randomBoolean() )
     end
 
     # For Pagibig Concerns
     if(randomBoolean())
-      myIAS = InstitutionalAdjustmentSet.create( employees: myEmployee, institution_employee: myPagibig, institutional_ID: Faker::Number.number(12) , activated: randomBoolean() )
+      myIAS = InstitutionalAdjustmentSet.create( employee: myEmployee, institution_employee: myPagibig, institutional_ID: Faker::Number.number(12) , activated: randomBoolean() )
     end
 
     # For Lump Adjustment
 
     numberOfDuties = rand(1..5)
     numberOfDuties.times do
-      dutyStatus = DutyStatus.new(remark: Faker::Lorem.sentence, employees: myEmployee)
+      dutyStatus = DutyStatus.new(remark: Faker::Lorem.sentence, employee: myEmployee)
       active = -> { [false,true].sample }
       dutyStatus.active = active.call
       dutyStatus.created_at = rand(720..72000).hours.ago
@@ -476,49 +476,22 @@ numberOfActors.times do |i|
 
     # For Rate Adjustment
     if(randomBoolean() && randomBoolean() )
-      RateAdjustment.create( amount: randomMoney(100.10,1000.00), signed_type: ["ADDITION", "DEDUCTION"].sample, employees: myEmployee, description: Faker::Lorem.sentence, rate_of_time: ["DAY", "WEEK", "MONTH"].sample, activated: randomBoolean())
+      RateAdjustment.create( amount: randomMoney(100.10,1000.00), signed_type: ["ADDITION", "DEDUCTION"].sample, employee: myEmployee, description: Faker::Lorem.sentence, rate_of_time: ["DAY", "WEEK", "MONTH"].sample, activated: randomBoolean())
     end
 
-    # For AdvancedPaymentsToEmployee
-    if(randomBoolean() && randomBoolean() )
-      randomDays = rand(0..30)
-      timeOfAdvancedPaymentsToEmployee = Faker::Time.between(randomDays.days.ago, Time.now, :all)
-      advancedPaymentsToEmployeeAmount = rand(2000.00..25000.00)
-      advancedPaymentsToEmployeeRateOfPayment = ((advancedPaymentsToEmployeeAmount)/rand(1.00..25.00))
-      advancedPaymentsToEmployeeStatus = ["APPROVED", "NOT APPROVED"].sample
-      myAdvancedPaymentsToEmployee = AdvancedPaymentsToEmployee.create( created_at: timeOfAdvancedPaymentsToEmployee, updated_at: timeOfAdvancedPaymentsToEmployee, employees: myEmployee, amount: advancedPaymentsToEmployeeAmount ,description: Faker::Lorem.words(4), rate_of_payment: advancedPaymentsToEmployeeRateOfPayment, rate_of_time: ["DAY", "WEEK", "MONTH"].sample, status: advancedPaymentsToEmployeeStatus )
-      myAdvancedPaymentsToEmployee.save
-
-      #Repayments
-      rand(1..5).times do |i|
-        maxPaymentIteration = (advancedPaymentsToEmployeeAmount / advancedPaymentsToEmployeeRateOfPayment).ceil
-        totalPaid = 0
-        if((advancedPaymentsToEmployeeStatus == "APPROVED") && randomBoolean() )
-          rand(1..maxPaymentIteration).times do |i|
-
-            timeofPayment = Faker::Time.between(timeOfAdvancedPaymentsToEmployee, Time.now, :all)
-            advancedPaymentsToEmployeePayment = advancedPaymentsToEmployeeRateOfPayment*rand(0.5..2)
-            myRepaidPaymentsFromEmployee = RepaidPaymentsFromEmployee.new
-
-            myRepaidPaymentsFromEmployee.advanced_payments_to_employee = myAdvancedPaymentsToEmployee
-            myRepaidPaymentsFromEmployee.created_at = timeofPayment
-            myRepaidPaymentsFromEmployee.updated_at = timeofPayment
-            currentPayment = 0
-            if(advancedPaymentsToEmployeeAmount > totalPaid)
-              currentPayment = advancedPaymentsToEmployeePayment
-            elsif(advancedPaymentsToEmployeeAmount < totalPaid)
-              currentPayment = advancedPaymentsToEmployeeAmount - totalPaid
-            elsif(advancedPaymentsToEmployeeAmount < totalPaid)
-              currentPayment = 0
-            end
-            myRepaidPaymentsFromEmployee.amount = currentPayment
-            myRepaidPaymentsFromEmployee.save
-            totalPaid += currentPayment
-          end
-        end
+    # For Vales
+    rand(1..5).times do |i|
+      if 8.in(10)
+        myVale = Vale.new
+        myVale.employee = myEmployee
+        myVale.amount = randomMoney(900.10,5000.00)
+        myVale.amount_of_deduction = randomMoney(10.00,900.00)
+        myVale.period_of_deduction = ['month','day','week','year'].sample
+        myVale.remark = Faker::Lorem.word
+        myVale.date_of_effectivity = rand(720..72000).hours.ago
+        myVale.save!
       end
-
-
     end
+
   end
 end

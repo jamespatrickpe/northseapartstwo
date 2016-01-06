@@ -1,15 +1,26 @@
 <section class='small-10 columns'>
   <div class='mainheader'> Lump Adjustment Form </div>
   <div class='subdescription'> Set the Status of a Lump Adjustment </div>
-
-  <%= link_to( "[ BACK TO HOME ]" ,{:action => 'lump_adjustments' }, :class => "action_button action-link-grey" ) %>
-
   <hr>
   <div class='small-6 columns generic_form'>
-    <% if @selected_lump_adjustment.id.present? %>
-        <span class="current_edit_id"> <%= 'Editing Lump Adjustment with ID: ' + @selected_lump_adjustment.id %> </span> <br><br> <!-- this is for the current lump adjustment ID or OBJECT ID; not employees-->
-    <% end %>
-    <%= form_tag( {action: :process_lump_adjustment_form}, multipart: true, class: 'create_form', id: "new_lump_adjustment_form", :"data-parsley-validate" => "" ) do %>
+
+    <%= generic_form_edit_id_indicator(@selected_lump_adjustment[:id]) %>
+
+    <%
+       @selected_lump_adjustment[:id].present? ?
+               (current_method = :patch; current_action = @selected_lump_adjustment[:id] ) :
+               (current_method = :post; current_action = 'create')
+    %>
+
+    <%=
+        form_tag( {:action => current_action},
+                  {:method => current_method,
+                   :class => 'create_form',
+                   :id => "new_lump_adjustment_form",
+                   :"data-parsley-validate" => ""
+                  },
+        ) do
+    %>
         <%= hidden_field_tag('lump_adjustment[id]', @selected_lump_adjustment.id ) %>
 
         Employee: <br>
@@ -17,9 +28,9 @@
                 id='new_lump_adjustment_employee'
                 class='employee_select_field'
                 required="required" >
-          <!-- DO NOT CHANGE class 'employee_select_field'; this is for the employee_quick_profile thing; do change other attributes in the select field -->
+
           <option value="" disabled selected>Select Employee</option>
-          <% @employees.each do |employee| %> <!-- This selects the current employees and marks the option 'selected' if found -->
+          <% @employees.each do |employee| %>
               <% if employee.id == @selected_lump_adjustment.employee_id %>
                   <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
               <% else %>
@@ -73,17 +84,7 @@
                                      :"data-parsley-maxlength"=>"128",
                                      :placeholder => 'Remarks' }) %>
 
-        <%= link_to( "BACK".html_safe, {:action => 'lump_adjustments'}, class: 'tiny button') %>
-        <%=
-            if @selected_lump_adjustment[:id].present?
-              link_to( "DELETE".html_safe,
-                       {:action => 'delete_lump_adjustments',
-                        :lump_adjustments_id => @selected_lump_adjustment[:id]},
-                       class: 'tiny button deletable_item')
-            end
-        %>
-        <input type="reset" class="tiny button" value="RESET" />
-        <input type="submit" class="tiny button" value="SUBMIT" />
+        <%= generic_form_footer(@selected_lump_adjustment[:id]) %>
 
         <hr />
 

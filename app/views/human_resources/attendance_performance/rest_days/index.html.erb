@@ -42,7 +42,7 @@
             <% @rest_days.each do |rest_day| %>
                 <tr>
                   <td><%= rest_day[:id] %></td>
-                  <td><%= link_to( rest_day.employee.actor.name ,'/human_resources/employee_accounts_management/employee_profile?actor_id=' + rest_day.employee.actor.id ) %></td>
+                  <td><%= generic_actor_profile_link(rest_day.employee.actor.id, rest_day.employee.actor.name) %></td>
                   <td><%= rest_day[:day] %> </td>
                   <td><%= rest_day[:date_of_effectivity] %> </td>
                   <td><%= rest_day[:created_at] %></td>

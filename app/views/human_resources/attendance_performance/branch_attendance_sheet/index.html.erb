@@ -86,7 +86,8 @@
                   <% if get_current_duty_status(employee.id) == true %>
                   <tr>
                     <td align="center" style="border-right: solid #721314 thin; background-color: grey; color: white; text-align: center">
-                    <%= link_to employee.actor.name, {action: 'employee_profile', actor_id: employee.actor.id}, style: "color: white; text-align:center; padding: 5px;" %>
+
+                    <%= link_to employee.actor.name, '/human_resources/employee_accounts_management/employee_profile?actor_id=' + employee.actor.id , style: "color: white; text-align:center; padding: 5px;" %>
                     </td>
                     <% @number_of_days.times do |i| %>
                         <% current_date = @start_date + i.days %>
@@ -111,33 +112,35 @@
                                           name=<%="attendance_performance["+current_set.to_s+"][timein]"%>
                                           type="time"
                                           data-parsley-trigger="change"
-                                          data-parsley-time_order="<%= current_set.to_s %>"
-                                          data-parsley-time_overlap="<%= current_set.to_s %>"
-                                          data-parsley-time_between="<%= current_set.to_s %>">
+                                          data-parsley-time_order_attendance="<%= current_set.to_s %>"
+                                          data-parsley-time_overlap_attendance="<%= current_set.to_s %>"
+                                          data-parsley-time_between_attendance="<%= current_set.to_s %>">
 
                           Time Out: <input id="attendance_timeout_<%= current_set.to_s %>"
                                            step="1"
                                            name=<%="attendance_performance["+current_set.to_s+"][timeout]"%>
                                            type="time"
                                            data-parsley-trigger="change"
-                                           data-parsley-time_order="<%= current_set.to_s %>"
-                                           data-parsley-time_overlap="<%= current_set.to_s %>"
-                                           data-parsley-time_between="<%= current_set.to_s %>">
+                                           data-parsley-time_order_attendance="<%= current_set.to_s %>"
+                                           data-parsley-time_overlap_attendance="<%= current_set.to_s %>"
+                                           data-parsley-time_between_attendance="<%= current_set.to_s %>">
 
                           <input style="font-size: 12px;" type="input" id="attendance_remark_<%= current_set.to_s %>" name=<%="attendance_performance["+current_set.to_s+"][remark]"%> placeholder="remark"><br>
                           </div>
 
                           <div class="toggable_attendance_content" style="display: none; width: 150px;">
                               <ul>
+                              <% if @attendances_per_employee_in_branch.present? %>
                               <% @attendances_per_employee_in_branch.each do |attendance| %>
                                   <% if (attendance[:employee_id] == employee.id) && (attendance[:date_of_attendance] == current_date) %>
                                   <li style="padding: 3px;"><div>
-                                    <a target="_blank" class="attendance_link" style="color:white" href="/human_resources/edit_attendance?attendance_id=<%= attendance[:id]%>">
+                                    <a target="_blank" class="attendance_link" style="color:white" href="/human_resources/employee_accounts_management/employee_profile?actor_id=<%= attendance[:id]%>">
                                       <%= attendance[:timein].strftime("%r") %> to <%= attendance[:timeout].strftime("%r") %>
                                       <%= attendance[:remark].present? ? "(" + attendance[:remark] + ")" : "" %>
                                     </a>
                                   </div></li>
                                   <% end %>
+                              <% end %>
                               <% end %>
 
                               <% if whatRestDay(employee.id, current_date) %>
@@ -204,6 +207,7 @@
             table = $("table.generic_table").get();
             $("body").empty();
             $("body").html(table);
+            $("body").append("<br><br>Name and Signature of Evaluator: ______________________________________________ <br>");
             $("a").removeAttr("href");
             $("head").empty();
         });

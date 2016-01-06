@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 
     get 'compensation_and_benefits/' => 'compensation_and_benefits#index'
     namespace :compensation_and_benefits do
-      resources :lump_adjustments, :base_rates do
+      resources :lump_adjustments, :base_rates, :vales, :vales_repayments do
         collection do
           concerns :generic_table
         end

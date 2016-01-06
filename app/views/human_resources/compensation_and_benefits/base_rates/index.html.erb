@@ -62,7 +62,7 @@
             <% @base_rates.each do |base_rate| %>
                 <tr>
                   <td><%= base_rate[:id] %></td>
-                  <td><%= link_to( base_rate.employee.actor.name ,{:action => 'employee_profile', :actor_id => base_rate.employee.actor.id} ) %></td>
+                  <td><%= generic_actor_profile_link(base_rate.employee.actor.id, base_rate.employee.actor.name) %></td>
                   <td>
                     <%=
                         if(base_rate[:signed_type])

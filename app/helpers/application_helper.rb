@@ -75,6 +75,10 @@ module ApplicationHelper
     link_to title, :order_by => column, :arrangement => direction, :employee_id => @employee_id, :offset => @offset
   end
 
+  def generic_actor_profile_link(my_ID, my_name)
+    render(:partial => 'core_partials/actor_profile_link', :locals => {:my_ID => my_ID, :my_name => my_name})
+  end
+
   def generic_form_edit_id_indicator(selected_model_id)
     render(:partial => 'core_partials/generic_form_edit_id_indicator', :locals => {:selected_model_id => selected_model_id})
   end

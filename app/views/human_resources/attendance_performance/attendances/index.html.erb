@@ -50,7 +50,7 @@
             <% @attendances.each do |attendance| %>
                 <tr>
                   <td><%= attendance[:id] %></td>
-                  <td><%= link_to( attendance.employee.actor.name ,'/human_resources/employee_accounts_management/employee_profile?actor_id=' + attendance.employee.actor.id ) %></td>
+                  <td><%= generic_actor_profile_link(attendance.employee.actor.id, attendance.employee.actor.name) %></td>
                   <td><%= attendance[:date_of_attendance] %> </td>
                   <td><%= attendance[:timein].present? ? attendance[:timein].strftime("%H:%M:%S") : "n/a" %> </td>
                   <td><%= attendance[:timeout].present? ? attendance[:timeout].strftime("%H:%M:%S") : "n/a" %> </td>

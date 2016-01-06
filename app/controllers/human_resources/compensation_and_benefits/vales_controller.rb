@@ -1,33 +1,35 @@
-class HumanResources::CompensationAndBenefits::LumpAdjustmentsController < HumanResources::CompensationAndBenefitsController
+class HumanResources::CompensationAndBenefits::ValesController < HumanResources::CompensationAndBenefitsController
 
   def index
-    query = generic_table_aggregated_queries('lump_adjustments','lump_adjustments.created_at')
+    query = generic_table_aggregated_queries('vales','vales.created_at')
     begin
-      @lump_adjustments = LumpAdjustment
-      .includes(employee: [:actor])
-      .joins(employee: [:actor])
-      .where("actors.name LIKE ? OR " +
-                 "lump_adjustments.id LIKE ? OR " +
-                 "lump_adjustments.amount LIKE ? OR " +
-                 "lump_adjustments.signed_type LIKE ? OR " +
-                 "lump_adjustments.remark LIKE ? OR " +
-                 "lump_adjustments.date_of_effectivity LIKE ? OR " +
-                 "lump_adjustments.created_at LIKE ? OR " +
-                 "lump_adjustments.updated_at LIKE ?",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%")
-      .order(query[:order_parameter] + ' ' + query[:order_orientation])
+      @vales = Vales
+                   .includes(employee: [:actor])
+                   .joins(employee: [:actor])
+                              .where("actors.name LIKE ? OR " +
+                                         "vales.id LIKE ? OR " +
+                                         "vales.amount LIKE ? OR " +
+                                         "vales.amount_of_deduction LIKE ? OR " +
+                                         "vales.period_of_deduction LIKE ? OR " +
+                                         "vales.remark LIKE ? OR " +
+                                         "vales.date_of_effectivity LIKE ? OR " +
+                                         "vales.created_at LIKE ? OR " +
+                                         "vales.updated_at LIKE ?",
+                                     "%#{query[:search_field]}%",
+                                     "%#{query[:search_field]}%",
+                                     "%#{query[:search_field]}%",
+                                     "%#{query[:search_field]}%",
+                                     "%#{query[:search_field]}%",
+                                     "%#{query[:search_field]}%",
+                                     "%#{query[:search_field]}%",
+                                     "%#{query[:search_field]}%",
+                                     "%#{query[:search_field]}%")
+                              .order(query[:order_parameter] + ' ' + query[:order_orientation])
       @lump_adjustments = Kaminari.paginate_array(@lump_adjustments).page(params[:page]).per(query[:current_limit])
     rescue
       flash[:general_flash_notification] = "Error has Occured"
     end
-    render 'human_resources/compensation_and_benefits/lump_adjustments/index'
+    render 'human_resources/compensation_and_benefits/vales/index'
   end
 
   def search_suggestions
