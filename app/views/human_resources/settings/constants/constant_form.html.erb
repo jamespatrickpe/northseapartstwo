@@ -3,6 +3,7 @@
   <div class='subdescription'> Add a new system parameter </div>
   <hr>
   <div class='small-6 columns generic_form'>
+
     <% if @selected_constant[:id].present? %>
         <span class="current_edit_id">
           <%= 'Editing Constant ID: ' + @selected_constant[:id].to_s %>
@@ -10,11 +11,19 @@
         <br><br>
     <% end %>
 
+    <%
+       @selected_constant[:id].present? ?
+               (current_method = :patch; current_action = @selected_constant[:id] ) :
+               (current_method = :post; current_action = 'create')
+    %>
+
     <%=
-        form_tag( {action: :process_constant_form},
+        form_tag( {:action => current_action},
+                  {:method => current_method,
                   class: 'create_form',
-                  id: "new_constant",
-                  :"data-parsley-validate" => "" ) do
+                  id: "new_constant_form",
+                  :"data-parsley-validate" => "" },
+        ) do
     %>
 
         <%= hidden_field_tag('constant[id]', @selected_constant[:id] ) %>
@@ -79,8 +88,8 @@
         <%=
             if @selected_constant[:id].present?
               link_to( "DELETE".html_safe,
-                       {:action => 'delete_constant',
-                        :constant_id => @selected_constant[:id]},
+                       {:action => 'delete',
+                        :id => @selected_constant[:id]},
                        class: 'tiny button deletable_item')
             end
         %>
