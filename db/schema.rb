@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160106021228) do
+ActiveRecord::Schema.define(version: 20160107002141) do
 
   create_table "accesses", force: :cascade do |t|
     t.string   "actor_id",        limit: 36
@@ -129,7 +129,7 @@ ActiveRecord::Schema.define(version: 20160106021228) do
     t.string   "remark",              limit: 256
     t.boolean  "active",              limit: 1,   default: false
     t.string   "employee_id",         limit: 36
-    t.datetime "date_of_effectivity",             default: '2016-01-06 20:05:24'
+    t.datetime "date_of_effectivity",             default: '2016-01-07 09:04:10'
     t.datetime "created_at",                                                      null: false
     t.datetime "updated_at",                                                      null: false
   end
@@ -265,18 +265,11 @@ ActiveRecord::Schema.define(version: 20160106021228) do
   create_table "regular_work_periods", force: :cascade do |t|
     t.time     "start_time",                      default: '2000-01-01 08:00:00'
     t.time     "end_time",                        default: '2000-01-01 17:00:00'
-    t.datetime "date_of_effectivity",             default: '2016-01-06 20:05:22'
+    t.datetime "date_of_effectivity",             default: '2016-01-07 09:04:08'
     t.string   "remark",              limit: 256
     t.string   "employee_id",         limit: 36
     t.datetime "created_at",                                                      null: false
     t.datetime "updated_at",                                                      null: false
-  end
-
-  create_table "repaid_payments_from_employees", force: :cascade do |t|
-    t.decimal  "amount",                                      precision: 16, scale: 2
-    t.string   "advanced_payments_to_employee_id", limit: 36
-    t.datetime "created_at",                                                           null: false
-    t.datetime "updated_at",                                                           null: false
   end
 
   create_table "rest_days", force: :cascade do |t|
@@ -295,15 +288,26 @@ ActiveRecord::Schema.define(version: 20160106021228) do
     t.datetime "updated_at"
   end
 
+  create_table "vale_adjustments", force: :cascade do |t|
+    t.decimal  "amount",                          precision: 16, scale: 2
+    t.boolean  "signed_type",         limit: 1,                            default: true
+    t.string   "remark",              limit: 256
+    t.string   "vale_id",             limit: 36
+    t.datetime "date_of_effectivity"
+    t.datetime "created_at",                                                              null: false
+    t.datetime "updated_at",                                                              null: false
+  end
+
   create_table "vales", force: :cascade do |t|
+    t.boolean  "approval_status",     limit: 1,                            default: false
     t.decimal  "amount",                          precision: 16, scale: 2
     t.decimal  "amount_of_deduction",             precision: 16, scale: 2
     t.string   "period_of_deduction", limit: 64
     t.string   "remark",              limit: 256
     t.string   "employee_id",         limit: 36
     t.datetime "date_of_effectivity"
-    t.datetime "created_at",                                               null: false
-    t.datetime "updated_at",                                               null: false
+    t.datetime "created_at",                                                               null: false
+    t.datetime "updated_at",                                                               null: false
   end
 
 end

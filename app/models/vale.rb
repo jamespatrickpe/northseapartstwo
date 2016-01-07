@@ -7,4 +7,5 @@ class Vale < ActiveRecord::Base
   validates_presence_of :amount, maximum: 16
   validates_presence_of :amount_of_deduction, maximum: 16
   validates_presence_of :period_of_deduction, maximum: 64
+  validates :approval_status, inclusion: { in: [true, false] }
 end

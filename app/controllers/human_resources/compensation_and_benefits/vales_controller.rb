@@ -33,7 +33,7 @@ class HumanResources::CompensationAndBenefits::ValesController < HumanResources:
   end
 
   def search_suggestions
-    adjustments = LumpAdjustment.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    adjustments = Vale.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + adjustments.uniq.to_s + "}"
     respond_to do |format|
       format.all { render :text => direct}
@@ -41,53 +41,54 @@ class HumanResources::CompensationAndBenefits::ValesController < HumanResources:
   end
 
   def delete
-    lumpAdjustmentToBeDeleted = LumpAdjustment.find(params[:id])
-    lumpAdjustmentOwner = Employee.find(lumpAdjustmentToBeDeleted.employee_id)
-    flash[:general_flash_notification] = 'Lump adjustment for employees ' + lumpAdjustmentOwner.actor.name + ' has been deleted.'
+    vale_to_be_deleted = Vale.find(params[:id])
+    owner = Employee.find(vale_to_be_deleted.employee_id)
+    flash[:general_flash_notification] = 'Vale for employees ' + owner.actor.name + ' has been deleted.'
     flash[:general_flash_notification_type] = 'affirmative'
-    lumpAdjustmentToBeDeleted.destroy
+    vale_to_be_deleted.destroy
     redirect_to :action => 'index'
   end
 
   def new
     initialize_employee_selection
     @selected_lump_adjustment = LumpAdjustment.new
-    render 'human_resources/compensation_and_benefits/lump_adjustments/lump_adjustment_form'
+    render 'human_resources/compensation_and_benefits/vales/vales_form'
   end
 
   def edit
     initialize_employee_selection
     @selected_lump_adjustment = LumpAdjustment.find(params[:id])
-    render 'human_resources/compensation_and_benefits/lump_adjustments/lump_adjustment_form'
+    render 'human_resources/compensation_and_benefits/vales/vales_form'
   end
 
-  def process_lump_adjustment_form(lumpAdjustment)
+  def process_lump_adjustment_form(vale)
     begin
-      lumpAdjustment.id = params[:lump_adjustment][:id]
-      lumpAdjustment.amount = params[:lump_adjustment][:amount]
-      lumpAdjustment.employee_id = params[:lump_adjustment][:employee_id]
-      lumpAdjustment.signed_type = params[:lump_adjustment][:signed_type]
-      lumpAdjustment.remark = params[:lump_adjustment][:remark]
-      lumpAdjustment.date_of_effectivity = params[:lump_adjustment][:date_of_effectivity]
-      lumpAdjustment.save!
+      vale.id = params[:vale][:id]
+      vale.approval_status = params[:vale][:approval_status]
+      vale.amount = params[:vale][:amount]
+      vale.amount_of_deduction = params[:vale][:amount_of_deduction]
+      vale.period_of_deduction = params[:vale][:period_of_deduction]
+      vale.remark = params[:vale][:remark]
+      vale.employee_id = params[:vale][:employee_id]
+      vale.date_of_effectivity = params[:vale][:date_of_effectivity]
+      vale.save!
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex
-      puts ex
       flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
     end
     redirect_to :action => 'index'
   end
 
   def create
-    lumpAdjustment = LumpAdjustment.new()
-    process_lump_adjustment_form(lumpAdjustment)
-    flash[:general_flash_notification] = 'Lump Adjustment Added!'
+    vale = Vale.new()
+    flash[:general_flash_notification] = 'Vale Added!'
+    process_lump_adjustment_form(vale)
   end
 
   def update
-    lumpAdjustment = LumpAdjustment.find(params[:lump_adjustment][:id])
-    process_lump_adjustment_form(lumpAdjustment)
-    flash[:general_flash_notification] = 'Lump Adjustment Updated!'
+    vale = Vale.find(params[:vale][:id])
+    flash[:general_flash_notification] = 'Vale Updated!'
+    process_lump_adjustment_form(vale)
   end
 
 end

@@ -480,16 +480,30 @@ numberOfActors.times do |i|
     end
 
     # For Vales
-    rand(1..5).times do |i|
+    rand(0..2).times do |i|
       if 8.in(10)
-        myVale = Vale.new
-        myVale.employee = myEmployee
-        myVale.amount = randomMoney(900.10,5000.00)
-        myVale.amount_of_deduction = randomMoney(10.00,900.00)
-        myVale.period_of_deduction = ['month','day','week','year'].sample
-        myVale.remark = Faker::Lorem.word
-        myVale.date_of_effectivity = rand(720..72000).hours.ago
-        myVale.save!
+        my_vale = Vale.new
+        approval_status = -> { [false,true].sample }
+        my_vale.approval_status = approval_status.call
+        my_vale.employee = myEmployee
+        my_vale.amount = randomMoney(900.10,5000.00)
+        my_vale.amount_of_deduction = randomMoney(10.00,900.00)
+        my_vale.period_of_deduction = ['month','day','week','year'].sample
+        my_vale.remark = Faker::Lorem.word
+        my_vale.date_of_effectivity = rand(720..72000).hours.ago
+        my_vale.save!
+        if 5.in(10)
+          rand(1..3).times do |i|
+          my_vale_adjustment = ValeAdjustment.new
+          my_vale_adjustment.vale = my_vale
+          my_vale_adjustment.amount = randomMoney(10.10,250.00)
+          vale_signed_type = -> { [false,true].sample }
+          my_vale_adjustment.signed_type = vale_signed_type.call
+          my_vale_adjustment.remark = Faker::Lorem.word
+          my_vale_adjustment.date_of_effectivity = rand(720..72000).hours.ago
+          my_vale_adjustment.save!
+          end
+        end
       end
     end
 
