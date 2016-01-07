@@ -3,7 +3,7 @@ class HumanResources::CompensationAndBenefits::ValesController < HumanResources:
   def index
     query = generic_table_aggregated_queries('vales','vales.created_at')
     begin
-      @vales = Vales
+      @vales = ::Vale
                    .includes(employee: [:actor])
                    .joins(employee: [:actor])
                               .where("actors.name LIKE ? OR " +
@@ -25,9 +25,9 @@ class HumanResources::CompensationAndBenefits::ValesController < HumanResources:
                                      "%#{query[:search_field]}%",
                                      "%#{query[:search_field]}%")
                               .order(query[:order_parameter] + ' ' + query[:order_orientation])
-      @lump_adjustments = Kaminari.paginate_array(@lump_adjustments).page(params[:page]).per(query[:current_limit])
-    rescue
-      flash[:general_flash_notification] = "Error has Occured"
+      @vales = Kaminari.paginate_array(@vales).page(params[:page]).per(query[:current_limit])
+    rescue => ex
+      flash[:general_flash_notification] = "Error has Occured" + ex.to_s
     end
     render 'human_resources/compensation_and_benefits/vales/index'
   end
