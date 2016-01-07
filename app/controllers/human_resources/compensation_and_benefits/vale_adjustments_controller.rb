@@ -1,0 +1,2 @@
+class HumanResources::CompensationAndBenefits::ValeAdjustmentsController < ApplicationController
+end
