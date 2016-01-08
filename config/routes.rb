@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   concern :generic_table do
-      get :search_suggestions
+    get :search_suggestions
   end
 
   get 'human_resources/' => 'human_resources#index'
@@ -19,6 +19,16 @@ Rails.application.routes.draw do
     namespace :compensation_and_benefits do
     end
     namespace :attendance do
+    end
+  end
+
+  get 'general_administrator/' => 'actor#index'
+  namespace :actor_search do
+    get 'actor_search/' => 'actor#index'
+    resource :actors do
+      collection do
+        concerns :generic_table
+      end
     end
   end
 

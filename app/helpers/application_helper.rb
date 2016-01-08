@@ -91,6 +91,10 @@ module ApplicationHelper
     render(:partial => 'core_partials/generic_table_search')
   end
 
+  def generic_actor_search()
+    render(:partial => 'core_partials/generic_actor_search')
+  end
+
   def generateReadableID()
     generatedID = SecureRandom.random_number(999999999).to_s.rjust(9,'0')
     while( self.where(id: generatedID) )
