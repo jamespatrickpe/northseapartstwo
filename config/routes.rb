@@ -24,16 +24,16 @@ Rails.application.routes.draw do
         collection do
           concerns :generic_table
         end
-    end
-  end
-
-  get 'general_administrator/' => 'actor#index'
-  namespace :actor_search do
-    get 'actor_search/' => 'actor#index'
-    resource :actors do
-      collection do
-        concerns :generic_table
       end
+    end
+
+    get 'general_administrator/' => 'actor#index'
+    namespace :actor_search do
+      get 'actor_search/' => 'actor#index'
+      resource :actors do
+        collection do
+          concerns :generic_table
+        end
       end
     end
 
