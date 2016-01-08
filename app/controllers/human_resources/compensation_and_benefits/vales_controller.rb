@@ -51,13 +51,13 @@ class HumanResources::CompensationAndBenefits::ValesController < HumanResources:
 
   def new
     initialize_employee_selection
-    @selected_lump_adjustment = LumpAdjustment.new
+    @selected_vale = Vale.new
     render 'human_resources/compensation_and_benefits/vales/vales_form'
   end
 
   def edit
     initialize_employee_selection
-    @selected_lump_adjustment = LumpAdjustment.find(params[:id])
+    @selected_vale = Vale.find(params[:id])
     render 'human_resources/compensation_and_benefits/vales/vales_form'
   end
 

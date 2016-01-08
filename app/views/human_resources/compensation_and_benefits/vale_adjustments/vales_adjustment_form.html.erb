@@ -1,0 +1,95 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Vale Form </div>
+  <div class='subdescription'> Set the Status of an Advanced Payment </div>
+  <hr>
+  <div class='small-6 columns generic_form'>
+
+    <%= generic_form_edit_id_indicator(@selected_vale[:id]) %>
+
+    <%
+       @selected_vale_adjustment[:id].present? ?
+               (current_method = :patch; current_action = @selected_vale_adjustment[:id] ) :
+               (current_method = :post; current_action = 'create')
+    %>
+
+    <%=
+        form_tag( {:action => current_action},
+                  {:method => current_method,
+                   :class => 'create_form',
+                   :id => "new_vale_adjustment_form",
+                   :"data-parsley-validate" => ""
+                  },
+        ) do
+    %>
+        <%= hidden_field_tag('vale_adjustment[id]', @selected_vale_adjustment[:id] ) %>
+
+        Parent Vale ID: <br>
+        <select name='vale_adjustment[vale_id]'
+                id='new_vale_adjustment_employee'
+                class='employee_select_field'
+                required="required" >
+
+          <option value="" disabled selected>Select Parent Vale ID</option>
+          <% @vales.each do |vale| %>
+              <% if vale.id == @selected_vale_adjustment.vale_id %>
+                  <option value=<%= vale.id %> selected><%= vale.actor.name %></option>
+              <% else %>
+                  <option value=<%= vale.id %>><%= vale.actor.name %></option>
+              <% end %>
+          <% end %>
+        </select>
+
+        <br> Signed Type: <br>
+        <select name='vale_adjustment[signed_type]'
+                style="width: 50%"
+                required="required" >
+          <% if @selected_vale[:approval_status] == true %>
+              <option disabled >Select Approval Status</option>
+              <option value=1 selected>Approved</option>
+              <option value=0>Rejected</option>
+          <% else %>
+              <option disabled>Select Approval Status</option>
+              <option value=1>Approved</option>
+              <option value=0 selected>Rejected</option>
+          <% end %>
+        </select>
+
+        <br> Amount: <br>
+        <%= text_field_tag("vale_adjustment[amount_of_deduction]",
+                           content = @selected_vale_adjustment[:amount_of_deduction],
+                           options = {placeholder: "Enter amount",
+                                      required: "required",
+                                      id: "vale_amount_of_deduction",
+                                      :"data-parsley-trigger" => "keyup",
+                                      :"data-parsley-step" => "0.01",
+                                      :"data-parsley-type" => "number"}) %>
+
+
+        <br>Date of Effectivity:<br>
+        <input type="datetime-local"
+               required="required"
+               name="vale_adjustment[date_of_effectivity]"
+               style="width: 50%"
+               step="1"
+               value= <%= @selected_vale_adjustment[:date_of_effectivity].present? ? @selected_vale_adjustment[:date_of_effectivity].strftime('%FT%T') : Time.now.strftime('%FT%T')  %>>
+
+        <br> Remarks <br>
+        <%= text_area_tag("vale_adjustment[remark]",
+                          content = @selected_vale_adjustment[:remark],
+                          options = {class: "remark_description",
+                                     :"data-parsley-trigger" => "keyup",
+                                     :"data-parsley-maxlength"=>"128",
+                                     :placeholder => 'Remarks' }) %>
+
+        <%= generic_form_footer(@selected_vale_adjustment[:id]) %>
+
+        <hr />
+
+
+    <% end %>
+
+  </div>
+
+  <%= renderCorePartial('employee_quick_profile') %>
+
+</section>
