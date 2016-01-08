@@ -64,7 +64,11 @@
                        end
                     %>
                   </td>
-                  <td><%= vale_adjustment[:vale_id] %> </td>
+                  <td>
+                    <%= link_to( vale_adjustment[:vale_id],
+                                 'http://localhost:3000/human_resources/compensation_and_benefits/vales/' + vale_adjustment[:vale_id] + '/edit')
+                    %>
+                  </td>
                   <td><%= vale_adjustment[:remark] %> </td>
                   <td><%= vale_adjustment[:date_of_effectivity] %></td>
                   <td><%= vale_adjustment[:created_at] %></td>

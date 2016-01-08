@@ -91,4 +91,9 @@ class HumanResources::CompensationAndBenefits::ValesController < HumanResources:
     process_lump_adjustment_form(vale)
   end
 
+  def show
+    
+    render 'human_resources/compensation_and_benefits/vales/show'
+  end
+
 end
