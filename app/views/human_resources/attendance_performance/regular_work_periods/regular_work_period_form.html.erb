@@ -1,0 +1,80 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Regular Work Period Form </div>
+  <div class='subdescription'> Manage Regular work period of an employee </div>
+  <hr>
+  <div class='small-6 columns generic_form'>
+
+    <%= generic_form_edit_id_indicator(@selected_regular_work_period[:id]) %>
+
+    <%
+       @selected_regular_work_period[:id].present? ?
+               (current_method = :patch; current_action = @selected_regular_work_period[:id] ) :
+               (current_method = :post; current_action = 'create')
+    %>
+
+    <%=
+        form_tag( {:action => current_action},
+                  {:method => current_method,
+                   :class => 'create_form',
+                   :id => "new_regular_work_period_form",
+                   :"data-parsley-validate" => ""
+                  },
+        ) do
+    %>
+
+        <%= hidden_field_tag('regular_work_period[id]', @selected_regular_work_period[:id] ) %>
+
+        Employee
+        <select name='regular_work_period[employee_id]'
+                id='new_regular_work_period_employee'
+                class='employee_select_field'
+                required="required" >
+          <option value="" disabled selected>Select Employee</option>
+          <% @employees.each do |employee| %>
+              <% if employee.id == @selected_regular_work_period[:employee_id] %>
+                  <option value=<%= employee[:id] %> selected><%= employee.actor.name %></option>
+              <% else %>
+                  <option value=<%= employee[:id] %>><%= employee.actor.name %></option>
+              <% end %>
+          <% end %>
+        </select>
+
+        Start Time:
+        <input name="regular_work_period[start_time]"
+               required="required"
+               data-parsley-trigger="change"
+               value= <%= @selected_regular_work_period[:start_time].present? ?
+                                  @selected_regular_work_period[:start_time].strftime('%T') :
+                                  Time.now.strftime('%T') %>
+                       type="time" step="1">
+
+        End Time:
+        <input name="regular_work_period[end_time]"
+               required="required"
+               data-parsley-trigger="change"
+               value= <%= @selected_regular_work_period[:end_time].present? ?
+                                  @selected_regular_work_period[:end_time].strftime('%T') :
+                                  Time.now.strftime('%T') %>
+                       type="time" step="1">
+
+        Date of Effectivity:
+        <input name="regular_work_period[date_of_effectivity]"
+               required="required"
+               value= <%= @selected_regular_work_period[:date_of_effectivity].present? ?
+                                  @selected_regular_work_period[:date_of_effectivity].strftime('%FT%T') :
+                                  Time.now.strftime('%FT%T') %>
+                       type="datetime-local" step="1">
+
+        <%= text_area_tag("regular_work_period[remark]",
+                          content = @selected_regular_work_period[:remark],
+                          options = {class: "remark_description",
+                                     :"data-parsley-trigger" => "keyup",
+                                     :"data-parsley-maxlength"=>"128",
+                                     :placeholder => 'Remarks' }) %>
+
+    <%= generic_form_footer(@selected_regular_work_period[:id]) %>
+    <% end %>
+
+  </div>
+  <%= renderCorePartial('employee_quick_profile') %>
+</section>

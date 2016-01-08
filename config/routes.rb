@@ -6,6 +6,39 @@ Rails.application.routes.draw do
 
   get 'human_resources/' => 'human_resources#index'
   namespace :human_resources do
+
+    get 'employee_accounts_management/' => 'employee_accounts_management#index'
+    namespace :employee_accounts_management do
+      get 'employee_profile/' => 'employee_profile#index'
+      get 'employee_profile/index' => 'employee_profile#index'
+      resources :employees, :duty_statuses do
+        collection do
+          concerns :generic_table
+        end
+      end
+    end
+
+    get 'compensation_and_benefits/' => 'compensation_and_benefits#index'
+    namespace :compensation_and_benefits do
+      resources :lump_adjustments, :base_rates, :vales, :vale_adjustments do
+        collection do
+          concerns :generic_table
+        end
+      end
+    end
+
+    get 'attendance_performance/' => 'attendance_performance#index'
+    namespace :attendance_performance do
+      get '/branch_attendance_sheet' => 'branch_attendance_sheet#index'
+      get '/branch_attendance_sheet/index' => 'branch_attendance_sheet#index'
+      match '/branch_attendance_sheet/process_branch_attendance_sheet', to: 'branch_attendance_sheet#process_branch_attendance_sheet', via: [:post]
+      resources :rest_days, :attendances, :regular_work_periods do
+        collection do
+          concerns :generic_table
+        end
+      end
+    end
+
     get 'settings/' => 'settings#index'
     namespace :settings do
       resources :constants, :holidays, :holiday_types do
@@ -14,17 +47,10 @@ Rails.application.routes.draw do
         end
       end
     end
-    namespace :employee_accounts_management do
-    end
-    namespace :compensation_and_benefits do
-    end
-    namespace :attendance do
-    end
+
   end
 
   get 'application/reset_search' => 'application#reset_search'
-
-
 
   resources :test, only: :index
   root to: 'home#index'

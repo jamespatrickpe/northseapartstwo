@@ -4,12 +4,7 @@
   <hr>
   <div class='small-6 columns generic_form'>
 
-    <% if @selected_holiday[:id].present? %>
-        <span class="current_edit_id">
-          <%= 'Editing Holiday ID: ' + @selected_holiday[:id].to_s %>
-        </span>
-        <br><br>
-    <% end %>
+    <%= generic_form_edit_id_indicator(@selected_holiday[:id]) %>
 
     <%
        @selected_holiday[:id].present? ?
@@ -26,7 +21,9 @@
                   },
         ) do
     %>
+
     <%= hidden_field_tag('holiday[id]', @selected_holiday[:id] ) %>
+
     <div>
       Date of Implementation:
       <input type="date"
@@ -73,19 +70,7 @@
                                  :"data-parsley-maxlength"=>"128",
                                  :placeholder => 'Description' })
     %>
-
-    <%= link_to( "BACK".html_safe, {:action => 'index'}, class: 'tiny button') %>
-    <%=
-        if @selected_holiday[:id].present?
-        link_to( "DELETE".html_safe,
-                 {:action => 'delete',
-                  :id => @selected_holiday[:id]},
-                 class: 'tiny button deletable_item')
-        end
-    %>
-    <input type="reset" class="tiny button" value="RESET" />
-    <input type="submit" class="tiny button" value="SUBMIT" />
-
+    <%= generic_form_footer(@selected_holiday[:id]) %>
     <% end %>
 
   </div>

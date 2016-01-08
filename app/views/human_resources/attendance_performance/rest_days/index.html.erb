@@ -1,0 +1,65 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Rest Days Management </div>
+  <div class='subdescription'> Manage Rest Days for each Employee </div>
+  <hr>
+  <%= generic_table_search %>
+  <% table_orientation = shift_table_orientation %>
+  <% begin %>
+      <table class="generic_table" id="rest_days_table">
+        <thead>
+        <tr>
+          <th>
+            Rest Days ID
+            <%= generic_table_theadlink('rest_days.id', table_orientation) %>
+          </th>
+          <th>
+            Employee
+            <%= generic_table_theadlink('actors.name', table_orientation) %>
+          </th>
+          <th>
+            Day
+            <%= generic_table_theadlink('rest_days.day', table_orientation) %>
+          </th>
+          <th>
+            Date of Effectivity
+            <%= generic_table_theadlink('rest_days.date_of_effectivity', table_orientation) %>
+          </th>
+          <th>
+            Date Registered
+            <%= generic_table_theadlink('rest_days.created_at', table_orientation) %>
+          </th>
+          <th>
+            Last Updated
+            <%= generic_table_theadlink('rest_days.updated_at', table_orientation) %>
+          </th>
+          <th class="actions">&nbsp;</th>
+        </tr>
+        </thead>
+        <% if @rest_days.empty? == true %>
+            <% raise exception %>
+        <% else %>
+            <tbody>
+            <% @rest_days.each do |rest_day| %>
+                <tr>
+                  <td><%= rest_day[:id] %></td>
+                  <td><%= generic_actor_profile_link(rest_day.employee.actor.id, rest_day.employee.actor.name) %></td>
+                  <td><%= rest_day[:day] %> </td>
+                  <td><%= rest_day[:date_of_effectivity] %> </td>
+                  <td><%= rest_day[:created_at] %></td>
+                  <td><%= rest_day[:updated_at] %></td>
+                  <td class="actions">
+                    <%= generic_table_actions(rest_day[:id]) %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+        <% end %>
+      </table>
+      <% rescue %>
+      <script>
+          html = "<hr><p align='center'> No records found. Please try again. </p><hr>"
+          $(".generic_table").replaceWith(html)
+      </script>
+      <% end %>
+      <%= generic_table_footer(@rest_days) %>
+</section>

@@ -1,0 +1,92 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Vales </div>
+  <div class='subdescription'> Advanced Payments to Employees  </div>
+  <hr>
+  <%= generic_table_search %>
+  <% table_orientation = shift_table_orientation %>
+  <% begin %>
+      <table class="generic_table" id="lump_adjustments_table">
+        <thead>
+        <tr>
+          <th>
+            Vales ID
+            <%= generic_table_theadlink('vales.id', table_orientation) %>
+          </th>
+          <th>
+            Employee
+            <%= generic_table_theadlink('actors.name', table_orientation) %>
+          </th>
+          <th>
+            Amount
+            <%= generic_table_theadlink('vales.amount', table_orientation) %>
+          </th>
+          <th>
+            Approval Status
+            <%= generic_table_theadlink('vales.approval_status', table_orientation) %>
+          </th>
+          <th>
+            Amount of Deduction
+            <%= generic_table_theadlink('vales.amount_of_deduction', table_orientation) %>
+          </th>
+          <th>
+            Period of Deduction
+            <%= generic_table_theadlink('vales.period_of_deduction', table_orientation) %>
+          </th>
+          <th>
+            Remark
+            <%= generic_table_theadlink('vales.remark', table_orientation) %>
+          </th>
+          <th>
+            Date of Effectivity
+            <%= generic_table_theadlink('vales.date_of_effectivity', table_orientation) %>
+          </th>
+          <th>
+            Date Created
+            <%= generic_table_theadlink('vales.created_at', table_orientation) %>
+          </th>
+          <th>
+            Last Updated
+            <%= generic_table_theadlink('vales.updated_at', table_orientation) %>
+          </th>
+          <th class="actions" align="center">&nbsp;</th>
+        </tr>
+        </thead>
+        <% if @vales.empty? == true %>
+            <% raise exception %>
+        <% else %>
+            <tbody>
+            <% @vales.each do |vale| %>
+                <tr>
+                  <td><%= vale[:id] %></td>
+                  <td><%= generic_actor_profile_link(vale.employee.actor.id, vale.employee.actor.name) %></td>
+                  <td><%= vale[:amount] %> </td>
+                  <td>
+                    <%= if vale[:approval_status]
+                          "APPROVED"
+                       else
+                          "REJECTED"
+                       end
+                    %>
+                  </td>
+                  <td><%= vale[:amount_of_deduction] %> </td>
+                  <td><%= vale[:period_of_deduction] %> </td>
+                  <td><%= vale[:remark] %> </td>
+                  <td><%= vale[:date_of_effectivity] %></td>
+                  <td><%= vale[:created_at] %></td>
+                  <td><%= vale[:updated_at] %></td>
+                  <td class="actions">
+                    <%= generic_table_actions(vale[:id]) %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+        <% end %>
+      </table>
+  <% rescue %>
+      <script>
+          html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
+          $(".generic_table").replaceWith(html)
+      </script>
+  <% end %>
+  <%= generic_table_footer(@vales) %>
+</section>

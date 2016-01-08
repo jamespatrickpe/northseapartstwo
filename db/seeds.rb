@@ -479,46 +479,33 @@ numberOfActors.times do |i|
       RateAdjustment.create( amount: randomMoney(100.10,1000.00), signed_type: ["ADDITION", "DEDUCTION"].sample, employee: myEmployee, description: Faker::Lorem.sentence, rate_of_time: ["DAY", "WEEK", "MONTH"].sample, activated: randomBoolean())
     end
 
-    # For AdvancedPaymentsToEmployee
-    if(randomBoolean() && randomBoolean() )
-      randomDays = rand(0..30)
-      timeOfAdvancedPaymentsToEmployee = Faker::Time.between(randomDays.days.ago, Time.now, :all)
-      advancedPaymentsToEmployeeAmount = rand(2000.00..25000.00)
-      advancedPaymentsToEmployeeRateOfPayment = ((advancedPaymentsToEmployeeAmount)/rand(1.00..25.00))
-      advancedPaymentsToEmployeeStatus = ["APPROVED", "NOT APPROVED"].sample
-      myAdvancedPaymentsToEmployee = AdvancedPaymentsToEmployee.create( created_at: timeOfAdvancedPaymentsToEmployee, updated_at: timeOfAdvancedPaymentsToEmployee, employee: myEmployee, amount: advancedPaymentsToEmployeeAmount ,description: Faker::Lorem.words(4), rate_of_payment: advancedPaymentsToEmployeeRateOfPayment, rate_of_time: ["DAY", "WEEK", "MONTH"].sample, status: advancedPaymentsToEmployeeStatus )
-      myAdvancedPaymentsToEmployee.save
-
-      #Repayments
-      rand(1..5).times do |i|
-        maxPaymentIteration = (advancedPaymentsToEmployeeAmount / advancedPaymentsToEmployeeRateOfPayment).ceil
-        totalPaid = 0
-        if((advancedPaymentsToEmployeeStatus == "APPROVED") && randomBoolean() )
-          rand(1..maxPaymentIteration).times do |i|
-
-            timeofPayment = Faker::Time.between(timeOfAdvancedPaymentsToEmployee, Time.now, :all)
-            advancedPaymentsToEmployeePayment = advancedPaymentsToEmployeeRateOfPayment*rand(0.5..2)
-            myRepaidPaymentsFromEmployee = RepaidPaymentsFromEmployee.new
-
-            myRepaidPaymentsFromEmployee.advanced_payments_to_employee = myAdvancedPaymentsToEmployee
-            myRepaidPaymentsFromEmployee.created_at = timeofPayment
-            myRepaidPaymentsFromEmployee.updated_at = timeofPayment
-            currentPayment = 0
-            if(advancedPaymentsToEmployeeAmount > totalPaid)
-              currentPayment = advancedPaymentsToEmployeePayment
-            elsif(advancedPaymentsToEmployeeAmount < totalPaid)
-              currentPayment = advancedPaymentsToEmployeeAmount - totalPaid
-            elsif(advancedPaymentsToEmployeeAmount < totalPaid)
-              currentPayment = 0
-            end
-            myRepaidPaymentsFromEmployee.amount = currentPayment
-            myRepaidPaymentsFromEmployee.save
-            totalPaid += currentPayment
+    # For Vales
+    rand(0..2).times do |i|
+      if 8.in(10)
+        my_vale = Vale.new
+        approval_status = -> { [false,true].sample }
+        my_vale.approval_status = approval_status.call
+        my_vale.employee = myEmployee
+        my_vale.amount = randomMoney(900.10,5000.00)
+        my_vale.amount_of_deduction = randomMoney(10.00,900.00)
+        my_vale.period_of_deduction = ['MONTH','DAY','WEEK','YEAR'].sample
+        my_vale.remark = Faker::Lorem.word
+        my_vale.date_of_effectivity = rand(720..72000).hours.ago
+        my_vale.save!
+        if 5.in(10)
+          rand(1..3).times do |i|
+          my_vale_adjustment = ValeAdjustment.new
+          my_vale_adjustment.vale = my_vale
+          my_vale_adjustment.amount = randomMoney(10.10,250.00)
+          vale_signed_type = -> { [false,true].sample }
+          my_vale_adjustment.signed_type = vale_signed_type.call
+          my_vale_adjustment.remark = Faker::Lorem.word
+          my_vale_adjustment.date_of_effectivity = rand(720..72000).hours.ago
+          my_vale_adjustment.save!
           end
         end
       end
-
-
     end
+
   end
 end

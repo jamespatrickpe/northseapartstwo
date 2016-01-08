@@ -1,0 +1,75 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Regular Work Periods </div>
+  <div class='subdescription'> Regular Working Hours for an Employee </div>
+  <hr>
+  <%= generic_table_search %>
+  <% table_orientation = shift_table_orientation %>
+  <% begin %>
+      <table class="generic_table" id="regular_work_periods_table">re
+        <thead>
+        <tr>
+          <th>
+            Regular Work Period ID
+            <%= generic_table_theadlink('regular_work_periods.id', table_orientation) %>
+          </th>
+          <th>
+            Employee
+            <%= generic_table_theadlink('actors.name', table_orientation) %>
+          </th>
+          <th>
+            Start Time
+            <%= generic_table_theadlink('regular_work_periods.start_time', table_orientation) %>
+          </th>
+          <th>
+            End Time
+            <%= generic_table_theadlink('regular_work_periods.end_time', table_orientation) %>
+          </th>
+          <th>
+            Date of Effectivity
+            <%= generic_table_theadlink('regular_work_periods.date_of_effectivity', table_orientation) %>
+          </th>
+          <th>
+            Remark
+            <%= generic_table_theadlink('regular_work_periods.remark', table_orientation) %>
+          </th>
+          <th>
+            Date Created
+            <%= generic_table_theadlink('regular_work_periods.created_at', table_orientation) %>
+          </th>
+          <th>
+            Last Updated
+            <%= generic_table_theadlink('regular_work_periods.updated_at', table_orientation) %>
+          </th>
+          <th class="actions">&nbsp;</th>
+        </tr>
+        </thead>
+        <% if @regular_work_periods.empty? == true %>
+            <% raise exception %>
+        <% else %>
+            <tbody>
+            <% @regular_work_periods.each do |regular_work_period| %>
+                <tr>
+                  <td><%= regular_work_period[:id] %></td>
+                  <td><%= generic_actor_profile_link(regular_work_period.employee.actor.id, regular_work_period.employee.actor.name) %></td>
+                  <td><%= regular_work_period[:start_time].strftime("%H:%M") %> </td>
+                  <td><%= regular_work_period[:end_time].strftime("%H:%M") %> </td>
+                  <td><%= regular_work_period[:date_of_effectivity] %> </td>
+                  <td><%= regular_work_period[:remark] %> </td>
+                  <td><%= regular_work_period[:created_at] %></td>
+                  <td><%= regular_work_period[:updated_at] %></td>
+                  <td class="actions">
+                    <%= generic_table_actions(regular_work_period[:id]) %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+        <% end %>
+      </table>
+  <% rescue %>
+      <script>
+          html = "<hr><p align='center'> No records found. Please try again. </p><hr>"
+          $(".generic_table").replaceWith(html)
+      </script>
+  <% end %>
+  <%= generic_table_footer(@regular_work_periods) %>
+</section>
