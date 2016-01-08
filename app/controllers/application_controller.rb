@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def check_time_if_between
+  def check_time_if_between_attendance
     time_check = false
     my_time = Time.strptime(params[:time],"%H:%M")
     employee_id = params[:employee_id]
@@ -51,7 +51,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def check_time_if_overlap
+  def check_time_if_overlap_attendance
     time_check = false
     timein = Time.strptime(params[:timein],"%H:%M")
     timeout = Time.strptime(params[:timeout],"%H:%M")
@@ -239,7 +239,7 @@ class ApplicationController < ActionController::Base
   def processUserTypeSelection(params)
     @roles = params[:access][:role]
     @roles.each do |role|
-      if(role == "employee")
+      if(role == "employees")
 
       end
     end

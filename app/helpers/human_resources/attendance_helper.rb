@@ -1,2 +1,0 @@
-module HumanResources::AttendanceHelper
-end

@@ -4,7 +4,7 @@ function update_quick_profile(){
         .done(function( employee_overview_profile ) {
             var obj = jQuery.parseJSON( employee_overview_profile );
             $('#employee_quick_actor_link').html( obj['actor']['name'] );
-            $('#employee_quick_actor_link').attr('href', '/human_resources/employee_profile?actor_id=' + obj['actor']['id'] );
+            $('#employee_quick_actor_link').attr('href', '/human_resources/employee_accounts_management/employee_profile?actor_id=' + obj['actor']['id'] );
             $('#employee_quick_employee_id').html( obj['id'] );
             $('#employee_quick_actor_description').html( obj['actor']['description'] );
             $('#employee_quick_picture').attr( 'src', obj['actor']['logo']['url'] );

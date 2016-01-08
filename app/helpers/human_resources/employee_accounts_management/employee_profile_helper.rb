@@ -1,0 +1,2 @@
+module HumanResources::EmployeeAccountsManagement::EmployeeProfileHelper
+end

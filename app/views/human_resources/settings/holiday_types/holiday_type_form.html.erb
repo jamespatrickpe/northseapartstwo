@@ -3,12 +3,8 @@
   <div class='subdescription'> Set a Type of Holiday </div>
   <hr>
   <div class='small-6 columns generic_form'>
-    <% if @selected_holiday_type[:id].present? %>
-        <span class="current_edit_id">
-          <%= 'Editing Holiday Type ID: ' + @selected_holiday_type[:id].to_s %>
-        </span>
-        <br><br>
-    <% end %>
+
+    <%= generic_form_edit_id_indicator(@selected_holiday_type[:id]) %>
 
     <%
        @selected_holiday_type[:id].present? ?
@@ -91,18 +87,7 @@
         </select>
 
         <br><br>
-        <%= link_to( "BACK".html_safe, {:action => 'index'}, class: 'tiny button') %>
-        <%=
-            if @selected_holiday_type[:id].present?
-              link_to( "DELETE".html_safe,
-                       {:action => 'delete',
-                        :id => @selected_holiday_type[:id]},
-                       class: 'tiny button delete_item')
-            end
-        %>
-        <input type="reset" class="tiny button" value="RESET" />
-        <input type="submit" class="tiny button" value="SUBMIT" />
-
+        <%= generic_form_footer(@selected_holiday_type[:id]) %>
     <% end %>
 
   </div>

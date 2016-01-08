@@ -1,0 +1,80 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Lump Adjustments </div>
+  <div class='subdescription'> Payroll Adjustments for a Specific Period in Time  </div>
+  <hr>
+  <%= generic_table_search %>
+  <% table_orientation = shift_table_orientation %>
+  <% begin %>
+      <table class="generic_table" id="lump_adjustments_table">
+        <thead>
+        <tr>
+          <th>
+            Lump Adjustments ID
+            <%= generic_table_theadlink('lump_adjustments.id', table_orientation) %>
+          </th>
+          <th>
+            Employee
+            <%= generic_table_theadlink('actors.name', table_orientation) %>
+          </th>
+          <th>
+            Date of Effectivity
+            <%= generic_table_theadlink('lump_adjustments.date_of_effectivity', table_orientation) %>
+          </th>
+          <th>
+            Type
+            <%= generic_table_theadlink('lump_adjustments.signed_type', table_orientation) %>
+          </th>
+          <th>
+            Amount
+            <%= generic_table_theadlink('lump_adjustments.amount', table_orientation) %>
+          </th>
+          <th>
+            Remark <%= generic_table_theadlink('lump_adjustments.remark', table_orientation) %>
+          </th>
+          <th>
+            Date Created <%= generic_table_theadlink('lump_adjustments.created_at', table_orientation) %>
+          </th>
+          <th>
+            Last Updated <%= generic_table_theadlink('lump_adjustments.updated_at', table_orientation) %>
+          </th>
+          <th class="actions" align="center">&nbsp;</th>
+        </tr>
+        </thead>
+        <% if @lump_adjustments.empty? == true %>
+            <% raise exception %>
+        <% else %>
+            <tbody>
+            <% @lump_adjustments.each do |lump_adjustment| %>
+                <tr>
+                  <td><%= lump_adjustment[:id] %></td>
+                  <td><%= generic_actor_profile_link(lump_adjustment.employee.actor.id, lump_adjustment.employee.actor.name) %></td>
+                  <td><%= lump_adjustment[:date_of_effectivity] %> </td>
+                  <td>
+                    <%=
+                        if(lump_adjustment[:signed_type])
+                          "ADDITIVE"
+                        else
+                          "DEDUCTIVE"
+                        end
+                    %>
+                  </td>
+                  <td><%= lump_adjustment[:amount] %> </td>
+                  <td><%= lump_adjustment[:remark] %> </td>
+                  <td><%= lump_adjustment[:created_at] %></td>
+                  <td><%= lump_adjustment[:updated_at] %></td>
+                  <td class="actions">
+                    <%= generic_table_actions(lump_adjustment[:id]) %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+        <% end %>
+      </table>
+  <% rescue %>
+      <script>
+          html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
+          $(".generic_table").replaceWith(html)
+      </script>
+  <% end %>
+  <%= generic_table_footer(@lump_adjustments) %>
+</section>

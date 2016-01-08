@@ -1,0 +1,216 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Branch Attendance Sheet </div>
+  <div class='subdescription'> Attendance Sheet for Selected Branch  </div>
+  <hr>
+
+  <%=
+      form_tag( {:action => 'index'},
+                {:method => :get,
+                 :class => 'create_form',
+                 :id => "new_batch_process_form",
+                 :"data-parsley-validate" => ""
+                },
+      ) do
+  %>
+
+      <select name='branch[id]' id='branch_attendance_selector'
+              class='branch_select_field'
+              style="width: 25%; display: inline;"
+              required="required" >
+
+        <option value="" disabled selected>Select Branch</option>
+        <% @branches.each do |branch| %>
+            <% if branch.id == @selected_branch.id %>
+                <option value=<%= branch.id %> selected><%= branch.name %></option>
+            <% else %>
+                <option value=<%= branch.id %>><%= branch.name %></option>
+            <% end %>
+        <% end %>
+      </select>
+
+      <input name='start_date'
+             value="<%= @start_date.present? ? @start_date.strftime("%Y-%m-%d") : Time.now.strftime("%Y-%m-%d") %>"
+             type="date" style="width: 25%; display: inline;"
+             required="required">
+
+      <input name='end_date'
+             value="<%= @end_date.present? ? @end_date.strftime("%Y-%m-%d") : Time.now.strftime("%Y-%m-%d") %>"
+             type="date" style="width: 25%; display: inline;"
+             required="required">
+
+      <input type="submit"
+             class="tiny button"
+             value="Generate Attendance Sheet">
+
+  <% end %>
+
+  <% if @selected_branch.id.present? %>
+
+      <%=
+          form_tag( {:action => 'process_branch_attendance_sheet'},
+                    {:method => :post,
+                     :class => 'form_branch_attendance_sheet',
+                     :id => "new_batch_process_form",
+                     :"data-parsley-validate" => ""
+                    },
+          ) do
+      %>
+
+          <input type="hidden" name=<%="branch[id]"%> value=<%= @selected_branch[:id] %>>
+          <input type="hidden" name=<%="start_date"%> value=<%= @start_date %>>
+          <input type="hidden" name=<%="end_date"%> value=<%= @end_date %>>
+          <div style="overflow-x: scroll;">
+            <table class="generic_table">
+              <thead class="branch_attendance_sheet_table_head">
+              <tr>
+                <th style="text-align: center">Employees</th>
+                <% @number_of_days.times do |i| %>
+                    <% current_date = @start_date + i.days %>
+                    <% if current_date.strftime("%Y-%m-%d") == Date.today.to_s %>
+                        <th style="background-color: #c64700;">
+                    <% else %>
+                        <th>
+                    <% end %>
+                      <%= current_date.strftime("%m/%d/%Y") %> <br>
+                      <%= current_date.strftime("%A") %>
+                      <% if whatHoliday( current_date ) %>
+                          (<%= whatHoliday( current_date ) %>)
+                      <% end %>
+                    </th>
+                <% end %>
+              </tr>
+              </thead>
+              <tbody>
+              <% current_set = 0%>
+              <% @employees_by_branch.each do |employee| %>
+                  <% if get_current_duty_status(employee.id) == true %>
+                  <tr>
+                    <td align="center" style="border-right: solid #721314 thin; background-color: grey; color: white; text-align: center">
+
+                    <%= link_to employee.actor.name, '/human_resources/employee_accounts_management/employee_profile?actor_id=' + employee.actor.id , style: "color: white; text-align:center; padding: 5px;" %>
+                    </td>
+                    <% @number_of_days.times do |i| %>
+                        <% current_date = @start_date + i.days %>
+                        <% regular_work_hours = get_duration_regular_work_hours(employee.id, current_date) %>
+                        <% actual_work_hours = get_duration_actual_work_hours(employee.id, current_date) %>
+                        <% current_date_formatted = current_date.strftime("%m/%d/%Y") %>
+                        <% if regular_work_hours == actual_work_hours %>
+                        <td class="present">
+                        <% elsif actual_work_hours == 0 %>
+                        <td>
+                        <% elsif regular_work_hours > actual_work_hours %>
+                        <td class="undertime">
+                        <% elsif regular_work_hours < actual_work_hours %>
+                        <td class="overtime">
+                        <% else %>
+                        <td>
+                        <% end %>
+
+                          <div class="toggable_attendance_content">
+                          Time In: <input id="attendance_timein_<%= current_set.to_s %>"
+                                          step="1"
+                                          name=<%="attendance_performance["+current_set.to_s+"][timein]"%>
+                                          type="time"
+                                          data-parsley-trigger="change"
+                                          data-parsley-time_order_attendance="<%= current_set.to_s %>"
+                                          data-parsley-time_overlap_attendance="<%= current_set.to_s %>"
+                                          data-parsley-time_between_attendance="<%= current_set.to_s %>">
+
+                          Time Out: <input id="attendance_timeout_<%= current_set.to_s %>"
+                                           step="1"
+                                           name=<%="attendance_performance["+current_set.to_s+"][timeout]"%>
+                                           type="time"
+                                           data-parsley-trigger="change"
+                                           data-parsley-time_order_attendance="<%= current_set.to_s %>"
+                                           data-parsley-time_overlap_attendance="<%= current_set.to_s %>"
+                                           data-parsley-time_between_attendance="<%= current_set.to_s %>">
+
+                          <input style="font-size: 12px;" type="input" id="attendance_remark_<%= current_set.to_s %>" name=<%="attendance_performance["+current_set.to_s+"][remark]"%> placeholder="remark"><br>
+                          </div>
+
+                          <div class="toggable_attendance_content" style="display: none; width: 150px;">
+                              <ul>
+                              <% if @attendances_per_employee_in_branch.present? %>
+                              <% @attendances_per_employee_in_branch.each do |attendance| %>
+                                  <% if (attendance[:employee_id] == employee.id) && (attendance[:date_of_attendance] == current_date) %>
+                                  <li style="padding: 3px;"><div>
+                                    <a target="_blank" class="attendance_link" style="color:white" href="/human_resources/employee_accounts_management/employee_profile?actor_id=<%= attendance[:id]%>">
+                                      <%= attendance[:timein].strftime("%r") %> to <%= attendance[:timeout].strftime("%r") %>
+                                      <%= attendance[:remark].present? ? "(" + attendance[:remark] + ")" : "" %>
+                                    </a>
+                                  </div></li>
+                                  <% end %>
+                              <% end %>
+                              <% end %>
+
+                              <% if whatRestDay(employee.id, current_date) %>
+                              <li style="padding: 3px;">
+                                <a style="color:white"
+                                   target="_blank"
+                                   class="attendance_link"
+                                   href="/human_resources/edit_rest_day?rest_day_id=<%= whatRestDay(employee.id,current_date) %>" >
+                                Rest Day for Employee
+                                </a></li>
+                              <% else %>
+                              <br>
+                              <% end %>
+                              </ul>
+                          </div>
+
+                          <input type="hidden" id="attendance_employee_id_<%= current_set.to_s %>" name=<%="attendance_performance["+current_set.to_s+"][employee_id]"%> value=<%= employee.id %>>
+                          <input type="hidden" id="attendance_employee_actor_name_<%= current_set.to_s %>" name=<%="attendance_performance["+current_set.to_s+"][employee_actor_name]"%> value='<%= employee.actor.name %>'>
+                          <input type="hidden" id="attendance_date_<%= current_set.to_s %>" name=<%="attendance_performance["+current_set.to_s+"][date]"%> value=<%= current_date.strftime("%F") %>>
+                          <input type="hidden" id="attendance_set_<%= current_set.to_s %>" name=<%="attendance_performance[set]"%> value=<%= current_set.to_s %>>
+
+                        </td>
+                        <% current_set = current_set + 1 %>
+                    <% end %>
+                  </tr>
+                  <% end %>
+              <% end %>
+              </tbody>
+              <input type="hidden" name="total_items" value=<%= current_set %>>
+            </table>
+          </div>
+          <br>
+          <div style="float:left">
+            <span class="attendance_day_type_caption no_data_absent">NO DATA / ABSENT</span>
+            <span class="attendance_day_type_caption present">PRESENT</span>
+            <span class="attendance_day_type_caption overtime">OVERTIME</span>
+            <span class="attendance_day_type_caption undertime">UNDERTIME</span>
+          </div>
+          <div style="float:right">
+            <input class="tiny button" type="reset" value="Reset Attendance" />
+            <input class="tiny button" id="printable_attendance_sheet" type="button" value="Printable Attendance Sheet" />
+            <input class="tiny button" id="toggle_attendance_content" type="button" value="Toggle Records" />
+            <input class="tiny button record_attendance" type="submit" value="Record Attendance" />
+          </div>
+      <% end %>
+  <% end %>
+</section>
+
+<script>
+    $(document).ready(function(){
+        $( "#toggle_attendance_content" ).click(function() {
+            $( ".toggable_attendance_content" ).toggle();
+        });
+
+        $( "#printable_attendance_sheet" ).click(function() {
+            $("table.generic_table").css({"font-size": 12,"font-family": "arial"});
+            $("a.table_orientation_indicator").remove();
+            $("table.generic_table table.generic_table td.actions").remove();
+            $(".toggable_attendance_content").empty().append(
+                            "<div>TIME IN: ________________________ </div><br>" +
+                            "<div>TIME OUT: ________________________ </div><br>" +
+                            "<div>SIGNATURE: ________________________ </div><br>" +
+                            "<div>REMARK: ________________________ </div><br>" );
+            table = $("table.generic_table").get();
+            $("body").empty();
+            $("body").html(table);
+            $("body").append("<br><br>Name and Signature of Evaluator: ______________________________________________ <br>");
+            $("a").removeAttr("href");
+            $("head").empty();
+        });
+
+    });
+</script>
