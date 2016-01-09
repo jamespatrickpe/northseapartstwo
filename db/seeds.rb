@@ -488,7 +488,7 @@ numberOfActors.times do |i|
         my_vale.employee = myEmployee
         my_vale.amount = randomMoney(900.10,5000.00)
         my_vale.amount_of_deduction = randomMoney(10.00,900.00)
-        my_vale.period_of_deduction = ['month','day','week','year'].sample
+        my_vale.period_of_deduction = ['MONTH','DAY','WEEK','YEAR'].sample
         my_vale.remark = Faker::Lorem.word
         my_vale.date_of_effectivity = rand(720..72000).hours.ago
         my_vale.save!

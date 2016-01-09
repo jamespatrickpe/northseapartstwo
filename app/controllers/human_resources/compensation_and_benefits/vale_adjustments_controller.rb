@@ -1,2 +1,91 @@
-class HumanResources::CompensationAndBenefits::ValeAdjustmentsController < ApplicationController
+class HumanResources::CompensationAndBenefits::ValeAdjustmentsController < HumanResources::CompensationAndBenefitsController
+
+  def index
+    query = generic_table_aggregated_queries('vale_adjustments','vale_adjustments.created_at')
+    begin
+      @vale_adjustments = ::ValeAdjustment
+                   .includes(vale: [employee: [:actor]])
+                   .joins(vale: [employee: [:actor]])
+                   .where("actors.name LIKE ? OR " +
+                              "vale_adjustments.id LIKE ? OR " +
+                              "vale_adjustments.amount LIKE ? OR " +
+                              "vale_adjustments.signed_type LIKE ? OR " +
+                              "vale_adjustments.remark LIKE ? OR " +
+                              "vale_adjustments.vale_id LIKE ? OR " +
+                              "vale_adjustments.date_of_effectivity LIKE ? OR " +
+                              "vale_adjustments.created_at LIKE ? OR " +
+                              "vale_adjustments.updated_at LIKE ?",
+                          "%#{query[:search_field]}%",
+                          "%#{query[:search_field]}%",
+                          "%#{query[:search_field]}%",
+                          "%#{query[:search_field]}%",
+                          "%#{query[:search_field]}%",
+                          "%#{query[:search_field]}%",
+                          "%#{query[:search_field]}%",
+                          "%#{query[:search_field]}%",
+                          "%#{query[:search_field]}%")
+                   .order(query[:order_parameter] + ' ' + query[:order_orientation])
+      @vale_adjustments = Kaminari.paginate_array(@vale_adjustments).page(params[:page]).per(query[:current_limit])
+    rescue => ex
+      flash[:general_flash_notification] = "Error has Occured"
+    end
+    render 'human_resources/compensation_and_benefits/vale_adjustments/index'
+  end
+
+  def search_suggestions
+    adjustments = ValeAdjustment.includes(vale: [employee: [:actor]]).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + adjustments.uniq.to_s + "}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
+  def delete
+    vale_adjustment = ValeAdjustment.find(params[:id])
+    flash[:general_flash_notification] = 'Vale Adjustments for Employees has been Deleted.'
+    flash[:general_flash_notification_type] = 'affirmative'
+    vale_adjustment.destroy
+    redirect_to :action => 'index'
+  end
+
+  def new
+    @selected_vale_adjustment = ValeAdjustment.new
+    @vales = Vale.includes(employee: [:actor]).joins(employee: [:actor])
+    render 'human_resources/compensation_and_benefits/vale_adjustments/vale_adjustments_form'
+  end
+
+  def edit
+    @selected_vale_adjustment = ValeAdjustment.find(params[:id])
+    @vales = Vale.includes(employee: [:actor]).joins(employee: [:actor])
+    render 'human_resources/compensation_and_benefits/vale_adjustments/vale_adjustments_form'
+  end
+
+  def process_vale_adjustment_form(vale_adjustment)
+    begin
+      vale_adjustment.id = params[:vale_adjustment][:id]
+      vale_adjustment.amount = params[:vale_adjustment][:amount]
+      vale_adjustment.signed_type = params[:vale_adjustment][:signed_type]
+      vale_adjustment.vale_id = params[:vale_adjustment][:vale_id]
+      vale_adjustment.remark = params[:vale_adjustment][:remark]
+      vale_adjustment.date_of_effectivity = params[:vale_adjustment][:date_of_effectivity]
+      vale_adjustment.save!
+      flash[:general_flash_notification_type] = 'affirmative'
+    rescue => ex
+      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
+    end
+    redirect_to :action => 'index'
+  end
+
+  def create
+    vale_adjustment = ValeAdjustment.new()
+    flash[:general_flash_notification] = 'Vale Added!'
+    process_vale_adjustment_form(vale_adjustment)
+  end
+
+  def update
+    vale_adjustment = ValeAdjustment.find(params[:vale_adjustment][:id])
+    flash[:general_flash_notification] = 'Vale Updated!'
+    process_vale_adjustment_form(vale_adjustment)
+  end
+
 end

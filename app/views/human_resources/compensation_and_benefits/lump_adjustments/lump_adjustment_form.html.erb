@@ -54,16 +54,16 @@
                 required="required" >
           <% if @selected_lump_adjustment[:signed_type] == true %>
               <option disabled >Select Signed Type</option>
-              <option value="ADDITIVE" selected>Additive</option>
-              <option value="DEDUCTIVE">Deductive</option>
+              <option value=1 selected>Additive</option>
+              <option value=0>Deductive</option>
           <% elsif @selected_lump_adjustment[:signed_type] == false %>
               <option disabled >Select Signed Type</option>
-              <option value="ADDITIVE">Additive</option>
-              <option value="DEDUCTIVE" selected>Deductive</option>
+              <option value=1>Additive</option>
+              <option value=0 selected>Deductive</option>
           <% else %>
               <option disabled selected>Select Signed Type</option>
-              <option value="ADDITIVE">Additive</option>
-              <option value="DEDUCTIVE">Deductive</option>
+              <option value=1>Additive</option>
+              <option value=0>Deductive</option>
           <% end %>
         </select>
 
@@ -87,12 +87,7 @@
         <%= generic_form_footer(@selected_lump_adjustment[:id]) %>
 
         <hr />
-
-
     <% end %>
-
   </div>
-
   <%= renderCorePartial('employee_quick_profile') %>
-
 </section>

@@ -21,6 +21,10 @@
             <%= generic_table_theadlink('vales.amount', table_orientation) %>
           </th>
           <th>
+            Approval Status
+            <%= generic_table_theadlink('vales.approval_status', table_orientation) %>
+          </th>
+          <th>
             Amount of Deduction
             <%= generic_table_theadlink('vales.amount_of_deduction', table_orientation) %>
           </th>
@@ -53,9 +57,22 @@
             <tbody>
             <% @vales.each do |vale| %>
                 <tr>
-                  <td><%= vale[:id] %></td>
+                  <td>
+                    <%=
+                        link_to( vale[:id] ,
+                                 '/human_resources/compensation_and_benefits/vales/' + vale[:id])
+                    %>
+                  </td>
                   <td><%= generic_actor_profile_link(vale.employee.actor.id, vale.employee.actor.name) %></td>
                   <td><%= vale[:amount] %> </td>
+                  <td>
+                    <%= if vale[:approval_status]
+                          "APPROVED"
+                       else
+                          "REJECTED"
+                       end
+                    %>
+                  </td>
                   <td><%= vale[:amount_of_deduction] %> </td>
                   <td><%= vale[:period_of_deduction] %> </td>
                   <td><%= vale[:remark] %> </td>
