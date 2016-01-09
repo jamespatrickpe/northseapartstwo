@@ -28,10 +28,9 @@
                 id='new_vale_adjustment_employee'
                 class='employee_select_field'
                 required="required" >
-
-          <option value="" disabled selected>Select Parent Vale ID</option>
+          <option value='' <%= @parent_vale_id.present? ? '':'selected' %> >Select Parent Vale ID</option>
           <% @vales.each do |vale| %>
-              <% if vale.id == @selected_vale_adjustment.vale_id %>
+              <% if vale.id == (@parent_vale_id ||= @selected_vale_adjustment.vale_id)  %>
                   <option value=<%= vale[:id] %> selected><%= vale[:id] %></option>
               <% else %>
                   <option value=<%= vale[:id] %>><%= vale[:id] %></option>
@@ -84,6 +83,24 @@
                                      :"data-parsley-trigger" => "keyup",
                                      :"data-parsley-maxlength"=>"128",
                                      :placeholder => 'Remarks' }) %>
+
+        <%=
+            if @parent_vale_id.present?
+              link_to( 'Parent Vale'.html_safe,
+                       '/human_resources/compensation_and_benefits/vales/' + @parent_vale_id + '/edit',
+                       class: 'tiny button')
+            end
+        %>
+
+        <%=
+            if @parent_vale_id.present?
+              link_to( 'Vale Summary'.html_safe,
+                       '/human_resources/compensation_and_benefits/vales/' + @parent_vale_id,
+                       class: 'tiny button')
+            end
+        %>
+
+        <hr>
 
         <%= generic_form_footer(@selected_vale_adjustment[:id]) %>
 

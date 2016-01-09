@@ -51,6 +51,7 @@ class HumanResources::CompensationAndBenefits::ValeAdjustmentsController < Human
   def new
     @selected_vale_adjustment = ValeAdjustment.new
     @vales = Vale.includes(employee: [:actor]).joins(employee: [:actor])
+    @parent_vale_id = params[:parent_vale_id]
     render 'human_resources/compensation_and_benefits/vale_adjustments/vale_adjustments_form'
   end
 

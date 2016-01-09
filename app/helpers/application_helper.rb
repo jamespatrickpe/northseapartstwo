@@ -1,5 +1,28 @@
 module ApplicationHelper
 
+  def remaining_vale_balance(parent_vale_id)
+    my_vale = Vale.find(parent_vale_id);
+    my_vale_adjustments = ValeAdjustment.where("vale_id = " + parent_vale_id);
+    current_balance = my_vale[:amount]
+    start_time = my_vale[:date_of_effectivity]
+    while(Time.now > start_time)
+
+    end
+  end
+
+  def translate_period_of_time_into_seconds(period_of_time)
+    if period_of_time == 'YEAR'
+      number_of_seconds = 31556926
+    elsif period_of_time == 'MONTH'
+      number_of_seconds = 2629744
+    elsif period_of_time == 'WEEK'
+      number_of_seconds = 604800
+    elsif period_of_time == 'DAY'
+      number_of_seconds = 86400
+    end
+    return number_of_seconds
+  end
+
   def insertTimeIntoDate(myDate, myTime)
     return DateTime.new(myDate.year, myDate.month, myDate.day, myTime.hour, myTime.min, myTime.sec, "+8" )
   end
