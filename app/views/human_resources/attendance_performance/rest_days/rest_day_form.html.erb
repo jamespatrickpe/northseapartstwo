@@ -50,6 +50,7 @@
                                   Time.now.strftime('%F') %>
                type="datetime-local">
 
+        Day:
         <select name='rest_day[day]'
                 required="required" >
           <option value="" disabled <%= @selected_rest_day[:day].present? ? "" : "selected" %> >Select Day of Rest</option>

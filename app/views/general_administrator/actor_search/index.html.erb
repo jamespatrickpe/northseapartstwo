@@ -1,0 +1,58 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Global Person Search </div>
+  <div class='subdescription'> Search a specific person using his/her name or description. </div>
+  <hr>
+  <%= generic_actor_search %>
+
+  <% if @initialQuery.empty? %>
+
+  <% else %>
+
+      <% table_orientation = shift_table_orientation %>
+      <% begin %>
+          <table class="generic_table" id="actors_table">
+            <thead>
+            <tr>
+              <th>
+                Name
+                <%= generic_table_theadlink('actors.name', table_orientation) %>
+              </th>
+              <th>
+                Description
+                <%= generic_table_theadlink('actors.description', table_orientation) %>
+              </th>
+              <th>
+                &nbsp;
+              </th>
+            </tr>
+            </thead>
+            <% if @actors.empty? == true %>
+                <% raise exception %>
+            <% else %>
+                <tbody>
+                <% @actors.each do |actor| %>
+                    <tr>
+                      <td><%= actor[:name] %></td>
+                      <td><%= actor[:description] %></td>
+                      <td><%= generic_actor_profile_link(actor.id, 'View Profile') %></td>
+                    </tr>
+                <% end %>
+                </tbody>
+            <% end %>
+          </table>
+
+      <% rescue => ex
+           puts ex%>
+
+          <script>
+              html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
+              $(".generic_table").replaceWith(html)
+          </script>
+      <% end %>
+      <%= generic_search_footer(@actors) %>
+
+  <% end %>
+
+</section>
+
+
