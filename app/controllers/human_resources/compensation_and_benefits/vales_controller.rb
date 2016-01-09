@@ -92,7 +92,7 @@ class HumanResources::CompensationAndBenefits::ValesController < HumanResources:
   end
 
   def show
-    
+
     render 'human_resources/compensation_and_benefits/vales/show'
   end
 
