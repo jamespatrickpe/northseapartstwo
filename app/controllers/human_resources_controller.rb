@@ -7,55 +7,6 @@ class HumanResourcesController < ApplicationController
     render 'human_resources/index'
   end
 
-  def process_constant_form
-    begin
-      if( params[:constant][:id].present? )
-        currentConstant = Constant.find(params[:constant][:id])
-      else
-        currentConstant = Constant.new()
-      end
-      currentConstant[:constant_type] = params[:constant][:constant_type]
-      currentConstant[:name] = params[:constant][:name]
-      currentConstant[:value] = params[:constant][:value]
-      currentConstant[:remark] = params[:constant][:remark]
-      currentConstant.save!
-      flash[:general_flash_notification] = 'Constant / System param ' + currentConstant[:name] + ' has been added.'
-      flash[:general_flash_notification_type] = 'affirmative'
-    rescue => ex
-      puts ex
-      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
-    end
-    redirect_to :action => 'constants'
-  end
-
-  def new_constant
-    @selected_constant = Constant.new
-    render 'human_resources/settings/constant_form'
-  end
-
-  def edit_constant
-    @selected_constant = Constant.find(params[:constant_id])
-    render 'human_resources/settings/constant_form'
-  end
-
-  def delete_constant
-    constant_to_be_deleted = Constant.find(params[:constant_id])
-    flash[:general_flash_notification] = 'Constant / System param ' + constant_to_be_deleted.name + ' has been deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    constant_to_be_deleted.destroy
-    redirect_to :action => "holidays"
-  end
-
-  def search_suggestions_constants
-    constants = Constant
-                   .where("constants.name LIKE ?","%#{params[:query]}%")
-                   .pluck("constants.name")
-    direct = "{\"query\": \"Unit\",\"suggestions\":[" + constants.to_s.gsub!('[', '').gsub!(']', '') + "]}"
-    respond_to do |format|
-      format.all { render :text => direct}
-    end
-  end
-
   # ================== Holiday Types ================== #
 
   def edit_holiday_type
@@ -65,8 +16,7 @@ class HumanResourcesController < ApplicationController
 
   # ================== Search Suggestion Queries ================== #
 
-
-
+  
   # ================== END ================== #
 
   def assign_duty
