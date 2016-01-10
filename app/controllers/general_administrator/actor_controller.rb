@@ -1,11 +1,13 @@
-class ActorController < ApplicationController
+class GeneralAdministrator::ActorController < GeneralAdministratorController
 
   include ApplicationHelper
 
   layout "application_loggedin"
 
   def index
+
     query = generic_table_aggregated_queries('actors','actors.created_at')
+
     @initialQuery = query[:search_field]
 
     if query[:search_field].empty?
@@ -28,19 +30,22 @@ class ActorController < ApplicationController
         flash[:general_flash_notification] = "Error has Occured"
       end
 
+      # end
+
+      render '/general_administrator/actor/index'
     end
 
-    render '/general_administrator/actor/index'
   end
 
   def search_suggestions
     actors = Actor
-                   .where("actors.name LIKE ?","%#{params[:query]}%")
-                   .pluck("actors.name")
+                 .where("actors.name LIKE ?","%#{params[:query]}%")
+                 .pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":[" + actors.to_s.gsub!('[', '').gsub!(']', '') + "]}"
     respond_to do |format|
       format.all { render :text => direct}
     end
   end
+
 
 end

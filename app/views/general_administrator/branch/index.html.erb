@@ -2,7 +2,6 @@
   <div class='mainheader'> Branches </div>
   <div class='subdescription'> List of all branches  </div>
   <hr>
-  <%= generic_table_search('branches_search_input', 'branches',' Search Branches' , '/general_administrator/search_suggestions_branches', 'branches') %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
       <table class='generic_table' id='branches_table'>
@@ -10,19 +9,19 @@
         <tr>
           <th>
             Branch ID
-            <%= generic_table_theadlink('branches','branches.id', table_orientation) %>
+            <%= generic_table_theadlink('branches.id', table_orientation) %>
           </th>
           <th>
             Name
-            <%= generic_table_theadlink('branches','branches.name', table_orientation) %>
+            <%= generic_table_theadlink('branches.name', table_orientation) %>
           </th>
           <th>
             Date Created
-            <%= generic_table_theadlink('branches','branches.created_at', table_orientation) %>
+            <%= generic_table_theadlink('branches.created_at', table_orientation) %>
           </th>
           <th>
             Last Updated
-            <%= generic_table_theadlink('branches','branches.updated_at', table_orientation) %>
+            <%= generic_table_theadlink('branches.updated_at', table_orientation) %>
           </th>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
@@ -38,7 +37,7 @@
                   <td><%= branch.created_at %> </td>
                   <td><%= branch.updated_at %> </td>
                   <td class="actions">
-                    <%= link_to( "&#9998;".html_safe ,{:action => 'edit_branch', :branch_id => branch.id}, class: 'action_button', tooltip: 'Edit') %>
+                  <%= link_to( "&#9998;".html_safe ,{:action => 'edit_branch', :branch_id => branch.id}, class: 'action_button', tooltip: 'Edit') %>
                     <%= link_to( "&#10006;".html_safe ,{:action => 'delete_branch', :branch_id => branch.id}, class: 'action_button delete_item', tooltip: 'Delete') %>
                   </td>
                 </tr>
@@ -52,5 +51,4 @@
           $(".generic_table").replaceWith(html)
       </script>
   <% end %>
-  <%= generic_table_footer('new_branch','/general_administrator/branches',@branches) %>
 </section>

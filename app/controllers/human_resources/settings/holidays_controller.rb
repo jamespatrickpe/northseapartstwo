@@ -5,7 +5,7 @@ class HumanResources::Settings::HolidaysController < HumanResources::SettingsCon
     begin
       @holidays = Holiday
       .includes(:holiday_type).joins(:holiday_type)
-      .where("holidays.id LIKE ? OR " +
+      .where("holidays.id LIKE ? HolidaysControllerOR " +
                  "holiday_types.type_name LIKE ? OR " +
                  "holidays.description LIKE ? OR " +
                  "holidays.name LIKE ? OR " +
