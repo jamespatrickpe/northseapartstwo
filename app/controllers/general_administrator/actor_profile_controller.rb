@@ -1,6 +1,7 @@
 class GeneralAdministrator::ActorProfileController < GeneralAdministratorController
 
   def index
+
     @selected_model = 'Actor'
     @actors = Actor.includes(:employee).joins(:employee)
     actor_profile

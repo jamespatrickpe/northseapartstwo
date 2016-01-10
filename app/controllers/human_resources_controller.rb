@@ -16,7 +16,7 @@ class HumanResourcesController < ApplicationController
 
   # ================== Search Suggestion Queries ================== #
 
-  
+
   # ================== END ================== #
 
   def assign_duty
