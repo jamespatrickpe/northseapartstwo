@@ -62,8 +62,9 @@ Rails.application.routes.draw do
 
   get 'general_administrator/' => 'general_administrator#index'
   namespace :general_administrator do
-
     get 'actor/' => 'actor#index'
+    get 'actor_profile/' => 'actor_profile#index'
+    get 'actor_profile/index' => 'actor_profile#index'
     namespace :actor do
       get 'actor/index' => 'actor#index'
       resources :actor do
