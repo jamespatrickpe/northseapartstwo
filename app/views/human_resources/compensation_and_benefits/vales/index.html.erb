@@ -57,7 +57,9 @@
             <tbody>
             <% @vales.each do |vale| %>
                 <tr>
-                  <td><%= vale[:id] %></td>
+                  <td>
+                    <%= vale[:id] %>
+                  </td>
                   <td><%= generic_actor_profile_link(vale.employee.actor.id, vale.employee.actor.name) %></td>
                   <td><%= vale[:amount] %> </td>
                   <td>
@@ -76,6 +78,10 @@
                   <td><%= vale[:updated_at] %></td>
                   <td class="actions">
                     <%= generic_table_actions(vale[:id]) %>
+                    <%= link_to( "&#128083;".html_safe,
+                                 '/human_resources/compensation_and_benefits/vales/' + vale[:id],
+                                 class: 'action_button',
+                                 tooltip: 'Examine') %>
                   </td>
                 </tr>
             <% end %>

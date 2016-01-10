@@ -91,4 +91,11 @@ class HumanResources::CompensationAndBenefits::ValesController < HumanResources:
     process_lump_adjustment_form(vale)
   end
 
+  def show
+    @selected_vale = Vale.find(params[:id])
+    @selected_vale_adjustments = ValeAdjustment.where("vale_id = ?", @selected_vale[:id] )
+    @current_duration = Time.now - @selected_vale[:date_of_effectivity]
+    render 'human_resources/compensation_and_benefits/vales/show'
+  end
+
 end
