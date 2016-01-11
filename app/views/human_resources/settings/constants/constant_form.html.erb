@@ -84,18 +84,7 @@
           </section>
         </div>
 
-        <%= link_to( "BACK".html_safe, {:action => 'constants'}, class: 'tiny button') %>
-        <%=
-            if @selected_constant[:id].present?
-              link_to( "DELETE".html_safe,
-                       {:action => 'delete',
-                        :id => @selected_constant[:id]},
-                       class: 'tiny button deletable_item')
-            end
-        %>
-        <input type="reset" class="tiny button" value="RESET" />
-        <input type="submit" class="tiny button" value="SUBMIT" />
-
+        <%= generic_form_footer(@selected_constant[:id]) %>
     <% end %>
 
   </div>
