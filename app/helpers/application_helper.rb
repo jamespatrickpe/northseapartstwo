@@ -1,13 +1,33 @@
 module ApplicationHelper
 
   def remaining_vale_balance(parent_vale_id)
-    my_vale = Vale.find(parent_vale_id);
-    my_vale_adjustments = ValeAdjustment.where("vale_id = " + parent_vale_id);
-    current_balance = my_vale[:amount]
-    start_time = my_vale[:date_of_effectivity]
-    while(Time.now > start_time)
 
+    my_vale = Vale.find(parent_vale_id)
+    my_vale_adjustments = ValeAdjustment.where(vale_id: parent_vale_id)
+    current_balance = my_vale[:amount]
+    iteration = translate_period_of_time_into_seconds(my_vale[:period_of_deduction])
+    current_time = my_vale[:date_of_effectivity]
+    next_time = current_time + iteration
+
+    while(Time.now > current_time)
+      adjustment_in_period_token = false
+      my_vale_adjustments.each do |my_vale_adjustment|
+        if my_vale_adjustment[:date_of_effectivity].between?(current_time, next_time)
+          adjustment_in_period_token = true
+          my_vale_adjustment[:signed_type] ?
+              ( current_balance = current_balance + my_vale_adjustment[:amount] ) :
+              ( current_balance = current_balance - my_vale_adjustment[:amount] )
+        end
+      end
+      (adjustment_in_period_token == false) ? ( current_balance = current_balance - my_vale[:amount_of_deduction] ):()
+      (current_balance < 0) ? (break;) : ()
+      current_time = current_time + iteration
+      next_time = current_time + iteration
     end
+
+    (current_balance < 0) ? (current_balance = "PAID") : ()
+    return current_balance
+
   end
 
   def translate_period_of_time_into_seconds(period_of_time)

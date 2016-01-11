@@ -10,7 +10,7 @@
   <table class="generic_table" id="vales_table">
     <thead>
     <tr>
-      <th>ID Link</th>
+      <th>ID</th>
       <th>Date</th>
       <th>Type</th>
       <th>Additions</th>
@@ -49,18 +49,20 @@
 
     <% while 0 < current_balance %>
         <%
-           current_balance = current_balance - @selected_vale[:amount_of_deduction]
+           adjustment_in_period_token = false
+
            current_type = 'AUTO'
            current_remark = @selected_vale[:remark]
            current_addition = 0
            current_deduction = @selected_vale[:amount_of_deduction]
            current_link = '/human_resources/compensation_and_benefits/vales/' + @selected_vale[:id] + '/edit'
+
            @selected_vale_adjustments.each do |selected_vale_adjustment|
              if selected_vale_adjustment[:date_of_effectivity].between?(previous_time, current_time)
                current_link = '/human_resources/compensation_and_benefits/vale_adjustments/' + selected_vale_adjustment[:id] + '/edit'
                current_id = selected_vale_adjustment[:id]
                if selected_vale_adjustment[:signed_type]
-                 current_balance = current_balance + selected_vale_adjustment[:amount] + @selected_vale[:amount_of_deduction]
+                 current_balance = current_balance + selected_vale_adjustment[:amount]
                  current_addition = selected_vale_adjustment[:amount]
                  current_deduction = 0
                else
@@ -68,14 +70,21 @@
                  current_addition = 0
                  current_deduction = selected_vale_adjustment[:amount]
                end
+               adjustment_in_period_token = true
                current_type = 'ADJUSTMENT'
                current_remark = selected_vale_adjustment[:remark]
              end
            end
+
+           if adjustment_in_period_token == false
+             current_balance = current_balance - @selected_vale[:amount_of_deduction]
+           end
+
            if current_balance < 0
              current_deduction = @selected_vale[:amount_of_deduction] - current_balance.abs
              current_balance = 0
            end
+
         %>
         <% if Time.now.between?(previous_time, current_time) %>
             <tr style="background-color: #ccd9ff;">

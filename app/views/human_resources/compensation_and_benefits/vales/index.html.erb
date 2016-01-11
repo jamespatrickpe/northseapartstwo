@@ -41,6 +41,9 @@
             <%= generic_table_theadlink('vales.date_of_effectivity', table_orientation) %>
           </th>
           <th>
+            Balance Remaining
+          </th>
+          <th>
             Date Created
             <%= generic_table_theadlink('vales.created_at', table_orientation) %>
           </th>
@@ -74,6 +77,7 @@
                   <td><%= vale[:period_of_deduction] %> </td>
                   <td><%= vale[:remark] %> </td>
                   <td><%= vale[:date_of_effectivity] %></td>
+                  <td><%= remaining_vale_balance(vale[:id]) %></td>
                   <td><%= vale[:created_at] %></td>
                   <td><%= vale[:updated_at] %></td>
                   <td class="actions">
@@ -88,9 +92,10 @@
             </tbody>
         <% end %>
       </table>
-  <% rescue %>
+  <% rescue => ex%>
       <script>
           html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
+          html = <%= ex.to_s %>
           $(".generic_table").replaceWith(html)
       </script>
   <% end %>
