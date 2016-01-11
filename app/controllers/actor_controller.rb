@@ -1,4 +1,4 @@
-class ActorController < ApplicationController
+class GeneralAdministrator::ActorController < GeneralAdministratorController
 
   include ApplicationHelper
 
@@ -24,7 +24,6 @@ class ActorController < ApplicationController
         @actors = Kaminari.paginate_array(@actors).page(params[:page]).per(query[:current_limit])
 
       rescue => ex
-        puts ex
         flash[:general_flash_notification] = "Error has Occured"
       end
 
@@ -35,12 +34,21 @@ class ActorController < ApplicationController
 
   def search_suggestions
     actors = Actor
-                   .where("actors.name LIKE ?","%#{params[:query]}%")
-                   .pluck("actors.name")
+                 .where("actors.name LIKE ?","%#{params[:query]}%")
+                 .pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":[" + actors.to_s.gsub!('[', '').gsub!(']', '') + "]}"
     respond_to do |format|
       format.all { render :text => direct}
     end
   end
+
+  def actor
+
+  end
+
+  def new
+
+  end
+
 
 end
