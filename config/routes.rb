@@ -68,8 +68,6 @@ Rails.application.routes.draw do
           concerns :generic_table
         end
       end
-    end
-
   end
 
   get 'application/reset_search' => 'application#reset_search'
