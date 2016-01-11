@@ -34,7 +34,7 @@ class ActorController < ApplicationController
   def search_suggestions
     actors = Actor
                    .where("actors.name LIKE ?","%#{params[:query]}%")
-                   .pluck("actors.name")
+                   .pluck( "actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":[" + actors.to_s.gsub!('[', '').gsub!(']', '') + "]}"
     respond_to do |format|
       format.all { render :text => direct}
