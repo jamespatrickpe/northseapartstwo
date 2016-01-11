@@ -2,6 +2,7 @@
   <div class='mainheader'> Global Person Search </div>
   <div class='subdescription'> Search a specific person using his/her name or description. </div>
   <hr>
+
   <%= generic_actor_search %>
 
   <% if @initialQuery.empty? %>
@@ -50,7 +51,6 @@
           </script>
       <% end %>
       <%= generic_search_footer(@actors) %>
-
   <% end %>
 
 </section>

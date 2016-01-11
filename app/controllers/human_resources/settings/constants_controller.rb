@@ -62,7 +62,7 @@ class HumanResources::Settings::ConstantsController < HumanResources::SettingsCo
   end
 
 
-  def search_suggestions_constants
+  def search_suggestions
     constants = Constant
                     .where("constants.name LIKE ?","%#{params[:query]}%")
                     .pluck("constants.name")

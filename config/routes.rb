@@ -27,16 +27,6 @@ Rails.application.routes.draw do
       end
     end
 
-    get 'general_administrator/' => 'actor#index'
-    namespace :actor_search do
-      get 'actor_search/' => 'actor#index'
-      resource :actors do
-        collection do
-          concerns :generic_table
-        end
-      end
-    end
-
     get 'attendance_performance/' => 'attendance_performance#index'
     namespace :attendance_performance do
       get '/branch_attendance_sheet' => 'branch_attendance_sheet#index'
@@ -52,6 +42,28 @@ Rails.application.routes.draw do
     get 'settings/' => 'settings#index'
     namespace :settings do
       resources :constants, :holidays, :holiday_types do
+        collection do
+          concerns :generic_table
+        end
+      end
+    end
+
+  end
+
+  get 'general_administrator/' => 'general_administrator#index'
+  namespace :general_administrator do
+
+    get 'actor/' => 'actor#index'
+    get 'actor_profile/' => 'actor_profile#index'
+    get 'actor_profile/index' => 'actor_profile#index'
+    resources :actor do
+      collection do
+        concerns :generic_table
+        end
+    end
+
+    get 'branch/' => 'branch#index'
+    resources :branch do
         collection do
           concerns :generic_table
         end

@@ -119,7 +119,7 @@ module ApplicationHelper
   end
 
   def generic_actor_profile_link(my_ID, my_name)
-    render(:partial => 'core_partials/actor_profile_link', :locals => {:my_ID => my_ID, :my_name => my_name})
+    render(:partial => 'core_partials/generic_actor_profile_link', :locals => {:my_ID => my_ID, :my_name => my_name})
   end
 
   def generic_form_edit_id_indicator(selected_model_id)
