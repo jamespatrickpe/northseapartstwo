@@ -41,6 +41,9 @@
             <%= generic_table_theadlink('vales.date_of_effectivity', table_orientation) %>
           </th>
           <th>
+            Balance Remaining
+          </th>
+          <th>
             Date Created
             <%= generic_table_theadlink('vales.created_at', table_orientation) %>
           </th>
@@ -57,7 +60,9 @@
             <tbody>
             <% @vales.each do |vale| %>
                 <tr>
-                  <td><%= vale[:id] %></td>
+                  <td>
+                    <%= vale[:id] %>
+                  </td>
                   <td><%= generic_actor_profile_link(vale.employee.actor.id, vale.employee.actor.name) %></td>
                   <td><%= vale[:amount] %> </td>
                   <td>
@@ -72,19 +77,25 @@
                   <td><%= vale[:period_of_deduction] %> </td>
                   <td><%= vale[:remark] %> </td>
                   <td><%= vale[:date_of_effectivity] %></td>
+                  <td><%= remaining_vale_balance(vale[:id]) %></td>
                   <td><%= vale[:created_at] %></td>
                   <td><%= vale[:updated_at] %></td>
                   <td class="actions">
                     <%= generic_table_actions(vale[:id]) %>
+                    <%= link_to( "&#128083;".html_safe,
+                                 '/human_resources/compensation_and_benefits/vales/' + vale[:id],
+                                 class: 'action_button',
+                                 tooltip: 'Examine') %>
                   </td>
                 </tr>
             <% end %>
             </tbody>
         <% end %>
       </table>
-  <% rescue %>
+  <% rescue => ex%>
       <script>
           html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
+          html = <%= ex.to_s %>
           $(".generic_table").replaceWith(html)
       </script>
   <% end %>

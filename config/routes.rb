@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   concern :generic_table do
-      get :search_suggestions
+    get :search_suggestions
   end
 
   get 'human_resources/' => 'human_resources#index'
@@ -48,6 +48,26 @@ Rails.application.routes.draw do
       end
     end
 
+  end
+
+  get 'general_administrator/' => 'general_administrator#index'
+  namespace :general_administrator do
+
+    get 'actor/' => 'actor#index'
+    get 'actor_profile/' => 'actor_profile#index'
+    get 'actor_profile/index' => 'actor_profile#index'
+    resources :actor do
+      collection do
+        concerns :generic_table
+        end
+    end
+
+    get 'branch/' => 'branch#index'
+    resources :branch do
+        collection do
+          concerns :generic_table
+        end
+      end
   end
 
   get 'application/reset_search' => 'application#reset_search'

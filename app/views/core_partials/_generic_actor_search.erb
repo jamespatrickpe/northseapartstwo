@@ -9,10 +9,10 @@
                             value=nil,
                             options = {id: controller.controller_name+"_search_input",
                                        class: 'generic_table_search_field',
-                                       placeholder: ("Search in " + controller.controller_name).to_s.gsub('_',' '),
+                                       placeholder: ("Search for a specific person using his/her name or description"),
                                        :"data-parsley-trigger" => "keyup",
-                                       :"data-parsley-minlength"=>"3" ,
-                                       :"data-parsley-maxlength"=>"64"
+                                       :"data-parsley-required" => "true",
+                                       :"data-parsley-minlength"=>"1"
                             }) %>
       </div>
       <div class="small-2 columns">
@@ -30,20 +30,6 @@
       <div class="small-3 columns"></div>
     </div>
     <br>
-    <%
-       search_field = controller.controller_name + '_' + 'search_field'
-       order_parameters = controller.controller_name + '_' + 'order_parameter'
-       order_orientation = controller.controller_name + '_' + 'order_orientation'
-       current_limit = controller.controller_name + '_' + 'current_limit'
-       if (flash[search_field].empty? == false)
-    %>
-        <div class="search_query_description">
-          Searching for "<%= flash[search_field] %>"
-          with "<%= flash[order_parameters] %>"
-          ordered by "<%= flash[order_orientation] %>"
-          at <%= flash[current_limit] %> per page
-        </div>
-    <% end %>
 
 <% end %>
 

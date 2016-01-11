@@ -1,5 +1,3 @@
-
-// For generic_table
 $(document).ready(function(){
 
     $(".generic_table > tbody > tr").hover(
@@ -11,5 +9,8 @@ $(document).ready(function(){
 
     $("a[tooltip = 'Delete']").qtip
     ({content: 'Delete'})
+
+    $("a[tooltip = 'Examine']").qtip
+    ({content: 'Examine'})
 
 });

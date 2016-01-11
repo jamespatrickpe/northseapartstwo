@@ -64,7 +64,7 @@
                            options = {placeholder: "Enter amount",
                                       required: "required",
                                       id: "vale_amount",
-                                      :"data-parsley-trigger" => "keyup",
+                                      :"data-parsley-trigger" => "change",
                                       :"data-parsley-step" => "0.01",
                                       :"data-parsley-type" => "number"}) %>
 
@@ -74,13 +74,14 @@
                            options = {placeholder: "Enter amount",
                                       required: "required",
                                       id: "vale_amount_of_deduction",
-                                      :"data-parsley-trigger" => "keyup",
+                                      :"data-parsley-trigger" => "change",
                                       :"data-parsley-vale_deduction" => "0",
                                       :"data-parsley-step" => "0.01",
                                       :"data-parsley-type" => "number"}) %>
 
         Period of Deduction <br>
         <select name='vale[period_of_deduction]'
+                id='vale_period_of_deduction'
                 style="width: 50%"
                 required="required" >
           <% if @selected_vale[:period_of_deduction] == 'DAY' %>
@@ -119,6 +120,7 @@
         <br>Date of Effectivity:<br>
         <input type="datetime-local"
                required="required"
+               id="vale_date_of_effectivity"
                name="vale[date_of_effectivity]"
                style="width: 50%"
                step="1"
@@ -132,15 +134,74 @@
                                      :"data-parsley-maxlength"=>"128",
                                      :placeholder => 'Remarks' }) %>
 
+        <%=
+            if @selected_vale[:id].present?
+              link_to( "Vale Summary".html_safe,
+                       {:action => 'show',
+                        :id => @selected_vale[:id]},
+                       class: 'tiny button')
+            end
+        %>
+        <%=
+            if @selected_vale[:id].present?
+              link_to( "Add Adjustment".html_safe,
+                       '/human_resources/compensation_and_benefits/vale_adjustments/new?parent_vale_id=' + @selected_vale[:id],
+                       class: 'tiny button')
+            end
+        %>
+        <hr>
         <%= generic_form_footer(@selected_vale[:id]) %>
 
         <hr />
-
-
     <% end %>
-
   </div>
 
   <%= renderCorePartial('employee_quick_profile') %>
 
+  <div id="vale_summary" class="small-5 columns" style="margin: 15px; padding: 10px; background-color: #717171; color:white; font-size: 12px; display: none;">
+
+  </div>
+
 </section>
+
+<script>
+    $( "#vale_amount_of_deduction" ).change(function(){
+        calculate_time_required();
+    });
+    $( "#vale_period_of_deduction" ).change(function(){
+        calculate_time_required();
+    });
+    $( "#vale_date_of_effectivity" ).change(function(){
+        calculate_time_required();
+    });
+    $( "#vale_amount" ).change(function(){
+        calculate_time_required();
+    });
+
+    function calculate_time_required()
+    {
+        $("#vale_summary").empty();
+        vale_amount_of_deduction = $("#vale_amount_of_deduction").val();
+        vale_period_of_deduction = $("#vale_period_of_deduction").val();
+        vale_date_of_effectivity = $("#vale_date_of_effectivity").val();
+        vale_amount = $("#vale_amount").val();
+        period_counter = 0
+        var date_of_effectivity = moment(vale_date_of_effectivity);
+
+        if( (vale_amount_of_deduction != null) && (vale_period_of_deduction != null) && (vale_date_of_effectivity != null) && (vale_amount != null))
+        {
+            current_balance = vale_amount
+            while( current_balance > 0 )
+            {
+                current_balance = current_balance - vale_amount_of_deduction;
+                period_counter++;
+                period_of_deduction = vale_period_of_deduction.toLowerCase(); + 's'
+                date_of_effectivity = date_of_effectivity.add(1, period_of_deduction)
+            }
+            period_of_deduction = vale_period_of_deduction.toLowerCase();
+
+            $("#vale_summary").fadeIn("slow").append("Payment approximately in " + period_counter + " " + period_of_deduction + "s" + " | " + date_of_effectivity.format('MMMM Do YYYY, h:mm:ss a') );
+        }
+
+    }
+</script>

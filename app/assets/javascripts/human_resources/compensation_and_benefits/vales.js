@@ -6,9 +6,9 @@ window.Parsley
         requirementType: 'string',
         validateString: function(value, requirement)
         {
-            var vale_amount = $("#vale_amount").val();
-            var vale_amount_of_deduction = $("#vale_amount_of_deduction").val();
-            if( (vale_amount_of_deduction > vale_amount) && vale_amount != '' && vale_amount_of_deduction != '')
+            var vale_amount = parseInt($("#vale_amount").val());
+            var vale_amount_of_deduction = parseInt($("#vale_amount_of_deduction").val());
+            if( (vale_amount_of_deduction > vale_amount))
             {
                 return false
             }

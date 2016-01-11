@@ -1,5 +1,48 @@
 module ApplicationHelper
 
+  def remaining_vale_balance(parent_vale_id)
+
+    my_vale = Vale.find(parent_vale_id)
+    my_vale_adjustments = ValeAdjustment.where(vale_id: parent_vale_id)
+    current_balance = my_vale[:amount]
+    iteration = translate_period_of_time_into_seconds(my_vale[:period_of_deduction])
+    current_time = my_vale[:date_of_effectivity]
+    next_time = current_time + iteration
+
+    while(Time.now > current_time)
+      adjustment_in_period_token = false
+      my_vale_adjustments.each do |my_vale_adjustment|
+        if my_vale_adjustment[:date_of_effectivity].between?(current_time, next_time)
+          adjustment_in_period_token = true
+          my_vale_adjustment[:signed_type] ?
+              ( current_balance = current_balance + my_vale_adjustment[:amount] ) :
+              ( current_balance = current_balance - my_vale_adjustment[:amount] )
+        end
+      end
+      (adjustment_in_period_token == false) ? ( current_balance = current_balance - my_vale[:amount_of_deduction] ):()
+      (current_balance < 0) ? (break;) : ()
+      current_time = current_time + iteration
+      next_time = current_time + iteration
+    end
+
+    (current_balance < 0) ? (current_balance = "PAID") : ()
+    return current_balance
+
+  end
+
+  def translate_period_of_time_into_seconds(period_of_time)
+    if period_of_time == 'YEAR'
+      number_of_seconds = 31556926
+    elsif period_of_time == 'MONTH'
+      number_of_seconds = 2629744
+    elsif period_of_time == 'WEEK'
+      number_of_seconds = 604800
+    elsif period_of_time == 'DAY'
+      number_of_seconds = 86400
+    end
+    return number_of_seconds
+  end
+
   def insertTimeIntoDate(myDate, myTime)
     return DateTime.new(myDate.year, myDate.month, myDate.day, myTime.hour, myTime.min, myTime.sec, "+8" )
   end
@@ -76,7 +119,7 @@ module ApplicationHelper
   end
 
   def generic_actor_profile_link(my_ID, my_name)
-    render(:partial => 'core_partials/actor_profile_link', :locals => {:my_ID => my_ID, :my_name => my_name})
+    render(:partial => 'core_partials/generic_actor_profile_link', :locals => {:my_ID => my_ID, :my_name => my_name})
   end
 
   def generic_form_edit_id_indicator(selected_model_id)
@@ -101,6 +144,14 @@ module ApplicationHelper
 
   def generic_table_search()
     render(:partial => 'core_partials/generic_table_search')
+  end
+
+  def generic_actor_search()
+    render(:partial => 'core_partials/generic_actor_search')
+  end
+
+  def generic_search_footer(result_set)
+    render(:partial => 'core_partials/generic_search_pagination', :locals => {:result_set => result_set})
   end
 
   def generateReadableID()
