@@ -129,7 +129,7 @@ ActiveRecord::Schema.define(version: 20160107002141) do
     t.string   "remark",              limit: 256
     t.boolean  "active",              limit: 1,   default: false
     t.string   "employee_id",         limit: 36
-    t.datetime "date_of_effectivity",             default: '2016-01-08 14:49:18'
+    t.datetime "date_of_effectivity",             default: '2016-01-11 20:09:11'
     t.datetime "created_at",                                                      null: false
     t.datetime "updated_at",                                                      null: false
   end
@@ -180,31 +180,17 @@ ActiveRecord::Schema.define(version: 20160107002141) do
     t.datetime "updated_at",                                 null: false
   end
 
-  create_table "institution_employees", force: :cascade do |t|
-    t.string   "compensation_type", limit: 64
-    t.string   "actor_id",          limit: 36
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-  end
-
-  create_table "institutional_adjustment_sets", force: :cascade do |t|
-    t.string  "employee_id",                 limit: 36
-    t.string  "institution_employee_id",     limit: 36
-    t.string  "institutional_adjustment_id", limit: 36
-    t.string  "institutional_ID",            limit: 512
-    t.boolean "activated",                   limit: 1,   default: true
-  end
-
   create_table "institutional_adjustments", force: :cascade do |t|
-    t.string   "institution_employee_id", limit: 36
-    t.decimal  "start_range",                         precision: 16, scale: 2
-    t.decimal  "end_range",                           precision: 16, scale: 2
-    t.decimal  "employer_contribution",               precision: 16, scale: 2
-    t.decimal  "employee_contribution",               precision: 16, scale: 2
-    t.string   "period_of_time",          limit: 64
-    t.string   "description",             limit: 256
-    t.datetime "created_at",                                                   null: false
-    t.datetime "updated_at",                                                   null: false
+    t.string   "institution",           limit: 64
+    t.string   "contribution_type",     limit: 64,                           default: "LUMP"
+    t.decimal  "start_range",                       precision: 16, scale: 2
+    t.decimal  "end_range",                         precision: 16, scale: 2
+    t.decimal  "employer_contribution",             precision: 16, scale: 2
+    t.decimal  "employee_contribution",             precision: 16, scale: 2
+    t.string   "period_of_time",        limit: 64
+    t.string   "description",           limit: 256
+    t.datetime "created_at",                                                                  null: false
+    t.datetime "updated_at",                                                                  null: false
   end
 
   create_table "link_sets", force: :cascade do |t|
@@ -265,7 +251,7 @@ ActiveRecord::Schema.define(version: 20160107002141) do
   create_table "regular_work_periods", force: :cascade do |t|
     t.time     "start_time",                      default: '2000-01-01 08:00:00'
     t.time     "end_time",                        default: '2000-01-01 17:00:00'
-    t.datetime "date_of_effectivity",             default: '2016-01-08 14:49:17'
+    t.datetime "date_of_effectivity",             default: '2016-01-11 20:09:10'
     t.string   "remark",              limit: 256
     t.string   "employee_id",         limit: 36
     t.datetime "created_at",                                                      null: false

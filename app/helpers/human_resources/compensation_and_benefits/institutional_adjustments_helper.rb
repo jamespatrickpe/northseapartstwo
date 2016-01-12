@@ -1,0 +1,2 @@
+module HumanResources::CompensationAndBenefits::InstitutionalAdjustmentsHelper
+end
