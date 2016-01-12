@@ -1,0 +1,55 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Addresses </div>
+  <div class='subdescription'> List of address entries within the system </div>
+  <hr>
+  <%= generic_table_search %>
+  <% table_orientation = shift_table_orientation %>
+  <% begin %>
+      <table class='generic_table' id='address_table'>
+        <thead>
+        <tr>
+          <th>
+            Address ID
+            <%= generic_table_theadlink('addresses.id', table_orientation) %>
+          </th>
+          <th>
+            Description
+            <%= generic_table_theadlink('addresses.description', table_orientation) %>
+          </th>
+          <th>
+            Longitude
+            <%= generic_table_theadlink('addresses.longitude', table_orientation) %>
+          </th>
+          <th>
+            Latitude
+            <%= generic_table_theadlink('addresses.latitude', table_orientation) %>
+          </th>
+          <th class="actions" align="center">&nbsp;</th>
+        </tr>
+        </thead>
+        <% if @addresses.empty? == true %>
+            <% raise exception %>
+        <% else %>
+            <tbody>
+            <% @addresses.each do |address| %>
+                <tr>
+                  <td><%= address[:id] %></td>
+                  <td><%= address[:description] %> </td>
+                  <td><%= address[:longitude] %> </td>
+                  <td><%= address[:latitude] %> </td>
+                  <td class="actions">
+                    <%= generic_table_actions(address[:id]) %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+        <% end %>
+      </table>
+  <% rescue %>
+      <script>
+          html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
+          $(".generic_table").replaceWith(html)
+      </script>
+  <% end %>
+  <%= generic_table_footer(@addresses) %>
+</section>

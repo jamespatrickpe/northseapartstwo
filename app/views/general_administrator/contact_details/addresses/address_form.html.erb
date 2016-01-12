@@ -1,0 +1,79 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Address </div>
+  <div class='subdescription'> Add a address entry to the system </div>
+  <hr>
+  <div class='small-6 columns generic_form'>
+
+    <% if @selected_address[:id].present? %>
+        <span class="current_edit_id">
+          <%= 'Editing Address ID: ' + @selected_address[:id].to_s %>
+        </span>
+        <br><br>
+    <% end %>
+
+    <%
+       @selected_address[:id].present? ?
+               (current_method = :patch; current_action = @selected_address[:id] ) :
+               (current_method = :post; current_action = 'create')
+    %>
+
+    <%=
+        form_tag( {:action => current_action},
+                  {:method => current_method,
+                   class: 'create_form',
+                   id: "new_address_form",
+                   :"data-parsley-validate" => "" },
+        ) do
+    %>
+
+        <%= hidden_field_tag('address[id]', @selected_address[:id] ) %>
+
+        <div class="form-block">
+          <section class="form-block-label">Address</section>
+          <section class="form-block-control">
+            <input type="text"
+                   required="required"
+                   placeholder="Enter Address"
+                   data-parsley-trigger = keyup
+                   data-parsley-maxlength = 64
+                   id="address_description"
+                   value= "<%= @selected_address[:description] %>"
+                   name="address[description]">
+          </section>
+        </div>
+
+        <div class="form-block">
+          <section class="form-block-label">Longitude</section>
+          <section class="form-block-control">
+            <input type="text"
+                   required="required"
+                   placeholder="Enter longtitude"
+                   data-parsley-trigger = keyup
+                   data-parsley-maxlength = 64
+                   id="address_longitude"
+                   value= "<%= @selected_address[:longitude] %>"
+                   name="address[longitude]">
+          </section>
+        </div>
+
+        <div class="form-block">
+          <section class="form-block-label">Latitude</section>
+          <section class="form-block-control">
+            <input type="text"
+                   required="required"
+                   placeholder="Enter latitude"
+                   data-parsley-trigger = keyup
+                   data-parsley-maxlength = 64
+                   id="address_latitude"
+                   value= "<%= @selected_address[:latitude] %>"
+                   name="address[latitude]">
+          </section>
+        </div>
+
+        <%= generic_form_footer(@selected_address[:id]) %>
+
+
+    <% end %>
+
+  </div>
+</section>
