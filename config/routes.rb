@@ -67,7 +67,17 @@ Rails.application.routes.draw do
         collection do
           concerns :generic_table
         end
+    end
+
+    get 'contact_details/' => 'contact_details#index'
+    namespace :contact_details do
+      resources :telephones, :addresses, :digitals do
+        collection do
+          concerns :generic_table
+        end
       end
+    end
+
   end
 
   get 'application/reset_search' => 'application#reset_search'
