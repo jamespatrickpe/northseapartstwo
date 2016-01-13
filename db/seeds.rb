@@ -346,6 +346,17 @@ numberOfActors.times do |i|
       end
     end
 
+    #Leaves
+    if 80.in(100)
+      my_leave = Leave.new()
+      my_leave.remark = Faker::Lorem.sentence
+      my_leave.type_of_leave = ["MATERNITY","PATERNITY","SICK"].sample()
+      my_leave.employee = myEmployee
+      my_leave.start_of_effectivity = rand(500..1000).hours.ago
+      my_leave.end_of_effectivity = rand(300..501).hours.ago
+      my_leave.save!
+    end
+
     # Rest Days
     rand(1..3).times do |i|
     dayOfWeek = Faker::Time.between(7.days.ago, Time.now, :all).strftime("%A")
