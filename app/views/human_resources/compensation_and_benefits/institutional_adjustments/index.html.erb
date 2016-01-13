@@ -1,0 +1,95 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Institutional Adjustments </div>
+  <div class='subdescription'> Social Security Systems </div>
+  <hr>
+  <%= generic_table_search %>
+  <% table_orientation = shift_table_orientation %>
+  <% begin %>
+      <table class='generic_table' id='lump_adjustments_table'>
+        <thead>
+        <tr>
+          <th>
+            Base Rates ID
+            <%= generic_table_theadlink('institutional_adjustments.id', table_orientation) %>
+          </th>
+          <th>
+            Institution
+            <%= generic_table_theadlink('institutional_adjustments.institution', table_orientation) %>
+          </th>
+          <th>
+            Contribution Type
+            <%= generic_table_theadlink('institutional_adjustments.contribution_type', table_orientation) %>
+          </th>
+          <th>
+            Start Range
+            <%= generic_table_theadlink('institutional_adjustments.start_range', table_orientation) %>
+          </th>
+          <th>
+            End Range
+            <%= generic_table_theadlink('institutional_adjustments.end_range', table_orientation) %>
+          </th>
+          <th>
+            Employer Contribution
+            <%= generic_table_theadlink('institutional_adjustments.employer_contribution', table_orientation) %>
+          </th>
+          <th>
+            Employee Contribution
+            <%= generic_table_theadlink('institutional_adjustments.employee_contribution', table_orientation) %>
+          </th>
+          <th>
+            Period of Time
+            <%= generic_table_theadlink('institutional_adjustments.period_of_time', table_orientation) %>
+          </th>
+          <th>
+            Description
+            <%= generic_table_theadlink('institutional_adjustments.description', table_orientation) %>
+          </th>
+          <th>
+            Date of Effectivity
+            <%= generic_table_theadlink('institutional_adjustments.date_of_effectivity', table_orientation) %>
+          </th>
+          <th>
+            Date Created
+            <%= generic_table_theadlink('institutional_adjustments.created_at', table_orientation) %>
+          </th>
+          <th>
+            Last Updated
+            <%= generic_table_theadlink('institutional_adjustments.updated_at', table_orientation) %>
+          </th>
+          <th class="actions" align="center">&nbsp;</th>
+        </tr>
+        </thead>
+        <% if @institutional_adjustments.empty? == true %>
+            <% raise exception %>
+        <% else %>
+            <tbody>
+            <% @institutional_adjustments.each do |institutional_adjustment| %>
+                <tr>
+                  <td><%= institutional_adjustment[:id] %> </td>
+                  <td><%= institutional_adjustment[:institution] %> </td>
+                  <td><%= institutional_adjustment[:contribution_type] %> </td>
+                  <td><%= institutional_adjustment[:start_range] %> </td>
+                  <td><%= institutional_adjustment[:end_range] %> </td>
+                  <td><%= institutional_adjustment[:employer_contribution] %> </td>
+                  <td><%= institutional_adjustment[:employee_contribution] %> </td>
+                  <td><%= institutional_adjustment[:period_of_time] %> </td>
+                  <td><%= institutional_adjustment[:description] %> </td>
+                  <td><%= institutional_adjustment[:date_of_effectivity] %> </td>
+                  <td><%= institutional_adjustment[:created_at] %></td>
+                  <td><%= institutional_adjustment[:updated_at] %></td>
+                  <td class="actions">
+                    <%= generic_table_actions(institutional_adjustment[:id]) %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+        <% end %>
+      </table>
+  <% rescue %>
+      <script>
+          html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
+          $(".generic_table").replaceWith(html)
+      </script>
+  <% end %>
+  <%= generic_table_footer(@institutional_adjustments) %>
+</section>

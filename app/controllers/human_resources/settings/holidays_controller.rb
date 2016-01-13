@@ -5,7 +5,7 @@ class HumanResources::Settings::HolidaysController < HumanResources::SettingsCon
     begin
       @holidays = Holiday
       .includes(:holiday_type).joins(:holiday_type)
-      .where("holidays.id LIKE ? HolidaysControllerOR " +
+      .where("holidays.id LIKE ? OR " +
                  "holiday_types.type_name LIKE ? OR " +
                  "holidays.description LIKE ? OR " +
                  "holidays.name LIKE ? OR " +
@@ -24,7 +24,7 @@ class HumanResources::Settings::HolidaysController < HumanResources::SettingsCon
       .order(query[:order_parameter] + ' ' + query[:order_orientation])
       @holidays = Kaminari.paginate_array(@holidays).page(params[:page]).per(query[:current_limit])
     rescue => ex
-      flash[:general_flash_notification] = "Error has Occured"
+      flash[:general_flash_notification] = "Error has Occured" + ex.to_s
     end
     render 'human_resources/settings/holidays/index'
   end

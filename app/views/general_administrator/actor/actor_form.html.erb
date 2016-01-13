@@ -1,0 +1,48 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Actor Form </div>
+  <div class='subdescription'> Create a new actor for the system </div>
+  <hr>
+  <div class='small-6 columns generic_form'>
+
+    <%= generic_form_edit_id_indicator(@selected_actor[:id]) %>
+
+    <%
+       @selected_actor[:id].present? ?
+               (current_method = :patch; current_action = @selected_actor[:id] ) :
+               (current_method = :post; current_action = 'create')
+    %>
+
+    <%=
+        form_tag( {:action => current_action},
+                  {:method => current_method,
+                   :class => 'create_form',
+                   :id => "new_actor_form",
+                   :"data-parsley-validate" => ""
+                  },
+        ) do
+    %>
+
+        <%= hidden_field_tag('actor[id]', @selected_actor[:id] ) %>
+
+        <input type="text"
+               required="required"
+               placeholder="Name of Actor"
+               data-parsley-trigger = keyup
+               data-parsley-maxlength = 64
+               id="actor_name"
+               value= "<%= @selected_actor[:name] %>"
+               name="actor[name]">
+
+        <%=
+            text_area_tag("actor[description]",
+                          content = @selected_actor[:description],
+                          options = {class: "remark_description",
+                                     :"data-parsley-trigger" => "keyup",
+                                     :"data-parsley-maxlength"=>"128",
+                                     :placeholder => 'Description' })
+        %>
+    <%= generic_form_footer(@selected_actor[:id]) %>
+    <% end %>
+
+  </div>
+</section>

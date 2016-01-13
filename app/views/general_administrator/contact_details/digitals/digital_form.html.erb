@@ -1,0 +1,64 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Digital URL </div>
+  <div class='subdescription'> Add a URL entry to the system </div>
+  <hr>
+  <div class='small-6 columns generic_form'>
+
+    <% if @selected_digital[:id].present? %>
+        <span class="current_edit_id">
+          <%= 'Editing Digital URL ID: ' + @selected_digital[:id].to_s %>
+        </span>
+        <br><br>
+    <% end %>
+
+    <%
+       @selected_digital[:id].present? ?
+               (current_method = :patch; current_action = @selected_digital[:id] ) :
+               (current_method = :post; current_action = 'create')
+    %>
+
+    <%=
+        form_tag( {:action => current_action},
+                  {:method => current_method,
+                   class: 'create_form',
+                   id: "new_digital_form",
+                   :"data-parsley-validate" => "" },
+        ) do
+    %>
+
+        <%= hidden_field_tag('digital[id]', @selected_digital[:id] ) %>
+
+        <div class="form-block">
+          <section class="form-block-label">URL</section>
+          <section class="form-block-control">
+            <input type="text"
+                   required="required"
+                   placeholder="Enter URL"
+                   data-parsley-trigger = keyup
+                   data-parsley-maxlength = 64
+                   id="digital_url"
+                   value= "<%= @selected_digital[:url] %>"
+                   name="digital[url]">
+          </section>
+        </div>
+
+        <div class="form-block">
+          <section class="form-block-label">Description</section>
+          <section class="form-block-control">
+            <input type="text"
+                   required="required"
+                   placeholder="Enter URL description"
+                   data-parsley-trigger = keyup
+                   data-parsley-maxlength = 64
+                   id="digital_description"
+                   value= "<%= @selected_digital[:description] %>"
+                   name="digital[description]">
+          </section>
+        </div>
+
+        <%= generic_form_footer(@selected_digital[:id]) %>
+
+    <% end %>
+
+  </div>
+</section>

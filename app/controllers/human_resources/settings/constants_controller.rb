@@ -4,36 +4,37 @@ class HumanResources::Settings::ConstantsController < HumanResources::SettingsCo
     query = generic_table_aggregated_queries('constants','constants.created_at')
     begin
       @constants = Constant
-                       .where("constants.id LIKE ? OR " +
+                       .where("(constants.id LIKE ? OR " +
                                   "constants.value LIKE ? OR " +
                                   "constants.name LIKE ? OR " +
                                   "constants.constant_type LIKE ? OR " +
                                   "constants.remark LIKE ? OR " +
                                   "constants.created_at LIKE ? OR " +
-                                  "constants.updated_at LIKE ?",
+                                  "constants.updated_at LIKE ?) AND ( constants.constant_type LIKE ? )",
                               "%#{query[:search_field]}%",
                               "%#{query[:search_field]}%",
                               "%#{query[:search_field]}%",
                               "%#{query[:search_field]}%",
                               "%#{query[:search_field]}%",
                               "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%")
+                              "%#{query[:search_field]}%",
+                              "human_resources.#{query[:search_field]}%")
                        .order(query[:order_parameter] + ' ' + query[:order_orientation])
       @constants = Kaminari.paginate_array(@constants).page(params[:page]).per(query[:current_limit])
     rescue
       flash[:general_flash_notification] = "Error has Occured"
     end
-    render 'human_resources/settings/constants/index'
+    render 'shared/constants/index'
   end
 
   def new
     @selected_constant = Constant.new
-    render 'human_resources/settings/constants/constant_form'
+    render 'shared/constants/constant_form'
   end
 
   def edit
     @selected_constant = Constant.find(params[:id])
-    render 'human_resources/settings/constants/constant_form'
+    render 'shared/constants/constant_form'
   end
 
 
@@ -47,7 +48,7 @@ class HumanResources::Settings::ConstantsController < HumanResources::SettingsCo
 
   def process_constant_form(currentConstant)
     begin
-      currentConstant[:constant_type] = params[:constant][:constant_type]
+      currentConstant[:constant_type] = "human_resources." + params[:constant][:constant_type]
       currentConstant[:name] = params[:constant][:name]
       currentConstant[:value] = params[:constant][:value]
       currentConstant[:remark] = params[:constant][:remark]

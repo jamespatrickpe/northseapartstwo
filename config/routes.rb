@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 
     get 'compensation_and_benefits/' => 'compensation_and_benefits#index'
     namespace :compensation_and_benefits do
-      resources :lump_adjustments, :base_rates, :vales, :vale_adjustments do
+      resources :lump_adjustments, :base_rates, :vales, :vale_adjustments, :institutional_adjustments do
         collection do
           concerns :generic_table
         end
@@ -67,7 +67,17 @@ Rails.application.routes.draw do
         collection do
           concerns :generic_table
         end
+    end
+
+    get 'contact_details/' => 'contact_details#index'
+    namespace :contact_details do
+      resources :telephones, :addresses, :digitals do
+        collection do
+          concerns :generic_table
+        end
       end
+    end
+
   end
 
   get 'application/reset_search' => 'application#reset_search'
