@@ -31,10 +31,11 @@
         <div class="form-block">
           <section class="form-block-label">URL</section>
           <section class="form-block-control">
-            <input type="text"
+            <input type="email"
                    required="required"
                    placeholder="Enter URL"
                    data-parsley-trigger = keyup
+                   data-parsley-type = email
                    data-parsley-maxlength = 64
                    id="digital_url"
                    value= "<%= @selected_digital[:url] %>"
