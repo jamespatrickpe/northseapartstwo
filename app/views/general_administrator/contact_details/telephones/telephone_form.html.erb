@@ -1,3 +1,14 @@
+<style>
+    /* input[type="number"] hide hack for phone number input field */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        margin: 0;
+    }
+</style>
+
 <section class='small-10 columns'>
   <div class='mainheader'> Telephone Info </div>
   <div class='subdescription'> Add a Telephone information entry to the system </div>
@@ -31,11 +42,12 @@
         <div class="form-block">
           <section class="form-block-label">Digit</section>
           <section class="form-block-control">
-            <input type="text"
+            <input type="number"
                    required="required"
                    placeholder="Enter Digits"
                    data-parsley-trigger = keyup
                    data-parsley-maxlength = 64
+                   data-parsley-type = number
                    id="telephone_digits"
                    value= "<%= @selected_telephone[:digits] %>"
                    name="telephone[digits]">

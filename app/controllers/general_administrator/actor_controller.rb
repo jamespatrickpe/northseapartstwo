@@ -51,6 +51,7 @@ class GeneralAdministrator::ActorController < GeneralAdministratorController
     begin
       myActor[:name] = params[:actor][:name]
       myActor[:description] = params[:actor][:description]
+      myActor[:logo] = params[:actor][:logo]
       myActor.save!
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex
