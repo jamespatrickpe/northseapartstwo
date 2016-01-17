@@ -1,40 +1,41 @@
-<%
-   # If there is no branch yet; transfer to these variables.
-   @selected_branch.id ||= ''
-   @selected_branch.name ||= ''
-
-%>
-
 <section class='small-10 columns'>
   <div class='mainheader'> Branch Form </div>
   <div class='subdescription'> Create a new Branch </div>
-
-  <%= link_to( "[ BACK TO HOME ]" ,{:action => 'branches' }, :class => "action_button action-link-grey" ) %>
-
   <hr>
   <div class='small-6 columns generic_form'>
-    <% if @selected_branch.id.present? %>
-        <span class="current_edit_id"> <%= 'Editing Branch with ID: ' + @selected_branch.id %> </span> <br><br> <!-- this is for the current branch ID or OBJECT ID; not employee-->
-    <% end %>
-    <%= form_tag( {action: :process_branch_form}, multipart: true, class: 'create_form', id: "new_branch_form", :"data-parsley-validate" => "" ) do %>
-        <%= hidden_field_tag('branch[id]', @selected_branch.id ) %>
 
-        <div class="form-block">
-          <section class="form-block-label">Branch Name</section>
-          <section class="form-block-control">
-            <%= text_field_tag("branch[name]",
-                               content = @selected_branch.name,
-                               options = {required: "required",
-                                          :"data-parsley-trigger" => "keyup",
-                                          :"data-parsley-maxlength"=>"128",
-                                          :placeholder => 'Enter branch name' }) %>
-          </section>
-        </div>
+    <%= generic_form_edit_id_indicator(@selected_branch[:id]) %>
 
-        <input type="submit" class="small button" value="SUBMIT" />
+    <%
+       @selected_branch[:id].present? ?
+               (current_method = :patch; current_action = @selected_branch[:id] ) :
+               (current_method = :post; current_action = 'create')
+    %>
+
+    <%=
+        form_tag( {:action => current_action},
+                  {:method => current_method,
+                   :class => 'create_form',
+                   :id => "new_branch_form",
+                   :"data-parsley-validate" => ""
+                  },
+        ) do
+    %>
+
+        <%= hidden_field_tag('branch[id]', @selected_branch[:id] ) %>
+
+        <input type="text"
+               required="required"
+               placeholder="Name of Branch"
+               data-parsley-trigger = keyup
+               data-parsley-maxlength = 64
+               id="branch_name"
+               value= "<%= @selected_branch[:name] %>"
+               name="branch[name]">
+
+        <%= generic_form_footer(@selected_branch[:id]) %>
 
     <% end %>
 
   </div>
-
 </section>

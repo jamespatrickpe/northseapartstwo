@@ -1,10 +1,10 @@
 <section class='small-10 columns'>
-  <div class='mainheader'> Branches </div>
-  <div class='subdescription'> List of all branches  </div>
+  <div class='mainheader'> Branch </div>
+  <div class='subdescription'> Displays all branches  </div>
   <hr>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
-      <table class='generic_table' id='branches_table'>
+      <table class="generic_table" id="holidays_table">
         <thead>
         <tr>
           <th>
@@ -12,7 +12,7 @@
             <%= generic_table_theadlink('branches.id', table_orientation) %>
           </th>
           <th>
-            Name
+            Branch Name
             <%= generic_table_theadlink('branches.name', table_orientation) %>
           </th>
           <th>
@@ -32,20 +32,19 @@
             <tbody>
             <% @branches.each do |branch| %>
                 <tr>
-                  <td><%= branch.id %></td>
-                  <td><%= branch.name %></td>
-                  <td><%= branch.created_at %> </td>
-                  <td><%= branch.updated_at %> </td>
+                  <td><%= branch[:id] %></td>
+                  <td><%= branch[:name] %></td>
+                  <td><%= branch[:created_at] %></td>
+                  <td><%= branch[:updated_at] %></td>
                   <td class="actions">
-                  <%= link_to( "&#9998;".html_safe ,{:action => 'edit_branch', :branch_id => branch.id}, class: 'action_button', tooltip: 'Edit') %>
-                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_branch', :branch_id => branch.id}, class: 'action_button delete_item', tooltip: 'Delete') %>
+                    <%= generic_table_actions(branch[:id]) %>
                   </td>
                 </tr>
             <% end %>
             </tbody>
         <% end %>
       </table>
-  <% rescue => ex %>
+  <% rescue => ex%>
       <script>
           html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
           $(".generic_table").replaceWith(html)
