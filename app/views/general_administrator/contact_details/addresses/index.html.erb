@@ -13,6 +13,10 @@
             <%= generic_table_theadlink('addresses.id', table_orientation) %>
           </th>
           <th>
+            Actor ID
+            <%= generic_table_theadlink('addresses.actor_id', table_orientation) %>
+          </th>
+          <th>
             Description
             <%= generic_table_theadlink('addresses.description', table_orientation) %>
           </th>
@@ -34,6 +38,7 @@
             <% @addresses.each do |address| %>
                 <tr>
                   <td><%= address[:id] %></td>
+                  <td><%= address[:actor_id] %> </td>
                   <td><%= address[:description] %> </td>
                   <td><%= address[:longitude] %> </td>
                   <td><%= address[:latitude] %> </td>

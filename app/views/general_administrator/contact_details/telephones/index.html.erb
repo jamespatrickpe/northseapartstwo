@@ -13,6 +13,10 @@
             <%= generic_table_theadlink('telephones.id', table_orientation) %>
           </th>
           <th>
+            Actor ID
+            <%= generic_table_theadlink('telephones.actor_id', table_orientation) %>
+          </th>
+          <th>
             Digits
             <%= generic_table_theadlink('telephones.digits', table_orientation) %>
           </th>
@@ -30,6 +34,7 @@
             <% @telephones.each do |telephones| %>
                 <tr>
                   <td><%= telephones[:id] %></td>
+                  <td><%= telephones[:actor_id] %></td>
                   <td><%= telephones[:digits] %> </td>
                   <td><%= telephones[:description] %> </td>
                   <td class="actions">
