@@ -148,6 +148,26 @@ window.Parsley
     });
 
 window.Parsley
+    .addValidator('date_precedence', {
+        requirementType: 'string',
+        validateString: function(value) {
+            var leaveFrom = new Date($("#leave_start_of_effectivity").val()).getTime();
+            var leaveTo = new Date($("#leave_end_of_effectivity").val()).getTime();
+            if (leaveFrom < leaveTo){
+
+                console.log(leaveFrom + '----------' + leaveTo + ' inside valid')
+                return true
+            } else {
+                console.log(leaveFrom + '----------' + leaveTo + ' inside invalid')
+                return false
+            }
+        },
+        messages: {
+            en: 'Please make sure selected START date comes before END date.'
+        }
+    });
+
+window.Parsley
     .addValidator('time_overlap_attendance', {
         requirementType: 'string',
         validateString: function(value, requirement)
