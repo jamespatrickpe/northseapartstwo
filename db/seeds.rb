@@ -466,6 +466,44 @@ numberOfActors.times do |i|
       RateAdjustment.create( amount: randomMoney(100.10,1000.00), signed_type: ["ADDITION", "DEDUCTION"].sample, employee: myEmployee, description: Faker::Lorem.sentence, rate_of_time: ["DAY", "WEEK", "MONTH"].sample, activated: randomBoolean())
     end
 
+    # For Payroll
+    rand(0..2).times do |i|
+
+      if 9.in(10)
+        my_payroll = Payroll.new
+        my_payroll.article = "SSS"
+        boolean_of_applicability = -> { [false,true].sample }
+        my_payroll.applicability = boolean_of_applicability.call
+        my_payroll.date_of_effectivity = rand(720..72000).hours.ago
+        my_payroll.remark = Faker::Lorem.word
+        my_payroll.employee = myEmployee
+        my_payroll.save!
+      end
+
+      if 9.in(10)
+        my_payroll = Payroll.new
+        my_payroll.article = "PHILHEALTH"
+        boolean_of_applicability = -> { [false,true].sample }
+        my_payroll.applicability = boolean_of_applicability.call
+        my_payroll.date_of_effectivity = rand(720..72000).hours.ago
+        my_payroll.remark = Faker::Lorem.word
+        my_payroll.employee = myEmployee
+        my_payroll.save!
+      end
+
+      if 9.in(10)
+        my_payroll = Payroll.new
+        my_payroll.article = "PAGIBIG"
+        boolean_of_applicability = -> { [false,true].sample }
+        my_payroll.applicability = boolean_of_applicability.call
+        my_payroll.date_of_effectivity = rand(720..72000).hours.ago
+        my_payroll.remark = Faker::Lorem.word
+        my_payroll.employee = myEmployee
+        my_payroll.save!
+      end
+
+    end
+
     # For Vales
     rand(0..2).times do |i|
       if 8.in(10)
