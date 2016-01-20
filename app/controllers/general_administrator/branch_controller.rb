@@ -27,19 +27,17 @@ class GeneralAdministrator::BranchController < GeneralAdministratorController
     end
   end
 
-  def new_branch
-    initialize_employee_selection
+  def new
     @selected_branch = Branch.new
     render '/general_administrator/branch_form'
   end
 
-  def edit_branch
-    initialize_employee_selection
+  def edit
     @selected_branch = Branch.find(params[:branch_id])
     render '/general_administrator/branch_form'
   end
 
-  def delete_branch
+  def delete
     branchToBeDeleted = Branch.find(params[:branch_id])
     flash[:general_flash_notification_type] = 'Branch ' + branchToBeDeleted.name + ' has been successfully deleted.'
     flash[:general_flash_notification_type] = 'affirmative'

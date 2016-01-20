@@ -346,6 +346,17 @@ numberOfActors.times do |i|
       end
     end
 
+    #Leaves
+    if 80.in(100)
+      my_leave = Leave.new()
+      my_leave.remark = Faker::Lorem.sentence
+      my_leave.type_of_leave = ["MATERNITY","PATERNITY","SICK"].sample()
+      my_leave.employee = myEmployee
+      my_leave.start_of_effectivity = rand(500..1000).hours.ago
+      my_leave.end_of_effectivity = rand(300..501).hours.ago
+      my_leave.save!
+    end
+
     # Rest Days
     rand(1..3).times do |i|
     dayOfWeek = Faker::Time.between(7.days.ago, Time.now, :all).strftime("%A")
@@ -453,6 +464,44 @@ numberOfActors.times do |i|
     # For Rate Adjustment
     if(randomBoolean() && randomBoolean() )
       RateAdjustment.create( amount: randomMoney(100.10,1000.00), signed_type: ["ADDITION", "DEDUCTION"].sample, employee: myEmployee, description: Faker::Lorem.sentence, rate_of_time: ["DAY", "WEEK", "MONTH"].sample, activated: randomBoolean())
+    end
+
+    # For Payroll
+    rand(0..2).times do |i|
+
+      if 9.in(10)
+        my_payroll = Payroll.new
+        my_payroll.article = "SSS"
+        boolean_of_applicability = -> { [false,true].sample }
+        my_payroll.applicability = boolean_of_applicability.call
+        my_payroll.date_of_effectivity = rand(720..72000).hours.ago
+        my_payroll.remark = Faker::Lorem.word
+        my_payroll.employee = myEmployee
+        my_payroll.save!
+      end
+
+      if 9.in(10)
+        my_payroll = Payroll.new
+        my_payroll.article = "PHILHEALTH"
+        boolean_of_applicability = -> { [false,true].sample }
+        my_payroll.applicability = boolean_of_applicability.call
+        my_payroll.date_of_effectivity = rand(720..72000).hours.ago
+        my_payroll.remark = Faker::Lorem.word
+        my_payroll.employee = myEmployee
+        my_payroll.save!
+      end
+
+      if 9.in(10)
+        my_payroll = Payroll.new
+        my_payroll.article = "PAGIBIG"
+        boolean_of_applicability = -> { [false,true].sample }
+        my_payroll.applicability = boolean_of_applicability.call
+        my_payroll.date_of_effectivity = rand(720..72000).hours.ago
+        my_payroll.remark = Faker::Lorem.word
+        my_payroll.employee = myEmployee
+        my_payroll.save!
+      end
+
     end
 
     # For Vales
