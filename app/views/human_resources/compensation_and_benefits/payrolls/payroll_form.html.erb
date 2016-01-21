@@ -33,7 +33,7 @@
           <% @employees.each do |employee| %>
               <% if employee.id == @selected_payroll.employee_id %>
                   <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
-              <% else %>
+              <% else %>dd
                   <option value=<%= employee.id %>><%= employee.actor.name %></option>
               <% end %>
           <% end %>
