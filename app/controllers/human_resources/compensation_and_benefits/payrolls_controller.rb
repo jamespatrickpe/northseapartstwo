@@ -30,11 +30,7 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
   end
 
   def search_suggestions
-    payrolls = Payroll.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
-    direct = "{\"query\": \"Unit\",\"suggestions\":" + payrolls.uniq.to_s + "}" # default format for plugin
-    respond_to do |format|
-      format.all { render :text => direct}
-    end
+    generic_employee_name_search_suggestions(Payroll)
   end
 
   def new
@@ -67,12 +63,7 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
   end
 
   def delete
-    payroll_to_be_deleted = Payroll.find(params[:id])
-    employee = Employee.find(payroll_to_be_deleted.employee_id)
-    flash[:general_flash_notification] = employee.actor.name + '\'s Payroll Settings of ' + payroll_to_be_deleted + 'has been successfully deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    payroll_to_be_deleted.destroy
-    redirect_to :action => 'index'
+    generic_delete_model(Payroll, controller_name)
   end
 
   def update
@@ -90,6 +81,8 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
   def show
     @employees = Employee.all
     @selected_employee ||= Employee.find(params[:id])
+    @start_date = params[:start_date]
+    @end_date = params[:end_date]
     render 'employee'
   end
 
