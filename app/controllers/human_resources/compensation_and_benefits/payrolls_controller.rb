@@ -49,7 +49,7 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
     render 'human_resources/compensation_and_benefits/payrolls/payroll_form'
   end
 
-  def process_base_rate_form(payroll)
+  def process_payroll_form(payroll)
     begin
       employee = Employee.find(params[:payroll][:employee_id])
       payroll.employee = employee
@@ -76,19 +76,21 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
   end
 
   def update
-    payroll = Payroll.find(params[:base_rate][:id])
+    payroll = Payroll.find(params[:payroll][:id])
     flash[:general_flash_notification] = 'Payroll Updated'
-    process_base_rate_form(payroll)
+    process_payroll_form(payroll)
   end
 
   def create
     payroll = Payroll.new()
     flash[:general_flash_notification] = 'Payroll Created'
-    process_base_rate_form(payroll)
+    process_payroll_form(payroll)
   end
 
   def show
-
+    @employees = Employee.all
+    @selected_employee ||= Employee.find(params[:id])
+    render 'employee'
   end
 
   def branch

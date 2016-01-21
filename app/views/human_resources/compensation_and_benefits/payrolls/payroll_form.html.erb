@@ -21,17 +21,17 @@
                   },
         ) do
     %>
-        <%= hidden_field_tag('lump_adjustment[id]', @selected_payroll.id ) %>
+        <%= hidden_field_tag('payroll[id]', @selected_payroll.id ) %>
 
-        Employee: <br>
-        <select name='lump_adjustment[employee_id]'
-                id='new_lump_adjustment_employee'
+        <br> Employee: <br>
+        <select name='payroll[employee_id]'
+                id='new_payroll_employee'
                 class='employee_select_field'
                 required="required" >
 
           <option value="" disabled selected>Select Employee</option>
           <% @employees.each do |employee| %>
-              <% if employee.id == @selected_lump_adjustment.employee_id %>
+              <% if employee.id == @selected_payroll.employee_id %>
                   <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
               <% else %>
                   <option value=<%= employee.id %>><%= employee.actor.name %></option>
@@ -39,52 +39,71 @@
           <% end %>
         </select>
 
-        Amount:
-        <%= text_field_tag("lump_adjustment[amount]",
-                           content = @selected_lump_adjustment.amount,
-                           options = {placeholder: "Enter amount",
-                                      required: "required",
-                                      :"data-parsley-trigger" => "keyup",
-                                      :"data-parsley-step" => "0.01",
-                                      :"data-parsley-type" => "number"}) %>
-
-        Signed Type<br>
-        <select name='lump_adjustment[signed_type]'
+        <br> Article: <br>
+        <select name='payroll[article]'
                 style="width: 50%"
                 required="required" >
-          <% if @selected_lump_adjustment[:signed_type] == true %>
-              <option disabled >Select Signed Type</option>
-              <option value=1 selected>Additive</option>
-              <option value=0>Deductive</option>
-          <% elsif @selected_lump_adjustment[:signed_type] == false %>
-              <option disabled >Select Signed Type</option>
-              <option value=1>Additive</option>
-              <option value=0 selected>Deductive</option>
+          <% if @selected_payroll[:article] == "SSS" %>
+              <option disabled>Select Article</option>
+              <option value="SSS" selected>SSS</option>
+              <option value="PHILHEALTH" >PHILHEALTH</option>
+              <option value="PAGIBIG" >PAGIBIG</option>
+          <% elsif @selected_payroll[:article] == "PHILHEALTH" %>
+              <option disabled>Select Article</option>
+              <option value="SSS">SSS</option>
+              <option value="PHILHEALTH" selected>PHILHEALTH</option>
+              <option value="PAGIBIG">PAGIBIG</option>
+          <% elsif @selected_payroll[:article] == "PAGIBIG" %>
+              <option disabled>Select Article</option>
+              <option value="SSS">SSS</option>
+              <option value=0>PHILHEALTH</option>
+              <option value="PAGIBIG" selected>PAGIBIG</option>
           <% else %>
-              <option disabled selected>Select Signed Type</option>
-              <option value=1>Additive</option>
-              <option value=0>Deductive</option>
+              <option disabled selected>Select Article</option>
+              <option value="SSS">SSS</option>
+              <option value="PHILHEALTH" >PHILHEALTH</option>
+              <option value="PAGIBIG">PAGIBIG</option>
           <% end %>
         </select>
 
+        <br> Applicability: <br>
+        <select name='payroll[applicability]'
+                style="width: 50%"
+                required="required" >
+          <% if @selected_payroll[:applicability] == true %>
+              <option disabled>Select Applicability</option>
+              <option value=1 selected>ACTIVE</option>
+              <option value=0>INACTIVE</option>
+          <% elsif @selected_payroll[:applicability] == false %>
+              <option disabled>Select Applicability</option>
+              <option value=1>ACTIVE</option>
+              <option value=0 selected>INACTIVE</option>
+          <% else %>
+              <option disabled selected>Select Applicability</option>
+              <option value=1>ACTIVE</option>
+              <option value=0>INACTIVE</option>
+          <% end %>
+        </select>
 
         <br>Date of Effectivity:<br>
         <input type="datetime-local"
                required="required"
-               name="lump_adjustment[date_of_effectivity]"
+               name="payroll[date_of_effectivity]"
                style="width: 50%"
                step="1"
-               value= <%= @selected_lump_adjustment[:date_of_effectivity].present? ? @selected_lump_adjustment[:date_of_effectivity].strftime('%FT%T') : Time.now.strftime('%FT%T')  %>>
+               value= <%= @selected_payroll[:date_of_effectivity].present? ?
+                                  @selected_payroll[:date_of_effectivity].strftime('%FT%T') :
+                                  Time.now.strftime('%FT%T')  %>>
 
         <br> Remarks <br>
-        <%= text_area_tag("lump_adjustment[remark]",
-                          content = @selected_lump_adjustment[:remark],
+        <%= text_area_tag("payroll[remark]",
+                          content = @selected_payroll[:remark],
                           options = {class: "remark_description",
                                      :"data-parsley-trigger" => "keyup",
                                      :"data-parsley-maxlength"=>"128",
                                      :placeholder => 'Remarks' }) %>
 
-        <%= generic_form_footer(@selected_lump_adjustment[:id]) %>
+        <%= generic_form_footer(@selected_payroll[:id]) %>
 
         <hr />
     <% end %>

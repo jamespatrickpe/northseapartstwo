@@ -1,0 +1,71 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Payroll per Employee </div>
+  <div class='subdescription'> Payroll of an Employee for a Specific Period in Time  </div>
+  <hr>
+
+  <div class="generic_content">
+
+    <%=
+        form_tag( {:action => 'index'},
+                  {:method => :get,
+                   :class => 'create_form',
+                   :id => "new_batch_process_form",
+                   :"data-parsley-validate" => ""
+                  },
+        ) do
+    %>
+
+    <div class="small-3 columns">
+      EMPLOYEE:
+      <select name='payroll[employee_id]'
+              class='employee_select_field'
+              style="width: 100%; display: inline;"
+              required="required" >
+
+        <option value="" disabled selected>Select Employee</option>
+        <% @employees.each do |employee| %>
+            <% if employee.id == @selected_employee.id %>
+                <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
+            <% else %>
+                <option value=<%= employee.id %>><%= employee.actor.name %></option>
+            <% end %>
+        <% end %>
+      </select>
+    </div>
+
+    <div class="small-3 columns">
+      START TIME:
+      <input name='start_date'
+             value="<%= @start_date.present? ? @start_date.strftime("%Y-%m-%d") : Time.now.strftime("%Y-%m-%d") %>"
+             type="datetime-local" style="width: 100%; display: inline;"
+             step="1"
+             required="required">
+    </div>
+
+    <div class="small-3 columns">
+      END TIME:
+      <input name='end_date'
+             value="<%= @end_date.present? ? @end_date.strftime("%Y-%m-%d") : Time.now.strftime("%Y-%m-%d") %>"
+             type="datetime-local" style="width: 100%; display: inline;"
+             step="1"
+             required="required">
+    </div>
+
+    <div class="small-3 columns">
+      <br>
+      <input type="submit"
+             class="tiny button"
+             style="width: 100%; display: inline;"
+             value="Generate">
+    </div>
+
+
+    <% end %>
+
+  </div>
+
+  <div>
+    
+  </div>
+
+</section>
