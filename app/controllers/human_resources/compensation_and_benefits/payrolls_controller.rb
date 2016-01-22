@@ -92,7 +92,7 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
     @selected_employee ||= Employee.find(params[:id])
     @start_date = params[:start_date]
     @end_date = params[:end_date]
-    render 'employee'
+    render 'show_employee'
   end
 
   def branch
