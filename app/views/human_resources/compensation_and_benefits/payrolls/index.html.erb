@@ -68,7 +68,7 @@
                   <td class="actions">
                     <%= generic_table_actions(payroll[:id]) %>
                     <%= link_to( "&#128083;".html_safe,
-                                 '/human_resources/compensation_and_benefits/payrolls/' + payroll.employee.id,
+                                 '/human_resources/compensation_and_benefits/payrolls/employee?id=' + payroll.employee.id,
                                  class: 'action_button',
                                  tooltip: 'Examine') %>
                   </td>

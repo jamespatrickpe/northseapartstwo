@@ -4,7 +4,7 @@
   <hr>
 
   <%=
-      form_tag( {:action => 'show'},
+      form_tag( {:action => 'employee'},
                 {:method => :get,
                  :class => 'create_form',
                  :id => "new_employee_process_form",
@@ -31,19 +31,17 @@
       </select>
     </div>
     <div class="small-3 columns">
-      START TIME:
+      START DATE:
       <input name='start_date'
-             value="<%= @start_date.present? ? @start_date : Time.now.strftime('%FT%H%M%S') %>"
-             type="datetime-local" style="width: 100%; display: inline;"
-             step="1"
+             value="<%= @start_date.present? ? @start_date : Time.now.strftime('%F') %>"
+             type="date" style="width: 100%; display: inline;"
              required="required">
     </div>
     <div class="small-3 columns">
-      END TIME:
+      END DATE:
       <input name='end_date'
-             value="<%= @end_date.present? ? @end_date : Time.now.strftime('%FT%H%M%S') %>"
-             type="datetime-local" style="width: 100%; display: inline;"
-             step="1"
+             value="<%= @end_date.present? ? @end_date : Time.now.strftime('%F') %>"
+             type="date" style="width: 100%; display: inline;"
              required="required">
     </div>
     <div class="small-3 columns">
@@ -57,16 +55,37 @@
   <% end %>
 
   <% if (@selected_employee.present?) && (@start_date.present?) && (@end_date.present?)  %>
-  <div class="row generic_content">
-    Known Base Rates:
-    <% if @selected_base_rates.present? %>
-        <% @selected_base_rates.each do |selected_base_rate| %>
-            <%= selected_base_rate.id %>
-        <% end %>
-    <% else %>
-        No Base Rates Available
-    <% end %>
+
+  <div class="generic_content">
+    <div class="small-6 columns">
+      <% if (@selected_attendances.present?) %>
+      Attendance:
+          <table class="generic_table">
+            <thead>
+            <th>Day</th>
+            <th>Time In</th>
+            <th>Time Out</th>
+            <th>Remark</th>
+            </thead>
+            <tbody>
+            <% @selected_attendance.each do |attendance| %>
+            <tr>
+              <td><%= attendance.date_of_attendance.strftime('%D') %></td>
+              <td><%= attendance.timein.strftime('%T') %></td>
+              <td><%= attendance.timeout.strftime('%T') %></td>
+              <td><%= attendance.remark %></td>
+            </tr>
+            <% end %>
+            </tbody>
+          </table>
+      <% end %>
+    </div>
+    <div class="small-6 columns">
+    </div>
+    <div class="small-6 columns">
+    </div>
   </div>
+
   <% end %>
 
 </section>

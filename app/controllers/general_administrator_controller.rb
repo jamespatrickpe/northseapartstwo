@@ -1,5 +1,4 @@
 class GeneralAdministratorController < ApplicationController
-  include ApplicationHelper
 
   layout "application_loggedin"
 

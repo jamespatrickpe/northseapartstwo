@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     get 'compensation_and_benefits/' => 'compensation_and_benefits#index'
     namespace :compensation_and_benefits do
       get 'payrolls/branch' => 'payrolls#branch'
+      get 'payrolls/employee' => 'payrolls#employee'
       resources :lump_adjustments, :base_rates, :vales, :vale_adjustments, :institutional_adjustments, :payrolls do
         collection do
           concerns :generic_table

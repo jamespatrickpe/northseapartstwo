@@ -78,12 +78,25 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
     process_payroll_form(payroll)
   end
 
-  def show
+  def employee
     @employees = Employee.all
-    @selected_employee = Employee.find(params[:id])
-    @selected_base_rates = BaseRate.where('employee_id = ?', "#{params[:id]}")
+    params[:id].present? ?
+      (@selected_employee = Employee.find(params[:id])) :
+      (@selected_employee = Employee.new())
     @start_date = params[:start_date]
     @end_date = params[:end_date]
+
+    @selected_attendances = ::Attendance
+                               .where('(employee_id = ?) AND ( date_of_attendance BETWEEN ? AND ? )',
+                                      "#{params[:id]}",
+                                      "#{@start_date}",
+                                      "#{@end_date}"
+                               )
+
+    @duty_statuses = DutyStatus.where('employee_id = ?', "#{params[:id]}")
+
+    @selected_base_rates = BaseRate.where('employee_id = ?', "#{params[:id]}")
+
     render 'human_resources/compensation_and_benefits/payrolls/show_employee'
   end
 
