@@ -12,11 +12,11 @@ class HumanResources::AttendancePerformance::BranchAttendanceSheetController < H
                                    .includes(:actor, :duty_status)
                                    .joins(:actor, :duty_status)
                                    .where("branch_id = ?", "#{@selected_branch.id}")
-        @attendances_per_employee_in_branch = Attendance.includes(:employee).joins(:employee).where("employees.branch_id = ?", "#{@selected_branch.id}")
+        @attendances_per_employee_in_branch = ::Attendance.includes(:employee).joins(:employee).where("employees.branch_id = ?", "#{@selected_branch.id}")
       end
       @selected_branch ||= Branch.new
-    rescue
-      flash[:general_flash_notification] = "Error has Occurred"
+    rescue => ex
+      flash[:general_flash_notification] = "Error has Occurred" + ex.to_s
     end
     render 'human_resources/attendance_performance/branch_attendance_sheet/index'
   end

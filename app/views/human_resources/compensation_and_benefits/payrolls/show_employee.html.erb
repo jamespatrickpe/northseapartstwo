@@ -7,16 +7,15 @@
       form_tag( {:action => 'show'},
                 {:method => :get,
                  :class => 'create_form',
-                 :id => "new_employee_payroll_form",
+                 :id => "new_employee_process_form",
                  :"data-parsley-validate" => ""
                 },
       ) do
   %>
-
   <div class="generic_content">
-    <div class="medium-3 columns">
+    <div class="small-3 columns">
       EMPLOYEE:
-      <select name='payroll[employee_id]'
+      <select name='id'
               class='employee_select_field'
               style="width: 100%; display: inline;"
               required="required" >
@@ -31,35 +30,43 @@
         <% end %>
       </select>
     </div>
-
     <div class="small-3 columns">
       START TIME:
       <input name='start_date'
-             value="<%= @start_date.present? ? @start_date.strftime("%FT%T") : Time.now.strftime("%FT%T") %>"
+             value="<%= @start_date.present? ? @start_date : Time.now.strftime('%FT%H%M%S') %>"
              type="datetime-local" style="width: 100%; display: inline;"
              step="1"
              required="required">
     </div>
-
     <div class="small-3 columns">
       END TIME:
       <input name='end_date'
-             value="<%= @end_date.present? ? @end_date.strftime("%FT%T") : Time.now.strftime("%FT%T") %>"
+             value="<%= @end_date.present? ? @end_date : Time.now.strftime('%FT%H%M%S') %>"
              type="datetime-local" style="width: 100%; display: inline;"
              step="1"
              required="required">
     </div>
-
-    <div>
+    <div class="small-3 columns">
       <br>
       <input type="submit"
              class="tiny button"
-             style="width: auto; display: inline;"
+             style="width: 100%; display: inline;"
              value="Generate">
     </div>
-
   </div>
+  <% end %>
 
+  <% if (@selected_employee.present?) && (@start_date.present?) && (@end_date.present?)  %>
+  <div class="row generic_content">
+    Known Base Rates:
+    <% if @selected_base_rates.present? %>
+        <% @selected_base_rates.each do |selected_base_rate| %>
+            <%= selected_base_rate.id %>
+        <% end %>
+    <% else %>
+        No Base Rates Available
+    <% end %>
+  </div>
   <% end %>
 
 </section>

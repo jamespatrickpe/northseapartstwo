@@ -7,6 +7,22 @@ class ApplicationController < ActionController::Base
   helper_method :error_messages_for, :shift_table_orientation, :insertTimeIntoDate
   include ApplicationHelper
 
+  def generic_delete_model(model, my_controller_name)
+    model_to_be_deleted = model.find(params[:id])
+    flash[:general_flash_notification] = model_to_be_deleted.id + " has been successfully deleted "
+    flash[:general_flash_notification_type] = 'affirmative'
+    model_to_be_deleted.destroy
+    redirect_to :controller => my_controller_name, :action => 'index'
+  end
+
+  def generic_employee_name_search_suggestions(model)
+    my_model = model.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + my_model.uniq.to_s + "}" # default format for plugin
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
   def initialize_actor_selection
     @employees = Employee.includes(:actor).joins(:actor)
   end
