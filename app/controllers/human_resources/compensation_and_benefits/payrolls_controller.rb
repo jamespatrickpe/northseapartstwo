@@ -91,22 +91,13 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
 
     @valid_periods = Array.new
     first_true_taken = false
+    start_period = ''
     @my_duty_statuses.each_with_index do |duty_status, index|
-
-      if duty_status[:active] == true && first_true_taken == false
-        start_period = duty_status[:date_of_effectivity]
-        first_true_taken = true
-      elsif duty_status[:active] == false
-        first_true_taken = false
-        end_period = duty_status[:date_of_effectivity]
-      else
+      next_element = duty_status[index+1]
+      if (duty_status[:active] == true && next_element.active == false)
       end
-
-      if (start_period.present? && end_period.present?)
-        @valid_periods.push({:start_period => start_period, :end_period => end_period})
-      end
-
     end
+
 
     @selected_attendances = ::Attendance
                                .where('(attendances.employee_id = ?) AND ( attendances.date_of_attendance BETWEEN ? AND ? )',
