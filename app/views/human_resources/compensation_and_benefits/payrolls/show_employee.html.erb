@@ -68,7 +68,7 @@
             <th>Remark</th>
             </thead>
             <tbody>
-            <% @selected_attendance.each do |attendance| %>
+            <% @selected_attendances.each do |attendance| %>
             <tr>
               <td><%= attendance.date_of_attendance.strftime('%D') %></td>
               <td><%= attendance.timein.strftime('%T') %></td>
@@ -80,7 +80,33 @@
           </table>
       <% end %>
     </div>
+
+    <%= @valid_periods %>
+
     <div class="small-6 columns">
+      <% @my_duty_statuses.each do |duty_status| %>
+        <%= duty_status.date_of_effectivity %> | <%= duty_status.active %> <br>
+      <% end %>
+    </div>
+
+    <div class="small-6 columns">
+      <% if (@valid_periods.present?) %>
+          Valid Periods:
+          <table class="generic_table">
+            <thead>
+            <th>Date Start</th>
+            <th>Date End</th>
+            </thead>
+            <tbody>
+            <% @valid_periods.each do |valid_period| %>
+            <tr>
+              <td><%= valid_period[:start_period] %></td>
+              <td><%= valid_period[:end_period] %></td>
+            </tr>
+            <% end %>
+            </tbody>
+          </table>
+      <% end %>
     </div>
     <div class="small-6 columns">
     </div>

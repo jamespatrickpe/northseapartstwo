@@ -385,15 +385,13 @@ numberOfActors.times do |i|
       workperiod.save!
     end
 
-    numberOfDuties = rand(1..5)
-    numberOfDuties.times do
+    rand(0..5).times do
       dutyStatus = DutyStatus.new(remark: Faker::Lorem.sentence, employee: myEmployee)
-      if 7.in(10)
+      if 5.in(10)
         active = -> { true }
       else
         active = -> { false }
       end
-
       dutyStatus.active = active.call
       dutyStatus.date_of_effectivity = rand(720..72000).hours.ago
       dutyStatus.save!

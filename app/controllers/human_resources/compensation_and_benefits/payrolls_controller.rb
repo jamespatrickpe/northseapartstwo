@@ -86,14 +86,43 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
     @start_date = params[:start_date]
     @end_date = params[:end_date]
 
+    @my_duty_statuses = DutyStatus.where('employee_id = ?', "#{params[:id]}")
+                                  .order('date_of_effectivity ASC')
+
+    @valid_periods = Array.new
+    end_time = DateTime.now
+    start_time = DateTime.now
+    active_token = false
+    @my_duty_statuses.each_with_index do |duty_status, index|
+
+      if duty_status[:active] == true && active_token == false
+        start_time = duty_status[:date_of_effectivity]
+        if index == @my_duty_statuses.size - 1
+          @valid_periods.push({:start_period => start_time, :end_period => DateTime.now.strftime("%F %T %z")})
+          break
+        else
+          active_token = true
+          next
+        end
+      end
+
+      if (duty_status[:active] == false && active_token == true)
+        end_time = duty_status[:date_of_effectivity]
+        active_token = false
+      end
+
+      end_time = duty_status[:date_of_effectivity]
+      @valid_periods.push({:start_period => start_time, :end_period => end_time})
+    end
+
     @selected_attendances = ::Attendance
-                               .where('(employee_id = ?) AND ( date_of_attendance BETWEEN ? AND ? )',
+                               .where('(attendances.employee_id = ?) AND ( attendances.date_of_attendance BETWEEN ? AND ? )',
                                       "#{params[:id]}",
                                       "#{@start_date}",
                                       "#{@end_date}"
                                )
 
-    @duty_statuses = DutyStatus.where('employee_id = ?', "#{params[:id]}")
+
 
     @selected_base_rates = BaseRate.where('employee_id = ?', "#{params[:id]}")
 
