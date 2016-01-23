@@ -90,29 +90,22 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
                                   .order('date_of_effectivity ASC')
 
     @valid_periods = Array.new
-    end_time = DateTime.now
-    start_time = DateTime.now
-    active_token = false
+    first_true_taken = false
     @my_duty_statuses.each_with_index do |duty_status, index|
 
-      if duty_status[:active] == true && active_token == false
-        start_time = duty_status[:date_of_effectivity]
-        if index == @my_duty_statuses.size - 1
-          @valid_periods.push({:start_period => start_time, :end_period => DateTime.now.strftime("%F %T %z")})
-          break
-        else
-          active_token = true
-          next
-        end
+      if duty_status[:active] == true && first_true_taken == false
+        start_period = duty_status[:date_of_effectivity]
+        first_true_taken = true
+      elsif duty_status[:active] == false
+        first_true_taken = false
+        end_period = duty_status[:date_of_effectivity]
+      else
       end
 
-      if (duty_status[:active] == false && active_token == true)
-        end_time = duty_status[:date_of_effectivity]
-        active_token = false
+      if (start_period.present? && end_period.present?)
+        @valid_periods.push({:start_period => start_period, :end_period => end_period})
       end
 
-      end_time = duty_status[:date_of_effectivity]
-      @valid_periods.push({:start_period => start_time, :end_period => end_time})
     end
 
     @selected_attendances = ::Attendance
@@ -121,8 +114,6 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
                                       "#{@start_date}",
                                       "#{@end_date}"
                                )
-
-
 
     @selected_base_rates = BaseRate.where('employee_id = ?', "#{params[:id]}")
 

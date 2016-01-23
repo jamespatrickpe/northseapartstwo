@@ -85,7 +85,7 @@
 
     <div class="small-6 columns">
       <% @my_duty_statuses.each do |duty_status| %>
-        <%= duty_status.date_of_effectivity %> | <%= duty_status.active %> <br>
+          <%= duty_status.id %> |<%= duty_status.date_of_effectivity %> | <%= duty_status.active %> <br>
       <% end %>
     </div>
 
