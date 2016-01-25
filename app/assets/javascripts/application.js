@@ -150,7 +150,7 @@ window.Parsley
 window.Parsley
     .addValidator('date_precedence', {
         requirementType: 'string',
-        validateString: function(value) {
+        validateString: function() {
             var leaveFrom = new Date($("#leave_start_of_effectivity").val()).getTime();
             var leaveTo = new Date($("#leave_end_of_effectivity").val()).getTime();
             if (leaveFrom < leaveTo){
@@ -165,6 +165,44 @@ window.Parsley
         messages: {
             en: 'Please make sure selected START date comes before END date.'
         }
+    });
+
+window.Parsley
+    .addValidator('leave_date_overlap', {
+       requirementType: 'string',
+        validateString: function() {
+            var start_of_effectivity = new Date($("#leave_start_of_effectivity").val()).getTime();
+            var end_of_effectivity = new Date($("#leave_end_of_effectivity").val()).getTime();
+            var employee_id = $("#leave_employee_id").val();
+            var response = ''
+            console.log('----------' + start_of_effectivity)
+            console.log('----------' + end_of_effectivity)
+            console.log('----------' + employee_id)
+            {
+                $.ajax({
+                    method: "POST",
+                    url: "/application/check_leave_date_if_overlap",
+                    data: { start_of_effectivity: start_of_effectivity, end_of_effectivity: end_of_effectivity, employee_id: employee_id },
+                    async: false
+                }).done(function( msg ) {
+                    if(msg == 'true')
+                    {
+                        response = true;
+                    }
+                    else
+                    {
+                        response = false;
+                    }
+                });
+                return response;
+            }
+
+        },
+        messages: {
+            en: 'Person already has leaves filed within the selected date. Please double check.'
+        }
+
+
     });
 
 window.Parsley

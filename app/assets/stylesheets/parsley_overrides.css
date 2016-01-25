@@ -2,7 +2,8 @@
 .parsley-minlength,
 .parsley-maxlength,
 .parsley-type,
-.parsley-date_precedence {
+.parsley-date_precedence,
+.parsley-leave_date_overlap {
   color : #BE595A;
 }
 

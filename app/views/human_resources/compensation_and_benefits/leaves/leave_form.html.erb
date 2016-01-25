@@ -25,7 +25,7 @@
         <%= hidden_field_tag('leave[id]', @selected_leave[:id] ) %>
 
         <select name='leave[employee_id]'
-                id='leave_employee_id_0'
+                id='leave_employee_id'
                 class='employee_select_field'
                 required="required" >
           <option value="" disabled selected>Select Employee</option>
@@ -85,6 +85,10 @@
                                       required = required
                                       data-parsley-trigger="change"
                                       data-parsley-date_precedence="0"
+                                      data-parsley-leave_date_overlap="0"
+                                      <%= @selected_leave[:id].present? ? '' : (
+                                      'data-parsley-leave_date_overlap=0'
+                                      )%>
                                       style="width: 50%"
                                       value= <%= @selected_leave[:start_of_effectivity]%> >
         </div>
@@ -97,6 +101,10 @@
                                     required = required
                                     data-parsley-trigger="change"
                                     data-parsley-date_precedence="0"
+                                    data-parsley-leave_date_overlap="0"
+                                    <%= @selected_leave[:id].present? ? '' : (
+                                    'data-parsley-leave_date_overlap=0'
+                                    )%>
                                     style="width: 50%"
                                     value= <%= @selected_leave[:end_of_effectivity] %> >
         </div>
