@@ -175,9 +175,7 @@ window.Parsley
             var end_of_effectivity = new Date($("#leave_end_of_effectivity").val()).getTime();
             var employee_id = $("#leave_employee_id").val();
             var response = ''
-            console.log('----------' + start_of_effectivity)
-            console.log('----------' + end_of_effectivity)
-            console.log('----------' + employee_id)
+
             {
                 $.ajax({
                     method: "POST",
@@ -201,7 +199,6 @@ window.Parsley
         messages: {
             en: 'Person already has leaves filed within the selected date. Please double check.'
         }
-
 
     });
 

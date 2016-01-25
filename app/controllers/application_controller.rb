@@ -81,21 +81,10 @@ class ApplicationController < ActionController::Base
     rangeOfLeaves =  Leave.where("(employee_id = ?) AND start_of_effectivity between ? AND ?", "#{employee_id}", "#{x}", "#{y}")
     existingLeaves =  Leave.where("employee_id = ?", "#{employee_id}").order(start_of_effectivity: :asc)
 
-    puts '****** INSIDE OVERLAP CHECK 2 ***********************************'
-
-    puts 'SELECTED LEAVES'
-    puts x
-    puts y
-
-    puts 'EXISTING LEAVES'
     val = false
 
+    # Check if dates are overlapping using 'cover?'
     existingLeaves.each do |l|
-
-      puts l.start_of_effectivity
-      puts l.end_of_effectivity
-      puts '------------------------'
-      puts (x..y).cover?(l.start_of_effectivity)
 
       if (x..y).cover?(l.start_of_effectivity..l.end_of_effectivity) then
         val = true
@@ -103,8 +92,6 @@ class ApplicationController < ActionController::Base
       end
 
     end
-
-    puts val
 
     respond_to do |format|
       format.all { render :text => val}
@@ -126,7 +113,6 @@ class ApplicationController < ActionController::Base
   end
 
   def employee_overview_profile
-    puts '+++++++++++++++++++++++++ ' + params[:employee_ID]
     respond_to do |format|
       employee_overview_profile = Employee.find(params[:employee_ID]).to_json({ :include => :actor })
       format.all { render :json => employee_overview_profile}
