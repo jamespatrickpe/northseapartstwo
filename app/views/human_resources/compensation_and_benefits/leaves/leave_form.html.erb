@@ -1,0 +1,125 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Leave Form </div>
+  <div class='subdescription'> File a new leave for an Employee </div>
+  <hr>
+  <div class='small-6 columns generic_form'>
+
+    <%= generic_form_edit_id_indicator(@selected_leave[:id]) %>
+
+    <%
+       @selected_leave[:id].present? ?
+               (current_method = :patch; current_action = @selected_leave[:id] ) :
+               (current_method = :post; current_action = 'create')
+    %>
+
+    <%=
+        form_tag( {:action => current_action},
+                  {:method => current_method,
+                   :class => 'create_form',
+                   :id => "new_leave_form",
+                   :"data-parsley-validate" => ""
+                  },
+        ) do
+    %>
+
+        <%= hidden_field_tag('leave[id]', @selected_leave[:id] ) %>
+
+        <select name='leave[employee_id]'
+                id='leave_employee_id_0'
+                class='employee_select_field'
+                required="required" >
+          <option value="" disabled selected>Select Employee</option>
+          <% @employees.each do |employee| %>
+              <% if employee.id == @selected_leave[:employee_id] %>
+                  <option value=<%= employee[:id] %> selected><%= employee.actor.name %></option>
+              <% else %>
+                  <option value=<%= employee[:id] %>><%= employee.actor.name %></option>
+              <% end %>
+          <% end %>
+        </select>
+
+        <br />
+
+        Leave Type<br>
+        <select name='leave[type_of_leave]'
+                style="width: 50%"
+                required="required" >
+          <% if @selected_leave[:type_of_leave] == 'VACATION' %>
+              <option disabled >Select Leave Type</option>
+              <option value = "VACATION" selected>VACATION</option>
+              <option value = "SICK">SICK</option>
+              <option value = "MATERNITY">MATERNITY</option>
+              <option value = "PATERNITY">PATERNITY</option>
+          <% elsif @selected_leave[:type_of_leave] == 'SICK' %>
+              <option disabled >Select Leave Type</option>
+              <option value = "VACATION">VACATION</option>
+              <option value = "SICK" selected>SICK</option>
+              <option value = "MATERNITY">MATERNITY</option>
+              <option value = "PATERNITY">PATERNITY</option>
+          <% elsif @selected_leave[:type_of_leave] == 'MATERNITY' %>
+              <option disabled >Select Leave Type</option>
+              <option value = "VACATION">VACATION</option>
+              <option value = "SICK">SICK</option>
+              <option value = "MATERNITY" selected>MATERNITY</option>
+              <option value = "PATERNITY">PATERNITY</option>
+          <% elsif @selected_leave[:type_of_leave] == 'PATERNITY' %>
+              <option disabled >Select Leave Type</option>
+              <option value = "VACATION">VACATION</option>
+              <option value = "SICK">SICK</option>
+              <option value = "MATERNITY">MATERNITY</option>
+              <option value = "PATERNITY" selected>PATERNITY</option>
+          <% else %>
+              <option disabled selected >Select Leave Type</option>
+              <option value = "VACATION">VACATION</option>
+              <option value = "SICK">SICK</option>
+              <option value = "MATERNITY">MATERNITY</option>
+              <option value = "PATERNITY">PATERNITY</option>
+          <% end %>
+        </select>
+
+        <div>
+          Start of Effectivity <input type="date"
+                                      id="leave_start_of_effectivity"
+                                      step = 1
+                                      name="leave[start_of_effectivity]"
+                                      required = required
+                                      data-parsley-trigger="change"
+                                      data-parsley-date_precedence="0"
+                                      style="width: 50%"
+                                      value= <%= @selected_leave[:start_of_effectivity]%> >
+        </div>
+
+        <div>
+          End of Effectivity <input type="date"
+                                    id="leave_end_of_effectivity"
+                                    step = 1
+                                    name="leave[end_of_effectivity]"
+                                    required = required
+                                    data-parsley-trigger="change"
+                                    data-parsley-date_precedence="0"
+                                    style="width: 50%"
+                                    value= <%= @selected_leave[:end_of_effectivity] %> >
+        </div>
+
+        Remarks:<br>
+        <%= text_area_tag("leave[remark]",
+                          content = @selected_leave.remark,
+                          options = {class: "remark_description",
+                                     :"data-parsley-trigger" => "keyup",
+                                     :"data-parsley-maxlength"=>"128",
+                                     :placeholder => 'Remarks' }) %>
+
+        <hr />
+
+        <%= generic_form_footer(@selected_leave[:id]) %>
+
+    <% end %>
+
+  </div>
+  <%= renderCorePartial('employee_quick_profile') %>
+
+  <script>
+      console.log('heehe')
+      $("#leave_start_of_effectivity").datepicker({ minDate: 0 });
+  </script>
+</section>

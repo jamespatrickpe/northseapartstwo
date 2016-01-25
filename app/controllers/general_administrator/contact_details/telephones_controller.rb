@@ -18,11 +18,13 @@ class GeneralAdministrator::ContactDetails::TelephonesController < GeneralAdmini
 
   def new
     @selected_telephone = Telephone.new
+    @actors = Actor.all().order('name ASC')
     render 'general_administrator/contact_details/telephones/telephone_form'
   end
 
   def edit
     @selected_telephone = Telephone.find(params[:id])
+    @actors = Actor.all().order('name ASC')
     render 'general_administrator/contact_details/telephones/telephone_form'
   end
 
@@ -37,6 +39,7 @@ class GeneralAdministrator::ContactDetails::TelephonesController < GeneralAdmini
   def process_telephone_form(myTelephone)
     begin
       myTelephone[:digits] = params[:telephone][:digits]
+      myTelephone[:actor_id] = params[:telephone][:actor_id]
       myTelephone[:description] = params[:telephone][:description]
       myTelephone.save!
       flash[:general_flash_notification_type] = 'affirmative'

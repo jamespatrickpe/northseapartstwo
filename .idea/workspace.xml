@@ -2,10 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fb38e553-2ef6-468a-9891-438e33dd37c1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/human_resources/compensation_and_benefits/payrolls/employee.html.erb" afterPath="$PROJECT_DIR$/app/views/human_resources/compensation_and_benefits/payrolls/employee.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/northseapartstwo.iml" afterPath="$PROJECT_DIR$/.idea/northseapartstwo.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/human_resources/compensation_and_benefits/payrolls_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/human_resources/compensation_and_benefits/payrolls_controller.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/human_resources/compensation_and_benefits/leaves/index.html.erb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/human_resources/compensation_and_benefits/leaves/leave_form.html.erb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/javascripts/human_resources/compensation_and_benefits/leaves.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/controllers/human_resources/compensation_and_benefits/leaves_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/general_administrator/contact_details/addresses/address_form.html.erb" afterPath="$PROJECT_DIR$/app/views/general_administrator/contact_details/addresses/address_form.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/general_administrator/contact_details/addresses_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/general_administrator/contact_details/addresses_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/application.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/application.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/general_administrator/branch_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/general_administrator/branch_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/general_administrator/branch/branch_form.html.erb" afterPath="$PROJECT_DIR$/app/views/general_administrator/branch/branch_form.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/general_administrator/contact_details/digitals/digital_form.html.erb" afterPath="$PROJECT_DIR$/app/views/general_administrator/contact_details/digitals/digital_form.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/general_administrator/contact_details/digitals_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/general_administrator/contact_details/digitals_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/general_administrator/branch/index.html.erb" afterPath="$PROJECT_DIR$/app/views/general_administrator/branch/index.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/general_administrator/contact_details/addresses/index.html.erb" afterPath="$PROJECT_DIR$/app/views/general_administrator/contact_details/addresses/index.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/general_administrator/contact_details/digitals/index.html.erb" afterPath="$PROJECT_DIR$/app/views/general_administrator/contact_details/digitals/index.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/general_administrator/contact_details/telephones/index.html.erb" afterPath="$PROJECT_DIR$/app/views/general_administrator/contact_details/telephones/index.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/human_resources/compensation_and_benefits/index.html.erb" afterPath="$PROJECT_DIR$/app/views/human_resources/compensation_and_benefits/index.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/parsley_overrides.css" afterPath="$PROJECT_DIR$/app/assets/stylesheets/parsley_overrides.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/routes.rb" afterPath="$PROJECT_DIR$/config/routes.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/general_administrator/contact_details/telephones/telephone_form.html.erb" afterPath="$PROJECT_DIR$/app/views/general_administrator/contact_details/telephones/telephone_form.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/general_administrator/contact_details/telephones_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/general_administrator/contact_details/telephones_controller.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="northseapartstwo.iws" />
@@ -35,11 +51,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="payrolls_controller.rb" pinned="false" current-in-tab="true">
+      <file leaf-file-name="payrolls_controller.rb" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/human_resources/compensation_and_benefits/payrolls_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.029147983" vertical-offset="2274" max-vertical-offset="2873">
-              <caret line="133" column="16" selection-start-line="133" selection-start-column="16" selection-end-line="133" selection-end-column="16" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2274" max-vertical-offset="2873">
+              <caret line="147" column="77" selection-start-line="147" selection-start-column="77" selection-end-line="147" selection-end-column="77" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="routes.rb" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/config/routes.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.19058296" vertical-offset="272" max-vertical-offset="2567">
+              <caret line="21" column="43" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -65,6 +91,7 @@
       <list>
         <option value="$PROJECT_DIR$/app/controllers/human_resources/compensation_and_benefits/payrolls_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/human_resources/compensation_and_benefits/payrolls/employee.html.erb" />
+        <option value="$PROJECT_DIR$/config/routes.rb" />
       </list>
     </option>
   </component>
@@ -266,6 +293,7 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="FullScreen" value="false" />
+    <property name="SearchEverywhereHistoryKey" value="routes.r&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/config/routes.rb" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="RakeRunConfigurationType" factoryName="Rake">
@@ -535,14 +563,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/routes.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22780569" vertical-offset="255" max-vertical-offset="2567">
-          <caret line="23" column="51" selection-start-line="23" selection-start-column="51" selection-end-line="23" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3427835" vertical-offset="207" max-vertical-offset="1870">
@@ -560,8 +580,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/human_resources/compensation_and_benefits/payrolls_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.029147983" vertical-offset="2274" max-vertical-offset="2873">
-          <caret line="133" column="16" selection-start-line="133" selection-start-column="16" selection-end-line="133" selection-end-column="16" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2274" max-vertical-offset="2873">
+          <caret line="147" column="77" selection-start-line="147" selection-start-column="77" selection-end-line="147" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/routes.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.19058296" vertical-offset="272" max-vertical-offset="2567">
+          <caret line="21" column="43" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
           <folding />
         </state>
       </provider>
