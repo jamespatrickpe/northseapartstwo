@@ -57,6 +57,28 @@
           </section>
         </div>
 
+        <div class="form-block">
+          <section class="form-block-label">Actor</section>
+          <section class="form-block-control">
+            <select name='digital[actor_id]'
+                    id='new_address_actor_id'
+                    class='employee_select_field'
+                    required="required" >
+
+              <option value="" disabled selected>Select Actor</option>
+              <% @actors.each do |actor| %>
+                  <% if actor.id == @selected_digital.actor_id %>
+                      <option value=<%= actor.id %> selected><%= actor.name %></option>
+                  <% else %>
+                      <option value=<%= actor.id %>><%= actor.name %></option>
+                  <% end %>
+              <% end %>
+            </select>
+          </section>
+        </div>
+
+        <hr />
+
         <%= generic_form_footer(@selected_digital[:id]) %>
 
     <% end %>

@@ -2,7 +2,7 @@ class Address < ActiveRecord::Base
 
   include UUIDHelper
 
-  belongs_to :actor
+  belongs_to :rel_model, polymorphic: true
   # validates_presence_of :actor
   validates_numericality_of :longitude
   validates_numericality_of :latitude

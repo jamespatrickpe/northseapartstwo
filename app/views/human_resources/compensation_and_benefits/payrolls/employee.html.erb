@@ -65,6 +65,10 @@
             <th>Day</th>
             <th>Time In</th>
             <th>Time Out</th>
+            <th>Regular</th>
+            <th>OT</th>
+            <th>NSD</th>
+            <th>OT+NSD</th>
             <th>Remark</th>
             </thead>
             <tbody>
@@ -73,16 +77,11 @@
               <td><%= attendance.date_of_attendance.strftime('%Y-%m-%d') %></td>
               <td><%= attendance.timein.strftime('%T') %></td>
               <td><%= attendance.timeout.strftime('%T') %></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td><%= attendance.remark %></td>
-              <td>
-                <%=
-                   answer = false
-                    @valid_periods.each do |valid_period|
-                      answer = attendance.date_of_attendance.between?(Date.parse( valid_period[:start_period] ),Date.parse( valid_period[:end_period] ) )
-                    end
-                   answer
-                %>
-              </td>
             </tr>
             <% end %>
             </tbody>
@@ -109,8 +108,12 @@
           </table>
       <% end %>
     </div>
+
     <div class="small-6 columns">
+      <% if (@selected_base_rates.present?) %>
+      <% end %>
     </div>
+
   </div>
 
   <% end %>

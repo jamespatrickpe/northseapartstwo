@@ -1,0 +1,75 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Leaves </div>
+  <div class='subdescription'> List of Leaves of an Employee  </div>
+  <hr>
+  <%= generic_table_search %>
+  <% table_orientation = shift_table_orientation %>
+  <% begin %>
+      <table class='generic_table' id='leaves_table'>
+        <thead>
+        <tr>
+          <th>
+            Leave ID
+            <%= generic_table_theadlink('attendances.id', table_orientation) %>
+          </th>
+          <th>
+            Employee ID
+            <%= generic_table_theadlink('actors.name', table_orientation) %>
+          </th>
+          <th>
+            Type of Leave
+            <%= generic_table_theadlink('leaves.type_of_leave', table_orientation) %>
+          </th>
+          <th>
+            Start of Effectivity
+            <%= generic_table_theadlink('leaves.start_of_effectivity', table_orientation) %>
+          </th>
+          <th>
+            End of Effectivity
+            <%= generic_table_theadlink('leaves.end_of_effectivity', table_orientation) %>
+          </th>
+          <th>
+            Remark
+            <%= generic_table_theadlink('leaves.remark', table_orientation) %>
+          </th>
+          <th>
+            Date Created
+            <%= generic_table_theadlink('leaves.created_at', table_orientation) %>
+          </th>
+          <th>
+            Date Updated
+            <%= generic_table_theadlink('leaves.updated_at', table_orientation) %>
+          </th>
+          <th class="actions" align="center">&nbsp;</th>
+        </tr>
+        </thead>
+        <% if @leaves.empty? == true %>
+            <% raise exception %>
+        <% else %>
+            <tbody>
+            <% @leaves.each do |leave| %>
+                <tr>
+                  <td><%= leave[:id] %></td>
+                  <td><%= generic_actor_profile_link(leave.employee.actor.id, leave.employee.actor.name) %></td>
+                  <td><%= leave[:type_of_leave] %> </td>
+                  <td><%= leave[:start_of_effectivity].present? ? leave[:start_of_effectivity].strftime("%b. %d, %Y") : "n/a" %> </td>
+                  <td><%= leave[:end_of_effectivity].present? ? leave[:end_of_effectivity].strftime("%b. %d, %Y") : "n/a" %> </td>
+                  <td><%= leave[:remark] %> </td>
+                  <td><%= leave[:created_at] %></td>
+                  <td><%= leave[:updated_at] %></td>
+                  <td class="actions">
+                    <%= generic_table_actions(leave[:id]) %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+        <% end %>
+      </table>
+  <% rescue => ex %>
+      <script>
+          html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
+          $(".generic_table").replaceWith(html)
+      </script>
+  <% end %>
+  <%= generic_table_footer(@leaves) %>
+</section>

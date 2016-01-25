@@ -126,11 +126,34 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
                                       "#{@end_date}"
                                )
 
-    @selected_attendances.reject{ |attendance| attendance[:date_of_effectivity] }
+    @selected_attendances = @selected_attendances.select{ |attendance|
+      conditional = ''
+      @valid_periods.each do |valid_period|
+        conditional = attendance.date_of_attendance.between?(Date.parse( valid_period[:start_period] ),Date.parse( valid_period[:end_period] ) )
+        if conditional == true
+          break;
+        end
+      end
+      conditional
+    }
 
     @selected_base_rates = BaseRate.where('employee_id = ?', "#{params[:id]}")
 
     render 'human_resources/compensation_and_benefits/payrolls/employee'
+  end
+
+  def if_attendance_in_valid_period(date_of_effectivity)
+    conditional = ''
+    @valid_periods.each do |valid_period|
+      date_of_attendance = attendance.date_of_attendance.strftime('%Y-%m-%d')
+      start_period = valid_period[:start_period]
+      end_period = valid_period[:end_period]
+      conditional = attendance.date_of_attendance.between?(Date.parse( valid_period[:start_period] ),Date.parse( valid_period[:end_period] ) )
+      if conditional == true
+        break
+      end
+    end
+    conditional
   end
 
   def branch

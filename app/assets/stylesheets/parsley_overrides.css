@@ -1,4 +1,8 @@
-.parsley-required, .parsley-minlength, .parsley-maxlength, .parsley-type {
+.parsley-required,
+.parsley-minlength,
+.parsley-maxlength,
+.parsley-type,
+.parsley-date_precedence {
   color : #BE595A;
 }
 

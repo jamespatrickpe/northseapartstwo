@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160119004607) do
+ActiveRecord::Schema.define(version: 20160125053943) do
 
   create_table "accesses", force: :cascade do |t|
     t.string   "actor_id",        limit: 36
@@ -129,7 +129,7 @@ ActiveRecord::Schema.define(version: 20160119004607) do
     t.string   "remark",              limit: 256
     t.boolean  "active",              limit: 1,   default: false
     t.string   "employee_id",         limit: 36
-    t.datetime "date_of_effectivity",             default: '2016-01-24 17:04:30'
+    t.datetime "date_of_effectivity",             default: '2016-01-25 13:43:44'
     t.datetime "created_at",                                                      null: false
     t.datetime "updated_at",                                                      null: false
   end
@@ -139,6 +139,11 @@ ActiveRecord::Schema.define(version: 20160119004607) do
     t.string   "branch_id",  limit: 36
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+  end
+
+  create_table "expenses", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "file_sets", force: :cascade do |t|
@@ -197,8 +202,8 @@ ActiveRecord::Schema.define(version: 20160119004607) do
   create_table "leaves", force: :cascade do |t|
     t.string   "employee_id",          limit: 36
     t.string   "type_of_leave",        limit: 64
-    t.datetime "start_of_effectivity",             default: '2016-01-24 17:04:32'
-    t.datetime "end_of_effectivity",               default: '2016-01-24 17:04:32'
+    t.datetime "start_of_effectivity",             default: '2016-01-25 13:43:48'
+    t.datetime "end_of_effectivity",               default: '2016-01-25 13:43:48'
     t.string   "remark",               limit: 256
     t.datetime "created_at",                                                       null: false
     t.datetime "updated_at",                                                       null: false
@@ -227,7 +232,7 @@ ActiveRecord::Schema.define(version: 20160119004607) do
     t.string   "employee_id",         limit: 36
     t.string   "article",             limit: 255, default: "BASE"
     t.boolean  "applicability",       limit: 1,   default: false
-    t.datetime "date_of_effectivity",             default: '2016-01-24 17:04:33'
+    t.datetime "date_of_effectivity",             default: '2016-01-25 13:43:49'
     t.string   "remark",              limit: 256
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -272,7 +277,7 @@ ActiveRecord::Schema.define(version: 20160119004607) do
   create_table "regular_work_periods", force: :cascade do |t|
     t.time     "start_time",                      default: '2000-01-01 08:00:00'
     t.time     "end_time",                        default: '2000-01-01 17:00:00'
-    t.datetime "date_of_effectivity",             default: '2016-01-24 17:04:29'
+    t.datetime "date_of_effectivity",             default: '2016-01-25 13:43:42'
     t.string   "remark",              limit: 256
     t.string   "employee_id",         limit: 36
     t.datetime "created_at",                                                      null: false
