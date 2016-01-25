@@ -158,20 +158,15 @@ ampid = Branch.create(name: 'Ampid Diesel Trading')
 generic = Branch.create(name: 'Generic')
 
 # Telephone for Branches
-Telephone.create( description: "Main Number", digits: "", rel_model_id: greco.id, rel_model_type: 'Branch')
-Telephone.create( description: "Main Number", digits: Faker::PhoneNumber.phone_number, rel_model_id: biofin.id, rel_model_type: 'Branch')
-Telephone.create( description: "Main Number", digits: Faker::PhoneNumber.phone_number, rel_model_id: green_terrain.id, rel_model_type: 'Branch')
-
 Telephone.create( description: "Main Number 1", digits: "6451514", rel_model_id: north_sea.id, rel_model_type: 'Branch')
 Telephone.create( description: "Main Number 2", digits: "6452237", rel_model_id: north_sea.id, rel_model_type: 'Branch')
 Telephone.create( description: "Fax", digits: "6452246", rel_model_id: north_sea.id, rel_model_type: 'Branch')
 Telephone.create( description: "Cellphone", digits: "09237354641", rel_model_id: north_sea.id, rel_model_type: 'Branch')
 
-Telephone.create( description: "Main Number", digits: Faker::PhoneNumber.phone_number, rel_model_id: ampid.id, rel_model_type: 'Branch')
-Telephone.create( description: "Main Number", digits: Faker::PhoneNumber.phone_number, rel_model_id: generic.id, rel_model_type: 'Branch')
+Telephone.create( description: "Main Number", digits: "9427048", rel_model_id: greco.id, rel_model_type: 'Branch')
 
 # Addresses for Branches
-Address.create( description: "North Sea Parts, Marcos Highway, Cainta, Rizal", longitude: Faker::Address.longitude, latitude: Faker::Address.latitude, rel_model_id: north_sea.id, rel_model_type: 'Branch')
+Address.create( description: "North Sea Parts, Marcos Highway, Cainta, Rizal", longitude: 14.622056, latitude: 121.106819, rel_model_id: north_sea.id, rel_model_type: 'Branch')
 
 # Digitals for Branches
 Digital.new( description: "email", url: "northseaparts@yahoo.com", rel_model_id: north_sea.id, rel_model_type: 'Branch')

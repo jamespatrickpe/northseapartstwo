@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fb38e553-2ef6-468a-9891-438e33dd37c1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20150304042051_create_digitals.rb" afterPath="$PROJECT_DIR$/db/migrate/20150304042051_create_digitals.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20150304042115_create_telephones.rb" afterPath="$PROJECT_DIR$/db/migrate/20150304042115_create_telephones.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20150304042136_create_addresses.rb" afterPath="$PROJECT_DIR$/db/migrate/20150304042136_create_addresses.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/address.rb" afterPath="$PROJECT_DIR$/app/models/address.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/digital.rb" afterPath="$PROJECT_DIR$/app/models/digital.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/file_set.rb" afterPath="$PROJECT_DIR$/app/models/file_set.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/northseapartstwo.iml" afterPath="$PROJECT_DIR$/.idea/northseapartstwo.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/schema.rb" afterPath="$PROJECT_DIR$/db/schema.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/seeds.rb" afterPath="$PROJECT_DIR$/db/seeds.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/telephone.rb" afterPath="$PROJECT_DIR$/app/models/telephone.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="northseapartstwo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -45,8 +35,8 @@
       <file leaf-file-name="seeds.rb" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/db/seeds.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.56492025" vertical-offset="2693" max-vertical-offset="9605">
-              <caret line="173" column="76" selection-start-line="173" selection-start-column="76" selection-end-line="173" selection-end-column="76" />
+            <state vertical-scroll-proportion="0.6970387" vertical-offset="2499" max-vertical-offset="9520">
+              <caret line="165" column="62" selection-start-line="165" selection-start-column="62" selection-end-line="165" selection-end-column="62" />
               <folding />
             </state>
           </provider>
@@ -291,7 +281,7 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="FullScreen" value="false" />
-    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/db/migrate/20150304042051_create_digitals.rb&#10;file_set&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/db/migrate/20150505190653_create_file_sets.rb&#10;seeds&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/db/seeds.rb&#10;create_digit&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/db/migrate/20150304042051_create_digitals.rb&#10;digital&#9;null&#9;null&#10;address&#9;null&#9;null&#10;create_add&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/db/migrate/20150304042136_create_addresses.rb&#10;telephone&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/app/models/telephone.rb&#10;telep&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/db/migrate/20150304042115_create_telephones.rb&#10;file&#9;null&#9;null&#10;create_file&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/db/migrate/20150505190653_create_file_sets.rb&#10;tele&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/db/migrate/20150304042115_create_telephones.rb&#10;expenses&#9;null&#9;null&#10;create_base&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/db/migrate/20150311233545_create_base_rates.rb&#10;permissions&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/db/migrate/20151211011431_create_permissions.rb&#10;create_tele&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/db/migrate/20150304042115_create_telephones.rb&#10;branch/index&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/app/views/general_administrator/branch/index.html.erb&#10;routes.r&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/config/routes.rb" />
+    <property name="SearchEverywhereHistoryKey" value="create_tele&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/db/migrate/20150304042115_create_telephones.rb&#10;teleph&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/app/models/telephone.rb&#10;file_set&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/db/migrate/20150505190653_create_file_sets.rb&#10;seeds&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/db/seeds.rb&#10;create_digit&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/db/migrate/20150304042051_create_digitals.rb&#10;digital&#9;null&#9;null&#10;address&#9;null&#9;null&#10;create_add&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/db/migrate/20150304042136_create_addresses.rb&#10;telephone&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/app/models/telephone.rb&#10;telep&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/db/migrate/20150304042115_create_telephones.rb&#10;file&#9;null&#9;null&#10;create_file&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/db/migrate/20150505190653_create_file_sets.rb&#10;tele&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/db/migrate/20150304042115_create_telephones.rb&#10;expenses&#9;null&#9;null&#10;create_base&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/db/migrate/20150311233545_create_base_rates.rb&#10;permissions&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/db/migrate/20151211011431_create_permissions.rb&#10;branch/index&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/app/views/general_administrator/branch/index.html.erb&#10;routes.r&#9;FILE&#9;file://C:/Users/own/My Projects/northseapartstwo/config/routes.rb" />
     <property name="restartRequiresConfirmation" value="true" />
   </component>
   <component name="RunManager" selected="Rails.gogogo">
@@ -822,14 +812,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/migrate/20150304042115_create_telephones.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="5" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/address.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4722222" vertical-offset="0" max-vertical-offset="396">
@@ -842,14 +824,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="5" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/telephone.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="238">
-          <caret line="2" column="2" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="42" />
           <folding />
         </state>
       </provider>
@@ -878,10 +852,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/telephone.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.07068607" vertical-offset="0" max-vertical-offset="481">
+          <caret line="2" column="2" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/migrate/20150304042115_create_telephones.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.14137214" vertical-offset="0" max-vertical-offset="481">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="5" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/db/seeds.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.56492025" vertical-offset="2693" max-vertical-offset="9605">
-          <caret line="173" column="76" selection-start-line="173" selection-start-column="76" selection-end-line="173" selection-end-column="76" />
+        <state vertical-scroll-proportion="0.6970387" vertical-offset="2499" max-vertical-offset="9520">
+          <caret line="165" column="62" selection-start-line="165" selection-start-column="62" selection-end-line="165" selection-end-column="62" />
           <folding />
         </state>
       </provider>
