@@ -142,18 +142,8 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
     render 'human_resources/compensation_and_benefits/payrolls/employee'
   end
 
-  def if_attendance_in_valid_period(date_of_effectivity)
-    conditional = ''
-    @valid_periods.each do |valid_period|
-      date_of_attendance = attendance.date_of_attendance.strftime('%Y-%m-%d')
-      start_period = valid_period[:start_period]
-      end_period = valid_period[:end_period]
-      conditional = attendance.date_of_attendance.between?(Date.parse( valid_period[:start_period] ),Date.parse( valid_period[:end_period] ) )
-      if conditional == true
-        break
-      end
-    end
-    conditional
+  def sample_one
+    "puts sample ehre"
   end
 
   def branch
