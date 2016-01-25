@@ -2,14 +2,10 @@ class CreateExpenses < ActiveRecord::Migration
   def change
     create_table :expenses, :id => false   do |t|
       t.string :id, limit: 36, primary: true, null: false
-      t.string :employee_id,limit: 36, :required => true
-      t.boolean :signed_type, :required => true
       t.decimal :amount, :limit => 16, :precision => 16, :scale => 2
-      t.string :period_of_time, :limit => 64
-      t.string :rate_type,:limit => 64, default: 'other'
+      t.string :category, :limit => 256
       t.string :remark, :limit => 256
-      t.datetime :start_of_effectivity, :required => true
-      t.datetime :end_of_effectivity
+      t.datetime :date_of_effectivity, :required => true
       t.timestamps null: false
     end
     execute "ALTER TABLE expenses ADD PRIMARY KEY (id);"
