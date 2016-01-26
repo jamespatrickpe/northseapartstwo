@@ -184,6 +184,8 @@ Constant.create( constant_type: 'human_resources.time_end', value: '17:00', name
 Constant.create( constant_type: 'human_resources.night_shift_differential_start', value: '22:00', name: 'Start of Night Shift Differential', remark: Faker::Lorem.sentence )
 Constant.create( constant_type: 'human_resources.night_shift_differential_end', value: '05:00', name: 'End of Night Shift Differential', remark: Faker::Lorem.sentence )
 Constant.create( constant_type: 'human_resources.night_shift_differential_multiplier', value: '0.1', name: 'Multiplier for NSD', remark: Faker::Lorem.sentence )
+Constant.create( constant_type: 'human_resources.start_lunch_break', value: '2000-01-01 12:00:00 +0800', name: 'Default Duration of Contract (Days)', remark: Faker::Lorem.sentence )
+Constant.create( constant_type: 'human_resources.end_lunch_break', value: '2000-01-01 13:00:00 +0800', name: 'Default Duration of Contract (Days)', remark: Faker::Lorem.sentence )
 
 #Departments
 hr = Department.new(label: "Human Resources", description: "no description")

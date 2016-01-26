@@ -1,5 +1,25 @@
 module ApplicationHelper
 
+  def categorize_regular_hours(start_time, end_time)
+
+    start_lunch_break = Time.strptime((::Constant.find_by_constant_type('human_resources.start_lunch_break'))[:value], '%Y-%m-%d %H:%M:%S')
+    end_lunch_break = Time.strptime((::Constant.find_by_constant_type('human_resources.end_lunch_break'))[:value], '%Y-%m-%d %H:%M:%S')
+    (end_time - start_time)/3600
+    variable = (start_time..end_time).overlaps?(start_lunch_break..end_lunch_break)
+  end
+
+  def categorize_OT_hours(start_time, end_time)
+
+  end
+
+  def categorize_NSD_hours(start_time, end_time)
+
+  end
+
+  def categorize_OTNSD_hours(start_time, end_time)
+
+  end
+
   def remaining_vale_balance(parent_vale_id)
 
     my_vale = Vale.find(parent_vale_id)
