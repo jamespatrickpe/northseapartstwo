@@ -57,7 +57,8 @@
   <% if (@selected_employee.present?) && (@start_date.present?) && (@end_date.present?)  %>
 
   <div class="generic_content">
-    <div class="small-6 columns">
+
+    <div class="small-4 columns">
       <% if (@selected_attendances.present?) %>
       Attendance:
           <table class="generic_table">
@@ -74,10 +75,12 @@
             <tbody>
             <% @selected_attendances.each do |attendance| %>
             <tr>
-              <td><%= attendance.date_of_attendance.strftime('%Y-%m-%d') %></td>
+              <td>
+                <%= attendance.date_of_attendance.strftime('%Y-%m-%d') %>
+              </td>
               <td><%= attendance.timein.strftime('%T') %></td>
               <td><%= attendance.timeout.strftime('%T') %></td>
-              <td><%= sample_one %></td>
+              <td><%= categorize_regular_hours(attendance.timein, attendance.timeout) %></td>
               <td></td>
               <td></td>
               <td></td>
@@ -89,7 +92,7 @@
       <% end %>
     </div>
 
-    <div class="small-6 columns">
+    <div class="small-4 columns">
       <% if (@valid_periods.present?) %>
           Valid Periods of Duty:
           <table class="generic_table">
@@ -99,20 +102,16 @@
             </thead>
             <tbody>
             <% @valid_periods.each do |valid_period| %>
-            <tr>
-              <td><%= valid_period[:start_period] %></td>
-              <td><%= valid_period[:end_period] %></td>
-            </tr>
+                <tr>
+                  <td><%= valid_period[:start_period] %></td>
+                  <td><%= valid_period[:end_period] %></td>
+                </tr>
             <% end %>
             </tbody>
           </table>
       <% end %>
     </div>
 
-    <div class="small-6 columns">
-      <% if (@selected_base_rates.present?) %>
-      <% end %>
-    </div>
 
   </div>
 
