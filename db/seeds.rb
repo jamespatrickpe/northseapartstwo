@@ -150,12 +150,30 @@ InstitutionalAdjustment.create( institution: "PAGIBIG", start_range: 0.00, end_r
 InstitutionalAdjustment.create( institution: "PAGIBIG", start_range: 1500.00, end_range: 99999999999.99, employer_contribution: 0.02, employee_contribution:  0.02 , period_of_time: "MONTH", contribution_type: "PERCENTAGE", date_of_effectivity: Time.now)
 
 # Branches
-Branch.create(name: 'GRECO Warehouse')
-Branch.create(name: 'BIOFIN')
-Branch.create(name: 'GREEN TERRAIN')
-Branch.create(name: 'North Sea Cainta')
-Branch.create(name: 'Ampid Diesel Trading')
-Branch.create(name: 'Generic')
+north_sea = Branch.create(name: 'North Sea Cainta')
+greco = Branch.create(name: 'GRECO Warehouse')
+biofin = Branch.create(name: 'BIOFIN')
+green_terrain = Branch.create(name: 'GREEN TERRAIN')
+ampid = Branch.create(name: 'Ampid Diesel Trading')
+generic = Branch.create(name: 'Generic')
+
+# Telephone for Branches
+Telephone.create( description: "Main Number 1", digits: "6451514", rel_model_id: north_sea.id, rel_model_type: 'Branch')
+Telephone.create( description: "Main Number 2", digits: "6452237", rel_model_id: north_sea.id, rel_model_type: 'Branch')
+Telephone.create( description: "Fax", digits: "6452246", rel_model_id: north_sea.id, rel_model_type: 'Branch')
+Telephone.create( description: "Cellphone", digits: "09237354641", rel_model_id: north_sea.id, rel_model_type: 'Branch')
+Telephone.create( description: "Main Number", digits: "9427048", rel_model_id: greco.id, rel_model_type: 'Branch')
+Telephone.create( description: "Main Number", digits: "6478092", rel_model_id: biofin.id, rel_model_type: 'Branch')
+
+# Addresses for Branches
+Address.create( description: "North Sea Parts, Marcos Highway, Cainta, Rizal", longitude: 14.622056, latitude: 121.106819, rel_model_id: north_sea.id, rel_model_type: 'Branch')
+Address.create( description: "Greco Warehouse, Sumulong Highway, Antipolo, Rizal", longitude: 14.616369, latitude: 121.138520, rel_model_id: greco.id, rel_model_type: 'Branch')
+Address.create( description: "Biofin Petshop, Sumulong Highway, Antipolo, Rizal", longitude: 14.617416, latitude: 121.134781, rel_model_id: biofin.id, rel_model_type: 'Branch')
+
+# Digitals for Branches
+Digital.new( description: "email", url: "northseaparts@yahoo.com", rel_model_id: north_sea.id, rel_model_type: 'Branch')
+Digital.new( description: "email", url: "northseaparts@gmail.com", rel_model_id: north_sea.id, rel_model_type: 'Branch')
+Digital.new( description: "email", url: "biofinbreeding@yahoo.com.ph", rel_model_id: biofin.id, rel_model_type: 'Branch')
 
 #Constants
 Constant.create( constant_type: 'human_resources.minimum_wage', value: '362.50', name: 'Minimum Wage', remark: Faker::Lorem.sentence)
@@ -166,6 +184,8 @@ Constant.create( constant_type: 'human_resources.time_end', value: '17:00', name
 Constant.create( constant_type: 'human_resources.night_shift_differential_start', value: '22:00', name: 'Start of Night Shift Differential', remark: Faker::Lorem.sentence )
 Constant.create( constant_type: 'human_resources.night_shift_differential_end', value: '05:00', name: 'End of Night Shift Differential', remark: Faker::Lorem.sentence )
 Constant.create( constant_type: 'human_resources.night_shift_differential_multiplier', value: '0.1', name: 'Multiplier for NSD', remark: Faker::Lorem.sentence )
+Constant.create( constant_type: 'human_resources.start_lunch_break', value: '2000-01-01 12:00:00 +0800', name: 'Default Duration of Contract (Days)', remark: Faker::Lorem.sentence )
+Constant.create( constant_type: 'human_resources.end_lunch_break', value: '2000-01-01 13:00:00 +0800', name: 'Default Duration of Contract (Days)', remark: Faker::Lorem.sentence )
 
 #Departments
 hr = Department.new(label: "Human Resources", description: "no description")
@@ -274,20 +294,26 @@ numberOfActors.times do |i|
 
   #Digital
   rand(0..5).times do |i|
-    myDigital = Digital.new( description: Faker::Lorem.sentence, url: Faker::Internet.url, actor: myActor )
+    myDigital = Digital.new( description: Faker::Lorem.sentence, url: Faker::Internet.url)
+    myDigital.rel_model_id = myActor.id
+    myDigital.rel_model_type = 'Actor'
     myDigital.save!
   end
 
   #Telephony
   rand(0..5).times do |i|
-    myTelephony = Telephone.new( description: Faker::Lorem.sentence, digits: Faker::PhoneNumber.phone_number, actor: myActor  )
+    myTelephony = Telephone.new( description: Faker::Lorem.sentence, digits: Faker::PhoneNumber.phone_number)
+    myTelephony.rel_model_id = myActor.id
+    myTelephony.rel_model_type = 'Actor'
     myTelephony.save!
   end
 
   #Addresses
   rand(0..5).times do |i|
     completeAddress = Faker::Address.building_number + ' '+ Faker::Address.street_name + ' ' + Faker::Address.street_address + ' ' + Faker::Address.city + ' ' + Faker::Address.country
-    myAddress = Address.new( description: completeAddress, longitude: Faker::Address.longitude, latitude: Faker::Address.latitude, actor: myActor  )
+    myAddress = Address.new( description: completeAddress, longitude: Faker::Address.longitude, latitude: Faker::Address.latitude)
+    myAddress.rel_model_id = myActor.id
+    myAddress.rel_model_type = 'Actor'
     myAddress.save!
   end
 
@@ -327,7 +353,7 @@ numberOfActors.times do |i|
       # timeout = Time.new( myDate.year , myDate.month, myDate.day, rand(12..23), rand(0..59), rand(0..59) )
       time_in = rand(0..12).to_s+':'+rand(0..59).to_s+':'+rand(0..59).to_s
       time_out = rand(12..23).to_s+':'+rand(0..59).to_s+':'+rand(0..59).to_s
-      remark = Faker::Lorem.sentence + ' ' + i.to_s
+      remark = Faker::Lorem.word
       if 10.in(100)
         myAttendance = Attendance.new(date_of_attendance: dateOfAttendance, timein: time_in, employee: myEmployee, remark: remark )
         myAttendance.save
@@ -385,15 +411,13 @@ numberOfActors.times do |i|
       workperiod.save!
     end
 
-    numberOfDuties = rand(1..5)
-    numberOfDuties.times do
+    rand(0..5).times do
       dutyStatus = DutyStatus.new(remark: Faker::Lorem.sentence, employee: myEmployee)
-      if 7.in(10)
+      if 5.in(10)
         active = -> { true }
       else
         active = -> { false }
       end
-
       dutyStatus.active = active.call
       dutyStatus.date_of_effectivity = rand(720..72000).hours.ago
       dutyStatus.save!
@@ -464,6 +488,44 @@ numberOfActors.times do |i|
     # For Rate Adjustment
     if(randomBoolean() && randomBoolean() )
       RateAdjustment.create( amount: randomMoney(100.10,1000.00), signed_type: ["ADDITION", "DEDUCTION"].sample, employee: myEmployee, description: Faker::Lorem.sentence, rate_of_time: ["DAY", "WEEK", "MONTH"].sample, activated: randomBoolean())
+    end
+
+    # For Payroll
+    rand(0..2).times do |i|
+
+      if 9.in(10)
+        my_payroll = Payroll.new
+        my_payroll.article = "SSS"
+        boolean_of_applicability = -> { [false,true].sample }
+        my_payroll.applicability = boolean_of_applicability.call
+        my_payroll.date_of_effectivity = rand(720..72000).hours.ago
+        my_payroll.remark = Faker::Lorem.word
+        my_payroll.employee = myEmployee
+        my_payroll.save!
+      end
+
+      if 9.in(10)
+        my_payroll = Payroll.new
+        my_payroll.article = "PHILHEALTH"
+        boolean_of_applicability = -> { [false,true].sample }
+        my_payroll.applicability = boolean_of_applicability.call
+        my_payroll.date_of_effectivity = rand(720..72000).hours.ago
+        my_payroll.remark = Faker::Lorem.word
+        my_payroll.employee = myEmployee
+        my_payroll.save!
+      end
+
+      if 9.in(10)
+        my_payroll = Payroll.new
+        my_payroll.article = "PAGIBIG"
+        boolean_of_applicability = -> { [false,true].sample }
+        my_payroll.applicability = boolean_of_applicability.call
+        my_payroll.date_of_effectivity = rand(720..72000).hours.ago
+        my_payroll.remark = Faker::Lorem.word
+        my_payroll.employee = myEmployee
+        my_payroll.save!
+      end
+
     end
 
     # For Vales

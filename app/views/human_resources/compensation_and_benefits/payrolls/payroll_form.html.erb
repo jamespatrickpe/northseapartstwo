@@ -1,0 +1,112 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Payroll Settings Form </div>
+  <div class='subdescription'> Set the Settings of an Employee Payroll </div>
+  <hr>
+  <div class='small-6 columns generic_form'>
+
+    <%= generic_form_edit_id_indicator(@selected_payroll[:id]) %>
+
+    <%
+       @selected_payroll[:id].present? ?
+               (current_method = :patch; current_action = @selected_payroll[:id] ) :
+               (current_method = :post; current_action = 'create')
+    %>
+
+    <%=
+        form_tag( {:action => current_action},
+                  {:method => current_method,
+                   :class => 'create_form',
+                   :id => "new_payroll_form",
+                   :"data-parsley-validate" => ""
+                  },
+        ) do
+    %>
+        <%= hidden_field_tag('payroll[id]', @selected_payroll.id ) %>
+
+        <br> Employee: <br>
+        <select name='payroll[employee_id]'
+                id='new_payroll_employee'
+                class='employee_select_field'
+                required="required" >
+
+          <option value="" disabled selected>Select Employee</option>
+          <% @employees.each do |employee| %>
+              <% if employee.id == @selected_payroll.employee_id %>
+                  <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
+              <% else %>dd
+                  <option value=<%= employee.id %>><%= employee.actor.name %></option>
+              <% end %>
+          <% end %>
+        </select>
+
+        <br> Article: <br>
+        <select name='payroll[article]'
+                style="width: 50%"
+                required="required" >
+          <% if @selected_payroll[:article] == "SSS" %>
+              <option disabled>Select Article</option>
+              <option value="SSS" selected>SSS</option>
+              <option value="PHILHEALTH" >PHILHEALTH</option>
+              <option value="PAGIBIG" >PAGIBIG</option>
+          <% elsif @selected_payroll[:article] == "PHILHEALTH" %>
+              <option disabled>Select Article</option>
+              <option value="SSS">SSS</option>
+              <option value="PHILHEALTH" selected>PHILHEALTH</option>
+              <option value="PAGIBIG">PAGIBIG</option>
+          <% elsif @selected_payroll[:article] == "PAGIBIG" %>
+              <option disabled>Select Article</option>
+              <option value="SSS">SSS</option>
+              <option value=0>PHILHEALTH</option>
+              <option value="PAGIBIG" selected>PAGIBIG</option>
+          <% else %>
+              <option disabled selected>Select Article</option>
+              <option value="SSS">SSS</option>
+              <option value="PHILHEALTH" >PHILHEALTH</option>
+              <option value="PAGIBIG">PAGIBIG</option>
+          <% end %>
+        </select>
+
+        <br> Applicability: <br>
+        <select name='payroll[applicability]'
+                style="width: 50%"
+                required="required" >
+          <% if @selected_payroll[:applicability] == true %>
+              <option disabled>Select Applicability</option>
+              <option value=1 selected>ACTIVE</option>
+              <option value=0>INACTIVE</option>
+          <% elsif @selected_payroll[:applicability] == false %>
+              <option disabled>Select Applicability</option>
+              <option value=1>ACTIVE</option>
+              <option value=0 selected>INACTIVE</option>
+          <% else %>
+              <option disabled selected>Select Applicability</option>
+              <option value=1>ACTIVE</option>
+              <option value=0>INACTIVE</option>
+          <% end %>
+        </select>
+
+        <br>Date of Effectivity:<br>
+        <input type="datetime-local"
+               required="required"
+               name="payroll[date_of_effectivity]"
+               style="width: 50%"
+               step="1"
+               value= <%= @selected_payroll[:date_of_effectivity].present? ?
+                                  @selected_payroll[:date_of_effectivity].strftime('%FT%T') :
+                                  Time.now.strftime('%FT%T')  %>>
+
+        <br> Remarks <br>
+        <%= text_area_tag("payroll[remark]",
+                          content = @selected_payroll[:remark],
+                          options = {class: "remark_description",
+                                     :"data-parsley-trigger" => "keyup",
+                                     :"data-parsley-maxlength"=>"128",
+                                     :placeholder => 'Remarks' }) %>
+
+        <%= generic_form_footer(@selected_payroll[:id]) %>
+
+        <hr />
+    <% end %>
+  </div>
+  <%= renderCorePartial('employee_quick_profile') %>
+</section>
