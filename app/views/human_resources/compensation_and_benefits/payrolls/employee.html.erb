@@ -58,8 +58,7 @@
 
   <% if (@selected_employee.present?) && (@start_date.present?) && (@end_date.present?)  %>
 
-  <div class="generic_content">
-    <div class="small-4 columns">
+    <div class="small-6 columns generic_content">
       <% if (@selected_attendances.present?) %>
       Attendance:
           <table class="generic_table">
@@ -81,7 +80,7 @@
               </td>
               <td><%= attendance.timein.strftime('%T') %></td>
               <td><%= attendance.timeout.strftime('%T') %></td>
-              <td><%= categorize_regular_hours(attendance.timein, attendance.timeout) %></td>
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -94,10 +93,8 @@
           &nbsp;
       <% end %>
     </div>
-  </div>
 
-  <div class="generic_content">
-    <div class="small-4 columns">
+    <div class="small-6 columns generic_content">
       <% if (@valid_periods.present?) %>
           Valid Periods of Duty:
           <table class="generic_table">
@@ -118,9 +115,6 @@
           &nbsp;
       <% end %>
     </div>
-  </div>
-
-
 
   <% end %>
 
