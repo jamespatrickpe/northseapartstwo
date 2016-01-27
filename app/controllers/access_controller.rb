@@ -1,4 +1,5 @@
 class AccessController < ApplicationController
+
   include ApplicationHelper
 
   layout "application_loggedin",
@@ -9,22 +10,24 @@ class AccessController < ApplicationController
                  :my_account
              ]
   skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
-  before_action :sign_in_check,
-                except: [:signin,
-                         :processSignin,
-                         :registration,
-                         :register,
-                         :success_registration,
-                         :account_recovery,
-                         :resend_verification,
-                         :resetPassword,
-                         :sendRecoveryEmail,
-                         :verify,
-                         :email_recovery_verification]
+  # before_action :sign_in_check,
+  #               except: [:signin,
+  #                        :processSignin,
+  #                        :registration,
+  #                        :register,
+  #                        :success_registration,
+  #                        :account_recovery,
+  #                        :resend_verification,
+  #                        :resetPassword,
+  #                        :sendRecoveryEmail,
+  #                        :verify,
+  #                        :email_recovery_verification]
 
 
-  #index page
+  layout "application_loggedin"
+
   def index
+    render 'access/index'
   end
 
   def dashboard
