@@ -209,13 +209,8 @@ ActiveRecord::Schema.define(version: 20160125053943) do
   create_table "leaves", force: :cascade do |t|
     t.string   "employee_id",          limit: 36
     t.string   "type_of_leave",        limit: 64
-<<<<<<< HEAD
     t.datetime "start_of_effectivity",             default: '2016-01-27 20:46:17'
     t.datetime "end_of_effectivity",               default: '2016-01-27 20:46:17'
-=======
-    t.datetime "start_of_effectivity",             default: '2016-01-27 13:45:37'
-    t.datetime "end_of_effectivity",               default: '2016-01-27 13:45:37'
->>>>>>> ef06f7522afc86b425567ce0ee99408517e8fb2c
     t.string   "remark",               limit: 256
     t.datetime "created_at",                                                       null: false
     t.datetime "updated_at",                                                       null: false
@@ -244,11 +239,7 @@ ActiveRecord::Schema.define(version: 20160125053943) do
     t.string   "employee_id",         limit: 36
     t.string   "article",             limit: 255, default: "BASE"
     t.boolean  "applicability",       limit: 1,   default: false
-<<<<<<< HEAD
-    t.datetime "date_of_effectivity",             default: '2016-01-27 20:46:18'
-=======
     t.datetime "date_of_effectivity",             default: '2016-01-27 13:45:38'
->>>>>>> ef06f7522afc86b425567ce0ee99408517e8fb2c
     t.string   "remark",              limit: 256
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -293,11 +284,7 @@ ActiveRecord::Schema.define(version: 20160125053943) do
   create_table "regular_work_periods", force: :cascade do |t|
     t.time     "start_time",                      default: '2000-01-01 08:00:00'
     t.time     "end_time",                        default: '2000-01-01 17:00:00'
-<<<<<<< HEAD
     t.datetime "date_of_effectivity",             default: '2016-01-27 20:46:14'
-=======
-    t.datetime "date_of_effectivity",             default: '2016-01-27 13:45:31'
->>>>>>> ef06f7522afc86b425567ce0ee99408517e8fb2c
     t.string   "remark",              limit: 256
     t.string   "employee_id",         limit: 36
     t.datetime "created_at",                                                      null: false

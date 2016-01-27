@@ -98,7 +98,7 @@ bower.json
 # Ignore pow environment settings
 .powenv
 
-.schema.rb
+schema.rb
 .dataSources.xml
 .Gemfile.lock
 .database.yml
