@@ -1,11 +1,25 @@
 module ApplicationHelper
 
-  def categorize_regular_hours(start_time, end_time)
-
+  def remove_lunch_break(start_time, end_time)
     start_lunch_break = Time.strptime((::Constant.find_by_constant_type('human_resources.start_lunch_break'))[:value], '%Y-%m-%d %H:%M:%S')
     end_lunch_break = Time.strptime((::Constant.find_by_constant_type('human_resources.end_lunch_break'))[:value], '%Y-%m-%d %H:%M:%S')
-    (end_time - start_time)/3600
-    variable = (start_time..end_time).overlaps?(start_lunch_break..end_lunch_break)
+    is_crossed_lunch_break = (start_time..end_time).overlaps?(start_lunch_break..end_lunch_break)
+    lunch_break_difference = 0
+    if is_crossed_lunch_break
+      if ( start_time.between?(start_lunch_break,end_lunch_break) ) && ( end_time.between?(start_lunch_break,end_lunch_break) )
+      elsif start_time.between?(start_lunch_break,end_lunch_break)
+        lunch_break_difference = end_lunch_break - start_time
+      elsif end_time.between?(start_lunch_break,end_lunch_break)
+        lunch_break_difference = end_time - start_lunch_break
+      else
+        lunch_break_difference = 3600
+      end
+    end
+    work_hours_without_lunch_break = (((end_time - start_time) - lunch_break_difference)/3600)
+  end
+
+  def categorize_regular_hours(start_time, end_time)
+    work_hours_without_lunch_break = remove_lunch_break(start_time, end_time)
   end
 
   def categorize_OT_hours(start_time, end_time)

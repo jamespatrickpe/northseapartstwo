@@ -176,16 +176,16 @@ Digital.new( description: "email", url: "northseaparts@gmail.com", rel_model_id:
 Digital.new( description: "email", url: "biofinbreeding@yahoo.com.ph", rel_model_id: biofin.id, rel_model_type: 'Branch')
 
 #Constants
-Constant.create( constant_type: 'human_resources.minimum_wage', value: '362.50', name: 'Minimum Wage', remark: Faker::Lorem.sentence)
-Constant.create( constant_type: 'human_resources.preferred_rest_day', value: 'SUNDAY', name: 'Preferred Rest Day', remark: Faker::Lorem.sentence )
-Constant.create( constant_type: 'human_resources.contract_days', value: '366', name: 'Default Duration of Contract (Days)', remark: Faker::Lorem.sentence )
-Constant.create( constant_type: 'human_resources.time_start', value: '08:00', name: 'Usual time Start for Employee', remark: Faker::Lorem.sentence )
-Constant.create( constant_type: 'human_resources.time_end', value: '17:00', name: 'Usual time End for Employee', remark: Faker::Lorem.sentence )
-Constant.create( constant_type: 'human_resources.night_shift_differential_start', value: '22:00', name: 'Start of Night Shift Differential', remark: Faker::Lorem.sentence )
-Constant.create( constant_type: 'human_resources.night_shift_differential_end', value: '05:00', name: 'End of Night Shift Differential', remark: Faker::Lorem.sentence )
-Constant.create( constant_type: 'human_resources.night_shift_differential_multiplier', value: '0.1', name: 'Multiplier for NSD', remark: Faker::Lorem.sentence )
-Constant.create( constant_type: 'human_resources.start_lunch_break', value: '2000-01-01 12:00:00 +0800', name: 'Default Duration of Contract (Days)', remark: Faker::Lorem.sentence )
-Constant.create( constant_type: 'human_resources.end_lunch_break', value: '2000-01-01 13:00:00 +0800', name: 'Default Duration of Contract (Days)', remark: Faker::Lorem.sentence )
+Constant.create( constant_type: 'human_resources.minimum_wage', value: '362.50', name: 'Minimum Wage', remark: nil, date_of_effectivity: Time.now )
+Constant.create( constant_type: 'human_resources.preferred_rest_day', value: 'SUNDAY', name: 'Preferred Rest Day', remark: nil, date_of_effectivity: Time.now )
+Constant.create( constant_type: 'human_resources.contract_days', value: '366', name: 'Default Duration of Contract (Days)', remark: nil, date_of_effectivity: Time.now )
+Constant.create( constant_type: 'human_resources.time_start', value: '08:00', name: 'Usual time Start for Employee', remark: nil, date_of_effectivity: Time.now )
+Constant.create( constant_type: 'human_resources.time_end', value: '17:00', name: 'Usual time End for Employee', remark: nil, date_of_effectivity: Time.now )
+Constant.create( constant_type: 'human_resources.night_shift_differential_start', value: '22:00', name: 'Start of Night Shift Differential', remark: nil, date_of_effectivity: Time.now )
+Constant.create( constant_type: 'human_resources.night_shift_differential_end', value: '05:00', name: 'End of Night Shift Differential', remark: nil, date_of_effectivity: Time.now )
+Constant.create( constant_type: 'human_resources.night_shift_differential_multiplier', value: '0.1', name: 'Multiplier for NSD', remark: nil, date_of_effectivity: Time.now )
+Constant.create( constant_type: 'human_resources.start_lunch_break', value: '2000-01-01 12:00:00 +0800', name: 'Default Duration of Contract (Days)', remark: nil, date_of_effectivity: Time.now )
+Constant.create( constant_type: 'human_resources.end_lunch_break', value: '2000-01-01 13:00:00 +0800', name: 'Default Duration of Contract (Days)', remark: nil, date_of_effectivity: Time.now )
 
 #Departments
 hr = Department.new(label: "Human Resources", description: "no description")

@@ -54,10 +54,11 @@
   </div>
   <% end %>
 
+  <hr>
+
   <% if (@selected_employee.present?) && (@start_date.present?) && (@end_date.present?)  %>
 
   <div class="generic_content">
-
     <div class="small-4 columns">
       <% if (@selected_attendances.present?) %>
       Attendance:
@@ -89,9 +90,13 @@
             <% end %>
             </tbody>
           </table>
+      <% else %>
+          &nbsp;
       <% end %>
     </div>
+  </div>
 
+  <div class="generic_content">
     <div class="small-4 columns">
       <% if (@valid_periods.present?) %>
           Valid Periods of Duty:
@@ -109,11 +114,13 @@
             <% end %>
             </tbody>
           </table>
+      <% else %>
+          &nbsp;
       <% end %>
     </div>
-
-
   </div>
+
+
 
   <% end %>
 
