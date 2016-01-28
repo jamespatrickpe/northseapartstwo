@@ -1,12 +1,5 @@
 module HumanResourcesHelper
 
-  def get_constant(constant_name, latest_end_time_for_constant)
-    constant = ::Constant.where('(constant_type = ?) AND ( date_of_effectivity <= ? )',
-                                "#{constant_name}",
-                                "#{latest_end_time_for_constant}"
-    ).order('date_of_effectivity ASC').first
-    constant
-  end
 
   def remove_lunch_break(start_time, end_time)
     lunch_break_start_constant = get_constant('human_resources.start_lunch_break', time_of_consideration)
@@ -27,8 +20,40 @@ module HumanResourcesHelper
     work_hours_without_lunch_break = (((end_time - start_time) - lunch_break_difference)/3600)
   end
 
+  def is_crossing_lunch_break_period()
+
+  end
+
   def categorize_regular_hours(start_time, end_time, latest_end_time_for_constant)
-    night_shift_differential_start = get_constant('night_shift_differential_start', latest_end_time_for_constant)
+    regular_work_hours = 0
+    overtime = 0
+    night_shift_differential_hours = 0
+    ot_nsd = 0
+    night_shift_differential_start = get_constant('human_resources.night_shift_differential_start', latest_end_time_for_constant)
+    night_shift_differential_end = get_constant('human_resources.night_shift_differential_end', latest_end_time_for_constant)
+
+    #NSD Cutoff Procedure
+    if Time.parse(start_time).between?( Time.parse('00:00:01'), Time.parse(night_shift_differential_end) )
+      start_time = night_shift_differential_end
+    end
+    if Time.parse(end_time).between?(Time.parse(night_shift_differential_start) , Time.parse('23:59:59') )
+      end_time = night_shift_differential_start
+    end
+
+    start_lunch_break = Time.parse(get_constant('human_resources.start_lunch_break', latest_end_time_for_constant))
+    end_lunch_break = Time.parse(get_constant('human_resources.end_lunch_break', latest_end_time_for_constant))
+    is_crossed_lunch_break = (Time.parse(start_time)..Time.parse(end_time)).overlaps?(start_lunch_break..end_lunch_break)
+
+    regular_work_hours = ((Time.parse(end_time) - Time.parse(start_time))/3600).round(0)
+
+    #NSD Overlap
+    morning_overlap = Time.parse(end_time).between?( Time.parse('00:00:01'), Time.parse(night_shift_differential_end))
+    night_overlap = Time.parse(start_time).between?(Time.parse(night_shift_differential_start) , Time.parse('23:59:59'))
+    if ((morning_overlap == true )||( night_overlap == true))
+      regular_work_hours = 0
+    end
+
+    regular_work_hours
   end
 
   def categorize_OT_hours(start_time, end_time)

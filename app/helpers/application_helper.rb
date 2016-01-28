@@ -1,5 +1,13 @@
 module ApplicationHelper
 
+  def get_constant(constant_name, latest_end_time_for_constant)
+    constant = ::Constant.where('(constant_type = ?) AND ( date_of_effectivity <= ? )',
+                                "#{constant_name}",
+                                "#{latest_end_time_for_constant}"
+    ).order('date_of_effectivity ASC').first
+    constant[:value]
+  end
+
   def translate_period_of_time_into_seconds(period_of_time)
     if period_of_time == 'YEAR'
       number_of_seconds = 31556926

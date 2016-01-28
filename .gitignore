@@ -22,10 +22,10 @@
 # if you remove the above rule, at least ignore the following:
 
 # User-specific stuff:
-# .idea/workspace.xml
-# .idea/tasks.xml
-# .idea/dictionaries
-# .idea/shelf
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/shelf
 
 # Sensitive or high-churn files:
 # .idea/dataSources.ids
@@ -99,7 +99,7 @@ bower.json
 .powenv
 
 schema.rb
-.dataSources.xml
-.Gemfile.lock
-.database.yml
-.workspace.xml
+dataSources.xml
+Gemfile.lock
+database.yml
+workspace.xml

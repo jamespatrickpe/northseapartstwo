@@ -80,11 +80,17 @@
               </td>
               <td><%= attendance.timein.strftime('%T') %></td>
               <td><%= attendance.timeout.strftime('%T') %></td>
-              <td></td>
+              <td><%= categorize_regular_hours( attendance.timein.strftime('%T'), attendance.timeout.strftime('%T'), @end_date)%></td>
               <td></td>
               <td></td>
               <td></td>
               <td><%= attendance.remark %></td>
+              <td class="actions">
+                <%= link_to( "&#128083;".html_safe,
+                             '/human_resources/attendance_performance/attendances/' + attendance.id + '/edit',
+                             class: 'action_button',
+                             tooltip: 'Examine') %>
+              </td>
             </tr>
             <% end %>
             </tbody>
