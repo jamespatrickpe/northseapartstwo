@@ -1,53 +1,11 @@
 module ApplicationHelper
 
-  def categorize_regular_hours(start_time, end_time)
-
-    start_lunch_break = Time.strptime((::Constant.find_by_constant_type('human_resources.start_lunch_break'))[:value], '%Y-%m-%d %H:%M:%S')
-    end_lunch_break = Time.strptime((::Constant.find_by_constant_type('human_resources.end_lunch_break'))[:value], '%Y-%m-%d %H:%M:%S')
-    (end_time - start_time)/3600
-    variable = (start_time..end_time).overlaps?(start_lunch_break..end_lunch_break)
-  end
-
-  def categorize_OT_hours(start_time, end_time)
-
-  end
-
-  def categorize_NSD_hours(start_time, end_time)
-
-  end
-
-  def categorize_OTNSD_hours(start_time, end_time)
-
-  end
-
-  def remaining_vale_balance(parent_vale_id)
-
-    my_vale = Vale.find(parent_vale_id)
-    my_vale_adjustments = ValeAdjustment.where(vale_id: parent_vale_id)
-    current_balance = my_vale[:amount]
-    iteration = translate_period_of_time_into_seconds(my_vale[:period_of_deduction])
-    current_time = my_vale[:date_of_effectivity]
-    next_time = current_time + iteration
-
-    while(Time.now > current_time)
-      adjustment_in_period_token = false
-      my_vale_adjustments.each do |my_vale_adjustment|
-        if my_vale_adjustment[:date_of_effectivity].between?(current_time, next_time)
-          adjustment_in_period_token = true
-          my_vale_adjustment[:signed_type] ?
-              ( current_balance = current_balance + my_vale_adjustment[:amount] ) :
-              ( current_balance = current_balance - my_vale_adjustment[:amount] )
-        end
-      end
-      (adjustment_in_period_token == false) ? ( current_balance = current_balance - my_vale[:amount_of_deduction] ):()
-      (current_balance < 0) ? (break;) : ()
-      current_time = current_time + iteration
-      next_time = current_time + iteration
-    end
-
-    (current_balance < 0) ? (current_balance = "PAID") : ()
-    return current_balance
-
+  def get_constant(constant_name, latest_end_time_for_constant)
+    constant = ::Constant.where('(constant_type = ?) AND ( date_of_effectivity <= ? )',
+                                "#{constant_name}",
+                                "#{latest_end_time_for_constant}"
+    ).order('date_of_effectivity ASC').first
+    constant[:value]
   end
 
   def translate_period_of_time_into_seconds(period_of_time)

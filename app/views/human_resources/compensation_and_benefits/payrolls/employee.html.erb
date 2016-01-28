@@ -54,11 +54,11 @@
   </div>
   <% end %>
 
+  <hr>
+
   <% if (@selected_employee.present?) && (@start_date.present?) && (@end_date.present?)  %>
 
-  <div class="generic_content">
-
-    <div class="small-4 columns">
+    <div class="small-6 columns generic_content">
       <% if (@selected_attendances.present?) %>
       Attendance:
           <table class="generic_table">
@@ -80,19 +80,27 @@
               </td>
               <td><%= attendance.timein.strftime('%T') %></td>
               <td><%= attendance.timeout.strftime('%T') %></td>
-              <td><%= categorize_regular_hours(attendance.timein, attendance.timeout) %></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td><%= categorize_work_hours( attendance.timein.strftime('%T'), attendance.timeout.strftime('%T'), @end_date)[:regular_work_hours] %></td>
+              <td><%= categorize_work_hours( attendance.timein.strftime('%T'), attendance.timeout.strftime('%T'), @end_date)[:overtime] %></td>
+              <td><%= categorize_work_hours( attendance.timein.strftime('%T'), attendance.timeout.strftime('%T'), @end_date)[:night_shift_differential_hours] %></td>
+              <td><%= categorize_work_hours( attendance.timein.strftime('%T'), attendance.timeout.strftime('%T'), @end_date)[:ot_nsd] %></td>
               <td><%= attendance.remark %></td>
+              <td class="actions">
+                <%= link_to( "&#128083;".html_safe,
+                             '/human_resources/attendance_performance/attendances/' + attendance.id + '/edit',
+                             class: 'action_button',
+                             tooltip: 'Examine') %>
+              </td>
             </tr>
             <% end %>
             </tbody>
           </table>
+      <% else %>
+          &nbsp;
       <% end %>
     </div>
 
-    <div class="small-4 columns">
+    <div class="small-6 columns generic_content">
       <% if (@valid_periods.present?) %>
           Valid Periods of Duty:
           <table class="generic_table">
@@ -109,11 +117,10 @@
             <% end %>
             </tbody>
           </table>
+      <% else %>
+          &nbsp;
       <% end %>
     </div>
-
-
-  </div>
 
   <% end %>
 
