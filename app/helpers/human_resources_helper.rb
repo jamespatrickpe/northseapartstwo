@@ -1,5 +1,11 @@
 module HumanResourcesHelper
 
+  def categorize_payment(type,day_type,latest_end_time_for_constant)
+
+  end
+
+  def categorize_day(employee_id, day)
+  end
 
   def remove_lunch_break(start_time, end_time)
     lunch_break_start_constant = get_constant('human_resources.start_lunch_break', time_of_consideration)
