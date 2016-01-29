@@ -143,10 +143,10 @@
               <td><%= categorize_work_hours( time_aspect_in, time_aspect_out, current_attendance_date_time)[:overtime] %></td>
               <td><%= categorize_work_hours( time_aspect_in, time_aspect_out, current_attendance_date_time)[:night_shift_differential_hours] %></td>
               <td><%= categorize_work_hours( time_aspect_in, time_aspect_out, current_attendance_date_time)[:ot_nsd] %></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td><%= base_rates(@selected_employee.id, current_attendance_date_time)[:reg] %></td>
+              <td><%= base_rates(@selected_employee.id, current_attendance_date_time)[:ot] %></td>
+              <td><%= base_rates(@selected_employee.id, current_attendance_date_time)[:nsd] %></td>
+              <td><%= base_rates(@selected_employee.id, current_attendance_date_time)[:ot_nsd] %></td>
               <td></td>
               <td></td>
               <td></td>

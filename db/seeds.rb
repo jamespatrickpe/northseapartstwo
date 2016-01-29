@@ -258,7 +258,7 @@ numberOfActors.times do |i|
                                 start_of_effectivity: Faker::Time.between(Time.now, Time.now - 300.days, :all),
                                 end_of_effectivity: Faker::Time.between(Time.now + 300.days, Time.now, :all),
                                 signed_type: signed_type.call,
-                                rate_type: ['base', 'allowance', 'other'].sample
+                                rate_type: ['BASE', 'ALLOWANCE', 'OTHER'].sample
       )
       myBaseRate.save
     end
