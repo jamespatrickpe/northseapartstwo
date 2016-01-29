@@ -132,7 +132,7 @@ ActiveRecord::Schema.define(version: 20160125053943) do
     t.string   "remark",              limit: 256
     t.boolean  "active",              limit: 1,   default: false
     t.string   "employee_id",         limit: 36
-    t.datetime "date_of_effectivity",             default: '2016-01-28 08:12:42'
+    t.datetime "date_of_effectivity",             default: '2016-01-28 19:39:32'
     t.datetime "created_at",                                                      null: false
     t.datetime "updated_at",                                                      null: false
   end
@@ -209,8 +209,8 @@ ActiveRecord::Schema.define(version: 20160125053943) do
   create_table "leaves", force: :cascade do |t|
     t.string   "employee_id",          limit: 36
     t.string   "type_of_leave",        limit: 64
-    t.datetime "start_of_effectivity",             default: '2016-01-28 08:12:45'
-    t.datetime "end_of_effectivity",               default: '2016-01-28 08:12:45'
+    t.datetime "start_of_effectivity",             default: '2016-01-28 19:39:34'
+    t.datetime "end_of_effectivity",               default: '2016-01-28 19:39:34'
     t.string   "remark",               limit: 256
     t.datetime "created_at",                                                       null: false
     t.datetime "updated_at",                                                       null: false
@@ -239,7 +239,7 @@ ActiveRecord::Schema.define(version: 20160125053943) do
     t.string   "employee_id",         limit: 36
     t.string   "article",             limit: 255, default: "BASE"
     t.boolean  "applicability",       limit: 1,   default: false
-    t.datetime "date_of_effectivity",             default: '2016-01-28 08:12:46'
+    t.datetime "date_of_effectivity",             default: '2016-01-28 19:39:34'
     t.string   "remark",              limit: 256
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -284,7 +284,7 @@ ActiveRecord::Schema.define(version: 20160125053943) do
   create_table "regular_work_periods", force: :cascade do |t|
     t.time     "start_time",                      default: '2000-01-01 08:00:00'
     t.time     "end_time",                        default: '2000-01-01 17:00:00'
-    t.datetime "date_of_effectivity",             default: '2016-01-28 08:12:40'
+    t.datetime "date_of_effectivity",             default: '2016-01-28 19:39:31'
     t.string   "remark",              limit: 256
     t.string   "employee_id",         limit: 36
     t.datetime "created_at",                                                      null: false
