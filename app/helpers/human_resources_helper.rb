@@ -111,13 +111,13 @@ module HumanResourcesHelper
     work_hours_hash
   end
 
-  def base_rates(employee_id, date_of_effectivity)
+  def base_rates(employee_id, current_date_of_attendance, restday_token)
     total_regular_sum = 0
     base_sum = 0
     ot_sum = 0
     nsd_sum = 0
     ot_nsd_sum = 0
-    base_rates = BaseRate.where('(employee_id = ?) AND ( ? BETWEEN start_of_effectivity AND end_of_effectivity)', "#{employee_id}","#{date_of_effectivity}");
+    base_rates = BaseRate.where('(employee_id = ?) AND ( ? BETWEEN start_of_effectivity AND end_of_effectivity)', "#{employee_id}","#{current_date_of_attendance}");
 
     base_rates.each do |base_rate|
       if (base_rate[:rate_type] == 'base' || base_rate[:rate_type] == 'allowance')
@@ -141,10 +141,9 @@ module HumanResourcesHelper
       end
     end
 
-    current_date = Date.strptime(date_of_effectivity, "%Y-%m-%d")
+    current_date = Date.strptime(current_date_of_attendance, "%Y-%m-%d")
     holiday_token = false
     non_working_token = false
-    restday_token = false
     double_holiday_token = false
     holiday_type = false
     holidays = Holiday.includes(:holiday_type).joins(:holiday_type)
@@ -162,16 +161,57 @@ module HumanResourcesHelper
     end
 
     #restday processing
-
     # holdiay + rest0day
     # holiday
     # non working holiday
     # rest day
     # double holiday
     # else
+    original_total_regular_sum = total_regular_sum
+    if (holiday_token == true) && (restday_token == true)
+      total_regular_sum = (total_regular_sum*2)+((base_sum*2)*0.3)
+      ot_sum = base_sum*3.38
+      nsd_sum = original_total_regular_sum*2.6*1.1
+      ot_nsd_sum = ot_sum*1.1
+    elsif (non_working_token == true) && (restday_token == true)
+      total_regular_sum = total_regular_sum*1.5
+      ot_sum = base_sum*1.95
+      nsd_sum = total_regular_sum*1.1
+      ot_nsd_sum = ot_sum*1.1
+    elsif (double_holiday_token == true) && (restday_token == true)
+      total_regular_sum = total_regular_sum*3
+      ot_sum = base_sum*5.07
+      nsd_sum = original_total_regular_sum*3.9*1.1
+      ot_nsd_sum = ot_sum*1.1
+    elsif holiday_token
+      total_regular_sum = total_regular_sum*2
+      ot_sum = base_sum*2.6
+      nsd_sum = total_regular_sum*1.1
+      ot_nsd_sum = ot_sum*1.1
+    elsif non_working_token
+      total_regular_sum = total_regular_sum*1.3
+      ot_sum = base_sum*1.69
+      nsd_sum = total_regular_sum*1.1
+      ot_nsd_sum = ot_sum*1.1
+    elsif double_holiday_token
+      total_regular_sum = total_regular_sum*3
+      ot_sum = base_sum*3.9
+      nsd_sum = original_total_regular_sum*3.3*1.1
+      ot_nsd_sum = ot_sum*1.1
+    elsif restday_token
+      total_regular_sum = total_regular_sum*1.3
+      ot_sum = base_sum*1.69
+      nsd_sum = total_regular_sum*1.1
+      ot_nsd_sum = ot_sum*1.1
+    else
+      total_regular_sum = total_regular_sum
+      ot_sum = base_sum*1.25
+      nsd_sum = total_regular_sum*1.1
+      ot_nsd_sum = (ot_sum*1.1)
+    end
 
 
-    rate_array = {:reg => total_regular_sum,:ot => holiday_type,:nsd => '',:ot_nsd => '', :base => base_sum}
+    rate_array = {:reg => total_regular_sum.round(2), :ot => ot_sum.round(2),:nsd => nsd_sum.round(2),:ot_nsd => ot_nsd_sum.round(2), :base => base_sum.round(2)}
   end
 
   def remaining_vale_balance(parent_vale_id)
