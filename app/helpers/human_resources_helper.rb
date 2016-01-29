@@ -16,12 +16,6 @@ module HumanResourcesHelper
     amount_in_hour.round(2)
   end
 
-  def categorize_payment(type,day_type,latest_end_time_for_constant)
-  end
-
-  def categorize_day(employee_id, day)
-  end
-
   def remove_lunch_break(start_time, end_time)
     lunch_break_start_constant = get_constant('human_resources.start_lunch_break', time_of_consideration)
     start_lunch_break = Time.strptime((::Constant.find_by_constant_type('human_resources.start_lunch_break'))[:value], '%Y-%m-%d %H:%M:%S')
@@ -117,16 +111,67 @@ module HumanResourcesHelper
     work_hours_hash
   end
 
-  def categorize_OT_hours(start_time, end_time, latest_end_time_for_constant)
+  def base_rates(employee_id, date_of_effectivity)
+    total_regular_sum = 0
+    base_sum = 0
+    ot_sum = 0
+    nsd_sum = 0
+    ot_nsd_sum = 0
+    base_rates = BaseRate.where('(employee_id = ?) AND ( ? BETWEEN start_of_effectivity AND end_of_effectivity)', "#{employee_id}","#{date_of_effectivity}");
 
-  end
+    base_rates.each do |base_rate|
+      if (base_rate[:rate_type] == 'base' || base_rate[:rate_type] == 'allowance')
+        current_amount = convert_base_rate_amount_to_hours(base_rate[:amount], base_rate[:period_of_time])
+        if base_rate[:signed_type]
+          total_regular_sum = total_regular_sum + current_amount
+        else
+          total_regular_sum = total_regular_sum + (current_amount*(-1))
+        end
+      end
+    end
 
-  def categorize_NSD_hours(start_time, end_time, latest_end_time_for_constant)
+    base_rates.each do |base_rate|
+      if base_rate[:rate_type] = 'base'
+        current_amount = convert_base_rate_amount_to_hours(base_rate[:amount], base_rate[:period_of_time])
+        if base_rate[:signed_type]
+          base_sum = base_sum + current_amount
+        else
+          base_sum = base_sum + (current_amount*(-1))
+        end
+      end
+    end
 
-  end
+    current_date = Date.strptime(date_of_effectivity, "%Y-%m-%d")
+    holiday_token = false
+    non_working_token = false
+    restday_token = false
+    double_holiday_token = false
+    holiday_type = false
+    holidays = Holiday.includes(:holiday_type).joins(:holiday_type)
+    holidays.each do |holiday|
+      if current_date == holiday[:date_of_implementation]
+        holiday_type = holiday.holiday_type.type_name
+        if holiday_type == 'Regular'
+          holiday_token = true
+        elsif holiday_type == 'Special Non-Working'
+          non_working_token = true
+        elsif holiday_type == 'Double'
+          double_holiday_token = true
+        end
+      end
+    end
 
-  def categorize_OTNSD_hours(start_time, end_time, latest_end_time_for_constant)
+    #restday processing
 
+    # holdiay + rest0day
+    # holiday
+    # non working holiday
+    # rest day
+    # double holiday
+    # else
+
+
+    rate_array = {:reg => total_regular_sum,:ot => holiday_type,:nsd => '',:ot_nsd => '', :base => base_sum}
   end
 
   def remaining_vale_balance(parent_vale_id)
