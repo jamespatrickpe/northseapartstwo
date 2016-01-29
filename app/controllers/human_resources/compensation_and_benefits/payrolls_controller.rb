@@ -137,7 +137,7 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
       conditional
     }
 
-    @selected_base_rates = BaseRate.where('employee_id = ?', "#{params[:id]}")
+    @selected_base_rates = BaseRate.where('(employee_id = ?) AND (star)', "#{params[:id]}")
 
     render 'human_resources/compensation_and_benefits/payrolls/employee'
   end

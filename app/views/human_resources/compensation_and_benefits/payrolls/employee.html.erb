@@ -59,12 +59,47 @@
   <% if (@selected_employee.present?) && (@start_date.present?) && (@end_date.present?)  %>
 
     <div class="generic_content">
+    <% if (@selected_base_rates.present?) %>
+        Base Rates:
+        <table class="generic_table">
+          <thead>
+          <th>Start</th>
+          <th>End</th>
+          <th>Rate Type</th>
+          <th>Amount per Hour</th>
+          <th>Remark</th>
+          </thead>
+          <tbody>
+          <% @selected_base_rates.each do |base_rate| %>
+              <tr>
+                <td><%= base_rate[:start_of_effectivity] %></td>
+                <td><%= base_rate[:end_of_effectivity] %></td>
+                <td>
+                  <%=
+                      base_rate[:rate_type]
+                  %>
+                </td>
+                <td>
+                  <%= base_rate[:signed_type] ? "( + )" : "( - )" %>
+                  <%= convert_base_rate_amount_to_hours(base_rate[:amount],base_rate[:period_of_time]) %>
+                </td>
+                <td><%= base_rate[:remark] %></td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+    <% else %>
+        &nbsp;
+    <% end %>
+    </div>
+
+    <div class="generic_content">
       <% if (@selected_attendances.present?) %>
-      Attendance:
+          Attendance - Payment Scheme
           <table class="generic_table">
             <thead>
             <tr>
-              <th colspan="3">Time</th>
+              <th colspan="3">Attendance</th>
               <th colspan="4">Number of Hours</th>
               <th colspan="4">Payment per Hour</th>
               <th colspan="4">Aggregated Payment</th>
@@ -92,20 +127,23 @@
             <% @selected_attendances.each do |attendance| %>
             <%
                date_aspect = attendance.date_of_attendance.strftime('%Y-%m-%d')
-               time_aspect = attendance.timein.strftime('%T')
-               current_attendance_date_time = date_aspect + ' ' + time_aspect
+               time_aspect_in = attendance.timein.strftime('%T')
+               time_aspect_out = attendance.timeout.strftime('%T')
+               current_attendance_date_time = date_aspect + ' ' + time_aspect_in
             %>
             <tr>
               <td>
-                <%= attendance.date_of_attendance.strftime('%Y-%m-%d') %>
+                <%= date_aspect %> <br>
+                <%= display_if_rest_day(@selected_employee.id,attendance.date_of_attendance.strftime('%A'),current_attendance_date_time ) %>
+                <%= display_if_holiday(date_aspect) %>
               </td>
-              <td><%= attendance.timein.strftime('%T') %></td>
-              <td><%= attendance.timeout.strftime('%T') %></td>
-              <td><%= categorize_work_hours( attendance.timein.strftime('%T'), attendance.timeout.strftime('%T'), current_attendance_date_time)[:regular_work_hours] %></td>
-              <td><%= categorize_work_hours( attendance.timein.strftime('%T'), attendance.timeout.strftime('%T'), current_attendance_date_time)[:overtime] %></td>
-              <td><%= categorize_work_hours( attendance.timein.strftime('%T'), attendance.timeout.strftime('%T'), current_attendance_date_time)[:night_shift_differential_hours] %></td>
-              <td><%= categorize_work_hours( attendance.timein.strftime('%T'), attendance.timeout.strftime('%T'), current_attendance_date_time)[:ot_nsd] %></td>
-              <td><%= current_attendance_date_time %></td>
+              <td><%= time_aspect_in %></td>
+              <td><%= time_aspect_out %></td>
+              <td><%= categorize_work_hours( time_aspect_in, time_aspect_out, current_attendance_date_time)[:regular_work_hours] %></td>
+              <td><%= categorize_work_hours( time_aspect_in, time_aspect_out, current_attendance_date_time)[:overtime] %></td>
+              <td><%= categorize_work_hours( time_aspect_in, time_aspect_out, current_attendance_date_time)[:night_shift_differential_hours] %></td>
+              <td><%= categorize_work_hours( time_aspect_in, time_aspect_out, current_attendance_date_time)[:ot_nsd] %></td>
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -149,7 +187,11 @@
       <% else %>
           &nbsp;
       <% end %>
-      </div>
+    </div>
+
+    <div class="generic_content">
+      Constants
+    </div>
 
   <% end %>
 

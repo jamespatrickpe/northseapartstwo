@@ -47,6 +47,26 @@ module ApplicationHelper
     return what_rest_day
   end
 
+  def display_if_rest_day(employee_id, current_day, latest_end_time_for_constant)
+    rest_day = RestDay
+                   .where("(employee_id = ?) AND (date_of_effectivity <= ?)", "#{employee_id}", "#{latest_end_time_for_constant}")
+                   .order('rest_days.date_of_effectivity ASC').first
+    if rest_day.present?
+      if rest_day[:day] == current_day
+        "( REST DAY )"
+      end
+    end
+  end
+
+  def display_if_holiday(current_day)
+    holiday = Holiday
+                   .where("(date_of_implementation = ?)", current_day)
+                   .order('holidays.date_of_implementation ASC').first
+    if holiday.present?
+      holiday[:name]
+    end
+  end
+
   def get_current_duty_status( employee_ID )
     currentEmployee = Employee
                           .includes(:duty_status)

@@ -1,7 +1,22 @@
 module HumanResourcesHelper
 
-  def categorize_payment(type,day_type,latest_end_time_for_constant)
+  def convert_base_rate_amount_to_hours(amount,period_of_time)
+    if period_of_time == 'HOUR'
+      amount_in_hour = amount
+    elsif period_of_time == 'DAY'
+      amount_in_hour = amount/24
+    elsif period_of_time == 'MONTH'
+      amount_in_hour = amount/730.484398
+    elsif period_of_time == 'WEEK'
+      amount_in_hour = amount/168
+    elsif period_of_time == 'YEAR'
+      amount_in_hour = amount/8765.81277
+    else
+    end
+    amount_in_hour.round(2)
+  end
 
+  def categorize_payment(type,day_type,latest_end_time_for_constant)
   end
 
   def categorize_day(employee_id, day)
