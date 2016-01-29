@@ -71,6 +71,20 @@
         </div>
 
         <div class="form-block">
+          <section class="form-block-label">Start of Effectivity</section>
+          <section class="form-block-control">
+            <input type="date"
+                   id="constant_date_of_effectivity"
+                   step = 1
+                   name="constant[date_of_effectivity]"
+                   required = required
+                   data-parsley-trigger="change"
+                   value= <%= @selected_constant[:date_of_effectivity]%> >
+          </section>
+        </div>
+
+
+        <div class="form-block">
           <section class="form-block-label">Description</section>
           <section class="form-block-control">
             <%=
