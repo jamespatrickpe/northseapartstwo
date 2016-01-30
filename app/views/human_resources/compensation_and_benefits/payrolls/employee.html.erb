@@ -58,9 +58,31 @@
 
   <% if (@selected_employee.present?) && (@start_date.present?) && (@end_date.present?)  %>
 
+      <div class="generic_content">
+        <% if (@valid_periods.present?) %>
+            Valid Periods of Duty:
+            <table class="generic_table">
+              <thead>
+              <th>Date Start</th>
+              <th>Date End</th>
+              </thead>
+              <tbody>
+              <% @valid_periods.each do |valid_period| %>
+                  <tr>
+                    <td><%= valid_period[:start_period] %></td>
+                    <td><%= valid_period[:end_period] %></td>
+                  </tr>
+              <% end %>
+              </tbody>
+            </table>
+        <% else %>
+            &nbsp;
+        <% end %>
+      </div>
+
     <div class="generic_content">
-    <% if (@selected_base_rates.present?) %>
-        Base Rates:
+    <% if (@base_rates_applied_to_payment_scheme.present?) %>
+        Base Rates Applied to Payment Scheme:
         <table class="generic_table">
           <thead>
           <th>Start</th>
@@ -70,7 +92,7 @@
           <th>Remark</th>
           </thead>
           <tbody>
-          <% @selected_base_rates.each do |base_rate| %>
+          <% @base_rates_applied_to_payment_scheme.each do |base_rate| %>
               <tr>
                 <td><%= base_rate[:start_of_effectivity] %></td>
                 <td><%= base_rate[:end_of_effectivity] %></td>
@@ -84,6 +106,13 @@
                   <%= convert_base_rate_amount_to_hours(base_rate[:amount],base_rate[:period_of_time]) %>
                 </td>
                 <td><%= base_rate[:remark] %></td>
+                <td class="actions">
+                  <%= link_to( "&#128083;".html_safe,
+                               '/human_resources/compensation_and_benefits/base_rates/' + base_rate[:id] + '/edit',
+                               class: 'action_button',
+                               target: '_blank',
+                               tooltip: 'Examine') %>
+                </td>
               </tr>
           <% end %>
           </tbody>
@@ -195,6 +224,7 @@
                 <%= link_to( "&#128083;".html_safe,
                              '/human_resources/attendance_performance/attendances/' + attendance.id + '/edit',
                              class: 'action_button',
+                             target: '_blank',
                              tooltip: 'Examine') %>
               </td>
             </tr>
@@ -227,31 +257,56 @@
       <% end %>
     </div>
 
-    <div class="generic_content">
-      <% if (@valid_periods.present?) %>
-          Valid Periods of Duty:
-          <table class="generic_table">
-            <thead>
-            <th>Date Start</th>
-            <th>Date End</th>
-            </thead>
-            <tbody>
-            <% @valid_periods.each do |valid_period| %>
-                <tr>
-                  <td><%= valid_period[:start_period] %></td>
-                  <td><%= valid_period[:end_period] %></td>
-                </tr>
-            <% end %>
-            </tbody>
-          </table>
-      <% else %>
-          &nbsp;
-      <% end %>
-    </div>
+      <div class="generic_content">
+        <% if (@base_rates_applied_to_valid_period.present?) %>
+            Base Rates Applied to Valid Period:
+            <table class="generic_table">
+              <thead>
+              <th>Start</th>
+              <th>End</th>
+              <th>Amount</th>
+              <th>Period</th>
+              <th>Remark</th>
+              </thead>
+              <tbody>
+              <% @base_rates_applied_to_valid_period.each do |base_rate| %>
+                  <tr>
+                    <td><%= base_rate[:start_of_effectivity] %></td>
+                    <td><%= base_rate[:end_of_effectivity] %></td>
+                    <td>
+                      <%= base_rate[:signed_type] ? "( + )" : "( - )" %>
+                      <%= base_rate[:amount] %>
+                    </td>
+                    <td>
+                      <%= base_rate[:period_of_time] %>
+                    </td>
+                    <td><%= base_rate[:remark] %></td>
+                    <td class="actions">
+                      <%= link_to( "&#128083;".html_safe,
+                                   '/human_resources/compensation_and_benefits/base_rates/' + base_rate[:id] + '/edit',
+                                   class: 'action_button',
+                                   target: '_blank',
+                                   tooltip: 'Examine') %>
+                    </td>
+                  </tr>
+              <% end %>
+              </tbody>
+            </table>
 
-    <div class="generic_content">
-      Constants
-    </div>
+            <table>
+              <thead>
+              <
+              </thead>
+              <tbody>
+
+              </tbody>
+            </table>
+        <% else %>
+            &nbsp;
+        <% end %>
+      </div>
+
+      <%= (@total_hours_valid_period) %>
 
   <% end %>
 

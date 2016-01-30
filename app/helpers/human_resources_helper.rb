@@ -1,5 +1,14 @@
 module HumanResourcesHelper
 
+  def signed_amount(sign, amount)
+    if sign
+      amount = amount
+    else
+      amount = amount*(-1)
+    end
+    amount
+  end
+
   def convert_base_rate_amount_to_hours(amount,period_of_time)
     if period_of_time == 'HOUR'
       amount_in_hour = amount

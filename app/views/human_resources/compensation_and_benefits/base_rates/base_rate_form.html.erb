@@ -42,18 +42,18 @@
         <select name='base_rate[rate_type]'
                 style="width: 50%"
                 required="required" >
-          <% if @selected_base_rate[:rate_type] == 'base' %>
+          <% if @selected_base_rate[:rate_type] == 'BASE' %>
               <option value="base" selected>BASE</option>
               <option value="allowance">ALLOWANCE</option>
               <option value="other">OTHER</option>
-          <% elsif @selected_base_rate[:rate_type] == 'allowance' %>
+          <% elsif @selected_base_rate[:rate_type] == 'ALLOWANCE' %>
               <option value="base">BASE</option>
               <option value="allowance" selected>ALLOWANCE</option>
               <option value="other">OTHER</option>
-          <% elsif @selected_base_rate[:rate_type] == 'other' %>
+          <% elsif @selected_base_rate[:rate_type] == 'OTHER' %>
               <option value="base">BASE</option>
-              <option value="allowance" selected>ALLOWANCE</option>
-              <option value="other">OTHER</option>
+              <option value="allowance" >ALLOWANCE</option>
+              <option value="other" selected>OTHER</option>
           <% else %>
               <option disabled selected>Select Rate Type</option>
               <option value="base">BASE</option>
