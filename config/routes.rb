@@ -92,6 +92,16 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'finance/' => 'finance#index'
+  namespace :finance do
+    get 'expenses/index' => 'expenses#index'
+    resources :expenses do
+      collection do
+        concerns :generic_table
+      end
+    end
+  end
+
   get 'application/reset_search' => 'application#reset_search'
 
   resources :test, only: :index
