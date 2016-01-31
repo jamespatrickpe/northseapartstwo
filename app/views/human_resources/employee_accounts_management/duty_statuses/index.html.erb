@@ -41,7 +41,7 @@
             <tbody>
             <% @duty_statuses.each do |duty_status| %>
                 <tr>
-                  <td><%= duty_status[:id] %></td>
+                  <td><%= duty_status[:id].upcase %></td>
                   <td><%= link_to( duty_status.employee.actor.name ,{:action => 'employee_profile', :actor_id => duty_status.employee.actor.id} ) %></td>
                   <td>
                     <%=

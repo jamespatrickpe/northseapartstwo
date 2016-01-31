@@ -1,0 +1,26 @@
+<section class="small-10 columns">
+  <%= generic_title(@title,@subtitle) %>
+  <div class="generic_bicolumn_form">
+    <%= generic_form_edit_id_indicator(model[:id]) %>
+    <%
+       model[:id].present? ?
+               (current_method = :patch; current_action = model[:id] ) :
+               (current_method = :post; current_action = 'create')
+    %>
+    <%=
+       form_tag( {:action => current_action},
+                 {:method => current_method,
+                  :class => 'create_form',
+                  :id => "new_duty_status_form",
+                  :"data-parsley-validate" => ""
+                 },
+       ) do
+    %>
+    <%= render @form_location %>
+    <% end %>
+
+  </div>
+
+    <%= renderCorePartial('employee_quick_profile') %>
+  </div>
+</section>

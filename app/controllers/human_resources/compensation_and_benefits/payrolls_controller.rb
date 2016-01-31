@@ -148,25 +148,25 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
     end
     @total_hours_valid_period = @total_hours_valid_period*24
 
-    # # Categorize Base Rates
-    # @base_rates_applied_to_payment_scheme = BaseRate.where("(employee_id = ?) AND ((rate_type = 'BASE') OR (rate_type = 'ALLOWANCE')) ", "#{current_employee_id}")
-    # @base_rates_applied_to_valid_period = BaseRate.where("(employee_id = ?) AND (rate_type = 'OTHER') ", "#{current_employee_id}")
-    # @base_rates_applied_to_valid_period = @base_rates_applied_to_valid_period.select{ |base_rate|
-    #   conditional = false
-    #   base_start_period = Date.new(base_rate[:start_of_effectivity], '%Y-%m-%d')
-    #   base_end_period = Date.new(base_rate[:end_of_effectivity], '%Y-%m-%d')
-    #   @valid_periods.each do |valid_period|
-    #     valid_start_period = Date.new(valid_period[:start_period])
-    #     valid_end_period = Date.new(valid_period[:end_period])
-    #     conditional = (valid_start_period..valid_end_period).overlaps?(base_start_period..base_end_period)
-    #     if conditional
-    #       break;
-    #     end
-    #   end
-    #   conditional
-    # }
+    # Categorize Base Rates
+    @base_rates_applied_to_payment_scheme = BaseRate.where("(employee_id = ?) AND ((rate_type = 'BASE') OR (rate_type = 'ALLOWANCE')) ", "#{current_employee_id}")
+    @base_rates_applied_to_valid_period = BaseRate.where("(employee_id = ?) AND (rate_type = 'OTHER') ", "#{current_employee_id}")
+    @base_rates_applied_to_valid_period = @base_rates_applied_to_valid_period.select{ |base_rate|
+      conditional = false
+      base_start_period = Date.parse(base_rate[:start_of_effectivity].strftime("%Y-%m-%d"))
+      base_end_period = Date.parse(base_rate[:end_of_effectivity].strftime("%Y-%m-%d"))
+      @valid_periods.each do |valid_period|
+        valid_start_period = Date.parse(valid_period[:start_period])
+        valid_end_period = Date.parse(valid_period[:end_period])
+        conditional = (valid_start_period..valid_end_period).overlaps?(base_start_period..base_end_period)
+        if conditional
+          break;
+        end
+      end
+      conditional
+    }
 
-    @sol = Date.parse('2016-11-13 15:31:37')
+    @sol = DateTime.parse('2016-11-13 15:31:37')
 
     render 'human_resources/compensation_and_benefits/payrolls/employee'
   end

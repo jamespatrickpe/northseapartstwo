@@ -1,8 +1,5 @@
 <section class='small-10 columns'>
-  <div class='mainheader'> Payroll per Employee </div>
-  <div class='subdescription'> Payroll of an Employee for a Specific Period in Time  </div>
-  <hr>
-
+  <%= generic_title('Payroll per Employee','Payroll of an Employee for a Specific Period in Time') %>
   <%=
       form_tag( {:action => 'employee'},
                 {:method => :get,
@@ -75,6 +72,13 @@
               <% end %>
               </tbody>
             </table>
+            <%=
+                link_to( "Add New Duty Status".html_safe,
+                         '/human_resources/employee_accounts_management/duty_statuses/new?employee_id='+@selected_employee[:id],
+                         class: 'tiny button payroll_add_button',
+                         target: '_blank',
+                )
+            %>
         <% else %>
             &nbsp;
         <% end %>
@@ -117,11 +121,16 @@
           <% end %>
           </tbody>
         </table>
-    <% else %>
-        &nbsp;
+        <%=
+            link_to( "Add New Base Rate".html_safe,
+                     '/human_resources/compensation_and_benefits/base_rates/new?employee_id='+@selected_employee[:id],
+                     class: 'tiny button payroll_add_button',
+                     target: '_blank',
+            )
+        %>
     <% end %>
     </div>
-
+    <hr>
     <div class="generic_content">
       <% if (@selected_attendances.present?) %>
           Attendance - Payment Scheme
@@ -255,6 +264,13 @@
       <% else %>
           &nbsp;
       <% end %>
+      <%=
+          link_to( "Add New Attendance".html_safe,
+                   '/human_resources/attendance_performance/attendance/new?employee_id='+@selected_employee[:id],
+                   class: 'tiny button payroll_add_button',
+                   target: '_blank',
+          )
+      %>
     </div>
 
       <div class="generic_content">
@@ -295,18 +311,14 @@
 
             <table>
               <thead>
-              <
               </thead>
               <tbody>
-
               </tbody>
             </table>
         <% else %>
             &nbsp;
         <% end %>
       </div>
-
-      <%= (@total_hours_valid_period) %>
 
   <% end %>
 

@@ -1,0 +1,18 @@
+<%
+   form_name = model_name+'[employee_id]'
+   form_id = 'new_'+model_name+'_employee'
+%>
+
+<select name=<%= form_name %>
+        id=<%= form_id %>
+        class='employee_select_field'
+        required="required">
+  <option value="" disabled selected>Select Employee</option>
+  <% @employees.each do |employee| %>
+      <% if (employee[:id] == model_employee_id) || (employee[:id] == params[:employee_id]) %>
+          <option value=<%= employee[:id] %> selected><%= employee.actor.name %></option>
+      <% else %>
+          <option value=<%= employee[:id] %>><%= employee.actor.name %></option>
+      <% end %>
+  <% end %>
+</select>

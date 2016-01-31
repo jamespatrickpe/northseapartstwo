@@ -25,16 +25,23 @@ class HumanResources::EmployeeAccountsManagement::DutyStatusesController < Human
     render 'human_resources/employee_accounts_management/duty_statuses/index'
   end
 
-  def new
+  def initialize_form
+    @title = 'DUTY STATUS FORM'
+    @subtitle = 'Set Duty Status for an Employee'
+    @form_location = 'human_resources/employee_accounts_management/duty_statuses/duty_status_form'
     initialize_employee_selection
+  end
+
+  def new
+    initialize_form
     @selected_duty_status = DutyStatus.new
-    render 'human_resources/employee_accounts_management/duty_statuses/duty_status_form'
+    generic_bicolumn_form_with_employee_selection(@selected_duty_status)
   end
 
   def edit
-    initialize_employee_selection
+    initialize_form
     @selected_duty_status = DutyStatus.find(params[:id])
-    render 'human_resources/employee_accounts_management/duty_statuses/duty_status_form'
+    generic_bicolumn_form_with_employee_selection(@selected_duty_status)
   end
 
   def delete

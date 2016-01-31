@@ -1,0 +1,10 @@
+<%
+   form_name = model_name+'[remark]'
+%>
+
+<%= text_area_tag(form_name,
+                  content = default_remark,
+                  options = {class: "remark_description",
+                             :"data-parsley-trigger" => "keyup",
+                             :"data-parsley-maxlength"=>"128",
+                             :placeholder => 'Remarks' }) %>

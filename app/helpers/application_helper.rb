@@ -116,6 +116,22 @@ module ApplicationHelper
     link_to title, :order_by => column, :arrangement => direction, :employee_id => @employee_id, :offset => @offset
   end
 
+  def generic_remarks_description_field(model_name, default_remark)
+    render(:partial => 'core_partials/generic_remark_description_field', :locals => {:model_name => model_name, :default_remark => default_remark})
+  end
+
+  def generic_employee_select_field(model_name, model_employee_id)
+    render(:partial => 'core_partials/generic_employee_select_field', :locals => {:model_name => model_name,:model_employee_id => model_employee_id})
+  end
+
+  def generic_form_method_switch(selected_model)
+    render(:partial => 'core_partials/generic_form_method_switch', :locals => {:selected_model => selected_model})
+  end
+
+  def generic_title(title, caption)
+    render(:partial => 'core_partials/generic_title', :locals => {:title => title, :caption => caption})
+  end
+
   def generic_actor_profile_link(my_ID, my_name)
     render(:partial => 'core_partials/generic_actor_profile_link', :locals => {:my_ID => my_ID, :my_name => my_name})
   end

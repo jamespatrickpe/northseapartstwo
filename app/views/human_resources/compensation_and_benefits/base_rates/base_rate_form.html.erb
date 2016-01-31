@@ -1,9 +1,6 @@
 <section class='small-10 columns'>
-  <div class='mainheader'> Base Rate Form </div>
-  <div class='subdescription'> Set the Base Rate of an Employee </div>
-  <hr>
+  <%= generic_title('Base Rate Form','Set the Base Rate of an Employee') %>
   <div class='small-6 columns generic_form'>
-
     <%= generic_form_edit_id_indicator(@selected_base_rate[:id]) %>
 
     <%
@@ -23,14 +20,15 @@
     %>
 
         <%= hidden_field_tag('base_rate[id]', @selected_base_rate.id ) %>
+
         <br>Employee:<br>
         <select name='base_rate[employee_id]'
                 id='new_base_rate_employee'
                 class='employee_select_field'
                 required="required" >
           <option value="" disabled selected>Select Employee</option>
-          <% @employees.each do |employee| %>
-              <% if employee.id == @selected_base_rate.employee_id %>
+          <%@employees.each do |employee|%>
+              <% if (employee.id == @selected_base_rate[:employee_id]) || (employee.id == params[:employee_id]) %>
                   <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
               <% else %>
                   <option value=<%= employee.id %>><%= employee.actor.name %></option>
@@ -84,7 +82,7 @@
                                   Time.now.strftime('%FT%T') %>
                        type="datetime-local">
 
-        <br>Signed Type:<br>
+        Signed Type:<br>
         <select name='base_rate[signed_type]'
                 style="width: 50%"
                 required="required" >
