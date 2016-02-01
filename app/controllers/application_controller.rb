@@ -7,6 +7,33 @@ class ApplicationController < ActionController::Base
   helper_method :error_messages_for, :shift_table_orientation, :insertTimeIntoDate
   include ApplicationHelper
 
+  def initialize_form_variables(title, subtitle, form_location, singular_model_name)
+    @title = title
+    @subtitle = subtitle
+    @form_location = form_location
+    @singular_model_name = singular_model_name
+  end
+
+  def generic_bicolumn_form_with_employee_selection(model)
+    render :template => 'shared/generic_bicolumn_form_with_employee_selection', :locals => {:model => model}
+  end
+
+  def generic_delete_model(model, my_controller_name)
+    model_to_be_deleted = model.find(params[:id])
+    flash[:general_flash_notification] = model_to_be_deleted.id + " has been successfully deleted "
+    flash[:general_flash_notification_type] = 'affirmative'
+    model_to_be_deleted.destroy
+    redirect_to :controller => my_controller_name, :action => 'index'
+  end
+
+  def generic_employee_name_search_suggestions(model)
+    my_model = model.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    direct = "{\"query\": \"Unit\",\"suggestions\":" + my_model.uniq.to_s + "}" # default format for plugin
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
   def initialize_actor_selection
     @employees = Employee.includes(:actor).joins(:actor)
   end
@@ -16,9 +43,9 @@ class ApplicationController < ActionController::Base
       @selected_actor = Actor.find(params[:actor_id])
       @selected_access = Access.find_by_actor_id(@selected_actor.id)
       @selected_biodata = Biodatum.find_by_actor_id(@selected_actor.id)
-      @selected_address_set = Address.where("actor_id = ?", "#{@selected_actor.id}")
-      @selected_telephone_set = Telephone.where("actor_id = ?", "#{@selected_actor.id}")
-      @selected_digital_set = Digital.where("actor_id = ?", "#{@selected_actor.id}")
+      @selected_address_set = Address.where("rel_model_id = ?", "#{@selected_actor.id}")
+      @selected_telephone_set = Telephone.where("rel_model_id = ?", "#{@selected_actor.id}")
+      @selected_digital_set = Digital.where("rel_model_id = ?", "#{@selected_actor.id}")
       @selected_file_set = FileSet.where("rel_file_set_id = ? AND rel_file_set_type = 'Actor'", "#{@selected_actor.id}")
       @selected_image_set = ImageSet.where("rel_image_set_id = ? AND rel_image_set_type = 'Actor'", "#{@selected_actor.id}").order('priority DESC')
     end

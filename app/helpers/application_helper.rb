@@ -1,33 +1,11 @@
 module ApplicationHelper
 
-  def remaining_vale_balance(parent_vale_id)
-
-    my_vale = Vale.find(parent_vale_id)
-    my_vale_adjustments = ValeAdjustment.where(vale_id: parent_vale_id)
-    current_balance = my_vale[:amount]
-    iteration = translate_period_of_time_into_seconds(my_vale[:period_of_deduction])
-    current_time = my_vale[:date_of_effectivity]
-    next_time = current_time + iteration
-
-    while(Time.now > current_time)
-      adjustment_in_period_token = false
-      my_vale_adjustments.each do |my_vale_adjustment|
-        if my_vale_adjustment[:date_of_effectivity].between?(current_time, next_time)
-          adjustment_in_period_token = true
-          my_vale_adjustment[:signed_type] ?
-              ( current_balance = current_balance + my_vale_adjustment[:amount] ) :
-              ( current_balance = current_balance - my_vale_adjustment[:amount] )
-        end
-      end
-      (adjustment_in_period_token == false) ? ( current_balance = current_balance - my_vale[:amount_of_deduction] ):()
-      (current_balance < 0) ? (break;) : ()
-      current_time = current_time + iteration
-      next_time = current_time + iteration
-    end
-
-    (current_balance < 0) ? (current_balance = "PAID") : ()
-    return current_balance
-
+  def get_constant(constant_name, latest_end_time_for_constant)
+    constant = ::Constant.where('(constant_type = ?) AND ( date_of_effectivity <= ? )',
+                                "#{constant_name}",
+                                "#{latest_end_time_for_constant}"
+    ).order('date_of_effectivity DESC').first
+    constant[:value]
   end
 
   def translate_period_of_time_into_seconds(period_of_time)
@@ -67,6 +45,26 @@ module ApplicationHelper
       what_rest_day = rest_day.id
     end
     return what_rest_day
+  end
+
+  def display_if_rest_day(employee_id, current_day, latest_end_time_for_constant)
+    rest_day = RestDay
+                   .where("(employee_id = ?) AND (date_of_effectivity <= ?)", "#{employee_id}", "#{latest_end_time_for_constant}")
+                   .order('rest_days.date_of_effectivity ASC').first
+    if rest_day.present?
+      if rest_day[:day] == current_day
+        "( REST DAY )"
+      end
+    end
+  end
+
+  def display_if_holiday(current_day)
+    holiday = Holiday
+                   .where("(date_of_implementation = ?)", current_day)
+                   .order('holidays.date_of_implementation ASC').first
+    if holiday.present?
+      holiday[:name]
+    end
   end
 
   def get_current_duty_status( employee_ID )
@@ -118,41 +116,7 @@ module ApplicationHelper
     link_to title, :order_by => column, :arrangement => direction, :employee_id => @employee_id, :offset => @offset
   end
 
-  def generic_actor_profile_link(my_ID, my_name)
-    render(:partial => 'core_partials/generic_actor_profile_link', :locals => {:my_ID => my_ID, :my_name => my_name})
-  end
 
-  def generic_form_edit_id_indicator(selected_model_id)
-    render(:partial => 'core_partials/generic_form_edit_id_indicator', :locals => {:selected_model_id => selected_model_id})
-  end
-
-  def generic_form_footer(selected_model_id)
-    render(:partial => 'core_partials/generic_form_footer', :locals => {:selected_model_id => selected_model_id})
-  end
-
-  def generic_table_actions(model_id)
-    render(:partial => 'core_partials/generic_table_actions', :locals => { :model_id => model_id})
-  end
-
-  def generic_table_theadlink(order_parameter, table_orientation)
-    render(:partial => 'core_partials/generic_table_theadlink', :locals => {:order_parameter => order_parameter, :table_orientation => table_orientation})
-  end
-
-  def generic_table_footer(result_set)
-    render(:partial => 'core_partials/generic_table_footer', :locals => {:result_set => result_set})
-  end
-
-  def generic_table_search()
-    render(:partial => 'core_partials/generic_table_search')
-  end
-
-  def generic_actor_search()
-    render(:partial => 'core_partials/generic_actor_search')
-  end
-
-  def generic_search_footer(result_set)
-    render(:partial => 'core_partials/generic_search_pagination', :locals => {:result_set => result_set})
-  end
 
   def generateReadableID()
     generatedID = SecureRandom.random_number(999999999).to_s.rjust(9,'0')

@@ -84,5 +84,6 @@
 .search_query_description
 {
     float: left;
-    font-size: 15px;
+    font-size: 12px;
+    padding: 5px;
 }

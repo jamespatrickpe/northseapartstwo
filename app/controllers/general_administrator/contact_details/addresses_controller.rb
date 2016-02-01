@@ -20,11 +20,13 @@ class GeneralAdministrator::ContactDetails::AddressesController < GeneralAdminis
 
   def new
     @selected_address = Address.new
+    @actors = Actor.all().order('name ASC')
     render 'general_administrator/contact_details/addresses/address_form'
   end
 
   def edit
     @selected_address = Address.find(params[:id])
+    @actors = Actor.all().order('name ASC')
     render 'general_administrator/contact_details/addresses/address_form'
   end
 
@@ -41,6 +43,7 @@ class GeneralAdministrator::ContactDetails::AddressesController < GeneralAdminis
       myAddress[:description] = params[:address][:description]
       myAddress[:longitude] = params[:address][:longitude]
       myAddress[:latitude] = params[:address][:latitude]
+      myAddress[:actor_id] = params[:address][:actor_id]
       myAddress.save!
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex

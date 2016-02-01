@@ -25,25 +25,32 @@ class HumanResources::EmployeeAccountsManagement::DutyStatusesController < Human
     render 'human_resources/employee_accounts_management/duty_statuses/index'
   end
 
-  def new
+  def initialize_form
+    initialize_form_variables('DUTY STATUS FORM',
+                              'Set Duty Status for an Employee',
+                              'human_resources/employee_accounts_management/duty_statuses/duty_status_form',
+                              'duty_status')
     initialize_employee_selection
+  end
+
+  def new
+    initialize_form
     @selected_duty_status = DutyStatus.new
-    render 'human_resources/employee_accounts_management/duty_statuses/duty_status_form'
+    generic_bicolumn_form_with_employee_selection(@selected_duty_status)
   end
 
   def edit
-    initialize_employee_selection
+    initialize_form
     @selected_duty_status = DutyStatus.find(params[:id])
-    render 'human_resources/employee_accounts_management/duty_statuses/duty_status_form'
+    generic_bicolumn_form_with_employee_selection(@selected_duty_status)
   end
 
   def delete
-    dutyStatusToBeDeleted = DutyStatus.find(params[:id])
-    dutyStatusOwner = Employee.find(dutyStatusToBeDeleted.employee_id)
-    flash[:general_flash_notification] = 'A Duty status for ' + dutyStatusOwner.actor.name + ' has been deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    dutyStatusToBeDeleted.destroy
-    redirect_to :action => "index"
+    generic_delete_model(DutyStatus,controller_name)
+  end
+
+  def search_suggestions
+    generic_employee_name_search_suggestions(DutyStatus)
   end
 
   def process_duty_status_form(myDutyStatus)
