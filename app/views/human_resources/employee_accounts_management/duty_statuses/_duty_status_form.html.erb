@@ -1,9 +1,4 @@
-<%= hidden_field_tag('duty_status[id]', @selected_duty_status[:id] ) %>
-
-<div class="form-block">
-  <div class="label">Employee Name :</div>
-  <%= generic_employee_select_field('duty_status',@selected_duty_status[:employee_id]) %>
-</div>
+<%= generic_employee_select_field('duty_status',@selected_duty_status[:employee_id]) %>
 
 <div class="form-block">
   <div class="label">Current Duty Status :</div>
@@ -40,11 +35,4 @@
     %>>
 </div>
 
-<div class="form-block">
-  <div class="label">Remarks :</div>
-  <div>
-    <%= generic_remarks_description_field('duty_status',@selected_duty_status[:remark]) %>
-  </div>
-</div>
-
-<%= generic_form_footer(@selected_duty_status[:id]) %>
+<%= generic_remarks_description_field('duty_status',@selected_duty_status[:remark]) %>

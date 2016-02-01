@@ -7,6 +7,13 @@ class ApplicationController < ActionController::Base
   helper_method :error_messages_for, :shift_table_orientation, :insertTimeIntoDate
   include ApplicationHelper
 
+  def initialize_form_variables(title, subtitle, form_location, singular_model_name)
+    @title = title
+    @subtitle = subtitle
+    @form_location = form_location
+    @singular_model_name = singular_model_name
+  end
+
   def generic_bicolumn_form_with_employee_selection(model)
     render :template => 'shared/generic_bicolumn_form_with_employee_selection', :locals => {:model => model}
   end

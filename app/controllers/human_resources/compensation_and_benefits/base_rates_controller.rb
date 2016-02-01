@@ -36,9 +36,10 @@ class HumanResources::CompensationAndBenefits::BaseRatesController < HumanResour
   end
 
   def initialize_form
-    @title = 'BASE RATES FORM'
-    @subtitle = 'Set the Base Rate for an Employee'
-    @form_location = 'human_resources/compensation_and_benefits/base_rates/base_rates_form'
+    initialize_form_variables('BASE RATE FORM',
+                              'Set the Base Rate for an Employee',
+                              'human_resources/compensation_and_benefits/base_rates/base_rate_form',
+                              'base_rate')
     initialize_employee_selection
   end
 

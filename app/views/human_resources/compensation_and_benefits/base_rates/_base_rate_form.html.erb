@@ -1,158 +1,127 @@
-<section class='small-10 columns'>
-  <%= generic_title('Base Rate Form','Set the Base Rate of an Employee') %>
-  <div class='small-6 columns generic_form'>
-    <%= generic_form_edit_id_indicator(@selected_base_rate[:id]) %>
+<%= generic_employee_select_field('base_rate',@selected_base_rate[:employee_id]) %>
 
-    <%
-       @selected_base_rate[:id].present? ?
-               (current_method = :patch; current_action = @selected_base_rate[:id] ) :
-               (current_method = :post; current_action = 'create')
-    %>
-
-    <%=
-        form_tag( {:action => current_action},
-                  {:method => current_method,
-                   :class => 'create_form',
-                   :id => "new_base_rate_form",
-                   :"data-parsley-validate" => ""
-                  },
-        ) do
-    %>
-
-        <%= hidden_field_tag('base_rate[id]', @selected_base_rate.id ) %>
-
-        <br>Employee:<br>
-        <select name='base_rate[employee_id]'
-                id='new_base_rate_employee'
-                class='employee_select_field'
-                required="required" >
-          <option value="" disabled selected>Select Employee</option>
-          <%@employees.each do |employee|%>
-              <% if (employee.id == @selected_base_rate[:employee_id]) || (employee.id == params[:employee_id]) %>
-                  <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
-              <% else %>
-                  <option value=<%= employee.id %>><%= employee.actor.name %></option>
-              <% end %>
-          <% end %>
-        </select>
-
-        <br>Rate Type:<br>
-        <select name='base_rate[rate_type]'
-                style="width: 50%"
-                required="required" >
-          <% if @selected_base_rate[:rate_type] == 'BASE' %>
-              <option value="base" selected>BASE</option>
-              <option value="allowance">ALLOWANCE</option>
-              <option value="other">OTHER</option>
-          <% elsif @selected_base_rate[:rate_type] == 'ALLOWANCE' %>
-              <option value="base">BASE</option>
-              <option value="allowance" selected>ALLOWANCE</option>
-              <option value="other">OTHER</option>
-          <% elsif @selected_base_rate[:rate_type] == 'OTHER' %>
-              <option value="base">BASE</option>
-              <option value="allowance" >ALLOWANCE</option>
-              <option value="other" selected>OTHER</option>
-          <% else %>
-              <option disabled selected>Select Rate Type</option>
-              <option value="base">BASE</option>
-              <option value="allowance">ALLOWANCE</option>
-              <option value="other">OTHER</option>
-          <% end %>
-        </select>
-
-        <br>Start of Effectivity:<br>
-        <input name="base_rate[start_of_effectivity]"
-               id="base_rate_start_of_effectivity"
-               data-parsley-trigger="change"
-               data-parsley-time_order_base_rate="0"
-               step="1"
-               value= <%= @selected_base_rate[:start_of_effectivity].present? ?
-                                  @selected_base_rate[:start_of_effectivity].strftime('%FT%T') :
-                                  Time.now.strftime('%FT%T') %>
-                       type="datetime-local">
-
-        End of Effectivity:<br>
-        <input name="base_rate[end_of_effectivity]"
-               id="base_rate_end_of_effectivity"
-               step="1"
-               data-parsley-trigger="change"
-               data-parsley-time_order_base_rate="0"
-               value= <%= @selected_base_rate[:end_of_effectivity].present? ?
-                                  @selected_base_rate[:end_of_effectivity].strftime('%FT%T') :
-                                  Time.now.strftime('%FT%T') %>
-                       type="datetime-local">
-
-        Signed Type:<br>
-        <select name='base_rate[signed_type]'
-                style="width: 50%"
-                required="required" >
-          <% if @selected_base_rate[:signed_type] == true %>
-              <option value="1" selected>Additive</option>
-              <option value="0">Deductive</option>
-          <% elsif @selected_base_rate[:signed_type] == false %>
-              <option value="0" selected>Deductive</option>
-              <option value="1">Additive</option>
-          <% else %>
-              <option disabled selected>Select Signed Type</option>
-              <option value="1">Additive</option>
-              <option value="0">Deductive</option>
-          <% end %>
-        </select>
-
-        <br>Period of Time<br>
-        <select name='base_rate[period_of_time]'
-                style="width: 50%"
-                required="required" >
-          <% if @selected_base_rate[:period_of_time] == 'HOUR' %>
-              <option value="HOUR" selected>HOUR</option>
-              <option value="DAY">DAY</option>
-              <option value="WEEK">WEEK</option>
-              <option value="MONTH">MONTH</option>
-          <% elsif @selected_base_rate[:period_of_time] == 'DAY' %>
-              <option value="HOUR">HOUR</option>
-              <option value="DAY" selected>DAY</option>
-              <option value="WEEK">WEEK</option>
-              <option value="MONTH">MONTH</option>
-          <% elsif @selected_base_rate[:period_of_time] == 'WEEK' %>
-              <option value="HOUR">HOUR</option>
-              <option value="DAY">DAY</option>
-              <option value="WEEK" selected>WEEK</option>
-              <option value="MONTH">MONTH</option>
-          <% elsif @selected_base_rate[:period_of_time] == 'MONTH' %>
-              <option value="HOUR">HOUR</option>
-              <option value="DAY">DAY</option>
-              <option value="WEEK">WEEK</option>
-              <option value="MONTH" selected>MONTH</option>
-          <% else %>
-              <option disabled selected>Select Period of Time</option>
-              <option value="HOUR">HOUR</option>
-              <option value="DAY">DAY</option>
-              <option value="WEEK">WEEK</option>
-              <option value="MONTH" selected>MONTH</option>
-          <% end %>
-        </select>
-
-        <br>Amount:<br>
-        <%= text_field_tag("base_rate[amount]",
-                           content = @selected_base_rate.amount,
-                           options = {placeholder: "Enter amount",
-                                      required: "required",
-                                      :"data-parsley-trigger" => "keyup",
-                                      :"data-parsley-step" => "0.01",
-                                      :"data-parsley-type" => "number"}) %>
-
-        Remarks:<br>
-        <%= text_area_tag("base_rate[remark]",
-                          content = @selected_base_rate.remark,
-                          options = {class: "remark_description",
-                                     :"data-parsley-trigger" => "keyup",
-                                     :"data-parsley-maxlength"=>"128",
-                                     :placeholder => 'Remarks' }) %>
-
-        <hr />
-        <%= generic_form_footer(@selected_base_rate[:id]) %>
-
-    <% end %>
+<div class="form-block">
+  <div class="label">Rate Type : </div>
+  <div>
+    <select name='base_rate[rate_type]'
+            required="required" >
+      <% if @selected_base_rate[:rate_type] == 'BASE' %>
+          <option value="base" selected>BASE</option>
+          <option value="allowance">ALLOWANCE</option>
+          <option value="other">OTHER</option>
+      <% elsif @selected_base_rate[:rate_type] == 'ALLOWANCE' %>
+          <option value="base">BASE</option>
+          <option value="allowance" selected>ALLOWANCE</option>
+          <option value="other">OTHER</option>
+      <% elsif @selected_base_rate[:rate_type] == 'OTHER' %>
+          <option value="base">BASE</option>
+          <option value="allowance" >ALLOWANCE</option>
+          <option value="other" selected>OTHER</option>
+      <% else %>
+          <option disabled selected>Select Rate Type</option>
+          <option value="base">BASE</option>
+          <option value="allowance">ALLOWANCE</option>
+          <option value="other">OTHER</option>
+      <% end %>
+    </select>
   </div>
-  <%= renderCorePartial('employee_quick_profile') %>
-</section>
+</div>
+
+<div class="form-block">
+  <div class="label">Start of Effectivity : </div>
+  <div>
+<input name="base_rate[start_of_effectivity]"
+       id="base_rate_start_of_effectivity"
+       data-parsley-trigger="change"
+       data-parsley-time_order_base_rate="0"
+       step="1"
+       value= <%= @selected_base_rate[:start_of_effectivity].present? ?
+                          @selected_base_rate[:start_of_effectivity].strftime('%FT%T') :
+                          Time.now.strftime('%FT%T') %>
+               type="datetime-local">
+  </div>
+</div>
+
+<div class="form-block">
+  <div class="label">End of Effectivity : </div>
+  <div>
+    <input name="base_rate[end_of_effectivity]"
+           id="base_rate_end_of_effectivity"
+           step="1"
+           data-parsley-trigger="change"
+           data-parsley-time_order_base_rate="0"
+           value= <%= @selected_base_rate[:end_of_effectivity].present? ?
+                              @selected_base_rate[:end_of_effectivity].strftime('%FT%T') :
+                              Time.now.strftime('%FT%T') %>
+                   type="datetime-local">
+  </div>
+</div>
+
+<div class="form-block">
+  <div class="label">Signed Type : </div>
+  <div>
+    <select name='base_rate[signed_type]'
+            required="required" >
+      <% if @selected_base_rate[:signed_type] == true %>
+          <option value="1" selected>Additive</option>
+          <option value="0">Deductive</option>
+      <% elsif @selected_base_rate[:signed_type] == false %>
+          <option value="0" selected>Deductive</option>
+          <option value="1">Additive</option>
+      <% else %>
+          <option disabled selected>Select Signed Type</option>
+          <option value="1">Additive</option>
+          <option value="0">Deductive</option>
+      <% end %>
+    </select>
+  </div>
+</div>
+
+<div class="form-block">
+  <div class="label">Period of Time : </div>
+  <div>
+    <select name='base_rate[period_of_time]'
+            required="required" >
+      <% if @selected_base_rate[:period_of_time] == 'HOUR' %>
+          <option value="HOUR" selected>HOUR</option>
+          <option value="DAY">DAY</option>
+          <option value="WEEK">WEEK</option>
+          <option value="MONTH">MONTH</option>
+      <% elsif @selected_base_rate[:period_of_time] == 'DAY' %>
+          <option value="HOUR">HOUR</option>
+          <option value="DAY" selected>DAY</option>
+          <option value="WEEK">WEEK</option>
+          <option value="MONTH">MONTH</option>
+      <% elsif @selected_base_rate[:period_of_time] == 'WEEK' %>
+          <option value="HOUR">HOUR</option>
+          <option value="DAY">DAY</option>
+          <option value="WEEK" selected>WEEK</option>
+          <option value="MONTH">MONTH</option>
+      <% elsif @selected_base_rate[:period_of_time] == 'MONTH' %>
+          <option value="HOUR">HOUR</option>
+          <option value="DAY">DAY</option>
+          <option value="WEEK">WEEK</option>
+          <option value="MONTH" selected>MONTH</option>
+      <% else %>
+          <option disabled selected>Select Period of Time</option>
+          <option value="HOUR">HOUR</option>
+          <option value="DAY">DAY</option>
+          <option value="WEEK">WEEK</option>
+          <option value="MONTH" selected>MONTH</option>
+      <% end %>
+    </select>
+  </div>
+</div>
+
+<div class="form-block">
+  <div class="label">Amount : </div>
+    <%= text_field_tag("base_rate[amount]",
+                       content = @selected_base_rate.amount,
+                       options = {placeholder: "Enter amount",
+                                  required: "required",
+                                  :"data-parsley-trigger" => "keyup",
+                                  :"data-parsley-step" => "0.01",
+                                  :"data-parsley-type" => "number"}) %>
+</div>
+
+<%= generic_remarks_description_field('base_rate',@selected_base_rate[:remark]) %>

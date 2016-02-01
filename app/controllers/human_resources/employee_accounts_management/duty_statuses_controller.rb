@@ -26,9 +26,10 @@ class HumanResources::EmployeeAccountsManagement::DutyStatusesController < Human
   end
 
   def initialize_form
-    @title = 'DUTY STATUS FORM'
-    @subtitle = 'Set Duty Status for an Employee'
-    @form_location = 'human_resources/employee_accounts_management/duty_statuses/duty_status_form'
+    initialize_form_variables('DUTY STATUS FORM',
+                              'Set Duty Status for an Employee',
+                              'human_resources/employee_accounts_management/duty_statuses/duty_status_form',
+                              'duty_status')
     initialize_employee_selection
   end
 
