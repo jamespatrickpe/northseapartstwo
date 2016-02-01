@@ -116,6 +116,14 @@ module ApplicationHelper
     link_to title, :order_by => column, :arrangement => direction, :employee_id => @employee_id, :offset => @offset
   end
 
+  def generic_employee_profile_link(model_with_employee_association)
+    render(:partial => 'core_partials/generic_employee_profile_link', :locals => {:model_with_employee_association => model_with_employee_association})
+  end
+
+  def generic_table_error(ex)
+    render(:partial => 'core_partials/generic_table_error', :locals => {:ex => ex})
+  end
+
   def generic_remarks_description_field(model_name, default_remark)
     render(:partial => 'core_partials/generic_remark_description_field', :locals => {:model_name => model_name, :default_remark => default_remark})
   end

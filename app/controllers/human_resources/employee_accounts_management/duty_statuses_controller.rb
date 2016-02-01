@@ -45,12 +45,11 @@ class HumanResources::EmployeeAccountsManagement::DutyStatusesController < Human
   end
 
   def delete
-    dutyStatusToBeDeleted = DutyStatus.find(params[:id])
-    dutyStatusOwner = Employee.find(dutyStatusToBeDeleted.employee_id)
-    flash[:general_flash_notification] = 'A Duty status for ' + dutyStatusOwner.actor.name + ' has been deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    dutyStatusToBeDeleted.destroy
-    redirect_to :action => "index"
+    generic_delete_model(DutyStatus,controller_name)
+  end
+
+  def search_suggestions
+    generic_employee_name_search_suggestions(DutyStatus)
   end
 
   def process_duty_status_form(myDutyStatus)

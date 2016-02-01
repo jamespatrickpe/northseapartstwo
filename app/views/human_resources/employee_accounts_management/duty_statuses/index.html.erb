@@ -1,7 +1,5 @@
 <section class='small-10 columns'>
-  <div class='mainheader'> Duty Statuses </div>
-  <div class='subdescription'> Status Designation of an Employee. 'Active' when on duty; 'Inactive' when out of service.  </div>
-  <hr>
+  <%= generic_title('Duty Statuses','Status Designation of an Employee throughout a Period of Time') %>
   <%= generic_table_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
@@ -36,13 +34,15 @@
         </tr>
         </thead>
         <% if @duty_statuses.empty? == true %>
-            <% raise exception %>
+            <% raise "No Records Found" %>
         <% else %>
             <tbody>
             <% @duty_statuses.each do |duty_status| %>
                 <tr>
                   <td><%= duty_status[:id].upcase %></td>
-                  <td><%= link_to( duty_status.employee.actor.name ,{:action => 'employee_profile', :actor_id => duty_status.employee.actor.id} ) %></td>
+                  <td>
+                    <%= generic_employee_profile_link(duty_status) %>
+                  </td>
                   <td>
                     <%=
                         if(duty_status[:active])
@@ -65,10 +65,7 @@
         <% end %>
       </table>
   <% rescue => ex %>
-      <script>
-          html = "<hr><p align='center'> No records found. Please try again.</p><hr>" + <%= ex.to_s %>
-          $(".generic_table").replaceWith(html)
-      </script>
+      <%= generic_table_error(ex) %>
   <% end %>
   <%= generic_table_footer(@duty_statuses) %>
 </section>

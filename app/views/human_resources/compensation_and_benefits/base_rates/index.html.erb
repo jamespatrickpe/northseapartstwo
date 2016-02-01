@@ -1,7 +1,5 @@
 <section class='small-10 columns'>
-  <div class='mainheader'> Base Rates </div>
-  <div class='subdescription'> Rates for an Employee through a Period in Time  </div>
-  <hr>
+  <%= generic_title('Base Rates','Rates for an Employee through a Period in Time') %>
   <%= generic_table_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
@@ -56,13 +54,15 @@
         </tr>
         </thead>
         <% if @base_rates.empty? == true %>
-            <% raise exception %>
+            <% raise "No Records Found" %>
         <% else %>
             <tbody>
             <% @base_rates.each do |base_rate| %>
                 <tr>
-                  <td><%= base_rate[:id] %></td>
-                  <td><%= generic_actor_profile_link(base_rate.employee.actor.id, base_rate.employee.actor.name) %></td>
+                  <td><%= base_rate[:id].upcase %></td>
+                  <td>
+                    <%= generic_employee_profile_link(base_rate) %>
+                  </td>
                   <td>
                     <%=
                         if(base_rate[:signed_type])
@@ -88,11 +88,8 @@
             </tbody>
         <% end %>
       </table>
-  <% rescue %>
-      <script>
-          html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
-          $(".generic_table").replaceWith(html)
-      </script>
+  <% rescue => ex %>
+      <%= generic_table_error(ex) %>
   <% end %>
   <%= generic_table_footer(@base_rates) %>
 </section>

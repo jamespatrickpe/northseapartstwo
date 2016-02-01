@@ -35,24 +35,27 @@ class HumanResources::CompensationAndBenefits::BaseRatesController < HumanResour
     render 'human_resources/compensation_and_benefits/base_rates/index'
   end
 
-  def search_suggestions
-    baseRates = BaseRate.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
-    direct = "{\"query\": \"Unit\",\"suggestions\":" + baseRates.uniq.to_s + "}" # default format for plugin
-    respond_to do |format|
-      format.all { render :text => direct}
-    end
+  def initialize_form
+    @title = 'BASE RATES FORM'
+    @subtitle = 'Set the Base Rate for an Employee'
+    @form_location = 'human_resources/compensation_and_benefits/base_rates/base_rates_form'
+    initialize_employee_selection
   end
 
   def new
-    initialize_employee_selection
+    initialize_form
     @selected_base_rate = BaseRate.new
-    render 'human_resources/compensation_and_benefits/base_rates/base_rate_form'
+    generic_bicolumn_form_with_employee_selection(@selected_base_rate)
   end
 
   def edit
-    initialize_employee_selection
+    initialize_form
     @selected_base_rate = BaseRate.find(params[:id])
-    render 'human_resources/compensation_and_benefits/base_rates/base_rate_form'
+    generic_bicolumn_form_with_employee_selection(@selected_base_rate)
+  end
+
+  def search_suggestions
+    generic_employee_name_search_suggestions(BaseRate)
   end
 
   def process_base_rate_form(baseRate)
@@ -77,12 +80,7 @@ class HumanResources::CompensationAndBenefits::BaseRatesController < HumanResour
   end
 
   def delete
-    baseRateToBeDeleted = BaseRate.find(params[:id])
-    baseRateOwner = Employee.find(baseRateToBeDeleted.employee_id)
-    flash[:general_flash_notification] = baseRateOwner.actor.name + '\'s base rate of ' + baseRateToBeDeleted.amount.to_s + ' per ' + baseRateToBeDeleted.period_of_time + ' has been successfully deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    baseRateToBeDeleted.destroy
-    redirect_to :action => 'index'
+    generic_delete_model(BaseRate, controller_name)
   end
 
   def update
