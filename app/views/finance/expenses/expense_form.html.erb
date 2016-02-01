@@ -95,12 +95,18 @@
           </section>
         </div>
 
+        <div class="form-block">
+          <section class="form-block-label">Actors Involved</section>
+          <section class="form-block-control">
+            <table class="telephonycontainer" style="width : 100%";>
+              <tr id="primary" class="telephonyset">
+                <td> <%= text_field_tag("expense[expenseactors[0]]", value = nil, options = {placeholder: "Select Actor", class: "digits", type: "tel", :"data-parsley-type" => "digits"}) %></td>
+              </tr>
+            </table>
+          </section>
+        </div>
 
-
-
-
-
-
+        <%= renderItemListerButtons("Add Actor :", "addExpenseActor()","deleteExpenseActor()") %>
 
         <hr />
 
@@ -109,4 +115,35 @@
     <% end %>
 
   </div>
+
+  <script>
+
+      $telephonyCounter = 0;
+
+      function addExpenseActor()
+      {
+
+          $telephonyCounter++;
+
+          var clonedTelephonySet = $("#primary.telephonyset").clone();
+          clonedTelephonySet.attr("id",$telephonyCounter);
+          clonedTelephonySet.find(".digits").attr("id",$telephonyCounter);
+          clonedTelephonySet.find(".digits").attr("name","expenseactors["+$telephonyCounter+"][digits]");
+          clonedTelephonySet.find(".telephony_description").attr("id",$telephonyCounter);
+          clonedTelephonySet.find(".telephony_description").attr("name","expenseactors["+$telephonyCounter+"][description]");
+          clonedTelephonySet.appendTo($(".telephonycontainer"));
+      }
+
+      //delete new telephony with id and name set to current counter
+      function deleteExpenseActor()
+      {
+          $('#'+$telephonyCounter+'.telephonyset').remove();
+          if($telephonyCounter <= 0)
+          {$telephonyCounter = 0 }
+          else
+          {$telephonyCounter--;}
+      }
+
+
+  </script>
 </section>

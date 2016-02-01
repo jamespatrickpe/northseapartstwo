@@ -29,13 +29,13 @@ class Finance::ExpensesController < FinanceController
 
   def new
     @selected_expense = Expense.new
-    @actor = Actor.all()
+    @actors = Actor.all()
     render 'finance/expenses/expense_form'
   end
 
   def edit
     @selected_expense = Expense.find(params[:id])
-    @actor = Actor.all()
+    @actors = Actor.all()
     render 'finance/expenses/expense_form'
   end
 
@@ -48,6 +48,7 @@ class Finance::ExpensesController < FinanceController
   end
 
   def process_expenses_form(myExpense)
+
     begin
       myExpense[:amount] = params[:expense][:amount]
       myExpense[:category] = params[:expense][:category]
@@ -55,6 +56,7 @@ class Finance::ExpensesController < FinanceController
       myExpense[:remark] = params[:expense][:remark]
       myExpense[:date_of_effectivity] = params[:expense][:date_of_effectivity]
       myExpense.save!
+
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex
       puts ex

@@ -9,7 +9,7 @@
                             value=nil,
                             options = {id: controller.controller_name+"_search_input",
                                        class: 'generic_table_search_field',
-                                       placeholder: ("Search in " + controller.controller_name).to_s.gsub('_',' '),
+                                       placeholder: (("Search in " + controller.controller_name).to_s.gsub('_',' ')).upcase,
                                        :"data-parsley-trigger" => "keyup",
                                        :"data-parsley-minlength"=>"3" ,
                                        :"data-parsley-maxlength"=>"64"
@@ -38,10 +38,10 @@
        if (flash[search_field].empty? == false)
     %>
         <div class="search_query_description">
-          Searching for "<%= flash[search_field] %>"
-          with "<%= flash[order_parameters] %>"
-          ordered by "<%= flash[order_orientation] %>"
-          at <%= flash[current_limit] %> per page
+          SEARCHING FOR "<%= flash[search_field] %>"
+          WITH "<%= flash[order_parameters] %>"
+          ORDERED BY "<%= flash[order_orientation] %>"
+          AT <%= flash[current_limit] %> PER PAGE
         </div>
     <% end %>
 
@@ -49,7 +49,7 @@
 
 <script type="text/javascript">
     $('#<%= controller.controller_name+"_search_input" %>').autocomplete({
-        serviceUrl: '<%= controller.controller_name+"/search_suggestions" %>',
+        serviceUrl: window.location.pathname + '/search_suggestions',
         minChars: 3
     });
 </script>
