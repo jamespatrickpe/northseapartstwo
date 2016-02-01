@@ -28,6 +28,47 @@
 
         <%= hidden_field_tag('address[id]', @selected_address[:id] ) %>
 
+        <div class="form-block">
+          <section class="form-block-label">Model</section>
+          <section class="form-block-control">
+            <select name='address[rel_model_type]'
+                    style="width: 50%"
+                    required="required" >
+              <% if @selected_address[:rel_model_type] == 'Actor' %>
+                  <option value="Actor" selected>Actor</option>
+                  <option value="Branch">Branch</option>
+              <% elsif @selected_address[:rel_model_type] == 'Branch' %>
+                  <option value="Actor">Actor</option>
+                  <option value="Branch" selected>Branch</option>
+              <% else %>
+                  <option disabled selected>Select Model</option>
+                  <option value="Actor">Actor</option>
+                  <option value="Branch">Branch</option>
+              <% end %>
+            </select>
+          </section>
+        </div>
+
+        <div class="form-block">
+          <section class="form-block-label">Actor</section>
+          <section class="form-block-control">
+            <select name='address[rel_model_id]'
+                    id='new_address_rel_model_id'
+                    class='employee_select_field'
+                    required="required" >
+
+              <option value="" disabled selected>Select Actor</option>
+              <% @actors.each do |actor| %>
+                  <% if actor.id == @selected_address[:rel_model_id] %>
+                      <option value=<%= actor.id %> selected><%= actor.name %></option>
+                  <% else %>
+                      <option value=<%= actor.id %>><%= actor.name %></option>
+                  <% end %>
+              <% end %>
+            </select>
+          </section>
+        </div>
+
         <div class="large-12 columns">
           <h2 class="miniheader">Addresses</h2>
           <p id="map_special_instructions">
@@ -52,26 +93,6 @@
           </div>
 
           <hr />
-
-          <div class="form-block">
-            <section class="form-block-label">Actor</section>
-            <section class="form-block-control">
-              <select name='address[actor_id]'
-                      id='new_address_actor_id'
-                      class='employee_select_field'
-                      required="required" >
-
-                <option value="" disabled selected>Select Actor</option>
-                <% @actors.each do |actor| %>
-                    <% if actor.id == @selected_address.actor_id %>
-                        <option value=<%= actor.id %> selected><%= actor.name %></option>
-                    <% else %>
-                        <option value=<%= actor.id %>><%= actor.name %></option>
-                    <% end %>
-                <% end %>
-              </select>
-            </section>
-          </div>
 
           <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
           <script>

@@ -39,7 +39,8 @@ class GeneralAdministrator::ContactDetails::DigitalsController < GeneralAdminist
   def process_digital_form(myDigital)
     begin
       myDigital[:url] = params[:digital][:url]
-      myDigital[:actor_id] = params[:digital][:actor_id]
+      myDigital[:rel_model_type] = params[:digital][:rel_model_type]
+      myDigital[:rel_model_id] = params[:digital][:rel_model_id]
       myDigital[:description] = params[:digital][:description]
       myDigital.save!
       flash[:general_flash_notification_type] = 'affirmative'
