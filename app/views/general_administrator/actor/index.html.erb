@@ -10,6 +10,9 @@
         <thead>
         <tr>
           <th>
+            Image img
+          </th>
+          <th>
             Name
             <%= generic_table_theadlink('actors.name', table_orientation) %>
           </th>
@@ -28,6 +31,7 @@
             <tbody>
             <% @actors.each do |actor| %>
                 <tr>
+                  <td style="text-align: center;"><%= image_tag(actor[:logo], size: "96", alt: "logo") %></td>
                   <td><%= actor[:name] %></td>
                   <td><%= actor[:description] %></td>
                   <td>

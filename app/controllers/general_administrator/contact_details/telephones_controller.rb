@@ -39,7 +39,8 @@ class GeneralAdministrator::ContactDetails::TelephonesController < GeneralAdmini
   def process_telephone_form(myTelephone)
     begin
       myTelephone[:digits] = params[:telephone][:digits]
-      myTelephone[:actor_id] = params[:telephone][:actor_id]
+      myTelephone[:rel_model_id] = params[:telephone][:rel_model_id]
+      myTelephone[:rel_model_type] = params[:telephone][:rel_model_type]
       myTelephone[:description] = params[:telephone][:description]
       myTelephone.save!
       flash[:general_flash_notification_type] = 'affirmative'

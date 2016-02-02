@@ -99,6 +99,33 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def check_leave_date_if_overlap
+    employee_id = params[:employee_id]
+
+    x = Time.at(params[:start_of_effectivity].to_f / 1000)
+    y = Time.at(params[:end_of_effectivity].to_f / 1000)
+
+    rangeOfLeaves =  Leave.where("(employee_id = ?) AND start_of_effectivity between ? AND ?", "#{employee_id}", "#{x}", "#{y}")
+    existingLeaves =  Leave.where("employee_id = ?", "#{employee_id}").order(start_of_effectivity: :asc)
+
+    val = false
+
+    # Check if dates are overlapping using 'cover?'
+    existingLeaves.each do |l|
+
+      if (x..y).cover?(l.start_of_effectivity..l.end_of_effectivity) then
+        val = true
+        break
+      end
+
+    end
+
+    respond_to do |format|
+      format.all { render :text => val}
+    end
+  end
+
+
   def create_unique_hash_link
     # Generates Unique Hash for Email Verification
     hash_link = generateRandomString
@@ -113,7 +140,6 @@ class ApplicationController < ActionController::Base
   end
 
   def employee_overview_profile
-    puts '+++++++++++++++++++++++++ ' + params[:employee_ID]
     respond_to do |format|
       employee_overview_profile = Employee.find(params[:employee_ID]).to_json({ :include => :actor })
       format.all { render :json => employee_overview_profile}
@@ -202,9 +228,9 @@ class ApplicationController < ActionController::Base
   def check_username_exists
     username_exists = Access.exists?(username: params[:access][:username])
     respond_to do |format|
-       format.json { render json: {:"exists" => username_exists}.to_json }
-       format.html
-     end
+      format.json { render json: {:"exists" => username_exists}.to_json }
+      format.html
+    end
   end
 
   def check_email_exists

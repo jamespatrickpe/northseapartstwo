@@ -39,6 +39,48 @@
 
         <%= hidden_field_tag('telephone[id]', @selected_telephone[:id] ) %>
 
+
+        <div class="form-block">
+          <section class="form-block-label">Model</section>
+          <section class="form-block-control">
+            <select name='telephone[rel_model_type]'
+                    style="width: 50%"
+                    required="required" >
+              <% if @selected_telephone[:rel_model_type] == 'Actor' %>
+                  <option value="Actor" selected>Actor</option>
+                  <option value="Branch">Branch</option>
+              <% elsif @selected_telephone[:rel_model_type] == 'Branch' %>
+                  <option value="Actor">Actor</option>
+                  <option value="Branch" selected>Branch</option>
+              <% else %>
+                  <option disabled selected>Select Model</option>
+                  <option value="Actor">Actor</option>
+                  <option value="Branch">Branch</option>
+              <% end %>
+            </select>
+          </section>
+        </div>
+
+        <div class="form-block">
+          <section class="form-block-label">Actor</section>
+          <section class="form-block-control">
+            <select name='telephone[rel_model_id]'
+                    id='new_telephone_rel_model_id'
+                    class='employee_select_field'
+                    required="required" >
+
+              <option value="" disabled selected>Select Actor</option>
+              <% @actors.each do |actor| %>
+                  <% if actor.id == @selected_telephone[:rel_model_id] %>
+                      <option value=<%= actor.id %> selected><%= actor.name %></option>
+                  <% else %>
+                      <option value=<%= actor.id %>><%= actor.name %></option>
+                  <% end %>
+              <% end %>
+            </select>
+          </section>
+        </div>
+
         <div class="form-block">
           <section class="form-block-label">Digit</section>
           <section class="form-block-control">
@@ -54,6 +96,8 @@
           </section>
         </div>
 
+
+
         <div class="form-block">
           <section class="form-block-label">Description</section>
           <section class="form-block-control">
@@ -68,28 +112,7 @@
           </section>
         </div>
 
-        <div class="form-block">
-          <section class="form-block-label">Actor</section>
-          <section class="form-block-control">
-            <select name='telephone[actor_id]'
-                    id='new_telephone_actor_id'
-                    class='employee_select_field'
-                    required="required" >
-
-              <option value="" disabled selected>Select Actor</option>
-              <% @actors.each do |actor| %>
-                  <% if actor.id == @selected_telephone.actor_id %>
-                      <option value=<%= actor.id %> selected><%= actor.name %></option>
-                  <% else %>
-                      <option value=<%= actor.id %>><%= actor.name %></option>
-                  <% end %>
-              <% end %>
-            </select>
-          </section>
-        </div>
-
         <hr />
-
 
         <%= generic_form_footer(@selected_telephone[:id]) %>
 
@@ -97,3 +120,7 @@
 
   </div>
 </section>
+
+<script>
+    $(document).ready(function(){$('#new_telephone_rel_model_id').selectize({sortField: 'text'});});
+</script>

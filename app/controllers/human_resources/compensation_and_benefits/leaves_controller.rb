@@ -24,6 +24,8 @@ class HumanResources::CompensationAndBenefits::LeavesController < HumanResources
   def new
     initialize_employee_selection
     @selected_leave = Leave.new
+    @selected_leave.start_of_effectivity = Time.now
+    @selected_leave.end_of_effectivity = Time.now
     render 'human_resources/compensation_and_benefits/leaves/leave_form'
   end
 

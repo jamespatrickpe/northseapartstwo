@@ -25,6 +25,10 @@
             <%= generic_table_theadlink('constants.value', table_orientation) %>
           </th>
           <th>
+            Date of Effectivity
+            <%= generic_table_theadlink('constants.date_of_effectivity', table_orientation) %>
+          </th>
+          <th>
             Remark
             <%= generic_table_theadlink('constants.remark', table_orientation) %>
           </th>
@@ -49,6 +53,7 @@
                   <td><%= constant[:constant_type] %> </td>
                   <td><%= constant[:name] %> </td>
                   <td><%= constant[:value] %> </td>
+                  <td><%= constant[:date_of_effectivity].present? ? constant[:date_of_effectivity].strftime("%b. %d, %Y") : "n/a" %> </td>
                   <td><%= constant[:remark] %> </td>
                   <td><%= constant[:created_at] %></td>
                   <td><%= constant[:updated_at] %></td>

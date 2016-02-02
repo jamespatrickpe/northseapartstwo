@@ -13,8 +13,12 @@
             <%= generic_table_theadlink('telephones.id', table_orientation) %>
           </th>
           <th>
-            Actor ID
-            <%= generic_table_theadlink('telephones.actor_id', table_orientation) %>
+            Contact Type
+            <%= generic_table_theadlink('telephones.rel_model_type', table_orientation) %>
+          </th>
+          <th>
+            Contact Model ID
+            <%= generic_table_theadlink('telephones.rel_model_id', table_orientation) %>
           </th>
           <th>
             Digits
@@ -34,7 +38,8 @@
             <% @telephones.each do |telephones| %>
                 <tr>
                   <td><%= telephones[:id] %></td>
-                  <td><%= telephones[:actor_id] %></td>
+                  <td><%= telephones[:rel_model_type] %></td>
+                  <td><%= telephones[:rel_model_id] %></td>
                   <td><%= telephones[:digits] %> </td>
                   <td><%= telephones[:description] %> </td>
                   <td class="actions">

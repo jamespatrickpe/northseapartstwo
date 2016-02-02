@@ -13,6 +13,8 @@ class Actor < ActiveRecord::Base
   has_many :addresses
   has_many :digitals
 
+  has_and_belongs_to_many :expenses
+
   mount_uploader :logo, AvatarUploader
   validates :name, uniqueness: true
   validates_presence_of :name

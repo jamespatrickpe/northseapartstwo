@@ -285,6 +285,19 @@ numberOfActors.times do |i|
       lumpAdjustment.save!
     end
 
+
+    # For Expenses
+    randomNumberOfExpenses = rand(0..30)
+    randomNumberOfExpenses.times do |i|
+      expense = Expense.new()
+      expense.amount = randomMoney(100.10, 1000.00)
+      expense.category = Faker::Lorem.word
+      expense.remark = Faker::Lorem.sentence
+      expense.date_of_effectivity = rand(720..72000).hours.ago
+      expense.physical_id = Faker::Lorem.word
+      expense.save!
+    end
+
     # For Rate Adjustment
     if(randomBoolean() && randomBoolean() )
       RateAdjustment.create( amount: randomMoney(100.10,1000.00), signed_type: ["ADDITION", "DEDUCTION"].sample, employee: myEmployee, description: Faker::Lorem.sentence, rate_of_time: ["DAY", "WEEK", "MONTH"].sample, activated: randomBoolean())
