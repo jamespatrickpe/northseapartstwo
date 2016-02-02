@@ -100,7 +100,16 @@
           <section class="form-block-control">
             <table class="telephonycontainer" style="width : 100%";>
               <tr id="primary" class="telephonyset">
-                <td> <%= text_field_tag("expense[expenseactors[0]]", value = nil, options = {placeholder: "Select Actor", class: "digits", type: "tel", :"data-parsley-type" => "digits"}) %></td>
+                <td>
+                  <select name='expense[expenseactors[0]]'
+                          class='digits'
+                          required="required" >
+                    <option value="" disabled selected>Select Actor</option>
+                    <% @actors.each do |actor| %>
+                        <option value=<%= actor.id %>><%= actor.name %></option>
+                    <% end %>
+                  </select>
+                </td>
               </tr>
             </table>
           </section>
@@ -126,18 +135,16 @@
           $telephonyCounter++;
 
           var clonedTelephonySet = $("#primary.telephonyset").clone();
-          clonedTelephonySet.attr("id",$telephonyCounter);
-          clonedTelephonySet.find(".digits").attr("id",$telephonyCounter);
-          clonedTelephonySet.find(".digits").attr("name","expenseactors["+$telephonyCounter+"][digits]");
-          clonedTelephonySet.find(".telephony_description").attr("id",$telephonyCounter);
-          clonedTelephonySet.find(".telephony_description").attr("name","expenseactors["+$telephonyCounter+"][description]");
+          clonedTelephonySet.attr("id","expense_expenseactors_" + $telephonyCounter);
+          clonedTelephonySet.find(".digits").attr("id","expense_expenseactors_" + $telephonyCounter);
+          clonedTelephonySet.find(".digits").attr("name","expense[expenseactors["+$telephonyCounter+"]]");
           clonedTelephonySet.appendTo($(".telephonycontainer"));
       }
 
       //delete new telephony with id and name set to current counter
       function deleteExpenseActor()
       {
-          $('#'+$telephonyCounter+'.telephonyset').remove();
+          $('#expense_expenseactors_'+$telephonyCounter+'.telephonyset').remove();
           if($telephonyCounter <= 0)
           {$telephonyCounter = 0 }
           else

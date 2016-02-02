@@ -50,12 +50,22 @@ class Finance::ExpensesController < FinanceController
   def process_expenses_form(myExpense)
 
     begin
+      # initially creates the new expense and inserts it into db
       myExpense[:amount] = params[:expense][:amount]
       myExpense[:category] = params[:expense][:category]
       myExpense[:physical_id] = params[:expense][:physical_id]
       myExpense[:remark] = params[:expense][:remark]
       myExpense[:date_of_effectivity] = params[:expense][:date_of_effectivity]
       myExpense.save!
+
+      # after creating the new expense, iterate through all the actors involved and maps them with the expense
+      actorsInvolved = params[:expense][:expenseactors]
+      actorsInvolved.each_with_index do |p , index|
+        actor = ExpensesActor.new
+        actor[:actor_id] = actorsInvolved.values[index]
+        actor[:expense_id] = myExpense.id
+        actor.save!
+      end
 
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex
