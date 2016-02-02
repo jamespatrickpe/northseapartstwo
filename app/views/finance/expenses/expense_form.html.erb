@@ -95,23 +95,54 @@
           </section>
         </div>
 
+
         <div class="form-block">
           <section class="form-block-label">Actors Involved</section>
           <section class="form-block-control">
-            <table class="telephonycontainer" style="width : 100%";>
-              <tr id="primary" class="telephonyset">
-                <td>
-                  <select name='expense[expenseactors[0]]'
-                          class='digits'
-                          required="required" >
-                    <option value="" disabled selected>Select Actor</option>
-                    <% @actors.each do |actor| %>
-                        <option value=<%= actor.id %>><%= actor.name %></option>
+
+            <% if @expense_actor_rel.present? %>
+                <table class="telephonycontainer" style="width : 100%";>
+                  <tr id="primary" class="telephonyset">
+                    <% @actorsInvolved.each_with_index do |actor, index| %>
+                        <td>
+                          <select name='expense[expenseactors[0]]'
+                                  class='digits'
+                                  disabled='disabled'
+                                  required="required" >
+                            <option value="" disabled selected>Select Actor</option>
+                            <% @actors.each do |actor| %>
+                                <% if actor.id == @actorsInvolved[index].id %>
+                                    <option value=<%= actor.id %> selected><%= actor.name %></option>
+                                <% else %>
+                                    <option value=<%= actor.id %>><%= actor.name %></option>
+                                <% end %>
+
+                            <% end %>
+                          </select>
+                        </td>
+                        </tr>
                     <% end %>
-                  </select>
-                </td>
-              </tr>
-            </table>
+                    </table>
+
+            <% else %>
+
+                <table class="telephonycontainer" style="width : 100%";>
+                  <tr>
+                    <td id="primary" class="telephonyset">
+                      <select name='expense[expenseactors[0]]'
+                              class='digits'
+                              required="required" >
+                        <option value="" disabled selected>Select Actor</option>
+                        <% @actors.each do |actor| %>
+                            <option value=<%= actor.id %>><%= actor.name %></option>
+                        <% end %>
+                      </select>
+                    </td>
+                  </tr>
+                </table>
+
+            <% end %>
+
           </section>
         </div>
 
@@ -138,6 +169,8 @@
           clonedTelephonySet.attr("id","expense_expenseactors_" + $telephonyCounter);
           clonedTelephonySet.find(".digits").attr("id","expense_expenseactors_" + $telephonyCounter);
           clonedTelephonySet.find(".digits").attr("name","expense[expenseactors["+$telephonyCounter+"]]");
+          clonedTelephonySet.find(".digits").find('option:eq(0)').prop('selected', true);
+          clonedTelephonySet.find(".digits").removeAttr('disabled');
           clonedTelephonySet.appendTo($(".telephonycontainer"));
       }
 

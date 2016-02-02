@@ -36,6 +36,17 @@ class Finance::ExpensesController < FinanceController
   def edit
     @selected_expense = Expense.find(params[:id])
     @actors = Actor.all()
+
+    @actorsInvolved ||= []
+
+    # @expense_actor_rel = ExpensesActor.find_by_expense_id(params[:id])
+    @expense_actor_rel = ExpensesActor.where("expenses_actors.expense_id = ?", "#{params[:id]}")
+    @expense_actor_rel.each do |ea|
+      @actorsInvolved.push(Actor.find(ea[:actor_id]))
+    end
+
+    @actorsInvolved.compact.uniq!
+
     render 'finance/expenses/expense_form'
   end
 
