@@ -13,8 +13,12 @@
             <%= generic_table_theadlink('digitals.id', table_orientation) %>
           </th>
           <th>
-            Actor ID
-            <%= generic_table_theadlink('digitals.actor_id', table_orientation) %>
+            Contact Type
+            <%= generic_table_theadlink('digitals.rel_model_type', table_orientation) %>
+          </th>
+          <th>
+            Contact Model ID
+            <%= generic_table_theadlink('digitals.rel_model_id', table_orientation) %>
           </th>
           <th>
             URL
@@ -34,7 +38,8 @@
             <% @digitals.each do |digital| %>
                 <tr>
                   <td><%= digital[:id] %></td>
-                  <td><%= digital[:actor_id] %> </td>
+                  <td><%= digital[:rel_model_type] %></td>
+                  <td><%= digital[:rel_model_id] %> </td>
                   <td><%= digital[:url] %> </td>
                   <td><%= digital[:description] %> </td>
                   <td class="actions">

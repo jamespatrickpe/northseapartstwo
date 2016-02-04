@@ -43,7 +43,8 @@ class GeneralAdministrator::ContactDetails::AddressesController < GeneralAdminis
       myAddress[:description] = params[:address][:description]
       myAddress[:longitude] = params[:address][:longitude]
       myAddress[:latitude] = params[:address][:latitude]
-      myAddress[:actor_id] = params[:address][:actor_id]
+      myAddress[:rel_model_type] = params[:address][:rel_model_type]
+      myAddress[:rel_model_id] = params[:address][:rel_model_id]
       myAddress.save!
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex

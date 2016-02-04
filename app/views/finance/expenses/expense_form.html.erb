@@ -1,0 +1,189 @@
+<section class='small-10 columns'>
+  <div class='mainheader'> Expense </div>
+  <div class='subdescription'> Logs and expense that has been incurred with the enterprise. </div>
+  <hr>
+  <div class='small-6 columns generic_form'>
+
+    <% if @selected_expense[:id].present? %>
+        <span class="current_edit_id">
+          <%= 'Editing Expense ID: ' + @selected_expense[:id].to_s %>
+        </span>
+        <br><br>
+    <% end %>
+
+    <%
+       @selected_expense[:id].present? ?
+               (current_method = :patch; current_action = @selected_expense[:id] ) :
+               (current_method = :post; current_action = 'create')
+    %>
+
+    <%=
+        form_tag( {:action => current_action},
+                  {:method => current_method,
+                   class: 'create_form',
+                   id: "new_expense_form",
+                   :"data-parsley-validate" => "" },
+        ) do
+    %>
+
+        <%= hidden_field_tag('expense[id]', @selected_expense[:id] ) %>
+
+        <div class="form-block">
+          <section class="form-block-label">Amount</section>
+          <section class="form-block-control">
+            <%= text_field_tag("expense[amount]",
+                               content = @selected_expense.amount,
+                               options = {placeholder: "Enter amount in Php.",
+                                          required: "required",
+                                          :"data-parsley-trigger" => "keyup",
+                                          :"data-parsley-step" => "0.01",
+                                          :"data-parsley-type" => "number"}) %>
+          </section>
+        </div>
+
+        <div class="form-block">
+          <section class="form-block-label">Category</section>
+          <section class="form-block-control">
+            <input type="text"
+                   required="required"
+                   placeholder="Enter category"
+                   data-parsley-trigger = keyup
+                   data-parsley-maxlength = 64
+                   value= "<%= @selected_expense[:category] %>"
+                   name="expense[category]">
+          </section>
+        </div>
+
+        <div class="form-block">
+          <section class="form-block-label">Physical ID</section>
+          <section class="form-block-control">
+            <input type="text"
+                   required="required"
+                   placeholder="Enter expense Trace number / Transaction ID"
+                   data-parsley-trigger = keyup
+                   data-parsley-maxlength = 64
+                   value= "<%= @selected_expense[:physical_id] %>"
+                   name="expense[physical_id]">
+          </section>
+        </div>
+
+        <div class="form-block">
+          <section class="form-block-label">Date of Effectivity</section>
+          <section class="form-block-control">
+            <input type="date"
+                   id="expense_date_of_effectivity"
+                   step = 1
+                   name="expense[date_of_effectivity]"
+                   required = required
+                   data-parsley-trigger="change"
+                   style="width: 50%"
+                   value= <%= @selected_expense[:date_of_effectivity]%> >
+          </section>
+        </div>
+
+        <div class="form-block">
+          <section class="form-block-label">Remarks</section>
+          <section class="form-block-control">
+            <%=
+                text_area_tag("expense[remark]",
+                              content = @selected_expense[:remark],
+                              options = {class: "remark_description",
+                                         :"data-parsley-trigger" => "keyup",
+                                         :"data-parsley-maxlength"=>"128",
+                                         :placeholder => 'Description' })
+            %>
+          </section>
+        </div>
+
+
+        <div class="form-block">
+          <section class="form-block-label">Actors Involved</section>
+          <section class="form-block-control">
+
+            <% if @expense_actor_rel.present? %>
+                <table class="telephonycontainer" style="width : 100%";>
+                  <tr id="primary" class="telephonyset">
+                    <% @actorsInvolved.each_with_index do |actor, index| %>
+                        <td>
+                          <select name='expense[expenseactors[0]]'
+                                  class='digits'
+                                  disabled='disabled'
+                                  required="required" >
+                            <option value="" disabled selected>Select Actor</option>
+                            <% @actors.each do |actor| %>
+                                <% if actor.id == @actorsInvolved[index].id %>
+                                    <option value=<%= actor.id %> selected><%= actor.name %></option>
+                                <% else %>
+                                    <option value=<%= actor.id %>><%= actor.name %></option>
+                                <% end %>
+
+                            <% end %>
+                          </select>
+                        </td>
+                        </tr>
+                    <% end %>
+                    </table>
+
+            <% else %>
+
+                <table class="telephonycontainer" style="width : 100%";>
+                  <tr>
+                    <td id="primary" class="telephonyset">
+                      <select name='expense[expenseactors[0]]'
+                              class='digits'
+                              required="required" >
+                        <option value="" disabled selected>Select Actor</option>
+                        <% @actors.each do |actor| %>
+                            <option value=<%= actor.id %>><%= actor.name %></option>
+                        <% end %>
+                      </select>
+                    </td>
+                  </tr>
+                </table>
+
+            <% end %>
+
+          </section>
+        </div>
+
+        <%= renderItemListerButtons("Add Actor :", "addExpenseActor()","deleteExpenseActor()") %>
+
+        <hr />
+
+        <%= generic_form_footer(@selected_expense[:id]) %>
+
+    <% end %>
+
+  </div>
+
+  <script>
+
+      $telephonyCounter = 0;
+
+      function addExpenseActor()
+      {
+
+          $telephonyCounter++;
+
+          var clonedTelephonySet = $("#primary.telephonyset").clone();
+          clonedTelephonySet.attr("id","expense_expenseactors_" + $telephonyCounter);
+          clonedTelephonySet.find(".digits").attr("id","expense_expenseactors_" + $telephonyCounter);
+          clonedTelephonySet.find(".digits").attr("name","expense[expenseactors["+$telephonyCounter+"]]");
+          clonedTelephonySet.find(".digits").find('option:eq(0)').prop('selected', true);
+          clonedTelephonySet.find(".digits").removeAttr('disabled');
+          clonedTelephonySet.appendTo($(".telephonycontainer"));
+      }
+
+      //delete new telephony with id and name set to current counter
+      function deleteExpenseActor()
+      {
+          $('#expense_expenseactors_'+$telephonyCounter+'.telephonyset').remove();
+          if($telephonyCounter <= 0)
+          {$telephonyCounter = 0 }
+          else
+          {$telephonyCounter--;}
+      }
+
+
+  </script>
+</section>

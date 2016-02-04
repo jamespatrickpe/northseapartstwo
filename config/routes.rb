@@ -82,6 +82,26 @@ Rails.application.routes.draw do
 
   end
 
+  get 'access/' => 'access#index'
+  namespace :access do
+    get 'permissions/index' => 'permissions#index'
+    resources :permissions do
+      collection do
+        concerns :generic_table
+      end
+    end
+  end
+
+  get 'finance/' => 'finance#index'
+  namespace :finance do
+    get 'expenses/index' => 'expenses#index'
+    resources :expenses do
+      collection do
+        concerns :generic_table
+      end
+    end
+  end
+
   get 'application/reset_search' => 'application#reset_search'
 
   resources :test, only: :index

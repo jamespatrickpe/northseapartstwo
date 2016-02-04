@@ -1,4 +1,5 @@
 class AccessController < ApplicationController
+
   include ApplicationHelper
 
   layout "application_loggedin",
@@ -23,8 +24,10 @@ class AccessController < ApplicationController
                          :email_recovery_verification]
 
 
-  #index page
+  layout "application_loggedin"
+
   def index
+    render 'access/index'
   end
 
   def dashboard
