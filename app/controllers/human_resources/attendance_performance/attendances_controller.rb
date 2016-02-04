@@ -65,6 +65,9 @@ class HumanResources::AttendancePerformance::AttendancesController < HumanResour
     redirect_to :action => 'index'
   end
 
+  def search_suggestions
+    generic_employee_name_search_suggestions(Attendance)
+  end
   def create
     myAttendance = ::Attendance.new
     flash[:general_flash_notification] = 'Attendance Added!'

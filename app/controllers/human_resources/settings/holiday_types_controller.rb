@@ -78,14 +78,13 @@ class HumanResources::Settings::HolidayTypesController < HumanResources::Setting
 
   def search_suggestions
     holiday_types = HolidayType
-    .includes(:holiday_type)
-    .joins(:holiday_type)
-    .where("holiday_types.type_name LIKE ?","%#{params[:query]}%")
-    .pluck("holiday_types.type_name")
+                    .where("holiday_types.type_name LIKE ?","%#{params[:query]}%")
+                    .pluck("holiday_types.type_name")
     direct = "{\"query\": \"Unit\",\"suggestions\":[" + holiday_types.to_s.gsub!('[', '').gsub!(']', '') + "]}"
     respond_to do |format|
       format.all { render :text => direct}
     end
   end
+
 
 end

@@ -35,6 +35,10 @@ class HumanResources::CompensationAndBenefits::LeavesController < HumanResources
     render 'human_resources/compensation_and_benefits/leaves/leave_form'
   end
 
+  def search_suggestions
+    generic_employee_name_search_suggestions(Leave)
+  end
+
   def process_leave_form(myLeave)
     begin
       myLeave.employee_id = params[:leave][:employee_id]
