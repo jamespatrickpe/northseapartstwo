@@ -1,8 +1,5 @@
 <section class='small-10 columns'>
-  <div class='mainheader'> Global Person Search </div>
-  <div class='subdescription'> Search a specific person using his/her name or description. </div>
-  <hr>
-
+  <%= generic_title('Actor','List of Actor within the system') %>
   <%= generic_actor_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
@@ -44,13 +41,8 @@
         <% end %>
       </table>
 
-  <% rescue => ex
-       puts ex%>
-
-      <script>
-          html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
-          $(".generic_table").replaceWith(html)
-      </script>
+  <% rescue => ex %>
+      <%= generic_table_error(ex) %>
   <% end %>
   <%= generic_search_footer(@actors) %>
 

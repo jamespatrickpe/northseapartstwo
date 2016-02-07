@@ -7,6 +7,15 @@
     width:50%;
 }
 
+.generic_singlecolumn_form
+{
+    font-size: 12px;
+    border-right : 1px solid #cccccc;
+    margin-bottom : 32px;
+    float:left;
+    width:75%;
+}
+
 .current_edit_id
 {
     background-color: #d9d9d9;

@@ -1,0 +1,13 @@
+<div class="form-block">
+  <div class="label">Name</div>
+
+  <input type="text"
+         required="required"
+         placeholder="Name of Branch"
+         data-parsley-trigger = keyup
+         data-parsley-maxlength = 64
+         id="branch_name"
+         value= "<%= @selected_branch[:name] %>"
+         name="branch[name]">
+</div>
+
