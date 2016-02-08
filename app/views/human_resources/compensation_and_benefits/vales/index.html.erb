@@ -1,7 +1,5 @@
 <section class='small-10 columns'>
-  <div class='mainheader'> Vales </div>
-  <div class='subdescription'> Advanced Payments to Employees  </div>
-  <hr>
+  <%= generic_title('Vales','Advanced Payments to Employees') %>
   <%= generic_table_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
@@ -92,12 +90,8 @@
             </tbody>
         <% end %>
       </table>
-  <% rescue => ex%>
-      <script>
-          html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
-          html = <%= ex.to_s %>
-          $(".generic_table").replaceWith(html)
-      </script>
+  <% rescue => ex %>
+      <%= generic_table_error(ex) %>
   <% end %>
   <%= generic_table_footer(@vales) %>
 </section>

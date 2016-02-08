@@ -1,7 +1,5 @@
 <section class='small-10 columns'>
-  <div class='mainheader'> Rest Days Management </div>
-  <div class='subdescription'> Manage Rest Days for each Employee </div>
-  <hr>
+  <%= generic_title('Rest Days Management','Manage Rest Days for each Employee') %>
   <%= generic_table_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
@@ -55,11 +53,8 @@
             </tbody>
         <% end %>
       </table>
-      <% rescue %>
-      <script>
-          html = "<hr><p align='center'> No records found. Please try again. </p><hr>"
-          $(".generic_table").replaceWith(html)
-      </script>
-      <% end %>
-      <%= generic_table_footer(@rest_days) %>
+  <% rescue => ex %>
+      <%= generic_table_error(ex) %>
+  <% end %>
+  <%= generic_table_footer(@rest_days) %>
 </section>

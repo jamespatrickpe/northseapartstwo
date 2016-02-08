@@ -1,7 +1,5 @@
 <section class='small-10 columns'>
-  <div class='mainheader'> Constants </div>
-  <div class='subdescription'> Constants used in Human Resources and the Industry  </div>
-  <hr>
+  <%= generic_title('Constants','Shows all constant parameters within the system') %>
   <%= generic_table_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
@@ -65,11 +63,8 @@
             </tbody>
         <% end %>
       </table>
-  <% rescue %>
-      <script>
-          html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
-          $(".generic_table").replaceWith(html)
-      </script>
+  <% rescue => ex %>
+      <%= generic_table_error(ex) %>
   <% end %>
   <%= generic_table_footer(@constants) %>
 </section>

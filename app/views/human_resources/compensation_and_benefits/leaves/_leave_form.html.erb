@@ -1,0 +1,65 @@
+<%= generic_employee_select_field('leave',@selected_leave[:employee_id]) %>
+
+<div class="form-block">
+  <div class="label">Leave Type : </div>
+  <br />
+  <select name='leave[type_of_leave]'
+          style="width: 50%"
+          required="required" >
+    <% if @selected_leave[:type_of_leave] == 'VACATION' %>
+        <option disabled >Select Leave Type</option>
+        <option value = "VACATION" selected>VACATION</option>
+        <option value = "SICK">SICK</option>
+        <option value = "MATERNITY">MATERNITY</option>
+        <option value = "PATERNITY">PATERNITY</option>
+    <% elsif @selected_leave[:type_of_leave] == 'SICK' %>
+        <option disabled >Select Leave Type</option>
+        <option value = "VACATION">VACATION</option>
+        <option value = "SICK" selected>SICK</option>
+        <option value = "MATERNITY">MATERNITY</option>
+        <option value = "PATERNITY">PATERNITY</option>
+    <% elsif @selected_leave[:type_of_leave] == 'MATERNITY' %>
+        <option disabled >Select Leave Type</option>
+        <option value = "VACATION">VACATION</option>
+        <option value = "SICK">SICK</option>
+        <option value = "MATERNITY" selected>MATERNITY</option>
+        <option value = "PATERNITY">PATERNITY</option>
+    <% elsif @selected_leave[:type_of_leave] == 'PATERNITY' %>
+        <option disabled >Select Leave Type</option>
+        <option value = "VACATION">VACATION</option>
+        <option value = "SICK">SICK</option>
+        <option value = "MATERNITY">MATERNITY</option>
+        <option value = "PATERNITY" selected>PATERNITY</option>
+    <% else %>
+        <option disabled selected >Select Leave Type</option>
+        <option value = "VACATION">VACATION</option>
+        <option value = "SICK">SICK</option>
+        <option value = "MATERNITY">MATERNITY</option>
+        <option value = "PATERNITY">PATERNITY</option>
+    <% end %>
+  </select>
+</div>
+
+<div class="form-block">
+  <div class="label">Start of Effectivity  : </div>
+  <input type="date"
+         id="leave_start_of_effectivity"
+         step = 1
+         name="leave[start_of_effectivity]"
+         required = required
+         style="width: 50%"
+         value= <%= @selected_leave[:start_of_effectivity]%> >
+</div>
+
+<div class="form-block">
+  <div class="label">End of Effectivity  : </div>
+  <input type="date"
+         id="leave_end_of_effectivity"
+         step = 1
+         name="leave[end_of_effectivity]"
+         required = required
+         style="width: 50%"
+         value= <%= @selected_leave[:end_of_effectivity] %> >
+</div>
+
+<%= generic_remarks_description_field('leave',@selected_leave[:remark]) %>

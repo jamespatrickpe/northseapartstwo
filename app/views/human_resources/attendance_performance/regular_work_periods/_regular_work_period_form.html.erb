@@ -1,0 +1,35 @@
+<%= generic_employee_select_field('regular_work_period',@selected_regular_work_period[:employee_id]) %>
+
+<div class="form-block">
+  <div class="label">Start Time : </div>
+  <input name="regular_work_period[start_time]"
+         required="required"
+         data-parsley-trigger="change"
+         value= <%= @selected_regular_work_period[:start_time].present? ?
+                            @selected_regular_work_period[:start_time].strftime('%T') :
+                            Time.now.strftime('%T') %>
+                 type="time" step="1">
+</div>
+
+<div class="form-block">
+  <div class="label">Start Time : </div>
+  <input name="regular_work_period[end_time]"
+         required="required"
+         data-parsley-trigger="change"
+         value= <%= @selected_regular_work_period[:end_time].present? ?
+                            @selected_regular_work_period[:end_time].strftime('%T') :
+                            Time.now.strftime('%T') %>
+                 type="time" step="1">
+</div>
+
+<div class="form-block">
+  <div class="label">Date of Effectivity</div>
+  <input name="regular_work_period[date_of_effectivity]"
+         required="required"
+         value= <%= @selected_regular_work_period[:date_of_effectivity].present? ?
+                            @selected_regular_work_period[:date_of_effectivity].strftime('%FT%T') :
+                            Time.now.strftime('%FT%T') %>
+                 type="datetime-local" step="1">
+</div>
+
+<%= generic_remarks_description_field('regular_work_period',@selected_regular_work_period[:remark]) %>

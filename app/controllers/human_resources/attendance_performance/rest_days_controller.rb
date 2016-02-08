@@ -24,6 +24,14 @@ class HumanResources::AttendancePerformance::RestDaysController < HumanResources
     render 'human_resources/attendance_performance/rest_days/index'
   end
 
+  def initialize_form
+    initialize_form_variables('REST DAY',
+                              'Log a new rest day for an actor',
+                              'human_resources/attendance_performance/rest_days/rest_day_form',
+                              'rest_day')
+    initialize_employee_selection
+  end
+
   def search_suggestions
     restdays = RestDay.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + restdays.uniq.to_s + "}"
@@ -33,7 +41,7 @@ class HumanResources::AttendancePerformance::RestDaysController < HumanResources
   end
 
   def delete
-    restDayToBeDeleted = RestDay.find(params[:rest_day_id])
+    restDayToBeDeleted = RestDay.find(params[:id])
     restDayOwner = Employee.find(restDayToBeDeleted.employee_id)
     flash[:general_flash_notification_type] = 'Rest day ' + restDayToBeDeleted.day + ' for employees ' + restDayOwner.actor.name + ' has been deleted.'
     flash[:general_flash_notification_type] = 'affirmative'
@@ -43,15 +51,15 @@ class HumanResources::AttendancePerformance::RestDaysController < HumanResources
   end
 
   def new
-    initialize_employee_selection
+    initialize_form
     @selected_rest_day = RestDay.new
-    render 'human_resources/attendance_performance/rest_days/rest_day_form'
+    generic_bicolumn_form_with_employee_selection(@selected_rest_day)
   end
 
   def edit
-    initialize_employee_selection
+    initialize_form
     @selected_rest_day = RestDay.find(params[:id])
-    render 'human_resources/attendance_performance/rest_days/rest_day_form'
+    generic_bicolumn_form_with_employee_selection(@selected_rest_day)
   end
 
   def process_rest_day_form(restDay)

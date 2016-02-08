@@ -17,6 +17,14 @@ class Access::PermissionsController < AccessController
     render '/access/permissions/index'
   end
 
+  def initialize_form
+    initialize_form_variables('PERMISSION',
+                              'Create a new permission for a user',
+                              'access/permissions/permission_form',
+                              'constant')
+    initialize_employee_selection
+  end
+
   def search_suggestions
     permissions = Permission
                    .where("permission.access_id LIKE ?","%#{params[:query]}%")
@@ -28,15 +36,17 @@ class Access::PermissionsController < AccessController
   end
 
   def new
+    initialize_form
     @selected_permission = Permission.new
     @accesses = Access.all()
-    render 'access/permissions/permission_form'
+    generic_singlecolumn_form(@selected_permission)
   end
 
   def edit
+    initialize_form
     @selected_permission = Permission.find(params[:id])
     @accesses = Access.all()
-    render 'access/permissions/permission_form'
+    generic_singlecolumn_form(@selected_permission)
   end
 
   def delete

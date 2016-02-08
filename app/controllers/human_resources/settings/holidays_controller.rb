@@ -29,16 +29,26 @@ class HumanResources::Settings::HolidaysController < HumanResources::SettingsCon
     render 'human_resources/settings/holidays/index'
   end
 
+  def initialize_form
+    initialize_form_variables('HOLIDAYS',
+                              'Create a new Holiday',
+                              'human_resources/settings/holidays/holiday_form',
+                              'holiday')
+    initialize_employee_selection
+  end
+
   def new
+    initialize_form
     @selected_holiday = Holiday.new
     @holiday_types = HolidayType.all
-    render 'human_resources/settings/holidays/holiday_form'
+    generic_singlecolumn_form(@selected_holiday)
   end
 
   def edit
+    initialize_form
     @selected_holiday = Holiday.find(params[:id])
     @holiday_types = HolidayType.all
-    render 'human_resources/settings/holidays/holiday_form'
+    generic_singlecolumn_form(@selected_holiday)
   end
 
   def delete

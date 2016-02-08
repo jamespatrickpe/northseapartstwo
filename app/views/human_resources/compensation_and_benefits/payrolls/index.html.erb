@@ -1,7 +1,5 @@
 <section class='small-10 columns'>
-  <div class='mainheader'>  Payrolls </div>
-  <div class='subdescription'> Payroll Settings for a specific point in time  </div>
-  <hr>
+  <%= generic_title('Payrolls','Payroll Settings for a specific point in time') %>
   <%= generic_table_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
@@ -77,11 +75,8 @@
             </tbody>
         <% end %>
       </table>
-  <% rescue %>
-      <script>
-          html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
-          $(".generic_table").replaceWith(html)
-      </script>
+  <% rescue => ex %>
+      <%= generic_table_error(ex) %>
   <% end %>
   <%= generic_table_footer(@payrolls) %>
 </section>

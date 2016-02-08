@@ -40,6 +40,15 @@ class HumanResources::CompensationAndBenefits::ValesController < HumanResources:
     end
   end
 
+  def initialize_form
+    initialize_form_variables('VALES',
+                              'Advanced Payments to Employees',
+                              'human_resources/compensation_and_benefits/vales/vales_form',
+                              'vale')
+    initialize_employee_selection
+  end
+
+
   def delete
     vale_to_be_deleted = Vale.find(params[:id])
     owner = Employee.find(vale_to_be_deleted.employee_id)
@@ -50,15 +59,15 @@ class HumanResources::CompensationAndBenefits::ValesController < HumanResources:
   end
 
   def new
-    initialize_employee_selection
+    initialize_form
     @selected_vale = Vale.new
-    render 'human_resources/compensation_and_benefits/vales/vales_form'
+    generic_bicolumn_form_with_employee_selection(@selected_vale)
   end
 
   def edit
-    initialize_employee_selection
+    initialize_form
     @selected_vale = Vale.find(params[:id])
-    render 'human_resources/compensation_and_benefits/vales/vales_form'
+    generic_bicolumn_form_with_employee_selection(@selected_vale)
   end
 
   def process_lump_adjustment_form(vale)
