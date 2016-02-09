@@ -1,7 +1,5 @@
 <section class='small-10 columns'>
-  <div class='mainheader'> Institutional Adjustments </div>
-  <div class='subdescription'> Social Security Systems </div>
-  <hr>
+  <%= generic_title('Institutional Adjustments','Social Security Systems') %>
   <%= generic_table_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
@@ -85,11 +83,8 @@
             </tbody>
         <% end %>
       </table>
-  <% rescue %>
-      <script>
-          html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
-          $(".generic_table").replaceWith(html)
-      </script>
+  <% rescue => ex %>
+      <%= generic_table_error(ex) %>
   <% end %>
   <%= generic_table_footer(@institutional_adjustments) %>
 </section>

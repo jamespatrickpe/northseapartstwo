@@ -1,0 +1,160 @@
+<%= generic_employee_select_field('vale',@selected_vale[:employee_id]) %>
+
+<div class="form-block">
+  <div class="label">Approval Status</div>
+  <br />
+  <select name='vale[approval_status]'
+          style="width: 50%"
+          required="required" >
+    <% if @selected_vale[:approval_status] == true %>
+        <option disabled >Select Approval Status</option>
+        <option value=1 selected>Approved</option>
+        <option value=0>Rejected</option>
+    <% elsif @selected_vale[:approval_status] == false %>
+        <option disabled >Select Approval Status</option>
+        <option value=1>Approved</option>
+        <option value=0 selected>Rejected</option>
+    <% else %>
+        <option disabled>Select Approval Status</option>
+        <option value=1>Approved</option>
+        <option value=0 selected>Rejected</option>
+    <% end %>
+  </select>
+</div>
+
+<div class="form-block">
+  <div class="label">Amount :</div>
+  <%= text_field_tag("vale[amount]",
+                     content = @selected_vale[:amount],
+                     options = {placeholder: "Enter amount",
+                                required: "required",
+                                id: "vale_amount",
+                                :"data-parsley-trigger" => "change",
+                                :"data-parsley-step" => "0.01",
+                                :"data-parsley-type" => "number"}) %>
+</div>
+
+<div class="form-block">
+  <div class="label">Amount of Deduction : </div>
+  <%= text_field_tag("vale[amount_of_deduction]",
+                     content = @selected_vale[:amount_of_deduction],
+                     options = {placeholder: "Enter amount",
+                                required: "required",
+                                id: "vale_amount_of_deduction",
+                                :"data-parsley-trigger" => "change",
+                                :"data-parsley-vale_deduction" => "0",
+                                :"data-parsley-step" => "0.01",
+                                :"data-parsley-type" => "number"}) %>
+</div>
+
+<div class="form-block">
+  <div class="label">Period of Deduction  : </div>
+  <br />
+  <select name='vale[period_of_deduction]'
+          id='vale_period_of_deduction'
+          style="width: 50%"
+          required="required" >
+    <% if @selected_vale[:period_of_deduction] == 'DAY' %>
+        <option disabled >Selected Period of Deduction</option>
+        <option value="DAY" selected>DAY</option>
+        <option value="WEEK">WEEK</option>
+        <option value="MONTH">MONTH</option>
+        <option value="YEAR">YEAR</option>
+    <% elsif @selected_vale[:period_of_deduction] == 'WEEK' %>
+        <option disabled >Selected Period of Deduction</option>
+        <option value="DAY">DAY</option>
+        <option value="WEEK" selected>WEEK</option>
+        <option value="MONTH">MONTH</option>
+        <option value="YEAR">YEAR</option>
+    <% elsif @selected_vale[:period_of_deduction] == 'MONTH' %>
+        <option disabled >Selected Period of Deduction</option>
+        <option value="DAY">DAY</option>
+        <option value="WEEK">WEEK</option>
+        <option value="MONTH" selected>MONTH</option>
+        <option value="YEAR">YEAR</option>
+    <% elsif @selected_vale[:period_of_deduction] == 'YEAR' %>
+        <option disabled >Selected Period of Deduction</option>
+        <option value="DAY">DAY</option>
+        <option value="WEEK">WEEK</option>
+        <option value="MONTH">MONTH</option>
+        <option value="YEAR" selected>YEAR</option>
+    <% else %>
+        <option disabled selected>Selected Period of Deduction</option>
+        <option value="DAY">DAY</option>
+        <option value="WEEK">WEEK</option>
+        <option value="MONTH">MONTH</option>
+        <option value="YEAR">YEAR</option>
+    <% end %>
+  </select>
+</div>
+
+<div class="form-block">
+  <div class="label">Date of Effectivity  : </div>
+  <input type="datetime-local"
+         required="required"
+         id="vale_date_of_effectivity"
+         name="vale[date_of_effectivity]"
+         style="width: 50%"
+         step="1"
+         value= <%= @selected_vale[:date_of_effectivity].present? ? @selected_vale[:date_of_effectivity].strftime('%FT%T') : Time.now.strftime('%FT%T')  %>>
+</div>
+
+<%= generic_remarks_description_field('vale',@selected_vale[:remark]) %>
+
+<%=
+    if @selected_vale[:id].present?
+      link_to( "Vale Summary".html_safe,
+               {:action => 'show',
+                :id => @selected_vale[:id]},
+               class: 'tiny button')
+    end
+%>
+<%=
+    if @selected_vale[:id].present?
+      link_to( "Add Adjustment".html_safe,
+               '/human_resources/compensation_and_benefits/vale_adjustments/new?parent_vale_id=' + @selected_vale[:id],
+               class: 'tiny button')
+    end
+%>
+
+<script>
+    $( "#vale_amount_of_deduction" ).change(function(){
+        calculate_time_required();
+    });
+    $( "#vale_period_of_deduction" ).change(function(){
+        calculate_time_required();
+    });
+    $( "#vale_date_of_effectivity" ).change(function(){
+        calculate_time_required();
+    });
+    $( "#vale_amount" ).change(function(){
+        calculate_time_required();
+    });
+
+    function calculate_time_required()
+    {
+        $("#vale_summary").empty();
+        vale_amount_of_deduction = $("#vale_amount_of_deduction").val();
+        vale_period_of_deduction = $("#vale_period_of_deduction").val();
+        vale_date_of_effectivity = $("#vale_date_of_effectivity").val();
+        vale_amount = $("#vale_amount").val();
+        period_counter = 0
+        var date_of_effectivity = moment(vale_date_of_effectivity);
+
+        if( (vale_amount_of_deduction != null) && (vale_period_of_deduction != null) && (vale_date_of_effectivity != null) && (vale_amount != null))
+        {
+            current_balance = vale_amount
+            while( current_balance > 0 )
+            {
+                current_balance = current_balance - vale_amount_of_deduction;
+                period_counter++;
+                period_of_deduction = vale_period_of_deduction.toLowerCase(); + 's'
+                date_of_effectivity = date_of_effectivity.add(1, period_of_deduction)
+            }
+            period_of_deduction = vale_period_of_deduction.toLowerCase();
+
+            $("#vale_summary").fadeIn("slow").append("Payment approximately in " + period_counter + " " + period_of_deduction + "s" + " | " + date_of_effectivity.format('MMMM Do YYYY, h:mm:ss a') );
+        }
+
+    }
+</script>

@@ -17,6 +17,15 @@ class GeneralAdministrator::BranchController < GeneralAdministratorController
     render '/general_administrator/branch/index'
   end
 
+
+  def initialize_form
+    initialize_form_variables('BRANCH',
+                              'Create a new branch within the system',
+                              'general_administrator/branch/branch_form',
+                              'branch')
+    initialize_employee_selection
+  end
+
   def search_suggestions
     branches = Branch
                    .where("branches.name LIKE ?","%#{params[:query]}%")
@@ -28,13 +37,15 @@ class GeneralAdministrator::BranchController < GeneralAdministratorController
   end
 
   def new
+    initialize_form
     @selected_branch = Branch.new
-    render 'general_administrator/branch/branch_form'
+    generic_singlecolumn_form(@selected_branch)
   end
 
   def edit
+    initialize_form
     @selected_branch = Branch.find(params[:id])
-    render 'general_administrator/branch/branch_form'
+    generic_singlecolumn_form(@selected_branch)
   end
 
   def delete

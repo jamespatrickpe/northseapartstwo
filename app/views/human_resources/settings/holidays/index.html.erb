@@ -1,7 +1,5 @@
 <section class='small-10 columns'>
-  <div class='mainheader'> Holidays </div>
-  <div class='subdescription'> A day fixed by law or custom on which ordinary business is suspended in commemoration of some event or in honor of some person.  </div>
-  <hr>
+  <%= generic_title('Holidays','A day fixed by law or custom on which ordinary business is suspended in commemoration of some event or in honor of some person.') %>
   <%= generic_table_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
@@ -60,11 +58,8 @@
             </tbody>
         <% end %>
       </table>
-  <% rescue => ex%>
-      <script>
-          html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
-          $(".generic_table").replaceWith(html)
-      </script>
+  <% rescue => ex %>
+      <%= generic_table_error(ex) %>
   <% end %>
   <%= generic_table_footer(@holidays) %>
 </section>

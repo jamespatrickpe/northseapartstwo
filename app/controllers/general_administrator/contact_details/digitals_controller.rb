@@ -16,16 +16,27 @@ class GeneralAdministrator::ContactDetails::DigitalsController < GeneralAdminist
     render 'general_administrator/contact_details/digitals/index'
   end
 
+
+  def initialize_form
+    initialize_form_variables('DIGITAL NUMBERS',
+                              'Create a new digital number entry into the system',
+                              'general_administrator/contact_details/digitals/digital_form',
+                              'digital')
+    initialize_employee_selection
+  end
+
   def new
+    initialize_form
     @selected_digital = Digital.new
     @actors = Actor.all().order('name ASC')
-    render 'general_administrator/contact_details/digitals/digital_form'
+    generic_singlecolumn_form(@selected_digital)
   end
 
   def edit
+    initialize_form
     @selected_digital = Digital.find(params[:id])
     @actors = Actor.all().order('name ASC')
-    render 'general_administrator/contact_details/digitals/digital_form'
+    generic_singlecolumn_form(@selected_digital)
   end
 
   def delete

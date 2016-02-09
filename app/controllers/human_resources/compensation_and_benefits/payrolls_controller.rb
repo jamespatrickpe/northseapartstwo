@@ -29,20 +29,28 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
     render 'human_resources/compensation_and_benefits/payrolls/index'
   end
 
+  def initialize_form
+    initialize_form_variables('PAYROLL',
+                              'Set the Settings of an Employee Payrol',
+                              'human_resources/compensation_and_benefits/payrolls/payroll_form',
+                              'payroll')
+    initialize_employee_selection
+  end
+
   def search_suggestions
     generic_employee_name_search_suggestions(Payroll)
   end
 
   def new
-    initialize_employee_selection
+    initialize_form
     @selected_payroll = Payroll.new
-    render 'human_resources/compensation_and_benefits/payrolls/payroll_form'
+    generic_bicolumn_form_with_employee_selection(@selected_payroll)
   end
 
   def edit
-    initialize_employee_selection
+    initialize_form
     @selected_payroll = Payroll.find(params[:id])
-    render 'human_resources/compensation_and_benefits/payrolls/payroll_form'
+    generic_bicolumn_form_with_employee_selection(@selected_payroll)
   end
 
   def process_payroll_form(payroll)

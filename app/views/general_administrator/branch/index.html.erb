@@ -1,7 +1,5 @@
 <section class='small-10 columns'>
-  <div class='mainheader'> Branch </div>
-  <div class='subdescription'> Displays all branches  </div>
-  <hr>
+  <%= generic_title('Branches','Show all the branches registered within the system') %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
       <table class="generic_table" id="holidays_table">
@@ -45,10 +43,7 @@
         <% end %>
       </table>
   <% rescue => ex%>
-      <script>
-          html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
-          $(".generic_table").replaceWith(html)
-      </script>
+      <%= generic_table_error(ex) %>
   <% end %>
   <%= generic_table_footer(@branches) %>
 </section>

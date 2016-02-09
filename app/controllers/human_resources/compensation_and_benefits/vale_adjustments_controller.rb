@@ -32,6 +32,14 @@ class HumanResources::CompensationAndBenefits::ValeAdjustmentsController < Human
     render 'human_resources/compensation_and_benefits/vale_adjustments/index'
   end
 
+  def initialize_form
+    initialize_form_variables('VALE ADJUSTMENTS',
+                              'Set the Status of an Advanced Payment',
+                              'human_resources/compensation_and_benefits/vale_adjustments/vale_adjustments_form',
+                              'vale_adjustment')
+    initialize_employee_selection
+  end
+
   def search_suggestions
     adjustments = ValeAdjustment.includes(vale: [employee: [:actor]]).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + adjustments.uniq.to_s + "}"
@@ -49,16 +57,19 @@ class HumanResources::CompensationAndBenefits::ValeAdjustmentsController < Human
   end
 
   def new
+    initialize_form
     @selected_vale_adjustment = ValeAdjustment.new
     @vales = Vale.includes(employee: [:actor]).joins(employee: [:actor])
     @parent_vale_id = params[:parent_vale_id]
-    render 'human_resources/compensation_and_benefits/vale_adjustments/vale_adjustments_form'
+    generic_bicolumn_form_with_employee_selection(@selected_vale_adjustment)
   end
 
   def edit
+    initialize_form
     @selected_vale_adjustment = ValeAdjustment.find(params[:id])
     @vales = Vale.includes(employee: [:actor]).joins(employee: [:actor])
-    render 'human_resources/compensation_and_benefits/vale_adjustments/vale_adjustments_form'
+    @parent_vale_id = params[:parent_vale_id]
+    generic_bicolumn_form_with_employee_selection(@selected_vale_adjustment)
   end
 
   def process_vale_adjustment_form(vale_adjustment)

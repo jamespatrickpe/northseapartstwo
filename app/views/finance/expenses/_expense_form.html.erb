@@ -1,0 +1,137 @@
+<div class="form-block">
+  <div class="label">Amount in Php  : </div>
+  <%= text_field_tag("expense[amount]",
+                     content = @selected_expense.amount,
+                     options = {placeholder: "Enter amount in Php.",
+                                required: "required",
+                                :"data-parsley-trigger" => "keyup",
+                                :"data-parsley-step" => "0.01",
+                                :"data-parsley-type" => "number"}) %>
+</div>
+
+<div class="form-block">
+  <div class="label">Category  : </div>
+  <input type="text"
+         required="required"
+         placeholder="Enter category"
+         data-parsley-trigger = keyup
+         data-parsley-maxlength = 64
+         value= "<%= @selected_expense[:category] %>"
+         name="expense[category]">
+</div>
+
+<div class="form-block">
+  <div class="label">Physical ID  : </div>
+  <input type="text"
+         required="required"
+         placeholder="Enter expense Trace number / Transaction ID"
+         data-parsley-trigger = keyup
+         data-parsley-maxlength = 64
+         value= "<%= @selected_expense[:physical_id] %>"
+         name="expense[physical_id]">
+</div>
+
+<div class="form-block">
+  <div class="label">Date of Effectivity  : </div>
+  <input type="date"
+         id="expense_date_of_effectivity"
+         step = 1
+         name="expense[date_of_effectivity]"
+         required = required
+         data-parsley-trigger="change"
+         style="width: 50%"
+         value= <%= @selected_expense[:date_of_effectivity]%> >
+</div>
+
+<div class="form-block">
+  <div class="label">Date of Effectivity  : </div>
+  <%=
+      text_area_tag("expense[remark]",
+                    content = @selected_expense[:remark],
+                    options = {class: "remark_description",
+                               :"data-parsley-trigger" => "keyup",
+                               :"data-parsley-maxlength"=>"128",
+                               :placeholder => 'Description' })
+  %>
+</div>
+
+<div class="form-block">
+  <div class="label">Involved  : </div>
+
+  <% if @expense_actor_rel.present? %>
+      <table class="telephonycontainer" style="width : 100%; border : none; !important">
+        <tr id="primary" class="telephonyset">
+          <% @actorsInvolved.each_with_index do |actor, index| %>
+              <td>
+                <select name='expense[expenseactors[0]]'
+                        class='digits'
+                        disabled='disabled'
+                        required="required" >
+                  <option value="" disabled selected>Select Actor</option>
+                  <% @actors.each do |actor| %>
+                      <% if actor.id == @actorsInvolved[index].id %>
+                          <option value=<%= actor.id %> selected><%= actor.name %></option>
+                      <% else %>
+                          <option value=<%= actor.id %>><%= actor.name %></option>
+                      <% end %>
+
+                  <% end %>
+                </select>
+              </td>
+              </tr>
+          <% end %>
+          </table>
+
+  <% else %>
+
+      <table class="telephonycontainer" style="width : 100%; border : none; !important">
+        <tr id="primary" class="telephonyset">
+          <td>
+            <select name='expense[expenseactors[0]]'
+                    class='digits'
+                    required="required" >
+              <option value="" disabled selected>Select Actor</option>
+              <% @actors.each do |actor| %>
+                  <option value=<%= actor.id %>><%= actor.name %></option>
+              <% end %>
+            </select>
+          </td>
+        </tr>
+      </table>
+
+  <% end %>
+
+  <%= renderItemListerButtons("Add Actor :", "addExpenseActor()","deleteExpenseActor()") %>
+
+</div>
+
+<script>
+
+    $telephonyCounter = 0;
+
+    function addExpenseActor()
+    {
+
+        $telephonyCounter++;
+
+        var clonedTelephonySet = $("#primary.telephonyset").clone();
+        clonedTelephonySet.attr("id","expense_expenseactors_" + $telephonyCounter);
+        clonedTelephonySet.find(".digits").attr("id","expense_expenseactors_" + $telephonyCounter);
+        clonedTelephonySet.find(".digits").attr("name","expense[expenseactors["+$telephonyCounter+"]]");
+        clonedTelephonySet.find(".digits").find('option:eq(0)').prop('selected', true);
+        clonedTelephonySet.find(".digits").removeAttr('disabled');
+        clonedTelephonySet.appendTo($(".telephonycontainer"));
+    }
+
+    //delete new telephony with id and name set to current counter
+    function deleteExpenseActor()
+    {
+        $('#expense_expenseactors_'+$telephonyCounter+'.telephonyset').remove();
+        if($telephonyCounter <= 0)
+        {$telephonyCounter = 0 }
+        else
+        {$telephonyCounter--;}
+    }
+
+
+</script>

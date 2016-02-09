@@ -12,6 +12,14 @@ class HumanResources::CompensationAndBenefits::LeavesController < HumanResources
     render 'human_resources/compensation_and_benefits/leaves/index'
   end
 
+  def initialize_form
+    initialize_form_variables('LEAVES',
+                              'File a leave for an actor',
+                              'human_resources/compensation_and_benefits/leaves/leave_form',
+                              'leave')
+    initialize_employee_selection
+  end
+
   def delete
     leaveToBeDeleted = Leave.find(params[:id])
     leaveOwner = Employee.find(leaveToBeDeleted.employee_id)
@@ -22,17 +30,23 @@ class HumanResources::CompensationAndBenefits::LeavesController < HumanResources
   end
 
   def new
-    initialize_employee_selection
+    initialize_form
     @selected_leave = Leave.new
     @selected_leave.start_of_effectivity = Time.now
     @selected_leave.end_of_effectivity = Time.now
-    render 'human_resources/compensation_and_benefits/leaves/leave_form'
+    generic_bicolumn_form_with_employee_selection(@selected_leave)
   end
 
   def edit
-    initialize_employee_selection
+    initialize_form
     @selected_leave = Leave.find(params[:id])
-    render 'human_resources/compensation_and_benefits/leaves/leave_form'
+    @selected_leave.start_of_effectivity = Time.now
+    @selected_leave.end_of_effectivity = Time.now
+    generic_bicolumn_form_with_employee_selection(@selected_leave)
+  end
+
+  def search_suggestions
+    generic_employee_name_search_suggestions(Leave)
   end
 
   def process_leave_form(myLeave)

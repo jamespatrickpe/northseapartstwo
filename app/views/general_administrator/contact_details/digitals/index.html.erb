@@ -1,7 +1,5 @@
 <section class='small-10 columns'>
-  <div class='mainheader'> Digital Address information / URLs </div>
-  <div class='subdescription'> List of URL address entries within the system </div>
-  <hr>
+  <%= generic_title('Digital Address information / URLs','List of URL address entries within the system') %>
   <%= generic_table_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
@@ -50,11 +48,8 @@
             </tbody>
         <% end %>
       </table>
-  <% rescue %>
-      <script>
-          html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
-          $(".generic_table").replaceWith(html)
-      </script>
+  <% rescue => ex %>
+      <%= generic_table_error(ex) %>
   <% end %>
   <%= generic_table_footer(@digitals) %>
 </section>

@@ -1,0 +1,84 @@
+<div class="form-block">
+  <div class="label">Holiday Type  : </div>
+  <br />
+  <input type="text"
+         required="required"
+         placeholder="Name of Holiday Type"
+         data-parsley-trigger = keyup
+         data-parsley-maxlength = 64
+         id="holiday_type_name"
+         value= "<%= @selected_holiday_type[:type_name] %>"
+         name="holiday_type[type_name]">
+</div>
+
+<div class="form-block">
+  <div class="label">Rate Multiplier  : </div>
+  <br />
+  <input type="text"
+         required="required"
+         placeholder="Rate of Multiplier"
+         data-parsley-trigger = keyup
+         data-parsley-maxlength = 64
+         data-parsley-type="number"
+         value= "<%= @selected_holiday_type[:rate_multiplier] %>"
+         name="holiday_type[rate_multiplier]">
+</div>
+
+<div class="form-block">
+  <div class="label">Overtime Multiplier  : </div>
+  <br />
+  <input type="text"
+         required="required"
+         placeholder="Rate of Overtime"
+         data-parsley-trigger = keyup
+         data-parsley-maxlength = 64
+         data-parsley-type="number"
+         value= "<%= @selected_holiday_type[:overtime_multiplier] %>"
+         name="holiday_type[overtime_multiplier]">
+</div>
+
+<div class="form-block">
+  <div class="label">Rest Day Multiplier  : </div>
+  <br />
+  <input type="text"
+         required="required"
+         placeholder="Rate of Rest Day"
+         data-parsley-trigger = keyup
+         data-parsley-maxlength = 64
+         data-parsley-type="number"
+         value= "<%= @selected_holiday_type[:rest_day_multiplier] %>"
+         name="holiday_type[rest_day_multiplier]">
+</div>
+
+<div class="form-block">
+  <div class="label">Overtime Rest Day Multiplier  : </div>
+  <br />
+  <input type="text"
+         required="required"
+         placeholder="Rate of Overtime and Rest Day"
+         data-parsley-trigger = keyup
+         data-parsley-maxlength = 64
+         data-parsley-type="number"
+         value= "<%= @selected_holiday_type[:overtime_rest_day_multiplier] %>"
+         name="holiday_type[overtime_rest_day_multiplier]">
+</div>
+
+<div class="form-block">
+  <div class="label">No Work, No Pay?  : </div>
+  <br />
+  <select name='holiday_type[no_work_pay]'
+          style="width: 50%;"
+          required="required" >
+    <% if @selected_holiday_type[:no_work_pay] == true %>
+        <option value=<%= true %> selected>YES</option>
+        <option value=<%= false %>>NO</option>
+    <% elsif @selected_holiday_type[:no_work_pay] == false %>
+        <option value=<%= true %>>YES</option>
+        <option value=<%= false %> selected>NO</option>
+    <% else %>
+        <option value="" disabled selected>Select if Holiday is No Work/Pay?</option>
+        <option value=<%= true %>>YES</option>
+        <option value=<%= false %>>NO</option>
+    <% end %>
+  </select>
+</div>

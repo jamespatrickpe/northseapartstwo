@@ -19,6 +19,14 @@ class GeneralAdministrator::ActorController < GeneralAdministratorController
     render '/general_administrator/actor/index'
   end
 
+  def initialize_form
+    initialize_form_variables('ACTOR',
+                              'Create a new actor for the system',
+                              'general_administrator/actor/actor_form',
+                              'actor')
+    initialize_employee_selection
+  end
+
   def search_suggestions
     actors = Actor
                  .where("actors.name LIKE ?","%#{params[:query]}%")
@@ -30,13 +38,15 @@ class GeneralAdministrator::ActorController < GeneralAdministratorController
   end
 
   def new
+    initialize_form
     @selected_actor = Actor.new
-    render 'general_administrator/actor/actor_form'
+    generic_singlecolumn_form(@selected_actor)
   end
 
   def edit
+    initialize_form
     @selected_actor = Actor.find(params[:id])
-    render 'general_administrator/actor/actor_form'
+    generic_singlecolumn_form(@selected_actor)
   end
 
   def delete
