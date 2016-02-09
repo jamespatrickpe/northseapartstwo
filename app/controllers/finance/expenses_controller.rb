@@ -4,11 +4,11 @@ class Finance::ExpensesController < FinanceController
     query = generic_table_aggregated_queries('expenses','expenses.created_at')
     begin
       @expenses = Expense
-                         .where("expenses.amount LIKE ? OR " +
-                                    "expenses.category LIKE ? ",
-                                "%#{query[:search_field]}%",
-                                "%#{query[:search_field]}%")
-                         .order(query[:order_parameter] + ' ' + query[:order_orientation])
+                      .where("expenses.amount LIKE ? OR " +
+                                 "expenses.category LIKE ? ",
+                             "%#{query[:search_field]}%",
+                             "%#{query[:search_field]}%")
+                      .order(query[:order_parameter] + ' ' + query[:order_orientation])
       @expenses = Kaminari.paginate_array(@expenses).page(params[:page]).per(query[:current_limit])
     rescue => ex
       puts ex
@@ -17,10 +17,18 @@ class Finance::ExpensesController < FinanceController
     render '/finance/expenses/index'
   end
 
+  def initialize_form
+    initialize_form_variables('EXPENSES',
+                              'Log an expense incurred.',
+                              'finance/expenses/expense_form',
+                              'expense')
+    initialize_employee_selection
+  end
+
   def search_suggestions
-    expenses = Expenses
-                      .where("expense.access_id LIKE ?","%#{params[:query]}%")
-                      .pluck("expense.access_id")
+    expenses = Expense
+                   .where("expense.access_id LIKE ?","%#{params[:query]}%")
+                   .pluck("expense.access_id")
     direct = "{\"query\": \"Unit\",\"suggestions\":[" + expenses.to_s.gsub!('[', '').gsub!(']', '') + "]}"
     respond_to do |format|
       format.all { render :text => direct}
@@ -28,15 +36,15 @@ class Finance::ExpensesController < FinanceController
   end
 
   def new
+    initialize_form
     @selected_expense = Expense.new
     @actors = Actor.all()
-    render 'finance/expenses/expense_form'
+    generic_singlecolumn_form(@selected_expense)
   end
 
   def edit
+    initialize_form
     @selected_expense = Expense.find(params[:id])
-    @actors = Actor.all()
-
     @actorsInvolved ||= []
 
     # @expense_actor_rel = ExpensesActor.find_by_expense_id(params[:id])
@@ -46,14 +54,23 @@ class Finance::ExpensesController < FinanceController
     end
 
     @actorsInvolved.compact.uniq!
+    @actors = Actor.all()
 
-    render 'finance/expenses/expense_form'
+    generic_singlecolumn_form(@selected_expense)
   end
 
   def delete
+
     expense_to_be_deleted = Expense.find(params[:id])
     flash[:general_flash_notification] = 'Expense has been deleted from database'
     flash[:general_flash_notification_type] = 'affirmative'
+
+    # deletes all related actors with the expense before deleting the actual expense object
+    mapped_expense_actors = ExpensesActor.where("expenses_actors.expense_id = ?", "#{params[:id]}")
+    mapped_expense_actors.each do |a|
+      a.destroy
+    end
+
     expense_to_be_deleted.destroy
     redirect_to :action => 'index'
   end
