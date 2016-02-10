@@ -89,8 +89,8 @@
         Base Rates Applied to Payment Scheme:
         <table class="generic_table">
           <thead>
-          <th>Start</th>
-          <th>End</th>
+          <th>Original Start</th>
+          <th>Original End</th>
           <th>Rate Type</th>
           <th>Amount per Hour</th>
           <th>Remark</th>
@@ -129,8 +129,8 @@
         Base Rates Applied to Valid Period:
         <table class="generic_table">
           <thead>
-          <th>Start</th>
-          <th>End</th>
+          <th>Original Start</th>
+          <th>Original End</th>
           <th>Amount</th>
           <th>Period</th>
           <th>Remark</th>
@@ -175,7 +175,7 @@
 
     <div class="generic_content">
       <% if (@selected_lump_adjustments.present?) %>
-          Lump Adjustments Applied
+          Lump Adjustments Applied:
           <table class="generic_table">
             <thead>
                 <tr>
@@ -185,13 +185,37 @@
                 </tr>
             </thead>
             <tbody>
-            <% @selected_lump_adjustments.each do |selected_lump_adjustment| %>
+            <%
+               total_lump_adjustments = 0
+               @selected_lump_adjustments.each do |selected_lump_adjustment|
+            %>
                 <tr>
                   <td><%= selected_lump_adjustment[:date_of_effectivity] %></td>
-                  <td><%= selected_lump_adjustment[:amount] %></td>
+                  <td>
+                    <%= selected_lump_adjustment[:signed_type] ? "( + )" : "( - )" %>
+                    <%= selected_lump_adjustment[:amount] %>
+                  </td>
                   <td><%= selected_lump_adjustment[:remark] %></td>
+                  <td class="actions">
+                    <%= link_to( "&#128083;".html_safe,
+                                 '/human_resources/compensation_and_benefits/lump_adjustments/' + selected_lump_adjustment[:id] + '/edit',
+                                 class: 'action_button',
+                                 target: '_blank',
+                                 tooltip: 'Examine') %>
+                  </td>
                 </tr>
+                <% current_lump_adjustments = signed_amount(selected_lump_adjustment[:signed_type], selected_lump_adjustment[:amount]) %>
+                <% total_lump_adjustments = total_lump_adjustments + current_lump_adjustments %>
             <% end %>
+            <tr>
+              <td colspan="2">
+                TOTAL:
+              </td>
+              <td class="subtotal">
+                <%= total_lump_adjustments %>
+              </td>
+              <td>&nbsp;</td>
+            </tr>
             </tbody>
           </table>
 
@@ -202,10 +226,58 @@
                        target: '_blank',
               )
           %>
-          
+
       <% end %>
     </div>
 
+    <div class="generic_content">
+    <% if (@selected_lump_adjustments.present?) %>
+        Vales Applied:
+        <table class="generic_table">
+          <thead>
+          <tr>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Remark</th>
+          </tr>
+          </thead>
+          <tbody>
+          <%
+             total_lump_adjustments = 0
+             @selected_lump_adjustments.each do |selected_lump_adjustment|
+          %>
+              <tr>
+                <td><%= selected_lump_adjustment[:date_of_effectivity] %></td>
+                <td>
+                  <%= selected_lump_adjustment[:signed_type] ? "( + )" : "( - )" %>
+                  <%= selected_lump_adjustment[:amount] %>
+                </td>
+                <td><%= selected_lump_adjustment[:remark] %></td>
+              </tr>
+              <% current_lump_adjustments = signed_amount(selected_lump_adjustment[:signed_type], selected_lump_adjustment[:amount]) %>
+              <% total_lump_adjustments = total_lump_adjustments + current_lump_adjustments %>
+          <% end %>
+          <tr>
+            <td colspan="2">
+              TOTAL:
+            </td>
+            <td class="subtotal">
+              <%= total_lump_adjustments %>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+        <%=
+            link_to( "Add Vales Adjustment".html_safe,
+                     '/human_resources/compensation_and_benefits/vales/new?employee_id='+@selected_employee[:id],
+                     class: 'tiny button payroll_add_button',
+                     target: '_blank',
+            )
+        %>
+
+    <% end %>
+    </div>
 
 
 
@@ -281,7 +353,7 @@
                total_reg = total_reg + reg
                total_ot = total_ot + ot
                total_nsd = total_nsd + nsd
-               total_ot_nsd = total_ot_nsd +
+               total_ot_nsd = total_ot_nsd + ot_nsd
 
                total_for_attendance = (regular_work_hours*reg)+(overtime_hours*ot)+(night_shift_differential_hours*nsd)+(ot_nsd_hours*ot_nsd)
                total_for_selection = total_for_attendance + total_for_selection

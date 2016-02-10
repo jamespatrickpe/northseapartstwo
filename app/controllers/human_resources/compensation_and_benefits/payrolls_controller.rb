@@ -93,10 +93,18 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
 
     #Lump Adjustments
     @selected_lump_adjustments = LumpAdjustment.where("employee_id = ? AND date_of_effectivity BETWEEN ? AND ?","#{current_employee_id}","#{@start_date}","#{@end_date}")
-    @selected_lump_adjustments.each do |lump_adjustment|
+    @selected_lump_adjustments = @selected_lump_adjustments.select{ |lump_adjustment|
+      conditional = false
+      current_date = Date.parse(lump_adjustment[:date_of_effectivity].strftime("%Y-%m-%d"))
       @valid_periods.each do |valid_period|
+        valid_start_period = Date.parse(valid_period[:start_period])
+        valid_end_period = Date.parse(valid_period[:end_period])
+        conditional = current_date.between?(valid_start_period,valid_end_period)
       end
-    end
+      conditional
+    }
+
+    #Vales
 
     render 'human_resources/compensation_and_benefits/payrolls/employee'
   end
