@@ -17,8 +17,6 @@ class HumanResourcesController < ApplicationController
   # ================== Search Suggestion Queries ================== #
 
 
-  # ================== END ================== #
-
   def assign_duty
     # page data
     @biodatum = Biodatum.find_by_actor_id(params[:actor_id])

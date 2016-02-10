@@ -122,9 +122,7 @@
           </tbody>
         </table>
     <% end %>
-    </div>
 
-    <div class="generic_content">
     <% if (@base_rates_applied_to_valid_period.present?) %>
         Base Rates Applied to Valid Period:
         <table class="generic_table">
@@ -159,19 +157,20 @@
           <% end %>
           </tbody>
         </table>
-
-        <%=
-          link_to( "Add New Base Rate".html_safe,
-                   '/human_resources/compensation_and_benefits/base_rates/new?employee_id='+@selected_employee[:id],
-                   class: 'tiny button payroll_add_button',
-                   target: '_blank',
-          )
-        %>
-
     <% else %>
         &nbsp;
     <% end %>
+
+    <div class="generic_content" style="float:right;">
+      <%= link_to( "Add New Base Rate".html_safe,
+                   '/human_resources/compensation_and_benefits/base_rates/new?employee_id='+@selected_employee[:id],
+                   class: 'tiny button payroll_add_button',
+                   target: '_blank'   )%>
     </div>
+
+    </div>
+
+
 
     <div class="generic_content">
       <% if (@selected_lump_adjustments.present?) %>
@@ -259,7 +258,7 @@
           <% end %>
           <tr>
             <td colspan="2">
-              TOTAL:
+              REMAINING BALANCE:
             </td>
             <td class="subtotal">
               <%= total_lump_adjustments %>
@@ -269,12 +268,22 @@
         </table>
 
         <%=
-            link_to( "Add Vales Adjustment".html_safe,
-                     '/human_resources/compensation_and_benefits/vales/new?employee_id='+@selected_employee[:id],
-                     class: 'tiny button payroll_add_button',
-                     target: '_blank',
-            )
+        link_to( "Add Vales".html_safe,
+            '/human_resources/compensation_and_benefits/vales/new?employee_id='+@selected_employee[:id],
+            class: 'tiny button payroll_add_button',
+            target: '_blank',
+        )
         %>
+
+        <%=
+        link_to( "Add Vale Adjustments".html_safe,
+               '/human_resources/compensation_and_benefits/vale_adjustments/new?employee_id='+@selected_employee[:id],
+               class: 'tiny button payroll_add_button',
+               target: '_blank',
+        )
+        %>
+
+
 
     <% end %>
     </div>
