@@ -1,7 +1,7 @@
 <div class="form-block">
   <div class="label">Model</div>
   <br />
-  <select name='digital[rel_model_type]'
+  <select id="model-dropdown" name='digital[rel_model_type]'
           style="width: 50%"
           required="required" >
     <% if @selected_digital[:rel_model_type] == 'Actor' %>
@@ -18,13 +18,13 @@
   </select>
 </div>
 
-<div class="form-block">
+<div id="actor-selector" class="form-block">
   <div class="label">Actor</div>
+  <br />
   <select name='digital[rel_model_id]'
-          id='new_digital_rel_model_id'
-          class='employee_select_field'
-          style="width: 50%"
-          required="required" >
+          id='new_digital_rel_model_id1'
+          class='employee_select_field selectized'
+          style="width: 50%">
 
     <option value="" disabled selected>Select Actor</option>
     <% @actors.each do |actor| %>
@@ -32,6 +32,25 @@
             <option value=<%= actor.id %> selected><%= actor.name %></option>
         <% else %>
             <option value=<%= actor.id %>><%= actor.name %></option>
+        <% end %>
+    <% end %>
+  </select>
+</div>
+
+<div id="branch-selector" class="form-block">
+  <div class="label">Branch</div>
+  <br />
+  <select name='digital[rel_model_id]'
+          id='new_digital_rel_model_id2'
+          class='employee_select_field selectized'
+          style="width: 50%">
+
+    <option value="" disabled selected>Select Branch</option>
+    <% @branches.each do |branch| %>
+        <% if branch.id == @selected_digital[:rel_model_id] %>
+            <option value=<%= branch.id %> selected><%= branch.name %></option>
+        <% else %>
+            <option value=<%= branch.id %>><%= branch.name %></option>
         <% end %>
     <% end %>
   </select>
@@ -72,5 +91,26 @@
             sortField: 'text'
         })
         ;
+
+        $('#new_digital_rel_model_id1').selectize({sortField: 'text'});
+        $('#new_digital_rel_model_id2').selectize({sortField: 'text'});
+        $("#branch-selector select[name*='digital[rel_model_id]']").prop('disabled', true);
+        $("#actor-selector").hide();
+        $("#branch-selector").hide();
+
+    });
+
+    $("#model-dropdown").change(function(){
+        if($("#model-dropdown").val() == "Actor"){
+            $("#actor-selector").show();
+            $("#branch-selector select[name*='digital[rel_model_id]']").prop('disabled', true);
+            $("#actor-selector select[name*='digital[rel_model_id]']").removeAttr('disabled');
+            $("#branch-selector").hide();
+        } else if($("#model-dropdown").val() == "Branch"){
+            $("#branch-selector").show();
+            $("#actor-selector select[name*='digital[rel_model_id]']").prop('disabled', true);
+            $("#branch-selector select[name*='digital[rel_model_id]']").removeAttr('disabled');
+            $("#actor-selector").hide();
+        }
     });
 </script>

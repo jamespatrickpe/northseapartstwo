@@ -30,6 +30,7 @@ class GeneralAdministrator::ContactDetails::AddressesController < GeneralAdminis
     initialize_form
     @selected_address = Address.new
     @actors = Actor.all().order('name ASC')
+    @branches = Branch.all().order('name ASC')
     generic_singlecolumn_form(@selected_address)
   end
 
@@ -37,6 +38,7 @@ class GeneralAdministrator::ContactDetails::AddressesController < GeneralAdminis
     initialize_form
     @selected_address = Address.find(params[:id])
     @actors = Actor.all().order('name ASC')
+    @branches = Branch.all().order('name ASC')
     generic_singlecolumn_form(@selected_address)
   end
 
@@ -58,6 +60,7 @@ class GeneralAdministrator::ContactDetails::AddressesController < GeneralAdminis
       myAddress.save!
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex
+      puts ex
       flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.' + ex.to_s
     end
     redirect_to :action => 'index'
