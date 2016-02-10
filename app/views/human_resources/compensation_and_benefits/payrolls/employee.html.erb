@@ -121,15 +121,94 @@
           <% end %>
           </tbody>
         </table>
-        <%=
-            link_to( "Add New Base Rate".html_safe,
-                     '/human_resources/compensation_and_benefits/base_rates/new?employee_id='+@selected_employee[:id],
-                     class: 'tiny button payroll_add_button',
-                     target: '_blank',
-            )
-        %>
     <% end %>
     </div>
+
+    <div class="generic_content">
+    <% if (@base_rates_applied_to_valid_period.present?) %>
+        Base Rates Applied to Valid Period:
+        <table class="generic_table">
+          <thead>
+          <th>Start</th>
+          <th>End</th>
+          <th>Amount</th>
+          <th>Period</th>
+          <th>Remark</th>
+          </thead>
+          <tbody>
+          <% @base_rates_applied_to_valid_period.each do |base_rate| %>
+              <tr>
+                <td><%= base_rate[:start_of_effectivity] %></td>
+                <td><%= base_rate[:end_of_effectivity] %></td>
+                <td>
+                  <%= base_rate[:signed_type] ? "( + )" : "( - )" %>
+                  <%= base_rate[:amount] %>
+                </td>
+                <td>
+                  <%= base_rate[:period_of_time] %>
+                </td>
+                <td><%= base_rate[:remark] %></td>
+                <td class="actions">
+                  <%= link_to( "&#128083;".html_safe,
+                               '/human_resources/compensation_and_benefits/base_rates/' + base_rate[:id] + '/edit',
+                               class: 'action_button',
+                               target: '_blank',
+                               tooltip: 'Examine') %>
+                </td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+
+        <%=
+          link_to( "Add New Base Rate".html_safe,
+                   '/human_resources/compensation_and_benefits/base_rates/new?employee_id='+@selected_employee[:id],
+                   class: 'tiny button payroll_add_button',
+                   target: '_blank',
+          )
+        %>
+
+    <% else %>
+        &nbsp;
+    <% end %>
+    </div>
+
+    <div class="generic_content">
+      <% if (@selected_lump_adjustments.present?) %>
+          Lump Adjustments Applied
+          <table class="generic_table">
+            <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Remark</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% @selected_lump_adjustments.each do |selected_lump_adjustment| %>
+                <tr>
+                  <td><%= selected_lump_adjustment[:date_of_effectivity] %></td>
+                  <td><%= selected_lump_adjustment[:amount] %></td>
+                  <td><%= selected_lump_adjustment[:remark] %></td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+
+          <%=
+              link_to( "Add New Lump Adjustment".html_safe,
+                       '/human_resources/compensation_and_benefits/lump_adjustments/new?employee_id='+@selected_employee[:id],
+                       class: 'tiny button payroll_add_button',
+                       target: '_blank',
+              )
+          %>
+          
+      <% end %>
+    </div>
+
+
+
+
     <hr>
     <div class="generic_content">
       <% if (@selected_attendances.present?) %>
@@ -272,54 +351,6 @@
           )
       %>
     </div>
-
-      <div class="generic_content">
-        <% if (@base_rates_applied_to_valid_period.present?) %>
-            Base Rates Applied to Valid Period:
-            <table class="generic_table">
-              <thead>
-              <th>Start</th>
-              <th>End</th>
-              <th>Amount</th>
-              <th>Period</th>
-              <th>Remark</th>
-              </thead>
-              <tbody>
-              <% @base_rates_applied_to_valid_period.each do |base_rate| %>
-                  <tr>
-                    <td><%= base_rate[:start_of_effectivity] %></td>
-                    <td><%= base_rate[:end_of_effectivity] %></td>
-                    <td>
-                      <%= base_rate[:signed_type] ? "( + )" : "( - )" %>
-                      <%= base_rate[:amount] %>
-                    </td>
-                    <td>
-                      <%= base_rate[:period_of_time] %>
-                    </td>
-                    <td><%= base_rate[:remark] %></td>
-                    <td class="actions">
-                      <%= link_to( "&#128083;".html_safe,
-                                   '/human_resources/compensation_and_benefits/base_rates/' + base_rate[:id] + '/edit',
-                                   class: 'action_button',
-                                   target: '_blank',
-                                   tooltip: 'Examine') %>
-                    </td>
-                  </tr>
-              <% end %>
-              </tbody>
-            </table>
-
-            <table>
-              <thead>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-        <% else %>
-            &nbsp;
-        <% end %>
-      </div>
-
   <% end %>
 
 </section>
