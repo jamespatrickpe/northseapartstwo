@@ -29,6 +29,7 @@ class GeneralAdministrator::ContactDetails::DigitalsController < GeneralAdminist
     initialize_form
     @selected_digital = Digital.new
     @actors = Actor.all().order('name ASC')
+    @branches = Branch.all().order('name ASC')
     generic_singlecolumn_form(@selected_digital)
   end
 
@@ -36,6 +37,7 @@ class GeneralAdministrator::ContactDetails::DigitalsController < GeneralAdminist
     initialize_form
     @selected_digital = Digital.find(params[:id])
     @actors = Actor.all().order('name ASC')
+    @branches = Branch.all().order('name ASC')
     generic_singlecolumn_form(@selected_digital)
   end
 

@@ -29,6 +29,7 @@ class GeneralAdministrator::ContactDetails::TelephonesController < GeneralAdmini
     initialize_form
     @selected_telephone = Telephone.new
     @actors = Actor.all().order('name ASC')
+    @branches = Branch.all().order('name ASC')
     generic_singlecolumn_form(@selected_telephone)
   end
 
@@ -36,6 +37,7 @@ class GeneralAdministrator::ContactDetails::TelephonesController < GeneralAdmini
     initialize_form
     @selected_telephone = Telephone.find(params[:id])
     @actors = Actor.all().order('name ASC')
+    @branches = Branch.all().order('name ASC')
     generic_singlecolumn_form(@selected_telephone)
   end
 
@@ -55,7 +57,7 @@ class GeneralAdministrator::ContactDetails::TelephonesController < GeneralAdmini
       myTelephone[:description] = params[:telephone][:description]
       myTelephone.save!
       flash[:general_flash_notification_type] = 'affirmative'
-    rescue => exactly().times
+    rescue => ex
       puts ex
       flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.' + ex.to_s
     end
