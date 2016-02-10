@@ -4,25 +4,25 @@ class HumanResources::Settings::HolidayTypesController < HumanResources::Setting
     query = generic_table_aggregated_queries('holiday_types','holiday_types.created_at')
     begin
       @holiday_types = HolidayType
-      .where("holiday_types.id LIKE ? OR " +
-                 "holiday_types.type_name LIKE ? OR " +
-                 "holiday_types.rate_multiplier LIKE ? OR " +
-                 "holiday_types.overtime_multiplier LIKE ? OR " +
-                 "holiday_types.rest_day_multiplier LIKE ? OR " +
-                 "holiday_types.overtime_rest_day_multiplier LIKE ? OR " +
-                 "holiday_types.no_work_pay LIKE ? OR " +
-                 "holiday_types.created_at LIKE ? OR " +
-                 "holiday_types.updated_at LIKE ? ",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%")
-      .order(query[:order_parameter] + ' ' + query[:order_orientation])
+                           .where("holiday_types.id LIKE ? OR " +
+                                      "holiday_types.type_name LIKE ? OR " +
+                                      "holiday_types.rate_multiplier LIKE ? OR " +
+                                      "holiday_types.overtime_multiplier LIKE ? OR " +
+                                      "holiday_types.rest_day_multiplier LIKE ? OR " +
+                                      "holiday_types.overtime_rest_day_multiplier LIKE ? OR " +
+                                      "holiday_types.no_work_pay LIKE ? OR " +
+                                      "holiday_types.created_at LIKE ? OR " +
+                                      "holiday_types.updated_at LIKE ? ",
+                                  "%#{query[:search_field]}%",
+                                  "%#{query[:search_field]}%",
+                                  "%#{query[:search_field]}%",
+                                  "%#{query[:search_field]}%",
+                                  "%#{query[:search_field]}%",
+                                  "%#{query[:search_field]}%",
+                                  "%#{query[:search_field]}%",
+                                  "%#{query[:search_field]}%",
+                                  "%#{query[:search_field]}%")
+                           .order(query[:order_parameter] + ' ' + query[:order_orientation])
       @holiday_types = Kaminari.paginate_array(@holiday_types).page(params[:page]).per(query[:current_limit])
     rescue => ex
       flash[:general_flash_notification] = "Error has Occured" + ex.to_s
@@ -30,14 +30,24 @@ class HumanResources::Settings::HolidayTypesController < HumanResources::Setting
     render 'human_resources/settings/holiday_types/index'
   end
 
+  def initialize_form
+    initialize_form_variables('HOLIDAY TYPE',
+                              'Set a Type of Holiday',
+                              'human_resources/settings/holiday_types/holiday_type_form',
+                              'holiday_type')
+    initialize_employee_selection
+  end
+
   def new
+    initialize_form
     @selected_holiday_type = HolidayType.new
-    render 'human_resources/settings/holiday_types/holiday_type_form'
+    generic_singlecolumn_form(@selected_holiday_type)
   end
 
   def edit
+    initialize_form
     @selected_holiday_type = HolidayType.find(params[:id])
-    render 'human_resources/settings/holiday_types/holiday_type_form'
+    generic_singlecolumn_form(@selected_holiday_type)
   end
 
   def delete
@@ -78,14 +88,13 @@ class HumanResources::Settings::HolidayTypesController < HumanResources::Setting
 
   def search_suggestions
     holiday_types = HolidayType
-    .includes(:holiday_type)
-    .joins(:holiday_type)
-    .where("holiday_types.type_name LIKE ?","%#{params[:query]}%")
-    .pluck("holiday_types.type_name")
+                        .where("holiday_types.type_name LIKE ?","%#{params[:query]}%")
+                        .pluck("holiday_types.type_name")
     direct = "{\"query\": \"Unit\",\"suggestions\":[" + holiday_types.to_s.gsub!('[', '').gsub!(']', '') + "]}"
     respond_to do |format|
       format.all { render :text => direct}
     end
   end
+
 
 end

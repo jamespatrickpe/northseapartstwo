@@ -1,0 +1,51 @@
+
+
+<div class="form-block">
+  <div class="label">Constant Type  : </div>
+  <input type="text"
+         required="required"
+         placeholder="Enter constant type"
+         data-parsley-trigger = keyup
+         data-parsley-maxlength = 64
+         id="constant_type"
+         value= "<%= @selected_constant[:constant_type] %>"
+         name="constant[constant_type]">
+</div>
+
+<div class="form-block">
+  <div class="label">Name : </div>
+  <input type="text"
+         required="required"
+         placeholder="Enter constant name"
+         data-parsley-trigger = keyup
+         data-parsley-maxlength = 64
+         id="constant_name"
+         value= "<%= @selected_constant[:name] %>"
+         name="constant[name]">
+</div>
+
+<div class="form-block">
+  <div class="label">Value  : </div>
+  <input type="text"
+         required="required"
+         placeholder="Enter constant value"
+         data-parsley-trigger = keyup
+         data-parsley-maxlength = 64
+         id="constant_name"
+         value= "<%= @selected_constant[:value] %>"
+         name="constant[value]">
+</div>
+
+<div class="form-block">
+  <div class="label">Date of Effectivity  : </div>
+  <input type="date"
+         id="constant_date_of_effectivity"
+         step = 1
+         name="constant[date_of_effectivity]"
+         required = required
+         data-parsley-trigger="change"
+         value= <%= @selected_constant[:date_of_effectivity]%> >
+</div>
+
+<%= generic_remarks_description_field('constant',@selected_constant[:remark]) %>
+

@@ -18,16 +18,26 @@ class GeneralAdministrator::ContactDetails::AddressesController < GeneralAdminis
     render 'general_administrator/contact_details/addresses/index'
   end
 
+  def initialize_form
+    initialize_form_variables('ADDRESS',
+                              'Create a new address entry into the system',
+                              'general_administrator/contact_details/addresses/address_form',
+                              'address')
+    initialize_employee_selection
+  end
+
   def new
+    initialize_form
     @selected_address = Address.new
     @actors = Actor.all().order('name ASC')
-    render 'general_administrator/contact_details/addresses/address_form'
+    generic_singlecolumn_form(@selected_address)
   end
 
   def edit
+    initialize_form
     @selected_address = Address.find(params[:id])
     @actors = Actor.all().order('name ASC')
-    render 'general_administrator/contact_details/addresses/address_form'
+    generic_singlecolumn_form(@selected_address)
   end
 
   def delete

@@ -28,6 +28,14 @@ class HumanResources::AttendancePerformance::RegularWorkPeriodsController < Huma
     render 'human_resources/attendance_performance/regular_work_periods/index'
   end
 
+  def initialize_form
+    initialize_form_variables('REGULAR WORK PERIOD',
+                              'Create a new regular working period entry into the system',
+                              'human_resources/attendance_performance/regular_work_periods/regular_work_period_form',
+                              'regular_work_period')
+    initialize_employee_selection
+  end
+
   def search_suggestions
     regularWorkPeriods = RegularWorkPeriod.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + regularWorkPeriods.uniq.to_s + "}"
@@ -46,15 +54,16 @@ class HumanResources::AttendancePerformance::RegularWorkPeriodsController < Huma
   end
 
   def new
-    initialize_employee_selection
+    initialize_form
     @selected_regular_work_period = RegularWorkPeriod.new
-    render 'human_resources/attendance_performance/regular_work_periods/regular_work_period_form'
+    generic_bicolumn_form_with_employee_selection(@selected_regular_work_period)
   end
 
   def edit
-    initialize_employee_selection
+    initialize_form
     @selected_regular_work_period = RegularWorkPeriod.find(params[:id])
-    render 'human_resources/attendance_performance/regular_work_periods/regular_work_period_form'
+    generic_bicolumn_form_with_employee_selection(@selected_regular_work_period)
+
   end
 
   def process_regular_work_period_form(regularWorkPeriod)

@@ -1,0 +1,56 @@
+<div class="form-block">
+  <div class="label">Date of Implementation  : </div>
+  <input type="date"
+         required="required"
+         name="holiday[date_of_implementation]"
+         id="holiday_date_0"
+         <% if !@selected_holiday[:id].present? %>
+         data-parsley-trigger = keyup
+         data-parsley-remote
+         data-parsley-remote-validator='unique-holiday-date'
+         <% end %>
+         style="width: 50%"
+         <%= @selected_holiday[:date_of_implementation].present? ? "value=" + @selected_holiday[:date_of_implementation].strftime('%Y-%m-%d') : '' %>>
+
+</div>
+
+<div class="form-block">
+  <div class="label">Type of Holiday  : </div>
+  <br />
+  <select name='holiday[holiday_type_id]'
+          style="width: 50%;"
+          required="required" >
+    <option value="" disabled selected>Select Type of Holiday</option>
+    <% @holiday_types.each do |holiday_type| %>
+        <% if holiday_type.id == @selected_holiday[:holiday_type_id] %>
+            <option value=<%= holiday_type[:id] %> selected><%= holiday_type[:type_name] %></option>
+        <% else %>
+            <option value=<%= holiday_type[:id] %>><%= holiday_type[:type_name] %></option>
+        <% end %>
+    <% end %>
+  </select>
+</div>
+
+<div class="form-block">
+  <div class="label">Name of Holiday : </div>
+  <input type="text"
+         required="required"
+         placeholder="Name of Holiday"
+         data-parsley-trigger = keyup
+         data-parsley-maxlength = 64
+         id="holiday_name"
+         value= "<%= @selected_holiday[:name] %>"
+         name="holiday[name]">
+</div>
+
+<div class="form-block">
+  <div class="label">Description  : </div>
+  <%=
+      text_area_tag("holiday[description]",
+                    content = @selected_holiday[:description],
+                    options = {class: "remark_description",
+                               :"data-parsley-trigger" => "keyup",
+                               :"data-parsley-maxlength"=>"128",
+                               :placeholder => 'Description' })
+  %>
+</div>

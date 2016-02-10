@@ -9,19 +9,19 @@ class AccessController < ApplicationController
                  :'index.html.erb',
                  :my_account
              ]
-  skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
-  before_action :sign_in_check,
-                except: [:signin,
-                         :processSignin,
-                         :registration,
-                         :register,
-                         :success_registration,
-                         :account_recovery,
-                         :resend_verification,
-                         :resetPassword,
-                         :sendRecoveryEmail,
-                         :verify,
-                         :email_recovery_verification]
+  # skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
+  # before_action :sign_in_check,
+  #               except: [:signin,
+  #                        :processSignin,
+  #                        :registration,
+  #                        :register,
+  #                        :success_registration,
+  #                        :account_recovery,
+  #                        :resend_verification,
+  #                        :resetPassword,
+  #                        :sendRecoveryEmail,
+  #                        :verify,
+  #                        :email_recovery_verification]
 
 
   layout "application_loggedin"

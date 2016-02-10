@@ -1,0 +1,84 @@
+
+
+<div class="form-block">
+  <div class="label">Parent Vale ID  : </div>
+  <br />
+  <select name='vale_adjustment[vale_id]'
+          id='new_vale_adjustment_employee'
+          class='employee_select_field'
+          required="required" >
+    <option value='' <%= @parent_vale_id.present? ? '':'selected' %> >Select Parent Vale ID</option>
+    <% @vales.each do |vale| %>
+        <% if vale.id == (@parent_vale_id ||= @selected_vale_adjustment.vale_id)  %>
+            <option value=<%= vale[:id] %> selected><%= vale[:id] %></option>
+        <% else %>
+            <option value=<%= vale[:id] %>><%= vale[:id] %></option>
+        <% end %>
+    <% end %>
+  </select>
+</div>
+
+<div class="form-block">
+  <div class="label">Signed Type  : </div>
+  <br />
+  <select name='vale_adjustment[signed_type]'
+          style="width: 50%"
+          required="required" >
+    <% if @selected_vale_adjustment[:signed_type] == true %>
+        <option disabled >Select Signed Type</option>
+        <option value=1 selected>Addition</option>
+        <option value=0>Deduction</option>
+    <% elsif @selected_vale_adjustment[:signed_type] == false%>
+        <option disabled>Select Signed Type</option>
+        <option value=1>Addition</option>
+        <option value=0 selected>Deduction</option>
+    <% else %>
+        <option disabled selected>Select Signed Type</option>
+        <option value=1>Addition</option>
+        <option value=0 >Deduction</option>
+    <% end %>
+  </select>
+</div>
+
+<div class="form-block">
+  <div class="label">Amount  : </div>
+  <br />
+  <%= text_field_tag("vale_adjustment[amount]",
+                     content = @selected_vale_adjustment[:amount],
+                     options = {placeholder: "Enter amount",
+                                required: "required",
+                                id: "vale_amount_of_deduction",
+                                :"data-parsley-trigger" => "keyup",
+                                :"data-parsley-step" => "0.01",
+                                :"data-parsley-type" => "number"}) %>
+</div>
+
+<div class="form-block">
+  <div class="label">Date of Effectivity :</div>
+  <br />
+  <input type="datetime-local"
+         required="required"
+         name="vale_adjustment[date_of_effectivity]"
+         style="width: 50%"
+         step="1"
+         value= <%= @selected_vale_adjustment[:date_of_effectivity].present? ? @selected_vale_adjustment[:date_of_effectivity].strftime('%FT%T') : Time.now.strftime('%FT%T')  %>>
+</div>
+
+<%= generic_remarks_description_field('vale_adjustment',@selected_vale_adjustment[:remark]) %>
+
+
+<%=
+    if @parent_vale_id.present?
+      link_to( 'Parent Vale'.html_safe,
+               '/human_resources/compensation_and_benefits/vales/' + @parent_vale_id + '/edit',
+               class: 'tiny button')
+    end
+%>
+
+<%=
+    if @parent_vale_id.present?
+      link_to( 'Vale Summary'.html_safe,
+               '/human_resources/compensation_and_benefits/vales/' + @parent_vale_id,
+               class: 'tiny button')
+    end
+%>

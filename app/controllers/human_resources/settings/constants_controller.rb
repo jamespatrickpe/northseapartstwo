@@ -27,14 +27,24 @@ class HumanResources::Settings::ConstantsController < HumanResources::SettingsCo
     render 'shared/constants/index'
   end
 
+  def initialize_form
+    initialize_form_variables('SYSTEM CONSTANT',
+                              'Create a parameter used within the system',
+                              'shared/constants/constant_form',
+                              'constant')
+    initialize_employee_selection
+  end
+
   def new
+    initialize_form
     @selected_constant = Constant.new
-    render 'shared/constants/constant_form'
+    generic_singlecolumn_form(@selected_constant)
   end
 
   def edit
+    initialize_form
     @selected_constant = Constant.find(params[:id])
-    render 'shared/constants/constant_form'
+    generic_singlecolumn_form(@selected_constant)
   end
 
 

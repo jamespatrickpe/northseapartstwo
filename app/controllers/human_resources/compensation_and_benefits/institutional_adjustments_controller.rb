@@ -4,31 +4,31 @@ class HumanResources::CompensationAndBenefits::InstitutionalAdjustmentsControlle
     query = generic_table_aggregated_queries('institutional_adjustments','institutional_adjustments.created_at')
     begin
       @institutional_adjustments = InstitutionalAdjustment
-        .where("institutional_adjustments.id LIKE ? OR " +
-                 "institutional_adjustments.institution LIKE ? OR " +
-                 "institutional_adjustments.contribution_type LIKE ? OR " +
-                 "institutional_adjustments.start_range LIKE ? OR " +
-                 "institutional_adjustments.end_range LIKE ? OR " +
-                 "institutional_adjustments.employer_contribution LIKE ? OR " +
-                 "institutional_adjustments.employee_contribution LIKE ? OR " +
-                 "institutional_adjustments.period_of_time LIKE ? OR " +
-                 "institutional_adjustments.description LIKE ? OR " +
-                 "institutional_adjustments.date_of_effectivity LIKE ? OR " +
-                 "institutional_adjustments.created_at LIKE ? OR " +
-                 "institutional_adjustments.updated_at LIKE ?",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%",
-             "%#{query[:search_field]}%")
-      .order(query[:order_parameter] + ' ' + query[:order_orientation])
+                                       .where("institutional_adjustments.id LIKE ? OR " +
+                                                  "institutional_adjustments.institution LIKE ? OR " +
+                                                  "institutional_adjustments.contribution_type LIKE ? OR " +
+                                                  "institutional_adjustments.start_range LIKE ? OR " +
+                                                  "institutional_adjustments.end_range LIKE ? OR " +
+                                                  "institutional_adjustments.employer_contribution LIKE ? OR " +
+                                                  "institutional_adjustments.employee_contribution LIKE ? OR " +
+                                                  "institutional_adjustments.period_of_time LIKE ? OR " +
+                                                  "institutional_adjustments.description LIKE ? OR " +
+                                                  "institutional_adjustments.date_of_effectivity LIKE ? OR " +
+                                                  "institutional_adjustments.created_at LIKE ? OR " +
+                                                  "institutional_adjustments.updated_at LIKE ?",
+                                              "%#{query[:search_field]}%",
+                                              "%#{query[:search_field]}%",
+                                              "%#{query[:search_field]}%",
+                                              "%#{query[:search_field]}%",
+                                              "%#{query[:search_field]}%",
+                                              "%#{query[:search_field]}%",
+                                              "%#{query[:search_field]}%",
+                                              "%#{query[:search_field]}%",
+                                              "%#{query[:search_field]}%",
+                                              "%#{query[:search_field]}%",
+                                              "%#{query[:search_field]}%",
+                                              "%#{query[:search_field]}%")
+                                       .order(query[:order_parameter] + ' ' + query[:order_orientation])
       @institutional_adjustments = Kaminari.paginate_array(@institutional_adjustments).page(params[:page]).per(query[:current_limit])
     rescue => ex
       flash[:general_flash_notification] = "Error has Occured" + ex.to_s
@@ -44,14 +44,25 @@ class HumanResources::CompensationAndBenefits::InstitutionalAdjustmentsControlle
     end
   end
 
+
+  def initialize_form
+    initialize_form_variables('INSTITUTIONAL ADJUSTMENTS',
+                              'Logs all institutional adjustments within the system',
+                              'human_resources/compensation_and_benefits/institutional_adjustments/institutional_adjustment_form',
+                              'institutional_adjustment')
+    initialize_employee_selection
+  end
+
   def new
+    initialize_form
     @selected_institutional_adjustment = InstitutionalAdjustment.new
-    render 'human_resources/compensation_and_benefits/institutional_adjustments/institutional_adjustment_form'
+    generic_singlecolumn_form(@selected_institutional_adjustment)
   end
 
   def edit
+    initialize_form
     @selected_institutional_adjustment = InstitutionalAdjustment.find(params[:id])
-    render 'human_resources/compensation_and_benefits/institutional_adjustments/institutional_adjustment_form'
+    generic_singlecolumn_form(@selected_institutional_adjustment)
   end
 
   def process_institutional_adjustment_form(institutional_adjustment)

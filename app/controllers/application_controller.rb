@@ -18,6 +18,10 @@ class ApplicationController < ActionController::Base
     render :template => 'shared/generic_bicolumn_form_with_employee_selection', :locals => {:model => model}
   end
 
+  def generic_singlecolumn_form(model)
+    render :template => 'shared/generic_singlecolumn_form', :locals => {:model => model}
+  end
+
   def generic_delete_model(model, my_controller_name)
     model_to_be_deleted = model.find(params[:id])
     flash[:general_flash_notification] = model_to_be_deleted.id + " has been successfully deleted "

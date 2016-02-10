@@ -16,16 +16,27 @@ class GeneralAdministrator::ContactDetails::TelephonesController < GeneralAdmini
     render 'general_administrator/contact_details/telephones/index'
   end
 
+
+  def initialize_form
+    initialize_form_variables('TELEPHONE',
+                              'Add a Telephone information entry to the system',
+                              'general_administrator/contact_details/telephones/telephone_form',
+                              'telephone')
+    initialize_employee_selection
+  end
+
   def new
+    initialize_form
     @selected_telephone = Telephone.new
     @actors = Actor.all().order('name ASC')
-    render 'general_administrator/contact_details/telephones/telephone_form'
+    generic_singlecolumn_form(@selected_telephone)
   end
 
   def edit
+    initialize_form
     @selected_telephone = Telephone.find(params[:id])
     @actors = Actor.all().order('name ASC')
-    render 'general_administrator/contact_details/telephones/telephone_form'
+    generic_singlecolumn_form(@selected_telephone)
   end
 
   def delete
@@ -44,7 +55,7 @@ class GeneralAdministrator::ContactDetails::TelephonesController < GeneralAdmini
       myTelephone[:description] = params[:telephone][:description]
       myTelephone.save!
       flash[:general_flash_notification_type] = 'affirmative'
-    rescue => ex
+    rescue => exactly().times
       puts ex
       flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.' + ex.to_s
     end
