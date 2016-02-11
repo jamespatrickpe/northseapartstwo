@@ -103,7 +103,7 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
             @valid_periods)
 
     #Vales
-    @selected_vales = Vale.where("employee_id = ?", "#{current_employee_id}")
+    @selected_vales = Vale.where("employee_id = ? AND approval_status = 1", "#{current_employee_id}")
     @selected_vales = @selected_vales.select{ |my_vale|
       conditional = false
       balance = remaining_vale_balance(my_vale[:id])
