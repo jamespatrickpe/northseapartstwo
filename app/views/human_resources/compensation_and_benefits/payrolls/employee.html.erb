@@ -57,7 +57,7 @@
 
       <div class="generic_content">
         <% if (@valid_periods.present?) %>
-            Valid Periods of Duty:
+            VALID PERIODS OF DUTY
             <table class="generic_table">
               <thead>
               <th>Date Start</th>
@@ -86,7 +86,7 @@
 
     <div class="generic_content">
     <% if (@base_rates_applied_to_payment_scheme.present?) %>
-        Base Rates Applied to Payment Scheme:
+        BASE RATES APPLIED TO PAYMENT SCHEME:
         <table class="generic_table">
           <thead>
           <th>Original Start</th>
@@ -124,7 +124,7 @@
     <% end %>
 
     <% if (@base_rates_applied_to_valid_period.present?) %>
-        Base Rates Applied to Valid Period:
+        BASE RATES APPLIED TO VALID PERIOD:
         <table class="generic_table">
           <thead>
           <th>Original Start</th>
@@ -174,7 +174,7 @@
 
     <div class="generic_content">
       <% if (@selected_lump_adjustments.present?) %>
-          Lump Adjustments Applied:
+          LUMP ADJUSTMENTS APPLIED:
           <table class="generic_table">
             <thead>
                 <tr>
@@ -231,12 +231,12 @@
 
     <div class="generic_content">
     <% if (@selected_lump_adjustments.present?) %>
-        Vales Applied:
+        VALES APPLIED:
         <table class="generic_table">
           <thead>
           <tr>
             <th>Date</th>
-            <th>Amount</th>
+            <th>Balance</th>
             <th>Remark</th>
           </tr>
           </thead>
@@ -288,12 +288,16 @@
     <% end %>
     </div>
 
+    <div class="generic_content">
+
+    </div>
+
 
 
     <hr>
     <div class="generic_content">
       <% if (@selected_attendances.present?) %>
-          Attendance - Payment Scheme
+          ATTENDANCE - PAYMENT SCHEME
           <table class="generic_table">
             <thead>
             <tr>
