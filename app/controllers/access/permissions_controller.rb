@@ -50,11 +50,7 @@ class Access::PermissionsController < AccessController
   end
 
   def delete
-    permission_to_be_deleted = Permission.find(params[:id])
-    flash[:general_flash_notification] = 'Permission ' + permission_to_be_deleted.access_id + ' has been deleted from database'
-    flash[:general_flash_notification_type] = 'affirmative'
-    permission_to_be_deleted.destroy
-    redirect_to :action => 'index'
+    generic_delete_model(Permission,controller_name)
   end
 
   def process_permission_form(myPermission)

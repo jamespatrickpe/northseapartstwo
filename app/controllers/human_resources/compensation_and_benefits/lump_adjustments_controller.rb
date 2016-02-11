@@ -47,12 +47,7 @@ class HumanResources::CompensationAndBenefits::LumpAdjustmentsController < Human
   end
 
   def delete
-    lumpAdjustmentToBeDeleted = LumpAdjustment.find(params[:id])
-    lumpAdjustmentOwner = Employee.find(lumpAdjustmentToBeDeleted.employee_id)
-    flash[:general_flash_notification] = 'Lump adjustment for employees ' + lumpAdjustmentOwner.actor.name + ' has been deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    lumpAdjustmentToBeDeleted.destroy
-    redirect_to :action => 'index'
+    generic_delete_model(LumpAdjustment, controller_name)
   end
 
   def new

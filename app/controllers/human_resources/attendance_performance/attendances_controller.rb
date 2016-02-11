@@ -38,12 +38,7 @@ class HumanResources::AttendancePerformance::AttendancesController < HumanResour
   end
 
   def delete
-    attendaceToBeDeleted = ::Attendance.find(params[:id])
-    attendanceOwner = Employee.find(attendaceToBeDeleted.employee_id)
-    flash[:general_flash_notification] = 'Attendance for ' + attendanceOwner.actor.name + ' has been deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    attendaceToBeDeleted.destroy
-    redirect_to :action => 'index'
+    generic_delete_model(Attendance,controller_name)
   end
 
   def new

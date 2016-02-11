@@ -50,11 +50,7 @@ class GeneralAdministrator::ActorController < GeneralAdministratorController
   end
 
   def delete
-    actor_to_be_deleted = Actor.find(params[:id])
-    flash[:general_flash_notification] = 'System actor ' + actor_to_be_deleted.name + ' has been deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    actor_to_be_deleted.destroy
-    redirect_to :action => "index"
+    generic_delete_model(Actor,controller_name)
   end
 
   def process_actor_form(myActor)

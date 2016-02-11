@@ -49,11 +49,7 @@ class GeneralAdministrator::BranchController < GeneralAdministratorController
   end
 
   def delete
-    branch_to_be_deleted = Branch.find(params[:id])
-    flash[:general_flash_notification] = 'Branch ' + branch_to_be_deleted.name + ' has been deleted from database'
-    flash[:general_flash_notification_type] = 'affirmative'
-    branch_to_be_deleted.destroy
-    redirect_to :action => 'index'
+    generic_delete_model(Branch,controller_name)
   end
 
   def process_branch_form(myBranch)

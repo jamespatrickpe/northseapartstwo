@@ -50,12 +50,7 @@ class HumanResources::CompensationAndBenefits::ValesController < HumanResources:
 
 
   def delete
-    vale_to_be_deleted = Vale.find(params[:id])
-    owner = Employee.find(vale_to_be_deleted.employee_id)
-    flash[:general_flash_notification] = 'Vale for employees ' + owner.actor.name + ' has been deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    vale_to_be_deleted.destroy
-    redirect_to :action => 'index'
+    generic_delete_model(Vale, controller_name)
   end
 
   def new

@@ -42,6 +42,7 @@ class HumanResources::EmployeeAccountsManagement::EmployeesController < HumanRes
     flash[:general_flash_notification_type] = 'affirmative'
     employee.destroy
     redirect_to :action => "employee_accounts_management"
+
   end
 
 end
