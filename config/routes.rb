@@ -4,6 +4,11 @@ Rails.application.routes.draw do
     get :search_suggestions
   end
 
+  get 'access/' => 'access#index'
+  namespace :access do
+
+  end
+
   get 'human_resources/' => 'human_resources#index'
   namespace :human_resources do
 

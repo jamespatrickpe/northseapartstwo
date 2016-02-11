@@ -57,7 +57,7 @@
 
       <div class="generic_content">
         <% if (@valid_periods.present?) %>
-            <span class="table-label">Valid Periods of Duty</span>
+            <span class="table-label">Valid Periods of Duty: </span>
             <table class="generic_table">
               <thead>
               <th>Date Start</th>
@@ -85,7 +85,7 @@
 
     <div class="generic_content">
     <% if (@base_rates_applied_to_payment_scheme.present?) %>
-        <span class="table-label">BASE RATES APPLIED TO PAYMENT SCHEME:</span>
+        <span class="table-label">Base Rates applied to Payment Scheme:</span>
         <table class="generic_table">
           <thead>
           <th>Original Start</th>
@@ -120,7 +120,7 @@
     <% end %>
 
     <% if (@base_rates_applied_to_valid_period.present?) %>
-        <span class="table-label">BASE RATES APPLIED TO VALID PERIOD:</span>
+        <span class="table-label">Base Rates applied to Valid Period:</span>
         <table class="generic_table">
           <thead>
           <th>Original Start</th>
@@ -167,7 +167,7 @@
 
     <div class="generic_content">
       <% if (@selected_lump_adjustments.present?) %>
-          <span class="table-label">LUMP ADJUSTMENTS APPLIED:</span>
+          <span class="table-label">Lump Adjustments Applied:</span>
           <table class="generic_table">
             <thead>
                 <tr>
@@ -214,7 +214,7 @@
 
     <div class="generic_content">
     <% if (@selected_lump_adjustments.present?) %>
-        <span class="table-label">VALES APPLIED:</span>
+        <span class="table-label">Vales Applied:</span>
         <table class="generic_table">
           <thead>
           <tr>
@@ -230,13 +230,13 @@
           %>
               <tr>
                 <td><%= selected_vale[:date_of_effectivity] %></td>
-                <td><%= remaining_vale_balance(selected_vale[:id]) %></td>
+                <td><%= remaining_vale_balance(selected_vale[:id], @end_date ) %></td>
                 <td><%= selected_vale[:remark] %></td>
                 <td class="actions">
                   <%= generic_payroll_examine_link('/human_resources/compensation_and_benefits/vales/',selected_vale[:id]) %>
                 </td>
               </tr>
-              <% current_vale = remaining_vale_balance( selected_vale[:id] ) %>
+              <% current_vale = remaining_vale_balance( selected_vale[:id], @end_date ) %>
               <% total_vale = total_vale + current_vale %>
           <% end %>
           <tr>
@@ -268,7 +268,7 @@
     <hr>
     <div class="generic_content">
       <% if (@selected_attendances.present?) %>
-          <span class="table-label">ATTENDANCE - PAYMENT SCHEME</span>
+          <span class="table-label">Attendance - Payment Scheme</span>
           <table class="generic_table">
             <thead>
             <tr>

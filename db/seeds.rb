@@ -291,7 +291,7 @@ numberOfActors.times do |i|
     randomNumberOfExpenses.times do |i|
       expense = Expense.new()
       expense.amount = randomMoney(100.10, 1000.00)
-      expense.category = Faker::Lorem.word
+      expense.category = ["utilities.gas"].sample
       expense.remark = Faker::Lorem.sentence
       expense.date_of_effectivity = rand(720..72000).hours.ago
       expense.physical_id = Faker::Lorem.word

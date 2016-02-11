@@ -1,5 +1,7 @@
 class Access::PermissionsController < AccessController
 
+  layout "application_loggedin"
+
   def index
     query = generic_table_aggregated_queries('permissions','permissions.created_at')
     begin
