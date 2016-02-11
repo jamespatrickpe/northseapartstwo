@@ -44,7 +44,17 @@
     </tr>
     </thead>
     <tbody>
-    <% ().overlaps() %>
+    <%
+       (@start_date..@end_date).each do |date|
+    %>
+    <tr>
+      <td><%= date %></td>
+      <% if @selected_attendances.select{ |selected_attendance|
+        selected_attendance[]
+      } %>
+      <td>HIT</td>
+      <% end %>
+    </tr>
     <% end %>
     </tbody>
   </table>
