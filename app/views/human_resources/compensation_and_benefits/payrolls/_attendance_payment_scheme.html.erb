@@ -45,16 +45,34 @@
     </thead>
     <tbody>
     <%
-       (@start_date..@end_date).each do |date|
+       start_date = Date.parse(@start_date)
+       end_date = Date.parse(@end_date)
+       (start_date..end_date).each do |date|
     %>
-    <tr>
-      <td><%= date %></td>
-      <% if @selected_attendances.select{ |selected_attendance|
-        selected_attendance[]
-      } %>
-      <td>HIT</td>
-      <% end %>
-    </tr>
+
+        <% attendance_exists_token = false %>
+        <% @selected_attendances.each do |selected_attendance| %>
+            <% if selected_attendance[:date_of_attendance] == date %>
+                <%
+                   attendance_exists_token = true
+                   attendance_time_in = selected_attendance[:timein].strftime("%T")
+                   attendance_time_out = selected_attendance[:timein].strftime("%T")
+                %>
+                <tr>
+                  <td> <%= date %> </td>
+                  <td> <%= attendance_time_in %> </td>
+                  <td> <%= attendance_time_out %> </td>
+                </tr>
+            <% end %>
+        <% end %>
+
+        <% if attendance_exists_token == false %>
+            <tr>
+              <td> <%= date %> </td>
+              <td colspan="2"> ABSENT </td>
+            </tr>
+        <% end %>
+
     <% end %>
     </tbody>
   </table>
