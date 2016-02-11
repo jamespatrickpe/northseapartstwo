@@ -57,7 +57,7 @@
 
       <div class="generic_content">
         <% if (@valid_periods.present?) %>
-            VALID PERIODS OF DUTY
+            <span class="table-label">Valid Periods of Duty</span>
             <table class="generic_table">
               <thead>
               <th>Date Start</th>
@@ -72,13 +72,12 @@
               <% end %>
               </tbody>
             </table>
+
             <%=
-                link_to( "Add New Duty Status".html_safe,
-                         '/human_resources/employee_accounts_management/duty_statuses/new?employee_id='+@selected_employee[:id],
-                         class: 'tiny button payroll_add_button',
-                         target: '_blank',
-                )
+                generic_payroll_add_link('/human_resources/employee_accounts_management/duty_statuses/new?employee_id=',
+                                         @selected_employee[:id])
             %>
+
         <% else %>
             &nbsp;
         <% end %>
@@ -86,7 +85,7 @@
 
     <div class="generic_content">
     <% if (@base_rates_applied_to_payment_scheme.present?) %>
-        BASE RATES APPLIED TO PAYMENT SCHEME:
+        <span class="table-label">BASE RATES APPLIED TO PAYMENT SCHEME:</span>
         <table class="generic_table">
           <thead>
           <th>Original Start</th>
@@ -111,11 +110,8 @@
                 </td>
                 <td><%= base_rate[:remark] %></td>
                 <td class="actions">
-                  <%= link_to( "&#128083;".html_safe,
-                               '/human_resources/compensation_and_benefits/base_rates/' + base_rate[:id] + '/edit',
-                               class: 'action_button',
-                               target: '_blank',
-                               tooltip: 'Examine') %>
+                  <%= generic_payroll_examine_link('/human_resources/compensation_and_benefits/base_rates/',
+                                                   base_rate[:id]) %>
                 </td>
               </tr>
           <% end %>
@@ -124,7 +120,7 @@
     <% end %>
 
     <% if (@base_rates_applied_to_valid_period.present?) %>
-        BASE RATES APPLIED TO VALID PERIOD:
+        <span class="table-label">BASE RATES APPLIED TO VALID PERIOD:</span>
         <table class="generic_table">
           <thead>
           <th>Original Start</th>
@@ -147,11 +143,8 @@
                 </td>
                 <td><%= base_rate[:remark] %></td>
                 <td class="actions">
-                  <%= link_to( "&#128083;".html_safe,
-                               '/human_resources/compensation_and_benefits/base_rates/' + base_rate[:id] + '/edit',
-                               class: 'action_button',
-                               target: '_blank',
-                               tooltip: 'Examine') %>
+                  <%= generic_payroll_examine_link('/human_resources/compensation_and_benefits/base_rates/',
+                                                   base_rate[:id]) %>
                 </td>
               </tr>
           <% end %>
@@ -162,10 +155,10 @@
     <% end %>
 
     <div class="generic_content" style="float:right;">
-      <%= link_to( "Add New Base Rate".html_safe,
-                   '/human_resources/compensation_and_benefits/base_rates/new?employee_id='+@selected_employee[:id],
-                   class: 'tiny button payroll_add_button',
-                   target: '_blank'   )%>
+      <%=
+          generic_payroll_add_link('/human_resources/compensation_and_benefits/base_rates/new?employee_id=',
+                                   @selected_employee[:id])
+      %>
     </div>
 
     </div>
@@ -174,7 +167,7 @@
 
     <div class="generic_content">
       <% if (@selected_lump_adjustments.present?) %>
-          LUMP ADJUSTMENTS APPLIED:
+          <span class="table-label">LUMP ADJUSTMENTS APPLIED:</span>
           <table class="generic_table">
             <thead>
                 <tr>
@@ -196,42 +189,32 @@
                   </td>
                   <td><%= selected_lump_adjustment[:remark] %></td>
                   <td class="actions">
-                    <%= link_to( "&#128083;".html_safe,
-                                 '/human_resources/compensation_and_benefits/lump_adjustments/' + selected_lump_adjustment[:id] + '/edit',
-                                 class: 'action_button',
-                                 target: '_blank',
-                                 tooltip: 'Examine') %>
+                    <%= generic_payroll_examine_link('/human_resources/compensation_and_benefits/lump_adjustments/',
+                                                     selected_lump_adjustment[:id]) %>
                   </td>
                 </tr>
                 <% current_lump_adjustments = signed_amount(selected_lump_adjustment[:signed_type], selected_lump_adjustment[:amount]) %>
                 <% total_lump_adjustments = total_lump_adjustments + current_lump_adjustments %>
             <% end %>
             <tr>
-              <td colspan="2">
+              <td>
                 TOTAL:
               </td>
-              <td class="subtotal">
+              <td class="subtotal" colspan="2">
                 <%= total_lump_adjustments %>
               </td>
               <td>&nbsp;</td>
             </tr>
             </tbody>
           </table>
-
-          <%=
-              link_to( "Add New Lump Adjustment".html_safe,
-                       '/human_resources/compensation_and_benefits/lump_adjustments/new?employee_id='+@selected_employee[:id],
-                       class: 'tiny button payroll_add_button',
-                       target: '_blank',
-              )
-          %>
-
+          <%= generic_payroll_add_link('/human_resources/compensation_and_benefits/lump_adjustments/new?employee_id=',
+                                       @selected_employee[:id]) %>
       <% end %>
     </div>
 
     <div class="generic_content">
     <% if (@selected_lump_adjustments.present?) %>
-        VALES APPLIED:
+        <span class="table-label">VALES APPLIED:</span>
         <table class="generic_table">
           <thead>
           <tr>
@@ -242,48 +225,36 @@
           </thead>
           <tbody>
           <%
-             total_lump_adjustments = 0
-             @selected_lump_adjustments.each do |selected_lump_adjustment|
+             total_vale = 0
+             @selected_vales.each do |selected_vale|
           %>
               <tr>
-                <td><%= selected_lump_adjustment[:date_of_effectivity] %></td>
-                <td>
-                  <%= selected_lump_adjustment[:signed_type] ? "( + )" : "( - )" %>
-                  <%= selected_lump_adjustment[:amount] %>
+                <td><%= selected_vale[:date_of_effectivity] %></td>
+                <td><%= remaining_vale_balance(selected_vale[:id]) %></td>
+                <td><%= selected_vale[:remark] %></td>
+                <td class="actions">
+                  <%= generic_payroll_examine_link('/human_resources/compensation_and_benefits/vales/',selected_vale[:id]) %>
                 </td>
-                <td><%= selected_lump_adjustment[:remark] %></td>
               </tr>
-              <% current_lump_adjustments = signed_amount(selected_lump_adjustment[:signed_type], selected_lump_adjustment[:amount]) %>
-              <% total_lump_adjustments = total_lump_adjustments + current_lump_adjustments %>
+              <% current_vale = remaining_vale_balance( selected_vale[:id] ) %>
+              <% total_vale = total_vale + current_vale %>
           <% end %>
           <tr>
-            <td colspan="2">
+            <td>
               REMAINING BALANCE:
             </td>
-            <td class="subtotal">
-              <%= total_lump_adjustments %>
+            <td colspan="2" class="subtotal">
+              <%= total_vale %>
             </td>
+            <td></td>
           </tr>
           </tbody>
         </table>
 
         <%=
-        link_to( "Add Vales".html_safe,
-            '/human_resources/compensation_and_benefits/vales/new?employee_id='+@selected_employee[:id],
-            class: 'tiny button payroll_add_button',
-            target: '_blank',
-        )
+            generic_payroll_add_link('/human_resources/compensation_and_benefits/vales/new?employee_id=',
+                                     @selected_employee[:id])
         %>
-
-        <%=
-        link_to( "Add Vale Adjustments".html_safe,
-               '/human_resources/compensation_and_benefits/vale_adjustments/new?employee_id='+@selected_employee[:id],
-               class: 'tiny button payroll_add_button',
-               target: '_blank',
-        )
-        %>
-
-
 
     <% end %>
     </div>
@@ -297,7 +268,7 @@
     <hr>
     <div class="generic_content">
       <% if (@selected_attendances.present?) %>
-          ATTENDANCE - PAYMENT SCHEME
+          <span class="table-label">ATTENDANCE - PAYMENT SCHEME</span>
           <table class="generic_table">
             <thead>
             <tr>

@@ -59,7 +59,6 @@
   <input type="datetime-local"
          required="required"
          name="vale_adjustment[date_of_effectivity]"
-         style="width: 50%"
          step="1"
          value= <%= @selected_vale_adjustment[:date_of_effectivity].present? ? @selected_vale_adjustment[:date_of_effectivity].strftime('%FT%T') : Time.now.strftime('%FT%T')  %>>
 </div>

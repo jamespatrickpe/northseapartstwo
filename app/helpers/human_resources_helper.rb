@@ -223,7 +223,7 @@ module HumanResourcesHelper
     rate_array = {:reg => total_regular_sum.round(2), :ot => ot_sum.round(2),:nsd => nsd_sum.round(2),:ot_nsd => ot_nsd_sum.round(2), :base => base_sum.round(2)}
   end
 
-  def remaining_vale_balance(parent_vale_id)
+  def remaining_vale_balance(parent_vale_id, time_now = Time.now)
 
     my_vale = Vale.find(parent_vale_id)
     my_vale_adjustments = ValeAdjustment.where(vale_id: parent_vale_id)
@@ -232,7 +232,7 @@ module HumanResourcesHelper
     current_time = my_vale[:date_of_effectivity]
     next_time = current_time + iteration
 
-    while(Time.now > current_time)
+    while(time_now > current_time)
       adjustment_in_period_token = false
       my_vale_adjustments.each do |my_vale_adjustment|
         if my_vale_adjustment[:date_of_effectivity].between?(current_time, next_time)

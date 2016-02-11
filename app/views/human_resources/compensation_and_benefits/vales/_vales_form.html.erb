@@ -94,7 +94,6 @@
          required="required"
          id="vale_date_of_effectivity"
          name="vale[date_of_effectivity]"
-         style="width: 50%"
          step="1"
          value= <%= @selected_vale[:date_of_effectivity].present? ? @selected_vale[:date_of_effectivity].strftime('%FT%T') : Time.now.strftime('%FT%T')  %>>
 </div>

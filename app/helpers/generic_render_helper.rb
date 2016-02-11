@@ -1,5 +1,13 @@
 module GenericRenderHelper
 
+  def generic_payroll_add_link(link,id)
+    render(:partial => 'core_partials/generic_payroll_add_link', :locals => {:link => link, :id => id})
+  end
+
+  def generic_payroll_examine_link(link,id)
+    render(:partial => 'core_partials/generic_payroll_examine_link', :locals => {:link => link, :id => id})
+  end
+
   def generic_employee_profile_link(model_with_employee_association)
     render(:partial => 'core_partials/generic_employee_profile_link', :locals => {:model_with_employee_association => model_with_employee_association})
   end
