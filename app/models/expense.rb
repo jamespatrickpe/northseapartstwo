@@ -1,7 +1,7 @@
 class Expense < ActiveRecord::Base
 
   include UUIDHelper
-  
+
   validates_numericality_of :amount
   validates_presence_of :category
   validates_presence_of :date_of_effectivity

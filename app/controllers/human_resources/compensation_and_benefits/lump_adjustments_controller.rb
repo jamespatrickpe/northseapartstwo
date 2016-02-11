@@ -30,6 +30,14 @@ class HumanResources::CompensationAndBenefits::LumpAdjustmentsController < Human
     render 'human_resources/compensation_and_benefits/lump_adjustments/index'
   end
 
+  def initialize_form
+    initialize_form_variables('LUMP ADJUSTMENTS',
+                              'Log a lump adjustment for an employee',
+                              'human_resources/compensation_and_benefits/lump_adjustments/lump_adjustment_form',
+                              'lump_adjustment')
+    initialize_employee_selection
+  end
+
   def search_suggestions
     adjustments = LumpAdjustment.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + adjustments.uniq.to_s + "}"
@@ -48,15 +56,15 @@ class HumanResources::CompensationAndBenefits::LumpAdjustmentsController < Human
   end
 
   def new
-    initialize_employee_selection
+    initialize_form
     @selected_lump_adjustment = LumpAdjustment.new
-    render 'human_resources/compensation_and_benefits/lump_adjustments/lump_adjustment_form'
+    generic_bicolumn_form_with_employee_selection(@selected_lump_adjustment)
   end
 
   def edit
-    initialize_employee_selection
+    initialize_form
     @selected_lump_adjustment = LumpAdjustment.find(params[:id])
-    render 'human_resources/compensation_and_benefits/lump_adjustments/lump_adjustment_form'
+    generic_bicolumn_form_with_employee_selection(@selected_lump_adjustment)
   end
 
   def process_lump_adjustment_form(lumpAdjustment)

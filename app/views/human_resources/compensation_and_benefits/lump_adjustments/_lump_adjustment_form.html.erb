@@ -1,24 +1,6 @@
 <%= generic_employee_select_field('lump_adjustment',@selected_lump_adjustment[:employee_id]) %>
 
 <div class="form-block">
-  <div class="label">Date of Effectivity  : </div>
-  <select name='lump_adjustment[employee_id]'
-          id='new_lump_adjustment_employee'
-          class='employee_select_field'
-          required="required" >
-
-    <option value="" disabled selected>Select Employee</option>
-    <% @employees.each do |employee| %>
-        <% if employee.id == @selected_lump_adjustment.employee_id %>
-            <option value=<%= employee.id %> selected><%= employee.actor.name %></option>
-        <% else %>
-            <option value=<%= employee.id %>><%= employee.actor.name %></option>
-        <% end %>
-    <% end %>
-  </select>
-</div>
-
-<div class="form-block">
   <div class="label">Amount  : </div>
   <%= text_field_tag("lump_adjustment[amount]",
                      content = @selected_lump_adjustment.amount,
@@ -32,6 +14,7 @@
 
 <div class="form-block">
   <div class="label">Signed Type : </div>
+  <br />
   <select name='lump_adjustment[signed_type]'
           style="width: 50%"
           required="required" >
