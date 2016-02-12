@@ -22,13 +22,14 @@ class Access::PermissionsController < AccessController
                               'Create a new permission for a user',
                               'access/permissions/permission_form',
                               'permission')
+    @active_permissions_uniq = Permission.all.uniq
     initialize_employee_selection
   end
 
   def search_suggestions
     permissions = Permission
-                   .where("permission.access_id LIKE ?","%#{params[:query]}%")
-                   .pluck("permission.access_id")
+                      .where("permission.access_id LIKE ?","%#{params[:query]}%")
+                      .pluck("permission.access_id")
     direct = "{\"query\": \"Unit\",\"suggestions\":[" + permissions.to_s.gsub!('[', '').gsub!(']', '') + "]}"
     respond_to do |format|
       format.all { render :text => direct}
