@@ -21,7 +21,7 @@ class Access::PermissionsController < AccessController
     initialize_form_variables('PERMISSION',
                               'Create a new permission for a user',
                               'access/permissions/permission_form',
-                              'constant')
+                              'permission')
     initialize_employee_selection
   end
 

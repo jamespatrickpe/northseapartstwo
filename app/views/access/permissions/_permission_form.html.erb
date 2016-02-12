@@ -1,6 +1,7 @@
 
 <div class="form-block">
   <div class="label">Person Access  : </div>
+  <br />
   <select name='permission[access_id]'
           id='new_permission_access_id'
           class='employee_select_field'
@@ -19,6 +20,7 @@
 
 <div class="form-block">
   <div class="label">Permission  : </div>
+  <br />
   <select name='permission[can]'
           style="width: 50%"
           required="required" >
@@ -44,19 +46,6 @@
         <option value = "access_control">access_control</option>
     <% end %>
   </select>
-</div>
-
-<div class="form-block">
-  <section class="form-block-label">Remark/s</section>
-  <section class="form-block-control">
-    <%= text_area_tag("permission[remark]",
-                      content = @selected_permission[:remark],
-                      options = {class: "remark_description",
-                                 :"data-parsley-trigger" => "keyup",
-                                 :"data-parsley-maxlength"=>"128",
-                                 :placeholder => 'Remarks' }) %>
-
-  </section>
 </div>
 
 <%= generic_remarks_description_field('permission',@selected_permission[:remark]) %>
