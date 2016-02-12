@@ -21,7 +21,6 @@
          required="required"
          name="attendance[date_of_attendance]"
          id="attendance_date_0"
-         style="width: 50%"
          value= <%= @selected_attendance[:date_of_attendance].present? ? @selected_attendance[:date_of_attendance].strftime('%Y-%m-%d') : '' %>>
 </div>
 
@@ -40,7 +39,6 @@
                                   data-parsley-time_between_attendance=0
                              '
          )%>
-         style="width: 50%"
          value= <%= @selected_attendance[:timein].strftime('%T') %> >
 </div>
 
@@ -59,7 +57,6 @@
                                   data-parsley-time_between_attendance=0
                               '
          )%>
-         style="width: 50%"
          value= <%= @selected_attendance[:timeout].strftime('%T') %> >
 </div>
 

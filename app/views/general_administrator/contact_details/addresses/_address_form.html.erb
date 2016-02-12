@@ -4,7 +4,6 @@
   <div class="label">Model</div>
   <br />
   <select id="model-dropdown" name='address[rel_model_type]'
-          style="width: 50%"
           required="required" >
     <% if @selected_address[:rel_model_type] == 'Actor' %>
         <option value="Actor" selected>Actor</option>
@@ -25,8 +24,7 @@
   <br />
   <select name='address[rel_model_id]'
           id='new_address_rel_model_id'
-          class='employee_select_field selectized'
-          style="width: 50%">
+          class='employee_select_field selectized'>
 
     <option value="" disabled selected>Select Actor</option>
     <% @actors.each do |actor| %>
@@ -44,8 +42,7 @@
   <br />
   <select name='address[rel_model_id]'
           id='new_address_rel_model_id2'
-          class='employee_select_field selectized'
-          style="width: 50%">
+          class='employee_select_field selectized'>
 
     <option value="" disabled selected>Select Branch</option>
     <% @branches.each do |branch| %>

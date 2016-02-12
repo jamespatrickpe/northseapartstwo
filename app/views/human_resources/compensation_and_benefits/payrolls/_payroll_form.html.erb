@@ -4,7 +4,6 @@
   <div class="label">Article  : </div>
   <br />
   <select name='payroll[article]'
-          style="width: 50%"
           required="required" >
     <% if @selected_payroll[:article] == "SSS" %>
         <option disabled>Select Article</option>
@@ -34,7 +33,6 @@
   <div class="label">Applicability  : </div>
   <br />
   <select name='payroll[applicability]'
-          style="width: 50%"
           required="required" >
     <% if @selected_payroll[:applicability] == true %>
         <option disabled>Select Applicability</option>
@@ -57,7 +55,6 @@
   <input type="datetime-local"
          required="required"
          name="payroll[date_of_effectivity]"
-         style="width: 50%"
          step="1"
          value= <%= @selected_payroll[:date_of_effectivity].present? ?
                             @selected_payroll[:date_of_effectivity].strftime('%FT%T') :

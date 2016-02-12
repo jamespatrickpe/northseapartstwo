@@ -16,7 +16,6 @@
   <div class="label">Signed Type : </div>
   <br />
   <select name='lump_adjustment[signed_type]'
-          style="width: 50%"
           required="required" >
     <% if @selected_lump_adjustment[:signed_type] == true %>
         <option disabled >Select Signed Type</option>
@@ -40,7 +39,6 @@
   <input type="datetime-local"
          required="required"
          name="lump_adjustment[date_of_effectivity]"
-         style="width: 50%"
          step="1"
          value= <%= @selected_lump_adjustment[:date_of_effectivity].present? ? @selected_lump_adjustment[:date_of_effectivity].strftime('%FT%T') : Time.now.strftime('%FT%T')  %>>
 </div>

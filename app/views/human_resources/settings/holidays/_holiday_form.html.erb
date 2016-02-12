@@ -9,7 +9,6 @@
          data-parsley-remote
          data-parsley-remote-validator='unique-holiday-date'
          <% end %>
-         style="width: 50%"
          <%= @selected_holiday[:date_of_implementation].present? ? "value=" + @selected_holiday[:date_of_implementation].strftime('%Y-%m-%d') : '' %>>
 
 </div>
@@ -18,7 +17,6 @@
   <div class="label">Type of Holiday  : </div>
   <br />
   <select name='holiday[holiday_type_id]'
-          style="width: 50%;"
           required="required" >
     <option value="" disabled selected>Select Type of Holiday</option>
     <% @holiday_types.each do |holiday_type| %>

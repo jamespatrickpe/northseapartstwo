@@ -2,7 +2,6 @@
   <div class="label">Model</div>
   <br />
   <select id="model-dropdown" name='digital[rel_model_type]'
-          style="width: 50%"
           required="required" >
     <% if @selected_digital[:rel_model_type] == 'Actor' %>
         <option value="Actor" selected>Actor</option>
@@ -23,8 +22,7 @@
   <br />
   <select name='digital[rel_model_id]'
           id='new_digital_rel_model_id1'
-          class='employee_select_field selectized'
-          style="width: 50%">
+          class='employee_select_field selectized'>
 
     <option value="" disabled selected>Select Actor</option>
     <% @actors.each do |actor| %>
@@ -42,8 +40,7 @@
   <br />
   <select name='digital[rel_model_id]'
           id='new_digital_rel_model_id2'
-          class='employee_select_field selectized'
-          style="width: 50%">
+          class='employee_select_field selectized'>
 
     <option value="" disabled selected>Select Branch</option>
     <% @branches.each do |branch| %>
@@ -65,7 +62,6 @@
          data-parsley-type = email
          data-parsley-maxlength = 64
          id="digital_url"
-         style="width: 50%"
          value= "<%= @selected_digital[:url] %>"
          name="digital[url]">
 </div>
@@ -78,7 +74,6 @@
          data-parsley-trigger = keyup
          data-parsley-maxlength = 64
          id="digital_description"
-         style="width: 50%"
          value= "<%= @selected_digital[:description] %>"
          name="digital[description]">
 </div>
