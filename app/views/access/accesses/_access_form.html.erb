@@ -1,0 +1,103 @@
+<!-- this form will use readonly property on EDIT since DISABLED prevents a form from submitting contained values -->
+<!-- http://stackoverflow.com/questions/1355728/values-of-disabled-inputs-will-not-be-submited -->
+<!-- http://stackoverflow.com/questions/7357256/disabled-form-inputs-do-not-appear-in-the-request -->
+
+<div id="actor-selector" class="form-block">
+  <div class="label">Actor</div>
+  <br />
+  <select name='access[actor_id]'
+          id='new_access_actor_id'
+          class='employee_select_field selectized'>
+
+    <option value="" disabled selected>Select Actor</option>
+    <% @actors.each do |actor| %>
+        <% if actor.id == @selected_access[:actor_id] %>
+            <option value=<%= actor.id %> selected><%= actor.name %></option>
+        <% else %>
+            <option value=<%= actor.id  %>><%= actor.name %></option>
+        <% end %>
+    <% end %>
+  </select>
+</div>
+
+<div class="form-block">
+  <div class="label">Username :</div>
+  <input type="text"
+         required="required"
+         placeholder="Enter username"
+         data-parsley-trigger = keyup
+         data-parsley-maxlength = 64
+         id="access_username"
+         value= "<%= @selected_access[:username] %>"
+
+         <% if @selected_access.username.present? %>
+         readonly="readonly"
+         <% end %>
+
+         name="access[username]">
+</div>
+
+<div class="form-block">
+  <div class="label">Password :</div>
+  <input type="password"
+         required="required"
+         placeholder="Enter password"
+         data-parsley-trigger = keyup
+         data-parsley-maxlength = 64
+         id="access_password"
+         value= "<%= @selected_access[:password_digest] %>"
+
+         <% if @selected_access.password_digest.present? %>
+         readonly="readonly"
+         <% end %>
+
+         name="access[password_digest]">
+</div>
+
+<div class="form-block">
+  <div class="label">Verification Type : </div>
+  <br />
+  <select name='access[verification]'
+          required="required">
+    <% if @selected_access[:verification] == true %>
+        <option disabled >Select Verification</option>
+        <option value=1 selected>True</option>
+        <option value=0>False</option>
+    <% elsif @selected_access[:verification] == false %>
+        <option disabled >Select Verification</option>
+        <option value=1>True</option>
+        <option value=0 selected>False</option>
+    <% else %>
+        <option disabled selected>Select Verification</option>
+        <option value=1>True</option>
+        <option value=0>False</option>
+    <% end %>
+  </select>
+</div>
+
+<div class="form-block">
+  <div class="label">Email</div>
+  <input type="email"
+         required="required"
+         placeholder="Enter email"
+         data-parsley-trigger = keyup
+         data-parsley-type = email
+         data-parsley-maxlength = 64
+         id="access_email"
+         value= "<%= @selected_access[:email] %>"
+
+         <% if @selected_access.email.present? %>
+         readonly="readonly"
+         <% end %>
+
+         name="access[email]">
+</div>
+
+<script>
+    // selectize
+    $(document).ready(function() {
+        $('#new_access_actor_id').selectize({
+            sortField: 'text'
+        });
+    });
+</script>

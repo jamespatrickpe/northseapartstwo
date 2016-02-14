@@ -90,6 +90,13 @@ Rails.application.routes.draw do
         concerns :generic_table
       end
     end
+
+    get 'accesses/index' => 'accesses#index'
+    resources :accesses do
+      collection do
+        concerns :generic_table
+      end
+    end
   end
 
   get 'finance/' => 'finance#index'
