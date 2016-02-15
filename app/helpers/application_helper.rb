@@ -165,4 +165,25 @@ module ApplicationHelper
     render(:partial => "core_partials/collective_form_responses")
   end
 
+  def getAllEntitiesInvolvedInExpense(expenseId)
+    involvedActorObjects ||= []
+    involvedBranchObjects ||= []
+    expenseRelated = ExpensesActor.where("expenses_actors.expense_id = ?", expenseId)
+    # get all actors
+    expenseRelated.each do |ea|
+      if Actor.exists?(ea[:actor_id])
+        involvedActorObjects.push(Actor.find(ea[:actor_id]))
+      end
+    end
+    #get all branches
+    expenseRelated.each do |ea|
+      if Branch.exists?(ea[:actor_id])
+        involvedBranchObjects.push(Branch.find(ea[:actor_id]))
+      end
+    end
+    # for future addition, just add another loop to obtain involved object via their ID
+    actorsInvolved = involvedActorObjects + involvedBranchObjects
+    return actorsInvolved
+  end
+
 end

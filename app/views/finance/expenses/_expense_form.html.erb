@@ -42,17 +42,7 @@
          value= <%= @selected_expense[:date_of_effectivity]%> >
 </div>
 
-<div class="form-block">
-  <div class="label">Date of Effectivity  : </div>
-  <%=
-      text_area_tag("expense[remark]",
-                    content = @selected_expense[:remark],
-                    options = {class: "remark_description",
-                               :"data-parsley-trigger" => "keyup",
-                               :"data-parsley-maxlength"=>"128",
-                               :placeholder => 'Description' })
-  %>
-</div>
+<%= generic_remarks_description_field('expense',@selected_expense[:remark]) %>
 
 <div class="form-block">
   <div class="label">Involved  : </div>
@@ -67,13 +57,20 @@
                         disabled='disabled'
                         required="required" >
                   <option value="" disabled selected>Select Actor</option>
-                  <% @actors.each do |actor| %>
+                  <% @actors1.each do |actor| %>
                       <% if actor.id == @actorsInvolved[index].id %>
-                          <option value=<%= actor.id %> selected><%= actor.name %></option>
+                          <option value=<%= actor.id %> selected><%= 'Actor - ' + actor.name %></option>
                       <% else %>
                           <option value=<%= actor.id %>><%= actor.name %></option>
                       <% end %>
+                  <% end %>
 
+                  <% @actors2.each do |actor| %>
+                      <% if actor.id == @actorsInvolved[index].id %>
+                          <option value=<%= actor.id %> selected><%= 'Branch - ' + actor.name %></option>
+                      <% else %>
+                          <option value=<%= actor.id %>><%= actor.name %></option>
+                      <% end %>
                   <% end %>
                 </select>
               </td>
@@ -90,8 +87,11 @@
                     class='digits'
                     required="required" >
               <option value="" disabled selected>Select Actor</option>
-              <% @actors.each do |actor| %>
-                  <option value=<%= actor.id %>><%= actor.name %></option>
+              <% @actors1.each do |actor| %>
+                  <option value=<%= actor.id %>><%= 'Actor - ' + actor.name %></option>
+              <% end %>
+              <% @actors2.each do |actor| %>
+                  <option value=<%= actor.id %>><%= 'Branch - ' + actor.name %></option>
               <% end %>
             </select>
           </td>
