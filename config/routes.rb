@@ -71,6 +71,27 @@ Rails.application.routes.draw do
         end
     end
 
+    get 'file_set/' => 'file_set#index'
+    resources :file_set do
+      collection do
+        concerns :generic_table
+      end
+    end
+
+    get 'image_set/' => 'image_set#index'
+    resources :image_set do
+      collection do
+        concerns :generic_table
+      end
+    end
+
+    get 'link_set/' => 'link_set#index'
+    resources :link_set do
+      collection do
+        concerns :generic_table
+      end
+    end
+
     get 'contact_details/' => 'contact_details#index'
     namespace :contact_details do
       resources :telephones, :addresses, :digitals do

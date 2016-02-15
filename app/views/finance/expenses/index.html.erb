@@ -46,7 +46,7 @@
                   <td><%= e[:amount] %> </td>
                   <td><%= e[:category] %> </td>
                   <td><%= e[:physical_id] %> </td>
-                  <td><%= getAllEntitiesInvolvedInExpense(e[:id]).collect { |i| i.name }.join(", ")%></td>
+                  <td><%= get_all_entities_involved_in_expense(e[:id]).collect { |i| i.name }.join(", ")%></td>
                   <td><%= e[:remark] %> </td>
                   <td><%= e[:date_of_effectivity] %> </td>
                   <td class="actions">

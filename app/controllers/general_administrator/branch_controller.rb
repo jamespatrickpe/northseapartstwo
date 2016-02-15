@@ -39,12 +39,16 @@ class GeneralAdministrator::BranchController < GeneralAdministratorController
   def new
     initialize_form
     @selected_branch = Branch.new
+    @actors = Actor.all().order('name ASC')
+    @branches = Branch.all().order('name ASC')
     generic_singlecolumn_form(@selected_branch)
   end
 
   def edit
     initialize_form
     @selected_branch = Branch.find(params[:id])
+    @actors = Actor.all().order('name ASC')
+    @branches = Branch.all().order('name ASC')
     generic_singlecolumn_form(@selected_branch)
   end
 

@@ -165,7 +165,7 @@ module ApplicationHelper
     render(:partial => "core_partials/collective_form_responses")
   end
 
-  def getAllEntitiesInvolvedInExpense(expenseId)
+  def get_all_entities_involved_in_expense(expenseId)
     involvedActorObjects ||= []
     involvedBranchObjects ||= []
     expenseRelated = ExpensesActor.where("expenses_actors.expense_id = ?", expenseId)
