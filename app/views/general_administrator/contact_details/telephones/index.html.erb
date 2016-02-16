@@ -11,12 +11,7 @@
             <%= generic_table_theadlink('telephones.id', table_orientation) %>
           </th>
           <th>
-            Contact Type
-            <%= generic_table_theadlink('telephones.rel_model_type', table_orientation) %>
-          </th>
-          <th>
-            Contact Model ID
-            <%= generic_table_theadlink('telephones.rel_model_id', table_orientation) %>
+            Contact/s
           </th>
           <th>
             Digits
@@ -33,15 +28,14 @@
             <% raise exception %>
         <% else %>
             <tbody>
-            <% @telephones.each do |telephones| %>
+            <% @telephones.each do |telephone| %>
                 <tr>
-                  <td><%= telephones[:id] %></td>
-                  <td><%= telephones[:rel_model_type] %></td>
-                  <td><%= telephones[:rel_model_id] %></td>
-                  <td><%= telephones[:digits] %> </td>
-                  <td><%= telephones[:description] %> </td>
+                  <td><%= telephone[:id] %></td>
+                  <td><%= get_all_entities_involved_with_a_model(TelephonesActor, "telephones_actors.telephone_id = ?", telephone[:id]).collect { |i| i.name }.join(", ")%></td>
+                  <td><%= telephone[:digits] %> </td>
+                  <td><%= telephone[:description] %> </td>
                   <td class="actions">
-                    <%= generic_table_actions(telephones[:id]) %>
+                    <%= generic_table_actions(telephone[:id]) %>
                   </td>
                 </tr>
             <% end %>
