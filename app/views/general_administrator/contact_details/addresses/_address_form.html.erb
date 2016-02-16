@@ -1,61 +1,3 @@
-
-
-<div class="form-block">
-  <div class="label">Model</div>
-  <br />
-  <select id="model-dropdown" name='address[rel_model_type]'
-          required="required" >
-    <% if @selected_address[:rel_model_type] == 'Actor' %>
-        <option value="Actor" selected>Actor</option>
-        <option value="Branch">Branch</option>
-    <% elsif @selected_address[:rel_model_type] == 'Branch' %>
-        <option value="Actor">Actor</option>
-        <option value="Branch" selected>Branch</option>
-    <% else %>
-        <option disabled selected>Select Model</option>
-        <option value="Actor">Actor</option>
-        <option value="Branch">Branch</option>
-    <% end %>
-  </select>
-</div>
-
-<div id="actor-selector" class="form-block">
-  <div class="label">Actor</div>
-  <br />
-  <select name='address[rel_model_id]'
-          id='new_address_rel_model_id'
-          class='employee_select_field selectized'>
-
-    <option value="" disabled selected>Select Actor</option>
-    <% @actors.each do |actor| %>
-        <% if actor.id == @selected_address[:rel_model_id] %>
-            <option value=<%= actor.id %> selected><%= actor.name %></option>
-        <% else %>
-            <option value=<%= actor.id %>><%= actor.name %></option>
-        <% end %>
-    <% end %>
-  </select>
-</div>
-
-<div id="branch-selector" class="form-block">
-  <div class="label">Branch</div>
-  <br />
-  <select name='address[rel_model_id]'
-          id='new_address_rel_model_id2'
-          class='employee_select_field selectized'>
-
-    <option value="" disabled selected>Select Branch</option>
-    <% @branches.each do |branch| %>
-        <% if branch.id == @selected_address[:rel_model_id] %>
-            <option value=<%= branch.id %> selected><%= branch.name %></option>
-        <% else %>
-            <option value=<%= branch.id %>><%= branch.name %></option>
-        <% end %>
-    <% end %>
-  </select>
-</div>
-
-
 <div class="large-12 columns">
   <h2 class="miniheader">Addresses</h2>
   <p id="map_special_instructions">
@@ -83,35 +25,6 @@
 
   <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
   <script>
-
-      // selectize
-      $(document).ready(function(){
-          $('#new_address_rel_model_id').selectize({
-              sortField: 'text'
-          })
-          ;
-
-          $('#new_address_rel_model_id1').selectize({sortField: 'text'});
-          $('#new_address_rel_model_id2').selectize({sortField: 'text'});
-          $("#branch-selector select[name*='address[rel_model_id]']").prop('disabled', true);
-          $("#actor-selector").hide();
-          $("#branch-selector").hide();
-
-      });
-
-      $("#model-dropdown").change(function(){
-          if($("#model-dropdown").val() == "Actor"){
-              $("#actor-selector").show();
-              $("#branch-selector select[name*='address[rel_model_id]']").prop('disabled', true);
-              $("#actor-selector select[name*='address[rel_model_id]']").removeAttr('disabled');
-              $("#branch-selector").hide();
-          } else if($("#model-dropdown").val() == "Branch"){
-              $("#branch-selector").show();
-              $("#actor-selector select[name*='address[rel_model_id]']").prop('disabled', true);
-              $("#branch-selector select[name*='address[rel_model_id]']").removeAttr('disabled');
-              $("#actor-selector").hide();
-          }
-      });
 
       $( document ).ready(function() {
           navigator.geolocation.getCurrentPosition(showPosition);
@@ -144,3 +57,95 @@
       }
   </script>
 </div>
+
+<div class="form-block">
+  <div class="label">Involved  : </div>
+
+  <% if @address_actor_rel.present? %>
+      <table class="telephonycontainer" style="width : 100%; border : none; !important">
+        <tr id="primary" class="telephonyset">
+          <% @actorsInvolved.each_with_index do |actor, index| %>
+              <td>
+                <select name='address[addressactors[0]]'
+                        class='digits'
+                        disabled='disabled'
+                        required="required" >
+                  <option value="" disabled selected>Select Actor</option>
+                  <% @actors1.each do |actor| %>
+                      <% if actor.id == @actorsInvolved[index].id %>
+                          <option value=<%= actor.id %> selected><%= 'Actor - ' + actor.name %></option>
+                      <% else %>
+                          <option value=<%= actor.id %>><%= actor.name %></option>
+                      <% end %>
+                  <% end %>
+
+                  <% @actors2.each do |actor| %>
+                      <% if actor.id == @actorsInvolved[index].id %>
+                          <option value=<%= actor.id %> selected><%= 'Branch - ' + actor.name %></option>
+                      <% else %>
+                          <option value=<%= actor.id %>><%= actor.name %></option>
+                      <% end %>
+                  <% end %>
+                </select>
+              </td>
+              </tr>
+          <% end %>
+          </table>
+
+  <% else %>
+
+      <table class="telephonycontainer" style="width : 100%; border : none; !important">
+        <tr id="primary" class="telephonyset">
+          <td>
+            <select name='address[addressactors[0]]'
+                    class='digits'
+                    required="required" >
+              <option value="" disabled selected>Select Actor</option>
+              <% @actors1.each do |actor| %>
+                  <option value=<%= actor.id %>><%= 'Actor - ' + actor.name %></option>
+              <% end %>
+              <% @actors2.each do |actor| %>
+                  <option value=<%= actor.id %>><%= 'Branch - ' + actor.name %></option>
+              <% end %>
+            </select>
+          </td>
+        </tr>
+      </table>
+
+  <% end %>
+
+  <%= renderItemListerButtons("Add Actor :", "addInvolved()","deleteInvolved()") %>
+
+</div>
+
+<script>
+
+    $telephonyCounter = 0;
+
+    function addInvolved()
+    {
+
+        $telephonyCounter++;
+
+        var clonedTelephonySet = $("#primary.telephonyset").clone();
+        clonedTelephonySet.attr("id","address_addressactors_" + $telephonyCounter);
+        clonedTelephonySet.find(".digits").attr("id","address_addressactors_" + $telephonyCounter);
+        clonedTelephonySet.find(".digits").attr("name","address[addressactors["+$telephonyCounter+"]]");
+        clonedTelephonySet.find(".digits").find('option:eq(0)').prop('selected', true);
+        clonedTelephonySet.find(".digits").removeAttr('disabled');
+        clonedTelephonySet.appendTo($(".telephonycontainer"));
+    }
+
+    //delete new telephony with id and name set to current counter
+    function deleteInvolved()
+    {
+        $('#address_addressactors_'+$telephonyCounter+'.telephonyset').remove();
+        if($telephonyCounter <= 0)
+        {$telephonyCounter = 0 }
+        else
+        {$telephonyCounter--;}
+    }
+
+
+</script>
+
