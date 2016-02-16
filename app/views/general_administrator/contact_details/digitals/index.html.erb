@@ -11,12 +11,7 @@
             <%= generic_table_theadlink('digitals.id', table_orientation) %>
           </th>
           <th>
-            Contact Type
-            <%= generic_table_theadlink('digitals.rel_model_type', table_orientation) %>
-          </th>
-          <th>
-            Contact Model ID
-            <%= generic_table_theadlink('digitals.rel_model_id', table_orientation) %>
+            Owner
           </th>
           <th>
             URL
@@ -36,8 +31,7 @@
             <% @digitals.each do |digital| %>
                 <tr>
                   <td><%= digital[:id] %></td>
-                  <td><%= digital[:rel_model_type] %></td>
-                  <td><%= digital[:rel_model_id] %> </td>
+                  <td><%= get_all_entities_involved_with_a_model(DigitalsActor, "digitals_actors.digital_id = ?", digital[:id]).collect { |i| i.name }.join(", ")%></td>
                   <td><%= digital[:url] %> </td>
                   <td><%= digital[:description] %> </td>
                   <td class="actions">

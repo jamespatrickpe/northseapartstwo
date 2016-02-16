@@ -94,7 +94,7 @@
 
   <% end %>
 
-  <%= renderItemListerButtons("Add Actor :", "addTelephoneActor()","deleteTelephoneActor()") %>
+  <%= renderItemListerButtons("Add Actor :", "addInvolved()","deleteInvolved()") %>
 
 </div>
 
@@ -102,7 +102,7 @@
 
     $telephonyCounter = 0;
 
-    function addTelephoneActor()
+    function addInvolved()
     {
 
         $telephonyCounter++;
@@ -117,7 +117,7 @@
     }
 
     //delete new telephony with id and name set to current counter
-    function deleteTelephoneActor()
+    function deleteInvolved()
     {
         $('#telephone_telephoneactors_'+$telephonyCounter+'.telephonyset').remove();
         if($telephonyCounter <= 0)

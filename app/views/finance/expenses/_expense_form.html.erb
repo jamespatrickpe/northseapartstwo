@@ -100,7 +100,7 @@
 
   <% end %>
 
-  <%= renderItemListerButtons("Add Actor :", "addExpenseActor()","deleteExpenseActor()") %>
+  <%= renderItemListerButtons("Add Actor :", "addInvolved()","deleteInvolved()") %>
 
 </div>
 
@@ -108,7 +108,7 @@
 
     $telephonyCounter = 0;
 
-    function addExpenseActor()
+    function addInvolved()
     {
 
         $telephonyCounter++;
@@ -123,7 +123,7 @@
     }
 
     //delete new telephony with id and name set to current counter
-    function deleteExpenseActor()
+    function deleteInvolved()
     {
         $('#expense_expenseactors_'+$telephonyCounter+'.telephonyset').remove();
         if($telephonyCounter <= 0)
