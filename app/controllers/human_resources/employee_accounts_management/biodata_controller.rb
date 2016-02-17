@@ -20,7 +20,6 @@ class HumanResources::EmployeeAccountsManagement::BiodataController < HumanResou
                               'Create a new bio for a specific employee',
                               'human_resources/employee_accounts_management/biodata/biodatum_form',
                               'biodata')
-    initialize_employee_selection
     @actors = Actor.all()
   end
 
