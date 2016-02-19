@@ -28,16 +28,45 @@ class GeneralAdministrator::ContactDetails::TelephonesController < GeneralAdmini
   def new
     initialize_form
     @selected_telephone = Telephone.new
-    @actors = Actor.all().order('name ASC')
-    @branches = Branch.all().order('name ASC')
+    @actors1 = Actor.all()
+    @actors2 = Branch.all()
     generic_singlecolumn_form(@selected_telephone)
   end
 
   def edit
     initialize_form
     @selected_telephone = Telephone.find(params[:id])
-    @actors = Actor.all().order('name ASC')
-    @branches = Branch.all().order('name ASC')
+    @actorsInvolved ||= []
+
+    # @telephone_actor_rel = TelephonesActor.find_by_telephone_id(params[:id])
+    @telephone_actor_rel = TelephonesActor.where("telephones_actors.telephone_id = ?", "#{params[:id]}")
+
+    involvedActorObjects ||= []
+    involvedBranchObjects ||= []
+
+    @telephone_actor_rel.each do |ea|
+      if Actor.exists?(ea[:actor_id])
+        involvedActorObjects.push(Actor.find(ea[:actor_id]))
+      else
+        puts 'ID in use does not belong to an Actor'
+      end
+    end
+
+    @telephone_actor_rel.each do |ea|
+      if Branch.exists?(ea[:actor_id])
+        involvedBranchObjects.push(Branch.find(ea[:actor_id]))
+      else
+        puts 'ID in use does not belong to a Branch'
+      end
+    end
+
+    @actorsInvolved = involvedActorObjects + involvedBranchObjects
+
+    @actorsInvolved.compact.uniq!
+
+    @actors1 = Actor.all()
+    @actors2 = Branch.all()
+
     generic_singlecolumn_form(@selected_telephone)
   end
 
@@ -45,6 +74,14 @@ class GeneralAdministrator::ContactDetails::TelephonesController < GeneralAdmini
     telephone_to_be_deleted = Telephone.find(params[:id])
     flash[:general_flash_notification] = 'Telephone information :  ' + telephone_to_be_deleted.digits + ' has been deleted.'
     flash[:general_flash_notification_type] = 'affirmative'
+
+    # deletes all related actors with the telephone before deleting the actual telephone object
+    mapped_telephone_actors = TelephonesActor.where("telephones_actors.telephone_id = ?", "#{params[:id]}")
+    mapped_telephone_actors.each do |a|
+      a.destroy
+    end
+
+
     telephone_to_be_deleted.destroy
     redirect_to :action => "index"
   end
@@ -52,10 +89,18 @@ class GeneralAdministrator::ContactDetails::TelephonesController < GeneralAdmini
   def process_telephone_form(myTelephone)
     begin
       myTelephone[:digits] = params[:telephone][:digits]
-      myTelephone[:rel_model_id] = params[:telephone][:rel_model_id]
-      myTelephone[:rel_model_type] = params[:telephone][:rel_model_type]
       myTelephone[:description] = params[:telephone][:description]
       myTelephone.save!
+
+      # after creating the new telephone, iterate through all the actors involved and maps them with the telephone
+      actorsInvolved = params[:telephone][:telephoneactors]
+      actorsInvolved.each_with_index do |p , index|
+        actor = TelephonesActor.new
+        actor[:actor_id] = actorsInvolved.values[index]
+        actor[:telephone_id] = myTelephone.id
+        actor.save!
+      end
+
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex
       puts ex

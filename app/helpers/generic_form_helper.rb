@@ -20,6 +20,11 @@ module GenericFormHelper
     render(:partial => 'core_partials/generic_form_method_switch', :locals => {:selected_model => selected_model})
   end
 
+  def generic_related_actors_selector(model_name, related_models)
+    render(:partial => 'core_partials/generic_related_actors_selector', :locals => {:model_name => model_name, :related_models => related_models})
+
+  end
+
   def generic_title(title, caption)
     render(:partial => 'core_partials/generic_title', :locals => {:title => title, :caption => caption})
   end

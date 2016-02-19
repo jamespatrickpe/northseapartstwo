@@ -1,11 +1,10 @@
-
 <div class="form-block">
   <div class="label">Person Access  : </div>
+  <br />
   <select name='permission[access_id]'
           id='new_permission_access_id'
           class='employee_select_field'
           required="required" >
-
     <option value="" disabled selected>Select Access</option>
     <% @accesses.each do |access| %>
         <% if access.id == @selected_permission.access_id %>
@@ -18,45 +17,14 @@
 </div>
 
 <div class="form-block">
-  <div class="label">Permission  : </div>
-  <select name='permission[can]'
-          style="width: 50%"
-          required="required" >
-    <% if @selected_permission[:can] == 'assess_vale' %>
-        <option disabled >Select Permission</option>
-        <option value = "assess_vale" selected>assess_vale</option>
-        <option value = "human_resources">human_resources</option>
-        <option value = "control">access_control</option>
-    <% elsif @selected_permission[:can] == 'human_resources' %>
-        <option disabled >Select Permission</option>
-        <option value = "assess_vale">assess_vale</option>
-        <option value = "human_resources" selected>human_resources</option>
-        <option value = "access_control">access_control</option>
-    <% elsif @selected_permission[:can] == 'access_control' %>
-        <option disabled >Select Permission</option>
-        <option value = "assess_vale">assess_vale</option>
-        <option value = "human_resources">human_resources</option>
-        <option value = "access_control" selected>access_control</option>
-    <% else %>
-        <option disabled selected>Select Permission</option>
-        <option value = "assess_vale">assess_vale</option>
-        <option value = "human_resources">human_resources</option>
-        <option value = "access_control">access_control</option>
-    <% end %>
-  </select>
-</div>
-
-<div class="form-block">
-  <section class="form-block-label">Remark/s</section>
-  <section class="form-block-control">
-    <%= text_area_tag("permission[remark]",
-                      content = @selected_permission[:remark],
-                      options = {class: "remark_description",
-                                 :"data-parsley-trigger" => "keyup",
-                                 :"data-parsley-maxlength"=>"128",
-                                 :placeholder => 'Remarks' }) %>
-
-  </section>
+  <div class="label">Permission :</div>
+  <input type="text"
+         required="required"
+         placeholder="Enter Permission"
+         data-parsley-maxlength = 64
+         id="new_permission_access"
+         value= "<%= @selected_permission[:can] %>"
+         name="permission[can]">
 </div>
 
 <%= generic_remarks_description_field('permission',@selected_permission[:remark]) %>

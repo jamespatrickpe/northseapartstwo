@@ -60,8 +60,8 @@ module ApplicationHelper
 
   def display_if_holiday(current_day)
     holiday = Holiday
-                   .where("(date_of_implementation = ?)", current_day)
-                   .order('holidays.date_of_implementation ASC').first
+                  .where("(date_of_implementation = ?)", current_day)
+                  .order('holidays.date_of_implementation ASC').first
     if holiday.present?
       holiday[:name]
     end
@@ -97,7 +97,7 @@ module ApplicationHelper
       time_out = attendance[:timeout]
       my_seconds = (time_in - time_out).abs
       total_seconds = my_seconds + total_seconds
-      end
+    end
     return (total_seconds/3600).round
   end
 
@@ -163,6 +163,27 @@ module ApplicationHelper
 
   def displayCollectiveResponses()
     render(:partial => "core_partials/collective_form_responses")
+  end
+
+  def get_all_entities_involved_with_a_model(model, query, modelId)
+    involvedActorObjects ||= []
+    involvedBranchObjects ||= []
+    related = model.where(query, modelId)
+    # get all actors
+    related.each do |ea|
+      if Actor.exists?(ea[:actor_id])
+        involvedActorObjects.push(Actor.find(ea[:actor_id]))
+      end
+    end
+    #get all branches
+    related.each do |ea|
+      if Branch.exists?(ea[:actor_id])
+        involvedBranchObjects.push(Branch.find(ea[:actor_id]))
+      end
+    end
+    # for future addition, just add another loop to obtain involved object via their ID
+    actorsInvolved = involvedActorObjects + involvedBranchObjects
+    return actorsInvolved
   end
 
 end

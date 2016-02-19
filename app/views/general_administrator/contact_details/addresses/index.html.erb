@@ -11,12 +11,7 @@
             <%= generic_table_theadlink('addresses.id', table_orientation) %>
           </th>
           <th>
-            Address Model Type
-            <%= generic_table_theadlink('addresses.rel_model_type', table_orientation) %>
-          </th>
-          <th>
-            Address Model ID
-            <%= generic_table_theadlink('addresses.rel_model_id', table_orientation) %>
+            Address Owners
           </th>
           <th>
             Description
@@ -40,8 +35,7 @@
             <% @addresses.each do |address| %>
                 <tr>
                   <td><%= address[:id] %></td>
-                  <td><%= address[:rel_model_type] %> </td>
-                  <td><%= address[:rel_model_id] %> </td>
+                  <td><%= get_all_entities_involved_with_a_model(AddressesActor, "addresses_actors.address_id = ?", address[:id]).collect { |i| i.name }.join(", ")%></td>
                   <td><%= address[:description] %> </td>
                   <td><%= address[:longitude] %> </td>
                   <td><%= address[:latitude] %> </td>

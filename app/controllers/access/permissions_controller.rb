@@ -21,14 +21,15 @@ class Access::PermissionsController < AccessController
     initialize_form_variables('PERMISSION',
                               'Create a new permission for a user',
                               'access/permissions/permission_form',
-                              'constant')
+                              'permission')
+    @active_permissions_uniq = Permission.all.uniq
     initialize_employee_selection
   end
 
   def search_suggestions
     permissions = Permission
-                   .where("permission.access_id LIKE ?","%#{params[:query]}%")
-                   .pluck("permission.access_id")
+                      .where("permission.access_id LIKE ?","%#{params[:query]}%")
+                      .pluck("permission.access_id")
     direct = "{\"query\": \"Unit\",\"suggestions\":[" + permissions.to_s.gsub!('[', '').gsub!(']', '') + "]}"
     respond_to do |format|
       format.all { render :text => direct}
@@ -50,11 +51,7 @@ class Access::PermissionsController < AccessController
   end
 
   def delete
-    permission_to_be_deleted = Permission.find(params[:id])
-    flash[:general_flash_notification] = 'Permission ' + permission_to_be_deleted.access_id + ' has been deleted from database'
-    flash[:general_flash_notification_type] = 'affirmative'
-    permission_to_be_deleted.destroy
-    redirect_to :action => 'index'
+    generic_delete_model(Permission,controller_name)
   end
 
   def process_permission_form(myPermission)

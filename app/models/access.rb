@@ -8,7 +8,6 @@ class Access < ActiveRecord::Base
   belongs_to :actor, autosave: true
   has_many :permissions
 
-
   validates_presence_of :username
   validates :username, uniqueness: true
   validates_length_of :username, maximum: 64

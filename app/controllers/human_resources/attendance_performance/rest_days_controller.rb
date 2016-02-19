@@ -41,13 +41,7 @@ class HumanResources::AttendancePerformance::RestDaysController < HumanResources
   end
 
   def delete
-    restDayToBeDeleted = RestDay.find(params[:id])
-    restDayOwner = Employee.find(restDayToBeDeleted.employee_id)
-    flash[:general_flash_notification_type] = 'Rest day ' + restDayToBeDeleted.day + ' for employees ' + restDayOwner.actor.name + ' has been deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    restDayToBeDeleted.destroy
-    flash[:general_flash_notification] = 'Rest day ' + restDayToBeDeleted.day + ' for employees ' + restDayOwner.actor.name + ' has been deleted.'
-    redirect_to :action => 'index'
+    generic_delete_model(RestDay,controller_name)
   end
 
   def new

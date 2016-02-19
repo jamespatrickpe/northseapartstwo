@@ -23,6 +23,9 @@
             <%= generic_table_theadlink('expenses.physical_id', table_orientation) %>
           </th>
           <th>
+            Involved Entities
+          </th>
+          <th>
             Remark
             <%= generic_table_theadlink('expenses.remark', table_orientation) %>
           </th>
@@ -43,6 +46,7 @@
                   <td><%= e[:amount] %> </td>
                   <td><%= e[:category] %> </td>
                   <td><%= e[:physical_id] %> </td>
+                  <td><%= get_all_entities_involved_with_a_model(ExpensesActor, "expenses_actors.expense_id = ?", e[:id]).collect { |i| i.name }.join(", ")%></td>
                   <td><%= e[:remark] %> </td>
                   <td><%= e[:date_of_effectivity] %> </td>
                   <td class="actions">

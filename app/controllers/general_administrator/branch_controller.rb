@@ -39,21 +39,21 @@ class GeneralAdministrator::BranchController < GeneralAdministratorController
   def new
     initialize_form
     @selected_branch = Branch.new
+    @actors = Actor.all().order('name ASC')
+    @branches = Branch.all().order('name ASC')
     generic_singlecolumn_form(@selected_branch)
   end
 
   def edit
     initialize_form
     @selected_branch = Branch.find(params[:id])
+    @actors = Actor.all().order('name ASC')
+    @branches = Branch.all().order('name ASC')
     generic_singlecolumn_form(@selected_branch)
   end
 
   def delete
-    branch_to_be_deleted = Branch.find(params[:id])
-    flash[:general_flash_notification] = 'Branch ' + branch_to_be_deleted.name + ' has been deleted from database'
-    flash[:general_flash_notification_type] = 'affirmative'
-    branch_to_be_deleted.destroy
-    redirect_to :action => 'index'
+    generic_delete_model(Branch,controller_name)
   end
 
   def process_branch_form(myBranch)

@@ -1,0 +1,46 @@
+<%= generic_employee_select_field('lump_adjustment',@selected_lump_adjustment[:employee_id]) %>
+
+<div class="form-block">
+  <div class="label">Amount  : </div>
+  <%= text_field_tag("lump_adjustment[amount]",
+                     content = @selected_lump_adjustment.amount,
+                     options = {placeholder: "Enter amount",
+                                required: "required",
+                                :"data-parsley-trigger" => "keyup",
+                                :"data-parsley-step" => "0.01",
+                                :"data-parsley-type" => "number"}) %>
+</div>
+
+
+<div class="form-block">
+  <div class="label">Signed Type : </div>
+  <br />
+  <select name='lump_adjustment[signed_type]'
+          required="required" >
+    <% if @selected_lump_adjustment[:signed_type] == true %>
+        <option disabled >Select Signed Type</option>
+        <option value=1 selected>Additive</option>
+        <option value=0>Deductive</option>
+    <% elsif @selected_lump_adjustment[:signed_type] == false %>
+        <option disabled >Select Signed Type</option>
+        <option value=1>Additive</option>
+        <option value=0 selected>Deductive</option>
+    <% else %>
+        <option disabled selected>Select Signed Type</option>
+        <option value=1>Additive</option>
+        <option value=0>Deductive</option>
+    <% end %>
+  </select>
+</div>
+
+
+<div class="form-block">
+  <div class="label">Date of Effectivity  : </div>
+  <input type="datetime-local"
+         required="required"
+         name="lump_adjustment[date_of_effectivity]"
+         step="1"
+         value= <%= @selected_lump_adjustment[:date_of_effectivity].present? ? @selected_lump_adjustment[:date_of_effectivity].strftime('%FT%T') : Time.now.strftime('%FT%T')  %>>
+</div>
+
+<%= generic_remarks_description_field('lump_adjustment',@selected_lump_adjustment[:remark]) %>

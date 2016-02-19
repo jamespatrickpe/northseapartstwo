@@ -45,12 +45,7 @@ class HumanResources::AttendancePerformance::RegularWorkPeriodsController < Huma
   end
 
   def delete
-    regularWorkPeriodToBeDeleted = RegularWorkPeriod.find(params[:id])
-    regularWorkPeriodOwner = Employee.find(regularWorkPeriodToBeDeleted.employee_id)
-    flash[:general_flash_notification] = 'Regular work period with Time IN : ' + regularWorkPeriodToBeDeleted.start_time.to_s + ' and Time OUT : ' + regularWorkPeriodToBeDeleted.end_time.to_s + ' for employees ' + regularWorkPeriodOwner.actor.name + ' has been successfully deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    regularWorkPeriodToBeDeleted.destroy
-    redirect_to :action => "index"
+    generic_delete_model(RegularWorkPeriod,controller_name)
   end
 
   def new

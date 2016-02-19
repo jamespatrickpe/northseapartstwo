@@ -38,7 +38,9 @@ class Finance::ExpensesController < FinanceController
   def new
     initialize_form
     @selected_expense = Expense.new
-    @actors = Actor.all()
+    @actors1 = Actor.all()
+    @actors2 = Branch.all()
+
     generic_singlecolumn_form(@selected_expense)
   end
 
@@ -49,12 +51,32 @@ class Finance::ExpensesController < FinanceController
 
     # @expense_actor_rel = ExpensesActor.find_by_expense_id(params[:id])
     @expense_actor_rel = ExpensesActor.where("expenses_actors.expense_id = ?", "#{params[:id]}")
+
+    involvedActorObjects ||= []
+    involvedBranchObjects ||= []
+
     @expense_actor_rel.each do |ea|
-      @actorsInvolved.push(Actor.find(ea[:actor_id]))
+      if Actor.exists?(ea[:actor_id])
+        involvedActorObjects.push(Actor.find(ea[:actor_id]))
+      else
+        puts 'ID in use does not belong to an Actor'
+      end
     end
 
+    @expense_actor_rel.each do |ea|
+      if Branch.exists?(ea[:actor_id])
+        involvedBranchObjects.push(Branch.find(ea[:actor_id]))
+      else
+        puts 'ID in use does not belong to a Branch'
+      end
+    end
+
+    @actorsInvolved = involvedActorObjects + involvedBranchObjects
+
     @actorsInvolved.compact.uniq!
-    @actors = Actor.all()
+
+    @actors1 = Actor.all()
+    @actors2 = Branch.all()
 
     generic_singlecolumn_form(@selected_expense)
   end
