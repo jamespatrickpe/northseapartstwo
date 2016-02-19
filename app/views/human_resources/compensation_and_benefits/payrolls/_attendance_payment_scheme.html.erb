@@ -4,10 +4,10 @@
    total_night_shift_differential_hours = 0
    total_ot_nsd_hours = 0
 
-   total_reg = 0
-   total_ot = 0
-   total_nsd = 0
-   total_ot_nsd = 0
+   total_reg_aggregated_payment = 0
+   total_ot_aggregated_payment = 0
+   total_nsd_aggregated_payment = 0
+   total_ot_nsd_aggregated_payment = 0
 
    total_for_selection = 0
 %>
@@ -108,8 +108,14 @@
         <% end %>
 
         <!-- NO ATTENDANCE FOUND ON DAY -->
-        <% if attendance_exists_token == false %>
-        <% end %>
+        <%
+           if attendance_exists_token == false
+             if special_non_working_holiday(date_aspect)
+               reg = base_rates(@selected_employee.id, current_attendance_date_time,rest_day_token)[:reg]
+               reg_aggregated_payment = (8*reg)
+             end
+           end
+        %>
 
         <!-- PRESENTATION -->
         <tr>
@@ -143,7 +149,42 @@
           </td>
         </tr>
 
+        <!-- ADDING ITERATION -->
+        <%
+           total_regular_work_hours = total_regular_work_hours + regular_work_hours
+           total_overtime_hours = total_overtime_hours + overtime_hours
+           total_night_shift_differential_hours = total_night_shift_differential_hours + night_shift_differential_hours
+           total_ot_nsd_hours = total_ot_nsd_hours + ot_nsd_hours
+
+           total_reg_aggregated_payment = total_reg_aggregated_payment + reg_aggregated_payment
+           total_ot_aggregated_payment = total_ot_aggregated_payment + ot_aggregated_payment
+           total_nsd_aggregated_payment = total_nsd_aggregated_payment + nsd_aggregated_payment
+           total_ot_nsd_aggregated_payment = total_ot_nsd_aggregated_payment + ot_nsd_aggregated_payment
+
+           total_for_selection = total_for_selection + total_aggregated_payment
+        %>
     <% end %>
+
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><%= total_regular_work_hours %></td>
+      <td><%= total_overtime_hours %></td>
+      <td><%= total_night_shift_differential_hours %></td>
+      <td><%= total_ot_nsd_hours %></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><%= total_reg_aggregated_payment.round(2) %></td>
+      <td><%= total_ot_aggregated_payment.round(2) %></td>
+      <td><%= total_nsd_aggregated_payment.round(2) %></td>
+      <td><%= total_ot_nsd_aggregated_payment.round(2) %></td>
+      <td><%= total_for_selection.round(2) %></td>
+      <td></td>
+      <td></td>
+    </tr>
     </tbody>
   </table>
 </div>

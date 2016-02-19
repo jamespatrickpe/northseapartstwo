@@ -1,5 +1,19 @@
 module HumanResourcesHelper
 
+  def special_non_working_holiday(current_date)
+    main_boolean = false
+    holidays = Holiday.includes(:holiday_type).joins(:holiday_type)
+    holidays.each do |holiday|
+      if current_date == holiday[:date_of_implementation]
+        holiday_type = holiday.holiday_type.type_name
+        if ( holiday_type == 'Regular' || holiday_type == 'Double' )
+          main_boolean = true
+        end
+      end
+    end
+    main_boolean
+  end
+
   def signed_amount(sign, amount)
     if sign
       amount = amount
