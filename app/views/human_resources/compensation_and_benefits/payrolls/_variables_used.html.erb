@@ -66,6 +66,9 @@
       <% end %>
 
       <% if (@base_rates_applied_to_valid_period.present?) %>
+          <%
+             aggregated_total = 0
+          %>
           <span class="table-label">Base Rates applied to Valid Period:</span>
           <table class="generic_table">
             <thead>
@@ -93,7 +96,19 @@
                                                      base_rate[:id]) %>
                   </td>
                 </tr>
+                <%
+                   hourly_rate = convert_base_rate_amount_to_hours(base_rate[:amount],base_rate[:period_of_time])
+                   effective_start = Date.parse( [ base_rate[:start_of_effectivity].strftime("%Y-%m-%d") , @start_date ].max )
+                   effective_end = Date.parse( [ base_rate[:end_of_effectivity].strftime("%Y-%m-%d"), @end_date ].min )
+                   #aggregated_total += ((effective_end - effective_start)*24)*hourly_rate
+                   aggregated_total = base_rate[:start_of_effectivity]
+                %>
             <% end %>
+
+            <tr>
+              <td colspan="4" align="right"> AMOUNT: </td>
+              <td colspan="2"><%= aggregated_total %></td>
+            </tr>
             </tbody>
           </table>
       <% end %>

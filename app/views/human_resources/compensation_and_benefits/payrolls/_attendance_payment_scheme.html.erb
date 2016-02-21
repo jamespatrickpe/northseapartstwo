@@ -169,10 +169,10 @@
       <td></td>
       <td></td>
       <td></td>
-      <td><%= total_regular_work_hours %></td>
-      <td><%= total_overtime_hours %></td>
-      <td><%= total_night_shift_differential_hours %></td>
-      <td><%= total_ot_nsd_hours %></td>
+      <td><%= total_regular_work_hours.round(2) %></td>
+      <td><%= total_overtime_hours.round(2) %></td>
+      <td><%= total_night_shift_differential_hours.round(2) %></td>
+      <td><%= total_ot_nsd_hours.round(2) %></td>
       <td></td>
       <td></td>
       <td></td>
@@ -181,7 +181,7 @@
       <td><%= total_ot_aggregated_payment.round(2) %></td>
       <td><%= total_nsd_aggregated_payment.round(2) %></td>
       <td><%= total_ot_nsd_aggregated_payment.round(2) %></td>
-      <td><%= total_for_selection.round(2) %></td>
+      <td class="subtotal"><%= total_for_selection.round(2) %></td>
       <td></td>
       <td></td>
     </tr>
