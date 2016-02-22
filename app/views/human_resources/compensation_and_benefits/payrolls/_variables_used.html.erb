@@ -74,15 +74,31 @@
             <thead>
             <th>Original Start</th>
             <th>Original End</th>
+            <th>Applied Start</th>
+            <th>Applied End</th>
             <th>Amount</th>
             <th>Period</th>
+            <th>Total</th>
             <th>Remark</th>
             </thead>
             <tbody>
             <% @base_rates_applied_to_valid_period.each do |base_rate| %>
+                <%
+                   selected_start = DateTime.parse( @start_date )
+                   selected_end = DateTime.parse( @end_date )
+                   base_rate_start = base_rate[:start_of_effectivity]
+                   base_rate_end = base_rate[:end_of_effectivity]
+                   time_period_start = [selected_start, base_rate_start].max
+                   time_period_end = [selected_end, base_rate_end].min
+                   time_period = (time_period_end-time_period_start)
+                   total = time_period
+                   aggregated_total += total
+                %>
                 <tr>
-                  <td><%= base_rate[:start_of_effectivity] %></td>
-                  <td><%= base_rate[:end_of_effectivity] %></td>
+                  <td><%= base_rate[:start_of_effectivity].strftime("%Y/%m/%d %T") %></td>
+                  <td><%= base_rate[:end_of_effectivity].strftime("%Y/%m/%d %T") %></td>
+                  <td><%= time_period_start.strftime("%Y/%m/%d %T") %></td>
+                  <td><%= time_period_end.strftime("%Y/%m/%d %T") %></td>
                   <td>
                     <%= base_rate[:signed_type] ? "( + )" : "( - )" %>
                     <%= base_rate[:amount] %>
@@ -90,6 +106,7 @@
                   <td>
                     <%= base_rate[:period_of_time] %>
                   </td>
+                  <td><%= total %></td>
                   <td><%= base_rate[:remark] %></td>
                   <td class="actions">
                     <%= generic_payroll_examine_link('/human_resources/compensation_and_benefits/base_rates/',
@@ -97,12 +114,9 @@
                   </td>
                 </tr>
                 <%
-                   hourly_rate = convert_base_rate_amount_to_hours(base_rate[:amount],base_rate[:period_of_time])
-                   selected_start = DateTime.parse( @start_date )
-                   selected_end = DateTime.parse( @end_date )
-                   base_rate_start = base_rate[:start_of_effectivity]
-                   base_rate_end = base_rate[:end_of_effectivity]
-                   aggregated_total = base_rate_end
+
+
+
                 %>
             <% end %>
 
