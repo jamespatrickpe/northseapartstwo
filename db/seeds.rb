@@ -303,7 +303,7 @@ numberOfActors.times do |i|
     randomNumberOfExpenses.times do |i|
       expense = Expense.new()
       expense.amount = randomMoney(100.10, 1000.00)
-      expense.category = Faker::Lorem.word
+      expense.category = ["utilities.gas"].sample
       expense.remark = Faker::Lorem.sentence
       expense.date_of_effectivity = rand(720..72000).hours.ago
       expense.physical_id = Faker::Lorem.word
@@ -319,36 +319,36 @@ numberOfActors.times do |i|
     rand(0..2).times do |i|
 
       if 9.in(10)
-        my_payroll = Payroll.new
-        my_payroll.article = "SSS"
+        my_payroll_settings = PayrollSetting.new
+        my_payroll_settings.article = "SSS"
         boolean_of_applicability = -> { [false,true].sample }
-        my_payroll.applicability = boolean_of_applicability.call
-        my_payroll.date_of_effectivity = rand(720..72000).hours.ago
-        my_payroll.remark = Faker::Lorem.word
-        my_payroll.employee = myEmployee
-        my_payroll.save!
+        my_payroll_settings.applicability = boolean_of_applicability.call
+        my_payroll_settings.date_of_effectivity = rand(720..72000).hours.ago
+        my_payroll_settings.remark = Faker::Lorem.word
+        my_payroll_settings.employee = myEmployee
+        my_payroll_settings.save!
       end
 
       if 9.in(10)
-        my_payroll = Payroll.new
-        my_payroll.article = "PHILHEALTH"
+        my_payroll_settings = PayrollSetting.new
+        my_payroll_settings.article = "PHILHEALTH"
         boolean_of_applicability = -> { [false,true].sample }
-        my_payroll.applicability = boolean_of_applicability.call
-        my_payroll.date_of_effectivity = rand(720..72000).hours.ago
-        my_payroll.remark = Faker::Lorem.word
-        my_payroll.employee = myEmployee
-        my_payroll.save!
+        my_payroll_settings.applicability = boolean_of_applicability.call
+        my_payroll_settings.date_of_effectivity = rand(720..72000).hours.ago
+        my_payroll_settings.remark = Faker::Lorem.word
+        my_payroll_settings.employee = myEmployee
+        my_payroll_settings.save!
       end
 
       if 9.in(10)
-        my_payroll = Payroll.new
-        my_payroll.article = "PAGIBIG"
+        my_payroll_settings = PayrollSetting.new
+        my_payroll_settings.article = "PAGIBIG"
         boolean_of_applicability = -> { [false,true].sample }
-        my_payroll.applicability = boolean_of_applicability.call
-        my_payroll.date_of_effectivity = rand(720..72000).hours.ago
-        my_payroll.remark = Faker::Lorem.word
-        my_payroll.employee = myEmployee
-        my_payroll.save!
+        my_payroll_settings.applicability = boolean_of_applicability.call
+        my_payroll_settings.date_of_effectivity = rand(720..72000).hours.ago
+        my_payroll_settings.remark = Faker::Lorem.word
+        my_payroll_settings.employee = myEmployee
+        my_payroll_settings.save!
       end
 
     end

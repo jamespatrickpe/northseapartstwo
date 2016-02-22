@@ -1,0 +1,233 @@
+<% if (@selected_employee.present?) && (@start_date.present?) && (@end_date.present?)  %>
+
+    <div class="generic_content">
+      <% if (@valid_periods.present?) %>
+          <span class="table-label">Valid Periods of Duty: </span>
+          <table class="generic_table">
+            <thead>
+            <th>Date Start</th>
+            <th>Date End</th>
+            </thead>
+            <tbody>
+            <% @valid_periods.each do |valid_period| %>
+                <tr>
+                  <td><%= valid_period[:start_period] %></td>
+                  <td><%= valid_period[:end_period] %></td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+
+          <%=
+              generic_payroll_add_link('/human_resources/employee_accounts_management/duty_statuses/new?employee_id=',
+                                       @selected_employee[:id])
+          %>
+
+      <% else %>
+          &nbsp;
+      <% end %>
+    </div>
+
+    <div class="generic_content">
+
+      <% if (@base_rates_applied_to_payment_scheme.present?) %>
+          <span class="table-label">Base Rates applied to Payment Scheme:</span>
+          <table class="generic_table">
+            <thead>
+            <th>Original Start</th>
+            <th>Original End</th>
+            <th>Rate Type</th>
+            <th>Amount per Hour</th>
+            <th>Remark</th>
+            </thead>
+            <tbody>
+            <% @base_rates_applied_to_payment_scheme.each do |base_rate| %>
+                <tr>
+                  <td><%= base_rate[:start_of_effectivity] %></td>
+                  <td><%= base_rate[:end_of_effectivity] %></td>
+                  <td>
+                    <%=
+                        base_rate[:rate_type]
+                    %>
+                  </td>
+                  <td>
+                    <%= base_rate[:signed_type] ? "( + )" : "( - )" %>
+                    <%= convert_base_rate_amount_to_hours(base_rate[:amount],base_rate[:period_of_time]) %>
+                  </td>
+                  <td><%= base_rate[:remark] %></td>
+                  <td class="actions">
+                    <%= generic_payroll_examine_link('/human_resources/compensation_and_benefits/base_rates/',
+                                                     base_rate[:id]) %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+      <% end %>
+
+      <% if (@base_rates_applied_to_valid_period.present?) %>
+          <%
+             aggregated_total = 0
+          %>
+          <span class="table-label">Base Rates applied to Valid Period:</span>
+          <table class="generic_table">
+            <thead>
+            <th>Original Start</th>
+            <th>Original End</th>
+            <th>Applied Start</th>
+            <th>Applied End</th>
+            <th>Amount</th>
+            <th>Period</th>
+            <th>Total</th>
+            <th>Remark</th>
+            </thead>
+            <tbody>
+            <% @base_rates_applied_to_valid_period.each do |base_rate| %>
+                <%
+                   selected_start = DateTime.parse( @start_date )
+                   selected_end = DateTime.parse( @end_date )
+                   base_rate_start = base_rate[:start_of_effectivity]
+                   base_rate_end = base_rate[:end_of_effectivity]
+                   time_period_start = [selected_start, base_rate_start].max
+                   time_period_end = [selected_end, base_rate_end].min
+                   time_period = (time_period_end-time_period_start)
+                   total = time_period
+                   aggregated_total += total
+                %>
+                <tr>
+                  <td><%= base_rate[:start_of_effectivity].strftime("%Y/%m/%d %T") %></td>
+                  <td><%= base_rate[:end_of_effectivity].strftime("%Y/%m/%d %T") %></td>
+                  <td><%= time_period_start.strftime("%Y/%m/%d %T") %></td>
+                  <td><%= time_period_end.strftime("%Y/%m/%d %T") %></td>
+                  <td>
+                    <%= base_rate[:signed_type] ? "( + )" : "( - )" %>
+                    <%= base_rate[:amount] %>
+                  </td>
+                  <td>
+                    <%= base_rate[:period_of_time] %>
+                  </td>
+                  <td><%= total %></td>
+                  <td><%= base_rate[:remark] %></td>
+                  <td class="actions">
+                    <%= generic_payroll_examine_link('/human_resources/compensation_and_benefits/base_rates/',
+                                                     base_rate[:id]) %>
+                  </td>
+                </tr>
+                <%
+
+
+
+                %>
+            <% end %>
+
+            <tr>
+              <td colspan="4" align="right"> AMOUNT: </td>
+              <td colspan="2"><%= aggregated_total %></td>
+            </tr>
+            </tbody>
+          </table>
+      <% end %>
+
+      <div class="generic_content" style="float:right;">
+        <%=
+            generic_payroll_add_link('/human_resources/compensation_and_benefits/base_rates/new?employee_id=',
+                                     @selected_employee[:id])
+        %>
+      </div>
+    </div>
+
+    <div class="generic_content">
+      <% if (@selected_lump_adjustments.present?) %>
+          <span class="table-label">Lump Adjustments Applied:</span>
+          <table class="generic_table">
+            <thead>
+            <tr>
+              <th>Date</th>
+              <th>Amount</th>
+              <th>Remark</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%
+               total_lump_adjustments = 0
+               @selected_lump_adjustments.each do |selected_lump_adjustment|
+            %>
+                <tr>
+                  <td><%= selected_lump_adjustment[:date_of_effectivity] %></td>
+                  <td>
+                    <%= selected_lump_adjustment[:signed_type] ? "( + )" : "( - )" %>
+                    <%= selected_lump_adjustment[:amount] %>
+                  </td>
+                  <td><%= selected_lump_adjustment[:remark] %></td>
+                  <td class="actions">
+                    <%= generic_payroll_examine_link('/human_resources/compensation_and_benefits/lump_adjustments/',
+                                                     selected_lump_adjustment[:id]) %>
+                  </td>
+                </tr>
+                <% current_lump_adjustments = signed_amount(selected_lump_adjustment[:signed_type], selected_lump_adjustment[:amount]) %>
+                <% total_lump_adjustments = total_lump_adjustments + current_lump_adjustments %>
+            <% end %>
+            <tr>
+              <td>
+                TOTAL:
+              </td>
+              <td class="subtotal" colspan="2">
+                <%= total_lump_adjustments %>
+              </td>
+              <td>&nbsp;</td>
+            </tr>
+            </tbody>
+          </table>
+          <%= generic_payroll_add_link('/human_resources/compensation_and_benefits/lump_adjustments/new?employee_id=',
+                                       @selected_employee[:id]) %>
+      <% end %>
+    </div>
+
+    <div class="generic_content">
+      <% if (@selected_lump_adjustments.present?) %>
+          <span class="table-label">Vales Applied:</span>
+          <table class="generic_table">
+            <thead>
+            <tr>
+              <th>Date</th>
+              <th>Balance</th>
+              <th>Remark</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%
+               total_vale = 0
+               @selected_vales.each do |selected_vale|
+            %>
+                <tr>
+                  <td><%= selected_vale[:date_of_effectivity] %></td>
+                  <td><%= remaining_vale_balance(selected_vale[:id], @end_date ) %></td>
+                  <td><%= selected_vale[:remark] %></td>
+                  <td class="actions">
+                    <%= generic_payroll_examine_link('/human_resources/compensation_and_benefits/vales/',selected_vale[:id]) %>
+                  </td>
+                </tr>
+                <% current_vale = remaining_vale_balance( selected_vale[:id], @end_date ) %>
+                <% total_vale = total_vale + current_vale %>
+            <% end %>
+            <tr>
+              <td>
+                REMAINING BALANCE:
+              </td>
+              <td colspan="2" class="subtotal">
+                <%= total_vale %>
+              </td>
+              <td></td>
+            </tr>
+            </tbody>
+          </table>
+
+          <%=
+              generic_payroll_add_link('/human_resources/compensation_and_benefits/vales/new?employee_id=',
+                                       @selected_employee[:id])
+          %>
+
+      <% end %>
+    </div>
+
+<% end %>
