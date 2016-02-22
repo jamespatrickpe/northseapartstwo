@@ -79,5 +79,5 @@ en:
     actor_selection_description: " What are you applying for? "
 
   buttons:
-    more: "more"
-    less: "less"
+    more: "More"
+    less: "Less"
