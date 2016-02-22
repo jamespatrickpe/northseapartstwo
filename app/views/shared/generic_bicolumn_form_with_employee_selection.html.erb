@@ -9,17 +9,18 @@
                (current_method = :post; current_action = 'create')
     %>
     <%=
-       form_tag( {:action => current_action},
-                 {:method => current_method,
-                  :class => 'create_form',
-                  :id => "new_duty_status_form",
-                  :"data-parsley-validate" => ""
-                 },
-       ) do
+        form_tag( {:action => current_action},
+                  {:method => current_method,
+                   :class => 'create_form',
+                   :id => "new_duty_status_form",
+                   :"data-parsley-validate" => ""
+                  },
+        ) do
     %>
-    <%= hidden_field_tag(model_id_name, model[:id] ) %>
-    <%= render @form_location %>
-    <%= generic_form_footer(model[:id]) %>
+        <%= hidden_field_tag(model_id_name, model[:id] ) %>
+        <%= generic_employee_select_field(@singular_model_name, model[:employee_id]) %>
+        <%= render @form_location %>
+        <%= generic_form_footer(model[:id]) %>
     <% end %>
   </div>
   <div>
