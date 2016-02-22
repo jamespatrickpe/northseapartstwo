@@ -1,9 +1,32 @@
+.generic_tricolumn_form {
+    border-right : 1px solid #cccccc;
+    float : left;
+    font-size: 12px;
+    margin-bottom : 16px;
+    padding : 16px;
+    width : 33% !important;
+}
+
+.generic_tricolumn_form .form-block, .generic_tricolumn_form .generic_bicolumn_form {
+    width : 100%;
+}
+
+.generic_tricolumn_form .employee_quick_profile {
+    padding : 4px;
+    width : 100% !important;
+}
+
+.tricolumn_form_footer .generic_form_button_set {
+    text-align: right;
+    clear : both;
+}
+
 .generic_bicolumn_form
 {
-    font-size: 12px;
     border-right : 1px solid #cccccc;
-    margin-bottom : 32px;
+    font-size: 12px;
     float:left;
+    margin-bottom : 32px;
     width:50%;
 }
 

@@ -1,0 +1,37 @@
+<section class="small-10 columns">
+  <%= generic_title(@title,@subtitle) %>
+  <div>
+    <%= generic_form_edit_id_indicator(model[:id]) %>
+    <%
+       model_id_name = @singular_model_name + '[id]'
+       model[:id].present? ?
+               (current_method = :patch; current_action = model[:id] ) :
+               (current_method = :post; current_action = 'create')
+    %>
+    <%=
+        form_tag( {:action => current_action},
+                  {:method => current_method,
+                   :class => 'create_form',
+                   :id => "new_duty_status_form",
+                   :"data-parsley-validate" => ""
+                  },
+        ) do
+    %>
+        <%= hidden_field_tag(model_id_name, model[:id] ) %>
+        <%= generic_employee_select_field(@singular_model_name, model[:employee_id]) %>
+
+        <div class="sm-spacer"></div>
+        <div>
+          <%= render @form_location %>
+          <div class="generic_tricolumn_form">
+            <%= renderCorePartial('employee_quick_profile') %>
+          </div>
+        </div>
+        <section class="tricolumn_form_footer">
+          <%= generic_form_footer(model[:id]) %>
+        </section>
+    <% end %>
+
+  </div>
+
+</section>
