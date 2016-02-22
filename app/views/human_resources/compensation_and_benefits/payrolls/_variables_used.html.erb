@@ -11,8 +11,8 @@
             <tbody>
             <% @valid_periods.each do |valid_period| %>
                 <tr>
-                  <td><%= valid_period[:start_period] %></td>
-                  <td><%= valid_period[:end_period] %></td>
+                  <td><%= Date.parse(valid_period[:start_period]).strftime('%m/%d/%Y') %></td>
+                  <td><%= Date.parse(valid_period[:end_period]).strftime('%m/%d/%Y') %></td>
                 </tr>
             <% end %>
             </tbody>
@@ -30,8 +30,8 @@
 
     <div class="generic_content">
 
-      <% if (@base_rates_applied_to_payment_scheme.present?) %>
-          <span class="table-label">Base Rates applied to Payment Scheme:</span>
+      <% if (@base_rates_applied_to_attendance_scheme.present?) %>
+          <span class="table-label">Base Rates applied to Attendance Scheme:</span>
           <table class="generic_table">
             <thead>
             <th>Original Start</th>
@@ -41,10 +41,10 @@
             <th>Remark</th>
             </thead>
             <tbody>
-            <% @base_rates_applied_to_payment_scheme.each do |base_rate| %>
+            <% @base_rates_applied_to_attendance_scheme.each do |base_rate| %>
                 <tr>
-                  <td><%= base_rate[:start_of_effectivity] %></td>
-                  <td><%= base_rate[:end_of_effectivity] %></td>
+                  <td><%= base_rate[:start_of_effectivity].strftime('%m/%d/%Y %T') %></td>
+                  <td><%= base_rate[:end_of_effectivity].strftime('%m/%d/%Y %T') %></td>
                   <td>
                     <%=
                         base_rate[:rate_type]
@@ -86,19 +86,20 @@
                 <%
                    selected_start = DateTime.parse( @start_date )
                    selected_end = DateTime.parse( @end_date )
-                   base_rate_start = base_rate[:start_of_effectivity]
-                   base_rate_end = base_rate[:end_of_effectivity]
+                   base_rate_start = DateTime.parse(base_rate[:start_of_effectivity].strftime("%Y/%m/%d %T"))
+                   base_rate_end = DateTime.parse(base_rate[:end_of_effectivity].strftime("%Y/%m/%d %T"))
                    time_period_start = [selected_start, base_rate_start].max
                    time_period_end = [selected_end, base_rate_end].min
-                   time_period = (time_period_end-time_period_start)
-                   total = time_period
+                   time_period = (time_period_end - time_period_start)*24
+                   total = time_period*convert_base_rate_amount_to_hours(base_rate[:amount],base_rate[:period_of_time])
                    aggregated_total += total
+                   #aggregated_total = 0
                 %>
                 <tr>
-                  <td><%= base_rate[:start_of_effectivity].strftime("%Y/%m/%d %T") %></td>
-                  <td><%= base_rate[:end_of_effectivity].strftime("%Y/%m/%d %T") %></td>
-                  <td><%= time_period_start.strftime("%Y/%m/%d %T") %></td>
-                  <td><%= time_period_end.strftime("%Y/%m/%d %T") %></td>
+                  <td><%= base_rate[:start_of_effectivity].strftime('%m/%d/%Y %T') %></td>
+                  <td><%= base_rate[:end_of_effectivity].strftime('%m/%d/%Y %T') %></td>
+                  <td><%= time_period_start.strftime('%m/%d/%Y %T') %></td>
+                  <td><%= time_period_end.strftime('%m/%d/%Y %T') %></td>
                   <td>
                     <%= base_rate[:signed_type] ? "( + )" : "( - )" %>
                     <%= base_rate[:amount] %>
@@ -122,7 +123,7 @@
 
             <tr>
               <td colspan="4" align="right"> AMOUNT: </td>
-              <td colspan="2"><%= aggregated_total %></td>
+              <td colspan="2" class="subtotal"><%= aggregated_total %></td>
             </tr>
             </tbody>
           </table>
@@ -184,7 +185,7 @@
     </div>
 
     <div class="generic_content">
-      <% if (@selected_lump_adjustments.present?) %>
+      <% if (@selected_vales.present?) %>
           <span class="table-label">Vales Applied:</span>
           <table class="generic_table">
             <thead>
@@ -192,29 +193,32 @@
               <th>Date</th>
               <th>Balance</th>
               <th>Remark</th>
+              <th>Payment in Period</th>
             </tr>
             </thead>
             <tbody>
             <%
                total_vale = 0
                @selected_vales.each do |selected_vale|
+                 payment_in_period = vale_payment_in_period(@start_date, @end_date, selected_vale)
             %>
                 <tr>
                   <td><%= selected_vale[:date_of_effectivity] %></td>
                   <td><%= remaining_vale_balance(selected_vale[:id], @end_date ) %></td>
                   <td><%= selected_vale[:remark] %></td>
+                  <td><%= payment_in_period %></td>
                   <td class="actions">
                     <%= generic_payroll_examine_link('/human_resources/compensation_and_benefits/vales/',selected_vale[:id]) %>
                   </td>
                 </tr>
-                <% current_vale = remaining_vale_balance( selected_vale[:id], @end_date ) %>
-                <% total_vale = total_vale + current_vale %>
+                <% current_vale = payment_in_period %>
+                <% total_vale += current_vale %>
             <% end %>
             <tr>
-              <td>
-                REMAINING BALANCE:
+              <td colspan="3">
+                TOTAL PAYMENT IN PERIOD:
               </td>
-              <td colspan="2" class="subtotal">
+              <td class="subtotal">
                 <%= total_vale %>
               </td>
               <td></td>

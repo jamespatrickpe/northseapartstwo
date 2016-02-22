@@ -102,7 +102,6 @@
 
                    remark = selected_attendance[:remark]
                    attendance_id = selected_attendance[:id]
-                   total_aggregated_payment = reg_aggregated_payment + ot_aggregated_payment + nsd_aggregated_payment + ot_nsd_aggregated_payment
                 %>
             <% end %>
         <% end %>
@@ -117,10 +116,12 @@
            end
         %>
 
+        <% total_aggregated_payment = reg_aggregated_payment + ot_aggregated_payment + nsd_aggregated_payment + ot_nsd_aggregated_payment %>
+
         <!-- PRESENTATION -->
         <tr>
           <td>
-            <%= date_aspect %> <br>
+            <%= date_aspect.strftime('%m/%d/%Y')  %> <br>
             <%= display_if_holiday(date_aspect) %>
             <%= rest_day_token %>
           </td>
@@ -151,17 +152,17 @@
 
         <!-- ADDING ITERATION -->
         <%
-           total_regular_work_hours = total_regular_work_hours + regular_work_hours
-           total_overtime_hours = total_overtime_hours + overtime_hours
-           total_night_shift_differential_hours = total_night_shift_differential_hours + night_shift_differential_hours
-           total_ot_nsd_hours = total_ot_nsd_hours + ot_nsd_hours
+           total_regular_work_hours += regular_work_hours
+           total_overtime_hours += overtime_hours
+           total_night_shift_differential_hours += night_shift_differential_hours
+           total_ot_nsd_hours += ot_nsd_hours
 
-           total_reg_aggregated_payment = total_reg_aggregated_payment + reg_aggregated_payment
-           total_ot_aggregated_payment = total_ot_aggregated_payment + ot_aggregated_payment
-           total_nsd_aggregated_payment = total_nsd_aggregated_payment + nsd_aggregated_payment
-           total_ot_nsd_aggregated_payment = total_ot_nsd_aggregated_payment + ot_nsd_aggregated_payment
+           total_reg_aggregated_payment += reg_aggregated_payment
+           total_ot_aggregated_payment += ot_aggregated_payment
+           total_nsd_aggregated_payment += nsd_aggregated_payment
+           total_ot_nsd_aggregated_payment += ot_nsd_aggregated_payment
 
-           total_for_selection = total_for_selection + total_aggregated_payment
+           total_for_selection += total_aggregated_payment
         %>
     <% end %>
 

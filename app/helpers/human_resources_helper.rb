@@ -1,5 +1,36 @@
 module HumanResourcesHelper
 
+  def vale_payment_in_period(start_date, end_date, vale)
+    current_date = vale[:date_of_effectivity]
+    start_date = DateTime.parse(start_date)
+    end_date = DateTime.parse(end_date)
+    amount = vale[:amount]
+    amount_of_deduction = vale[:amount_of_deduction]
+    period_of_deduction = vale[:period_of_deduction]
+    deductions_in_period = 0
+    counter = 0
+    iteration = translate_period_of_time_into_seconds(vale[:period_of_deduction])
+
+    while current_date < end_date
+
+      if ( 0 > amount -= amount_of_deduction)
+        ending_amount_to_be_deducted = amount_of_deduction - amount
+        deductions_in_period += ending_amount_to_be_deducted
+        break
+      else
+        amount -= amount_of_deduction
+      end
+
+      if current_date.between?(start_date, end_date)
+        deductions_in_period += amount_of_deduction
+      end
+
+      current_date += iteration
+    end
+
+    deductions_in_period
+  end
+
   def special_non_working_holiday(current_date)
     main_boolean = false
     holidays = Holiday.includes(:holiday_type).joins(:holiday_type)

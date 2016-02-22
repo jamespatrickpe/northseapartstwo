@@ -76,7 +76,7 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
     @total_hours_valid_period = @total_hours_valid_period*24
 
     # Categorize Base Rates
-    @base_rates_applied_to_payment_scheme = BaseRate.where("(employee_id = ?) AND ((rate_type = 'BASE') OR (rate_type = 'ALLOWANCE')) ", "#{current_employee_id}")
+    @base_rates_applied_to_attendance_scheme = BaseRate.where("(employee_id = ?) AND ((rate_type = 'BASE') OR (rate_type = 'ALLOWANCE')) ", "#{current_employee_id}")
     @base_rates_applied_to_valid_period = BaseRate.where("(employee_id = ?) AND (rate_type = 'OTHER') ", "#{current_employee_id}")
     @base_rates_applied_to_valid_period = @base_rates_applied_to_valid_period.select{ |base_rate|
       conditional = false
@@ -106,7 +106,7 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
     @selected_vales = Vale.where("employee_id = ? AND approval_status = 1", "#{current_employee_id}")
     @selected_vales = @selected_vales.select{ |my_vale|
       conditional = false
-      balance = remaining_vale_balance(my_vale[:id])
+      balance = remaining_vale_balance(my_vale[:id], @start_date)
       (balance != "PAID") ? (conditional = true) : (conditional = false)
       conditional
     }
