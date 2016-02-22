@@ -49,11 +49,7 @@ class HumanResources::Settings::ConstantsController < HumanResources::SettingsCo
 
 
   def delete
-    constant_to_be_deleted = Constant.find(params[:id])
-    flash[:general_flash_notification] = 'Constant / System param ' + constant_to_be_deleted.name + ' has been deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    constant_to_be_deleted.destroy
-    redirect_to :action => "index"
+    generic_delete_model(Constant, controller_name)
   end
 
   def process_constant_form(currentConstant)

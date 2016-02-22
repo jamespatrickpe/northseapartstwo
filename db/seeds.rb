@@ -92,6 +92,18 @@ numberOfActors.times do |i|
     end
   end
 
+  #Related Link Sets
+  rand(0..10).times do |i|
+    if randomBoolean
+      myLinkSet = LinkSet.new
+      myLinkSet.label = Faker::Lorem.word
+      myLinkSet[:url] = Faker::Lorem.word
+      myLinkSet.rel_link_set_id = myActor.id
+      myLinkSet.rel_link_set_type = 'Actor'
+      myLinkSet.save!
+    end
+  end
+
   #Digital
   rand(0..5).times do |i|
     myDigital = Digital.new( description: Faker::Lorem.sentence, url: Faker::Internet.url)

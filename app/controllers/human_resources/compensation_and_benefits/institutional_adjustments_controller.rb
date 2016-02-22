@@ -85,10 +85,7 @@ class HumanResources::CompensationAndBenefits::InstitutionalAdjustmentsControlle
   end
 
   def delete
-    institutional_adjustment_to_be_deleted = InstitutionalAdjustment.find(params[:id])
-    flash[:general_flash_notification] = institutional_adjustment_to_be_deleted.id + ' has been successfully deleted'
-    institutional_adjustment_to_be_deleted.destroy
-    redirect_to :action => 'index'
+    generic_delete_model(InstitutionalAdjustment, controller_name)
   end
 
   def update

@@ -4,7 +4,6 @@
   <div class="label">Leave Type : </div>
   <br />
   <select name='leave[type_of_leave]'
-          style="width: 50%"
           required="required" >
     <% if @selected_leave[:type_of_leave] == 'VACATION' %>
         <option disabled >Select Leave Type</option>
@@ -47,7 +46,6 @@
          step = 1
          name="leave[start_of_effectivity]"
          required = required
-         style="width: 50%"
          value= <%= @selected_leave[:start_of_effectivity]%> >
 </div>
 
@@ -58,7 +56,6 @@
          step = 1
          name="leave[end_of_effectivity]"
          required = required
-         style="width: 50%"
          value= <%= @selected_leave[:end_of_effectivity] %> >
 </div>
 

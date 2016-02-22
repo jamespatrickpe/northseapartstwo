@@ -98,10 +98,11 @@
                 </tr>
                 <%
                    hourly_rate = convert_base_rate_amount_to_hours(base_rate[:amount],base_rate[:period_of_time])
-                   effective_start = Date.parse( [ base_rate[:start_of_effectivity].strftime("%Y-%m-%d") , @start_date ].max )
-                   effective_end = Date.parse( [ base_rate[:end_of_effectivity].strftime("%Y-%m-%d"), @end_date ].min )
-                   #aggregated_total += ((effective_end - effective_start)*24)*hourly_rate
-                   aggregated_total = base_rate[:start_of_effectivity]
+                   selected_start = DateTime.parse( @start_date )
+                   selected_end = DateTime.parse( @end_date )
+                   base_rate_start = base_rate[:start_of_effectivity]
+                   base_rate_end = base_rate[:end_of_effectivity]
+                   aggregated_total = base_rate_end
                 %>
             <% end %>
 
@@ -119,10 +120,7 @@
                                      @selected_employee[:id])
         %>
       </div>
-
     </div>
-
-
 
     <div class="generic_content">
       <% if (@selected_lump_adjustments.present?) %>

@@ -4,7 +4,6 @@
   <div class="label">Approval Status</div>
   <br />
   <select name='vale[approval_status]'
-          style="width: 50%"
           required="required" >
     <% if @selected_vale[:approval_status] == true %>
         <option disabled >Select Approval Status</option>
@@ -52,7 +51,6 @@
   <br />
   <select name='vale[period_of_deduction]'
           id='vale_period_of_deduction'
-          style="width: 50%"
           required="required" >
     <% if @selected_vale[:period_of_deduction] == 'DAY' %>
         <option disabled >Selected Period of Deduction</option>

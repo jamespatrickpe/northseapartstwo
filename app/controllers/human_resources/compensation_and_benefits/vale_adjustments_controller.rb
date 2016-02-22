@@ -49,11 +49,7 @@ class HumanResources::CompensationAndBenefits::ValeAdjustmentsController < Human
   end
 
   def delete
-    vale_adjustment = ValeAdjustment.find(params[:id])
-    flash[:general_flash_notification] = 'Vale Adjustments for Employees has been Deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    vale_adjustment.destroy
-    redirect_to :action => 'index'
+    generic_delete_model(ValeAdjustment, controller_name)
   end
 
   def new

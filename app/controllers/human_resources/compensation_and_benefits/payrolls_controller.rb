@@ -85,7 +85,7 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
       @valid_periods.each do |valid_period|
         valid_start_period = Date.parse(valid_period[:start_period])
         valid_end_period = Date.parse(valid_period[:end_period])
-        conditional = (valid_start_period..valid_end_period).overlaps?(base_start_period..base_end_period)
+        conditional = ( (valid_start_period..valid_end_period).cover?(base_start_period) && (valid_start_period..valid_end_period).cover?(base_end_period) )
         if conditional
           break;
         end

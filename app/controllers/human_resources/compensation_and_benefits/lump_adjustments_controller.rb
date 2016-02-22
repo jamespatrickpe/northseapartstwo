@@ -30,6 +30,14 @@ class HumanResources::CompensationAndBenefits::LumpAdjustmentsController < Human
     render 'human_resources/compensation_and_benefits/lump_adjustments/index'
   end
 
+  def initialize_form
+    initialize_form_variables('LUMP ADJUSTMENTS',
+                              'Log a lump adjustment for an employee',
+                              'human_resources/compensation_and_benefits/lump_adjustments/lump_adjustment_form',
+                              'lump_adjustment')
+    initialize_employee_selection
+  end
+
   def search_suggestions
     adjustments = LumpAdjustment.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + adjustments.uniq.to_s + "}"
@@ -39,24 +47,19 @@ class HumanResources::CompensationAndBenefits::LumpAdjustmentsController < Human
   end
 
   def delete
-    lumpAdjustmentToBeDeleted = LumpAdjustment.find(params[:id])
-    lumpAdjustmentOwner = Employee.find(lumpAdjustmentToBeDeleted.employee_id)
-    flash[:general_flash_notification] = 'Lump adjustment for employees ' + lumpAdjustmentOwner.actor.name + ' has been deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    lumpAdjustmentToBeDeleted.destroy
-    redirect_to :action => 'index'
+    generic_delete_model(LumpAdjustment, controller_name)
   end
 
   def new
-    initialize_employee_selection
+    initialize_form
     @selected_lump_adjustment = LumpAdjustment.new
-    render 'human_resources/compensation_and_benefits/lump_adjustments/lump_adjustment_form'
+    generic_bicolumn_form_with_employee_selection(@selected_lump_adjustment)
   end
 
   def edit
-    initialize_employee_selection
+    initialize_form
     @selected_lump_adjustment = LumpAdjustment.find(params[:id])
-    render 'human_resources/compensation_and_benefits/lump_adjustments/lump_adjustment_form'
+    generic_bicolumn_form_with_employee_selection(@selected_lump_adjustment)
   end
 
   def process_lump_adjustment_form(lumpAdjustment)

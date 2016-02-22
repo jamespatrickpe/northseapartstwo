@@ -3,7 +3,6 @@
   <div class="label">Institutional Adjustment : </div>
   <br />
   <select name='institutional_adjustment[institution]'
-          style="width: 50%"
           required="required" >
     <% if @selected_institutional_adjustment[:institution] == "SSS" %>
         <option disabled>Select Institution</option>
@@ -33,7 +32,6 @@
   <div class="label">Contribution Type : </div>
   <br />
   <select name='institutional_adjustment[contribution_type]'
-          style="width: 50%"
           required="required" >
     <% if @selected_institutional_adjustment[:contribution_type] == "LUMP" %>
         <option disabled>Select Contribution Type</option>
@@ -93,7 +91,6 @@
   <div class="label">Period of Time : </div>
   <br />
   <select name='institutional_adjustment[period_of_time]'
-          style="width: 50%"
           required="required" >
     <% if @selected_institutional_adjustment[:period_of_time] == 'HOUR' %>
         <option value="HOUR" selected>HOUR</option>
@@ -130,7 +127,6 @@
   <input type="datetime-local"
          required="required"
          name="institutional_adjustment[date_of_effectivity]"
-         style="width: 50%"
          step="1"
          value= <%= @selected_institutional_adjustment[:date_of_effectivity].present? ? @selected_institutional_adjustment[:date_of_effectivity].strftime('%FT%T') : Time.now.strftime('%FT%T')  %>>
 

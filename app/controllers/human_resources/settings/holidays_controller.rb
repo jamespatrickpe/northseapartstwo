@@ -52,11 +52,7 @@ class HumanResources::Settings::HolidaysController < HumanResources::SettingsCon
   end
 
   def delete
-    holiday_to_be_deleted = Holiday.find(params[:id])
-    flash[:general_flash_notification] = 'A Holiday for ' + holiday_to_be_deleted.name + ' has been deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    holiday_to_be_deleted.destroy
-    redirect_to :action => "index"
+    generic_delete_model(Holiday, controller_name)
   end
 
   def process_holiday_form(myHoliday)

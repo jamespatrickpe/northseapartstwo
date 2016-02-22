@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     namespace :employee_accounts_management do
       get 'employee_profile/' => 'employee_profile#index'
       get 'employee_profile/index' => 'employee_profile#index'
-      resources :employees, :duty_statuses do
+      resources :employees, :duty_statuses, :biodata do
         collection do
           concerns :generic_table
         end
@@ -76,6 +76,27 @@ Rails.application.routes.draw do
         end
     end
 
+    get 'file_set/' => 'file_set#index'
+    resources :file_set do
+      collection do
+        concerns :generic_table
+      end
+    end
+
+    get 'image_set/' => 'image_set#index'
+    resources :image_set do
+      collection do
+        concerns :generic_table
+      end
+    end
+
+    get 'link_set/' => 'link_set#index'
+    resources :link_set do
+      collection do
+        concerns :generic_table
+      end
+    end
+
     get 'contact_details/' => 'contact_details#index'
     namespace :contact_details do
       resources :telephones, :addresses, :digitals do
@@ -91,6 +112,13 @@ Rails.application.routes.draw do
   namespace :access do
     get 'permissions/index' => 'permissions#index'
     resources :permissions do
+      collection do
+        concerns :generic_table
+      end
+    end
+
+    get 'accesses/index' => 'accesses#index'
+    resources :accesses do
       collection do
         concerns :generic_table
       end

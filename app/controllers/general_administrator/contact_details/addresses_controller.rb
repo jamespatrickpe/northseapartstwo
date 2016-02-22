@@ -29,16 +29,44 @@ class GeneralAdministrator::ContactDetails::AddressesController < GeneralAdminis
   def new
     initialize_form
     @selected_address = Address.new
-    @actors = Actor.all().order('name ASC')
-    @branches = Branch.all().order('name ASC')
+    @actors1 = Actor.all()
+    @actors2 = Branch.all()
     generic_singlecolumn_form(@selected_address)
   end
 
   def edit
     initialize_form
     @selected_address = Address.find(params[:id])
-    @actors = Actor.all().order('name ASC')
-    @branches = Branch.all().order('name ASC')
+    @actorsInvolved ||= []
+
+    # @address_actor_rel = TelephonesActor.find_by_address_id(params[:id])
+    @address_actor_rel = AddressesActor.where("addresses_actors.address_id = ?", "#{params[:id]}")
+
+    involvedActorObjects ||= []
+    involvedBranchObjects ||= []
+
+    @address_actor_rel.each do |ea|
+      if Actor.exists?(ea[:actor_id])
+        involvedActorObjects.push(Actor.find(ea[:actor_id]))
+      else
+        puts 'ID in use does not belong to an Actor'
+      end
+    end
+
+    @address_actor_rel.each do |ea|
+      if Branch.exists?(ea[:actor_id])
+        involvedBranchObjects.push(Branch.find(ea[:actor_id]))
+      else
+        puts 'ID in use does not belong to a Branch'
+      end
+    end
+
+    @actorsInvolved = involvedActorObjects + involvedBranchObjects
+
+    @actorsInvolved.compact.uniq!
+
+    @actors1 = Actor.all()
+    @actors2 = Branch.all()
     generic_singlecolumn_form(@selected_address)
   end
 
@@ -46,6 +74,13 @@ class GeneralAdministrator::ContactDetails::AddressesController < GeneralAdminis
     address_to_be_deleted = Address.find(params[:id])
     flash[:general_flash_notification] = 'Address ' + address_to_be_deleted.description + ' has been deleted.'
     flash[:general_flash_notification_type] = 'affirmative'
+
+    # deletes all related actors with the address before deleting the actual address object
+    mapped_address_actors = AddressesActor.where("addresses_actors.address_id = ?", "#{params[:id]}")
+    mapped_address_actors.each do |a|
+      a.destroy
+    end
+
     address_to_be_deleted.destroy
     redirect_to :action => "index"
   end
@@ -55,9 +90,17 @@ class GeneralAdministrator::ContactDetails::AddressesController < GeneralAdminis
       myAddress[:description] = params[:address][:description]
       myAddress[:longitude] = params[:address][:longitude]
       myAddress[:latitude] = params[:address][:latitude]
-      myAddress[:rel_model_type] = params[:address][:rel_model_type]
-      myAddress[:rel_model_id] = params[:address][:rel_model_id]
       myAddress.save!
+
+      # after creating the new address, iterate through all the actors involved and maps them with the address
+      actorsInvolved = params[:address][:addressactors]
+      actorsInvolved.each_with_index do |p , index|
+        actor = AddressesActor.new
+        actor[:actor_id] = actorsInvolved.values[index]
+        actor[:address_id] = myAddress.id
+        actor.save!
+      end
+
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex
       puts ex

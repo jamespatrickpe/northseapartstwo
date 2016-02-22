@@ -21,12 +21,7 @@ class HumanResources::CompensationAndBenefits::LeavesController < HumanResources
   end
 
   def delete
-    leaveToBeDeleted = Leave.find(params[:id])
-    leaveOwner = Employee.find(leaveToBeDeleted.employee_id)
-    flash[:general_flash_notification] = 'Leave for ' + leaveOwner.actor.name + ' has been deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-    leaveToBeDeleted.destroy
-    redirect_to :action => 'index'
+    generic_delete_model(Leave, controller_name)
   end
 
   def new

@@ -71,5 +71,5 @@ module GenericRenderHelper
   def generic_search_footer(result_set)
     render(:partial => 'core_partials/generic_search_pagination', :locals => {:result_set => result_set})
   end
-
+  
 end
