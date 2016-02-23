@@ -5,7 +5,7 @@ module HumanResourcesHelper
     # get the variables
     start_date = DateTime.parse(start_date)
     end_date = DateTime.parse(end_date)
-    current_date = DateTime.parse(vale[:date_of_effectivity].strftime('%Y-%m-%d %T'))
+    vale_date_of_effectivity = DateTime.parse(vale[:date_of_effectivity].strftime('%Y-%m-%d %T'))
     iteration = translate_period_of_time_into_seconds(vale[:period_of_deduction])
     current_amount = vale[:amount]
     amount_of_deduction = vale[:amount_of_deduction]
@@ -14,21 +14,10 @@ module HumanResourcesHelper
 
     # loop until the vale runs out
     while current_amount > 0
-
-      #iterators for date and amount of money
-      current_date += iteration.seconds
       current_amount -= amount_of_deduction
-
-      #deductions
-      if current_date.between?(start_date, end_date)
-        total_deduction += amount_of_deduction
-      end
-
-      ## FIX Vale Summary First!
-
+      ``
     end
 
-    total_deduction
   end
 
   def special_non_working_holiday(current_date)
