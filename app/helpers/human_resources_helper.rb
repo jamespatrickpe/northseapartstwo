@@ -5,19 +5,53 @@ module HumanResourcesHelper
     # get the variables
     start_date = DateTime.parse(start_date)
     end_date = DateTime.parse(end_date)
-    vale_date_of_effectivity = DateTime.parse(vale[:date_of_effectivity].strftime('%Y-%m-%d %T'))
+    current_vale_date = DateTime.parse(vale[:date_of_effectivity].strftime('%Y-%m-%d %T'))
     iteration = translate_period_of_time_into_seconds(vale[:period_of_deduction])
     current_amount = vale[:amount]
-    amount_of_deduction = vale[:amount_of_deduction]
     total_deduction = 0
     vale_adjustments = ValeAdjustment.where("vale_id = '" + vale[:id] + "'")
+    i_got_in_token = 0
 
     # loop until the vale runs out
     while current_amount > 0
+
+      # reset amount of deduction
+      amount_of_deduction = vale[:amount_of_deduction]
+
+      # calculate datetime for next iteration
+      next_vale_date = (current_vale_date + iteration.seconds)
+
+      # check for any adjustments on the period
+      vale_adjustments.each do |adjustment|
+        adjustment_date_of_effectivity = DateTime.parse( adjustment[:date_of_effectivity].strftime('%Y-%m-%d') )
+        if adjustment_date_of_effectivity.between?(current_vale_date,next_vale_date)
+          if adjustment[:signed_type]
+            current_amount += adjustment[:amount]
+          else
+            amount_of_deduction += adjustment[:amount]
+          end
+        end
+      end
+
+      # check if about to amount is going to run out on next iteration; if so, prepare for exact sum of amount_of_deduction
+      if current_amount < amount_of_deduction
+        final_deduction = (amount_of_deduction - current_amount)
+        amount_of_deduction = final_deduction
+      end
+
+      # iterate amount
       current_amount -= amount_of_deduction
-      ``
+
+      # capture deductions
+      if current_vale_date.between?(start_date, end_date)
+        total_deduction += amount_of_deduction
+      end
+
+      # iterate date
+      current_vale_date += iteration.seconds
     end
 
+    total_deduction
   end
 
   def special_non_working_holiday(current_date)

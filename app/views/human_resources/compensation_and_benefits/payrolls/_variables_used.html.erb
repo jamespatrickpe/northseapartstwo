@@ -93,7 +93,6 @@
                    time_period = (time_period_end - time_period_start)*24
                    total = time_period*convert_base_rate_amount_to_hours(base_rate[:amount],base_rate[:period_of_time])
                    aggregated_total += total
-                   #aggregated_total = 0
                 %>
                 <tr>
                   <td><%= base_rate[:start_of_effectivity].strftime('%m/%d/%Y %T') %></td>
@@ -203,7 +202,7 @@
                  payment_in_period = vale_payment_in_period(@start_date, @end_date, selected_vale)
             %>
                 <tr>
-                  <td><%= selected_vale[:date_of_effectivity] %></td>
+                  <td><%= selected_vale[:date_of_effectivity].strftime('%m/%d/%Y') %></td>
                   <td><%= remaining_vale_balance(selected_vale[:id], @end_date ) %></td>
                   <td><%= selected_vale[:remark] %></td>
                   <td><%= payment_in_period %></td>
@@ -211,10 +210,9 @@
                     <%= generic_payroll_examine_link('/human_resources/compensation_and_benefits/vales/',selected_vale[:id]) %>
                   </td>
                 </tr>
-                <% current_vale = payment_in_period %>
                 <%
-                   total_vale = 0
-                   #total_vale += current_vale
+                   current_vale = payment_in_period
+                   total_vale += current_vale
                 %>
             <% end %>
             <tr>
