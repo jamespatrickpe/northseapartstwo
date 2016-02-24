@@ -94,7 +94,7 @@
          id="vale_date_of_effectivity"
          name="vale[date_of_effectivity]"
          step="1"
-         value= <%= @selected_vale[:date_of_effectivity].present? ? @selected_vale[:date_of_effectivity].strftime('%FT%T') : Time.now.strftime('%FT%T')  %>>
+         value= <%= @selected_vale[:date_of_effectivity].present? ? @selected_vale[:date_of_effectivity].strftime('%m/%d/%Y') : Time.now.strftime('%m/%d/%Y')  %>>
 </div>
 
 <%= generic_remarks_description_field('vale',@selected_vale[:remark]) %>

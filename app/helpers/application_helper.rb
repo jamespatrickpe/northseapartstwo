@@ -186,4 +186,19 @@ module ApplicationHelper
     return actorsInvolved
   end
 
+  def get_all_employees_from_a_branch(branchId)
+
+    puts '--------------------------------------'
+    puts branchId
+
+    emps = Employee.where("(branch_id = ?)", "#{branchId}")
+
+    emps.each do |e|
+      puts '--------------------------------------'
+      puts e.actor.name
+    end
+
+    return emps
+  end
+
 end

@@ -29,7 +29,7 @@
             <tbody>
             <% @file_sets.each do |file_set| %>
                 <tr>
-                  <td><%= file_set[:id] %></td>
+                  <td><%= file_set[:id].upcase %></td>
                   <td><%= file_set[:file] %></td>
                   <td><%= file_set[:label] %></td>
                   <td></td>

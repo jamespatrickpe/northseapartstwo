@@ -28,7 +28,7 @@
            value=
     <%=
         @selected_duty_status[:date_of_effectivity].present? ?
-                (@selected_duty_status[:date_of_effectivity].strftime('%FT%T') ) :
+                (@selected_duty_status[:date_of_effectivity].strftime('%m/%d/%Y') ) :
                 (Time.now)
     %>>
 </div>

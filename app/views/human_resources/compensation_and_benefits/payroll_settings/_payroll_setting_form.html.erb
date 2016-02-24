@@ -58,8 +58,8 @@
          name="payroll_setting[date_of_effectivity]"
          step="1"
          value= <%= @selected_payroll_setting[:date_of_effectivity].present? ?
-                            @selected_payroll_setting[:date_of_effectivity].strftime('%FT%T') :
-                            Time.now.strftime('%FT%T')  %>>
+                            @selected_payroll_setting[:date_of_effectivity].strftime('%m/%d/%Y') :
+                            Time.now.strftime('%m/%d/%Y')  %>>
 </div>
 
 <%= generic_remarks_description_field('payroll_setting',@selected_payroll_setting[:remark]) %>

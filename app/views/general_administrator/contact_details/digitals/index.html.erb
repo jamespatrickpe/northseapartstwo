@@ -30,7 +30,7 @@
             <tbody>
             <% @digitals.each do |digital| %>
                 <tr>
-                  <td><%= digital[:id] %></td>
+                  <td><%= digital[:id].upcase %></td>
                   <td><%= get_all_entities_involved_with_a_model(DigitalsActor, "digitals_actors.digital_id = ?", digital[:id]).collect { |i| i.name }.join(", ")%></td>
                   <td><%= digital[:url] %> </td>
                   <td><%= digital[:description] %> </td>

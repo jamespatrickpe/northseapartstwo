@@ -34,7 +34,7 @@
             <tbody>
             <% @addresses.each do |address| %>
                 <tr>
-                  <td><%= address[:id] %></td>
+                  <td><%= address[:id].upcase %></td>
                   <td><%= get_all_entities_involved_with_a_model(AddressesActor, "addresses_actors.address_id = ?", address[:id]).collect { |i| i.name }.join(", ")%></td>
                   <td><%= address[:description] %> </td>
                   <td><%= address[:longitude] %> </td>

@@ -47,7 +47,7 @@
             <tbody>
             <% @payroll_settings.each do |payroll_settings| %>
                 <tr>
-                  <td><%= payroll_settings[:id] %></td>
+                  <td><%= payroll_settings[:id].upcase %></td>
                   <td><%= generic_actor_profile_link(payroll_settings.employee.actor.id, payroll_settings.employee.actor.name) %></td>
                   <td><%= payroll_settings[:article] %> </td>
                   <td>

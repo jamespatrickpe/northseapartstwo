@@ -1,0 +1,58 @@
+<% begin %>
+
+    <script>
+
+        function open_all_payrolls()
+        {
+            var js_array = [<%= raw @branch_employees.to_json %>];
+            var number_of_employees = js_array.length;
+            for (var i = 0; i < number_of_employees; i++) {
+                console.log('-----');
+                console.log(JSON.stringify(js_array[i]));
+//                window.open('/human_resources/compensation_and_benefits/payrolls/employee?id=' + js_array[i].id + '&start_date=' + <% @start_date %> + '&end_date=' + <% raw @end_date %> + '\'', '_blank');
+            }
+        }
+
+    </script>
+
+    <table class="generic_table" id="branch_employees_table">
+      <thead>
+      <tr>
+        <th>
+          Employee ID
+        </th>
+        <th>
+          Employee Name
+        </th>
+        <th>
+          Payroll Link
+        </th>
+        <th class="actions" align="center">&nbsp;</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @branch_employees.each do |employee| %>
+          <tr>
+            <td><%= employee.id %></td>
+            <td><%= employee.actor.name %></td>
+            <td><%= link_to "View", {:controller => "payrolls", :action => "employee", :id => employee.id, :start_date => @start_date, :end_date => @end_date } %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+<% rescue => ex %>
+    <%= generic_table_error(ex) %>
+<% end %>
+
+
+<div >
+  <a class="tiny button" id="test" onclick="open_all_payrolls()"> Open All Payrolls </a>
+</div>
+
+<style>
+    #branch_employees_table tr td, #branch_employees_table tr th {
+        text-align : center;
+        width : 33%
+    }
+</style>
