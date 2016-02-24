@@ -117,4 +117,9 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
     branch_employees = get_all_employees_from_a_branch(params[:id])
   end
 
+  def remittance_report
+    @remittance_type = ''
+    @branch = ''
+  end
+
 end
