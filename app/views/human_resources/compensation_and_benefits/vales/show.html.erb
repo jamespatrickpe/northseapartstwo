@@ -77,7 +77,6 @@
              # apply according to date/time
              if adjustment_date_of_effectivity.between?(current_vale_datetime, next_vale_datetime)
                adjustment_in_period_token = true
-               puts "got in selected vale adjustment"
                current_link = '/human_resources/compensation_and_benefits/vale_adjustments/' + selected_vale_adjustment[:id] + '/edit'
                current_id = selected_vale_adjustment[:id]
                if selected_vale_adjustment[:signed_type]
@@ -93,16 +92,12 @@
 
            end
 
-           # if there has been no adjustment done on the period; proceed with automatic deduction sequence
+           # if there has been no adjustment done on the period;
+           # proceed with automatic deduction sequence
            if adjustment_in_period_token == false
-             current_balance =- current_deduction
+             current_balance -= current_deduction
            end
 
-           # check if about to amount is going to run out on next iteration; if so, prepare for exact sum of amount_of_deduction
-           if current_balance < current_deduction
-             current_deduction =- current_balance
-             current_balance = 0
-           end
 
         %>
 
@@ -129,7 +124,7 @@
         <%
 
            # iterate datetime
-           current_vale_datetime += iteration
+           current_vale_datetime += iteration.seconds
 
         end
         %>
