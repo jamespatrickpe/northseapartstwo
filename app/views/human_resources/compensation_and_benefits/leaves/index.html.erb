@@ -47,7 +47,7 @@
             <tbody>
             <% @leaves.each do |leave| %>
                 <tr>
-                  <td><%= leave[:id] %></td>
+                  <td><%= leave[:id].upcase %></td>
                   <td><%= generic_actor_profile_link(leave.employee.actor.id, leave.employee.actor.name) %></td>
                   <td><%= leave[:type_of_leave] %> </td>
                   <td><%= leave[:start_of_effectivity].present? ? leave[:start_of_effectivity].strftime("%b. %d, %Y") : "n/a" %> </td>

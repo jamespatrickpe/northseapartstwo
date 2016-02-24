@@ -30,7 +30,7 @@
             <tbody>
             <% @telephones.each do |telephone| %>
                 <tr>
-                  <td><%= telephone[:id] %></td>
+                  <td><%= telephone[:id].upcase %></td>
                   <td><%= get_all_entities_involved_with_a_model(TelephonesActor, "telephones_actors.telephone_id = ?", telephone[:id]).collect { |i| i.name }.join(", ")%></td>
                   <td><%= telephone[:digits] %> </td>
                   <td><%= telephone[:description] %> </td>

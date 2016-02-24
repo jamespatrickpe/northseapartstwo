@@ -33,7 +33,7 @@
             <tbody>
             <% @permissions.each do |permission| %>
                 <tr>
-                  <td><%= permission[:id] %></td>
+                  <td><%= permission[:id].upcase %></td>
                   <td><%= permission[:access_id] %> </td>
                   <td><%= permission[:can] %> </td>
                   <td><%= permission[:remark] %> </td>

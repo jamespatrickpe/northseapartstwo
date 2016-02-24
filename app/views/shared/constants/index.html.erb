@@ -47,7 +47,7 @@
             <tbody>
             <% @constants.each do |constant| %>
                 <tr>
-                  <td><%= constant[:id] %></td>
+                  <td><%= constant[:id].upcase %></td>
                   <td><%= constant[:constant_type] %> </td>
                   <td><%= constant[:name] %> </td>
                   <td><%= constant[:value] %> </td>

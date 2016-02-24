@@ -1,0 +1,47 @@
+<%=
+
+    form_tag( {:action => 'branch'},
+              {:method => :get,
+               :class => 'create_form',
+               :id => "new_employee_process_form",
+               :"data-parsley-validate" => ""
+              },
+    ) do
+%>
+    <div class="generic_content">
+      <div class="small-3 columns">
+        BRANCH:
+        <select name='id'
+                class='employee_select_field'
+                style="width: 100%; display: inline;"
+                required="required" >
+
+          <option value="" disabled selected>Select Branch</option>
+          <% @branches.each do |branch| %>
+              <option value=<%= branch.id %>><%= branch.name %></option>
+          <% end %>
+        </select>
+      </div>
+      <div class="small-3 columns">
+        START DATE:
+        <input name='start_date'
+               value="<%= @start_date.present? ? @start_date : Time.now.strftime('%F') %>"
+               type="date" style="width: 100%; display: inline;"
+               required="required">
+      </div>
+      <div class="small-3 columns">
+        END DATE:
+        <input name='end_date'
+               value="<%= @end_date.present? ? @end_date : Time.now.strftime('%F') %>"
+               type="date" style="width: 100%; display: inline;"
+               required="required">
+      </div>
+      <div class="small-3 columns">
+        <br>
+        <input type="submit"
+               class="tiny button"
+               style="width: 100%; display: inline;"
+               value="Generate">
+      </div>
+    </div>
+<% end %>

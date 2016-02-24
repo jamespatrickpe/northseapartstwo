@@ -49,7 +49,7 @@
             <tbody>
             <% @regular_work_periods.each do |regular_work_period| %>
                 <tr>
-                  <td><%= regular_work_period[:id] %></td>
+                  <td><%= regular_work_period[:id].upcase %></td>
                   <td><%= generic_actor_profile_link(regular_work_period.employee.actor.id, regular_work_period.employee.actor.name) %></td>
                   <td><%= regular_work_period[:start_time].strftime("%H:%M") %> </td>
                   <td><%= regular_work_period[:end_time].strftime("%H:%M") %> </td>

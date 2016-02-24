@@ -33,7 +33,7 @@
             <tbody>
             <% @image_sets.each do |image_set| %>
                 <tr>
-                  <td><%= image_set[:id] %></td>
+                  <td><%= image_set[:id].upcase %></td>
                   <td><%= image_set[:picture] %></td>
                   <td><%= image_set[:description] %></td>
                   <td><%= image_set[:priority] %></td>

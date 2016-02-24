@@ -59,7 +59,7 @@
             <% @vales.each do |vale| %>
                 <tr>
                   <td>
-                    <%= vale[:id] %>
+                    <%= vale[:id].upcase %>
                   </td>
                   <td><%= generic_actor_profile_link(vale.employee.actor.id, vale.employee.actor.name) %></td>
                   <td><%= vale[:amount] %> </td>

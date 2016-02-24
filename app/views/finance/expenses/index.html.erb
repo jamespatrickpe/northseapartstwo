@@ -42,7 +42,7 @@
             <tbody>
             <% @expenses.each do |e| %>
                 <tr>
-                  <td><%= e[:id] %></td>
+                  <td><%= e[:id].upcase %></td>
                   <td><%= e[:amount] %> </td>
                   <td><%= e[:category] %> </td>
                   <td><%= e[:physical_id] %> </td>

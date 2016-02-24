@@ -11,14 +11,14 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
     current_employee_id = params[:id]
     @employees = Employee.all
     current_employee_id.present? ?
-      (@selected_employee = Employee.find(current_employee_id)) :
-      (@selected_employee = Employee.new())
+        (@selected_employee = Employee.find(current_employee_id)) :
+        (@selected_employee = Employee.new())
     @start_date = params[:start_date]
     @end_date = params[:end_date]
 
     # Convert Duty Status to Valid Periods
     @my_duty_statuses = DutyStatus.where('employee_id = ?', "#{current_employee_id}")
-                                  .order('date_of_effectivity ASC')
+                            .order('date_of_effectivity ASC')
 
     @valid_periods = Array.new
     start_period = ''
@@ -47,11 +47,11 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
 
     # Extract Attendances
     @selected_attendances = ::Attendance
-                               .where('(attendances.employee_id = ?) AND ( attendances.date_of_attendance BETWEEN ? AND ? )',
-                                      "#{current_employee_id}",
-                                      "#{@start_date}",
-                                      "#{@end_date}"
-                               )
+                                .where('(attendances.employee_id = ?) AND ( attendances.date_of_attendance BETWEEN ? AND ? )',
+                                       "#{current_employee_id}",
+                                       "#{@start_date}",
+                                       "#{@end_date}"
+                                )
 
     # Keep Attendances within the Valid Period
     @selected_attendances = @selected_attendances.select{ |attendance|
@@ -129,6 +129,18 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
 
   def branch
 
+    @branches = Branch.all()
+    @start_date = params[:start_date]
+    @end_date = params[:end_date]
+    @id = params[:id]
+    @branch_employees = get_all_employees_from_a_branch(params[:id])
+
+    render 'human_resources/compensation_and_benefits/payrolls/branch'
+
   end
 
+  def open_all_branch_employee_payroll
+    branch_employees = get_all_employees_from_a_branch(params[:id])
+  end
+  
 end
