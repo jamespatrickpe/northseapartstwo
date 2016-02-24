@@ -60,6 +60,7 @@
            # get the variables
            adjustment_in_period_token = false
            current_type = 'AUTO'
+           current_id = @selected_vale[:id]
            current_remark = @selected_vale[:remark]
            current_addition = 0
            current_deduction = @selected_vale[:amount_of_deduction]
@@ -71,14 +72,13 @@
 
              # set up variables
              adjustment_date_of_effectivity = DateTime.parse( selected_vale_adjustment[:date_of_effectivity].strftime('%Y-%m-%d') )
-             current_type = 'ADJUSTMENT'
-             current_remark = selected_vale_adjustment[:remark]
-
              # apply according to date/time
              if adjustment_date_of_effectivity.between?(current_vale_datetime, next_vale_datetime)
                adjustment_in_period_token = true
                current_link = '/human_resources/compensation_and_benefits/vale_adjustments/' + selected_vale_adjustment[:id] + '/edit'
                current_id = selected_vale_adjustment[:id]
+               current_type = 'ADJUSTMENT'
+               current_remark = selected_vale_adjustment[:remark]
                if selected_vale_adjustment[:signed_type]
                  current_balance += selected_vale_adjustment[:amount]
                  current_addition = selected_vale_adjustment[:amount]
@@ -98,6 +98,12 @@
              current_balance -= current_deduction
            end
 
+           # if balance is less than zero on iteration
+           # make exact sum to make balance zero
+           if current_balance < 0
+             current_deduction += current_balance
+             current_balance = 0
+           end
 
         %>
 

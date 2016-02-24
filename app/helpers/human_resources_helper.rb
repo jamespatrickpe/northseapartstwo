@@ -7,12 +7,18 @@ module HumanResourcesHelper
     end_date = DateTime.parse(end_date)
     current_vale_datetime = DateTime.parse(vale[:date_of_effectivity].strftime('%Y-%m-%d %T'))
     iteration = translate_period_of_time_into_seconds(vale[:period_of_deduction])
-    current_amount = vale[:amount]
+    current_balance = vale[:amount]
     total_deduction = 0
     vale_adjustments = ValeAdjustment.where("vale_id = '" + vale[:id] + "'")
 
     # loop until the vale runs out
-    while current_amount > 0
+    while 0 < current_balance
+
+      # deduction counter
+      current_deduction = 0
+
+      # adjustment token
+      adjustment_in_period_token = false
 
       # reset amount of deduction
       amount_of_deduction = vale[:amount_of_deduction]
@@ -20,30 +26,35 @@ module HumanResourcesHelper
       # calculate datetime for next iteration
       next_vale_date = (current_vale_datetime + iteration.seconds)
 
-      # check for any adjustments on the period
+      # check for any adjustments on the period - MANUAL
       vale_adjustments.each do |adjustment|
         adjustment_date_of_effectivity = DateTime.parse( adjustment[:date_of_effectivity].strftime('%Y-%m-%d') )
         if adjustment_date_of_effectivity.between?(current_vale_datetime,next_vale_date)
+          adjustment_in_period_token = true
           if adjustment[:signed_type]
-            current_amount += adjustment[:amount]
+            current_balance += adjustment[:amount]
           else
-            amount_of_deduction += adjustment[:amount]
+            current_balance -= adjustment[:amount]
+            current_deduction += adjustment[:amount]
           end
         end
       end
 
-      # check if about to amount is going to run out on next iteration; if so, prepare for exact sum of amount_of_deduction
-      if current_amount < amount_of_deduction
-        final_deduction = (amount_of_deduction - current_amount)
-        amount_of_deduction = final_deduction
+      # iterate amount - AUTO
+      if adjustment_in_period_token == false
+        current_balance -= amount_of_deduction
+        current_deduction += amount_of_deduction
       end
 
-      # iterate amount
-      current_amount -= amount_of_deduction
+      # check if about to amount is going to run out on next iteration; if so, prepare for exact sum of amount_of_deduction
+      if current_balance < 0
+        current_deduction += current_balance
+        current_balance = 0
+      end
 
       # capture deductions
       if current_vale_datetime.between?(start_date, end_date)
-        total_deduction += amount_of_deduction
+        total_deduction += current_deduction
       end
 
       # iterate date

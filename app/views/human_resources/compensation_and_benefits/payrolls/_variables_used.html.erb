@@ -189,7 +189,7 @@
           <table class="generic_table">
             <thead>
             <tr>
-              <th>Date</th>
+              <th>Original Date</th>
               <th>Balance</th>
               <th>Remark</th>
               <th>Payment in Period</th>
@@ -203,7 +203,7 @@
             %>
                 <tr>
                   <td><%= selected_vale[:date_of_effectivity].strftime('%m/%d/%Y') %></td>
-                  <td><%= remaining_vale_balance(selected_vale[:id], @end_date ) %></td>
+                  <td><%= remaining_vale_balance(selected_vale[:id], @start_date ) %></td>
                   <td><%= selected_vale[:remark] %></td>
                   <td><%= payment_in_period %></td>
                   <td class="actions">
@@ -211,7 +211,7 @@
                   </td>
                 </tr>
                 <%
-                   current_vale =A payment_in_period
+                   current_vale = payment_in_period
                    total_vale += current_vale
                 %>
             <% end %>
