@@ -51,8 +51,8 @@
                 <tr>
                   <td><%= regular_work_period[:id].upcase %></td>
                   <td><%= generic_actor_profile_link(regular_work_period.employee.actor.id, regular_work_period.employee.actor.name) %></td>
-                  <td><%= regular_work_period[:start_time].strftime("%H:%M") %> </td>
-                  <td><%= regular_work_period[:end_time].strftime("%H:%M") %> </td>
+                  <td><%= regular_work_period[:start_time].strftime("%T") %> </td>
+                  <td><%= regular_work_period[:end_time].strftime("%T") %> </td>
                   <td><%= regular_work_period[:date_of_effectivity] %> </td>
                   <td><%= regular_work_period[:remark] %> </td>
                   <td><%= regular_work_period[:created_at] %></td>

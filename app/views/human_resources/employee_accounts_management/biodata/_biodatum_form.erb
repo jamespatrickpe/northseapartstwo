@@ -26,7 +26,7 @@
            required="required"
            name="biodata[date_of_birth]"
            data-parsley-trigger="keyup"
-           value= <%= @selected_biodata[:date_of_birth].present? ? @selected_biodata[:date_of_birth].strftime('%Y-%m-%d') : '' %>>
+           value= <%= @selected_biodata[:date_of_birth].present? ? @selected_biodata[:date_of_birth].strftime('%m/%d/%Y') : '' %>>
   </div>
 
   <!-- place of birth -->

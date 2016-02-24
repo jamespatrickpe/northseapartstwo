@@ -142,5 +142,5 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
   def open_all_branch_employee_payroll
     branch_employees = get_all_employees_from_a_branch(params[:id])
   end
-  
+
 end

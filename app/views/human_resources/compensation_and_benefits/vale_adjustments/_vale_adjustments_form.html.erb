@@ -59,7 +59,7 @@
          required="required"
          name="vale_adjustment[date_of_effectivity]"
          step="1"
-         value= <%= @selected_vale_adjustment[:date_of_effectivity].present? ? @selected_vale_adjustment[:date_of_effectivity].strftime('%FT%T') : Time.now.strftime('%FT%T')  %>>
+         value= <%= @selected_vale_adjustment[:date_of_effectivity].present? ? @selected_vale_adjustment[:date_of_effectivity].strftime('%m/%d/%Y %T') : Time.now.strftime('%m/%d/%Y %T')  %>>
 </div>
 
 <%= generic_remarks_description_field('vale_adjustment',@selected_vale_adjustment[:remark]) %>

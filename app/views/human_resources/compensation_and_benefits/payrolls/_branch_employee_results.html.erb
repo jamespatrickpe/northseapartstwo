@@ -4,10 +4,13 @@
 
         function open_all_payrolls()
         {
-            <%= @branch_employees.each do |employee| %>
-            window.open('/human_resources/compensation_and_benefits/payrolls/employee?id=' + <% raw employee.id %> + '&start_date=' + <% raw @start_date %> + '&end_date=' + <% raw @end_date %> + '\'', '_blank');
-            <% end %>
-
+            var js_array = [<%= raw @branch_employees.to_json %>];
+            var number_of_employees = js_array.length;
+            for (var i = 0; i < number_of_employees; i++) {
+                console.log('-----');
+                console.log(JSON.stringify(js_array[i]));
+//                window.open('/human_resources/compensation_and_benefits/payrolls/employee?id=' + js_array[i].id + '&start_date=' + <% @start_date %> + '&end_date=' + <% raw @end_date %> + '\'', '_blank');
+            }
         }
 
     </script>

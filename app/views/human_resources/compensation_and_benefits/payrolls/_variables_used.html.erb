@@ -95,10 +95,10 @@
                    aggregated_total += total
                 %>
                 <tr>
-                  <td><%= base_rate[:start_of_effectivity].strftime("%Y/%m/%d %T") %></td>
-                  <td><%= base_rate[:end_of_effectivity].strftime("%Y/%m/%d %T") %></td>
-                  <td><%= time_period_start.strftime("%Y/%m/%d %T") %></td>
-                  <td><%= time_period_end.strftime("%Y/%m/%d %T") %></td>
+                  <td><%= base_rate[:start_of_effectivity].strftime("%m/%d/%Y %T") %></td>
+                  <td><%= base_rate[:end_of_effectivity].strftime("%m/%d/%Y %T") %></td>
+                  <td><%= time_period_start.strftime("%m/%d/%Y %T") %></td>
+                  <td><%= time_period_end.strftime("%m/%d/%Y %T") %></td>
                   <td>
                     <%= base_rate[:signed_type] ? "( + )" : "( - )" %>
                     <%= base_rate[:amount] %>
