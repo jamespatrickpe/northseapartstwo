@@ -20,30 +20,7 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
     @my_duty_statuses = DutyStatus.where('employee_id = ?', "#{current_employee_id}")
                                   .order('date_of_effectivity ASC')
 
-    @valid_periods = Array.new
-    start_period = ''
-    end_period = ''
-    searching_for_next = true
-    @my_duty_statuses.each_with_index do |duty_status, index|
-      if duty_status[:active] == searching_for_next
-        if duty_status[:active] == true
-          start_period = duty_status[:date_of_effectivity].strftime("%Y-%m-%d")
-          searching_for_next = false
-        end
-        if duty_status[:active] == false
-          end_period = duty_status[:date_of_effectivity].strftime("%Y-%m-%d")
-          searching_for_next = true
-        end
-      end
-      if start_period.present? && end_period.present?
-        @valid_periods.push({:start_period => start_period, :end_period => end_period})
-        start_period = ''
-        end_period = ''
-      end
-      if start_period.present? && ( index == @my_duty_statuses.size - 1 )
-        @valid_periods.push({:start_period => start_period, :end_period => DateTime.now.strftime("%Y-%m-%d") })
-      end
-    end
+    @valid_periods = get_valid_periods(current_employee_id)
 
     # Extract Attendances
     @selected_attendances = ::Attendance
@@ -96,10 +73,7 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
     #Lump Adjustments
     @selected_lump_adjustments = LumpAdjustment.where("employee_id = ? AND (date_of_effectivity BETWEEN ? AND ?)",
                                                       "#{current_employee_id}","#{@start_date}", "#{@end_date}")
-    @selected_lump_adjustments =
-        date_of_effectivity_in_valid_period(@selected_lump_adjustments,@valid_periods)
-
-
+    @selected_lump_adjustments = date_of_effectivity_in_valid_period(@selected_lump_adjustments,@valid_periods)
 
     #Vales
     @selected_vales = Vale.where("employee_id = ? AND approval_status = 1", "#{current_employee_id}")

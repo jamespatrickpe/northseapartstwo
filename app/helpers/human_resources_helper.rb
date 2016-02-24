@@ -1,5 +1,159 @@
 module HumanResourcesHelper
 
+  def get_valid_periods(employee_id)
+
+    my_duty_statuses = DutyStatus.where('employee_id = ?', "#{employee_id}")
+                            .order('date_of_effectivity ASC')
+
+    valid_periods = Array.new
+    start_period = ''
+    end_period = ''
+    searching_for_next = true
+    my_duty_statuses.each_with_index do |duty_status, index|
+      if duty_status[:active] == searching_for_next
+        if duty_status[:active] == true
+          start_period = duty_status[:date_of_effectivity].strftime("%Y-%m-%d")
+          searching_for_next = false
+        end
+        if duty_status[:active] == false
+          end_period = duty_status[:date_of_effectivity].strftime("%Y-%m-%d")
+          searching_for_next = true
+        end
+      end
+      if start_period.present? && end_period.present?
+        valid_periods.push({:start_period => start_period, :end_period => end_period})
+        start_period = ''
+        end_period = ''
+      end
+      if start_period.present? && ( index == @my_duty_statuses.size - 1 )
+        valid_periods.push({:start_period => start_period, :end_period => DateTime.now.strftime("%Y-%m-%d") })
+      end
+    end
+
+    valid_periods
+
+
+
+
+
+  end
+
+  def get_gross_salary_employee(start_date, end_date, employee)
+    valid_periods = get_valid_periods(employee[:id])
+    base_rates_applied_to_attendance_scheme = BaseRate.where("(employee_id = ?) AND ((rate_type = 'BASE') OR (rate_type = 'ALLOWANCE')) ", "#{employee[:id]}")
+    # Extract Attendances
+    selected_attendances = ::Attendance
+                                .where('(attendances.employee_id = ?) AND ( attendances.date_of_attendance BETWEEN ? AND ? )',
+                                       "#{employee[:id]}",
+                                       "#{start_date}",
+                                       "#{end_date}"
+                                )
+
+    # Keep Attendances within the Valid Period
+    selected_attendances = selected_attendances.select{ |attendance|
+      conditional = ''
+      valid_periods.each do |valid_period|
+        conditional = attendance[:date_of_attendance].between?(Date.parse( valid_period[:start_period] ),Date.parse( valid_period[:end_period] ) )
+        if conditional == true
+          break;
+        end
+      end
+      conditional
+    }
+
+    total_regular_work_hours = 0
+    total_overtime_hours = 0
+    total_night_shift_differential_hours = 0
+    total_ot_nsd_hours = 0
+
+    total_reg_aggregated_payment = 0
+    total_ot_aggregated_payment = 0
+    total_nsd_aggregated_payment = 0
+    total_ot_nsd_aggregated_payment = 0
+
+    total_for_selection = 0
+
+    start_date = Date.parse(start_date)
+    end_date = Date.parse(end_date)
+    (start_date..end_date).each do |date_aspect|
+      attendance_time_in = 0
+      attendance_time_out = 0
+      regular_work_hours = 0
+      overtime_hours = 0
+      night_shift_differential_hours = 0
+      ot_nsd_hours = 0
+      reg = 0
+      ot = 0
+      nsd = 0
+      ot_nsd = 0
+      reg_aggregated_payment = 0
+      ot_aggregated_payment = 0
+      nsd_aggregated_payment = 0
+      ot_nsd_aggregated_payment = 0
+      total_aggregated_payment = 0
+
+      attendance_exists_token = false
+      current_attendance_date_time = date_aspect.strftime('%Y-%m-%d')
+      rest_day_token = display_if_rest_day(@selected_employee.id,date_aspect.strftime('%A'),current_attendance_date_time )
+      remark = ''
+      link_token = ''
+      attendance_id = ''
+
+      @selected_attendances.each do |selected_attendance|
+        if selected_attendance[:date_of_attendance] == date_aspect
+
+          attendance_exists_token = true
+          link_token = true
+
+          attendance_time_in = selected_attendance[:timein].strftime("%T")
+          attendance_time_out = selected_attendance[:timeout].strftime("%T")
+
+          regular_work_hours = categorize_work_hours( attendance_time_in, attendance_time_out, current_attendance_date_time)[:regular_work_hours]
+          overtime_hours = categorize_work_hours( attendance_time_in, attendance_time_out, current_attendance_date_time)[:overtime]
+          night_shift_differential_hours = categorize_work_hours( attendance_time_in, attendance_time_out, current_attendance_date_time)[:night_shift_differential_hours]
+          ot_nsd_hours = categorize_work_hours( attendance_time_in, attendance_time_out, current_attendance_date_time)[:ot_nsd]
+
+          reg = base_rates(@selected_employee.id, current_attendance_date_time,rest_day_token)[:reg]
+          ot = base_rates(@selected_employee.id, current_attendance_date_time,rest_day_token)[:ot]
+          nsd = base_rates(@selected_employee.id, current_attendance_date_time,rest_day_token)[:nsd]
+          ot_nsd = base_rates(@selected_employee.id, current_attendance_date_time,rest_day_token)[:ot_nsd]
+
+          reg_aggregated_payment = (regular_work_hours*reg)
+          ot_aggregated_payment = (overtime_hours*ot)
+          nsd_aggregated_payment = (night_shift_differential_hours*nsd)
+          ot_nsd_aggregated_payment = (ot_nsd_hours*ot_nsd)
+
+          remark = selected_attendance[:remark]
+          attendance_id = selected_attendance[:id]
+
+        end
+      end
+
+      if attendance_exists_token == false
+        if special_non_working_holiday(date_aspect)
+          reg = base_rates(@selected_employee.id, current_attendance_date_time,rest_day_token)[:reg]
+          reg_aggregated_payment = (8*reg)
+        end
+      end
+
+      total_aggregated_payment = reg_aggregated_payment + ot_aggregated_payment + nsd_aggregated_payment + ot_nsd_aggregated_payment
+
+      total_regular_work_hours += regular_work_hours
+      total_overtime_hours += overtime_hours
+      total_night_shift_differential_hours += night_shift_differential_hours
+      total_ot_nsd_hours += ot_nsd_hours
+
+      total_reg_aggregated_payment += reg_aggregated_payment
+      total_ot_aggregated_payment += ot_aggregated_payment
+      total_nsd_aggregated_payment += nsd_aggregated_payment
+      total_ot_nsd_aggregated_payment += ot_nsd_aggregated_payment
+
+      total_for_selection += total_aggregated_payment
+
+    end
+    total_for_selection
+  end
+
   def vale_payment_in_period(start_date, end_date, vale)
 
     # get the variables
