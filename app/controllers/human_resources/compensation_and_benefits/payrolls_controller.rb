@@ -94,13 +94,12 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
     }
 
     #Lump Adjustments
+    @selected_lump_adjustments = LumpAdjustment.where("employee_id = ? AND (date_of_effectivity BETWEEN ? AND ?)",
+                                                      "#{current_employee_id}","#{@start_date}", "#{@end_date}")
     @selected_lump_adjustments =
-        date_of_effectivity_in_valid_period(
-            LumpAdjustment.where("employee_id = ? AND (date_of_effectivity BETWEEN ? AND ?)",
-                                 "#{current_employee_id}",
-                                 "#{@start_date}",
-                                 "#{@end_date}"),
-            @valid_periods)
+        date_of_effectivity_in_valid_period(@selected_lump_adjustments,@valid_periods)
+
+
 
     #Vales
     @selected_vales = Vale.where("employee_id = ? AND approval_status = 1", "#{current_employee_id}")
@@ -114,7 +113,8 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
   end
 
   def date_of_effectivity_in_valid_period(my_model, valid_periods)
-    my_model = my_model.select{ |model|
+    current_model = my_model.select{ |model|
+      puts 'cdsfadfore'
       conditional = false
       current_date = Date.parse(model[:date_of_effectivity].strftime("%Y-%m-%d"))
       valid_periods.each do |valid_period|
@@ -124,7 +124,7 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
       end
       conditional
     }
-    my_model
+    current_model
   end
 
   def branch

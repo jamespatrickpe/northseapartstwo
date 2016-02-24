@@ -27,6 +27,7 @@
 //= require foundation
 //= require jquery.qtip.min.js
 //= require employee_quick_profile.js
+//= require moment.js
 
 $(document).foundation();
 $(document).foundation('alert','events');

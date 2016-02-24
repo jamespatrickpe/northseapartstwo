@@ -46,6 +46,9 @@
                                 :"data-parsley-type" => "number"}) %>
 </div>
 
+<div id="vale_summary"></div>
+<br>
+
 <div class="form-block">
   <div class="label">Period of Deduction  : </div>
   <br />
@@ -131,11 +134,11 @@
     function calculate_time_required()
     {
         $("#vale_summary").empty();
-        vale_amount_of_deduction = $("#vale_amount_of_deduction").val();
-        vale_period_of_deduction = $("#vale_period_of_deduction").val();
-        vale_date_of_effectivity = $("#vale_date_of_effectivity").val();
-        vale_amount = $("#vale_amount").val();
-        period_counter = 0
+        var vale_amount_of_deduction = $("#vale_amount_of_deduction").val();
+        var vale_period_of_deduction = $("#vale_period_of_deduction").val();
+        var vale_date_of_effectivity = $("#vale_date_of_effectivity").val();
+        var vale_amount = $("#vale_amount").val();
+        var period_counter = 0
         var date_of_effectivity = moment(vale_date_of_effectivity);
 
         if( (vale_amount_of_deduction != null) && (vale_period_of_deduction != null) && (vale_date_of_effectivity != null) && (vale_amount != null))
@@ -150,7 +153,7 @@
             }
             period_of_deduction = vale_period_of_deduction.toLowerCase();
 
-            $("#vale_summary").fadeIn("slow").append("Payment approximately in " + period_counter + " " + period_of_deduction + "s" + " | " + date_of_effectivity.format('MMMM Do YYYY, h:mm:ss a') );
+            $("#vale_summary").fadeIn("slow").append("Complete Payment approximately in " + period_counter + " " + period_of_deduction + "s" + " | " + date_of_effectivity.format('MMMM Do YYYY, h:mm:ss a') );
         }
 
     }
