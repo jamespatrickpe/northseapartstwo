@@ -9,7 +9,7 @@
          data-parsley-remote
          data-parsley-remote-validator='unique-holiday-date'
          <% end %>
-         <%= @selected_holiday[:date_of_implementation].present? ? "value=" + @selected_holiday[:date_of_implementation].strftime('%Y-%m-%d') : '' %>>
+         <%= @selected_holiday[:date_of_implementation].present? ? "value=" + @selected_holiday[:date_of_implementation].strftime('%m/%d/%Y') : '' %>>
 
 </div>
 

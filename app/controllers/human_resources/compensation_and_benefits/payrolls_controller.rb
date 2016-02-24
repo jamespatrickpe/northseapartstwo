@@ -1,89 +1,8 @@
 class HumanResources::CompensationAndBenefits::PayrollsController < HumanResources::CompensationAndBenefitsController
 
+  include HumanResourcesHelper
+
   def index
-    query = generic_table_aggregated_queries('payrolls','payrolls.created_at')
-    begin
-      @payrolls = Payroll.includes(employee: [:actor])
-                      .joins(employee: [:actor])
-                      .where("actors.name LIKE ? OR " +
-                                 "payrolls.id LIKE ? OR " +
-                                 "payrolls.article LIKE ? OR " +
-                                 "payrolls.applicability LIKE ? OR " +
-                                 "payrolls.date_of_effectivity LIKE ? OR " +
-                                 "payrolls.remark LIKE ? OR " +
-                                 "payrolls.created_at LIKE ? OR " +
-                                 "payrolls.updated_at LIKE ?",
-                             "%#{query[:search_field]}%",
-                             "%#{query[:search_field]}%",
-                             "%#{query[:search_field]}%",
-                             "%#{query[:search_field]}%",
-                             "%#{query[:search_field]}%",
-                             "%#{query[:search_field]}%",
-                             "%#{query[:search_field]}%",
-                             "%#{query[:search_field]}%")
-                      .order(query[:order_parameter] + ' ' + query[:order_orientation])
-      @payrolls = Kaminari.paginate_array(@payrolls).page(params[:page]).per(query[:current_limit])
-    rescue
-      flash[:general_flash_notification] = "Error has Occured"
-    end
-    render 'human_resources/compensation_and_benefits/payrolls/index'
-  end
-
-  def initialize_form
-    initialize_form_variables('PAYROLL',
-                              'Set the Settings of an Employee Payrol',
-                              'human_resources/compensation_and_benefits/payrolls/payroll_form',
-                              'payroll')
-    initialize_employee_selection
-  end
-
-  def search_suggestions
-    generic_employee_name_search_suggestions(Payroll)
-  end
-
-  def new
-    initialize_form
-    @selected_payroll = Payroll.new
-    generic_bicolumn_form_with_employee_selection(@selected_payroll)
-  end
-
-  def edit
-    initialize_form
-    @selected_payroll = Payroll.find(params[:id])
-    generic_bicolumn_form_with_employee_selection(@selected_payroll)
-  end
-
-  def process_payroll_form(payroll)
-    begin
-      employee = Employee.find(params[:payroll][:employee_id])
-      payroll.employee = employee
-      payroll.article = params[:payroll][:article]
-      payroll.applicability = params[:payroll][:applicability]
-      payroll.date_of_effectivity = params[:payroll][:date_of_effectivity]
-      payroll.remark = params[:payroll][:remark]
-      payroll.save!
-      flash[:general_flash_notification_type] = 'affirmative'
-    rescue => ex
-      puts ex
-      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
-    end
-    redirect_to :action => 'index'
-  end
-
-  def delete
-    generic_delete_model(Payroll, controller_name)
-  end
-
-  def update
-    payroll = Payroll.find(params[:payroll][:id])
-    flash[:general_flash_notification] = 'Payroll Updated'
-    process_payroll_form(payroll)
-  end
-
-  def create
-    payroll = Payroll.new()
-    flash[:general_flash_notification] = 'Payroll Created'
-    process_payroll_form(payroll)
   end
 
   def employee
@@ -92,14 +11,14 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
     current_employee_id = params[:id]
     @employees = Employee.all
     current_employee_id.present? ?
-      (@selected_employee = Employee.find(current_employee_id)) :
-      (@selected_employee = Employee.new())
+        (@selected_employee = Employee.find(current_employee_id)) :
+        (@selected_employee = Employee.new())
     @start_date = params[:start_date]
     @end_date = params[:end_date]
 
     # Convert Duty Status to Valid Periods
     @my_duty_statuses = DutyStatus.where('employee_id = ?', "#{current_employee_id}")
-                                  .order('date_of_effectivity ASC')
+                            .order('date_of_effectivity ASC')
 
     @valid_periods = Array.new
     start_period = ''
@@ -128,11 +47,11 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
 
     # Extract Attendances
     @selected_attendances = ::Attendance
-                               .where('(attendances.employee_id = ?) AND ( attendances.date_of_attendance BETWEEN ? AND ? )',
-                                      "#{current_employee_id}",
-                                      "#{@start_date}",
-                                      "#{@end_date}"
-                               )
+                                .where('(attendances.employee_id = ?) AND ( attendances.date_of_attendance BETWEEN ? AND ? )',
+                                       "#{current_employee_id}",
+                                       "#{@start_date}",
+                                       "#{@end_date}"
+                                )
 
     # Keep Attendances within the Valid Period
     @selected_attendances = @selected_attendances.select{ |attendance|
@@ -166,7 +85,7 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
       @valid_periods.each do |valid_period|
         valid_start_period = Date.parse(valid_period[:start_period])
         valid_end_period = Date.parse(valid_period[:end_period])
-        conditional = (valid_start_period..valid_end_period).overlaps?(base_start_period..base_end_period)
+        conditional = ( (valid_start_period..valid_end_period).cover?(base_start_period) && (valid_start_period..valid_end_period).cover?(base_end_period) )
         if conditional
           break;
         end
@@ -174,13 +93,54 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
       conditional
     }
 
-    @sol = DateTime.parse('2016-11-13 15:31:37')
+    #Lump Adjustments
+    @selected_lump_adjustments =
+        date_of_effectivity_in_valid_period(
+            LumpAdjustment.where("employee_id = ? AND (date_of_effectivity BETWEEN ? AND ?)",
+                                 "#{current_employee_id}",
+                                 "#{@start_date}",
+                                 "#{@end_date}"),
+            @valid_periods)
 
+    #Vales
+    @selected_vales = Vale.where("employee_id = ? AND approval_status = 1", "#{current_employee_id}")
+    @selected_vales = @selected_vales.select{ |my_vale|
+      conditional = false
+      balance = remaining_vale_balance(my_vale[:id])
+      (balance != "PAID") ? (conditional = true) : (conditional = false)
+      conditional
+    }
     render 'human_resources/compensation_and_benefits/payrolls/employee'
+  end
+
+  def date_of_effectivity_in_valid_period(my_model, valid_periods)
+    my_model = my_model.select{ |model|
+      conditional = false
+      current_date = Date.parse(model[:date_of_effectivity].strftime("%Y-%m-%d"))
+      valid_periods.each do |valid_period|
+        valid_start_period = Date.parse(valid_period[:start_period])
+        valid_end_period = Date.parse(valid_period[:end_period])
+        conditional = current_date.between?(valid_start_period,valid_end_period)
+      end
+      conditional
+    }
+    my_model
   end
 
   def branch
 
+    @branches = Branch.all()
+    @start_date = params[:start_date]
+    @end_date = params[:end_date]
+    @id = params[:id]
+    @branch_employees = get_all_employees_from_a_branch(params[:id])
+
+    render 'human_resources/compensation_and_benefits/payrolls/branch'
+
+  end
+
+  def open_all_branch_employee_payroll
+    branch_employees = get_all_employees_from_a_branch(params[:id])
   end
 
 end

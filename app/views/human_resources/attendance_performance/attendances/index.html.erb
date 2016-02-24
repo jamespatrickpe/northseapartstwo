@@ -47,11 +47,11 @@
             <tbody>
             <% @attendances.each do |attendance| %>
                 <tr>
-                  <td><%= attendance[:id] %></td>
+                  <td><%= attendance[:id].upcase %></td>
                   <td><%= generic_actor_profile_link(attendance.employee.actor.id, attendance.employee.actor.name) %></td>
                   <td><%= attendance[:date_of_attendance] %> </td>
-                  <td><%= attendance[:timein].present? ? attendance[:timein].strftime("%H:%M:%S") : "n/a" %> </td>
-                  <td><%= attendance[:timeout].present? ? attendance[:timeout].strftime("%H:%M:%S") : "n/a" %> </td>
+                  <td><%= attendance[:timein].present? ? attendance[:timein].strftime("%T") : "n/a" %> </td>
+                  <td><%= attendance[:timeout].present? ? attendance[:timeout].strftime("%T") : "n/a" %> </td>
                   <td><%= attendance[:remark] %> </td>
                   <td><%= attendance[:created_at] %></td>
                   <td><%= attendance[:updated_at] %></td>

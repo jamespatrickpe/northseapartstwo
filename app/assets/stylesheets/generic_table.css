@@ -87,3 +87,9 @@
     font-size: 12px;
     padding: 5px;
 }
+
+.subtotal
+{
+    background-color: #585858;
+    color:white;
+}

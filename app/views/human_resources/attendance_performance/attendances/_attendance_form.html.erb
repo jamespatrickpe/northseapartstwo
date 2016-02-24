@@ -1,12 +1,10 @@
-<%= generic_employee_select_field('attendance',@selected_attendance[:employee_id]) %>
-
 <div class="form-block">
   <div class="label">Date</div>
   <input type="date"
          required="required"
          name="attendance[date_of_attendance]"
          id="attendance_date_0"
-         value= <%= @selected_attendance[:date_of_attendance].present? ? @selected_attendance[:date_of_attendance].strftime('%Y-%m-%d') : '' %>>
+         value= <%= @selected_attendance[:date_of_attendance].present? ? @selected_attendance[:date_of_attendance].strftime('%m/%d/%Y') : '' %>>
 </div>
 
 <div class="form-block">

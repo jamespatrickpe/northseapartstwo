@@ -30,7 +30,7 @@
             <tbody>
             <% @branches.each do |branch| %>
                 <tr>
-                  <td><%= branch[:id] %></td>
+                  <td><%= branch[:id].upcase %></td>
                   <td><%= branch[:name] %></td>
                   <td><%= branch[:created_at] %></td>
                   <td><%= branch[:updated_at] %></td>

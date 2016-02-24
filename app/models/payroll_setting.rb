@@ -1,4 +1,4 @@
-class Payroll < ActiveRecord::Base
+class PayrollSetting < ActiveRecord::Base
 
   include UUIDHelper
   belongs_to :employee

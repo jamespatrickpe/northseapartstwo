@@ -128,7 +128,7 @@
          required="required"
          name="institutional_adjustment[date_of_effectivity]"
          step="1"
-         value= <%= @selected_institutional_adjustment[:date_of_effectivity].present? ? @selected_institutional_adjustment[:date_of_effectivity].strftime('%FT%T') : Time.now.strftime('%FT%T')  %>>
+         value= <%= @selected_institutional_adjustment[:date_of_effectivity].present? ? @selected_institutional_adjustment[:date_of_effectivity].strftime('%m/%d/%Y') : Time.now.strftime('%m/%d/%Y')  %>>
 
 </div>
 

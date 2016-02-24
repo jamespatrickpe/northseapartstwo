@@ -1,5 +1,19 @@
 module HumanResourcesHelper
 
+  def special_non_working_holiday(current_date)
+    main_boolean = false
+    holidays = Holiday.includes(:holiday_type).joins(:holiday_type)
+    holidays.each do |holiday|
+      if current_date == holiday[:date_of_implementation]
+        holiday_type = holiday.holiday_type.type_name
+        if ( holiday_type == 'Regular' || holiday_type == 'Double' )
+          main_boolean = true
+        end
+      end
+    end
+    main_boolean
+  end
+
   def signed_amount(sign, amount)
     if sign
       amount = amount
@@ -121,15 +135,17 @@ module HumanResourcesHelper
   end
 
   def base_rates(employee_id, current_date_of_attendance, restday_token)
+
     total_regular_sum = 0
     base_sum = 0
     ot_sum = 0
     nsd_sum = 0
     ot_nsd_sum = 0
+
     base_rates = BaseRate.where('(employee_id = ?) AND ( ? BETWEEN start_of_effectivity AND end_of_effectivity)', "#{employee_id}","#{current_date_of_attendance}");
 
     base_rates.each do |base_rate|
-      if (base_rate[:rate_type] == 'base' || base_rate[:rate_type] == 'allowance')
+      if (base_rate[:rate_type] == 'BASE' || base_rate[:rate_type] == 'ALLOWANCE')
         current_amount = convert_base_rate_amount_to_hours(base_rate[:amount], base_rate[:period_of_time])
         if base_rate[:signed_type]
           total_regular_sum = total_regular_sum + current_amount
@@ -140,7 +156,7 @@ module HumanResourcesHelper
     end
 
     base_rates.each do |base_rate|
-      if base_rate[:rate_type] = 'base'
+      if base_rate[:rate_type] = 'BASE'
         current_amount = convert_base_rate_amount_to_hours(base_rate[:amount], base_rate[:period_of_time])
         if base_rate[:signed_type]
           base_sum = base_sum + current_amount
@@ -169,14 +185,8 @@ module HumanResourcesHelper
       end
     end
 
-    #restday processing
-    # holdiay + rest0day
-    # holiday
-    # non working holiday
-    # rest day
-    # double holiday
-    # else
     original_total_regular_sum = total_regular_sum
+
     if (holiday_token == true) && (restday_token == true)
       total_regular_sum = (total_regular_sum*2)+((base_sum*2)*0.3)
       ot_sum = base_sum*3.38
@@ -219,11 +229,10 @@ module HumanResourcesHelper
       ot_nsd_sum = (ot_sum*1.1)
     end
 
-
-    rate_array = {:reg => total_regular_sum.round(2), :ot => ot_sum.round(2),:nsd => nsd_sum.round(2),:ot_nsd => ot_nsd_sum.round(2), :base => base_sum.round(2)}
+    rate_array = {:reg => total_regular_sum, :ot => ot_sum,:nsd => nsd_sum,:ot_nsd => ot_nsd_sum, :base => base_sum}
   end
 
-  def remaining_vale_balance(parent_vale_id)
+  def remaining_vale_balance(parent_vale_id, time_now = Time.now)
 
     my_vale = Vale.find(parent_vale_id)
     my_vale_adjustments = ValeAdjustment.where(vale_id: parent_vale_id)
@@ -232,7 +241,7 @@ module HumanResourcesHelper
     current_time = my_vale[:date_of_effectivity]
     next_time = current_time + iteration
 
-    while(Time.now > current_time)
+    while(time_now > current_time)
       adjustment_in_period_token = false
       my_vale_adjustments.each do |my_vale_adjustment|
         if my_vale_adjustment[:date_of_effectivity].between?(current_time, next_time)
@@ -251,6 +260,82 @@ module HumanResourcesHelper
     (current_balance < 0) ? (current_balance = "PAID") : ()
     return current_balance
 
+  end
+
+  def whatHoliday( current_date )
+    holidays = Holiday.all
+    what_holiday = false
+    holidays.each do |holiday|
+      if holiday.date_of_implementation == current_date
+        what_holiday = holiday.name
+      end
+    end
+    return what_holiday
+  end
+
+  def whatRestDay(employee_id, current_day)
+    rest_day = RestDay
+                   .where("(employee_id = ?) AND (date_of_effectivity <= ?)", "#{employee_id}", "#{current_day}")
+                   .order('rest_days.date_of_effectivity DESC').first
+    what_rest_day = false
+    if rest_day.day == current_day.strftime("%A")
+      what_rest_day = rest_day.id
+    end
+    return what_rest_day
+  end
+
+  def display_if_rest_day(employee_id, current_day, latest_end_time_for_constant)
+    rest_day = RestDay
+                   .where("(employee_id = ?) AND (date_of_effectivity <= ?)", "#{employee_id}", "#{latest_end_time_for_constant}")
+                   .order('rest_days.date_of_effectivity ASC').first
+    if rest_day.present?
+      if rest_day[:day] == current_day
+        "Rest Day"
+      end
+    end
+  end
+
+  def display_if_holiday(current_day)
+    holiday = Holiday
+                  .where("(date_of_implementation = ?)", current_day)
+                  .order('holidays.date_of_implementation ASC').first
+    if holiday.present?
+      holiday[:name]
+    end
+  end
+
+  def get_current_duty_status( employee_ID )
+    currentEmployee = Employee
+                          .includes(:duty_status)
+                          .joins(:duty_status)
+                          .where("(employees.id = ?)", "#{employee_ID}")
+                          .order('duty_statuses.date_of_effectivity DESC').first
+    return currentEmployee.duty_status.first.active
+  end
+
+  def get_duration_regular_work_hours(employee_ID, specific_day)
+    currentEmployee = Employee
+                          .includes(:regular_work_period)
+                          .joins(:regular_work_period)
+                          .where("(employees.id = ?) AND (regular_work_periods.date_of_effectivity <= ?)", "#{employee_ID}", "#{specific_day}")
+                          .order("regular_work_periods.date_of_effectivity DESC").first
+    number_of_seconds = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time))
+    if number_of_seconds < 0
+      number_of_seconds = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time)).abs
+    end
+    return (number_of_seconds/3600).round
+  end
+
+  def get_duration_actual_work_hours(employee_ID, specific_day)
+    attendances = Attendance.includes(:employee).joins(:employee).where("(employees.id = ?) AND (attendances.date_of_attendance LIKE ?)", "#{employee_ID}", "#{specific_day.strftime("%Y-%m-%d")}%").order('attendances.created_at DESC')
+    total_seconds = 0
+    attendances.each do |attendance|
+      time_in = attendance[:timein]
+      time_out = attendance[:timeout]
+      my_seconds = (time_in - time_out).abs
+      total_seconds = my_seconds + total_seconds
+    end
+    return (total_seconds/3600).round
   end
 
 end

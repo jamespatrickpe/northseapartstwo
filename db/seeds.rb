@@ -133,20 +133,20 @@ numberOfActors.times do |i|
   if(randomBoolean())
     myBioData = Biodatum.new()
     myBioData.actor = myActor
-    myBioData.education = Faker::Company.name
+    myBioData.education = ["Elementary", "High School", "College Undergraduate", "College Graduate - Bachelor", "College Graduate - Master", "College Graduate - Doctor"].sample
     myBioData.career_experience = Faker::Lorem.sentence(3, false, 4)
     myBioData.notable_accomplishments = Faker::Lorem.sentence(3, false, 4)
     myBioData.date_of_birth = Faker::Date.between(600.months.ago, 216.months.ago)
     myBioData.family_members = Faker::Lorem.sentence(3, false, 4)
     myBioData.citizenship = Faker::Address.country
-    myBioData.gender = ["male", "female"].sample
+    myBioData.gender = ["Male", "Female"].sample
     myBioData.place_of_birth = Faker::Address.city
     myBioData.emergency_contact = Faker::PhoneNumber.phone_number
     myBioData.languages_spoken = Faker::Lorem.sentence(3, false, 4)
-    myBioData.complexion = Faker::Lorem.sentence(3, false, 4)
+    myBioData.complexion = ["Light", "Fair", "Medium", "Dark"].sample
     myBioData.height_cm = Faker::Number.number(3)
-    myBioData.marital_status = ["single", "married", "married with 2 wives"].sample
-    myBioData.blood_type = ["O", "A", "B-","B+"].sample
+    myBioData.marital_status = ["Single", "Married", "Widowed", "Divorced"].sample
+    myBioData.blood_type = ["O -", "O +", "A -", "A +", "B -", "B +", "AB -", "AB +"].sample
     myBioData.religion = Faker::Lorem.sentence(3, false, 4)
     myBioData.save
   end
@@ -303,7 +303,7 @@ numberOfActors.times do |i|
     randomNumberOfExpenses.times do |i|
       expense = Expense.new()
       expense.amount = randomMoney(100.10, 1000.00)
-      expense.category = Faker::Lorem.word
+      expense.category = ["utilities.gas"].sample
       expense.remark = Faker::Lorem.sentence
       expense.date_of_effectivity = rand(720..72000).hours.ago
       expense.physical_id = Faker::Lorem.word
@@ -319,36 +319,36 @@ numberOfActors.times do |i|
     rand(0..2).times do |i|
 
       if 9.in(10)
-        my_payroll = Payroll.new
-        my_payroll.article = "SSS"
+        my_payroll_settings = PayrollSetting.new
+        my_payroll_settings.article = "SSS"
         boolean_of_applicability = -> { [false,true].sample }
-        my_payroll.applicability = boolean_of_applicability.call
-        my_payroll.date_of_effectivity = rand(720..72000).hours.ago
-        my_payroll.remark = Faker::Lorem.word
-        my_payroll.employee = myEmployee
-        my_payroll.save!
+        my_payroll_settings.applicability = boolean_of_applicability.call
+        my_payroll_settings.date_of_effectivity = rand(720..72000).hours.ago
+        my_payroll_settings.remark = Faker::Lorem.word
+        my_payroll_settings.employee = myEmployee
+        my_payroll_settings.save!
       end
 
       if 9.in(10)
-        my_payroll = Payroll.new
-        my_payroll.article = "PHILHEALTH"
+        my_payroll_settings = PayrollSetting.new
+        my_payroll_settings.article = "PHILHEALTH"
         boolean_of_applicability = -> { [false,true].sample }
-        my_payroll.applicability = boolean_of_applicability.call
-        my_payroll.date_of_effectivity = rand(720..72000).hours.ago
-        my_payroll.remark = Faker::Lorem.word
-        my_payroll.employee = myEmployee
-        my_payroll.save!
+        my_payroll_settings.applicability = boolean_of_applicability.call
+        my_payroll_settings.date_of_effectivity = rand(720..72000).hours.ago
+        my_payroll_settings.remark = Faker::Lorem.word
+        my_payroll_settings.employee = myEmployee
+        my_payroll_settings.save!
       end
 
       if 9.in(10)
-        my_payroll = Payroll.new
-        my_payroll.article = "PAGIBIG"
+        my_payroll_settings = PayrollSetting.new
+        my_payroll_settings.article = "PAGIBIG"
         boolean_of_applicability = -> { [false,true].sample }
-        my_payroll.applicability = boolean_of_applicability.call
-        my_payroll.date_of_effectivity = rand(720..72000).hours.ago
-        my_payroll.remark = Faker::Lorem.word
-        my_payroll.employee = myEmployee
-        my_payroll.save!
+        my_payroll_settings.applicability = boolean_of_applicability.call
+        my_payroll_settings.date_of_effectivity = rand(720..72000).hours.ago
+        my_payroll_settings.remark = Faker::Lorem.word
+        my_payroll_settings.employee = myEmployee
+        my_payroll_settings.save!
       end
 
     end

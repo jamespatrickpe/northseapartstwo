@@ -63,7 +63,7 @@
             <tbody>
             <% @institutional_adjustments.each do |institutional_adjustment| %>
                 <tr>
-                  <td><%= institutional_adjustment[:id] %> </td>
+                  <td><%= institutional_adjustment[:id].upcase %> </td>
                   <td><%= institutional_adjustment[:institution] %> </td>
                   <td><%= institutional_adjustment[:contribution_type] %> </td>
                   <td><%= institutional_adjustment[:start_range] %> </td>

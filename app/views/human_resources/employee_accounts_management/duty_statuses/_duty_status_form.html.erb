@@ -1,5 +1,3 @@
-<%= generic_employee_select_field('duty_status',@selected_duty_status[:employee_id]) %>
-
 <div class="form-block">
   <div class="label">Current Duty Status :</div>
   <div>
@@ -30,7 +28,7 @@
            value=
     <%=
         @selected_duty_status[:date_of_effectivity].present? ?
-                (@selected_duty_status[:date_of_effectivity].strftime('%FT%T') ) :
+                (@selected_duty_status[:date_of_effectivity].strftime('%m/%d/%Y') ) :
                 (Time.now)
     %>>
 </div>

@@ -1,14 +1,17 @@
 class AccessController < ApplicationController
-
   include ApplicationHelper
 
+  def index
+    render 'access/index'
+  end
+
   layout "application_loggedin",
-         only:
-             [
-                 :dashboard,
-                 :'index.html.erb',
-                 :my_account
-             ]
+         only:[
+                :dashboard,
+                :index,
+                :my_account,
+              ]
+
   # skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
   # before_action :sign_in_check,
   #               except: [:signin,
@@ -22,13 +25,6 @@ class AccessController < ApplicationController
   #                        :sendRecoveryEmail,
   #                        :verify,
   #                        :email_recovery_verification]
-
-
-  layout "application_loggedin"
-
-  def index
-    render 'access/index'
-  end
 
   def dashboard
     @accesses = Access.limit(100).offset(0)

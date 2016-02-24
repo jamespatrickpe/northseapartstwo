@@ -51,7 +51,7 @@
             <tbody>
             <% @vale_adjustments.each do |vale_adjustment| %>
                 <tr>
-                  <td><%= vale_adjustment[:id] %></td>
+                  <td><%= vale_adjustment[:id].upcase %></td>
                   <td><%= generic_actor_profile_link(vale_adjustment.vale.employee.actor.id, vale_adjustment.vale.employee.actor.name) %></td>
                   <td><%= vale_adjustment[:amount] %> </td>
                   <td>

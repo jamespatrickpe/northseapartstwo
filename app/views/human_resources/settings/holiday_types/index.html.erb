@@ -51,7 +51,7 @@
             <tbody>
             <% @holiday_types.each do |holiday_type| %>
                 <tr>
-                  <td><%= holiday_type[:id] %></td>
+                  <td><%= holiday_type[:id].upcase %></td>
                   <td><%= holiday_type[:type_name] %></td>
                   <td><%= holiday_type[:rate_multiplier] %></td>
                   <td><%= holiday_type[:overtime_multiplier] %></td>

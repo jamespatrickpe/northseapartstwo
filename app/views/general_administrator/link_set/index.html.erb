@@ -29,7 +29,7 @@
             <tbody>
             <% @link_sets.each do |link_set| %>
                 <tr>
-                  <td><%= link_set[:id] %></td>
+                  <td><%= link_set[:id].upcase %></td>
                   <td><%= link_set[:url] %></td>
                   <td><%= link_set[:label] %></td>
                   <td></td>

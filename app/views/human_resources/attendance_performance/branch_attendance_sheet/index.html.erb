@@ -29,12 +29,12 @@
       </select>
 
       <input name='start_date'
-             value="<%= @start_date.present? ? @start_date.strftime("%Y-%m-%d") : Time.now.strftime("%Y-%m-%d") %>"
+             value="<%= @start_date.present? ? @start_date.strftime('%m/%d/%Y %T') : Time.now.strftime('%m/%d/%Y %T') %>"
              type="date" style="width: 25%; display: inline;"
              required="required">
 
       <input name='end_date'
-             value="<%= @end_date.present? ? @end_date.strftime("%Y-%m-%d") : Time.now.strftime("%Y-%m-%d") %>"
+             value="<%= @end_date.present? ? @end_date.strftime('%m/%d/%Y %T') : Time.now.strftime('%m/%d/%Y %T') %>"
              type="date" style="width: 25%; display: inline;"
              required="required">
 
@@ -93,7 +93,7 @@
                         <% current_date = @start_date + i.days %>
                         <% regular_work_hours = get_duration_regular_work_hours(employee.id, current_date) %>
                         <% actual_work_hours = get_duration_actual_work_hours(employee.id, current_date) %>
-                        <% current_date_formatted = current_date.strftime("%m/%d/%Y") %>
+                        <% current_date_formatted = current_date.strftime('%m/%d/%Y') %>
                         <% if regular_work_hours == actual_work_hours %>
                         <td class="present">
                         <% elsif actual_work_hours == 0 %>

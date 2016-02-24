@@ -1,5 +1,3 @@
-<%= generic_employee_select_field('base_rate',@selected_base_rate[:employee_id]) %>
-
 <div class="form-block">
   <div class="label">Rate Type : </div>
   <div>
@@ -36,8 +34,8 @@
        data-parsley-time_order_base_rate="0"
        step="1"
        value= <%= @selected_base_rate[:start_of_effectivity].present? ?
-                          @selected_base_rate[:start_of_effectivity].strftime('%FT%T') :
-                          Time.now.strftime('%FT%T') %>
+                          @selected_base_rate[:start_of_effectivity].strftime('%m/%d/%Y %T') :
+                          Time.now.strftime('%m/%d/%Y %T') %>
                type="datetime-local">
   </div>
 </div>
@@ -51,8 +49,8 @@
            data-parsley-trigger="change"
            data-parsley-time_order_base_rate="0"
            value= <%= @selected_base_rate[:end_of_effectivity].present? ?
-                              @selected_base_rate[:end_of_effectivity].strftime('%FT%T') :
-                              Time.now.strftime('%FT%T') %>
+                              @selected_base_rate[:end_of_effectivity].strftime('%m/%d/%Y %T') :
+                              Time.now.strftime('%m/%d/%Y %T') %>
                    type="datetime-local">
   </div>
 </div>
