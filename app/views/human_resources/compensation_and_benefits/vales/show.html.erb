@@ -4,7 +4,10 @@
   <hr>
 
   <div class="current_edit_id">
-    <%= @selected_vale[:id].upcase %> | <%= @selected_vale.employee.actor.name %> at a rate of <%= @selected_vale[:amount_of_deduction] %> per <%= @selected_vale[:period_of_deduction] %>
+    <%=
+        @selected_vale[:id].upcase %> |
+        <%= @selected_vale.employee.actor.name %> at a rate of <%= @selected_vale[:amount_of_deduction] %> per <%= @selected_vale[:period_of_deduction]
+    %>
     <br>
   </div>
 
@@ -23,22 +26,21 @@
     </thead>
     <tbody>
 
+    <!-- INITIAL ROW SET -->
     <%
        # get variables
        current_balance = @selected_vale[:amount]
-       previous_time = @selected_vale[:date_of_effectivity]
        iteration = translate_period_of_time_into_seconds(@selected_vale[:period_of_deduction])
-       current_time = previous_time + iteration
+       current_vale_datetime = DateTime.parse(@selected_vale[:date_of_effectivity].strftime('%Y-%m-%d %T'))
        current_link = '/human_resources/compensation_and_benefits/vales/' + @selected_vale[:id] + '/edit'
        current_id = @selected_vale[:id]
     %>
-
     <tr>
-      <td><%= current_id %></td>
-      <td><%= current_time.strftime("%m/%d/%Y %T") %></td>
+      <td><%= current_id.upcase() %></td>
+      <td><%= current_vale_datetime.strftime("%m/%d/%Y %T") %></td>
       <td>INITIAL</td>
       <td><%= @selected_vale[:amount] %></td>
-      <td>0</td>
+      <td>0.0</td>
       <td><%= current_balance %></td>
       <td><%= @selected_vale[:remark] %></td>
       <td class="actions">
@@ -49,69 +51,88 @@
       </td>
     </tr>
 
-    <% while 0 < current_balance %>
-        <%
-           adjustment_in_period_token = false
+    <!-- ITERATIVE ROW SET -->
+    <!-- CALCULATION -->
+    <%
+      # loop until the vale runs out
+       while 0 < current_balance
 
+           # get the variables
+           adjustment_in_period_token = false
            current_type = 'AUTO'
            current_remark = @selected_vale[:remark]
            current_addition = 0
            current_deduction = @selected_vale[:amount_of_deduction]
            current_link = '/human_resources/compensation_and_benefits/vales/' + @selected_vale[:id] + '/edit'
+           next_vale_datetime = current_vale_datetime + iteration.seconds
 
+           # check for adjustments in period
            @selected_vale_adjustments.each do |selected_vale_adjustment|
-             if selected_vale_adjustment[:date_of_effectivity].between?(previous_time, current_time)
+
+             # set up variables
+             adjustment_date_of_effectivity = DateTime.parse( selected_vale_adjustment[:date_of_effectivity].strftime('%Y-%m-%d') )
+             current_type = 'ADJUSTMENT'
+             current_remark = selected_vale_adjustment[:remark]
+
+             # apply according to date/time
+             if adjustment_date_of_effectivity.between?(current_vale_datetime, next_vale_datetime)
+               adjustment_in_period_token = true
+               puts "got in selected vale adjustment"
                current_link = '/human_resources/compensation_and_benefits/vale_adjustments/' + selected_vale_adjustment[:id] + '/edit'
                current_id = selected_vale_adjustment[:id]
                if selected_vale_adjustment[:signed_type]
-                 current_balance = current_balance + selected_vale_adjustment[:amount]
+                 current_balance += selected_vale_adjustment[:amount]
                  current_addition = selected_vale_adjustment[:amount]
                  current_deduction = 0
                else
-                 current_balance = current_balance - selected_vale_adjustment[:amount]
+                 current_balance -= selected_vale_adjustment[:amount]
                  current_addition = 0
                  current_deduction = selected_vale_adjustment[:amount]
                end
-               adjustment_in_period_token = true
-               current_type = 'ADJUSTMENT'
-               current_remark = selected_vale_adjustment[:remark]
              end
+
            end
 
+           # if there has been no adjustment done on the period; proceed with automatic deduction sequence
            if adjustment_in_period_token == false
-             current_balance = current_balance - @selected_vale[:amount_of_deduction]
+             current_balance =- current_deduction
            end
 
-           if current_balance < 0
-             current_deduction = @selected_vale[:amount_of_deduction] - current_balance.abs
+           # check if about to amount is going to run out on next iteration; if so, prepare for exact sum of amount_of_deduction
+           if current_balance < current_deduction
+             current_deduction =- current_balance
              current_balance = 0
            end
 
         %>
+
+        <!-- PRESENTATION -->
+            <% if Time.now.between?(current_vale_datetime, next_vale_datetime) %>
+                <tr style="background-color: #ccd9ff;">
+            <% else %>
+                <tr>
+            <% end %>
+                  <td><%= current_id.upcase() %></td>
+                  <td><%= current_vale_datetime.strftime("%m/%d/%Y %T") %></td>
+                  <td><%= current_type %></td>
+                  <td><%= current_addition %></td>
+                  <td><%= current_deduction %></td>
+                  <td><%= current_balance %></td>
+                  <td><%= current_remark %></td>
+                  <td class="actions">
+                    <%= link_to( "&#128083;".html_safe,
+                                 current_link,
+                                 class: 'action_button',
+                                 tooltip: 'Examine') %>
+                  </td>
+                </tr>
         <%
-           if Time.now.between?(previous_time, current_time)
+
+           # iterate datetime
+           current_vale_datetime += iteration
+
+        end
         %>
-            <tr style="background-color: #ccd9ff;">
-        <% else %>
-            <tr>
-        <% end %>
-          <td><%= current_id %></td>
-          <td><%= current_time.strftime("%m/%d/%Y %T") %></td>
-          <td><%= current_type %></td>
-          <td><%= current_addition %></td>
-          <td><%= current_deduction %></td>
-          <td><%= current_balance %></td>
-          <td><%= current_remark %></td>
-          <td class="actions">
-            <%= link_to( "&#128083;".html_safe,
-                         current_link,
-                         class: 'action_button',
-                         tooltip: 'Examine') %>
-          </td>
-        </tr>
-        <% previous_time = current_time %>
-        <% current_time = current_time + iteration %>
-    <% end %>
 
     </tbody>
   </table>

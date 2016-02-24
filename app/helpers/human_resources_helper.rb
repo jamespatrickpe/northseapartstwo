@@ -5,12 +5,11 @@ module HumanResourcesHelper
     # get the variables
     start_date = DateTime.parse(start_date)
     end_date = DateTime.parse(end_date)
-    current_vale_date = DateTime.parse(vale[:date_of_effectivity].strftime('%Y-%m-%d %T'))
+    current_vale_datetime = DateTime.parse(vale[:date_of_effectivity].strftime('%Y-%m-%d %T'))
     iteration = translate_period_of_time_into_seconds(vale[:period_of_deduction])
     current_amount = vale[:amount]
     total_deduction = 0
     vale_adjustments = ValeAdjustment.where("vale_id = '" + vale[:id] + "'")
-    i_got_in_token = 0
 
     # loop until the vale runs out
     while current_amount > 0
@@ -19,12 +18,12 @@ module HumanResourcesHelper
       amount_of_deduction = vale[:amount_of_deduction]
 
       # calculate datetime for next iteration
-      next_vale_date = (current_vale_date + iteration.seconds)
+      next_vale_date = (current_vale_datetime + iteration.seconds)
 
       # check for any adjustments on the period
       vale_adjustments.each do |adjustment|
         adjustment_date_of_effectivity = DateTime.parse( adjustment[:date_of_effectivity].strftime('%Y-%m-%d') )
-        if adjustment_date_of_effectivity.between?(current_vale_date,next_vale_date)
+        if adjustment_date_of_effectivity.between?(current_vale_datetime,next_vale_date)
           if adjustment[:signed_type]
             current_amount += adjustment[:amount]
           else
@@ -43,12 +42,12 @@ module HumanResourcesHelper
       current_amount -= amount_of_deduction
 
       # capture deductions
-      if current_vale_date.between?(start_date, end_date)
+      if current_vale_datetime.between?(start_date, end_date)
         total_deduction += amount_of_deduction
       end
 
       # iterate date
-      current_vale_date += iteration.seconds
+      current_vale_datetime += iteration.seconds
     end
 
     total_deduction
