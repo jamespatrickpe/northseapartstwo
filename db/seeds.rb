@@ -133,20 +133,20 @@ numberOfActors.times do |i|
   if(randomBoolean())
     myBioData = Biodatum.new()
     myBioData.actor = myActor
-    myBioData.education = Faker::Company.name
+    myBioData.education = ["Elementary", "High School", "College Undergraduate", "College Graduate - Bachelor", "College Graduate - Master", "College Graduate - Doctor"].sample
     myBioData.career_experience = Faker::Lorem.sentence(3, false, 4)
     myBioData.notable_accomplishments = Faker::Lorem.sentence(3, false, 4)
     myBioData.date_of_birth = Faker::Date.between(600.months.ago, 216.months.ago)
     myBioData.family_members = Faker::Lorem.sentence(3, false, 4)
     myBioData.citizenship = Faker::Address.country
-    myBioData.gender = ["male", "female"].sample
+    myBioData.gender = ["Male", "Female"].sample
     myBioData.place_of_birth = Faker::Address.city
     myBioData.emergency_contact = Faker::PhoneNumber.phone_number
     myBioData.languages_spoken = Faker::Lorem.sentence(3, false, 4)
-    myBioData.complexion = Faker::Lorem.sentence(3, false, 4)
+    myBioData.complexion = ["Light", "Fair", "Medium", "Dark"].sample
     myBioData.height_cm = Faker::Number.number(3)
-    myBioData.marital_status = ["single", "married", "married with 2 wives"].sample
-    myBioData.blood_type = ["O", "A", "B-","B+"].sample
+    myBioData.marital_status = ["Single", "Married", "Widowed", "Divorced"].sample
+    myBioData.blood_type = ["O -", "O +", "A -", "A +", "B -", "B +", "AB -", "AB +"].sample
     myBioData.religion = Faker::Lorem.sentence(3, false, 4)
     myBioData.save
   end
