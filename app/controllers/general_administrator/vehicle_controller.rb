@@ -27,7 +27,7 @@ class GeneralAdministrator::VehicleController < GeneralAdministratorController
   end
 
   def search_suggestions
-    vehicles = Vehicles
+    vehicles = Vehicle
                    .where("vehicles.plate_number LIKE ?","%#{params[:query]}%")
                    .pluck("vehicles.plate_number")
     direct = "{\"query\": \"Unit\",\"suggestions\":[" + vehicles.to_s.gsub!('[', '').gsub!(']', '') + "]}"
