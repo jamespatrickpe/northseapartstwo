@@ -1,0 +1,54 @@
+<div class="form-block">
+  <div class="label">Type of Vehicle</div>
+
+  <input type="text"
+         required="required"
+         placeholder="Enter type of vehicle"
+         data-parsley-trigger = keyup
+         data-parsley-maxlength = 64
+         id="vehicle_type_of_vehicle"
+         value= "<%= @selected_vehicle[:type_of_vehicle] %>"
+         name="vehicle[type_of_vehicle]">
+</div>
+
+<div class="form-block">
+  <div class="label">Plate Number</div>
+
+  <input type="text"
+         required="required"
+         placeholder="Enter plate number"
+         data-parsley-trigger = keyup
+         data-parsley-maxlength = 64
+         id="vehicle_plate_number"
+         value= "<%= @selected_vehicle[:plate_number] %>"
+         name="vehicle[plate_number]">
+</div>
+
+<div class="form-block">
+  <div class="label">Date of Registration : </div>
+  <input type="date"
+         id="vehicle_date_of_registration"
+         step = 1
+         name="vehicle[date_of_registration]"
+         required = required
+         value= <%= @selected_vehicle[:date_of_registration]%> >
+</div>
+
+
+<div class="form-block">
+  <div class="label">ORCR</div>
+
+  <input type="text"
+         required="required"
+         placeholder="Enter ORCR of vehicle"
+         data-parsley-trigger = keyup
+         data-parsley-maxlength = 64
+         id="vehicle_orcr"
+         value= "<%= @selected_vehicle[:orcr] %>"
+         name="vehicle[orcr]">
+</div>
+
+<%= generic_remarks_description_field('vehicle',@selected_vehicle[:remark]) %>
+
+
+

@@ -76,6 +76,13 @@ Rails.application.routes.draw do
         end
     end
 
+    get 'vehicle/' => 'vehicle#index'
+    resources :vehicle do
+      collection do
+        concerns :generic_table
+      end
+    end
+
     get 'file_set/' => 'file_set#index'
     resources :file_set do
       collection do
