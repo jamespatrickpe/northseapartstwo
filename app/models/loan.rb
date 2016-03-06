@@ -11,6 +11,7 @@ class Loan < ActiveRecord::Base
   validates_presence_of :employee_id
   validates_presence_of :borrower_name
   validates_presence_of :loan_value
+  validates_presence_of :loan_remaining
   validates_presence_of :collection_period_from
   validates_presence_of :collection_period_to
   validates_presence_of :monthly_installment

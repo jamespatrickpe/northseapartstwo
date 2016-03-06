@@ -1,1 +1,59 @@
-<h1>LOAN SHOW</h1>
+<section class='small-10 columns'>
+  <%= generic_title('Loan Payments','Show all payments for a specific loan') %>
+
+  <div style="font-size: 15px; padding: 5px;">
+    <%= @selected_loan.id %> | <%= @selected_loan.employee.actor.name %>'s <%= @selected_loan.loan_type %> loan; total of <%= @selected_loan.loan_value %> ( <%= @selected_loan.monthly_installment %> / month )
+  </div>
+
+  <% table_orientation = shift_table_orientation %>
+  <% begin %>
+      <table class="generic_table" id="loan_payments_specific_table">
+        <thead>
+        <tr>
+          <th>
+            MID Number
+            <%= generic_table_theadlink('loan_payments.mid_number', table_orientation) %>
+          </th>
+          <th>
+            Payment Amount
+            <%= generic_table_theadlink('loan_payments.payment_amount', table_orientation) %>
+          </th>
+          <th>
+            Payment Date
+            <%= generic_table_theadlink('loan_payments.payment_date', table_orientation) %>
+          </th>
+          <th>
+            Before Payment
+            <%= generic_table_theadlink('loan_payments.loan_amount_before_payment', table_orientation) %>
+          </th>
+          <th>
+            After Payment
+            <%= generic_table_theadlink('loan_payments.loan_amount_after_payment', table_orientation) %>
+          </th>
+          <th>
+            Remark
+            <%= generic_table_theadlink('loan_payments.remark', table_orientation) %>
+          </th>
+        </tr>
+        </thead>
+        <% if @specific_loan_payments.empty? == true %>
+            <% raise exception %>
+        <% else %>
+            <tbody>
+            <% @specific_loan_payments.each do |payment_instance| %>
+                <tr>
+                  <td><%= payment_instance[:mid_number].upcase %></td>
+                  <td><%= payment_instance[:payment_amount] %></td>
+                  <td><%= payment_instance[:payment_date].strftime('%m/%d/%Y') %></td>
+                  <td><%= payment_instance[:loan_amount_before_payment] %></td>
+                  <td><%= payment_instance[:loan_amount_after_payment] %></td>
+                  <td><%= payment_instance[:remark] %></td>
+                </tr>
+            <% end %>
+            </tbody>
+        <% end %>
+      </table>
+  <% rescue => ex %>
+      <%= generic_table_error(ex) %>
+  <% end %>
+</section>

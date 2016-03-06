@@ -52,6 +52,7 @@ class HumanResources::CompensationAndBenefits::LoansController < HumanResources:
       loan.employee_id = params[:loan][:employee_id]
       loan.borrower_name = Employee.find(params[:loan][:employee_id]).actor.name
       loan.loan_value = params[:loan][:loan_value]
+      loan.loan_remaining = params[:loan][:loan_value]
       loan.collection_period_from = params[:loan][:collection_period_from]
       loan.collection_period_to = params[:loan][:collection_period_to]
       loan.monthly_installment = params[:loan][:monthly_installment]
@@ -81,9 +82,9 @@ class HumanResources::CompensationAndBenefits::LoansController < HumanResources:
     process_loan_form(loan)
   end
 
-
   def show
     @selected_loan = Loan.find(params[:id])
+    @specific_loan_payments = LoanPayment.where("loan_id = ?", @selected_loan[:id] ).order("payment_date DESC")
     render 'human_resources/compensation_and_benefits/loans/show'
   end
 

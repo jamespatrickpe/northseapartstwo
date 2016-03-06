@@ -1,7 +1,5 @@
 <section class='small-10 columns'>
-  <div class='mainheader'> Vale Summary </div>
-  <div class='subdescription'> Vales and Associated Adjustments  </div>
-  <hr>
+  <%= generic_title('Vale Summary','Vales and Associated Adjustments') %>
 
   <div style="font-size: 15px; padding: 5px;">
     <%= @selected_vale[:id] %> | <%= @selected_vale.employee.actor.name %> at a rate of <%= @selected_vale[:amount_of_deduction] %> per <%= @selected_vale[:period_of_deduction] %>
@@ -91,19 +89,19 @@
         <% else %>
             <tr>
         <% end %>
-          <td><%= current_id %></td>
-          <td> <%= current_time %></td>
-          <td><%= current_type %></td>
-          <td><%= current_addition %></td>
-          <td><%= current_deduction %></td>
-          <td><%= current_balance %></td>
-          <td><%= current_remark %></td>
-          <td class="actions">
-            <%= link_to( "&#128083;".html_safe,
-                         current_link,
-                         class: 'action_button',
-                         tooltip: 'Examine') %>
-          </td>
+        <td><%= current_id %></td>
+        <td> <%= current_time %></td>
+        <td><%= current_type %></td>
+        <td><%= current_addition %></td>
+        <td><%= current_deduction %></td>
+        <td><%= current_balance %></td>
+        <td><%= current_remark %></td>
+        <td class="actions">
+          <%= link_to( "&#128083;".html_safe,
+                       current_link,
+                       class: 'action_button',
+                       tooltip: 'Examine') %>
+        </td>
         </tr>
         <% previous_time = current_time %>
         <% current_time = current_time + iteration %>

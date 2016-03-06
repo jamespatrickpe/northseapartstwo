@@ -299,7 +299,7 @@ numberOfActors.times do |i|
     end
 
     # Loans
-    rand(0..20).times do |i|
+    rand(0..1).times do |i|
       myLoan = Loan.new()
       myLoan.loan_type = ['SSS','PHILHEALTH','PAGIBIG'].sample
       myLoan.pagibig_employer_id_number = '123456'
@@ -308,11 +308,25 @@ numberOfActors.times do |i|
       myLoan.employer_business_address = 'Cainta Rizal'
       myLoan.employee_id = myEmployee.id
       myLoan.borrower_name = myEmployee.actor.name
-      myLoan.loan_value = randomMoney(10000.10,1000000.00)
+      myLoan.loan_value = 1000000
+      myLoan.loan_remaining = 1000000
       myLoan.collection_period_from = Time.now - rand(0..72000).hours
       myLoan.collection_period_to = Time.now - rand(0..72000).hours
       myLoan.monthly_installment = randomMoney(300.10,1000.00)
       myLoan.save!
+    end
+
+    # Loans Payment
+    rand(0..10).times do |i|
+      myLoanPayment = LoanPayment.new()
+      myLoanPayment.loan_id = Faker::Lorem.word
+      myLoanPayment.mid_number = '123456'
+      myLoanPayment.payment_amount = randomMoney(500.10,1000.00)
+      myLoanPayment.payment_date = Time.now - rand(0..72000).hours
+      myLoanPayment.loan_amount_before_payment = randomMoney(500.10,1000.00)
+      myLoanPayment.loan_amount_after_payment = randomMoney(500.10,1000.00)
+      myLoanPayment.remark = Faker::Lorem.sentence
+      myLoanPayment.save!
     end
 
     randomNumberOfLumpAdjustment = rand(0..30)
