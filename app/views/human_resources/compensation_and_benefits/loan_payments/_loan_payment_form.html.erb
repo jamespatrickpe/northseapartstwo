@@ -1,0 +1,57 @@
+<div class="form-block">
+  <div class="label">Loan :</div>
+  <br />
+  <select name="loan_payment[loan_id]"
+                  id="loan_payment_loan_id"
+          class='employee_select_field'
+          required="required">
+    <option value="" disabled selected>Select Loan</option>
+    <% @loans.each do |loan| %>
+        <option value=<%= loan[:id] %> selected>
+          <%= loan.employee.actor.name %> -
+          <%= loan.loan_type %> -
+          <%= loan.loan_value %>
+        </option>
+    <% end %>
+  </select>
+</div>
+
+
+<div class="form-block">
+  <div class="label">MID Number</div>
+
+  <input type="text"
+         required="required"
+         placeholder="Enter payment MID number"
+         data-parsley-trigger = keyup
+         data-parsley-maxlength = 64
+         id="loan_payment_mid_number"
+         value= "<%= @selected_loan_payment[:mid_number] %>"
+         name="loan_payment[mid_number]">
+</div>
+
+<div class="form-block">
+  <div class="label">Amount : </div>
+  <br />
+  <%= text_field_tag("loan_payment[payment_amount]",
+                     content = @selected_loan_payment[:payment_amount],
+                     options = {placeholder: "Enter payment amount",
+                                required: "required",
+                                id: "loan_payment_payment_amount",
+                                :"data-parsley-trigger" => "keyup",
+                                :"data-parsley-step" => "0.01",
+                                :"data-parsley-type" => "number"}) %>
+</div>
+
+<div class="form-block">
+  <div class="label">Loan Payment Date : </div>
+  <input type="date"
+         id="loan_payment_date"
+         step = 1
+         name="loan_payment[payment_date]"
+         required = required
+         value= <%= @selected_loan_payment[:payment_date]%> >
+</div>
+
+<%= generic_remarks_description_field('loan_payment',@selected_loan_payment[:remark]) %>
+
