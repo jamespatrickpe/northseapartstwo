@@ -2,7 +2,9 @@
     float : left;
     font-size: 12px;
     margin-bottom : 16px;
-    width : 33% !important;
+    border-top: 1px solid #cccccc;
+    margin-right: 5px;
+    width : 32% !important;
 }
 
 .generic_tricolumn_form .form-block, .generic_tricolumn_form .generic_bicolumn_form {
@@ -10,7 +12,6 @@
 }
 
 .generic_tricolumn_form .employee_quick_profile {
-    padding : 4px;
     width : 100% !important;
 }
 
@@ -21,7 +22,7 @@
 
 .generic_bicolumn_form
 {
-    border-right : 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
     font-size: 12px;
     float:left;
     margin-bottom : 32px;

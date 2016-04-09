@@ -1,7 +1,5 @@
 <section class='small-10 columns'>
-  <div class='mainheader'> Vale Summary </div>
-  <div class='subdescription'> Vales and Associated Adjustments  </div>
-  <hr>
+  <%= generic_title('Vale Summary','Vales and Associated Adjustments') %>
 
   <div class="current_edit_id">
     <%=
@@ -132,8 +130,30 @@
            # iterate datetime
            current_vale_datetime += iteration.seconds
 
-        end
         %>
+
+        <% if Time.now.between?(previous_time, current_time) %>
+            <tr style="background-color: #ccd9ff;">
+        <% else %>
+            <tr>
+        <% end %>
+        <td><%= current_id %></td>
+        <td> <%= current_time %></td>
+        <td><%= current_type %></td>
+        <td><%= current_addition %></td>
+        <td><%= current_deduction %></td>
+        <td><%= current_balance %></td>
+        <td><%= current_remark %></td>
+        <td class="actions">
+          <%= link_to( "&#128083;".html_safe,
+                       current_link,
+                       class: 'action_button',
+                       tooltip: 'Examine') %>
+        </td>
+        </tr>
+        <% previous_time = current_time %>
+        <% current_time = current_time + iteration %>
+    <% end %>
 
     </tbody>
   </table>

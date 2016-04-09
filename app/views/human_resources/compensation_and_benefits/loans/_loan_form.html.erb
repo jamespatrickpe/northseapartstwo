@@ -1,0 +1,79 @@
+
+<div class="form-block">
+  <div class="label">Loan Type : </div>
+  <br />
+  <select name='loan[loan_type]'
+          required="required" >
+    <% if @selected_loan[:loan_type] == "SSS" %>
+        <option disabled>Select Institution</option>
+        <option value="SSS" selected >SSS</option>
+        <option value="PHILHEALTH">PHILHEALTH</option>
+        <option value="PAGIBIG">PAGIBIG</option>
+    <% elsif @selected_loan[:loan_type] == "PHILHEALTH" %>
+        <option disabled>Select Institution</option>
+        <option value="SSS">SSS</option>
+        <option value="PHILHEALTH" selected >PHILHEALTH</option>
+        <option value="PAGIBIG">PAGIBIG</option>
+    <% elsif @selected_loan[:loan_type] == "PAGIBIG" %>
+        <option disabled>Select Institution</option>
+        <option value="SSS">SSS</option>
+        <option value="PHILHEALTH">PHILHEALTH</option>
+        <option value="PAGIBIG" selected >PAGIBIG</option>
+    <% else %>
+        <option disabled selected >Select Loan Type</option>
+        <option value="SSS">SSS</option>
+        <option value="PHILHEALTH">PHILHEALTH</option>
+        <option value="PAGIBIG">PAGIBIG</option>
+    <% end %>
+  </select>
+</div>
+
+
+<div class="form-block">
+  <div class="label">Loan Value : </div>
+  <%= text_area_tag("loan[loan_value]",
+                     content = @selected_loan[:loan_value],
+                     options = {placeholder: "Enter amount",
+                                required: "required",
+                                id: "loan_loan_value",
+                                :"data-parsley-trigger" => "keyup",
+                                :"data-parsley-range_loan" => "0",
+                                :"data-parsley-step" => "0.01",
+                                :"data-parsley-type" => "number"}) %>
+
+</div>
+
+<div class="form-block">
+  <div class="label">Monthly Installment : </div>
+  <%= text_area_tag("loan[monthly_installment]",
+                     content = @selected_loan[:monthly_installment],
+                     options = {placeholder: "Enter amount",
+                                required: "required",
+                                id: "loan_monthly_installment",
+                                :"data-parsley-trigger" => "keyup",
+                                :"data-parsley-range_loan" => "0",
+                                :"data-parsley-step" => "0.01",
+                                :"data-parsley-type" => "number"}) %>
+</div>
+
+<div class="form-block">
+  <div class="label">Collection Period - From : </div>
+  <input type="date"
+         id="loan_collection_period_from"
+         step = 1
+         name="loan[collection_period_from]"
+         required = required
+         value= <%= @selected_loan[:collection_period_from]%> >
+</div>
+
+<div class="form-block">
+  <div class="label">Collection Period - To : </div>
+  <input type="date"
+         id="loan_collection_period_to"
+         step = 1
+         name="loan[collection_period_to]"
+         required = required
+         value= <%= @selected_loan[:collection_period_to]%> >
+</div>
+
+<%= generic_remarks_description_field('loan',@selected_loan[:remark]) %>
