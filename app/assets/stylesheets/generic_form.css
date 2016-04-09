@@ -1,9 +1,7 @@
 .generic_tricolumn_form {
-    border-right : 1px solid #cccccc;
     float : left;
     font-size: 12px;
     margin-bottom : 16px;
-    padding : 16px;
     width : 33% !important;
 }
 

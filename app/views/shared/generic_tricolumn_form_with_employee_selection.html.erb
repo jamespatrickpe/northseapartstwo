@@ -19,8 +19,6 @@
     %>
         <%= hidden_field_tag(model_id_name, model[:id] ) %>
         <%= generic_employee_select_field(@singular_model_name, model[:employee_id]) %>
-
-        <div class="sm-spacer"></div>
         <div>
           <%= render @form_location %>
           <div class="generic_tricolumn_form">

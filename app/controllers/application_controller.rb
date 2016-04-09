@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
     @singular_model_name = singular_model_name
   end
 
-  def generic_tricolum_form_with_employee_selection(model)
+  def generic_tricolumn_form_with_employee_selection(model)
     render :template => 'shared/generic_tricolumn_form_with_employee_selection', :locals => {:model => model}
   end
 
