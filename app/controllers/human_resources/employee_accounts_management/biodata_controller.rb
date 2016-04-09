@@ -17,7 +17,7 @@ class HumanResources::EmployeeAccountsManagement::BiodataController < HumanResou
 
   def initialize_form
     initialize_form_variables('BIODATA',
-                              'Create a new bio for a specific employee',
+                              'Create new biodatum for a specific employee',
                               'human_resources/employee_accounts_management/biodata/biodatum_form',
                               'biodata')
     initialize_employee_selection
@@ -27,13 +27,13 @@ class HumanResources::EmployeeAccountsManagement::BiodataController < HumanResou
   def new
     initialize_form
     @selected_biodata = Biodatum.new
-    generic_tricolum_form_with_employee_selection(@selected_biodata)
+    generic_tricolumn_form_with_employee_selection(@selected_biodata)
   end
 
   def edit
     initialize_form
     @selected_biodata = Biodatum.find(params[:id])
-    generic_tricolum_form_with_employee_selection(@selected_biodata)
+    generic_tricolumn_form_with_employee_selection(@selected_biodata)
   end
 
   def delete
