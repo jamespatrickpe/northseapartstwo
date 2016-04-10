@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160216072026) do
+ActiveRecord::Schema.define(version: 20160410074150) do
 
   create_table "accesses", force: :cascade do |t|
     t.string   "actor_id",        limit: 36
@@ -148,7 +148,7 @@ ActiveRecord::Schema.define(version: 20160216072026) do
     t.string   "remark",              limit: 256
     t.boolean  "active",              limit: 1,   default: false
     t.string   "employee_id",         limit: 36
-    t.datetime "date_of_effectivity",             default: '2016-04-09 12:33:42'
+    t.datetime "date_of_effectivity",             default: '2016-04-10 16:04:32'
     t.datetime "created_at",                                                      null: false
     t.datetime "updated_at",                                                      null: false
   end
@@ -234,8 +234,8 @@ ActiveRecord::Schema.define(version: 20160216072026) do
   create_table "leaves", force: :cascade do |t|
     t.string   "employee_id",          limit: 36
     t.string   "type_of_leave",        limit: 64
-    t.datetime "start_of_effectivity",             default: '2016-04-09 12:33:46'
-    t.datetime "end_of_effectivity",               default: '2016-04-09 12:33:46'
+    t.datetime "start_of_effectivity",             default: '2016-04-10 16:04:35'
+    t.datetime "end_of_effectivity",               default: '2016-04-10 16:04:35'
     t.string   "remark",               limit: 256
     t.datetime "created_at",                                                       null: false
     t.datetime "updated_at",                                                       null: false
@@ -270,7 +270,7 @@ ActiveRecord::Schema.define(version: 20160216072026) do
     t.boolean  "PHILHEALTH_status",   limit: 1,   default: false
     t.boolean  "PAGIBIG_status",      limit: 1,   default: false
     t.boolean  "BIR_status",          limit: 1,   default: false
-    t.datetime "date_of_effectivity",             default: '2016-04-09 12:33:48'
+    t.datetime "date_of_effectivity",             default: '2016-04-10 16:04:37'
     t.string   "remark",              limit: 256
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -315,7 +315,7 @@ ActiveRecord::Schema.define(version: 20160216072026) do
   create_table "regular_work_periods", force: :cascade do |t|
     t.time     "start_time",                      default: '2000-01-01 08:00:00'
     t.time     "end_time",                        default: '2000-01-01 17:00:00'
-    t.datetime "date_of_effectivity",             default: '2016-04-09 12:33:39'
+    t.datetime "date_of_effectivity",             default: '2016-04-10 16:04:31'
     t.string   "remark",              limit: 256
     t.string   "employee_id",         limit: 36
     t.datetime "created_at",                                                      null: false
@@ -367,6 +367,16 @@ ActiveRecord::Schema.define(version: 20160216072026) do
     t.datetime "date_of_effectivity"
     t.datetime "created_at",                                                               null: false
     t.datetime "updated_at",                                                               null: false
+  end
+
+  create_table "vehicles", force: :cascade do |t|
+    t.string   "type_of_vehicle",      limit: 64
+    t.string   "plate_number",         limit: 64
+    t.string   "orcr",                 limit: 64
+    t.string   "remark",               limit: 256
+    t.datetime "date_of_registration"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
 end

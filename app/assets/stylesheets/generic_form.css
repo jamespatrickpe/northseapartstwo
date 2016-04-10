@@ -16,7 +16,7 @@
 }
 
 .tricolumn_form_footer .generic_form_button_set {
-    text-align: right;
+    text-align: left;
     clear : both;
 }
 
@@ -32,10 +32,9 @@
 .generic_singlecolumn_form
 {
     font-size: 12px;
-    border-right : 1px solid #cccccc;
     margin-bottom : 32px;
     float:left;
-    width:75%;
+    width:50%;
 }
 
 .current_edit_id
@@ -78,6 +77,7 @@
 
 .generic_form_button_set
 {
+    float:left;
     padding: 20px;
 }
 

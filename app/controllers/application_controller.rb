@@ -1,64 +1,24 @@
+# **
+# Application Controller is the base controller for the entire application.
+# All shared application-wide functions should be put here.
+# **
 
 class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
+
+  # Must include for AJAX to work
   protect_from_forgery with: :exception
-  skip_before_action :verify_authenticity_token #Need this for AJAX. AJAX Does not work without this.
+  skip_before_action :verify_authenticity_token
+
+  # Make Controller Functions also available as a Helper Method
   helper_method :error_messages_for, :shift_table_orientation, :insertTimeIntoDate
-  include ApplicationHelper
 
-  def initialize_form_variables(title, subtitle, form_location, singular_model_name)
-    @title = title
-    @subtitle = subtitle
-    @form_location = form_location
-    @singular_model_name = singular_model_name
-  end
-
-  def generic_tricolumn_form_with_employee_selection(model)
-    render :template => 'shared/generic_tricolumn_form_with_employee_selection', :locals => {:model => model}
-  end
-
-  def generic_bicolumn_form_with_employee_selection(model)
-    render :template => 'shared/generic_bicolumn_form_with_employee_selection', :locals => {:model => model}
-  end
-
-  def generic_singlecolumn_form(model)
-    render :template => 'shared/generic_singlecolumn_form', :locals => {:model => model}
-  end
-
-  def generic_delete_model(model, my_controller_name)
-    model_to_be_deleted = model.find(params[:id])
-    flash[:general_flash_notification] = model_to_be_deleted.id + " has been successfully deleted "
-    flash[:general_flash_notification_type] = 'affirmative'
-    model_to_be_deleted.destroy
-    redirect_to :controller => my_controller_name, :action => 'index'
-  end
-
-  def generic_employee_name_search_suggestions(model)
-    my_model = model.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
-    direct = "{\"query\": \"Unit\",\"suggestions\":" + my_model.uniq.to_s + "}" # default format for plugin
-    respond_to do |format|
-      format.all { render :text => direct}
-    end
-  end
-
-  def initialize_actor_selection
-    @employees = Employee.includes(:actor).joins(:actor)
-  end
-
-  def actor_profile
-    if( params[:actor_id] )
-      @selected_actor = Actor.find(params[:actor_id])
-      @selected_access = Access.find_by_actor_id(@selected_actor.id)
-      @selected_biodata = Biodatum.find_by_actor_id(@selected_actor.id)
-      @selected_address_set = Address.where("rel_model_id = ?", "#{@selected_actor.id}")
-      @selected_telephone_set = Telephone.where("rel_model_id = ?", "#{@selected_actor.id}")
-      @selected_digital_set = Digital.where("rel_model_id = ?", "#{@selected_actor.id}")
-      @selected_file_set = FileSet.where("rel_file_set_id = ? AND rel_file_set_type = 'Actor'", "#{@selected_actor.id}")
-      @selected_image_set = ImageSet.where("rel_image_set_id = ? AND rel_image_set_type = 'Actor'", "#{@selected_actor.id}").order('priority DESC')
-    end
-    @selected_actor ||= Actor.new
-  end
+  # Categorized Imports
+  include ApplicationHelper,
+          GenericForm,
+          GenericTable,
+          ActorProfile,
+          GenericController,
+          StringManipulations
 
   def check_unique_holiday_date
     date_of_implementation_exists = Holiday.exists?(date_of_implementation: params[:holiday][:date_of_implementation])
@@ -143,9 +103,7 @@ class ApplicationController < ActionController::Base
     return hash_link
   end
 
-  def initialize_employee_selection
-    @employees = Employee.includes(:actor).joins(:actor)
-  end
+
 
   def employee_overview_profile
     respond_to do |format|
@@ -164,50 +122,6 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.all { render :text => sample}
     end
-  end
-
-  #Reset Search Common Paremeters
-  def reset_search
-    flash.clear
-    flash[:general_flash_notification] = 'Search Queries Cleared'
-    flash[:general_flash_notification_type] = 'affirmative'
-    redirect_to params[:reset_search_redirect]
-  end
-
-  # Stores previous search queries for aggregated results
-  def aggregated_search_queries(value, table_id, key, default)
-    if value
-      actual_query_parameter = value
-    elsif flash[table_id + '_' + key]
-      actual_query_parameter = flash[table_id + '_' + key]
-    else
-      actual_query_parameter = default
-    end
-    flash[table_id + '_' + key] = actual_query_parameter
-    return actual_query_parameter
-  end
-
-  def generic_table_aggregated_queries( mysql_table_name, mysql_created_at, my_order = 'DESC', my_limit = '10')
-    order_parameter = aggregated_search_queries(params[:order_parameter], mysql_table_name, 'order_parameter' , mysql_created_at)
-    order_orientation = aggregated_search_queries(params[:order_orientation], mysql_table_name, 'order_orientation', my_order)
-    current_limit = aggregated_search_queries(params[:current_limit], mysql_table_name, 'current_limit', my_limit)
-    search_field = aggregated_search_queries(params[:search_field], mysql_table_name, 'search_field','')
-    return {:order_parameter => order_parameter, :order_orientation => order_orientation, :current_limit => current_limit, :search_field => search_field}
-  end
-
-  # Shifts the ASC/DESC on the header of table
-  def shift_table_orientation
-    table_orientation = Hash.new()
-    table_orientation["order_orientation"] = ""
-    table_orientation["orientation_symbol"] = ""
-    if( params[:order_orientation] == "ASC" )
-      table_orientation["order_orientation"] = "DESC"
-      table_orientation["orientation_symbol"] = '&#x25BC;'
-    else
-      table_orientation["order_orientation"] = "ASC"
-      table_orientation["orientation_symbol"] = '&#x25B2;'
-    end
-    return table_orientation
   end
 
   # Regular Sign In Check
@@ -247,11 +161,6 @@ class ApplicationController < ActionController::Base
       format.json { render json: {:"exists" => email_exists}.to_json }
       format.html
     end
-  end
-
-  def getEmployees
-    @employees = Employee.all
-    @employee_id = params[:employee_id]
   end
 
   def processConstants
@@ -297,26 +206,4 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def processUserTypeSelection(params)
-    @roles = params[:access][:role]
-    @roles.each do |role|
-      if(role == "employees")
-
-      end
-    end
-  end
-
-  def generateStorageLabels(params)
-    branchCode = params[:storage][:branchCode]
-    branchCode = params[:storage][:branchCode]
-    branchCode = params[:storage][:branchCode]
-  end
-
-  def trimString(string)
-    return string.strip!
-  end
-
-  def error_messages_for(object)
-    render(:partial => "core_partials/formerrors", :locals => {:object => object})
-  end
 end

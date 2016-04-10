@@ -1,6 +1,6 @@
 class CreateBaseRates < ActiveRecord::Migration
   def change
-    create_table :base_rates, :id => false   do |t|
+    create_table :base_rates, :id => false do |t|
       t.string :id, limit: 36, primary: true, null: false
       t.string :employee_id,limit: 36, :required => true
       t.boolean :signed_type, :required => true

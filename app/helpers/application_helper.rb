@@ -116,8 +116,6 @@ module ApplicationHelper
     link_to title, :order_by => column, :arrangement => direction, :employee_id => @employee_id, :offset => @offset
   end
 
-
-
   def generateReadableID()
     generatedID = SecureRandom.random_number(999999999).to_s.rjust(9,'0')
     while( self.where(id: generatedID) )
@@ -149,16 +147,9 @@ module ApplicationHelper
     renderCorePartial("itemlisterbuttons",{ :description => description, :add => add, :minus => minus})
   end
 
-  def error_messages_for(object)
-    render(:partial => "core_partials/formerrors", :locals => {:object => object})
-  end
-
   def generateRandomString()
     o = [('a'..'z'), ('A'..'Z')].map { |i| i.to_a }.flatten
     return (0...64).map { o[rand(o.length)] }.join.downcase!
-  end
-
-  def highlightMenuButtons()
   end
 
   def displayCollectiveResponses()
