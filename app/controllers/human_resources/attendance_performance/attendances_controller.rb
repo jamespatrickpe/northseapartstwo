@@ -72,6 +72,7 @@ class HumanResources::AttendancePerformance::AttendancesController < HumanResour
   def search_suggestions
     generic_employee_name_search_suggestions(Attendance)
   end
+
   def create
     myAttendance = ::Attendance.new
     flash[:general_flash_notification] = 'Attendance Added!'
@@ -82,6 +83,46 @@ class HumanResources::AttendancePerformance::AttendancesController < HumanResour
     myAttendance = ::Attendance.find(params[:attendance][:id])
     flash[:general_flash_notification] = 'Attendance Updated!'
     process_attendance_form(myAttendance)
+  end
+
+  def check_time_if_between_attendance
+    time_check = false
+    my_time = Time.strptime(params[:time],"%H:%M")
+    employee_id = params[:employee_id]
+    my_date = Date.strptime(params[:date],"%F")
+    current_time = DateTime.new(my_date.year, my_date.month, my_date.day, my_time.hour, my_time.min, my_time.sec, "+8" )
+    similar_attendances = Attendance.where("(employee_id = ?) AND (date_of_attendance = ?)", "#{employee_id}", "#{my_date}")
+    similar_attendances.each do | similar_attendance |
+      similar_attendance_timein = insertTimeIntoDate(my_date, similar_attendance[:timein])
+      similar_attendance_timeout = insertTimeIntoDate(my_date, similar_attendance[:timeout])
+      if current_time.between?(similar_attendance_timein, similar_attendance_timeout)
+        time_check = true
+      end
+    end
+    respond_to do |format|
+      format.all { render :text => time_check}
+    end
+  end
+
+  def check_time_if_overlap_attendance
+    time_check = false
+    timein = Time.strptime(params[:timein],"%H:%M")
+    timeout = Time.strptime(params[:timeout],"%H:%M")
+    my_date = Date.strptime(params[:date],"%F")
+    employee_id = params[:employee_id]
+    current_time_in = DateTime.new(my_date.year, my_date.month, my_date.day, timein.hour, timein.min, timein.sec, "+8" )
+    current_time_out = DateTime.new(my_date.year, my_date.month, my_date.day, timeout.hour, timeout.min, timeout.sec, "+8" )
+    similar_attendances = Attendance.where("(employee_id = ?) AND (date_of_attendance = ?)", "#{employee_id}", "#{my_date}")
+    similar_attendances.each do | similar_attendance |
+      similar_attendance_timein = insertTimeIntoDate(my_date, similar_attendance[:timein])
+      similar_attendance_timeout = insertTimeIntoDate(my_date, similar_attendance[:timeout])
+      if (current_time_in..current_time_out).overlaps?(similar_attendance_timein..similar_attendance_timeout)
+        time_check = true
+      end
+    end
+    respond_to do |format|
+      format.all { render :text => time_check}
+    end
   end
 
 end

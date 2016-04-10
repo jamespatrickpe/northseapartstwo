@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   end
 
   get 'human_resources/' => 'human_resources#index'
+  get 'human_resources/employee_overview_profile' => 'human_resources#employee_overview_profile'
+  get 'human_resources/employee_overview_duty_status' => 'human_resources#employee_overview_duty_status'
+  get 'human_resources/check_employee_name_exists' => 'human_resources#check_employee_name_exists'
   namespace :human_resources do
 
     get 'employee_accounts_management/' => 'employee_accounts_management#index'
@@ -27,6 +30,7 @@ Rails.application.routes.draw do
     namespace :compensation_and_benefits do
       get 'payrolls/branch' => 'payrolls#branch'
       get 'payrolls/employee' => 'payrolls#employee'
+      get 'leaves/check_leave_date_if_overlap' => 'leaves#check_leave_date_if_overlap'
       resources :lump_adjustments, :base_rates, :vales, :vale_adjustments, :institutional_adjustments, :payrolls, :payroll_settings, :leaves, :loans, :loan_payments do
         collection do
           concerns :generic_table
@@ -38,6 +42,8 @@ Rails.application.routes.draw do
     namespace :attendance_performance do
       get '/branch_attendance_sheet' => 'branch_attendance_sheet#index'
       get '/branch_attendance_sheet/index' => 'branch_attendance_sheet#index'
+      get 'attendances/check_time_if_between_attendance' => 'attendances#check_time_if_between_attendance'
+      get 'attendances/check_time_if_overlap_attendance' => 'attendances#check_time_if_overlap_attendance'
       match '/branch_attendance_sheet/process_branch_attendance_sheet', to: 'branch_attendance_sheet#process_branch_attendance_sheet', via: [:post]
       resources :rest_days, :attendances, :regular_work_periods do
         collection do
@@ -48,6 +54,7 @@ Rails.application.routes.draw do
 
     get 'settings/' => 'settings#index'
     namespace :settings do
+      get '/holidays/check_unique_holiday_date' => 'holidays#check_unique_holiday_date'
       resources :constants, :holidays, :holiday_types do
         collection do
           concerns :generic_table

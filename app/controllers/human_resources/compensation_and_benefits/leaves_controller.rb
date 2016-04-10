@@ -72,4 +72,30 @@ class HumanResources::CompensationAndBenefits::LeavesController < HumanResources
     process_leave_form(myLeave)
   end
 
+  def check_leave_date_if_overlap
+    employee_id = params[:employee_id]
+
+    x = Time.at(params[:start_of_effectivity].to_f / 1000)
+    y = Time.at(params[:end_of_effectivity].to_f / 1000)
+
+    rangeOfLeaves =  Leave.where("(employee_id = ?) AND start_of_effectivity between ? AND ?", "#{employee_id}", "#{x}", "#{y}")
+    existingLeaves =  Leave.where("employee_id = ?", "#{employee_id}").order(start_of_effectivity: :asc)
+
+    val = false
+
+    # Check if dates are overlapping using 'cover?'
+    existingLeaves.each do |l|
+
+      if (x..y).cover?(l.start_of_effectivity..l.end_of_effectivity) then
+        val = true
+        break
+      end
+
+    end
+
+    respond_to do |format|
+      format.all { render :text => val}
+    end
+  end
+
 end

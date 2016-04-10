@@ -93,4 +93,11 @@ class HumanResources::Settings::HolidaysController < HumanResources::SettingsCon
     end
   end
 
+  def check_unique_holiday_date
+    date_of_implementation_exists = Holiday.exists?(date_of_implementation: params[:holiday][:date_of_implementation])
+    respond_to do |format|
+      format.json { render json: {:"exists" => date_of_implementation_exists}.to_json }
+    end
+  end
+
 end

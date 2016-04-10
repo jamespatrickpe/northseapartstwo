@@ -107,7 +107,7 @@ window.Parsley
             var response = ''
             $.ajax({
                 method: "POST",
-                url: "/application/check_time_if_between_attendance",
+                url: "/human_resources/attendance_performance/attendance/check_time_if_between_attendance",
                 data: { time: value, employee_id: employee_id, date: date },
                 async: false
             }).done(function( msg ) {
@@ -180,7 +180,7 @@ window.Parsley
             {
                 $.ajax({
                     method: "POST",
-                    url: "/application/check_leave_date_if_overlap",
+                    url: "/human_resources/attendance_performance/attendance/check_leave_date_if_overlap",
                     data: { start_of_effectivity: start_of_effectivity, end_of_effectivity: end_of_effectivity, employee_id: employee_id },
                     async: false
                 }).done(function( msg ) {
@@ -217,7 +217,7 @@ window.Parsley
             {
                 $.ajax({
                     method: "POST",
-                    url: "/application/check_time_if_overlap_attendance",
+                    url: "/human_resources/compensation_and_benefits/leaves/check_time_if_overlap_attendance",
                     data: { timein: timein, timeout: timeout, date: date, employee_id: employee_id },
                     async: false
                 }).done(function( msg ) {
@@ -238,3 +238,26 @@ window.Parsley
         }
     });
 
+//Validates if email already exists in Database
+window.Parsley.addAsyncValidator('validate-email', function (xhr)
+{
+    //alert(xhr.status);
+    var obj = $.parseJSON(xhr.responseText);
+    var emailField = $("#email").parsley();
+    if (obj['exists'] == false)
+    {
+        window.ParsleyUI.removeError(emailField, "myCustomError");
+        return true;
+    }
+    else if (obj['exists'] == true)
+    {
+        window.ParsleyUI.removeError(emailField, "myCustomError");
+        window.ParsleyUI.addError(emailField, "myCustomError", 'Email already exists');
+        return false;
+    }
+    else
+    {
+        window.ParsleyUI.addError(emailField, "myCustomError", 'Cannot Connect to Database');
+        return false;
+    }
+}, '/application/check_email_exists');
