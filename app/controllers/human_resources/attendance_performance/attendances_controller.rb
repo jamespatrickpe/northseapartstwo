@@ -111,7 +111,7 @@ class HumanResources::AttendancePerformance::AttendancesController < HumanResour
     my_date = Date.strptime(params[:date],"%F")
     employee_id = params[:employee_id]
     current_time_in = DateTime.new(my_date.year, my_date.month, my_date.day, timein.hour, timein.min, timein.sec, "+8" )
-    current_time_out = DateTime.new(my_date.year, my_date.month, my_date.day, timeout.hour, timeout.min, timeout.sec, "+8" )
+    current_time_out = DateTime.new(my_date.year, my_date.month, my_date.day, timeout.hour, timeout.min, time  out.sec, "+8" )
     similar_attendances = Attendance.where("(employee_id = ?) AND (date_of_attendance = ?)", "#{employee_id}", "#{my_date}")
     similar_attendances.each do | similar_attendance |
       similar_attendance_timein = insertTimeIntoDate(my_date, similar_attendance[:timein])
