@@ -1,0 +1,13 @@
+<section class="small-10 columns">
+  <%= generic_title(@title,@subtitle) %>
+    <%= generic_form_edit_id_indicator(model[:id]) %>
+    <%
+       model_id_name = @singular_model_name + '[id]'
+       model[:id].present? ?
+               (current_method = :patch; current_action = model[:id] ) :
+               (current_method = :post; current_action = 'create')
+    %>
+        <%= hidden_field_tag(model_id_name, model[:id] ) %>
+        <%= render @form_location %>
+        <%= generic_form_footer(model[:id]) %>
+</section>

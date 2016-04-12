@@ -16,6 +16,10 @@ module GenericForm
     render :template => 'shared/form_columns/generic_singlecolumn_form', :locals => {:model => model}
   end
 
+  def generic_model_show(model)
+    render :template => 'shared/generic_model_show', :locals => {:model => model}
+  end
+
   def generic_delete_model(model, my_controller_name)
     model_to_be_deleted = model.find(params[:id])
     flash[:general_flash_notification] = model_to_be_deleted.id + " has been successfully deleted "

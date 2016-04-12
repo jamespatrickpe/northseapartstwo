@@ -53,6 +53,12 @@ class GeneralAdministrator::BranchesController < GeneralAdministratorController
 
   def show
     initialize_form
+    @form_location = 'general_administrator/branches/show'
+    @selected_branch = Branch.find(params[:id])
+    @selected_address_set = Address.where("rel_model_id = ? AND rel_model_type = 'Branch'", "#{@selected_branch.id}")
+    @selected_telephone_set = Telephone.where("rel_model_id = ? AND rel_model_type = 'Branch'", "#{@selected_branch.id}")
+    @selected_digital_set = Digital.where("rel_model_id = ? AND rel_model_type = 'Branch'", "#{@selected_branch.id}")
+    generic_model_show(@selected_branch)
   end
 
   def delete

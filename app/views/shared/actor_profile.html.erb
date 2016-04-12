@@ -23,30 +23,30 @@
     </div>
 
     <% if @selected_employee.present? %>
-    <div class="employee_profile_title"> Employee Data </div>
-    <div class="employee_profile_field"> Employee ID: <br> <%= @selected_employee.id.present? ? (@selected_employee.id) : ('n/a') %> </div>
-    <div class="employee_profile_field"> Branch: <br> <%= @selected_branch.name.present? ? (@selected_branch.name) : ('n/a') %> </div>
-    <div class="employee_profile_field"> Registered At: <br> <%= @selected_employee.created_at.present? ? (@selected_employee.created_at) : ('n/a') %> </div>
-    <div class="employee_profile_field"> Updated At: <br> <%= @selected_employee.updated_at.present? ? (@selected_employee.updated_at) : ('n/a') %> </div>
+    <div class="show_panel_header"> Employee Data </div>
+    <div class="show_panel_division"> Employee ID: <br> <%= @selected_employee.id.present? ? (@selected_employee.id) : ('n/a') %> </div>
+    <div class="show_panel_division"> Branch: <br> <%= @selected_branch.name.present? ? (@selected_branch.name) : ('n/a') %> </div>
+    <div class="show_panel_division"> Registered At: <br> <%= @selected_employee.created_at.present? ? (@selected_employee.created_at) : ('n/a') %> </div>
+    <div class="show_panel_division"> Updated At: <br> <%= @selected_employee.updated_at.present? ? (@selected_employee.updated_at) : ('n/a') %> </div>
     <% end %>
 
-    <div class="employee_profile_title"> Access </div>
+    <div class="show_panel_header"> Access </div>
     <% if @selected_access.present? %>
-    <div class="employee_profile_field"> Username: <br>
+    <div class="show_panel_division"> Username: <br>
       <%= link_to( @selected_access.username ,{:controller => 'access', :action => 'signin'}, class: 'employee_profile_small_button') %>
     </div>
-    <div class="employee_profile_field"> Email: <br>
+    <div class="show_panel_division"> Email: <br>
       <a class="employee_profile_small_button" href="mailto:<%= @selected_access.email.present? ? (@selected_access.email) : ('') %>" target="_top"><%= @selected_access.email.present? ?  (@selected_access.email) : ('n/a')%> </a>
     </div>
-    <div class="employee_profile_field"> Last Login: <br> <%= @selected_access.last_login.present? ? (@selected_access.last_login) : ('n/a')%> </div>
+    <div class="show_panel_division"> Last Login: <br> <%= @selected_access.last_login.present? ? (@selected_access.last_login) : ('n/a')%> </div>
     <% else %>
     <hr><div align="center"> n/a </div><hr>
     <% end %>
 
     <% if @selected_file_set.present? %>
-        <div class="employee_profile_title"> Associated Files </div>
+        <div class="show_panel_header"> Associated Files </div>
         <% @selected_file_set.each do |file_set| %>
-            <div class="employee_profile_field">
+            <div class="show_panel_division">
               <a class="employee_profile_small_button" href=<%=file_set.file %>> <%= file_set.label %></a>
             </div>
         <% end %>
@@ -55,52 +55,52 @@
   </div>
 
   <div class='small-4 columns'>
-    <div class="employee_profile_title"> Biodata: </div>
+    <div class="show_panel_header"> Biodata: </div>
   <% if @selected_biodata.present? %>
-    <div class="employee_profile_field"> Education: <br> <%= @selected_biodata.education %> </div>
-    <div class="employee_profile_field"> Career Experience: <br> <%= @selected_biodata.career_experience %> </div>
-    <div class="employee_profile_field"> Notable Accomplishments: <br> <%= @selected_biodata.notable_accomplishments %> </div>
-    <div class="employee_profile_field"> Date of Birth: <br> <%= @selected_biodata.date_of_birth %> </div>
-    <div class="employee_profile_field"> Family Members: <br> <%= @selected_biodata.family_members %> </div>
-    <div class="employee_profile_field"> Citizenship: <br> <%= @selected_biodata.citizenship %> </div>
-    <div class="employee_profile_field"> Gender: <br> <%= @selected_biodata.gender %> </div>
-    <div class="employee_profile_field"> Place of Birth: <br> <%= @selected_biodata.place_of_birth %> </div>
-    <div class="employee_profile_field"> Emergency Contact: <br> <a class='employee_profile_small_button' href=tel:<%= @selected_biodata.emergency_contact %> > <%= @selected_biodata.emergency_contact %> </a> </div>
-    <div class="employee_profile_field"> Languages Spoken: <br> <%= @selected_biodata.languages_spoken %> </div>
-    <div class="employee_profile_field"> Complexion: <br> <%= @selected_biodata.complexion %> </div>
-    <div class="employee_profile_field"> Height (cm): <br> <%= @selected_biodata.height_cm %> </div>
-    <div class="employee_profile_field"> Marital Status: <br> <%= @selected_biodata.marital_status %> </div>
-    <div class="employee_profile_field"> Blood Type: <br> <%= @selected_biodata.blood_type %> </div>
-    <div class="employee_profile_field"> Religion: <br> <%= @selected_biodata.religion %> </div>
+    <div class="show_panel_division"> Education: <br> <%= @selected_biodata.education %> </div>
+    <div class="show_panel_division"> Career Experience: <br> <%= @selected_biodata.career_experience %> </div>
+    <div class="show_panel_division"> Notable Accomplishments: <br> <%= @selected_biodata.notable_accomplishments %> </div>
+    <div class="show_panel_division"> Date of Birth: <br> <%= @selected_biodata.date_of_birth %> </div>
+    <div class="show_panel_division"> Family Members: <br> <%= @selected_biodata.family_members %> </div>
+    <div class="show_panel_division"> Citizenship: <br> <%= @selected_biodata.citizenship %> </div>
+    <div class="show_panel_division"> Gender: <br> <%= @selected_biodata.gender %> </div>
+    <div class="show_panel_division"> Place of Birth: <br> <%= @selected_biodata.place_of_birth %> </div>
+    <div class="show_panel_division"> Emergency Contact: <br> <a class='employee_profile_small_button' href=tel:<%= @selected_biodata.emergency_contact %> > <%= @selected_biodata.emergency_contact %> </a> </div>
+    <div class="show_panel_division"> Languages Spoken: <br> <%= @selected_biodata.languages_spoken %> </div>
+    <div class="show_panel_division"> Complexion: <br> <%= @selected_biodata.complexion %> </div>
+    <div class="show_panel_division"> Height (cm): <br> <%= @selected_biodata.height_cm %> </div>
+    <div class="show_panel_division"> Marital Status: <br> <%= @selected_biodata.marital_status %> </div>
+    <div class="show_panel_division"> Blood Type: <br> <%= @selected_biodata.blood_type %> </div>
+    <div class="show_panel_division"> Religion: <br> <%= @selected_biodata.religion %> </div>
   <% else %>
       <hr><div align="center"> n/a </div><hr>
   <% end %>
   </div>
 
   <div class='small-4 columns'>
-    <div class="employee_profile_title"> Profile Picture </div>
+    <div class="show_panel_header"> Profile Picture </div>
     <% if @selected_actor.logo.present? %>
     <img style='padding: 5px' src= <%= @selected_actor.logo %> />
     <% else %>
         <hr><div align="center"> n/a </div><hr>
     <% end %>
     <% if @selected_image_set.present? %>
-    <div class="employee_profile_title"> Associated Images </div>
+        <div class="show_panel_header"> Associated Images </div>
         <ul class="small-block-grid-3" >
           <% @selected_image_set.each do |image_set| %>
-          <li tooltip=<%= image_set.description %> class='employee_profile_image_container' style='height: 50px;overflow-y: hidden;padding: 5px;'><a class='employee_profile_image_link' target="_blank" href=<%= image_set.picture.url %>> <img src=<%= image_set.picture %>/> </a></li>
+              <li tooltip=<%= image_set.description %> class='employee_profile_image_container' style='height: 50px;overflow-y: hidden;padding: 5px;'><a class='employee_profile_image_link' target="_blank" href=<%= image_set.picture.url %>> <img src=<%= image_set.picture %>/> </a></li>
           <% end %>
         </ul>
     <% end %>
   </div>
 
   <div class='small-12 columns'>
-    <div class="employee_profile_title"> Contact Details </div>
+    <div class="show_panel_header"> Contact Details </div>
     <div class='small-4 columns'>
-      <div class="employee_profile_field">ADDRESSES:</div>
+      <div class="show_panel_division">ADDRESSES:</div>
       <% if @selected_address_set.present? %>
           <% @selected_address_set.each do |address| %>
-              <div class="employee_profile_field">
+              <div class="show_panel_division">
                 <%= link_to address.description, 'https://www.google.com/maps/preview/@'+address.latitude.to_s+','+address.longitude.to_s+',10z', class: "employee_profile_small_button", target: "_blank" %>
               </div>
           <% end %>
@@ -109,10 +109,10 @@
       <% end %>
     </div>
     <div class='small-4 columns'>
-      <div class="employee_profile_field">TELEPHONES:</div>
+      <div class="show_panel_division">TELEPHONES:</div>
       <% if @selected_telephone_set.present? %>
           <% @selected_telephone_set.each do |telephone| %>
-              <div class="employee_profile_field">
+              <div class="show_panel_division">
                 <%= telephone.description %> <br>
                 <%= link_to telephone.digits, 'tel:'+telephone.digits, class: "employee_profile_small_button", target: "_blank" %>
               </div>
@@ -122,10 +122,10 @@
       <% end %>
     </div>
     <div class='small-4 columns'>
-      <div class="employee_profile_field">DIGITALS:</div>
+      <div class="show_panel_division">DIGITALS:</div>
       <% if @selected_digital_set.present? %>
           <% @selected_digital_set.each do |digital| %>
-              <div class="employee_profile_field">
+              <div class="show_panel_division">
                 <%= digital.description %> <br>
                 <%= link_to digital.url, digital.url, class: "employee_profile_small_button", target: "_blank" %>
               </div>

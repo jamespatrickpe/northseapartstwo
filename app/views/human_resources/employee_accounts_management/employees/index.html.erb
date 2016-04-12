@@ -1,15 +1,13 @@
-\<section class='small-10 columns'>
-  <%= generic_title('Employees','People working for North Sea Parts') %>
-  <%= generic_table_search %>
-  <% table_orientation = shift_table_orientation %>
+<section class='small-10 columns'>
+  <%= preheader_generic_table('Employees','People working for the Enterprise') %>
   <% begin %>
       <table class="generic_table" id="duty_statuses_table">
         <thead>
         <tr>
-          <%= generic_table_theadlink('Employees ID','employees.id', table_orientation) %>
-          <%= generic_table_theadlink('Name','actors.name', table_orientation) %>
+          <%= generic_table_theadlink('Employees ID','employees.id') %>
+          <%= generic_table_theadlink('Name','actors.name') %>
           <th>Duty Status</th>
-          <%= generic_table_theadlink('Current Branch','branches.name', table_orientation) %>
+          <%= generic_table_theadlink('Current Branch','branches.name') %>
         </tr>
         </thead>
         <% if @employees.empty? == true %>

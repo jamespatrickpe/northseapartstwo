@@ -4,7 +4,7 @@ class HumanResources::EmployeeAccountsManagement::EmployeesController < HumanRes
     query = generic_table_aggregated_queries('employees','employees.created_at')
     begin
       @employees = Employee.includes(:actor, :duty_status, :branch)
-                           .joins(:actor, :duty_status, :branches)
+                           .joins(:actor, :duty_status, :branch)
                            .where("employees.id LIKE ? OR " +
                                   "duty_statuses.active LIKE ? OR " +
                                   "branches.name LIKE ? OR " +

@@ -21,7 +21,6 @@ class GeneralAdministrator::ActorController < GeneralAdministratorController
 
   def initialize_form
     initialize_form_variables('ACTOR',
-                              'Create a new actor for the system',
                               'general_administrator/actor/actor_form',
                               'actor')
     initialize_employee_selection
