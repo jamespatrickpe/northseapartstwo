@@ -31,7 +31,6 @@ class HumanResources::CompensationAndBenefits::PayrollSettingsController < Human
 
   def initialize_form
     initialize_form_variables('Payroll Settings',
-                              'Set the Settings of an Employee Payroll',
                               'human_resources/compensation_and_benefits/payroll_settings/payroll_setting_form',
                               'payroll_setting')
     initialize_employee_selection

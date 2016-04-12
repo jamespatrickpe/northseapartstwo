@@ -19,7 +19,6 @@ class GeneralAdministrator::ContactDetails::TelephonesController < GeneralAdmini
 
   def initialize_form
     initialize_form_variables('TELEPHONE',
-                              'Add a Telephone information entry to the system',
                               'general_administrator/contact_details/telephones/telephone_form',
                               'telephone')
     initialize_employee_selection

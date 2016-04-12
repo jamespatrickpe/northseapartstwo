@@ -1,3 +1,5 @@
+<th>
+<%= head_title %>
 <%= link_to(
             table_orientation["orientation_symbol"].html_safe,
             {:action => 'index',
@@ -5,3 +7,4 @@
              :order_orientation => table_orientation["order_orientation"] },
             class: "table_orientation_indicator" )
 %>
+</th>

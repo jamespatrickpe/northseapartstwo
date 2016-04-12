@@ -83,7 +83,7 @@
               <tbody>
               <% current_set = 0%>
               <% @employees_by_branch.each do |employee| %>
-                  <% if get_current_duty_status(employee.id) == true %>
+                  <% if get_current_duty_status(employee.id) == "ACTIVE" %>
                   <tr>
                     <td align="center" style="border-right: solid #721314 thin; background-color: grey; color: white; text-align: center">
 

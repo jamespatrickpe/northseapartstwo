@@ -14,7 +14,6 @@ class HumanResources::CompensationAndBenefits::LeavesController < HumanResources
 
   def initialize_form
     initialize_form_variables('LEAVES',
-                              'File a leave for an actor',
                               'human_resources/compensation_and_benefits/leaves/leave_form',
                               'leave')
     initialize_employee_selection

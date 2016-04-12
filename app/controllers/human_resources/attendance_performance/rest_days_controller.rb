@@ -26,7 +26,6 @@ class HumanResources::AttendancePerformance::RestDaysController < HumanResources
 
   def initialize_form
     initialize_form_variables('REST DAY',
-                              'Log a new rest day for an actor',
                               'human_resources/attendance_performance/rest_days/rest_day_form',
                               'rest_day')
     initialize_employee_selection

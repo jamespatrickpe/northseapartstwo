@@ -31,7 +31,6 @@ class HumanResources::AttendancePerformance::AttendancesController < HumanResour
 
   def initialize_form
     initialize_form_variables('ATTENDANCE',
-                              'Log a new attendance for an employee',
                               'human_resources/attendance_performance/attendances/attendance_form',
                               'attendance')
     initialize_employee_selection

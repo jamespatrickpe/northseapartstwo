@@ -20,7 +20,6 @@ class GeneralAdministrator::VehicleController < GeneralAdministratorController
 
   def initialize_form
     initialize_form_variables('VEHICLE',
-                              'Register a new vehicle within the system',
                               'general_administrator/vehicle/vehicle_form',
                               'vehicle')
     initialize_employee_selection

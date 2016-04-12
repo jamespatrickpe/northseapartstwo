@@ -20,7 +20,6 @@ class GeneralAdministrator::FileSetController < GeneralAdministratorController
 
   def initialize_form
     initialize_form_variables('SYSTEM FILE SETS',
-                              'Create a new file within the system',
                               'general_administrator/file_set/file_set_form',
                               'file_set')
     initialize_employee_selection

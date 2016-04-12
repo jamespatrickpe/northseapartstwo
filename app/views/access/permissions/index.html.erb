@@ -8,22 +8,10 @@
       <table class='generic_table' id='permission_table'>
         <thead>
         <tr>
-          <th>
-            ID
-            <%= generic_table_theadlink('permissions.id', table_orientation) %>
-          </th>
-          <th>
-            Access ID
-            <%= generic_table_theadlink('permissions.access_id', table_orientation) %>
-          </th>
-          <th>
-            Permission
-            <%= generic_table_theadlink('permissions.can', table_orientation) %>
-          </th>
-          <th>
-            Remark
-            <%= generic_table_theadlink('permissions.remark', table_orientation) %>
-          </th>
+          <%= generic_table_theadlink('ID','permissions.id', table_orientation) %>
+          <%= generic_table_theadlink('Access ID','permissions.access_id', table_orientation) %>
+          <%= generic_table_theadlink('Permission','permissions.can', table_orientation) %>
+          <%= generic_table_theadlink('Remark','permissions.remark', table_orientation) %>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
         </thead>

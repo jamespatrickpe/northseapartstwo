@@ -9,9 +9,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   skip_before_action :verify_authenticity_token
 
-  # Make Controller Functions also available as a Helper Method
-  helper_method :shift_table_orientation, :insertTimeIntoDate
-
   # Categorized Imports
   include ApplicationHelper,
           GenericForm,

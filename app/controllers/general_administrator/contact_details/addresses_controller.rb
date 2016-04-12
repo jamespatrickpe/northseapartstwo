@@ -20,7 +20,6 @@ class GeneralAdministrator::ContactDetails::AddressesController < GeneralAdminis
 
   def initialize_form
     initialize_form_variables('ADDRESS',
-                              'Create a new address entry into the system',
                               'general_administrator/contact_details/addresses/address_form',
                               'address')
     initialize_employee_selection

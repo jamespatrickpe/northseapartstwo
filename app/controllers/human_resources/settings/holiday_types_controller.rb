@@ -32,7 +32,6 @@ class HumanResources::Settings::HolidayTypesController < HumanResources::Setting
 
   def initialize_form
     initialize_form_variables('HOLIDAY TYPE',
-                              'Set a Type of Holiday',
                               'human_resources/settings/holiday_types/holiday_type_form',
                               'holiday_type')
     initialize_employee_selection

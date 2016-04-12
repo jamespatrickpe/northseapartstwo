@@ -17,7 +17,6 @@ class HumanResources::EmployeeAccountsManagement::BiodataController < HumanResou
 
   def initialize_form
     initialize_form_variables('BIODATA',
-                              'Create new biodatum for a specific employee',
                               'human_resources/employee_accounts_management/biodata/biodatum_form',
                               'biodata')
     initialize_employee_selection

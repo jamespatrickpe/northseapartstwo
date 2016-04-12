@@ -1,5 +1,96 @@
 module HumanResourcesHelper
 
+  def whatHoliday( current_date )
+    holidays = Holiday.all
+    what_holiday = false
+    holidays.each do |holiday|
+      if holiday.date_of_implementation == current_date
+        what_holiday = holiday.name
+      end
+    end
+    return what_holiday
+  end
+
+  def whatRestDay(employee_id, current_day)
+    rest_day = RestDay
+                   .where("(employee_id = ?) AND (date_of_effectivity <= ?)", "#{employee_id}", "#{current_day}")
+                   .order('rest_days.date_of_effectivity DESC').first
+    what_rest_day = false
+    if rest_day.day == current_day.strftime("%A")
+      what_rest_day = rest_day.id
+    end
+    return what_rest_day
+  end
+
+  def display_if_rest_day(employee_id, current_day, latest_end_time_for_constant)
+    rest_day = RestDay
+                   .where("(employee_id = ?) AND (date_of_effectivity <= ?)", "#{employee_id}", "#{latest_end_time_for_constant}")
+                   .order('rest_days.date_of_effectivity ASC').first
+    if rest_day.present?
+      if rest_day[:day] == current_day
+        "( REST DAY )"
+      end
+    end
+  end
+
+  def display_if_holiday(current_day)
+    holiday = Holiday
+                  .where("(date_of_implementation = ?)", current_day)
+                  .order('holidays.date_of_implementation ASC').first
+    if holiday.present?
+      holiday[:name]
+    end
+  end
+
+  def get_duration_actual_work_hours(employee_ID, specific_day)
+    attendances = Attendance.includes(:employee).joins(:employee).where("(employees.id = ?) AND (attendances.date_of_attendance LIKE ?)", "#{employee_ID}", "#{specific_day.strftime("%Y-%m-%d")}%").order('attendances.created_at DESC')
+    total_seconds = 0
+    attendances.each do |attendance|
+      time_in = attendance[:timein]
+      time_out = attendance[:timdeout]
+      my_seconds = (time_in - time_out).abs
+      total_seconds = my_seconds + total_seconds
+    end
+    return (total_seconds/3600).round
+  end
+
+  def get_current_duty_status( employee_ID )
+    currentEmployee = Employee
+                          .includes(:duty_status)
+                          .joins(:duty_status)
+                          .where("(employees.id = ?)", "#{employee_ID}")
+                          .order('duty_statuses.date_of_effectivity DESC').first
+    return currentEmployee.duty_status.first.active
+  end
+
+  def get_duration_regular_work_hours(employee_ID, specific_day)
+    currentEmployee = Employee
+                          .includes(:regular_work_period)
+                          .joins(:regular_work_period)
+                          .where("(employees.id = ?) AND (regular_work_periods.date_of_effectivity <= ?)", "#{employee_ID}", "#{specific_day}")
+                          .order("regular_work_periods.date_of_effectivity DESC").first
+    number_of_seconds = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time))
+    if number_of_seconds < 0
+      number_of_seconds = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time)).abs
+    end
+    return (number_of_seconds/3600).round
+  end
+
+  def get_all_employees_from_a_branch(branchId)
+
+    puts '--------------------------------------'
+    puts branchId
+
+    emps = Employee.where("(branch_id = ?)", "#{branchId}")
+
+    emps.each do |e|
+      puts '--------------------------------------'
+      puts e.actor.name
+    end
+
+    return emps
+  end
+
   def get_valid_periods(employee_id)
 
     my_duty_statuses = DutyStatus.where('employee_id = ?', "#{employee_id}")
@@ -523,12 +614,17 @@ module HumanResourcesHelper
   end
 
   def get_current_duty_status( employee_ID )
+    return_word = "INACTIVE"
     currentEmployee = Employee
                           .includes(:duty_status)
                           .joins(:duty_status)
                           .where("(employees.id = ?)", "#{employee_ID}")
                           .order('duty_statuses.date_of_effectivity DESC').first
-    return currentEmployee.duty_status.first.active
+    if currentEmployee.duty_status.first.active == true
+      return_word = "ACTIVE"
+    else
+      return_word = "INACTIVE"
+    end
   end
 
   def get_duration_regular_work_hours(employee_ID, specific_day)

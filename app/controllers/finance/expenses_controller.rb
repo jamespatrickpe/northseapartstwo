@@ -19,7 +19,6 @@ class Finance::ExpensesController < FinanceController
 
   def initialize_form
     initialize_form_variables('EXPENSES',
-                              'Log an expense incurred.',
                               'finance/expenses/expense_form',
                               'expense')
     initialize_employee_selection

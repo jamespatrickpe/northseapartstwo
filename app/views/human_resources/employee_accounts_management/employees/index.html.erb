@@ -1,61 +1,51 @@
 <section class='small-10 columns'>
-<div class='mainheader'> Employee Accounts Management </div>
-<div class='subdescription'> Manage the Accounts of Employees</div>
-<hr>
-  <%= generic_table_search( 'employee_accounts_search_input', 'employee_accounts_management','Search Employees' , '/human_resources/search_suggestions_employees', 'employee_accounts_management') %>
+  <%= generic_title('Employees','People working for North Sea Parts') %>
+  <%= generic_table_search %>
+  <% table_orientation = shift_table_orientation %>
   <% begin %>
-      <% table_orientation = shift_table_orientation %>
-      <table class="generic_table" id="employee_accounts_table">
+      <table class="generic_table" id="duty_statuses_table">
         <thead>
         <tr>
           <th>
-            Employee ID <%= generic_table_theadlink('employee_accounts_management','employees.id', table_orientation) %>
+            Employees ID
+            <%= generic_table_theadlink('employees.id', table_orientation) %>
           </th>
           <th>
-            Name <%= generic_table_theadlink('employee_accounts_management','actors.name', table_orientation) %>
+            Name
+            <%= generic_table_theadlink('actors.name', table_orientation) %>
           </th>
           <th>
-            Active <%= generic_table_theadlink('employee_accounts_management','dutystatus.active', table_orientation) %>
+            Duty Status
           </th>
           <th>
-            Branch <%= generic_table_theadlink('employee_accounts_management','branches.name', table_orientation) %>
+            Current Branch
+            <%= generic_table_theadlink('branches.name', table_orientation) %>
           </th>
-          <th>
-            Date Registered <%= generic_table_theadlink('employee_accounts_management','employees.created_at', table_orientation) %>
-          </th>
-          <th>
-            Last Updated <%= generic_table_theadlink('employee_accounts_management','employees.updated_at', table_orientation) %>
-          </th>
-          <th class="actions" align="center">&nbsp;</th>
         </tr>
         </thead>
-        <% if @employee_accounts.empty? == true %>
-            <% raise exception %>
+        <% if @employees.empty? == true %>
+            <% raise "No Records Found" %>
         <% else %>
             <tbody>
-            <% @employee_accounts.each do |employee_accounts| %>
+            <% @employees.each do |employee| %>
                 <tr>
-                  <td><%= employee_accounts[0] %></td>
-                  <td><%= link_to( employee_accounts[1] ,{:action => 'employee_profile', :actor_id => employee_accounts[6]} ) %>
+                  <td><%= employee[:id].upcase %></td>
+                  <td><%= generic_actor_profile_link( employee.actor.id, employee.actor.name) %></td>
+                  <td><%= get_current_duty_status(employee[:id]) %></td>
+                  <td>
+
+                    <%= employee.branch.name %>
                   </td>
-                  <td><%= boolean_to_words(employee_accounts[2]) %></td>
-                  <td><%= employee_accounts[3] %></td>
-                  <td><%= employee_accounts[4] %></td>
-                  <td><%= employee_accounts[5] %></td>
                   <td class="actions">
-                    <%= link_to( "&#9998;".html_safe ,{:action => 'edit_employee', :employee_id => employee_accounts[0]}, class: 'action_button ', tooltip: 'Edit' ) %>
-                    <%= link_to( "&#10006;".html_safe ,{:action => 'delete_employee', :employee_id => employee_accounts[0]}, class: 'action_button delete_item', tooltip: 'Delete' ) %>
+                    <%= generic_table_actions(employee[:id]) %>
                   </td>
                 </tr>
             <% end %>
             </tbody>
         <% end %>
       </table>
-  <% rescue %>
-      <script>
-          html = "<hr><p align='center'> No records found. Please try again. </p><hr>"
-          $(".generic_table").replaceWith(html)
-      </script>
+  <% rescue => ex %>
+      <%= generic_table_error(ex) %>
   <% end %>
-  <%= generic_table_footer('employee_registration','/human_resources/employee_accounts_management',@employee_accounts) %>
+  <%= generic_table_footer(@employees) %>
 </section>

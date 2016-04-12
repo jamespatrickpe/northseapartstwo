@@ -27,7 +27,6 @@ class HumanResources::EmployeeAccountsManagement::DutyStatusesController < Human
 
   def initialize_form
     initialize_form_variables('DUTY STATUS FORM',
-                              'Set Duty Status for an Employee',
                               'human_resources/employee_accounts_management/duty_statuses/duty_status_form',
                               'duty_status')
     initialize_employee_selection

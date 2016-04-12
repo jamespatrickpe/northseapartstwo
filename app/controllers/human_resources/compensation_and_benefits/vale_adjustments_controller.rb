@@ -34,7 +34,6 @@ class HumanResources::CompensationAndBenefits::ValeAdjustmentsController < Human
 
   def initialize_form
     initialize_form_variables('VALE ADJUSTMENTS',
-                              'Set the Status of an Advanced Payment',
                               'human_resources/compensation_and_benefits/vale_adjustments/vale_adjustments_form',
                               'vale_adjustment')
     initialize_employee_selection

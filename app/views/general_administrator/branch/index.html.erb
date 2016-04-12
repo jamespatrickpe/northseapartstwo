@@ -1,26 +1,14 @@
 <section class='small-10 columns'>
-  <%= generic_title('Branches','Show all the branches registered within the system') %>
+  <%= generic_title('Branches','Location-wise Business Subdivisions') %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
       <table class="generic_table" id="holidays_table">
         <thead>
         <tr>
-          <th>
-            Branch ID
-            <%= generic_table_theadlink('branches.id', table_orientation) %>
-          </th>
-          <th>
-            Branch Name
-            <%= generic_table_theadlink('branches.name', table_orientation) %>
-          </th>
-          <th>
-            Date Created
-            <%= generic_table_theadlink('branches.created_at', table_orientation) %>
-          </th>
-          <th>
-            Last Updated
-            <%= generic_table_theadlink('branches.updated_at', table_orientation) %>
-          </th>
+          <%= generic_table_theadlink('Branch ID','branches.id', table_orientation) %>
+          <%= generic_table_theadlink('Branch Name','branches.name', table_orientation) %>
+          <%= generic_table_theadlink('Date Created','branches.created_at', table_orientation) %>
+          <%= generic_table_theadlink('Last Updated','branches.updated_at', table_orientation) %>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
         </thead>

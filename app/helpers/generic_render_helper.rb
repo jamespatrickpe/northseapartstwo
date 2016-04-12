@@ -52,8 +52,8 @@ module GenericRenderHelper
     render(:partial => 'core_partials/generic_table_actions', :locals => { :model_id => model_id})
   end
 
-  def generic_table_theadlink(order_parameter, table_orientation)
-    render(:partial => 'core_partials/generic_table_theadlink', :locals => {:order_parameter => order_parameter, :table_orientation => table_orientation})
+  def generic_table_theadlink(head_title, order_parameter, table_orientation)
+    render(:partial => 'core_partials/generic_table_theadlink', :locals => {:head_title => head_title, :order_parameter => order_parameter, :table_orientation => table_orientation})
   end
 
   def generic_table_footer(result_set)
@@ -71,5 +71,9 @@ module GenericRenderHelper
   def generic_search_footer(result_set)
     render(:partial => 'core_partials/generic_search_pagination', :locals => {:result_set => result_set})
   end
-  
+
+  def preheader_generic_table(title,subtitle)
+    render(:partial => 'core_partials/preheader_generic_table', :locals => {:title => title,:subtitle => subtitle})
+  end
+
 end
