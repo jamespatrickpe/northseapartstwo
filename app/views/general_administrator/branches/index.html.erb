@@ -1,14 +1,13 @@
 <section class='small-10 columns'>
-  <%= generic_title('Branches','Location-wise Business Subdivisions') %>
-  <% table_orientation = shift_table_orientation %>
+  <%= preheader_generic_table('Branches','Location-wise Business Subdivisions') %>
   <% begin %>
       <table class="generic_table" id="holidays_table">
         <thead>
         <tr>
-          <%= generic_table_theadlink('Branch ID','branches.id', table_orientation) %>
-          <%= generic_table_theadlink('Branch Name','branches.name', table_orientation) %>
-          <%= generic_table_theadlink('Date Created','branches.created_at', table_orientation) %>
-          <%= generic_table_theadlink('Last Updated','branches.updated_at', table_orientation) %>
+          <%= generic_table_theadlink('Branch ID','branches.id') %>
+          <%= generic_table_theadlink('Branch Name','branches.name') %>
+          <%= generic_table_theadlink('Date Created','branches.created_at') %>
+          <%= generic_table_theadlink('Last Updated','branches.updated_at') %>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
         </thead>

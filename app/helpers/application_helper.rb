@@ -1,20 +1,5 @@
 module ApplicationHelper
 
-  # Shifts the ASC/DESC on the header of table
-  def shift_table_orientation
-    table_orientation = Hash.new()
-    table_orientation["order_orientation"] = ""
-    table_orientation["orientation_symbol"] = ""
-    if( params[:order_orientation] == "ASC" )
-      table_orientation["order_orientation"] = "DESC"
-      table_orientation["orientation_symbol"] = '&#x25BC;'
-    else
-      table_orientation["order_orientation"] = "ASC"
-      table_orientation["orientation_symbol"] = '&#x25B2;'
-    end
-    return table_orientation
-  end
-
   def get_constant(constant_name, latest_end_time_for_constant)
     constant = ::Constant.where('(constant_type = ?) AND ( date_of_effectivity <= ? )',
                                 "#{constant_name}",

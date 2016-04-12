@@ -52,8 +52,8 @@ module GenericRenderHelper
     render(:partial => 'core_partials/generic_table_actions', :locals => { :model_id => model_id})
   end
 
-  def generic_table_theadlink(head_title, order_parameter, table_orientation)
-    render(:partial => 'core_partials/generic_table_theadlink', :locals => {:head_title => head_title, :order_parameter => order_parameter, :table_orientation => table_orientation})
+  def generic_table_theadlink(head_title, order_parameter)
+    render(:partial => 'core_partials/generic_table_theadlink', :locals => {:head_title => head_title, :order_parameter => order_parameter})
   end
 
   def generic_table_footer(result_set)

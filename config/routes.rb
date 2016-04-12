@@ -28,7 +28,7 @@ Rails.application.routes.draw do
 
     get 'compensation_and_benefits/' => 'compensation_and_benefits#index'
     namespace :compensation_and_benefits do
-      get 'payrolls/branch' => 'payrolls#branch'
+      get 'payrolls/branches' => 'payrolls#branches'
       get 'payrolls/employee' => 'payrolls#employee'
       get 'leaves/check_leave_date_if_overlap' => 'leaves#check_leave_date_if_overlap'
       resources :lump_adjustments, :base_rates, :vales, :vale_adjustments, :institutional_adjustments, :payrolls, :payroll_settings, :leaves, :loans, :loan_payments do
@@ -76,8 +76,8 @@ Rails.application.routes.draw do
         end
     end
 
-    get 'branch/' => 'branch#index'
-    resources :branch do
+    get 'branches/' => 'branches#index'
+    resources :branches do
         collection do
           concerns :generic_table
         end

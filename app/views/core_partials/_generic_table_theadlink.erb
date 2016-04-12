@@ -1,4 +1,16 @@
 <th>
+<%
+   table_orientation = Hash.new()
+   table_orientation["order_orientation"] = ""
+   table_orientation["orientation_symbol"] = ""
+   if( params[:order_orientation] == "ASC" )
+     table_orientation["order_orientation"] = "DESC"
+     table_orientation["orientation_symbol"] = '&#x25BC;'
+   else
+     table_orientation["order_orientation"] = "ASC"
+     table_orientation["orientation_symbol"] = '&#x25B2;'
+   end
+%>
 <%= head_title %>
 <%= link_to(
             table_orientation["orientation_symbol"].html_safe,

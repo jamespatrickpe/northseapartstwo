@@ -3,11 +3,11 @@ class HumanResources::AttendancePerformance::BranchAttendanceSheetController < H
   def index
     @branches = Branch.all
     begin
-      if params[:branch].present? && params[:start_date].present? && params[:end_date].present?
+      if params[:branches].present? && params[:start_date].present? && params[:end_date].present?
         @start_date = DateTime.strptime(params[:start_date],"%Y-%m-%d")
         @end_date = DateTime.strptime(params[:end_date],"%Y-%m-%d")
         @number_of_days = (@end_date - @start_date).abs.to_i + 1
-        @selected_branch = Branch.find(params[:branch][:id])
+        @selected_branch = Branch.find(params[:branches][:id])
         @employees_by_branch = Employee
                                    .includes(:actor, :duty_status)
                                    .joins(:actor, :duty_status)
@@ -22,7 +22,7 @@ class HumanResources::AttendancePerformance::BranchAttendanceSheetController < H
   end
 
   def process_branch_attendance_sheet
-    branch_id = params[:branch][:id]
+    branch_id = params[:branches][:id]
     start_date = params[:start_date]
     end_date = params[:end_date]
     flash[:general_flash_notification] = 'Attendance (if any) has been recorded.'

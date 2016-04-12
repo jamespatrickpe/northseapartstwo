@@ -82,7 +82,7 @@
     $(document).ready(function(){
         $('#new_file_set_rel_model_id1').selectize({sortField: 'text'});
         $('#new_file_set_rel_model_id2').selectize({sortField: 'text'});
-        $("#branch-selector select[name*='file_set[rel_file_set_id]']").prop('disabled', true);
+        $("#branches-selector select[name*='file_set[rel_file_set_id]']").prop('disabled', true);
         $("#actor-selector").hide();
         $("#branch-selector").hide();
     });
@@ -90,13 +90,13 @@
     $("#model-dropdown").change(function(){
         if($("#model-dropdown").val() == "Actor"){
             $("#actor-selector").show();
-            $("#branch-selector select[name*='file_set[rel_file_set_id]']").prop('disabled', true);
+            $("#branches-selector select[name*='file_set[rel_file_set_id]']").prop('disabled', true);
             $("#actor-selector select[name*='file_set[rel_file_set_id]']").removeAttr('disabled');
             $("#branch-selector").hide();
         } else if($("#model-dropdown").val() == "Branch"){
             $("#branch-selector").show();
             $("#actor-selector select[name*='file_set[rel_file_set_id]']").prop('disabled', true);
-            $("#branch-selector select[name*='file_set[rel_file_set_id]']").removeAttr('disabled');
+            $("#branches-selector select[name*='file_set[rel_file_set_id]']").removeAttr('disabled');
             $("#actor-selector").hide();
         }
     });

@@ -168,7 +168,7 @@ numberOfActors.times do |i|
   if 80.in(100)
     # ids = Branch.pluck(:id).shuffle
     # myBranch = Branch.where(id: ids)
-    myEmployee = Employee.new( actor: myActor, branch: Branch.all.shuffle.first )
+    myEmployee = Employee.new( actor: myActor, branches: Branch.all.shuffle.first )
 
     #Attendances
     rand(360..720).times do |i|

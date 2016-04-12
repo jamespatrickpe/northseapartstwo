@@ -1,4 +1,4 @@
-class GeneralAdministrator::BranchController < GeneralAdministratorController
+class GeneralAdministrator::BranchesController < GeneralAdministratorController
 
   def index
     query = generic_table_aggregated_queries('branches','branches.created_at')
@@ -13,14 +13,14 @@ class GeneralAdministrator::BranchController < GeneralAdministratorController
     rescue => ex
       flash[:general_flash_notification] = "Error has Occured" + ex.to_s
     end
-    render '/general_administrator/branch/index'
+    render '/general_administrator/branches/index'
   end
 
 
   def initialize_form()
     initialize_form_variables('BRANCH',
-                              'general_administrator/branch/branch_form',
-                              'branch',
+                              'general_administrator/branches/branch_form',
+                              'branches'
     )
     initialize_employee_selection
   end
@@ -61,7 +61,7 @@ class GeneralAdministrator::BranchController < GeneralAdministratorController
 
   def process_branch_form(myBranch)
     begin
-      myBranch[:name] = params[:branch][:name]
+      myBranch[:name] = params[:branches][:name]
       myBranch.save!
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex
@@ -77,8 +77,8 @@ class GeneralAdministrator::BranchController < GeneralAdministratorController
   end
 
   def update
-    myBranch = Branch.find(params[:branch][:id])
-    flash[:general_flash_notification] = 'Branch Updated: ' + params[:branch][:id]
+    myBranch = Branch.find(params[:branches][:id])
+    flash[:general_flash_notification] = 'Branch Updated: ' + params[:branches][:id]
     process_branch_form(myBranch)
   end
 
