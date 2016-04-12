@@ -20,7 +20,6 @@ class GeneralAdministrator::LinkSetController < GeneralAdministratorController
 
   def initialize_form
     initialize_form_variables('SYSTEM LINK SETS',
-                              'Create a new link set within the system',
                               'general_administrator/link_set/link_set_form',
                               'link_set')
     initialize_employee_selection

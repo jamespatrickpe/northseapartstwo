@@ -18,8 +18,7 @@ class GeneralAdministrator::ContactDetails::DigitalsController < GeneralAdminist
 
 
   def initialize_form
-    initialize_form_variables('DIGITAL NUMBERS',
-                              'Create a new digital number entry into the system',
+    initialize_form_variables('DIGITAL',
                               'general_administrator/contact_details/digitals/digital_form',
                               'digital')
     initialize_employee_selection

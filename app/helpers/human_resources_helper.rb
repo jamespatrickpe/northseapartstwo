@@ -614,12 +614,17 @@ module HumanResourcesHelper
   end
 
   def get_current_duty_status( employee_ID )
+    return_word = "INACTIVE"
     currentEmployee = Employee
                           .includes(:duty_status)
                           .joins(:duty_status)
                           .where("(employees.id = ?)", "#{employee_ID}")
                           .order('duty_statuses.date_of_effectivity DESC').first
-    return currentEmployee.duty_status.first.active
+    if currentEmployee.duty_status.first.active == true
+      return_word = "ACTIVE"
+    else
+      return_word = "INACTIVE"
+    end
   end
 
   def get_duration_regular_work_hours(employee_ID, specific_day)

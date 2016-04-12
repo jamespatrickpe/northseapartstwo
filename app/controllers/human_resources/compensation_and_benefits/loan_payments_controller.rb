@@ -29,7 +29,6 @@ class HumanResources::CompensationAndBenefits::LoanPaymentsController < HumanRes
 
   def initialize_form
     initialize_form_variables('LOAN PAYMENT',
-                              'Log a new loan payment made by an employee',
                               'human_resources/compensation_and_benefits/loan_payments/loan_payment_form',
                               'loan_payment')
     initialize_employee_selection

@@ -29,7 +29,6 @@ class HumanResources::Settings::ConstantsController < HumanResources::SettingsCo
 
   def initialize_form
     initialize_form_variables('SYSTEM CONSTANT',
-                              'Create a parameter used within the system',
                               'shared/constants/constant_form',
                               'constant')
     initialize_employee_selection

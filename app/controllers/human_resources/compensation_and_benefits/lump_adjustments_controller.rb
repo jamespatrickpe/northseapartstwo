@@ -32,7 +32,6 @@ class HumanResources::CompensationAndBenefits::LumpAdjustmentsController < Human
 
   def initialize_form
     initialize_form_variables('LUMP ADJUSTMENTS',
-                              'Log a lump adjustment for an employee',
                               'human_resources/compensation_and_benefits/lump_adjustments/lump_adjustment_form',
                               'lump_adjustment')
     initialize_employee_selection

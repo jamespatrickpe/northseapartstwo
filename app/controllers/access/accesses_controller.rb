@@ -19,7 +19,6 @@ class Access::AccessesController < AccessController
 
   def initialize_form
     initialize_form_variables('ACCESS',
-                              'Create a new access log for a user',
                               'access/accesses/access_form',
                               'access')
   end

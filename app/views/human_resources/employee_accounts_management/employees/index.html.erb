@@ -8,11 +8,18 @@
         <tr>
           <th>
             Employees ID
-            <%= generic_table_theadlink('duty_statuses.id', table_orientation) %>
+            <%= generic_table_theadlink('employees.id', table_orientation) %>
           </th>
           <th>
             Name
             <%= generic_table_theadlink('actors.name', table_orientation) %>
+          </th>
+          <th>
+            Duty Status
+          </th>
+          <th>
+            Current Branch
+            <%= generic_table_theadlink('branches.name', table_orientation) %>
           </th>
         </tr>
         </thead>
@@ -20,27 +27,17 @@
             <% raise "No Records Found" %>
         <% else %>
             <tbody>
-            <% @employees.each do |employees| %>
+            <% @employees.each do |employee| %>
                 <tr>
-                  <td><%= duty_status[:id].upcase %></td>
+                  <td><%= employee[:id].upcase %></td>
+                  <td><%= generic_actor_profile_link( employee.actor.id, employee.actor.name) %></td>
+                  <td><%= get_current_duty_status(employee[:id]) %></td>
                   <td>
-                    <%= generic_employee_profile_link(duty_status) %>
+
+                    <%= employee.branch.name %>
                   </td>
-                  <td>
-                    <%=
-                        if(duty_status[:active])
-                          "ACTIVE"
-                        else
-                          "INACTIVE"
-                        end
-                    %>
-                  </td>
-                  <td><%= duty_status[:remark] %> </td>
-                  <td><%= duty_status[:date_of_effectivity] %> </td>
-                  <td><%= duty_status[:created_at] %></td>
-                  <td><%= duty_status[:updated_at] %></td>
                   <td class="actions">
-                    <%= generic_table_actions(duty_status[:id]) %>
+                    <%= generic_table_actions(employee[:id]) %>
                   </td>
                 </tr>
             <% end %>

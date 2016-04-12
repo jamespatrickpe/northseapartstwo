@@ -20,7 +20,6 @@ class GeneralAdministrator::ImageSetController < GeneralAdministratorController
 
   def initialize_form
     initialize_form_variables('SYSTEM IMAGE SETS',
-                              'Create a new image within the system',
                               'general_administrator/image_set/image_set_form',
                               'image_set')
     initialize_employee_selection

@@ -6,20 +6,10 @@
       <table class="generic_table" id="actors_table">
         <thead>
         <tr>
-          <th>
-            Image img
-          </th>
-          <th>
-            Name
-            <%= generic_table_theadlink('actors.name', table_orientation) %>
-          </th>
-          <th>
-            Description
-            <%= generic_table_theadlink('actors.description', table_orientation) %>
-          </th>
-          <th>
-            &nbsp;
-          </th>
+          <th>IMAGE</th>
+            <%= generic_table_theadlink('Name','actors.name', table_orientation) %>
+            <%= generic_table_theadlink('Description','actors.description', table_orientation) %>
+          <th>&nbsp;</th>
         </tr>
         </thead>
         <% if @actors.empty? == true %>

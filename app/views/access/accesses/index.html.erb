@@ -8,34 +8,13 @@
       <table class='generic_table' id='permission_table'>
         <thead>
         <tr>
-          <th>
-            ID
-            <%= generic_table_theadlink('accesses.id', table_orientation) %>
-          </th>
-          <th>
-            Actor ID
-            <%= generic_table_theadlink('accesses.actor_id', table_orientation) %>
-          </th>
-          <th>
-            Username
-            <%= generic_table_theadlink('accesses.username', table_orientation) %>
-          </th>
-          <th>
-            Email
-            <%= generic_table_theadlink('accesses.email', table_orientation) %>
-          </th>
-          <th>
-            Created At
-            <%= generic_table_theadlink('accesses.created_at', table_orientation) %>
-          </th>
-          <th>
-            Last Updated
-            <%= generic_table_theadlink('accesses.updated_at', table_orientation) %>
-          </th>
-          <th>
-            Last Login
-            <%= generic_table_theadlink('accesses.last_login', table_orientation) %>
-          </th>
+          <%= generic_table_theadlink('ID','accesses.id', table_orientation) %>
+          <%= generic_table_theadlink('Actor ID','accesses.actor_id', table_orientation) %>
+          <%= generic_table_theadlink('Username','accesses.username', table_orientation) %>
+          <%= generic_table_theadlink('Email','accesses.email', table_orientation) %>
+          <%= generic_table_theadlink('Created At','accesses.created_at', table_orientation) %>
+          <%= generic_table_theadlink('Last Updated','accesses.updated_at', table_orientation) %>
+          <%= generic_table_theadlink('Last Login','accesses.last_login', table_orientation) %>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
         </thead>
@@ -45,7 +24,7 @@
             <tbody>
             <% @accesses.each do |access| %>
                 <tr>
-                  <td><%= access[:id].upc %></td>
+                  <td><%= access[:id].upcase %></td>
                   <td><%= access[:actor_id] %> </td>
                   <td><%= access[:username] %> </td>
                   <td><%= access[:email] %> </td>

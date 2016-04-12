@@ -1,6 +1,5 @@
 class GeneralAdministrator::BranchController < GeneralAdministratorController
 
-
   def index
     query = generic_table_aggregated_queries('branches','branches.created_at')
     begin
@@ -18,11 +17,11 @@ class GeneralAdministrator::BranchController < GeneralAdministratorController
   end
 
 
-  def initialize_form
+  def initialize_form()
     initialize_form_variables('BRANCH',
-                              'Create a new branch within the system',
                               'general_administrator/branch/branch_form',
-                              'branch')
+                              'branch',
+    )
     initialize_employee_selection
   end
 
@@ -52,6 +51,10 @@ class GeneralAdministrator::BranchController < GeneralAdministratorController
     generic_singlecolumn_form(@selected_branch)
   end
 
+  def show
+    initialize_form
+  end
+
   def delete
     generic_delete_model(Branch,controller_name)
   end
@@ -78,5 +81,7 @@ class GeneralAdministrator::BranchController < GeneralAdministratorController
     flash[:general_flash_notification] = 'Branch Updated: ' + params[:branch][:id]
     process_branch_form(myBranch)
   end
+
+
 
 end

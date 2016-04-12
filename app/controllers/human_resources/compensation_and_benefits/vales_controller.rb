@@ -42,7 +42,6 @@ class HumanResources::CompensationAndBenefits::ValesController < HumanResources:
 
   def initialize_form
     initialize_form_variables('VALES',
-                              'Advanced Payments to Employees',
                               'human_resources/compensation_and_benefits/vales/vales_form',
                               'vale')
     initialize_employee_selection

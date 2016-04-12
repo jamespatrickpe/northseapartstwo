@@ -6,21 +6,10 @@
       <table class='generic_table' id='address_table'>
         <thead>
         <tr>
-          <th>
-            Digital Info ID
-            <%= generic_table_theadlink('digitals.id', table_orientation) %>
-          </th>
-          <th>
-            Owner
-          </th>
-          <th>
-            URL
-            <%= generic_table_theadlink('digitals.url', table_orientation) %>
-          </th>
-          <th>
-            Description
-            <%= generic_table_theadlink('digitals.description', table_orientation) %>
-          </th>
+          <%= generic_table_theadlink('Digital Info ID','digitals.id', table_orientation) %>
+          <th>Owner</th>
+          <%= generic_table_theadlink('URL','digitals.url', table_orientation) %>
+          <%= generic_table_theadlink('Description','digitals.description', table_orientation) %>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
         </thead>

@@ -24,9 +24,9 @@ module GenericForm
     redirect_to :controller => my_controller_name, :action => 'index'
   end
 
-  def initialize_form_variables(title, subtitle, form_location, singular_model_name)
+  def initialize_form_variables(title, form_location, singular_model_name)
     @title = title
-    @subtitle = subtitle
+    @subtitle = action_name + " " + title
     @form_location = form_location
     @singular_model_name = singular_model_name
   end

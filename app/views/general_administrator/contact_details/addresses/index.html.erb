@@ -6,25 +6,11 @@
       <table class='generic_table' id='address_table'>
         <thead>
         <tr>
-          <th>
-            Address ID
-            <%= generic_table_theadlink('addresses.id', table_orientation) %>
-          </th>
-          <th>
-            Address Owners
-          </th>
-          <th>
-            Description
-            <%= generic_table_theadlink('addresses.description', table_orientation) %>
-          </th>
-          <th>
-            Longitude
-            <%= generic_table_theadlink('addresses.longitude', table_orientation) %>
-          </th>
-          <th>
-            Latitude
-            <%= generic_table_theadlink('addresses.latitude', table_orientation) %>
-          </th>
+          <%= generic_table_theadlink('Address ID',addresses.id, table_orientation) %>
+          <th>Address Owners</th>
+          <%= generic_table_theadlink('Description','addresses.description', table_orientation) %>
+          <%= generic_table_theadlink('Longitude','addresses.longitude', table_orientation) %>
+          <%= generic_table_theadlink('Latitude','addresses.latitude', table_orientation) %>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
         </thead>

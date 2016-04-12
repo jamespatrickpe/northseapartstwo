@@ -47,7 +47,6 @@ class HumanResources::CompensationAndBenefits::InstitutionalAdjustmentsControlle
 
   def initialize_form
     initialize_form_variables('INSTITUTIONAL ADJUSTMENTS',
-                              'Logs all institutional adjustments within the system',
                               'human_resources/compensation_and_benefits/institutional_adjustments/institutional_adjustment_form',
                               'institutional_adjustment')
     initialize_employee_selection

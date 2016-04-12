@@ -6,33 +6,13 @@
       <table class='generic_table' id='expense_table'>
         <thead>
         <tr>
-          <th>
-            ID
-            <%= generic_table_theadlink('expenses.id', table_orientation) %>
-          </th>
-          <th>
-            Amount
-            <%= generic_table_theadlink('expenses.amount', table_orientation) %>
-          </th>
-          <th>
-            Category
-            <%= generic_table_theadlink('expenses.category', table_orientation) %>
-          </th>
-          <th>
-            Physical ID
-            <%= generic_table_theadlink('expenses.physical_id', table_orientation) %>
-          </th>
-          <th>
-            Involved Entities
-          </th>
-          <th>
-            Remark
-            <%= generic_table_theadlink('expenses.remark', table_orientation) %>
-          </th>
-          <th>
-            Date of Effectivity
-            <%= generic_table_theadlink('expenses.date_of_effectivity', table_orientation) %>
-          </th>
+          <%= generic_table_theadlink('ID','expenses.id', table_orientation) %>
+          <%= generic_table_theadlink('Amount','expenses.amount', table_orientation) %>
+          <%= generic_table_theadlink('Category', 'expenses.category', table_orientation) %>
+          <%= generic_table_theadlink('Physical ID', 'expenses.physical_id', table_orientation) %>
+          <th>Involved Entities</th>
+          <%= generic_table_theadlink('Remark','expenses.remark', table_orientation) %>
+          <%= generic_table_theadlink('Date of Effectivity','expenses.date_of_effectivity', table_orientation) %>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
         </thead>

@@ -21,7 +21,6 @@ class Access::PermissionsController < AccessController
 
   def initialize_form
     initialize_form_variables('PERMISSION',
-                              'Create a new permission for a user',
                               'access/permissions/permission_form',
                               'permission')
     @active_permissions_uniq = Permission.all.uniq

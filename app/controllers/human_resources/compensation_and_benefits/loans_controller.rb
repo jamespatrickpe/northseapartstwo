@@ -24,7 +24,6 @@ class HumanResources::CompensationAndBenefits::LoansController < HumanResources:
 
   def initialize_form
     initialize_form_variables('LOAN',
-                              'Tracks a new loan for an employee',
                               'human_resources/compensation_and_benefits/loans/loan_form',
                               'loan')
     initialize_employee_selection

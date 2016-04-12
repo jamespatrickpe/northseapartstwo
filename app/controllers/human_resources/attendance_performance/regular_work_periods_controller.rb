@@ -30,7 +30,6 @@ class HumanResources::AttendancePerformance::RegularWorkPeriodsController < Huma
 
   def initialize_form
     initialize_form_variables('REGULAR WORK PERIOD',
-                              'Create a new regular working period entry into the system',
                               'human_resources/attendance_performance/regular_work_periods/regular_work_period_form',
                               'regular_work_period')
     initialize_employee_selection
