@@ -55,22 +55,6 @@ module ApplicationHelper
     return placeholdervariable
   end
 
-  def renderCorePartial(partialname,partialinks={})
-    render(:partial => "core_partials/"+partialname, :locals => partialinks)
-  end
-
-  def renderSuccessPartial(headerMessage, bodyMessage, nextLinks)
-    render(:partial => "core_partials/acknowledgement_success", :locals => { :headerMessage => headerMessage, :bodyMessage => bodyMessage, :nextLinks => nextLinks})
-  end
-
-  def renderFormPartial(partialname,partialinks={})
-    render(:partial => "form_partials/"+partialname, :locals => partialinks)
-  end
-
-  def renderItemListerButtons(description,add,minus)
-    renderCorePartial("itemlisterbuttons",{ :description => description, :add => add, :minus => minus})
-  end
-
   def generateRandomString()
     o = [('a'..'z'), ('A'..'Z')].map { |i| i.to_a }.flatten
     return (0...64).map { o[rand(o.length)] }.join.downcase!
@@ -95,14 +79,6 @@ module ApplicationHelper
     # for future addition, just add another loop to obtain involved object via their ID
     actorsInvolved = involvedActorObjects + involvedBranchObjects
     return actorsInvolved
-  end
-
-  def render_contact_details()
-    render(:partial => "core_partials/show_panels/contact_details", :locals => {})
-  end
-
-  def render_associated_files()
-    render(:partial => "core_partials/show_panels/associated_files", :locals => {})
   end
 
 end

@@ -48,7 +48,7 @@
 #	new file:   app/models/vale.rb
 #	modified:   app/views/access/dashboard.html.erb
 #	modified:   app/views/access/registration.html.erb
-#	new file:   app/views/core_partials/_sidenavigation.erb
+#	new file:   app/views/common_partials/_sidenavigation.erb
 #	new file:   app/views/layouts/application_loggedin.html.erb
 #	modified:   config/navigation.rb
 #	modified:   db/migrate/20150304041353_create_accesses.rb

@@ -110,7 +110,7 @@ numberOfActors.times do |i|
     if randomBoolean
       myLinkSet = LinkSet.new
       myLinkSet.label = Faker::Lorem.word
-      myLinkSet[:url] = Faker::Lorem.word
+      myLinkSet[:url] = Faker::Internet.url
       myLinkSet.rel_link_set_id = myActor.id
       myLinkSet.rel_link_set_type = 'Actor'
       myLinkSet.save!

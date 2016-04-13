@@ -1,0 +1,13 @@
+<div class="generic_form_button_set" align="center">
+  <%= renderCorePartial('generic_back_to_index_button') %>
+  <%=
+      if selected_model_id.present?
+        link_to( "DELETE".html_safe,
+                 {:action => 'delete',
+                  :id => selected_model_id},
+                 class: 'tiny button deletable_item')
+      end
+  %>
+  <input type="reset" class="tiny button" value="RESET" />
+  <input type="submit" class="tiny button" value="SUBMIT" />
+</div>

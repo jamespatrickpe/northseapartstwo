@@ -1,0 +1,44 @@
+<div class='small-12 columns'>
+  <div class="show_panel_header"> Associated Files </div>
+
+  <div class='small-4 columns'>
+    <div class="show_panel_division">FILES</div>
+    <% if @selected_file_set.present? %>
+        <% @selected_file_set.each do |file_set| %>
+            <div class="show_panel_division">
+              <a class="show_panel_small_button" href=<%=file_set.file %>> <%= file_set.label %></a>
+            </div>
+        <% end %>
+    <% else %>
+        <hr><div align="center"> n/a </div><hr>
+    <% end %>
+  </div>
+
+  <div class='small-4 columns'>
+    <div class="show_panel_division">IMAGES</div>
+  <% if @selected_image_set.present? %>
+      <ul class="small-block-grid-3" >
+        <% @selected_image_set.each do |image_set| %>
+            <li tooltip=<%= image_set.description %> class='show_panel_image_container'>
+              <a class='show_panel_image_link' target="_blank" href=<%= image_set.picture.url %>>
+                <img src=<%= image_set.picture %>/> </a></li>
+        <% end %>
+      </ul>
+    <% else %>
+        <hr><div align="center"> n/a </div><hr>
+  <% end %>
+  </div>
+
+  <div class='small-4 columns'>
+    <div class="show_panel_division">LINKS</div>
+    <% if @selected_link_set.present? %>
+        <% @selected_link_set.each do |link_set| %>
+            <div class="show_panel_division">
+              <a class="show_panel_small_button" href=<%=link_set.url %>> <%= link_set.label %></a>
+            </div>
+        <% end %>
+    <% else %>
+        <hr><div align="center"> n/a </div><hr>
+    <% end %>
+  </div>
+</div>

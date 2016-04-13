@@ -33,10 +33,10 @@
     <div class="show_panel_header"> Access </div>
     <% if @selected_access.present? %>
     <div class="show_panel_division"> Username: <br>
-      <%= link_to( @selected_access.username ,{:controller => 'access', :action => 'signin'}, class: 'employee_profile_small_button') %>
+      <%= link_to( @selected_access.username ,{:controller => 'access', :action => 'signin'}, class: 'show_panel_small_button') %>
     </div>
     <div class="show_panel_division"> Email: <br>
-      <a class="employee_profile_small_button" href="mailto:<%= @selected_access.email.present? ? (@selected_access.email) : ('') %>" target="_top"><%= @selected_access.email.present? ?  (@selected_access.email) : ('n/a')%> </a>
+      <a class="show_panel_small_button" href="mailto:<%= @selected_access.email.present? ? (@selected_access.email) : ('') %>" target="_top"><%= @selected_access.email.present? ?  (@selected_access.email) : ('n/a')%> </a>
     </div>
     <div class="show_panel_division"> Last Login: <br> <%= @selected_access.last_login.present? ? (@selected_access.last_login) : ('n/a')%> </div>
     <% else %>
@@ -47,7 +47,7 @@
         <div class="show_panel_header"> Associated Files </div>
         <% @selected_file_set.each do |file_set| %>
             <div class="show_panel_division">
-              <a class="employee_profile_small_button" href=<%=file_set.file %>> <%= file_set.label %></a>
+              <a class="show_panel_small_button" href=<%=file_set.file %>> <%= file_set.label %></a>
             </div>
         <% end %>
     <% end %>
@@ -65,7 +65,7 @@
     <div class="show_panel_division"> Citizenship: <br> <%= @selected_biodata.citizenship %> </div>
     <div class="show_panel_division"> Gender: <br> <%= @selected_biodata.gender %> </div>
     <div class="show_panel_division"> Place of Birth: <br> <%= @selected_biodata.place_of_birth %> </div>
-    <div class="show_panel_division"> Emergency Contact: <br> <a class='employee_profile_small_button' href=tel:<%= @selected_biodata.emergency_contact %> > <%= @selected_biodata.emergency_contact %> </a> </div>
+    <div class="show_panel_division"> Emergency Contact: <br> <a class='show_panel_small_button' href=tel:<%= @selected_biodata.emergency_contact %> > <%= @selected_biodata.emergency_contact %> </a> </div>
     <div class="show_panel_division"> Languages Spoken: <br> <%= @selected_biodata.languages_spoken %> </div>
     <div class="show_panel_division"> Complexion: <br> <%= @selected_biodata.complexion %> </div>
     <div class="show_panel_division"> Height (cm): <br> <%= @selected_biodata.height_cm %> </div>
@@ -88,7 +88,7 @@
         <div class="show_panel_header"> Associated Images </div>
         <ul class="small-block-grid-3" >
           <% @selected_image_set.each do |image_set| %>
-              <li tooltip=<%= image_set.description %> class='employee_profile_image_container' style='height: 50px;overflow-y: hidden;padding: 5px;'><a class='employee_profile_image_link' target="_blank" href=<%= image_set.picture.url %>> <img src=<%= image_set.picture %>/> </a></li>
+              <li tooltip=<%= image_set.description %> class='show_panel_image_container' style='height: 50px;overflow-y: hidden;padding: 5px;'><a class='show_panel_image_link' target="_blank" href=<%= image_set.picture.url %>> <img src=<%= image_set.picture %>/> </a></li>
           <% end %>
         </ul>
     <% end %>
@@ -101,7 +101,7 @@
       <% if @selected_address_set.present? %>
           <% @selected_address_set.each do |address| %>
               <div class="show_panel_division">
-                <%= link_to address.description, 'https://www.google.com/maps/preview/@'+address.latitude.to_s+','+address.longitude.to_s+',10z', class: "employee_profile_small_button", target: "_blank" %>
+                <%= link_to address.description, 'https://www.google.com/maps/preview/@'+address.latitude.to_s+','+address.longitude.to_s+',10z', class: "show_panel_small_button", target: "_blank" %>
               </div>
           <% end %>
       <% else %>
@@ -114,7 +114,7 @@
           <% @selected_telephone_set.each do |telephone| %>
               <div class="show_panel_division">
                 <%= telephone.description %> <br>
-                <%= link_to telephone.digits, 'tel:'+telephone.digits, class: "employee_profile_small_button", target: "_blank" %>
+                <%= link_to telephone.digits, 'tel:'+telephone.digits, class: "show_panel_small_button", target: "_blank" %>
               </div>
           <% end %>
       <% else %>
@@ -127,7 +127,7 @@
           <% @selected_digital_set.each do |digital| %>
               <div class="show_panel_division">
                 <%= digital.description %> <br>
-                <%= link_to digital.url, digital.url, class: "employee_profile_small_button", target: "_blank" %>
+                <%= link_to digital.url, digital.url, class: "show_panel_small_button", target: "_blank" %>
               </div>
           <% end %>
       <% else %>
@@ -154,7 +154,7 @@
                     window.location.href = '/' + controller_name + '/' + action_name + '?actor_id=' + actor_id;
                 });
 
-        $('.employee_profile_image_container').qtip({
+        $('.show_panel_image_container').qtip({
             content: $(this).attr('tooltip'),
             position:
             {

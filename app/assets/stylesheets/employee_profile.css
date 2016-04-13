@@ -1,4 +1,4 @@
-.employee_profile_small_button
+.show_panel_small_button
 {
     padding: 5px;
     background-color: #808080;
@@ -6,16 +6,19 @@
     color:white;
 }
 
-.employee_profile_small_button:hover
+.show_panel_small_button:hover
 {
     background-color: #852324;
 }
 
-.employee_profile_image_link
+.show_panel_image_link
 {
 
 }
 
-.employee_profile_image_container
+.show_panel_image_container
 {
+    height: 50px;
+    overflow-y: hidden;
+    padding: 5px;
 }
