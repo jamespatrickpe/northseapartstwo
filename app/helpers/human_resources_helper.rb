@@ -122,11 +122,6 @@ module HumanResourcesHelper
     end
 
     valid_periods
-
-
-
-
-
   end
 
   def get_gross_salary_employee(start_date, end_date, employee)
@@ -650,6 +645,10 @@ module HumanResourcesHelper
       total_seconds = my_seconds + total_seconds
     end
     return (total_seconds/3600).round
+  end
+
+  def generic_employee_profile_link(model_with_employee_association)
+    render(:partial => 'human_resoources/profile_link', :locals => {:model_with_employee_association => model_with_employee_association})
   end
 
 end
