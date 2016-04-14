@@ -5,15 +5,15 @@ module GenericForm
   end
 
   def generic_tricolumn_form_with_employee_selection(model)
-    render :template => 'shared/form_columns/generic_tricolumn_form_with_employee_selection', :locals => {:model => model}
+    render :template => 'human_resources/tricolumn_with_employee_selection', :locals => {:model => model}
   end
 
   def generic_bicolumn_form_with_employee_selection(model)
-    render :template => 'shared/form_columns/generic_bicolumn_form_with_employee_selection', :locals => {:model => model}
+    render :template => 'human_resources/bicolumn_with_employee_selection', :locals => {:model => model}
   end
 
-  def generic_singlecolumn_form(model)
-    render :template => 'shared/form_columns/generic_singlecolumn_form', :locals => {:model => model}
+  def generic_single_column_form(model)
+    render :template => 'common_partials/generic_form/single_column', :locals => {:model => model}
   end
 
   def generic_model_show(model)

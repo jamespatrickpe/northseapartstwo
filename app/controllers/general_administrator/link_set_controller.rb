@@ -40,7 +40,7 @@ class GeneralAdministrator::LinkSetController < GeneralAdministratorController
     @selected_link_set = LinkSet.new
     @actors = Actor.all().order('name ASC')
     @branches = Branch.all().order('name ASC')
-    generic_singlecolumn_form(@selected_link_set)
+    generic_single_column_form(@selected_link_set)
   end
 
   def edit
@@ -48,7 +48,7 @@ class GeneralAdministrator::LinkSetController < GeneralAdministratorController
     @selected_link_set = LinkSet.find(params[:id])
     @actors = Actor.all().order('name ASC')
     @branches = Branch.all().order('name ASC')
-    generic_singlecolumn_form(@selected_link_set)
+    generic_single_column_form(@selected_link_set)
   end
 
   def delete

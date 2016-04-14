@@ -40,7 +40,7 @@ class GeneralAdministrator::ImageSetController < GeneralAdministratorController
     @selected_image_set = ImageSet.new
     @actors = Actor.all().order('name ASC')
     @branches = Branch.all().order('name ASC')
-    generic_singlecolumn_form(@selected_image_set)
+    generic_single_column_form(@selected_image_set)
   end
 
   def edit
@@ -48,7 +48,7 @@ class GeneralAdministrator::ImageSetController < GeneralAdministratorController
     @selected_image_set = ImageSet.find(params[:id])
     @actors = Actor.all().order('name ASC')
     @branches = Branch.all().order('name ASC')
-    generic_singlecolumn_form(@selected_image_set)
+    generic_single_column_form(@selected_image_set)
   end
 
   def delete

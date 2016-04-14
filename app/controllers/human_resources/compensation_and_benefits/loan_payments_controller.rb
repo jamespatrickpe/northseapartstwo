@@ -38,13 +38,13 @@ class HumanResources::CompensationAndBenefits::LoanPaymentsController < HumanRes
     initialize_form
     @selected_loan_payment = LoanPayment.new
     @loans = Loan.all.order(borrower_name: :asc)
-    generic_singlecolumn_form(@selected_loan_payment)
+    generic_single_column_form(@selected_loan_payment)
   end
 
   def edit
     initialize_form
     @selected_loan_payment = LoanPayment.find(params[:id])
-    generic_singlecolumn_form(@selected_loan_payment)
+    generic_single_column_form(@selected_loan_payment)
   end
 
   def process_loan_payment_form(loan_payment)

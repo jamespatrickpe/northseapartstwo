@@ -41,14 +41,14 @@ class Access::PermissionsController < AccessController
     initialize_form
     @selected_permission = Permission.new
     @accesses = Access.all()
-    generic_singlecolumn_form(@selected_permission)
+    generic_single_column_form(@selected_permission)
   end
 
   def edit
     initialize_form
     @selected_permission = Permission.find(params[:id])
     @accesses = Access.all()
-    generic_singlecolumn_form(@selected_permission)
+    generic_single_column_form(@selected_permission)
   end
 
   def delete

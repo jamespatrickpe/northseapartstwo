@@ -29,7 +29,7 @@ class GeneralAdministrator::ContactDetails::TelephonesController < GeneralAdmini
     @selected_telephone = Telephone.new
     @actors1 = Actor.all()
     @actors2 = Branch.all()
-    generic_singlecolumn_form(@selected_telephone)
+    generic_single_column_form(@selected_telephone)
   end
 
   def edit
@@ -66,7 +66,7 @@ class GeneralAdministrator::ContactDetails::TelephonesController < GeneralAdmini
     @actors1 = Actor.all()
     @actors2 = Branch.all()
 
-    generic_singlecolumn_form(@selected_telephone)
+    generic_single_column_form(@selected_telephone)
   end
 
   def delete

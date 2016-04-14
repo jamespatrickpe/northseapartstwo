@@ -40,7 +40,7 @@ class GeneralAdministrator::FileSetController < GeneralAdministratorController
     @selected_file_set = FileSet.new
     @actors = Actor.all().order('name ASC')
     @branches = Branch.all().order('name ASC')
-    generic_singlecolumn_form(@selected_file_set)
+    generic_single_column_form(@selected_file_set)
   end
 
   def edit
@@ -48,7 +48,7 @@ class GeneralAdministrator::FileSetController < GeneralAdministratorController
     @selected_file_set = FileSet.find(params[:id])
     @actors = Actor.all().order('name ASC')
     @branches = Branch.all().order('name ASC')
-    generic_singlecolumn_form(@selected_file_set)
+    generic_single_column_form(@selected_file_set)
   end
 
   def delete

@@ -29,7 +29,7 @@ class GeneralAdministrator::ContactDetails::DigitalsController < GeneralAdminist
     @selected_digital = Digital.new
     @actors1 = Actor.all()
     @actors2 = Branch.all()
-    generic_singlecolumn_form(@selected_digital)
+    generic_single_column_form(@selected_digital)
   end
 
   def edit
@@ -65,7 +65,7 @@ class GeneralAdministrator::ContactDetails::DigitalsController < GeneralAdminist
     @actors2 = Branch.all()
 
     @actorsInvolved.compact.uniq!
-    generic_singlecolumn_form(@selected_digital)
+    generic_single_column_form(@selected_digital)
   end
 
   def delete

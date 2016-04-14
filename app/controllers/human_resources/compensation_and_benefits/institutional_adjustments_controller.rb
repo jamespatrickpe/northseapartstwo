@@ -55,13 +55,13 @@ class HumanResources::CompensationAndBenefits::InstitutionalAdjustmentsControlle
   def new
     initialize_form
     @selected_institutional_adjustment = InstitutionalAdjustment.new
-    generic_singlecolumn_form(@selected_institutional_adjustment)
+    generic_single_column_form(@selected_institutional_adjustment)
   end
 
   def edit
     initialize_form
     @selected_institutional_adjustment = InstitutionalAdjustment.find(params[:id])
-    generic_singlecolumn_form(@selected_institutional_adjustment)
+    generic_single_column_form(@selected_institutional_adjustment)
   end
 
   def process_institutional_adjustment_form(institutional_adjustment)

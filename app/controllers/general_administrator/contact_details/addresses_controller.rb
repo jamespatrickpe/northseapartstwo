@@ -30,7 +30,7 @@ class GeneralAdministrator::ContactDetails::AddressesController < GeneralAdminis
     @selected_address = Address.new
     @actors1 = Actor.all()
     @actors2 = Branch.all()
-    generic_singlecolumn_form(@selected_address)
+    generic_single_column_form(@selected_address)
   end
 
   def edit
@@ -66,7 +66,7 @@ class GeneralAdministrator::ContactDetails::AddressesController < GeneralAdminis
 
     @actors1 = Actor.all()
     @actors2 = Branch.all()
-    generic_singlecolumn_form(@selected_address)
+    generic_single_column_form(@selected_address)
   end
 
   def delete

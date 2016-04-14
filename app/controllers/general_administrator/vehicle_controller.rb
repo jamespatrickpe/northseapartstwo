@@ -38,13 +38,13 @@ class GeneralAdministrator::VehicleController < GeneralAdministratorController
   def new
     initialize_form
     @selected_vehicle = Vehicle.new
-    generic_singlecolumn_form(@selected_vehicle)
+    generic_single_column_form(@selected_vehicle)
   end
 
   def edit
     initialize_form
     @selected_vehicle = Vehicle.find(params[:id])
-    generic_singlecolumn_form(@selected_vehicle)
+    generic_single_column_form(@selected_vehicle)
   end
 
   def delete

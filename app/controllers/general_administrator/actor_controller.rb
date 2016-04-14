@@ -39,13 +39,13 @@ class GeneralAdministrator::ActorController < GeneralAdministratorController
   def new
     initialize_form
     @selected_actor = Actor.new
-    generic_singlecolumn_form(@selected_actor)
+    generic_single_column_form(@selected_actor)
   end
 
   def edit
     initialize_form
     @selected_actor = Actor.find(params[:id])
-    generic_singlecolumn_form(@selected_actor)
+    generic_single_column_form(@selected_actor)
   end
 
   def show
