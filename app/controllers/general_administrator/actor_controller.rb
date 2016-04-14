@@ -48,6 +48,10 @@ class GeneralAdministrator::ActorController < GeneralAdministratorController
     generic_singlecolumn_form(@selected_actor)
   end
 
+  def show
+    initialize_form
+  end
+
   def delete
     generic_delete_model(Actor,controller_name)
   end

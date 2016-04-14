@@ -5,12 +5,11 @@ module HumanResources::CompensationAndBenefits::PayrollsHelper
   end
 
   def generic_payroll_add_link(link,id)
-    render(:partial => 'common_partials/generic_payroll_add_link', :locals => {:link => link, :id => id})
+    render(:partial => 'human_resources/compensation_and_benefits/payrolls/generic_payroll_add_link', :locals => {:link => link, :id => id})
   end
 
   def generic_payroll_examine_link(link,id)
-    render(:partial => 'common_partials/generic_payroll_examine_link', :locals => {:link => link, :id => id})
+    render(:partial => 'human_resources/compensation_and_benefits/payrolls/generic_payroll_examine_link', :locals => {:link => link, :id => id})
   end
-
 
 end
