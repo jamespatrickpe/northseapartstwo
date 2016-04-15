@@ -22,7 +22,6 @@ class GeneralAdministrator::BranchesController < GeneralAdministratorController
                               'general_administrator/branches/branch_form',
                               'branches'
     )
-    initialize_employee_selection
   end
 
   def search_suggestions
@@ -55,10 +54,11 @@ class GeneralAdministrator::BranchesController < GeneralAdministratorController
     initialize_form
     @form_location = 'general_administrator/branches/show'
     @selected_branch = Branch.find(params[:id])
+    all_branches = Branch.all()
     @selected_address_set = Address.where("rel_model_id = ? AND rel_model_type = 'Branch'", "#{@selected_branch.id}")
     @selected_telephone_set = Telephone.where("rel_model_id = ? AND rel_model_type = 'Branch'", "#{@selected_branch.id}")
     @selected_digital_set = Digital.where("rel_model_id = ? AND rel_model_type = 'Branch'", "#{@selected_branch.id}")
-    generic_model_show(@selected_branch)
+    generic_model_show(@selected_branch, all_branches , 'name')
   end
 
   def delete
@@ -67,7 +67,7 @@ class GeneralAdministrator::BranchesController < GeneralAdministratorController
 
   def process_branch_form(myBranch)
     begin
-      myBranch[:name] = params[:branches][:name]
+      myBranch[:name] = params[:branch][:name]
       myBranch.save!
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex
@@ -83,11 +83,9 @@ class GeneralAdministrator::BranchesController < GeneralAdministratorController
   end
 
   def update
-    myBranch = Branch.find(params[:branches][:id])
-    flash[:general_flash_notification] = 'Branch Updated: ' + params[:branches][:id]
+    myBranch = Branch.find(params[:branch][:id])
+    flash[:general_flash_notification] = 'Branch Updated: ' + params[:branch][:id]
     process_branch_form(myBranch)
   end
-
-
 
 end

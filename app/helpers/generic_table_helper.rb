@@ -21,7 +21,7 @@ module GenericTableHelper
   end
 
   def preheader_generic_table(title,subtitle)
-    render(:partial => 'common_partials/preheader_generic_table', :locals => {:title => title,:subtitle => subtitle})
+    render(:partial => 'common_partials/generic_table/preheader', :locals => {:title => title,:subtitle => subtitle})
   end
 
   def generic_search_footer(result_set)

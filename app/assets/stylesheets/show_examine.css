@@ -1,0 +1,22 @@
+.show_panel_division
+{
+    font-size: 12px;
+    font-family: arial;
+    padding: 5px;
+}
+
+.show_panel_header
+{
+    border-bottom-color: #000000;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    font-size: 14px;
+    margin-bottom: 3px;
+    font-weight: 500;
+    padding: 5px;
+}
+
+.show_model_select_field
+{
+    width: 40%;
+}

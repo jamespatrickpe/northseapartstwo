@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
           GenericController,
           CommonValidationChecks,
           Authentication,
-          StringManipulations
+          StringManipulations,
+          GenericShow
 
 end
