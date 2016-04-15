@@ -1,4 +1,4 @@
-class CreateVales < ActiveRecord::Migration
+class CreateVales < MainMigration
   def change
     create_table :vales, :id => false do |t|
 

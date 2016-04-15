@@ -1,4 +1,4 @@
-class CreateDigitals < ActiveRecord::Migration
+class CreateDigitals < MainMigration
   def change
     create_table :digitals, :id => false  do |t|
       t.string :id, limit: 36, primary: true, null: false

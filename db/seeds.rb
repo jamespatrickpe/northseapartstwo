@@ -20,7 +20,93 @@ def randomMoney( lower, upper)
   return rand(lower..upper)
 end
 
-#ENTITIES
+def random_associative_model
+  associative_model = Hash.new
+  random_model = [Actor,Branch].sample
+  associative_model[:my_model] = random_model
+  associative_model[:my_model_id] = random_model.order("RAND()").first.id
+  return associative_model
+end
+
+# ENTITIES
+
+# General Administration
+
+# Related File Sets
+rand(50..100).times do |i|
+  if randomBoolean
+    myFileSet = FileSet.new
+    myFileSet[:file] = ['export_table_1.csv','export_table_2.csv','export_table_3.csv','export_table_4.csv','export_table_5.csv'].sample
+    myFileSet.label = Faker::Lorem.sentence
+    myFileSet.rel_file_set_id = random_associative_model[:my_model_id]
+    myFileSet.rel_file_set_type = random_associative_model[:my_model]
+    myFileSet.save!
+  end
+end
+
+# Vehicles
+rand(50..100).times do |b|
+  if randomBoolean
+    myVehicle = Vehicle.new
+    myVehicle.type_of_vehicle = ['Sedan','Truck','Delivery','Van','SUV'].sample
+    myVehicle.plate_number = Faker::Lorem.characters(6)
+    myVehicle.orcr = Faker::Lorem.word
+    myVehicle.date_of_registration = Time.now - rand(0..72000).hours
+    myVehicle.remark = Faker::Lorem.sentence
+    myVehicle.save!
+  end
+end
+
+# Related Image Sets
+rand(50..100).times do |i|
+  if randomBoolean
+    myImageSet = ImageSet.new
+    myImageSet[:picture] = ['file_01.jpg','file_02.png','file_03.gif','file_04.jpg','file_05.jpg'].sample
+    myImageSet.description = Faker::Lorem.sentence
+    myImageSet.rel_image_set_id = random_associative_model[:my_model_id]
+    myImageSet.rel_image_set_type = random_associative_model[:my_model]
+    myImageSet.save!
+  end
+end
+
+# Related Link Sets
+rand(50..100).times do |i|
+  if randomBoolean
+    myLinkSet = LinkSet.new
+    myLinkSet.label = Faker::Lorem.word
+    myLinkSet[:url] = Faker::Internet.url
+    myLinkSet.rel_link_set_id = random_associative_model[:my_model_id]
+    myLinkSet.rel_link_set_type = random_associative_model[:my_model]
+    myLinkSet.save!
+  end
+end
+
+# Digital
+rand(50..100).times do |i|
+  myDigital = Digital.new( description: Faker::Lorem.sentence, url: Faker::Internet.url)
+  myDigital.rel_model_id = random_associative_model[:my_model_id]
+  myDigital.rel_model_type = random_associative_model[:my_model]
+  myDigital.save!
+end
+
+# Telephony
+rand(50..100).times do |i|
+  myTelephony = Telephone.new( description: Faker::Lorem.sentence, digits: Faker::PhoneNumber.phone_number)
+  myTelephony.rel_model_id = random_associative_model[:my_model_id]
+  myTelephony.rel_model_type = random_associative_model[:my_model]
+  myTelephony.save!
+end
+
+# Addresses
+rand(50..100).times do |i|
+  completeAddress = Faker::Address.building_number + ' '+ Faker::Address.street_name + ' ' + Faker::Address.street_address + ' ' + Faker::Address.city + ' ' + Faker::Address.country
+  myAddress = Address.new( description: completeAddress, longitude: Faker::Address.longitude, latitude: Faker::Address.latitude)
+  myAddress.rel_model_id = random_associative_model[:my_model_id]
+  myAddress.rel_model_type = random_associative_model[:my_model]
+  myAddress.save!
+end
+
+# Actor Dependent Systems
 numberOfActors = 50
 numberOfActors.times do |i|
 
@@ -68,80 +154,6 @@ numberOfActors.times do |i|
     end
   end
 
-  #Related File Sets
-  rand(0..10).times do |i|
-    if randomBoolean
-      myFileSet = FileSet.new
-      myFileSet[:file] = ['export_table_1.csv','export_table_2.csv','export_table_3.csv','export_table_4.csv','export_table_5.csv'].sample
-      myFileSet.label = Faker::Lorem.sentence
-      myFileSet.rel_file_set_id = myActor.id
-      myFileSet.rel_file_set_type = 'Actor'
-      myFileSet.save!
-    end
-  end
-
-  #Vehicles
-  rand(0..10).times do |b|
-    if randomBoolean
-      myVehicle = Vehicle.new
-      myVehicle.type_of_vehicle = ['Sedan','Truck','Delivery','Van','SUV'].sample
-      myVehicle.plate_number = Faker::Lorem.characters(6)
-      myVehicle.orcr = Faker::Lorem.word
-      myVehicle.date_of_registration = Time.now - rand(0..72000).hours
-      myVehicle.remark = Faker::Lorem.sentence
-      myVehicle.save!
-    end
-  end
-
-  #Related Image Sets
-  rand(0..10).times do |i|
-    if randomBoolean
-      myImageSet = ImageSet.new
-      myImageSet[:picture] = ['file_01.jpg','file_02.png','file_03.gif','file_04.jpg','file_05.jpg'].sample
-      myImageSet.description = Faker::Lorem.sentence
-      myImageSet.rel_image_set_id = myActor.id
-      myImageSet.rel_image_set_type = 'Actor'
-      myImageSet.save!
-    end
-  end
-
-  #Related Link Sets
-  rand(0..10).times do |i|
-    if randomBoolean
-      myLinkSet = LinkSet.new
-      myLinkSet.label = Faker::Lorem.word
-      myLinkSet[:url] = Faker::Internet.url
-      myLinkSet.rel_link_set_id = myActor.id
-      myLinkSet.rel_link_set_type = 'Actor'
-      myLinkSet.save!
-    end
-  end
-
-  #Digital
-  rand(0..5).times do |i|
-    myDigital = Digital.new( description: Faker::Lorem.sentence, url: Faker::Internet.url)
-    myDigital.rel_model_id = myActor.id
-    myDigital.rel_model_type = 'Actor'
-    myDigital.save!
-  end
-
-  #Telephony
-  rand(0..5).times do |i|
-    myTelephony = Telephone.new( description: Faker::Lorem.sentence, digits: Faker::PhoneNumber.phone_number)
-    myTelephony.rel_model_id = myActor.id
-    myTelephony.rel_model_type = 'Actor'
-    myTelephony.save!
-  end
-
-  #Addresses
-  rand(0..5).times do |i|
-    completeAddress = Faker::Address.building_number + ' '+ Faker::Address.street_name + ' ' + Faker::Address.street_address + ' ' + Faker::Address.city + ' ' + Faker::Address.country
-    myAddress = Address.new( description: completeAddress, longitude: Faker::Address.longitude, latitude: Faker::Address.latitude)
-    myAddress.rel_model_id = myActor.id
-    myAddress.rel_model_type = 'Actor'
-    myAddress.save!
-  end
-
   # BIODATA
   if(randomBoolean())
     myBioData = Biodatum.new()
@@ -164,11 +176,11 @@ numberOfActors.times do |i|
     myBioData.save
   end
 
-  # HUMAN RESOURCES
+  # Human Resources
   if 80.in(100)
     # ids = Branch.pluck(:id).shuffle
     # myBranch = Branch.where(id: ids)
-    myEmployee = Employee.new( actor: myActor, branches: Branch.all.shuffle.first )
+    myEmployee = Employee.new( actor: myActor, branch: Branch.all.shuffle.first )
 
     #Attendances
     rand(360..720).times do |i|

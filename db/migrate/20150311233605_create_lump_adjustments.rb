@@ -1,4 +1,4 @@
-class CreateLumpAdjustments < ActiveRecord::Migration
+class CreateLumpAdjustments < MainMigration
   def change
     create_table :lump_adjustments, :id => false   do |t|
       t.string :id, limit: 36, :primary_key => true, null: false

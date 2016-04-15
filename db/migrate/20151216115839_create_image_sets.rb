@@ -1,4 +1,4 @@
-class CreateImageSets < ActiveRecord::Migration
+class CreateImageSets < MainMigration
   def change
     create_table :image_sets, :id => false  do |t|
       t.string :id, limit: 36, primary: true, null: false

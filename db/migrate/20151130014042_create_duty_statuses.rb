@@ -1,4 +1,4 @@
-class CreateDutyStatuses < ActiveRecord::Migration
+class CreateDutyStatuses < MainMigration
   def change
     create_table :duty_statuses, :id => false  do |t|
       t.string :id, limit: 36, primary: true, null: false

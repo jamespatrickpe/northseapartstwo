@@ -1,4 +1,4 @@
-class CreateValeAdjustments < ActiveRecord::Migration
+class CreateValeAdjustments < MainMigration
   def change
     create_table :vale_adjustments, :id => false do |t|
       t.string :id, limit: 36, :primary_key => true, null: false

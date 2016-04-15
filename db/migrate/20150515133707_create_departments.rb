@@ -1,4 +1,4 @@
-class CreateDepartments < ActiveRecord::Migration
+class CreateDepartments < MainMigration
   def change
     create_table :departments, :id => false    do |t|
       t.string :id, limit: 36, primary: true, null: false

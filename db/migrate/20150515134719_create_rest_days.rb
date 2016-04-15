@@ -1,4 +1,4 @@
-class CreateRestDays < ActiveRecord::Migration
+class CreateRestDays < MainMigration
   def change
     create_table :rest_days, :id => false    do |t|
       t.string :id, limit: 36, primary: true, null: false

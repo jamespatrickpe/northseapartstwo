@@ -1,4 +1,4 @@
-class CreateExpenseActors < ActiveRecord::Migration
+class CreateExpenseActors < MainMigration
   def change
     create_table :expenses_actors, :id => false  do |t|
       t.string :id, limit: 36, primary: true, null: false

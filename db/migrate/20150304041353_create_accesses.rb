@@ -1,4 +1,4 @@
-class CreateAccesses < ActiveRecord::Migration
+class CreateAccesses < MainMigration
   def change
     create_table :accesses, :id => false  do |t|
       t.string :id, limit: 36, primary: true, null: false

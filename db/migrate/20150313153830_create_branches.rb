@@ -1,4 +1,4 @@
-class CreateBranches < ActiveRecord::Migration
+class CreateBranches < MainMigration
   def change
     create_table :branches, :id => false   do |t|
       t.string :id, limit: 36, primary: true, null: false

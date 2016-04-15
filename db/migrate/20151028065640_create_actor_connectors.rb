@@ -1,4 +1,4 @@
-class CreateActorConnectors < ActiveRecord::Migration
+class CreateActorConnectors < MainMigration
   def change
     create_table :actor_connectors, :id => false  do |t|
       t.string :id, limit: 36, primary: true, null: false

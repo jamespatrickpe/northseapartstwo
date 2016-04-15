@@ -1,4 +1,4 @@
-class CreatePerformanceAppraisals < ActiveRecord::Migration
+class CreatePerformanceAppraisals < MainMigration
   def change
     create_table :performance_appraisals, :id => false   do |t|
       t.string :id, limit: 36, primary: true, null: false

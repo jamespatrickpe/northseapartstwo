@@ -1,4 +1,4 @@
-class CreateExpenses < ActiveRecord::Migration
+class CreateExpenses < MainMigration
   def change
     create_table :expenses, :id => false   do |t|
       t.string :id, limit: 36, primary: true, null: false

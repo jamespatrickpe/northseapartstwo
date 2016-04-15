@@ -1,4 +1,4 @@
-class CreateInstitutionalAdjustments < ActiveRecord::Migration
+class CreateInstitutionalAdjustments < MainMigration
   def change
     create_table :institutional_adjustments, :id => false   do |t|
       t.string :id, limit: 36, primary: true, null: false

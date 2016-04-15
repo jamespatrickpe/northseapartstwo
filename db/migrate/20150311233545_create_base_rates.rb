@@ -1,4 +1,4 @@
-class CreateBaseRates < ActiveRecord::Migration
+class CreateBaseRates < MainMigration
   def change
     create_table :base_rates, :id => false do |t|
       t.string :id, limit: 36, primary: true, null: false

@@ -1,4 +1,4 @@
-class CreateLeaves < ActiveRecord::Migration
+class CreateLeaves < MainMigration
   def change
     create_table :leaves, :id => false do |t|
       t.string :id, limit: 36, primary: true, null: false

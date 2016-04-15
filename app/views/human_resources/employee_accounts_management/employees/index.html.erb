@@ -8,10 +8,11 @@
           <%= generic_table_theadlink('Name','actors.name') %>
           <th>Duty Status</th>
           <%= generic_table_theadlink('Current Branch','branches.name') %>
+          <th class="actions" align="center">&nbsp;</th>
         </tr>
         </thead>
         <% if @employees.empty? == true %>
-            <% raise "No Records Found" %>
+            no_records_found
         <% else %>
             <tbody>
             <% @employees.each do |employee| %>

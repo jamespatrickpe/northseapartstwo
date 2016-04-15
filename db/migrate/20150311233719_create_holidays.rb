@@ -1,4 +1,4 @@
-class CreateHolidays < ActiveRecord::Migration
+class CreateHolidays < MainMigration
   def change
     create_table :holidays, :id => false   do |t|
       t.string :id, limit: 36, primary: true, null: false

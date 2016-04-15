@@ -1,4 +1,4 @@
-class CreatePositions < ActiveRecord::Migration
+class CreatePositions < MainMigration
   def change
     create_table :positions, :id => false    do |t|
       t.string :id, limit: 36, primary: true, null: false

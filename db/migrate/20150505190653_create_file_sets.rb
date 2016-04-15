@@ -1,4 +1,4 @@
-class CreateFileSets < ActiveRecord::Migration
+class CreateFileSets < MainMigration
   def change
     create_table :file_sets, :id => false    do |t|
       t.string :id, limit: 36, primary: true, null: false

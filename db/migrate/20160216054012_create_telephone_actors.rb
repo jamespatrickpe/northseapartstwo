@@ -1,4 +1,4 @@
-class CreateTelephoneActors < ActiveRecord::Migration
+class CreateTelephoneActors < MainMigration
   def change
     create_table :telephones_actors, :id => false  do |t|
       t.string :id, limit: 36, primary: true, null: false

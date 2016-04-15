@@ -1,4 +1,4 @@
-class CreateConstants < ActiveRecord::Migration
+class CreateConstants < MainMigration
   def change
     create_table :constants, :id => false  do |t|
       t.string :id, limit: 36, primary: true, null: false

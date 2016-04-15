@@ -1,4 +1,4 @@
-class CreateVehicles < ActiveRecord::Migration
+class CreateVehicles < MainMigration
   def change
     create_table :vehicles, :id => false do |t|
       t.string :id, limit: 36, primary: true, null: false

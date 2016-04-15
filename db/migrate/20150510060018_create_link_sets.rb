@@ -1,4 +1,4 @@
-class CreateLinkSets < ActiveRecord::Migration
+class CreateLinkSets < MainMigration
   def change
     create_table :link_sets, :id => false    do |t|
       t.string :id, limit: 36, primary: true, null: false

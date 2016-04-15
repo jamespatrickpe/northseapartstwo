@@ -12,7 +12,7 @@
         </tr>
         </thead>
         <% if @branches.empty? == true %>
-            <% raise exception %>
+            no_records_found
         <% else %>
             <tbody>
             <% @branches.each do |branch| %>

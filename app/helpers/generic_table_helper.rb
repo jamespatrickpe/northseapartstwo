@@ -32,4 +32,8 @@ module GenericTableHelper
     render(:partial => 'common_partials/generic_table/profile_link', :locals => {:my_ID => my_ID, :my_name => my_name})
   end
 
+  def no_records_found
+    render(:partial => 'common_partials/generic_table/no_records_found')
+  end
+
 end

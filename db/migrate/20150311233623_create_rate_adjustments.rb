@@ -1,4 +1,4 @@
-class CreateRateAdjustments < ActiveRecord::Migration
+class CreateRateAdjustments < MainMigration
   def change
     create_table :rate_adjustments, :id => false   do |t|
       t.string :id, limit: 36, primary: true, null: false
