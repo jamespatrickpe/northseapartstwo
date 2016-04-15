@@ -1,7 +1,7 @@
 <div class="large-12 columns">
   <h2 class="miniheader">Addresses</h2>
   <p id="map_special_instructions">
-  <div class="subdescription">
+  <div class="subremark">
     DRAG RED MARKER; DOUBLE LEFT CLICK TO ZOOM OUT, DOUBLE RIGHT CLICK TO ZOOM IN. SCROLL TO ZOOM. HOLD LEFT MOUSE BUTTON TO PAN.
   </div>
   </p>
@@ -9,7 +9,7 @@
     <div class="mapset" id="primary" align="center">
       <hr>
       <div class="map" style="width: 800px; height: 300px;"></div><br>
-      <textarea name="address[description]" placeholder="Type Address Here" class="map-address" data-parsley-trigger="keyup" data-parsley-maxlength="256"></textarea>
+      <textarea name="address[remark]" placeholder="Type Address Here" class="map-address" data-parsley-trigger="keyup" data-parsley-maxlength="256"></textarea>
       <div class="large-1 columns"> <%= t('access.latitude') %>: </div>
       <div class="large-11 columns">
         <input type="text" class="map-lat" name="address[latitude]" id="latitude" data-parsley-type="number"/>

@@ -56,7 +56,7 @@ class HumanResources::EmployeeAccountsManagement::DutyStatusesController < Human
     begin
       myDutyStatus.active = params[:duty_status][:active]
       myDutyStatus.employee_id = params[:duty_status][:employee_id]
-      myDutyStatus.date_of_effectivity = params[:duty_status][:date_of_effectivity]
+      myDutyStatus.date_of_implementation = params[:duty_status][:date_of_implementation]
       myDutyStatus.remark = params[:duty_status][:remark]
       myDutyStatus.save!
       flash[:general_flash_notification_type] = 'affirmative'

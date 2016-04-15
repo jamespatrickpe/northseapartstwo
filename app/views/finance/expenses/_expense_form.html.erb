@@ -34,15 +34,15 @@
 <div class="form-block">
   <div class="label">Date of Effectivity  : </div>
   <input type="date"
-         id="expense_date_of_effectivity"
+         id="expense_date_of_implementation"
          step = 1
-         name="expense[date_of_effectivity]"
+         name="expense[date_of_implementation]"
          required = required
          data-parsley-trigger="change"
-         value= <%= @selected_expense[:date_of_effectivity]%> >
+         value= <%= @selected_expense[:date_of_implementation]%> >
 </div>
 
-<%= generic_remarks_description_field('expense',@selected_expense[:remark]) %>
+<%= generic_remarks_remark_field('expense',@selected_expense[:remark]) %>
 
 <div class="form-block">
   <div class="label">Involved  : </div>

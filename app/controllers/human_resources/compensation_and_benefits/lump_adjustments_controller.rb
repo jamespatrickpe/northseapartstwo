@@ -11,7 +11,7 @@ class HumanResources::CompensationAndBenefits::LumpAdjustmentsController < Human
                  "lump_adjustments.amount LIKE ? OR " +
                  "lump_adjustments.signed_type LIKE ? OR " +
                  "lump_adjustments.remark LIKE ? OR " +
-                 "lump_adjustments.date_of_effectivity LIKE ? OR " +
+                 "lump_adjustments.date_of_implementation LIKE ? OR " +
                  "lump_adjustments.created_at LIKE ? OR " +
                  "lump_adjustments.updated_at LIKE ?",
              "%#{query[:search_field]}%",
@@ -68,7 +68,7 @@ class HumanResources::CompensationAndBenefits::LumpAdjustmentsController < Human
       lumpAdjustment.employee_id = params[:lump_adjustment][:employee_id]
       lumpAdjustment.signed_type = params[:lump_adjustment][:signed_type]
       lumpAdjustment.remark = params[:lump_adjustment][:remark]
-      lumpAdjustment.date_of_effectivity = params[:lump_adjustment][:date_of_effectivity]
+      lumpAdjustment.date_of_implementation = params[:lump_adjustment][:date_of_implementation]
       lumpAdjustment.save!
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex

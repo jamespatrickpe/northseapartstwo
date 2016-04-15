@@ -60,7 +60,7 @@ class AccessController < ApplicationController
           # Process Actor
           actor = Actor.new
           actor.name = params[:actor][:name]
-          actor.description = params[:actor][:description];
+          actor.remark = params[:actor][:remark];
           actor.logo = params[:actor][:logo]
           actor.save!
 
@@ -84,7 +84,7 @@ class AccessController < ApplicationController
           #Address Processing
           address_set.each do |key, value|
             myAddress = Address.new
-            myAddress.description = value[:description]
+            myAddress.remark = value[:remark]
             myAddress.longitude = value[:longitude]
             myAddress.latitude = value[:latitude]
             myAddress.actor = actor
@@ -94,7 +94,7 @@ class AccessController < ApplicationController
           #Telephony Processing
           telephony_set.each do |key, value|
             myTelephony = Telephone.new
-            myTelephony.description = value[:description]
+            myTelephony.remark = value[:remark]
             myTelephony.digits = value[:digits]
             myTelephony.actor = actor
             myTelephony.save!
@@ -103,7 +103,7 @@ class AccessController < ApplicationController
           #Digital Processing
           digital_set.each do |key, value|
             myDigital = Digital.new
-            myDigital.description = value[:description]
+            myDigital.remark = value[:remark]
             myDigital.url = value[:url]
             myDigital.actor = actor
             myDigital.save!

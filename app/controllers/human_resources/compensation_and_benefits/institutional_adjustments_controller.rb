@@ -12,8 +12,8 @@ class HumanResources::CompensationAndBenefits::InstitutionalAdjustmentsControlle
                                                   "institutional_adjustments.employer_contribution LIKE ? OR " +
                                                   "institutional_adjustments.employee_contribution LIKE ? OR " +
                                                   "institutional_adjustments.period_of_time LIKE ? OR " +
-                                                  "institutional_adjustments.description LIKE ? OR " +
-                                                  "institutional_adjustments.date_of_effectivity LIKE ? OR " +
+                                                  "institutional_adjustments.remark LIKE ? OR " +
+                                                  "institutional_adjustments.date_of_implementation LIKE ? OR " +
                                                   "institutional_adjustments.created_at LIKE ? OR " +
                                                   "institutional_adjustments.updated_at LIKE ?",
                                               "%#{query[:search_field]}%",
@@ -73,8 +73,8 @@ class HumanResources::CompensationAndBenefits::InstitutionalAdjustmentsControlle
       institutional_adjustment.employer_contribution = params[:institutional_adjustment][:employer_contribution]
       institutional_adjustment.employee_contribution = params[:institutional_adjustment][:employee_contribution]
       institutional_adjustment.period_of_time = params[:institutional_adjustment][:period_of_time]
-      institutional_adjustment.description = params[:institutional_adjustment][:description]
-      institutional_adjustment.date_of_effectivity = params[:institutional_adjustment][:date_of_effectivity]
+      institutional_adjustment.remark = params[:institutional_adjustment][:remark]
+      institutional_adjustment.date_of_implementation = params[:institutional_adjustment][:date_of_implementation]
       institutional_adjustment.save!
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex

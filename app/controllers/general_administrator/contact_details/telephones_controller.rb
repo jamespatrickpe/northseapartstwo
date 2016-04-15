@@ -5,7 +5,7 @@ class GeneralAdministrator::ContactDetails::TelephonesController < GeneralAdmini
     begin
       @telephones = Telephone
                       .where("telephones.digits LIKE ? OR " +
-                                 "telephones.description LIKE ? ",
+                                 "telephones.remark LIKE ? ",
                              "%#{query[:search_field]}%",
                              "%#{query[:search_field]}%")
                       .order(query[:order_parameter] + ' ' + query[:order_orientation])
@@ -88,7 +88,7 @@ class GeneralAdministrator::ContactDetails::TelephonesController < GeneralAdmini
   def process_telephone_form(myTelephone)
     begin
       myTelephone[:digits] = params[:telephone][:digits]
-      myTelephone[:description] = params[:telephone][:description]
+      myTelephone[:remark] = params[:telephone][:remark]
       myTelephone.save!
 
       # after creating the new telephone, iterate through all the actors involved and maps them with the telephone

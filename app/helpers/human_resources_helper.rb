@@ -13,8 +13,8 @@ module HumanResourcesHelper
 
   def whatRestDay(employee_id, current_day)
     rest_day = RestDay
-                   .where("(employee_id = ?) AND (date_of_effectivity <= ?)", "#{employee_id}", "#{current_day}")
-                   .order('rest_days.date_of_effectivity DESC').first
+                   .where("(employee_id = ?) AND (date_of_implementation <= ?)", "#{employee_id}", "#{current_day}")
+                   .order('rest_days.date_of_implementation DESC').first
     what_rest_day = false
     if rest_day.day == current_day.strftime("%A")
       what_rest_day = rest_day.id
@@ -24,8 +24,8 @@ module HumanResourcesHelper
 
   def display_if_rest_day(employee_id, current_day, latest_end_time_for_constant)
     rest_day = RestDay
-                   .where("(employee_id = ?) AND (date_of_effectivity <= ?)", "#{employee_id}", "#{latest_end_time_for_constant}")
-                   .order('rest_days.date_of_effectivity ASC').first
+                   .where("(employee_id = ?) AND (date_of_implementation <= ?)", "#{employee_id}", "#{latest_end_time_for_constant}")
+                   .order('rest_days.date_of_implementation ASC').first
     if rest_day.present?
       if rest_day[:day] == current_day
         "( REST DAY )"
@@ -59,7 +59,7 @@ module HumanResourcesHelper
                           .includes(:duty_status)
                           .joins(:duty_status)
                           .where("(employees.id = ?)", "#{employee_ID}")
-                          .order('duty_statuses.date_of_effectivity DESC').first
+                          .order('duty_statuses.date_of_implementation DESC').first
     return currentEmployee.duty_status.first.active
   end
 
@@ -67,8 +67,8 @@ module HumanResourcesHelper
     currentEmployee = Employee
                           .includes(:regular_work_period)
                           .joins(:regular_work_period)
-                          .where("(employees.id = ?) AND (regular_work_periods.date_of_effectivity <= ?)", "#{employee_ID}", "#{specific_day}")
-                          .order("regular_work_periods.date_of_effectivity DESC").first
+                          .where("(employees.id = ?) AND (regular_work_periods.date_of_implementation <= ?)", "#{employee_ID}", "#{specific_day}")
+                          .order("regular_work_periods.date_of_implementation DESC").first
     number_of_seconds = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time))
     if number_of_seconds < 0
       number_of_seconds = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time)).abs
@@ -94,7 +94,7 @@ module HumanResourcesHelper
   def get_valid_periods(employee_id)
 
     my_duty_statuses = DutyStatus.where('employee_id = ?', "#{employee_id}")
-                            .order('date_of_effectivity ASC')
+                            .order('date_of_implementation ASC')
 
     valid_periods = Array.new
     start_period = ''
@@ -103,11 +103,11 @@ module HumanResourcesHelper
     my_duty_statuses.each_with_index do |duty_status, index|
       if duty_status[:active] == searching_for_next
         if duty_status[:active] == true
-          start_period = duty_status[:date_of_effectivity].strftime("%Y-%m-%d")
+          start_period = duty_status[:date_of_implementation].strftime("%Y-%m-%d")
           searching_for_next = false
         end
         if duty_status[:active] == false
-          end_period = duty_status[:date_of_effectivity].strftime("%Y-%m-%d")
+          end_period = duty_status[:date_of_implementation].strftime("%Y-%m-%d")
           searching_for_next = true
         end
       end
@@ -245,8 +245,8 @@ module HumanResourcesHelper
     # get the variables
     start_date = DateTime.parse(start_date)
     end_date = DateTime.parse(end_date)
-    current_vale_datetime = DateTime.parse(vale[:date_of_effectivity].strftime('%Y-%m-%d %T'))
-    iteration = translate_period_of_time_into_seconds(vale[:period_of_deduction])
+    current_vale_datetime = DateTime.parse(vale[:date_of_implementation].strftime('%Y-%m-%d %T'))
+    iteration = translate_period_of_time_into_seconds(vale[:period_of_time])
     current_balance = vale[:amount]
     total_deduction = 0
     vale_adjustments = ValeAdjustment.where("vale_id = '" + vale[:id] + "'")
@@ -268,8 +268,8 @@ module HumanResourcesHelper
 
       # check for any adjustments on the period - MANUAL
       vale_adjustments.each do |adjustment|
-        adjustment_date_of_effectivity = DateTime.parse( adjustment[:date_of_effectivity].strftime('%Y-%m-%d') )
-        if adjustment_date_of_effectivity.between?(current_vale_datetime,next_vale_date)
+        adjustment_date_of_implementation = DateTime.parse( adjustment[:date_of_implementation].strftime('%Y-%m-%d') )
+        if adjustment_date_of_implementation.between?(current_vale_datetime,next_vale_date)
           adjustment_in_period_token = true
           if adjustment[:signed_type]
             current_balance += adjustment[:amount]
@@ -541,14 +541,14 @@ module HumanResourcesHelper
     my_vale = Vale.find(parent_vale_id)
     my_vale_adjustments = ValeAdjustment.where(vale_id: parent_vale_id)
     current_balance = my_vale[:amount]
-    iteration = translate_period_of_time_into_seconds(my_vale[:period_of_deduction])
-    current_time = my_vale[:date_of_effectivity]
+    iteration = translate_period_of_time_into_seconds(my_vale[:period_of_time])
+    current_time = my_vale[:date_of_implementation]
     next_time = current_time + iteration
 
     while(time_now > current_time)
       adjustment_in_period_token = false
       my_vale_adjustments.each do |my_vale_adjustment|
-        if my_vale_adjustment[:date_of_effectivity].between?(current_time, next_time)
+        if my_vale_adjustment[:date_of_implementation].between?(current_time, next_time)
           adjustment_in_period_token = true
           my_vale_adjustment[:signed_type] ?
               ( current_balance = current_balance + my_vale_adjustment[:amount] ) :
@@ -579,8 +579,8 @@ module HumanResourcesHelper
 
   def whatRestDay(employee_id, current_day)
     rest_day = RestDay
-                   .where("(employee_id = ?) AND (date_of_effectivity <= ?)", "#{employee_id}", "#{current_day}")
-                   .order('rest_days.date_of_effectivity DESC').first
+                   .where("(employee_id = ?) AND (date_of_implementation <= ?)", "#{employee_id}", "#{current_day}")
+                   .order('rest_days.date_of_implementation DESC').first
     what_rest_day = false
     if rest_day.day == current_day.strftime("%A")
       what_rest_day = rest_day.id
@@ -590,8 +590,8 @@ module HumanResourcesHelper
 
   def display_if_rest_day(employee_id, current_day, latest_end_time_for_constant)
     rest_day = RestDay
-                   .where("(employee_id = ?) AND (date_of_effectivity <= ?)", "#{employee_id}", "#{latest_end_time_for_constant}")
-                   .order('rest_days.date_of_effectivity ASC').first
+                   .where("(employee_id = ?) AND (date_of_implementation <= ?)", "#{employee_id}", "#{latest_end_time_for_constant}")
+                   .order('rest_days.date_of_implementation ASC').first
     if rest_day.present?
       if rest_day[:day] == current_day
         "Rest Day"
@@ -614,7 +614,7 @@ module HumanResourcesHelper
                           .includes(:duty_status)
                           .joins(:duty_status)
                           .where("(employees.id = ?)", "#{employee_ID}")
-                          .order('duty_statuses.date_of_effectivity DESC').first
+                          .order('duty_statuses.date_of_implementation DESC').first
     if currentEmployee.duty_status.first.active == true
       return_word = "ACTIVE"
     else
@@ -626,8 +626,8 @@ module HumanResourcesHelper
     currentEmployee = Employee
                           .includes(:regular_work_period)
                           .joins(:regular_work_period)
-                          .where("(employees.id = ?) AND (regular_work_periods.date_of_effectivity <= ?)", "#{employee_ID}", "#{specific_day}")
-                          .order("regular_work_periods.date_of_effectivity DESC").first
+                          .where("(employees.id = ?) AND (regular_work_periods.date_of_implementation <= ?)", "#{employee_ID}", "#{specific_day}")
+                          .order("regular_work_periods.date_of_implementation DESC").first
     number_of_seconds = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time))
     if number_of_seconds < 0
       number_of_seconds = ((currentEmployee.regular_work_period.end_time - currentEmployee.regular_work_period.start_time)).abs

@@ -4,8 +4,8 @@ module GenericRenderHelper
     render(:partial => 'common_partials/generic_title', :locals => {:title => title, :caption => caption})
   end
 
-  def renderItemListerButtons(description,add,minus)
-    renderCorePartial("itemlisterbuttons",{ :description => description, :add => add, :minus => minus})
+  def renderItemListerButtons(remark,add,minus)
+    renderCorePartial("itemlisterbuttons",{ :remark => remark, :add => add, :minus => minus})
   end
 
   def renderCorePartial(partialname,partialinks={})

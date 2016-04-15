@@ -65,7 +65,7 @@ class HumanResources::AttendancePerformance::RegularWorkPeriodsController < Huma
       regularWorkPeriod.employee = Employee.find(params[:regular_work_period][:employee_id])
       regularWorkPeriod.start_time = params[:regular_work_period][:start_time]
       regularWorkPeriod.end_time = params[:regular_work_period][:end_time]
-      regularWorkPeriod.date_of_effectivity = params[:regular_work_period][:date_of_effectivity]
+      regularWorkPeriod.date_of_implementation = params[:regular_work_period][:date_of_implementation]
       regularWorkPeriod.remark = params[:regular_work_period][:remark]
       regularWorkPeriod.save!
       flash[:general_flash_notification_type] = 'affirmative'

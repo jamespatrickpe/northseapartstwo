@@ -6,7 +6,7 @@ class GeneralAdministrator::ActorController < GeneralAdministratorController
       @actors = Actor
                     .where("actors.name LIKE ? OR " +
                                "actors.id LIKE ? OR " +
-                               "actors.description LIKE ? ",
+                               "actors.remark LIKE ? ",
                            "%#{query[:search_field]}%",
                            "%#{query[:search_field]}%",
                            "%#{query[:search_field]}%")
@@ -59,7 +59,7 @@ class GeneralAdministrator::ActorController < GeneralAdministratorController
   def process_actor_form(myActor)
     begin
       myActor[:name] = params[:actor][:name]
-      myActor[:description] = params[:actor][:description]
+      myActor[:remark] = params[:actor][:remark]
       myActor[:logo] = params[:actor][:logo]
       myActor.save!
       flash[:general_flash_notification_type] = 'affirmative'

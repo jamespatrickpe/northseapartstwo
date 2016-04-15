@@ -126,18 +126,18 @@
   <div class="label">Date of Effectivity: </div>
   <input type="datetime-local"
          required="required"
-         name="institutional_adjustment[date_of_effectivity]"
+         name="institutional_adjustment[date_of_implementation]"
          step="1"
-         value= <%= @selected_institutional_adjustment[:date_of_effectivity].present? ? @selected_institutional_adjustment[:date_of_effectivity].strftime('%m/%d/%Y') : Time.now.strftime('%m/%d/%Y')  %>>
+         value= <%= @selected_institutional_adjustment[:date_of_implementation].present? ? @selected_institutional_adjustment[:date_of_implementation].strftime('%m/%d/%Y') : Time.now.strftime('%m/%d/%Y')  %>>
 
 </div>
 
 <div class="form-block">
-  <div class="label">Description : </div>
-  <%= text_area_tag("institutional_adjustment[description]",
-                    content = @selected_institutional_adjustment[:description],
-                    options = {class: "institutional_adjustment_description",
+  <div class="label">remark : </div>
+  <%= text_area_tag("institutional_adjustment[remark]",
+                    content = @selected_institutional_adjustment[:remark],
+                    options = {class: "institutional_adjustment_remark",
                                :"data-parsley-trigger" => "keyup",
                                :"data-parsley-maxlength"=>"128",
-                               :placeholder => 'Description' }) %>
+                               :placeholder => 'remark' }) %>
 </div>

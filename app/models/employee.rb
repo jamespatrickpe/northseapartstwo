@@ -1,6 +1,6 @@
 class Employee < ActiveRecord::Base
 
-  include UUIDHelper
+
 
   belongs_to :actor
   belongs_to :branch

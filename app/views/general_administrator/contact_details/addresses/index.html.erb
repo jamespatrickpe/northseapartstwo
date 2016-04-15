@@ -8,7 +8,7 @@
         <tr>
           <%= generic_table_theadlink('Address ID',addresses.id, table_orientation) %>
           <th>Address Owners</th>
-          <%= generic_table_theadlink('Description','addresses.description', table_orientation) %>
+          <%= generic_table_theadlink('remark','addresses.remark', table_orientation) %>
           <%= generic_table_theadlink('Longitude','addresses.longitude', table_orientation) %>
           <%= generic_table_theadlink('Latitude','addresses.latitude', table_orientation) %>
           <th class="actions" align="center">&nbsp;</th>
@@ -22,7 +22,7 @@
                 <tr>
                   <td><%= address[:id].upcase %></td>
                   <td><%= get_all_entities_involved_with_a_model(AddressesActor, "addresses_actors.address_id = ?", address[:id]).collect { |i| i.name }.join(", ")%></td>
-                  <td><%= address[:description] %> </td>
+                  <td><%= address[:remark] %> </td>
                   <td><%= address[:longitude] %> </td>
                   <td><%= address[:latitude] %> </td>
                   <td class="actions">

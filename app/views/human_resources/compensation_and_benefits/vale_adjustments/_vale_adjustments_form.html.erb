@@ -57,12 +57,12 @@
   <br />
   <input type="datetime-local"
          required="required"
-         name="vale_adjustment[date_of_effectivity]"
+         name="vale_adjustment[date_of_implementation]"
          step="1"
-         value= <%= @selected_vale_adjustment[:date_of_effectivity].present? ? @selected_vale_adjustment[:date_of_effectivity].strftime('%m/%d/%Y %T') : Time.now.strftime('%m/%d/%Y %T')  %>>
+         value= <%= @selected_vale_adjustment[:date_of_implementation].present? ? @selected_vale_adjustment[:date_of_implementation].strftime('%m/%d/%Y %T') : Time.now.strftime('%m/%d/%Y %T')  %>>
 </div>
 
-<%= generic_remarks_description_field('vale_adjustment',@selected_vale_adjustment[:remark]) %>
+<%= generic_remarks_remark_field('vale_adjustment',@selected_vale_adjustment[:remark]) %>
 
 
 <%=

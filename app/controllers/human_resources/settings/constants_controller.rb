@@ -56,10 +56,10 @@ class HumanResources::Settings::ConstantsController < HumanResources::SettingsCo
       currentConstant[:constant_type] = "human_resources." + params[:constant][:constant_type]
       currentConstant[:name] = params[:constant][:name]
       currentConstant[:value] = params[:constant][:value]
-      currentConstant[:date_of_effectivity] = params[:constant][:date_of_effectivity]
+      currentConstant[:date_of_implementation] = params[:constant][:date_of_implementation]
       currentConstant[:remark] = params[:constant][:remark]
       currentConstant.save!
-      flash[:general_flash_notification] = 'Constant / System param ' + currentConstant[:name] + ' has been added and will be effective on ' + currentConstant[:date_of_effectivity].to_s
+      flash[:general_flash_notification] = 'Constant / System param ' + currentConstant[:name] + ' has been added and will be effective on ' + currentConstant[:date_of_implementation].to_s
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex
       puts ex

@@ -8,7 +8,7 @@
         <tr>
           <th>IMAGE</th>
             <%= generic_table_theadlink('Name','actors.name', table_orientation) %>
-            <%= generic_table_theadlink('Description','actors.description', table_orientation) %>
+            <%= generic_table_theadlink('remark','actors.remark', table_orientation) %>
           <th>&nbsp;</th>
         </tr>
         </thead>
@@ -20,7 +20,7 @@
                 <tr>
                   <td style="text-align: center;"><%= image_tag(actor[:logo], size: "96", alt: "logo") %></td>
                   <td><%= actor[:name] %></td>
-                  <td><%= actor[:description] %></td>
+                  <td><%= actor[:remark] %></td>
                   <td>
                     <%= generic_actor_profile_link(actor.id, 'View Profile') %>
                     <%= generic_table_actions(actor[:id]) %>

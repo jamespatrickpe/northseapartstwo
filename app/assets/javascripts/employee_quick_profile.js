@@ -8,7 +8,7 @@ function update_quick_profile(){
             $('#employee_quick_actor_link').html( obj['actor']['name'] );
             $('#employee_quick_actor_link').attr('href', '/human_resources/employee_accounts_management/employee_profile?actor_id=' + obj['actor']['id'] );
             $('#employee_quick_employee_id').html( obj['id'] );
-            $('#employee_quick_description').html( obj['actor']['description'] );
+            $('#employee_quick_remark').html( obj['actor']['remark'] );
             $('#employee_quick_picture').attr( 'src', obj['actor']['logo']['url'] );
             $('.employee_quick_profile').fadeIn(500);
         });

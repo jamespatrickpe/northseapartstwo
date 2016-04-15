@@ -42,13 +42,13 @@
 </div>
 
 <div class="form-block">
-  <div class="label">Description  : </div>
+  <div class="label">remark  : </div>
   <%=
-      text_area_tag("holiday[description]",
-                    content = @selected_holiday[:description],
-                    options = {class: "remark_description",
+      text_area_tag("holiday[remark]",
+                    content = @selected_holiday[:remark],
+                    options = {class: "remark_remark",
                                :"data-parsley-trigger" => "keyup",
                                :"data-parsley-maxlength"=>"128",
-                               :placeholder => 'Description' })
+                               :placeholder => 'remark' })
   %>
 </div>

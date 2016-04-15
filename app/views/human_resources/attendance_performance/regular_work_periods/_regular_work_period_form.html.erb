@@ -22,12 +22,12 @@
 
 <div class="form-block">
   <div class="label">Date of Effectivity</div>
-  <input name="regular_work_period[date_of_effectivity]"
+  <input name="regular_work_period[date_of_implementation]"
          required="required"
-         value= <%= @selected_regular_work_period[:date_of_effectivity].present? ?
-                            @selected_regular_work_period[:date_of_effectivity].strftime('%FT%T') :
+         value= <%= @selected_regular_work_period[:date_of_implementation].present? ?
+                            @selected_regular_work_period[:date_of_implementation].strftime('%FT%T') :
                             Time.now.strftime('%FT%T') %>
                  type="datetime-local" step="1">
 </div>
 
-<%= generic_remarks_description_field('regular_work_period',@selected_regular_work_period[:remark]) %>
+<%= generic_remarks_remark_field('regular_work_period',@selected_regular_work_period[:remark]) %>

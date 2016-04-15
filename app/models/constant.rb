@@ -1,6 +1,6 @@
 class Constant < ActiveRecord::Base
 
-  include UUIDHelper
+
 
   validates_length_of :value, maximum: 64
   validates_length_of :name, maximum: 128

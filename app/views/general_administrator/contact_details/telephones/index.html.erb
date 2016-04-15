@@ -18,8 +18,8 @@
             <%= generic_table_theadlink('telephones.digits', table_orientation) %>
           </th>
           <th>
-            Description
-            <%= generic_table_theadlink('telephones.description', table_orientation) %>
+            remark
+            <%= generic_table_theadlink('telephones.remark', table_orientation) %>
           </th>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
@@ -33,7 +33,7 @@
                   <td><%= telephone[:id].upcase %></td>
                   <td><%= get_all_entities_involved_with_a_model(TelephonesActor, "telephones_actors.telephone_id = ?", telephone[:id]).collect { |i| i.name }.join(", ")%></td>
                   <td><%= telephone[:digits] %> </td>
-                  <td><%= telephone[:description] %> </td>
+                  <td><%= telephone[:remark] %> </td>
                   <td class="actions">
                     <%= generic_table_actions(telephone[:id]) %>
                   </td>

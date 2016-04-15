@@ -20,7 +20,7 @@
           </th>
           <th>
             Date of Effectivity
-            <%= generic_table_theadlink('rest_days.date_of_effectivity', table_orientation) %>
+            <%= generic_table_theadlink('rest_days.date_of_implementation', table_orientation) %>
           </th>
           <th>
             Date Registered
@@ -42,7 +42,7 @@
                   <td><%= rest_day[:id].upcase %></td>
                   <td><%= generic_actor_profile_link(rest_day.employee.actor.id, rest_day.employee.actor.name) %></td>
                   <td><%= rest_day[:day] %> </td>
-                  <td><%= rest_day[:date_of_effectivity] %> </td>
+                  <td><%= rest_day[:date_of_implementation] %> </td>
                   <td><%= rest_day[:created_at] %></td>
                   <td><%= rest_day[:updated_at] %></td>
                   <td class="actions">

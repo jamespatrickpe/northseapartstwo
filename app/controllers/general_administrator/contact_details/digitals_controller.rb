@@ -5,7 +5,7 @@ class GeneralAdministrator::ContactDetails::DigitalsController < GeneralAdminist
     begin
       @digitals = Digital
                        .where("digitals.url LIKE ? OR " +
-                                  "digitals.description LIKE ? ",
+                                  "digitals.remark LIKE ? ",
                               "%#{query[:search_field]}%",
                               "%#{query[:search_field]}%")
                        .order(query[:order_parameter] + ' ' + query[:order_orientation])
@@ -86,7 +86,7 @@ class GeneralAdministrator::ContactDetails::DigitalsController < GeneralAdminist
   def process_digital_form(myDigital)
     begin
       myDigital[:url] = params[:digital][:url]
-      myDigital[:description] = params[:digital][:description]
+      myDigital[:remark] = params[:digital][:remark]
       myDigital.save!
 
       # after creating the new digital, iterate through all the actors involved and maps them with the digital

@@ -36,9 +36,9 @@
   <div class="label">Date of Effectivity  : </div>
   <input type="datetime-local"
          required="required"
-         name="lump_adjustment[date_of_effectivity]"
+         name="lump_adjustment[date_of_implementation]"
          step="1"
-         value= <%= @selected_lump_adjustment[:date_of_effectivity].present? ? @selected_lump_adjustment[:date_of_effectivity].strftime('%m/%d/%Y') : Time.now.strftime('%m/%d/%Y')  %>>
+         value= <%= @selected_lump_adjustment[:date_of_implementation].present? ? @selected_lump_adjustment[:date_of_implementation].strftime('%m/%d/%Y') : Time.now.strftime('%m/%d/%Y')  %>>
 </div>
 
-<%= generic_remarks_description_field('lump_adjustment',@selected_lump_adjustment[:remark]) %>
+<%= generic_remarks_remark_field('lump_adjustment',@selected_lump_adjustment[:remark]) %>

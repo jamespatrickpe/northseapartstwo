@@ -27,15 +27,15 @@
 
 
 <div class="form-block">
-  <div class="label">Description</div>
+  <div class="label">remark</div>
   <input type="text"
          required="required"
-         placeholder="Enter telphone digit description"
+         placeholder="Enter telphone digit remark"
          data-parsley-trigger = keyup
          data-parsley-maxlength = 64
-         id="telephone_description"
-         value= "<%= @selected_telephone[:description] %>"
-         name="telephone[description]">
+         id="telephone_remark"
+         value= "<%= @selected_telephone[:remark] %>"
+         name="telephone[remark]">
 </div>
 
 <%= generic_related_actors_selector('telephone', @telephone_actor_rel) %>

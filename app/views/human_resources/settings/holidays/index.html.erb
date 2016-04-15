@@ -19,8 +19,8 @@
             <%= generic_table_theadlink('holidays.name', table_orientation) %>
           </th>
           <th>
-            Description
-            <%= generic_table_theadlink('holidays.description', table_orientation) %>
+            remark
+            <%= generic_table_theadlink('holidays.remark', table_orientation) %>
           </th>
           <th>
             Date of Implementation
@@ -46,7 +46,7 @@
                   <td><%= holiday[:id].upcase %></td>
                   <td><%= link_to( holiday.holiday_type.type_name ,{:action => 'edit_holiday_type', :holiday_type_id => holiday.holiday_type.id} ) %></td>
                   <td><%= holiday[:name] %></td>
-                  <td><%= holiday[:description] %></td>
+                  <td><%= holiday[:remark] %></td>
                   <td><%= holiday[:date_of_implementation] %></td>
                   <td><%= holiday[:created_at] %></td>
                   <td><%= holiday[:updated_at] %></td>

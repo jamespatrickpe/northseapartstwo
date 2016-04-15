@@ -104,7 +104,7 @@ class Finance::ExpensesController < FinanceController
       myExpense[:category] = params[:expense][:category]
       myExpense[:physical_id] = params[:expense][:physical_id]
       myExpense[:remark] = params[:expense][:remark]
-      myExpense[:date_of_effectivity] = params[:expense][:date_of_effectivity]
+      myExpense[:date_of_implementation] = params[:expense][:date_of_implementation]
       myExpense.save!
 
       # after creating the new expense, iterate through all the actors involved and maps them with the expense

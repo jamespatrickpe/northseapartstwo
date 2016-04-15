@@ -12,7 +12,7 @@ class HumanResources::CompensationAndBenefits::ValeAdjustmentsController < Human
                               "vale_adjustments.signed_type LIKE ? OR " +
                               "vale_adjustments.remark LIKE ? OR " +
                               "vale_adjustments.vale_id LIKE ? OR " +
-                              "vale_adjustments.date_of_effectivity LIKE ? OR " +
+                              "vale_adjustments.date_of_implementation LIKE ? OR " +
                               "vale_adjustments.created_at LIKE ? OR " +
                               "vale_adjustments.updated_at LIKE ?",
                           "%#{query[:search_field]}%",
@@ -74,7 +74,7 @@ class HumanResources::CompensationAndBenefits::ValeAdjustmentsController < Human
       vale_adjustment.signed_type = params[:vale_adjustment][:signed_type]
       vale_adjustment.vale_id = params[:vale_adjustment][:vale_id]
       vale_adjustment.remark = params[:vale_adjustment][:remark]
-      vale_adjustment.date_of_effectivity = params[:vale_adjustment][:date_of_effectivity]
+      vale_adjustment.date_of_implementation = params[:vale_adjustment][:date_of_implementation]
       vale_adjustment.save!
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex

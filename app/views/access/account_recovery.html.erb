@@ -8,7 +8,7 @@
     <%= form_tag({action: :sendRecoveryEmail}, multipart: false, id: "signin_form", :"data-parsley-validate" => "" ) do %>
         <div class="row">
           <h1 class="mainheader"><%= t('access.account_recovery') %></h1>
-          <h2 class="subdescription"> Recover your account through your email address </h2>
+          <h2 class="subremark"> Recover your account through your email address </h2>
           <%= text_field_tag("email",
                              value = nil,
                              options = {id: "email",

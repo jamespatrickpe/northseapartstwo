@@ -14,12 +14,12 @@
 <div class="form-block">
   <div class="label">Name</div>
   <%=
-      text_area_tag("actor[description]",
-                    content = @selected_actor[:description],
-                    options = {class: "remark_description",
+      text_area_tag("actor[remark]",
+                    content = @selected_actor[:remark],
+                    options = {class: "remark_remark",
                                :"data-parsley-trigger" => "keyup",
                                :"data-parsley-maxlength"=>"128",
-                               :placeholder => 'Description' })
+                               :placeholder => 'remark' })
   %>
 </div>
 

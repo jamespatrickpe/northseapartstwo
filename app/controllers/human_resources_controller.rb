@@ -15,7 +15,7 @@ class HumanResourcesController < ApplicationController
   end
 
   def employee_overview_duty_status
-    currentEmployee = Employee.includes(:duty_status).joins(:duty_status).where("(employees.id = ?)", "#{params[:employee_ID]}").order('duty_statuses.date_of_effectivity DESC').first
+    currentEmployee = Employee.includes(:duty_status).joins(:duty_status).where("(employees.id = ?)", "#{params[:employee_ID]}").order('duty_statuses.date_of_implementation DESC').first
     if currentEmployee.duty_status.first.active == true
       sample = 'ACTIVE'
     else

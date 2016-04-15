@@ -10,9 +10,9 @@ class HumanResources::CompensationAndBenefits::ValesController < HumanResources:
                                          "vales.id LIKE ? OR " +
                                          "vales.amount LIKE ? OR " +
                                          "vales.amount_of_deduction LIKE ? OR " +
-                                         "vales.period_of_deduction LIKE ? OR " +
+                                         "vales.period_of_time LIKE ? OR " +
                                          "vales.remark LIKE ? OR " +
-                                         "vales.date_of_effectivity LIKE ? OR " +
+                                         "vales.date_of_implementation LIKE ? OR " +
                                          "vales.created_at LIKE ? OR " +
                                          "vales.updated_at LIKE ?",
                                      "%#{query[:search_field]}%",
@@ -70,10 +70,10 @@ class HumanResources::CompensationAndBenefits::ValesController < HumanResources:
       vale.approval_status = params[:vale][:approval_status]
       vale.amount = params[:vale][:amount]
       vale.amount_of_deduction = params[:vale][:amount_of_deduction]
-      vale.period_of_deduction = params[:vale][:period_of_deduction]
+      vale.period_of_time = params[:vale][:period_of_time]
       vale.remark = params[:vale][:remark]
       vale.employee_id = params[:vale][:employee_id]
-      vale.date_of_effectivity = params[:vale][:date_of_effectivity]
+      vale.date_of_implementation = params[:vale][:date_of_implementation]
       vale.save!
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex
@@ -97,7 +97,7 @@ class HumanResources::CompensationAndBenefits::ValesController < HumanResources:
   def show
     @selected_vale = Vale.find(params[:id])
     @selected_vale_adjustments = ValeAdjustment.where("vale_id = ?", @selected_vale[:id] )
-    @current_duration = Time.now - @selected_vale[:date_of_effectivity]
+    @current_duration = Time.now - @selected_vale[:date_of_implementation]
     render 'human_resources/compensation_and_benefits/vales/show'
   end
 

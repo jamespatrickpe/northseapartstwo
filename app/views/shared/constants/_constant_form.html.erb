@@ -39,13 +39,13 @@
 <div class="form-block">
   <div class="label">Date of Effectivity  : </div>
   <input type="date"
-         id="constant_date_of_effectivity"
+         id="constant_date_of_implementation"
          step = 1
-         name="constant[date_of_effectivity]"
+         name="constant[date_of_implementation]"
          required = required
          data-parsley-trigger="change"
-         value= <%= @selected_constant[:date_of_effectivity]%> >
+         value= <%= @selected_constant[:date_of_implementation]%> >
 </div>
 
-<%= generic_remarks_description_field('constant',@selected_constant[:remark]) %>
+<%= generic_remarks_remark_field('constant',@selected_constant[:remark]) %>
 

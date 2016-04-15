@@ -13,7 +13,10 @@
 
 ActiveRecord::Schema.define(version: 20160415003506) do
 
-  create_table "accesses", force: :cascade do |t|
+  create_table "accesses", id: false, force: :cascade do |t|
+    t.string   "id",              limit: 36
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
     t.string   "actor_id",        limit: 36
     t.string   "username",        limit: 64
     t.string   "password_digest", limit: 512
@@ -23,46 +26,36 @@ ActiveRecord::Schema.define(version: 20160415003506) do
     t.datetime "last_login"
     t.boolean  "verification",    limit: 1,   default: false
     t.boolean  "remember_me",     limit: 1,   default: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
-  create_table "actor_connectors", force: :cascade do |t|
-    t.string   "relationship",      limit: 64
-    t.string   "relationship_type", limit: 64
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+  add_index "accesses", ["id"], name: "index_accesses_on_id", using: :btree
 
   create_table "actors", force: :cascade do |t|
-    t.string   "name",        limit: 64
-    t.string   "description", limit: 256
-    t.string   "logo",        limit: 512
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string   "remark",     limit: 256
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "name",       limit: 64
+    t.string   "logo",       limit: 512
   end
 
-  create_table "addresses", force: :cascade do |t|
+  add_index "actors", ["id"], name: "index_actors_on_id", using: :btree
+
+  create_table "addresses", id: false, force: :cascade do |t|
+    t.string   "id",             limit: 36
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
     t.string   "rel_model_id",   limit: 36
     t.string   "rel_model_type", limit: 36
-    t.string   "description",    limit: 256
+    t.string   "remark",         limit: 256
     t.decimal  "longitude",                  precision: 18, scale: 12
     t.decimal  "latitude",                   precision: 18, scale: 12
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
-  create_table "addresses_actors", id: false, force: :cascade do |t|
-    t.string   "id",         limit: 36, null: false
-    t.string   "actor_id",   limit: 36
-    t.string   "address_id", limit: 36
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+  add_index "addresses", ["id"], name: "index_addresses_on_id", using: :btree
 
   create_table "associations", id: false, force: :cascade do |t|
     t.string   "id",           limit: 36
-    t.string   "remarks",      limit: 256
+    t.string   "remark",       limit: 256
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.string   "model_one",    limit: 36
@@ -71,30 +64,40 @@ ActiveRecord::Schema.define(version: 20160415003506) do
     t.string   "model_two_id", limit: 36
   end
 
-  create_table "attendances", force: :cascade do |t|
-    t.string   "employee_id",        limit: 36
-    t.date     "date_of_attendance"
-    t.time     "timein",                         default: '2000-01-01 00:00:01'
-    t.time     "timeout",                        default: '2000-01-01 23:59:59'
-    t.string   "remark",             limit: 256
-    t.datetime "created_at",                                                     null: false
-    t.datetime "updated_at",                                                     null: false
+  add_index "associations", ["id"], name: "index_associations_on_id", using: :btree
+
+  create_table "attendances", id: false, force: :cascade do |t|
+    t.string   "id",                     limit: 36
+    t.string   "remark",                 limit: 256
+    t.datetime "created_at",                                                         null: false
+    t.datetime "updated_at",                                                         null: false
+    t.string   "employee_id",            limit: 36
+    t.date     "date_of_implementation",             default: '2016-04-15'
+    t.time     "timein",                             default: '2000-01-01 00:00:01'
+    t.time     "timeout",                            default: '2000-01-01 23:59:59'
   end
 
-  create_table "base_rates", force: :cascade do |t|
-    t.string   "employee_id",          limit: 36
-    t.boolean  "signed_type",          limit: 1
-    t.decimal  "amount",                           precision: 16, scale: 2
-    t.string   "period_of_time",       limit: 64
-    t.string   "rate_type",            limit: 64,                           default: "other"
+  add_index "attendances", ["id"], name: "index_attendances_on_id", using: :btree
+
+  create_table "base_rates", id: false, force: :cascade do |t|
+    t.string   "id",                   limit: 36
     t.string   "remark",               limit: 256
-    t.datetime "start_of_effectivity"
-    t.datetime "end_of_effectivity"
     t.datetime "created_at",                                                                  null: false
     t.datetime "updated_at",                                                                  null: false
+    t.string   "employee_id",          limit: 36
+    t.decimal  "amount",                           precision: 16, scale: 2
+    t.string   "period_of_time",       limit: 64
+    t.datetime "start_of_effectivity"
+    t.datetime "end_of_effectivity"
+    t.string   "rate_type",            limit: 64,                           default: "other"
   end
 
-  create_table "biodata", force: :cascade do |t|
+  add_index "base_rates", ["id"], name: "index_base_rates_on_id", using: :btree
+
+  create_table "biodata", id: false, force: :cascade do |t|
+    t.string   "id",                      limit: 36
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
     t.string   "actor_id",                limit: 36
     t.string   "education",               limit: 256
     t.string   "career_experience",       limit: 256
@@ -111,283 +114,335 @@ ActiveRecord::Schema.define(version: 20160415003506) do
     t.string   "marital_status",          limit: 256
     t.string   "blood_type",              limit: 256
     t.string   "religion",                limit: 256
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
-  create_table "branches", force: :cascade do |t|
-    t.string   "name",       limit: 36
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+  add_index "biodata", ["id"], name: "index_biodata_on_id", using: :btree
+
+  create_table "branches", id: false, force: :cascade do |t|
+    t.string   "id",         limit: 36
+    t.string   "remark",     limit: 256
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "name",       limit: 64
   end
 
-  create_table "constants", force: :cascade do |t|
-    t.string   "value",               limit: 64
-    t.string   "name",                limit: 256
-    t.string   "constant_type",       limit: 64
-    t.datetime "date_of_effectivity"
-    t.string   "remark",              limit: 256
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  add_index "branches", ["id"], name: "index_branches_on_id", using: :btree
+
+  create_table "constants", id: false, force: :cascade do |t|
+    t.string   "id",                     limit: 36
+    t.string   "remark",                 limit: 256
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
+    t.string   "name",                   limit: 64
+    t.date     "date_of_implementation",             default: '2016-04-15'
+    t.string   "value",                  limit: 64
+    t.string   "constant_type",          limit: 64
   end
 
-  create_table "departments", force: :cascade do |t|
-    t.string   "description", limit: 256
-    t.string   "label",       limit: 64
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+  add_index "constants", ["id"], name: "index_constants_on_id", using: :btree
+
+  create_table "departments", id: false, force: :cascade do |t|
+    t.string   "id",         limit: 36
+    t.string   "remark",     limit: 256
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "name",       limit: 64
   end
 
-  create_table "digitals", force: :cascade do |t|
+  add_index "departments", ["id"], name: "index_departments_on_id", using: :btree
+
+  create_table "digitals", id: false, force: :cascade do |t|
+    t.string   "id",             limit: 36
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.string   "rel_model_id",   limit: 36
     t.string   "rel_model_type", limit: 36
+    t.string   "remark",         limit: 256
     t.string   "url",            limit: 512
-    t.string   "description",    limit: 256
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
-  create_table "digitals_actors", id: false, force: :cascade do |t|
-    t.string   "id",         limit: 36, null: false
-    t.string   "actor_id",   limit: 36
-    t.string   "digital_id", limit: 36
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  add_index "digitals", ["id"], name: "index_digitals_on_id", using: :btree
+
+  create_table "duty_statuses", id: false, force: :cascade do |t|
+    t.string   "id",                         limit: 36
+    t.string   "remark",                     limit: 256
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
+    t.string   "employee_id",                limit: 36
+    t.datetime "datetime_of_implementation"
+    t.boolean  "active",                     limit: 1,   default: false
   end
 
-  create_table "duty_statuses", force: :cascade do |t|
-    t.string   "remark",              limit: 256
-    t.boolean  "active",              limit: 1,   default: false
-    t.string   "employee_id",         limit: 36
-    t.datetime "date_of_effectivity",             default: '2016-04-15 11:00:31'
-    t.datetime "created_at",                                                      null: false
-    t.datetime "updated_at",                                                      null: false
-  end
+  add_index "duty_statuses", ["id"], name: "index_duty_statuses_on_id", using: :btree
 
-  create_table "employees", force: :cascade do |t|
-    t.string   "actor_id",   limit: 36
-    t.string   "branch_id",  limit: 36
+  create_table "employees", id: false, force: :cascade do |t|
+    t.string   "id",         limit: 36
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
-  end
-
-  create_table "expenses", force: :cascade do |t|
-    t.decimal  "amount",                          precision: 16, scale: 2
-    t.string   "category",            limit: 256
-    t.string   "physical_id",         limit: 256
-    t.string   "remark",              limit: 256
-    t.datetime "date_of_effectivity"
-    t.datetime "created_at",                                               null: false
-    t.datetime "updated_at",                                               null: false
-  end
-
-  create_table "expenses_actors", id: false, force: :cascade do |t|
-    t.string   "id",         limit: 36, null: false
     t.string   "actor_id",   limit: 36
-    t.string   "expense_id", limit: 36
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string   "branch_id",  limit: 36
   end
 
-  create_table "file_sets", force: :cascade do |t|
-    t.string   "file",              limit: 512
-    t.string   "label",             limit: 256
-    t.string   "rel_file_set_id",   limit: 36
-    t.string   "rel_file_set_type", limit: 255
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+  add_index "employees", ["id"], name: "index_employees_on_id", using: :btree
+
+  create_table "expenses", id: false, force: :cascade do |t|
+    t.string   "id",                         limit: 36
+    t.string   "remark",                     limit: 256
+    t.datetime "created_at",                                                      null: false
+    t.datetime "updated_at",                                                      null: false
+    t.decimal  "amount",                                 precision: 16, scale: 2
+    t.datetime "datetime_of_implementation"
+    t.string   "category",                   limit: 256
+    t.string   "physical_id",                limit: 256
   end
 
-  create_table "holiday_types", force: :cascade do |t|
+  add_index "expenses", ["id"], name: "index_expenses_on_id", using: :btree
+
+  create_table "file_sets", id: false, force: :cascade do |t|
+    t.string   "id",             limit: 36
+    t.string   "remark",         limit: 256
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "rel_model_id",   limit: 36
+    t.string   "rel_model_type", limit: 36
+    t.string   "file",           limit: 512
+  end
+
+  add_index "file_sets", ["id"], name: "index_file_sets_on_id", using: :btree
+
+  create_table "holiday_types", id: false, force: :cascade do |t|
+    t.string   "id",                           limit: 36
+    t.datetime "created_at",                                                                       null: false
+    t.datetime "updated_at",                                                                       null: false
     t.string   "type_name",                    limit: 64
     t.decimal  "rate_multiplier",                         precision: 16, scale: 2
     t.decimal  "overtime_multiplier",                     precision: 16, scale: 2
     t.decimal  "rest_day_multiplier",                     precision: 16, scale: 2
     t.decimal  "overtime_rest_day_multiplier",            precision: 16, scale: 2
     t.boolean  "no_work_pay",                  limit: 1,                           default: false
+  end
+
+  add_index "holiday_types", ["id"], name: "index_holiday_types_on_id", using: :btree
+
+  create_table "holidays", id: false, force: :cascade do |t|
+    t.string   "id",                     limit: 36
+    t.string   "remark",                 limit: 256
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
+    t.date     "date_of_implementation",             default: '2016-04-15'
+    t.string   "name",                   limit: 64
+    t.string   "holiday_type_id",        limit: 36
+  end
+
+  add_index "holidays", ["id"], name: "index_holidays_on_id", using: :btree
+
+  create_table "image_sets", id: false, force: :cascade do |t|
+    t.string   "id",             limit: 36
+    t.string   "remark",         limit: 256
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.string   "rel_model_id",   limit: 36
+    t.string   "rel_model_type", limit: 36
+    t.string   "picture",        limit: 512
+    t.integer  "priority",       limit: 4,   default: 0
+  end
+
+  add_index "image_sets", ["id"], name: "index_image_sets_on_id", using: :btree
+
+  create_table "institutional_adjustments", id: false, force: :cascade do |t|
+    t.string   "id",                         limit: 36
+    t.string   "remark",                     limit: 256
     t.datetime "created_at",                                                                       null: false
     t.datetime "updated_at",                                                                       null: false
+    t.string   "period_of_time",             limit: 64
+    t.datetime "datetime_of_implementation"
+    t.string   "institution",                limit: 64
+    t.string   "contribution_type",          limit: 64,                           default: "LUMP"
+    t.decimal  "start_range",                            precision: 16, scale: 2
+    t.decimal  "end_range",                              precision: 16, scale: 2
+    t.decimal  "employer_contribution",                  precision: 16, scale: 2
+    t.decimal  "employee_contribution",                  precision: 16, scale: 2
   end
 
-  create_table "holidays", force: :cascade do |t|
-    t.string   "holiday_type_id",        limit: 36
-    t.string   "description",            limit: 256
-    t.string   "name",                   limit: 64
-    t.date     "date_of_implementation"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
-  end
+  add_index "institutional_adjustments", ["id"], name: "index_institutional_adjustments_on_id", using: :btree
 
-  create_table "image_sets", force: :cascade do |t|
-    t.string   "picture",            limit: 512
-    t.string   "description",        limit: 256
-    t.integer  "priority",           limit: 4,   default: 0
-    t.string   "rel_image_set_id",   limit: 36
-    t.string   "rel_image_set_type", limit: 255
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
-  end
-
-  create_table "institutional_adjustments", force: :cascade do |t|
-    t.string   "institution",           limit: 64
-    t.string   "contribution_type",     limit: 64,                           default: "LUMP"
-    t.decimal  "start_range",                       precision: 16, scale: 2
-    t.decimal  "end_range",                         precision: 16, scale: 2
-    t.decimal  "employer_contribution",             precision: 16, scale: 2
-    t.decimal  "employee_contribution",             precision: 16, scale: 2
-    t.string   "period_of_time",        limit: 64
-    t.string   "description",           limit: 256
-    t.datetime "date_of_effectivity"
-    t.datetime "created_at",                                                                  null: false
-    t.datetime "updated_at",                                                                  null: false
-  end
-
-  create_table "leaves", force: :cascade do |t|
-    t.string   "employee_id",          limit: 36
-    t.string   "type_of_leave",        limit: 64
-    t.datetime "start_of_effectivity",             default: '2016-04-15 11:00:34'
-    t.datetime "end_of_effectivity",               default: '2016-04-15 11:00:34'
+  create_table "leaves", id: false, force: :cascade do |t|
+    t.string   "id",                   limit: 36
     t.string   "remark",               limit: 256
     t.datetime "created_at",                                                       null: false
     t.datetime "updated_at",                                                       null: false
+    t.string   "employee_id",          limit: 36
+    t.string   "type_of_leave",        limit: 64
+    t.datetime "start_of_effectivity",             default: '2016-04-15 23:04:58'
+    t.datetime "end_of_effectivity",               default: '2016-04-15 23:04:58'
   end
 
-  create_table "link_sets", force: :cascade do |t|
-    t.string   "label",             limit: 64
-    t.string   "url",               limit: 512
-    t.string   "rel_link_set_id",   limit: 36
-    t.string   "rel_link_set_type", limit: 255
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+  add_index "leaves", ["id"], name: "index_leaves_on_id", using: :btree
+
+  create_table "link_sets", id: false, force: :cascade do |t|
+    t.string   "id",             limit: 36
+    t.string   "remark",         limit: 256
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "rel_model_id",   limit: 36
+    t.string   "rel_model_type", limit: 36
+    t.string   "url",            limit: 512
   end
 
-  create_table "lump_adjustments", force: :cascade do |t|
-    t.decimal  "amount",                          precision: 16, scale: 2
-    t.boolean  "signed_type",         limit: 1,                            default: true
-    t.string   "remark",              limit: 256
-    t.string   "employee_id",         limit: 36
-    t.datetime "date_of_effectivity"
-    t.datetime "created_at",                                                              null: false
-    t.datetime "updated_at",                                                              null: false
+  add_index "link_sets", ["id"], name: "index_link_sets_on_id", using: :btree
+
+  create_table "lump_adjustments", id: false, force: :cascade do |t|
+    t.string   "id",                         limit: 36
+    t.string   "remark",                     limit: 256
+    t.datetime "created_at",                                                      null: false
+    t.datetime "updated_at",                                                      null: false
+    t.datetime "datetime_of_implementation"
+    t.string   "employee_id",                limit: 36
+    t.decimal  "amount",                                 precision: 16, scale: 2
   end
 
-  create_table "payroll_settings", force: :cascade do |t|
-    t.string   "employee_id",         limit: 36
-    t.string   "SSS_ID",              limit: 64
-    t.string   "PHILHEALTH_ID",       limit: 64
-    t.string   "PAGIBIG_ID",          limit: 64
-    t.string   "BIR_ID",              limit: 64
-    t.boolean  "SSS_status",          limit: 1,   default: false
-    t.boolean  "PHILHEALTH_status",   limit: 1,   default: false
-    t.boolean  "PAGIBIG_status",      limit: 1,   default: false
-    t.boolean  "BIR_status",          limit: 1,   default: false
-    t.datetime "date_of_effectivity",             default: '2016-04-15 11:00:35'
-    t.string   "remark",              limit: 256
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  add_index "lump_adjustments", ["id"], name: "index_lump_adjustments_on_id", using: :btree
+
+  create_table "payroll_settings", id: false, force: :cascade do |t|
+    t.string   "id",                         limit: 36
+    t.string   "remark",                     limit: 256
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
+    t.string   "employee_id",                limit: 36
+    t.datetime "datetime_of_implementation"
+    t.string   "SSS_ID",                     limit: 64
+    t.string   "PHILHEALTH_ID",              limit: 64
+    t.string   "PAGIBIG_ID",                 limit: 64
+    t.string   "BIR_ID",                     limit: 64
+    t.boolean  "SSS_status",                 limit: 1,   default: false
+    t.boolean  "PHILHEALTH_status",          limit: 1,   default: false
+    t.boolean  "PAGIBIG_status",             limit: 1,   default: false
+    t.boolean  "BIR_status",                 limit: 1,   default: false
   end
 
-  create_table "performance_appraisals", force: :cascade do |t|
-    t.string   "employee_id", limit: 36
-    t.string   "description", limit: 256
-    t.string   "category",    limit: 64
-    t.decimal  "score",                   precision: 16, scale: 2
+  add_index "payroll_settings", ["id"], name: "index_payroll_settings_on_id", using: :btree
+
+  create_table "performance_appraisals", id: false, force: :cascade do |t|
+    t.string   "id",          limit: 36
+    t.string   "remark",      limit: 256
     t.datetime "created_at",                                       null: false
     t.datetime "updated_at",                                       null: false
+    t.string   "employee_id", limit: 36
+    t.string   "category",    limit: 64
+    t.decimal  "score",                   precision: 16, scale: 2
   end
 
-  create_table "permissions", force: :cascade do |t|
-    t.string   "access_id",  limit: 36
-    t.string   "can",        limit: 256
+  add_index "performance_appraisals", ["id"], name: "index_performance_appraisals_on_id", using: :btree
+
+  create_table "permissions", id: false, force: :cascade do |t|
+    t.string   "id",         limit: 36
     t.string   "remark",     limit: 256
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.string   "access_id",  limit: 36
+    t.string   "can",        limit: 256
   end
 
-  create_table "positions", force: :cascade do |t|
-    t.string   "description",   limit: 256
-    t.string   "label",         limit: 64
-    t.string   "department_id", limit: 36
+  add_index "permissions", ["id"], name: "index_permissions_on_id", using: :btree
+
+  create_table "positions", id: false, force: :cascade do |t|
+    t.string   "id",            limit: 36
+    t.string   "remark",        limit: 256
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.string   "department_id", limit: 36
   end
 
-  create_table "rate_adjustments", force: :cascade do |t|
-    t.string   "employee_id",  limit: 36
-    t.decimal  "amount",                   precision: 16, scale: 2
-    t.string   "signed_type",  limit: 64
-    t.string   "rate_of_time", limit: 64
-    t.string   "description",  limit: 256
-    t.boolean  "activated",    limit: 1,                            default: true
+  add_index "positions", ["id"], name: "index_positions_on_id", using: :btree
+
+  create_table "rate_adjustments", id: false, force: :cascade do |t|
+    t.string   "id",           limit: 36
+    t.string   "remark",       limit: 256
     t.datetime "created_at",                                                       null: false
     t.datetime "updated_at",                                                       null: false
+    t.decimal  "amount",                   precision: 16, scale: 2
+    t.string   "employee_id",  limit: 36
+    t.string   "rate_of_time", limit: 64
+    t.boolean  "activated",    limit: 1,                            default: true
   end
 
-  create_table "regular_work_periods", force: :cascade do |t|
-    t.time     "start_time",                      default: '2000-01-01 08:00:00'
-    t.time     "end_time",                        default: '2000-01-01 17:00:00'
-    t.datetime "date_of_effectivity",             default: '2016-04-15 11:00:28'
-    t.string   "remark",              limit: 256
-    t.string   "employee_id",         limit: 36
-    t.datetime "created_at",                                                      null: false
-    t.datetime "updated_at",                                                      null: false
+  add_index "rate_adjustments", ["id"], name: "index_rate_adjustments_on_id", using: :btree
+
+  create_table "regular_work_periods", id: false, force: :cascade do |t|
+    t.string   "id",                         limit: 36
+    t.string   "remark",                     limit: 256
+    t.datetime "created_at",                                                             null: false
+    t.datetime "updated_at",                                                             null: false
+    t.datetime "datetime_of_implementation"
+    t.string   "employee_id",                limit: 36
+    t.time     "start_time",                             default: '2000-01-01 08:00:00'
+    t.time     "end_time",                               default: '2000-01-01 17:00:00'
   end
 
-  create_table "rest_days", force: :cascade do |t|
-    t.string   "day",                 limit: 64, default: "SUNDAY"
-    t.string   "employee_id",         limit: 36
-    t.datetime "date_of_effectivity"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+  add_index "regular_work_periods", ["id"], name: "index_regular_work_periods_on_id", using: :btree
+
+  create_table "rest_days", id: false, force: :cascade do |t|
+    t.string   "id",                         limit: 36
+    t.string   "remark",                     limit: 256
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
+    t.string   "employee_id",                limit: 36
+    t.datetime "datetime_of_implementation"
+    t.string   "day",                        limit: 64,  default: "SUNDAY"
   end
 
-  create_table "telephones", force: :cascade do |t|
+  add_index "rest_days", ["id"], name: "index_rest_days_on_id", using: :btree
+
+  create_table "telephones", id: false, force: :cascade do |t|
+    t.string   "id",             limit: 36
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.string   "rel_model_id",   limit: 36
     t.string   "rel_model_type", limit: 36
+    t.string   "remark",         limit: 256
     t.string   "digits",         limit: 64
-    t.string   "description",    limit: 256
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
-  create_table "telephones_actors", id: false, force: :cascade do |t|
-    t.string   "id",           limit: 36, null: false
-    t.string   "actor_id",     limit: 36
-    t.string   "telephone_id", limit: 36
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  add_index "telephones", ["id"], name: "index_telephones_on_id", using: :btree
+
+  create_table "vale_adjustments", id: false, force: :cascade do |t|
+    t.string   "id",                         limit: 36
+    t.string   "remark",                     limit: 256
+    t.datetime "created_at",                                                      null: false
+    t.datetime "updated_at",                                                      null: false
+    t.decimal  "amount",                                 precision: 16, scale: 2
+    t.datetime "datetime_of_implementation"
+    t.string   "vale_id",                    limit: 36
   end
 
-  create_table "vale_adjustments", force: :cascade do |t|
-    t.decimal  "amount",                          precision: 16, scale: 2
-    t.boolean  "signed_type",         limit: 1,                            default: true
-    t.string   "remark",              limit: 256
-    t.string   "vale_id",             limit: 36
-    t.datetime "date_of_effectivity"
-    t.datetime "created_at",                                                              null: false
-    t.datetime "updated_at",                                                              null: false
+  add_index "vale_adjustments", ["id"], name: "index_vale_adjustments_on_id", using: :btree
+
+  create_table "vales", id: false, force: :cascade do |t|
+    t.string   "id",                         limit: 36
+    t.string   "remark",                     limit: 256
+    t.datetime "created_at",                                                                      null: false
+    t.datetime "updated_at",                                                                      null: false
+    t.decimal  "amount",                                 precision: 16, scale: 2
+    t.string   "employee_id",                limit: 36
+    t.datetime "datetime_of_implementation"
+    t.string   "period_of_time",             limit: 64
+    t.boolean  "approval_status",            limit: 1,                            default: false
+    t.decimal  "amount_of_deduction",                    precision: 16, scale: 2
   end
 
-  create_table "vales", force: :cascade do |t|
-    t.boolean  "approval_status",     limit: 1,                            default: false
-    t.decimal  "amount",                          precision: 16, scale: 2
-    t.decimal  "amount_of_deduction",             precision: 16, scale: 2
-    t.string   "period_of_deduction", limit: 64
-    t.string   "remark",              limit: 256
-    t.string   "employee_id",         limit: 36
-    t.datetime "date_of_effectivity"
-    t.datetime "created_at",                                                               null: false
-    t.datetime "updated_at",                                                               null: false
+  add_index "vales", ["id"], name: "index_vales_on_id", using: :btree
+
+  create_table "vehicles", id: false, force: :cascade do |t|
+    t.string   "id",                     limit: 36
+    t.string   "remark",                 limit: 256
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
+    t.date     "date_of_implementation",             default: '2016-04-15'
+    t.string   "type_of_vehicle",        limit: 64
+    t.string   "plate_number",           limit: 64
+    t.string   "orcr",                   limit: 64
   end
 
-  create_table "vehicles", force: :cascade do |t|
-    t.string   "type_of_vehicle",      limit: 64
-    t.string   "plate_number",         limit: 64
-    t.string   "orcr",                 limit: 64
-    t.string   "remark",               limit: 256
-    t.datetime "date_of_registration"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-  end
+  add_index "vehicles", ["id"], name: "index_vehicles_on_id", using: :btree
 
 end

@@ -6,7 +6,7 @@ class GeneralAdministrator::ContactDetails::AddressesController < GeneralAdminis
       @addresses = Address
                       .where("addresses.longitude LIKE ? OR " +
                                  "addresses.latitude LIKE ? OR " +
-                                 "addresses.description LIKE ? ",
+                                 "addresses.remark LIKE ? ",
                              "%#{query[:search_field]}%",
                              "%#{query[:search_field]}%",
                              "%#{query[:search_field]}%")
@@ -71,7 +71,7 @@ class GeneralAdministrator::ContactDetails::AddressesController < GeneralAdminis
 
   def delete
     address_to_be_deleted = Address.find(params[:id])
-    flash[:general_flash_notification] = 'Address ' + address_to_be_deleted.description + ' has been deleted.'
+    flash[:general_flash_notification] = 'Address ' + address_to_be_deleted.remark + ' has been deleted.'
     flash[:general_flash_notification_type] = 'affirmative'
 
     # deletes all related actors with the address before deleting the actual address object
@@ -86,7 +86,7 @@ class GeneralAdministrator::ContactDetails::AddressesController < GeneralAdminis
 
   def process_address_form(myAddress)
     begin
-      myAddress[:description] = params[:address][:description]
+      myAddress[:remark] = params[:address][:remark]
       myAddress[:longitude] = params[:address][:longitude]
       myAddress[:latitude] = params[:address][:latitude]
       myAddress.save!
@@ -122,8 +122,8 @@ class GeneralAdministrator::ContactDetails::AddressesController < GeneralAdminis
 
   def search_suggestions
     addresses = Address
-                   .where("addresses.description LIKE ?","%#{params[:query]}%")
-                   .pluck("addresses.description")
+                   .where("addresses.remark LIKE ?","%#{params[:query]}%")
+                   .pluck("addresses.remark")
     direct = "{\"query\": \"Unit\",\"suggestions\":[" + addresses.to_s.gsub!('[', '').gsub!(']', '') + "]}"
     respond_to do |format|
       format.all { render :text => direct}

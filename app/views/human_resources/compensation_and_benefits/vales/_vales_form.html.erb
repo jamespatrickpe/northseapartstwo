@@ -50,28 +50,28 @@
 <div class="form-block">
   <div class="label">Period of Deduction  : </div>
   <br />
-  <select name='vale[period_of_deduction]'
-          id='vale_period_of_deduction'
+  <select name='vale[period_of_time]'
+          id='vale_period_of_time'
           required="required" >
-    <% if @selected_vale[:period_of_deduction] == 'DAY' %>
+    <% if @selected_vale[:period_of_time] == 'DAY' %>
         <option disabled >Selected Period of Deduction</option>
         <option value="DAY" selected>DAY</option>
         <option value="WEEK">WEEK</option>
         <option value="MONTH">MONTH</option>
         <option value="YEAR">YEAR</option>
-    <% elsif @selected_vale[:period_of_deduction] == 'WEEK' %>
+    <% elsif @selected_vale[:period_of_time] == 'WEEK' %>
         <option disabled >Selected Period of Deduction</option>
         <option value="DAY">DAY</option>
         <option value="WEEK" selected>WEEK</option>
         <option value="MONTH">MONTH</option>
         <option value="YEAR">YEAR</option>
-    <% elsif @selected_vale[:period_of_deduction] == 'MONTH' %>
+    <% elsif @selected_vale[:period_of_time] == 'MONTH' %>
         <option disabled >Selected Period of Deduction</option>
         <option value="DAY">DAY</option>
         <option value="WEEK">WEEK</option>
         <option value="MONTH" selected>MONTH</option>
         <option value="YEAR">YEAR</option>
-    <% elsif @selected_vale[:period_of_deduction] == 'YEAR' %>
+    <% elsif @selected_vale[:period_of_time] == 'YEAR' %>
         <option disabled >Selected Period of Deduction</option>
         <option value="DAY">DAY</option>
         <option value="WEEK">WEEK</option>
@@ -91,13 +91,13 @@
   <div class="label">Date of Effectivity  : </div>
   <input type="datetime-local"
          required="required"
-         id="vale_date_of_effectivity"
-         name="vale[date_of_effectivity]"
+         id="vale_date_of_implementation"
+         name="vale[date_of_implementation]"
          step="1"
-         value= <%= @selected_vale[:date_of_effectivity].present? ? @selected_vale[:date_of_effectivity].strftime('%m/%d/%Y') : Time.now.strftime('%m/%d/%Y')  %>>
+         value= <%= @selected_vale[:date_of_implementation].present? ? @selected_vale[:date_of_implementation].strftime('%m/%d/%Y') : Time.now.strftime('%m/%d/%Y')  %>>
 </div>
 
-<%= generic_remarks_description_field('vale',@selected_vale[:remark]) %>
+<%= generic_remarks_remark_field('vale',@selected_vale[:remark]) %>
 
 <%=
     if @selected_vale[:id].present?
@@ -119,10 +119,10 @@
     $( "#vale_amount_of_deduction" ).change(function(){
         calculate_time_required();
     });
-    $( "#vale_period_of_deduction" ).change(function(){
+    $( "#vale_period_of_time" ).change(function(){
         calculate_time_required();
     });
-    $( "#vale_date_of_effectivity" ).change(function(){
+    $( "#vale_date_of_implementation" ).change(function(){
         calculate_time_required();
     });
     $( "#vale_amount" ).change(function(){
@@ -133,25 +133,25 @@
     {
         $("#vale_summary").empty();
         var vale_amount_of_deduction = $("#vale_amount_of_deduction").val();
-        var vale_period_of_deduction = $("#vale_period_of_deduction").val();
-        var vale_date_of_effectivity = $("#vale_date_of_effectivity").val();
+        var vale_period_of_time = $("#vale_period_of_time").val();
+        var vale_date_of_implementation = $("#vale_date_of_implementation").val();
         var vale_amount = $("#vale_amount").val();
         var period_counter = 0
-        var date_of_effectivity = moment(vale_date_of_effectivity);
+        var date_of_implementation = moment(vale_date_of_implementation);
 
-        if( (vale_amount_of_deduction != null) && (vale_period_of_deduction != null) && (vale_date_of_effectivity != null) && (vale_amount != null))
+        if( (vale_amount_of_deduction != null) && (vale_period_of_time != null) && (vale_date_of_implementation != null) && (vale_amount != null))
         {
             current_balance = vale_amount
             while( current_balance > 0 )
             {
                 current_balance = current_balance - vale_amount_of_deduction;
                 period_counter++;
-                period_of_deduction = vale_period_of_deduction.toLowerCase(); + 's'
-                date_of_effectivity = date_of_effectivity.add(1, period_of_deduction)
+                period_of_time = vale_period_of_time.toLowerCase(); + 's'
+                date_of_implementation = date_of_implementation.add(1, period_of_time)
             }
-            period_of_deduction = vale_period_of_deduction.toLowerCase();
+            period_of_time = vale_period_of_time.toLowerCase();
 
-            $("#vale_summary").fadeIn("slow").append("Complete Payment approximately in " + period_counter + " " + period_of_deduction + "s" + " | " + date_of_effectivity.format('MMMM Do YYYY, h:mm:ss a') );
+            $("#vale_summary").fadeIn("slow").append("Complete Payment approximately in " + period_counter + " " + period_of_time + "s" + " | " + date_of_implementation.format('MMMM Do YYYY, h:mm:ss a') );
         }
 
     }

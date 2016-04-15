@@ -3,7 +3,7 @@
 <div class="related_file_container">
     <div id="primary" class="related_file_set">
       <%= file_field_tag "related_file[0][path]", options = {class: "related_file_path"} %>
-      <%= text_field_tag("related_file[0][description]", value = nil, options = {id:"description", placeholder: "Description of File", class: "rel_file_description",:"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128"}) %>
+      <%= text_field_tag("related_file[0][remark]", value = nil, options = {id:"remark", placeholder: "remark of File", class: "rel_file_remark",:"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128"}) %>
       <hr>
     </div>
 </div>
@@ -19,8 +19,8 @@
         cloned.attr("id",fileCounter);
         cloned.find(".related_file_path").attr("id",fileCounter);
         cloned.find(".related_file_path").attr("name","related_file["+fileCounter+"][path]");
-        cloned.find(".related_file_description").attr("id",fileCounter);
-        cloned.find(".related_file_description").attr("name","related_file["+fileCounter+"][description]");
+        cloned.find(".related_file_remark").attr("id",fileCounter);
+        cloned.find(".related_file_remark").attr("name","related_file["+fileCounter+"][remark]");
         cloned.appendTo($(".related_file_container"));
     }
 

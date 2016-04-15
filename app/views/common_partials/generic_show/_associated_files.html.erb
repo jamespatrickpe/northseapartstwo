@@ -19,7 +19,7 @@
   <% if @selected_image_set.present? %>
       <ul class="small-block-grid-3" >
         <% @selected_image_set.each do |image_set| %>
-            <li tooltip=<%= image_set.description %> class='show_panel_image_container'>
+            <li tooltip=<%= image_set.remark %> class='show_panel_image_container'>
               <a class='show_panel_image_link' target="_blank" href=<%= image_set.picture.url %>>
                 <img src=<%= image_set.picture %>/> </a></li>
         <% end %>

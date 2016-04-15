@@ -7,9 +7,9 @@ class HumanResources::Settings::HolidaysController < HumanResources::SettingsCon
       .includes(:holiday_type).joins(:holiday_type)
       .where("holidays.id LIKE ? OR " +
                  "holiday_types.type_name LIKE ? OR " +
-                 "holidays.description LIKE ? OR " +
+                 "holidays.remark LIKE ? OR " +
                  "holidays.name LIKE ? OR " +
-                 "holidays.description LIKE ? OR " +
+                 "holidays.remark LIKE ? OR " +
                  "holidays.date_of_implementation LIKE ? OR " +
                  "holidays.created_at LIKE ? OR " +
                  "holidays.updated_at LIKE ? ",
@@ -57,7 +57,7 @@ class HumanResources::Settings::HolidaysController < HumanResources::SettingsCon
   def process_holiday_form(myHoliday)
     begin
       myHoliday[:holiday_type_id] = params[:holiday][:holiday_type_id]
-      myHoliday[:description] = params[:holiday][:description]
+      myHoliday[:remark] = params[:holiday][:remark]
       myHoliday[:name] = params[:holiday][:name]
       myHoliday[:date_of_implementation] = params[:holiday][:date_of_implementation]
       myHoliday.save!

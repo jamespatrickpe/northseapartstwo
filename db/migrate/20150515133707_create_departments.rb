@@ -1,11 +1,8 @@
 class CreateDepartments < MainMigration
   def change
     create_table :departments, :id => false    do |t|
-      t.string :id, limit: 36, primary: true, null: false
-      t.string :description, :limit => 256
-      t.string :label, :limit => 64
-      t.timestamps null: false
+      common_set_one(t)
+      make_name(t)
     end
-    execute "ALTER TABLE departments ADD PRIMARY KEY (id);"
   end
 end

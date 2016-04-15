@@ -12,15 +12,15 @@
 </div>
 
 <div class="form-block">
-  <div class="label">Description</div>
+  <div class="label">remark</div>
   <input type="text"
          required="required"
-         placeholder="Enter URL description"
+         placeholder="Enter URL remark"
          data-parsley-trigger = keyup
          data-parsley-maxlength = 64
-         id="digital_description"
-         value= "<%= @selected_digital[:description] %>"
-         name="digital[description]">
+         id="digital_remark"
+         value= "<%= @selected_digital[:remark] %>"
+         name="digital[remark]">
 </div>
 
 <%= generic_related_actors_selector('digital', @digital_actor_rel) %>

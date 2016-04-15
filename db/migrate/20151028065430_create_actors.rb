@@ -1,12 +1,10 @@
 class CreateActors < MainMigration
   def change
     create_table :actors, :id => false do |t|
-      t.string :id, limit: 36, primary: true, null: false
-      t.string :name, :limit => 64, :required => true
-      t.string :description, :limit => 256
+      common_set_one(t)
+      make_name(t)
       t.string :logo, :limit => 512
-      t.timestamps
     end
-    execute "ALTER TABLE actors ADD PRIMARY KEY (id);"
+    primary_key_override(:actors.to_s)
   end
 end

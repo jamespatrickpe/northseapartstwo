@@ -22,7 +22,7 @@
             Remark <%= generic_table_theadlink('duty_statuses.remark', table_orientation) %>
           </th>
           <th>
-            Date of Effectivity <%= generic_table_theadlink('duty_statuses.date_of_effectivity', table_orientation) %>
+            Date of Effectivity <%= generic_table_theadlink('duty_statuses.date_of_implementation', table_orientation) %>
           </th>
           <th>
             Date Created <%= generic_table_theadlink('duty_statuses.created_at', table_orientation) %>
@@ -53,7 +53,7 @@
                     %>
                   </td>
                   <td><%= duty_status[:remark] %> </td>
-                  <td><%= duty_status[:date_of_effectivity] %> </td>
+                  <td><%= duty_status[:date_of_implementation] %> </td>
                   <td><%= duty_status[:created_at] %></td>
                   <td><%= duty_status[:updated_at] %></td>
                   <td class="actions">

@@ -6,7 +6,7 @@ class GeneralAdministrator::ImageSetController < GeneralAdministratorController
     begin
       @image_sets = ImageSet
                        .where("image_sets.picture LIKE ? OR " +
-                                  "image_sets.description LIKE ?",
+                                  "image_sets.remark LIKE ?",
                               "%#{query[:search_field]}%",
                               "%#{query[:search_field]}%")
                        .order(query[:order_parameter] + ' ' + query[:order_orientation])
@@ -58,7 +58,7 @@ class GeneralAdministrator::ImageSetController < GeneralAdministratorController
   def process_image_set_form(myImageSet)
     begin
       myImageSet[:picture] = params[:image_set][:picture]
-      myImageSet[:description] = params[:image_set][:description]
+      myImageSet[:remark] = params[:image_set][:remark]
       myImageSet[:priority] = params[:image_set][:priority]
       myImageSet[:rel_image_set_id] = params[:image_set][:rel_image_set_id]
       myImageSet[:rel_image_set_type] = params[:image_set][:rel_image_set_type]

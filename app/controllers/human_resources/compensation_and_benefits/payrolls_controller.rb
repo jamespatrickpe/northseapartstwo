@@ -18,7 +18,7 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
 
     # Convert Duty Status to Valid Periods
     @my_duty_statuses = DutyStatus.where('employee_id = ?', "#{current_employee_id}")
-                            .order('date_of_effectivity ASC')
+                            .order('date_of_implementation ASC')
 
     @valid_periods = get_valid_periods(current_employee_id)
 
@@ -71,9 +71,9 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
     }
 
     #Lump Adjustments
-    @selected_lump_adjustments = LumpAdjustment.where("employee_id = ? AND (date_of_effectivity BETWEEN ? AND ?)",
+    @selected_lump_adjustments = LumpAdjustment.where("employee_id = ? AND (date_of_implementation BETWEEN ? AND ?)",
                                                       "#{current_employee_id}","#{@start_date}", "#{@end_date}")
-    @selected_lump_adjustments = date_of_effectivity_in_valid_period(@selected_lump_adjustments,@valid_periods)
+    @selected_lump_adjustments = date_of_implementation_in_valid_period(@selected_lump_adjustments,@valid_periods)
 
     #Vales
     @selected_vales = Vale.where("employee_id = ? AND approval_status = 1", "#{current_employee_id}")
@@ -86,11 +86,11 @@ class HumanResources::CompensationAndBenefits::PayrollsController < HumanResourc
     render 'human_resources/compensation_and_benefits/payrolls/employee'
   end
 
-  def date_of_effectivity_in_valid_period(my_model, valid_periods)
+  def date_of_implementation_in_valid_period(my_model, valid_periods)
     current_model = my_model.select{ |model|
       puts 'cdsfadfore'
       conditional = false
-      current_date = Date.parse(model[:date_of_effectivity].strftime("%Y-%m-%d"))
+      current_date = Date.parse(model[:date_of_implementation].strftime("%Y-%m-%d"))
       valid_periods.each do |valid_period|
         valid_start_period = Date.parse(valid_period[:start_period])
         valid_end_period = Date.parse(valid_period[:end_period])

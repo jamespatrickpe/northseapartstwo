@@ -1,5 +1,5 @@
 class FileSet < ActiveRecord::Base
-  include UUIDHelper
+
   belongs_to :rel_file_set, polymorphic: true
 
   mount_uploader :file, RelatedFileUploader

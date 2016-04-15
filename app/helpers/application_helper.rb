@@ -1,10 +1,10 @@
 module ApplicationHelper
 
   def get_constant(constant_name, latest_end_time_for_constant)
-    constant = ::Constant.where('(constant_type = ?) AND ( date_of_effectivity <= ? )',
+    constant = ::Constant.where('(constant_type = ?) AND ( date_of_implementation <= ? )',
                                 "#{constant_name}",
                                 "#{latest_end_time_for_constant}"
-    ).order('date_of_effectivity DESC').first
+    ).order('date_of_implementation DESC').first
     constant[:value]
   end
 

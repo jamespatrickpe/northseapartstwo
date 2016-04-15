@@ -3,7 +3,7 @@
 <%= radio_button_tag(:account_option, 'use_existing')%> <%= label_tag(:account_option_use_existing, "Use Existing Account") %>
 
 <fieldset id="use_existing">
-  Choose Username ( Selecting one will nullify name and description )
+  Choose Username ( Selecting one will nullify name and remark )
   <%= select_tag("assigned_username", options_from_collection_for_select(@accesses, "actor_id", "username", :include_blank => true))  %>
   <% #select_tag("assigned_username") %>
 </fieldset>
@@ -33,7 +33,7 @@
             $( "#password_confirmation" ).prop("required", false);
             $( "#email" ).prop("required", false);
             $( "#actor_name" ).prop("required", false);
-            $( "#actor_description" ).prop("required", false);
+            $( "#actor_remark" ).prop("required", false);
         });
 
         $("#account_option_create_new").click(function(){
@@ -47,7 +47,7 @@
             $( "#password_confirmation" ).prop("required", "required");
             $( "#email" ).prop("required", "required");
             $( "#actor_name" ).prop("required", "required");
-            $( "#actor_description" ).prop("required", "required");
+            $( "#actor_remark" ).prop("required", "required");
         });
     });
 </script>

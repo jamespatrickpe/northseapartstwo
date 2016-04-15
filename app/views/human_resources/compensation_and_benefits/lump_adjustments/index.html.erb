@@ -16,7 +16,7 @@
           </th>
           <th>
             Date of Effectivity
-            <%= generic_table_theadlink('lump_adjustments.date_of_effectivity', table_orientation) %>
+            <%= generic_table_theadlink('lump_adjustments.date_of_implementation', table_orientation) %>
           </th>
           <th>
             Type
@@ -46,7 +46,7 @@
                 <tr>
                   <td><%= lump_adjustment[:id].upcase %></td>
                   <td><%= generic_actor_profile_link(lump_adjustment.employee.actor.id, lump_adjustment.employee.actor.name) %></td>
-                  <td><%= lump_adjustment[:date_of_effectivity] %> </td>
+                  <td><%= lump_adjustment[:date_of_implementation] %> </td>
                   <td>
                     <%=
                         if(lump_adjustment[:signed_type])

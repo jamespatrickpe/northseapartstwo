@@ -4,7 +4,7 @@
   <div class="current_edit_id">
     <%=
         @selected_vale[:id].upcase %> |
-        <%= @selected_vale.employee.actor.name %> at a rate of <%= @selected_vale[:amount_of_deduction] %> per <%= @selected_vale[:period_of_deduction]
+        <%= @selected_vale.employee.actor.name %> at a rate of <%= @selected_vale[:amount_of_deduction] %> per <%= @selected_vale[:period_of_time]
     %>
     <br>
   </div>
@@ -28,8 +28,8 @@
     <%
        # get variables
        current_balance = @selected_vale[:amount]
-       iteration = translate_period_of_time_into_seconds(@selected_vale[:period_of_deduction])
-       current_vale_datetime = DateTime.parse(@selected_vale[:date_of_effectivity].strftime('%Y-%m-%d %T'))
+       iteration = translate_period_of_time_into_seconds(@selected_vale[:period_of_time])
+       current_vale_datetime = DateTime.parse(@selected_vale[:date_of_implementation].strftime('%Y-%m-%d %T'))
        current_link = '/human_resources/compensation_and_benefits/vales/' + @selected_vale[:id] + '/edit'
        current_id = @selected_vale[:id]
     %>
@@ -69,9 +69,9 @@
            @selected_vale_adjustments.each do |selected_vale_adjustment|
 
              # set up variables
-             adjustment_date_of_effectivity = DateTime.parse( selected_vale_adjustment[:date_of_effectivity].strftime('%Y-%m-%d') )
+             adjustment_date_of_implementation = DateTime.parse( selected_vale_adjustment[:date_of_implementation].strftime('%Y-%m-%d') )
              # apply according to date/time
-             if adjustment_date_of_effectivity.between?(current_vale_datetime, next_vale_datetime)
+             if adjustment_date_of_implementation.between?(current_vale_datetime, next_vale_datetime)
                adjustment_in_period_token = true
                current_link = '/human_resources/compensation_and_benefits/vale_adjustments/' + selected_vale_adjustment[:id] + '/edit'
                current_id = selected_vale_adjustment[:id]

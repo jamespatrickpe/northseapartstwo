@@ -1,6 +1,6 @@
 class LinkSet < ActiveRecord::Base
 
-  include UUIDHelper
+
 
   belongs_to :rel_link_set, polymorphic: true
   validates_length_of :label , maximum: 128

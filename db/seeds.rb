@@ -62,7 +62,7 @@ rand(50..100).times do |i|
   if randomBoolean
     myImageSet = ImageSet.new
     myImageSet[:picture] = ['file_01.jpg','file_02.png','file_03.gif','file_04.jpg','file_05.jpg'].sample
-    myImageSet.description = Faker::Lorem.sentence
+    myImageSet.remark = Faker::Lorem.sentence
     myImageSet.rel_image_set_id = random_associative_model[:my_model_id]
     myImageSet.rel_image_set_type = random_associative_model[:my_model]
     myImageSet.save!
@@ -83,7 +83,7 @@ end
 
 # Digital
 rand(50..100).times do |i|
-  myDigital = Digital.new( description: Faker::Lorem.sentence, url: Faker::Internet.url)
+  myDigital = Digital.new( remark: Faker::Lorem.sentence, url: Faker::Internet.url)
   myDigital.rel_model_id = random_associative_model[:my_model_id]
   myDigital.rel_model_type = random_associative_model[:my_model]
   myDigital.save!
@@ -91,7 +91,7 @@ end
 
 # Telephony
 rand(50..100).times do |i|
-  myTelephony = Telephone.new( description: Faker::Lorem.sentence, digits: Faker::PhoneNumber.phone_number)
+  myTelephony = Telephone.new( remark: Faker::Lorem.sentence, digits: Faker::PhoneNumber.phone_number)
   myTelephony.rel_model_id = random_associative_model[:my_model_id]
   myTelephony.rel_model_type = random_associative_model[:my_model]
   myTelephony.save!
@@ -100,7 +100,7 @@ end
 # Addresses
 rand(50..100).times do |i|
   completeAddress = Faker::Address.building_number + ' '+ Faker::Address.street_name + ' ' + Faker::Address.street_address + ' ' + Faker::Address.city + ' ' + Faker::Address.country
-  myAddress = Address.new( description: completeAddress, longitude: Faker::Address.longitude, latitude: Faker::Address.latitude)
+  myAddress = Address.new( remark: completeAddress, longitude: Faker::Address.longitude, latitude: Faker::Address.latitude)
   myAddress.rel_model_id = random_associative_model[:my_model_id]
   myAddress.rel_model_type = random_associative_model[:my_model]
   myAddress.save!
@@ -112,7 +112,7 @@ numberOfActors.times do |i|
 
   #Actor
   current_logo = ['default_1.jpg','default_2.jpg','default_3.jpg','default_4.jpg','default_5.jpg','default_6.jpg','default_7.jpg','default_8.jpg','default_9.jpg','default_10.jpg','default.jpg'].sample
-  myActor = Actor.new(name: Faker::Name.name , description: Faker::Lorem.sentence(3, true))
+  myActor = Actor.new(name: Faker::Name.name , remark: Faker::Lorem.sentence(3, true))
   myActor[:logo] = current_logo
   myActor.save!
 
@@ -224,7 +224,7 @@ numberOfActors.times do |i|
     rand(1..3).times do |i|
     dayOfWeek = Faker::Time.between(7.days.ago, Time.now, :all).strftime("%A")
     restday = RestDay.new(day: dayOfWeek, employee: myEmployee)
-    restday.date_of_effectivity = rand(720..72000).hours.ago
+    restday.date_of_implementation = rand(720..72000).hours.ago
     restday.save!
     end
 
@@ -244,7 +244,7 @@ numberOfActors.times do |i|
         end_time = '06:00:00'
       end
       workperiod = RegularWorkPeriod.new(remark: Faker::Lorem.word, employee: myEmployee, start_time: start_time, end_time: end_time )
-      workperiod.date_of_effectivity = rand(720..72000).hours.ago
+      workperiod.date_of_implementation = rand(720..72000).hours.ago
       workperiod.save!
     end
 
@@ -256,7 +256,7 @@ numberOfActors.times do |i|
         active = -> { false }
       end
       dutyStatus.active = active.call
-      dutyStatus.date_of_effectivity = rand(720..72000).hours.ago
+      dutyStatus.date_of_implementation = rand(720..72000).hours.ago
       dutyStatus.save!
     end
 
@@ -346,7 +346,7 @@ numberOfActors.times do |i|
       lumpAdjustment.signed_type = signed_type.call
       lumpAdjustment.employee = myEmployee
       lumpAdjustment.remark = Faker::Lorem.word
-      lumpAdjustment.date_of_effectivity = rand(720..72000).hours.ago
+      lumpAdjustment.date_of_implementation = rand(720..72000).hours.ago
       lumpAdjustment.save!
     end
 
@@ -358,14 +358,14 @@ numberOfActors.times do |i|
       expense.amount = randomMoney(100.10, 1000.00)
       expense.category = ["utilities.gas","utilities.electricity","utilities.water","utilities.telephone"].sample
       expense.remark = Faker::Lorem.sentence
-      expense.date_of_effectivity = rand(720..72000).hours.ago
+      expense.date_of_implementation = rand(720..72000).hours.ago
       expense.physical_id = Faker::Lorem.word
       expense.save!
     end
 
     # For Rate Adjustment
     if(randomBoolean() && randomBoolean() )
-      RateAdjustment.create( amount: randomMoney(100.10,1000.00), signed_type: ["ADDITION", "DEDUCTION"].sample, employee: myEmployee, description: Faker::Lorem.sentence, rate_of_time: ["DAY", "WEEK", "MONTH"].sample, activated: randomBoolean())
+      RateAdjustment.create( amount: randomMoney(100.10,1000.00), signed_type: ["ADDITION", "DEDUCTION"].sample, employee: myEmployee, remark: Faker::Lorem.sentence, rate_of_time: ["DAY", "WEEK", "MONTH"].sample, activated: randomBoolean())
     end
 
     # For Payroll
@@ -382,7 +382,7 @@ numberOfActors.times do |i|
         my_payroll_settings.PHILHEALTH_status = boolean_of_applicability
         my_payroll_settings.PAGIBIG_status = boolean_of_applicability
         my_payroll_settings.BIR_status = boolean_of_applicability
-        my_payroll_settings.date_of_effectivity = rand(720..72000).hours.ago
+        my_payroll_settings.date_of_implementation = rand(720..72000).hours.ago
         my_payroll_settings.remark = Faker::Lorem.word
         my_payroll_settings.employee = myEmployee
         my_payroll_settings.save!
@@ -399,9 +399,9 @@ numberOfActors.times do |i|
         my_vale.employee = myEmployee
         my_vale.amount = randomMoney(900.10,5000.00)
         my_vale.amount_of_deduction = randomMoney(10.00,900.00)
-        my_vale.period_of_deduction = ['MONTH','DAY','WEEK','YEAR'].sample
+        my_vale.period_of_time = ['MONTH','DAY','WEEK','YEAR'].sample
         my_vale.remark = Faker::Lorem.word
-        my_vale.date_of_effectivity = rand(720..72000).hours.ago
+        my_vale.date_of_implementation = rand(720..72000).hours.ago
         my_vale.save!
         if 5.in(10)
           rand(1..3).times do |i|
@@ -411,7 +411,7 @@ numberOfActors.times do |i|
           vale_signed_type = -> { [false,true].sample }
           my_vale_adjustment.signed_type = vale_signed_type.call
           my_vale_adjustment.remark = Faker::Lorem.word
-          my_vale_adjustment.date_of_effectivity = rand(720..72000).hours.ago
+          my_vale_adjustment.date_of_implementation = rand(720..72000).hours.ago
           my_vale_adjustment.save!
           end
         end

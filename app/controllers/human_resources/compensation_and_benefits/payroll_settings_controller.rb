@@ -9,7 +9,7 @@ class HumanResources::CompensationAndBenefits::PayrollSettingsController < Human
                                  "payroll_settings.id LIKE ? OR " +
                                  "payroll_settings.article LIKE ? OR " +
                                  "payroll_settings.applicability LIKE ? OR " +
-                                 "payroll_settings.date_of_effectivity LIKE ? OR " +
+                                 "payroll_settings.date_of_implementation LIKE ? OR " +
                                  "payroll_settings.remark LIKE ? OR " +
                                  "payroll_settings.created_at LIKE ? OR " +
                                  "payroll_settings.updated_at LIKE ?",
@@ -58,7 +58,7 @@ class HumanResources::CompensationAndBenefits::PayrollSettingsController < Human
       payroll_setting.employee = employee
       payroll_setting.article = params[:payroll_setting][:article]
       payroll_setting.applicability = params[:payroll_setting][:applicability]
-      payroll_setting.date_of_effectivity = params[:payroll_setting][:date_of_effectivity]
+      payroll_setting.date_of_implementation = params[:payroll_setting][:date_of_implementation]
       payroll_setting.remark = params[:payroll_setting][:remark]
       payroll_setting.save!
       flash[:general_flash_notification_type] = 'affirmative'

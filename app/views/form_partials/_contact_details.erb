@@ -2,7 +2,7 @@
 <div class="large-12 columns">
   <h2 class="miniheader">Addresses</h2>
   <p id="map_special_instructions">
-      <div class="subdescription">
+      <div class="subremark">
         DRAG RED MARKER; DOUBLE LEFT CLICK TO ZOOM OUT, DOUBLE RIGHT CLICK TO ZOOM IN. SCROLL TO ZOOM. HOLD LEFT MOUSE BUTTON TO PAN.
       </div>
   </p>
@@ -10,7 +10,7 @@
     <div class="mapset" id="primary" align="center">
       <hr>
       <div class="map" style="width: 800px; height: 300px;"></div><br>
-      <textarea name="address[0][description]" placeholder="Type Address Here" class="map-address" data-parsley-trigger="keyup" data-parsley-maxlength="256"></textarea>
+      <textarea name="address[0][remark]" placeholder="Type Address Here" class="map-address" data-parsley-trigger="keyup" data-parsley-maxlength="256"></textarea>
       <div class="large-1 columns"> <%= t('access.latitude') %>: </div>
       <div class="large-11 columns">
         <input type="text" class="map-lat" name="address[0][latitude]" id="latitude" data-parsley-type="number"/>
@@ -65,11 +65,11 @@
   <table class="telephonycontainer">
     <tr>
       <td>DIGITS</td>
-      <td>DESCRIPTION</td>
+      <td>remark</td>
     </tr>
     <tr id="primary" class="telephonyset">
       <td> <%= text_field_tag("telephony[0][digits]", value = nil, options = {placeholder: "type numbers here", class: "digits", type: "tel", :"data-parsley-type" => "digits"}) %></td>
-      <td> <%= text_field_tag("telephony[0][description]", value = nil, options = {placeholder: "eg 'work'", class: "telephony_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128"}) %></td>
+      <td> <%= text_field_tag("telephony[0][remark]", value = nil, options = {placeholder: "eg 'work'", class: "telephony_remark", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128"}) %></td>
     </tr>
   </table>
   <hr>
@@ -80,11 +80,11 @@
   <table class="digitalcontainer">
     <tr>
       <td>URL / IM</td>
-      <td>DESCRIPTION</td>
+      <td>remark</td>
     </tr>
     <tr id="primary" class="digitalset">
       <td> <%= text_field_tag("digital[0][url]", value = nil, options = {placeholder: "Associated Websites or URL's", class: "url", type: "url"}) %></td>
-      <td> <%= text_field_tag("digital[0][description]", value = nil, options = {placeholder: "description", class: "digital_description", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128"}) %></td>
+      <td> <%= text_field_tag("digital[0][remark]", value = nil, options = {placeholder: "remark", class: "digital_remark", :"data-parsley-trigger" => "keyup", :"data-parsley-maxlength"=>"128"}) %></td>
     </tr>
   </table>
   <hr>
@@ -112,7 +112,7 @@
         clonedMapSet.find(".map").attr("name","map-"+$addresscounter);
 
         clonedMapSet.find(".map-address").attr("id",$addresscounter);
-        clonedMapSet.find(".map-address").attr("name","address["+$addresscounter+"][description]");
+        clonedMapSet.find(".map-address").attr("name","address["+$addresscounter+"][remark]");
 
         clonedMapSet.find(".map-lon").attr("id",$addresscounter);
         clonedMapSet.find(".map-lon").attr("name","address["+$addresscounter+"][longitude]");
@@ -162,8 +162,8 @@
         clonedTelephonySet.attr("id",$telephonyCounter);
         clonedTelephonySet.find(".digits").attr("id",$telephonyCounter);
         clonedTelephonySet.find(".digits").attr("name","telephony["+$telephonyCounter+"][digits]");
-        clonedTelephonySet.find(".telephony_description").attr("id",$telephonyCounter);
-        clonedTelephonySet.find(".telephony_description").attr("name","telephony["+$telephonyCounter+"][description]");
+        clonedTelephonySet.find(".telephony_remark").attr("id",$telephonyCounter);
+        clonedTelephonySet.find(".telephony_remark").attr("name","telephony["+$telephonyCounter+"][remark]");
         clonedTelephonySet.appendTo($(".telephonycontainer"));
     }
 
@@ -186,8 +186,8 @@
         clonedDigitalSet.attr("id",$digitalCounter);
         clonedDigitalSet.find(".url").attr("id",$digitalCounter);
         clonedDigitalSet.find(".url").attr("name","digital["+$digitalCounter+"][url]");
-        clonedDigitalSet.find(".digital_description").attr("id",$digitalCounter);
-        clonedDigitalSet.find(".digital_description").attr("name","digital["+$digitalCounter+"][description]");
+        clonedDigitalSet.find(".digital_remark").attr("id",$digitalCounter);
+        clonedDigitalSet.find(".digital_remark").attr("name","digital["+$digitalCounter+"][remark]");
         clonedDigitalSet.appendTo($(".digitalcontainer"));
     }
 

@@ -8,8 +8,8 @@ module GenericFormHelper
     render(:partial => 'common_partials/generic_form/generic_form_footer', :locals => {:selected_model_id => selected_model_id})
   end
 
-  def generic_remarks_description_field(model_name, default_remark)
-    render(:partial => 'common_partials/generic_remark_description_field', :locals => {:model_name => model_name, :default_remark => default_remark})
+  def generic_remarks_remark_field(model_name, default_remark)
+    render(:partial => 'common_partials/generic_remark_remark_field', :locals => {:model_name => model_name, :default_remark => default_remark})
   end
 
   def generic_form_method_switch(selected_model)

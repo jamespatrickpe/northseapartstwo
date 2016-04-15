@@ -14,8 +14,8 @@
             <%= generic_table_theadlink('image_sets.picture', table_orientation) %>
           </th>
           <th>
-            Description
-            <%= generic_table_theadlink('image_sets.description', table_orientation) %>
+            remark
+            <%= generic_table_theadlink('image_sets.remark', table_orientation) %>
           </th>
           <th>
             Priority
@@ -35,7 +35,7 @@
                 <tr>
                   <td><%= image_set[:id].upcase %></td>
                   <td><%= image_set[:picture] %></td>
-                  <td><%= image_set[:description] %></td>
+                  <td><%= image_set[:remark] %></td>
                   <td><%= image_set[:priority] %></td>
                   <td></td>
                   <td class="actions">

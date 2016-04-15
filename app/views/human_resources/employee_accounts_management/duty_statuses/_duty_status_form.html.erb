@@ -24,13 +24,13 @@
     <input type="datetime-local"
            step = 1
            required="required"
-           name="duty_status[date_of_effectivity]"
+           name="duty_status[date_of_implementation]"
            value=
     <%=
-        @selected_duty_status[:date_of_effectivity].present? ?
-                (@selected_duty_status[:date_of_effectivity].strftime('%m/%d/%Y') ) :
+        @selected_duty_status[:date_of_implementation].present? ?
+                (@selected_duty_status[:date_of_implementation].strftime('%m/%d/%Y') ) :
                 (Time.now)
     %>>
 </div>
 
-<%= generic_remarks_description_field('duty_status',@selected_duty_status[:remark]) %>
+<%= generic_remarks_remark_field('duty_status',@selected_duty_status[:remark]) %>

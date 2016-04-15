@@ -1,6 +1,6 @@
 <section class='small-10 columns'>
   <div class='mainheader'> Regular Work Periods </div>
-  <div class='subdescription'> Regular Working Hours for an Employee </div>
+  <div class='subremark'> Regular Working Hours for an Employee </div>
   <hr>
   <%= generic_table_search %>
   <% table_orientation = shift_table_orientation %>
@@ -26,7 +26,7 @@
           </th>
           <th>
             Date of Effectivity
-            <%= generic_table_theadlink('regular_work_periods.date_of_effectivity', table_orientation) %>
+            <%= generic_table_theadlink('regular_work_periods.date_of_implementation', table_orientation) %>
           </th>
           <th>
             Remark
@@ -53,7 +53,7 @@
                   <td><%= generic_actor_profile_link(regular_work_period.employee.actor.id, regular_work_period.employee.actor.name) %></td>
                   <td><%= regular_work_period[:start_time].strftime("%T") %> </td>
                   <td><%= regular_work_period[:end_time].strftime("%T") %> </td>
-                  <td><%= regular_work_period[:date_of_effectivity] %> </td>
+                  <td><%= regular_work_period[:date_of_implementation] %> </td>
                   <td><%= regular_work_period[:remark] %> </td>
                   <td><%= regular_work_period[:created_at] %></td>
                   <td><%= regular_work_period[:updated_at] %></td>

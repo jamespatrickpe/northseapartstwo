@@ -28,7 +28,7 @@
           </th>
           <th>
             Period of Deduction
-            <%= generic_table_theadlink('vales.period_of_deduction', table_orientation) %>
+            <%= generic_table_theadlink('vales.period_of_time', table_orientation) %>
           </th>
           <th>
             Remark
@@ -36,7 +36,7 @@
           </th>
           <th>
             Date of Effectivity
-            <%= generic_table_theadlink('vales.date_of_effectivity', table_orientation) %>
+            <%= generic_table_theadlink('vales.date_of_implementation', table_orientation) %>
           </th>
           <th>
             Balance Remaining
@@ -72,9 +72,9 @@
                     %>
                   </td>
                   <td><%= vale[:amount_of_deduction] %> </td>
-                  <td><%= vale[:period_of_deduction] %> </td>
+                  <td><%= vale[:period_of_time] %> </td>
                   <td><%= vale[:remark] %> </td>
-                  <td><%= vale[:date_of_effectivity] %></td>
+                  <td><%= vale[:date_of_implementation] %></td>
                   <td><%= remaining_vale_balance(vale[:id]) %></td>
                   <td><%= vale[:created_at] %></td>
                   <td><%= vale[:updated_at] %></td>

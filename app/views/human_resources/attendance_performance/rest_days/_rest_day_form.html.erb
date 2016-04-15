@@ -1,10 +1,10 @@
 <div class="form-block">
   <div class="label">Date of Effectivity: : </div>
-  <input name="rest_day[date_of_effectivity]"
+  <input name="rest_day[date_of_implementation]"
          required="required"
          step="1"
-         value= <%= @selected_rest_day[:date_of_effectivity].present? ?
-                            @selected_rest_day[:date_of_effectivity].strftime('%FT%T') :
+         value= <%= @selected_rest_day[:date_of_implementation].present? ?
+                            @selected_rest_day[:date_of_implementation].strftime('%FT%T') :
                             Time.now.strftime('%F') %>
                  type="datetime-local">
 </div>

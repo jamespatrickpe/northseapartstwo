@@ -9,7 +9,7 @@
           <%= generic_table_theadlink('Digital Info ID','digitals.id', table_orientation) %>
           <th>Owner</th>
           <%= generic_table_theadlink('URL','digitals.url', table_orientation) %>
-          <%= generic_table_theadlink('Description','digitals.description', table_orientation) %>
+          <%= generic_table_theadlink('remark','digitals.remark', table_orientation) %>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
         </thead>
@@ -22,7 +22,7 @@
                   <td><%= digital[:id].upcase %></td>
                   <td><%= get_all_entities_involved_with_a_model(DigitalsActor, "digitals_actors.digital_id = ?", digital[:id]).collect { |i| i.name }.join(", ")%></td>
                   <td><%= digital[:url] %> </td>
-                  <td><%= digital[:description] %> </td>
+                  <td><%= digital[:remark] %> </td>
                   <td class="actions">
                     <%= generic_table_actions(digital[:id]) %>
                   </td>

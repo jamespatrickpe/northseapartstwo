@@ -59,7 +59,7 @@ class HumanResources::AttendancePerformance::RestDaysController < HumanResources
     begin
       restDay.id = params[:rest_day][:id]
       restDay.day = params[:rest_day][:day]
-      restDay.date_of_effectivity = params[:rest_day][:date_of_effectivity]
+      restDay.date_of_implementation = params[:rest_day][:date_of_implementation]
       restDay.employee = Employee.find(params[:rest_day][:employee_id])
       restDay.save!
       flash[:general_flash_notification_type] = 'affirmative'

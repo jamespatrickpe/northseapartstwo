@@ -10418,7 +10418,7 @@ var dialog = $.widget( "ui.dialog", {
 
 		// We assume that any existing aria-describedby attribute means
 		// that the dialog content is marked up properly
-		// otherwise we brute force the content as the description
+		// otherwise we brute force the content as the remark
 		if ( !this.element.find( "[aria-describedby]" ).length ) {
 			this.uiDialog.attr({
 				"aria-describedby": this.element.uniqueId().attr( "id" )

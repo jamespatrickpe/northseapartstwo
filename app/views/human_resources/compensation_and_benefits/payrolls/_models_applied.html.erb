@@ -142,7 +142,7 @@
                @selected_lump_adjustments.each do |selected_lump_adjustment|
             %>
                 <tr>
-                  <td><%= selected_lump_adjustment[:date_of_effectivity] %></td>
+                  <td><%= selected_lump_adjustment[:date_of_implementation] %></td>
                   <td>
                     <%= selected_lump_adjustment[:signed_type] ? "( + )" : "( - )" %>
                     <%= selected_lump_adjustment[:amount] %>
@@ -191,7 +191,7 @@
                  payment_in_period = vale_payment_in_period(@start_date, @end_date, selected_vale)
             %>
                 <tr>
-                  <td><%= selected_vale[:date_of_effectivity].strftime('%m/%d/%Y') %></td>
+                  <td><%= selected_vale[:date_of_implementation].strftime('%m/%d/%Y') %></td>
                   <td><%= remaining_vale_balance(selected_vale[:id], @start_date ) %></td>
                   <td><%= selected_vale[:remark] %></td>
                   <td><%= payment_in_period %></td>
