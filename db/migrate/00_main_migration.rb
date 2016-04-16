@@ -34,9 +34,8 @@ class MainMigration < ActiveRecord::Migration
     t.timestamps null: false
   end
 
-  def polymorphic_association(t)
-    t.string :rel_model_id, limit: 36,:required => true
-    t.string :rel_model_type, limit: 36,:required => true
+  def polymorphic_association(t,referenceable)
+    t.references referenceable, polymorphic: true, index: true
   end
 
   def date_of_implementation(t)

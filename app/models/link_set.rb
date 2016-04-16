@@ -4,4 +4,6 @@ class LinkSet < ActiveRecord::Base
           UrlValidations,
           RelLinkSetValidations
 
+  belongs_to :linksetable, polymorphic: true
+
 end

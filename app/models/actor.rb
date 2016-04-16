@@ -6,12 +6,12 @@ class Actor < ActiveRecord::Base
 
   has_one :access, autosave: true
   has_one :employee, autosave: true
-  has_many :file_sets, as: :rel_file_set
-  has_many :image_sets, as: :rel_image_set
-  has_many :link_set
-  has_many :telephones
-  has_many :addresses
-  has_many :digitals
+  has_many :file_sets, as: :filesetable
+  has_many :image_sets, as: :imagesetable
+  has_many :link_set, as: :linksetable
+  has_many :telephones, as: :telephonable
+  has_many :addresses, as: :addressable
+  has_many :digitals, as: :digitable
 
   mount_uploader :logo, AvatarUploader
   validates :logo,

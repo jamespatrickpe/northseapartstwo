@@ -151,22 +151,22 @@ module OfficialStarterSeed
   generic = Branch.create(name: 'Generic')
 
   # Telephone for Branches
-  Telephone.create( remark: "Main Number 1", digits: "6451514", rel_model_id: north_sea.id, rel_model_type: 'Branch')
-  Telephone.create( remark: "Main Number 2", digits: "6452237", rel_model_id: north_sea.id, rel_model_type: 'Branch')
-  Telephone.create( remark: "Fax", digits: "6452246", rel_model_id: north_sea.id, rel_model_type: 'Branch')
-  Telephone.create( remark: "Cellphone", digits: "09237354641", rel_model_id: north_sea.id, rel_model_type: 'Branch')
-  Telephone.create( remark: "Main Number", digits: "9427048", rel_model_id: greco.id, rel_model_type: 'Branch')
-  Telephone.create( remark: "Main Number", digits: "6478092", rel_model_id: biofin.id, rel_model_type: 'Branch')
+  Telephone.create( remark: "Main Number 1", digits: "6451514", telephonable_id: north_sea.id, telephonable_type: 'Branch')
+  Telephone.create( remark: "Main Number 2", digits: "6452237", telephonable_id: north_sea.id, telephonable_type: 'Branch')
+  Telephone.create( remark: "Fax", digits: "6452246", telephonable_id: north_sea.id, telephonable_type: 'Branch')
+  Telephone.create( remark: "Cellphone", digits: "09237354641", telephonable_id: north_sea.id, telephonable_type: 'Branch')
+  Telephone.create( remark: "Main Number", digits: "9427048", telephonable_id: greco.id, telephonable_type: 'Branch')
+  Telephone.create( remark: "Main Number", digits: "6478092", telephonable_id: biofin.id, telephonable_type: 'Branch')
 
   # Addresses for Branches
-  Address.create( remark: "North Sea Parts, Marcos Highway, Cainta, Rizal", longitude: 14.622056, latitude: 121.106819, rel_model_id: north_sea.id, rel_model_type: 'Branch')
-  Address.create( remark: "Greco Warehouse, Sumulong Highway, Antipolo, Rizal", longitude: 14.616369, latitude: 121.138520, rel_model_id: greco.id, rel_model_type: 'Branch')
-  Address.create( remark: "Biofin Petshop, Sumulong Highway, Antipolo, Rizal", longitude: 14.617416, latitude: 121.134781, rel_model_id: biofin.id, rel_model_type: 'Branch')
+  Address.create( remark: "North Sea Parts, Marcos Highway, Cainta, Rizal", longitude: 14.622056, latitude: 121.106819, addressable_id: north_sea.id, addressable_type: 'Branch')
+  Address.create( remark: "Greco Warehouse, Sumulong Highway, Antipolo, Rizal", longitude: 14.616369, latitude: 121.138520, addressable_id: greco.id, addressable_type: 'Branch')
+  Address.create( remark: "Biofin Petshop, Sumulong Highway, Antipolo, Rizal", longitude: 14.617416, latitude: 121.134781, addressable_id: biofin.id, addressable_type: 'Branch')
 
   # Digitals for Branches
-  Digital.new( remark: "email", url: "northseaparts@yahoo.com", rel_model_id: north_sea.id, rel_model_type: 'Branch')
-  Digital.new( remark: "email", url: "northseaparts@gmail.com", rel_model_id: north_sea.id, rel_model_type: 'Branch')
-  Digital.new( remark: "email", url: "biofinbreeding@yahoo.com.ph", rel_model_id: biofin.id, rel_model_type: 'Branch')
+  Digital.new( remark: "email", url: "northseaparts@yahoo.com", digitable_id: north_sea.id, digitable_type: 'Branch')
+  Digital.new( remark: "email", url: "northseaparts@gmail.com", digitable_id: north_sea.id, digitable_type: 'Branch')
+  Digital.new( remark: "email", url: "biofinbreeding@yahoo.com.ph", digitable_id: biofin.id, digitable_type: 'Branch')
 
   #Constants
   Constant.create( constant_type: 'human_resources.minimum_wage', value: '362.50', name: 'Minimum Wage', remark: nil, date_of_implementation: Time.new(1974, 04, 01) )
