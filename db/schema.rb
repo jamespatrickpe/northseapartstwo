@@ -254,8 +254,8 @@ ActiveRecord::Schema.define(version: 20160415003506) do
     t.datetime "updated_at",                                                       null: false
     t.string   "employee_id",          limit: 36
     t.string   "type_of_leave",        limit: 64
-    t.datetime "start_of_effectivity",             default: '2016-04-16 09:00:15'
-    t.datetime "end_of_effectivity",               default: '2016-04-16 09:00:15'
+    t.datetime "start_of_effectivity",             default: '2016-04-16 11:33:55'
+    t.datetime "end_of_effectivity",               default: '2016-04-16 11:33:55'
   end
 
   add_index "leaves", ["id"], name: "index_leaves_on_id", using: :btree
@@ -329,18 +329,6 @@ ActiveRecord::Schema.define(version: 20160415003506) do
   end
 
   add_index "positions", ["id"], name: "index_positions_on_id", using: :btree
-
-  create_table "rate_adjustments", force: :cascade do |t|
-    t.string   "remark",       limit: 256
-    t.datetime "created_at",                                                       null: false
-    t.datetime "updated_at",                                                       null: false
-    t.decimal  "amount",                   precision: 16, scale: 2
-    t.string   "employee_id",  limit: 36
-    t.string   "rate_of_time", limit: 64
-    t.boolean  "activated",    limit: 1,                            default: true
-  end
-
-  add_index "rate_adjustments", ["id"], name: "index_rate_adjustments_on_id", using: :btree
 
   create_table "regular_work_periods", force: :cascade do |t|
     t.string   "remark",                     limit: 256

@@ -1,8 +1,8 @@
 class RegularWorkPeriod < ActiveRecord::Base
 
+  include BaseConcerns,
+          BelongsEmployee
 
-  belongs_to :employee
-  validates_presence_of :employee
   validates_presence_of :start_time
   validates_presence_of :end_time
   validates_presence_of :date_of_implementation
