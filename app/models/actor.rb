@@ -1,6 +1,8 @@
 class Actor < ActiveRecord::Base
 
-  include UUIDHelper
+  include BaseConcerns
+  include RemarkValidations
+  include NameValidations
 
   has_one :access, autosave: true
   has_one :employee, autosave: true
@@ -12,8 +14,9 @@ class Actor < ActiveRecord::Base
   has_many :digitals
 
   mount_uploader :logo, AvatarUploader
-  validates :name, uniqueness: true
-  validates_presence_of :name
-  validates_length_of :remark, maximum: 256
+  validates :logo,
+            :file_size => {
+                :maximum => 3.5.megabytes.to_i
+            }
 
 end

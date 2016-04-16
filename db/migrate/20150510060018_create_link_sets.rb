@@ -5,5 +5,6 @@ class CreateLinkSets < MainMigration
       polymorphic_association(t)
       url(t)
     end
+    primary_key_override(:link_sets.to_s)
   end
 end

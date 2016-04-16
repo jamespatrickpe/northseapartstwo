@@ -9,5 +9,6 @@ class CreateHolidayTypes < MainMigration
       t.decimal :overtime_rest_day_multiplier, :precision => 16, :scale => 2, :limit => 16
       t.boolean :no_work_pay, :default => false
     end
+    primary_key_override(:holiday_types.to_s)
   end
 end

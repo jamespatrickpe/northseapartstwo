@@ -4,5 +4,6 @@ class CreateDepartments < MainMigration
       common_set_one(t)
       make_name(t)
     end
+    primary_key_override(:departments.to_s)
   end
 end

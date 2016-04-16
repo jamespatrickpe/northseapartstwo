@@ -6,5 +6,6 @@ class CreateDigitals < MainMigration
       remark(t)
       t.string :url, :limit => 512, :required => true
     end
+    primary_key_override(:digitals.to_s)
   end
 end

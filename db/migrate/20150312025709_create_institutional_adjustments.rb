@@ -11,6 +11,7 @@ class CreateInstitutionalAdjustments < MainMigration
       t.decimal :employer_contribution, :limit => 16, :precision => 16, :scale => 2
       t.decimal :employee_contribution, :limit => 16, :precision => 16, :scale => 2
     end
+    primary_key_override(:institutional_adjustments.to_s)
   end
 end
 

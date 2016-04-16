@@ -7,5 +7,6 @@ class CreateLeaves < MainMigration
       t.datetime :start_of_effectivity, default: Time.now
       t.datetime :end_of_effectivity, default: Time.now
     end
+    primary_key_override(:leaves.to_s)
   end
 end

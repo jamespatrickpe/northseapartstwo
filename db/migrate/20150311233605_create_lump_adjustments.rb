@@ -6,5 +6,6 @@ class CreateLumpAdjustments < MainMigration
       employee_id(t)
       amount(t)
     end
+    primary_key_override(:lump_adjustments.to_s)
   end
 end

@@ -6,5 +6,6 @@ class CreateImageSets < MainMigration
       t.string :picture, :limit => 512
       t.integer :priority, :default => 0
     end
+    primary_key_override(:image_sets.to_s)
   end
 end

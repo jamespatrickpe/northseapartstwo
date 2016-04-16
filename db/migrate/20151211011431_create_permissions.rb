@@ -5,5 +5,6 @@ class CreatePermissions < MainMigration
       t.string :access_id, limit: 36, :required => true
       t.string :can, limit: 256, :required => true
     end
+    primary_key_override(:permissions.to_s)
   end
 end

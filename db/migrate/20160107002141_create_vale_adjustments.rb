@@ -6,5 +6,6 @@ class CreateValeAdjustments < MainMigration
       datetime_of_implementation(t)
       t.string :vale_id, limit: 36,:required => true
     end
+    primary_key_override(:vale_adjustments.to_s)
   end
 end

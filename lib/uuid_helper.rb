@@ -8,6 +8,7 @@ module UUIDHelper
   private
   def assign_uuid
     self.id = UUIDTools::UUID.timestamp_create().to_s.downcase if id.blank?
+    base.primary_key = 'id'
   end
 
 end

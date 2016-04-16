@@ -7,5 +7,6 @@ class CreateAttendances < MainMigration
       t.time :timein, default: "00:00:01"
       t.time :timeout, default: "23:59:59"
     end
+    primary_key_override(:attendances.to_s)
   end
 end

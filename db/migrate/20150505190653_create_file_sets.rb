@@ -5,5 +5,6 @@ class CreateFileSets < MainMigration
       polymorphic_association(t)
       t.string :file, :limit => 512
     end
+    primary_key_override(:file_sets.to_s)
   end
 end

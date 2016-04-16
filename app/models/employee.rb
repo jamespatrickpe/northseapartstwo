@@ -1,6 +1,6 @@
 class Employee < ActiveRecord::Base
 
-
+  include BaseConcerns
 
   belongs_to :actor
   belongs_to :branch
@@ -9,8 +9,6 @@ class Employee < ActiveRecord::Base
   has_many :attendances
   has_one :regular_work_period
 
-
   validates_presence_of :actor
-  # validates_presence_of :branches
 
 end

@@ -12,5 +12,6 @@ class CreateAccesses < MainMigration
       t.boolean :verification, :default => 0
       t.boolean :remember_me, :default => 0
     end
+    primary_key_override(:accesses.to_s)
   end
 end

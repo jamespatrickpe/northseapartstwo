@@ -7,5 +7,6 @@ class CreateRateAdjustments < MainMigration
       t.string :rate_of_time, :limit => 64, :required => true
       t.boolean :activated, :default => true
     end
+    primary_key_override(:rate_adjustments.to_s)
   end
 end

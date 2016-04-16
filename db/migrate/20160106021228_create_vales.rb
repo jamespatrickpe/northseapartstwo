@@ -9,5 +9,6 @@ class CreateVales < MainMigration
       t.boolean :approval_status, :required => true, default: false
       t.decimal :amount_of_deduction, :limit => 16, :precision => 16, :scale => 2,:required => true
     end
+    primary_key_override(:vales.to_s)
   end
 end

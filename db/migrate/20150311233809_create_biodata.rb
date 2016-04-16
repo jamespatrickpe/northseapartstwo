@@ -19,5 +19,6 @@ class CreateBiodata < MainMigration
       t.string :blood_type, :limit => 256
       t.string :religion, :limit => 256
     end
+    primary_key_override(:biodata.to_s)
   end
 end

@@ -7,5 +7,6 @@ class CreateConstants < MainMigration
       t.string :value, :limit => 64
       t.string :constant_type, :limit => 64
     end
+    primary_key_override(:constants.to_s)
   end
 end

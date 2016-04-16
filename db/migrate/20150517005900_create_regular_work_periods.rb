@@ -7,5 +7,6 @@ class CreateRegularWorkPeriods < MainMigration
       t.time :start_time,:required => true, default: '08:00:00'
       t.time :end_time,:required => true, default: '17:00:00'
     end
+    primary_key_override(:regular_work_periods.to_s)
   end
 end

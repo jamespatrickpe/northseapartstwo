@@ -7,5 +7,6 @@ class CreateVehicles < MainMigration
       t.string :plate_number,:limit => 64
       t.string :orcr,:limit => 64
     end
+    primary_key_override(:vehicles.to_s)
   end
 end

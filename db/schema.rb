@@ -13,8 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20160415003506) do
 
-  create_table "accesses", id: false, force: :cascade do |t|
-    t.string   "id",              limit: 36
+  create_table "accesses", force: :cascade do |t|
     t.datetime "created_at",                                  null: false
     t.datetime "updated_at",                                  null: false
     t.string   "actor_id",        limit: 36
@@ -40,8 +39,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "actors", ["id"], name: "index_actors_on_id", using: :btree
 
-  create_table "addresses", id: false, force: :cascade do |t|
-    t.string   "id",             limit: 36
+  create_table "addresses", force: :cascade do |t|
     t.datetime "created_at",                                           null: false
     t.datetime "updated_at",                                           null: false
     t.string   "rel_model_id",   limit: 36
@@ -53,34 +51,31 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "addresses", ["id"], name: "index_addresses_on_id", using: :btree
 
-  create_table "associations", id: false, force: :cascade do |t|
-    t.string   "id",           limit: 36
-    t.string   "remark",       limit: 256
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.string   "model_one",    limit: 36
-    t.string   "model_one_id", limit: 36
-    t.string   "model_two",    limit: 36
-    t.string   "model_two_id", limit: 36
+  create_table "associations", force: :cascade do |t|
+    t.string   "remark",         limit: 256
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "model_one_type", limit: 36
+    t.string   "model_one_id",   limit: 36
+    t.string   "model_two_type", limit: 36
+    t.string   "model_two_id",   limit: 36
   end
 
   add_index "associations", ["id"], name: "index_associations_on_id", using: :btree
 
-  create_table "attendances", id: false, force: :cascade do |t|
-    t.string   "id",                     limit: 36
+  create_table "attendances", force: :cascade do |t|
     t.string   "remark",                 limit: 256
     t.datetime "created_at",                                                         null: false
     t.datetime "updated_at",                                                         null: false
     t.string   "employee_id",            limit: 36
-    t.date     "date_of_implementation",             default: '2016-04-15'
+    t.date     "date_of_implementation",             default: '2016-04-16'
     t.time     "timein",                             default: '2000-01-01 00:00:01'
     t.time     "timeout",                            default: '2000-01-01 23:59:59'
   end
 
   add_index "attendances", ["id"], name: "index_attendances_on_id", using: :btree
 
-  create_table "base_rates", id: false, force: :cascade do |t|
-    t.string   "id",                   limit: 36
+  create_table "base_rates", force: :cascade do |t|
     t.string   "remark",               limit: 256
     t.datetime "created_at",                                                                  null: false
     t.datetime "updated_at",                                                                  null: false
@@ -94,8 +89,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "base_rates", ["id"], name: "index_base_rates_on_id", using: :btree
 
-  create_table "biodata", id: false, force: :cascade do |t|
-    t.string   "id",                      limit: 36
+  create_table "biodata", force: :cascade do |t|
     t.datetime "created_at",                                         null: false
     t.datetime "updated_at",                                         null: false
     t.string   "actor_id",                limit: 36
@@ -118,8 +112,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "biodata", ["id"], name: "index_biodata_on_id", using: :btree
 
-  create_table "branches", id: false, force: :cascade do |t|
-    t.string   "id",         limit: 36
+  create_table "branches", force: :cascade do |t|
     t.string   "remark",     limit: 256
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
@@ -128,21 +121,19 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "branches", ["id"], name: "index_branches_on_id", using: :btree
 
-  create_table "constants", id: false, force: :cascade do |t|
-    t.string   "id",                     limit: 36
+  create_table "constants", force: :cascade do |t|
     t.string   "remark",                 limit: 256
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
     t.string   "name",                   limit: 64
-    t.date     "date_of_implementation",             default: '2016-04-15'
+    t.date     "date_of_implementation",             default: '2016-04-16'
     t.string   "value",                  limit: 64
     t.string   "constant_type",          limit: 64
   end
 
   add_index "constants", ["id"], name: "index_constants_on_id", using: :btree
 
-  create_table "departments", id: false, force: :cascade do |t|
-    t.string   "id",         limit: 36
+  create_table "departments", force: :cascade do |t|
     t.string   "remark",     limit: 256
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
@@ -151,8 +142,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "departments", ["id"], name: "index_departments_on_id", using: :btree
 
-  create_table "digitals", id: false, force: :cascade do |t|
-    t.string   "id",             limit: 36
+  create_table "digitals", force: :cascade do |t|
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.string   "rel_model_id",   limit: 36
@@ -163,8 +153,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "digitals", ["id"], name: "index_digitals_on_id", using: :btree
 
-  create_table "duty_statuses", id: false, force: :cascade do |t|
-    t.string   "id",                         limit: 36
+  create_table "duty_statuses", force: :cascade do |t|
     t.string   "remark",                     limit: 256
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
@@ -175,8 +164,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "duty_statuses", ["id"], name: "index_duty_statuses_on_id", using: :btree
 
-  create_table "employees", id: false, force: :cascade do |t|
-    t.string   "id",         limit: 36
+  create_table "employees", force: :cascade do |t|
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
     t.string   "actor_id",   limit: 36
@@ -185,8 +173,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "employees", ["id"], name: "index_employees_on_id", using: :btree
 
-  create_table "expenses", id: false, force: :cascade do |t|
-    t.string   "id",                         limit: 36
+  create_table "expenses", force: :cascade do |t|
     t.string   "remark",                     limit: 256
     t.datetime "created_at",                                                      null: false
     t.datetime "updated_at",                                                      null: false
@@ -198,8 +185,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "expenses", ["id"], name: "index_expenses_on_id", using: :btree
 
-  create_table "file_sets", id: false, force: :cascade do |t|
-    t.string   "id",             limit: 36
+  create_table "file_sets", force: :cascade do |t|
     t.string   "remark",         limit: 256
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
@@ -210,8 +196,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "file_sets", ["id"], name: "index_file_sets_on_id", using: :btree
 
-  create_table "holiday_types", id: false, force: :cascade do |t|
-    t.string   "id",                           limit: 36
+  create_table "holiday_types", force: :cascade do |t|
     t.datetime "created_at",                                                                       null: false
     t.datetime "updated_at",                                                                       null: false
     t.string   "type_name",                    limit: 64
@@ -224,20 +209,18 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "holiday_types", ["id"], name: "index_holiday_types_on_id", using: :btree
 
-  create_table "holidays", id: false, force: :cascade do |t|
-    t.string   "id",                     limit: 36
+  create_table "holidays", force: :cascade do |t|
     t.string   "remark",                 limit: 256
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
-    t.date     "date_of_implementation",             default: '2016-04-15'
+    t.date     "date_of_implementation",             default: '2016-04-16'
     t.string   "name",                   limit: 64
     t.string   "holiday_type_id",        limit: 36
   end
 
   add_index "holidays", ["id"], name: "index_holidays_on_id", using: :btree
 
-  create_table "image_sets", id: false, force: :cascade do |t|
-    t.string   "id",             limit: 36
+  create_table "image_sets", force: :cascade do |t|
     t.string   "remark",         limit: 256
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
@@ -249,8 +232,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "image_sets", ["id"], name: "index_image_sets_on_id", using: :btree
 
-  create_table "institutional_adjustments", id: false, force: :cascade do |t|
-    t.string   "id",                         limit: 36
+  create_table "institutional_adjustments", force: :cascade do |t|
     t.string   "remark",                     limit: 256
     t.datetime "created_at",                                                                       null: false
     t.datetime "updated_at",                                                                       null: false
@@ -266,21 +248,19 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "institutional_adjustments", ["id"], name: "index_institutional_adjustments_on_id", using: :btree
 
-  create_table "leaves", id: false, force: :cascade do |t|
-    t.string   "id",                   limit: 36
+  create_table "leaves", force: :cascade do |t|
     t.string   "remark",               limit: 256
     t.datetime "created_at",                                                       null: false
     t.datetime "updated_at",                                                       null: false
     t.string   "employee_id",          limit: 36
     t.string   "type_of_leave",        limit: 64
-    t.datetime "start_of_effectivity",             default: '2016-04-15 23:04:58'
-    t.datetime "end_of_effectivity",               default: '2016-04-15 23:04:58'
+    t.datetime "start_of_effectivity",             default: '2016-04-16 09:00:15'
+    t.datetime "end_of_effectivity",               default: '2016-04-16 09:00:15'
   end
 
   add_index "leaves", ["id"], name: "index_leaves_on_id", using: :btree
 
-  create_table "link_sets", id: false, force: :cascade do |t|
-    t.string   "id",             limit: 36
+  create_table "link_sets", force: :cascade do |t|
     t.string   "remark",         limit: 256
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
@@ -291,8 +271,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "link_sets", ["id"], name: "index_link_sets_on_id", using: :btree
 
-  create_table "lump_adjustments", id: false, force: :cascade do |t|
-    t.string   "id",                         limit: 36
+  create_table "lump_adjustments", force: :cascade do |t|
     t.string   "remark",                     limit: 256
     t.datetime "created_at",                                                      null: false
     t.datetime "updated_at",                                                      null: false
@@ -303,8 +282,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "lump_adjustments", ["id"], name: "index_lump_adjustments_on_id", using: :btree
 
-  create_table "payroll_settings", id: false, force: :cascade do |t|
-    t.string   "id",                         limit: 36
+  create_table "payroll_settings", force: :cascade do |t|
     t.string   "remark",                     limit: 256
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
@@ -322,8 +300,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "payroll_settings", ["id"], name: "index_payroll_settings_on_id", using: :btree
 
-  create_table "performance_appraisals", id: false, force: :cascade do |t|
-    t.string   "id",          limit: 36
+  create_table "performance_appraisals", force: :cascade do |t|
     t.string   "remark",      limit: 256
     t.datetime "created_at",                                       null: false
     t.datetime "updated_at",                                       null: false
@@ -334,8 +311,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "performance_appraisals", ["id"], name: "index_performance_appraisals_on_id", using: :btree
 
-  create_table "permissions", id: false, force: :cascade do |t|
-    t.string   "id",         limit: 36
+  create_table "permissions", force: :cascade do |t|
     t.string   "remark",     limit: 256
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
@@ -345,8 +321,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "permissions", ["id"], name: "index_permissions_on_id", using: :btree
 
-  create_table "positions", id: false, force: :cascade do |t|
-    t.string   "id",            limit: 36
+  create_table "positions", force: :cascade do |t|
     t.string   "remark",        limit: 256
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
@@ -355,8 +330,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "positions", ["id"], name: "index_positions_on_id", using: :btree
 
-  create_table "rate_adjustments", id: false, force: :cascade do |t|
-    t.string   "id",           limit: 36
+  create_table "rate_adjustments", force: :cascade do |t|
     t.string   "remark",       limit: 256
     t.datetime "created_at",                                                       null: false
     t.datetime "updated_at",                                                       null: false
@@ -368,8 +342,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "rate_adjustments", ["id"], name: "index_rate_adjustments_on_id", using: :btree
 
-  create_table "regular_work_periods", id: false, force: :cascade do |t|
-    t.string   "id",                         limit: 36
+  create_table "regular_work_periods", force: :cascade do |t|
     t.string   "remark",                     limit: 256
     t.datetime "created_at",                                                             null: false
     t.datetime "updated_at",                                                             null: false
@@ -381,8 +354,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "regular_work_periods", ["id"], name: "index_regular_work_periods_on_id", using: :btree
 
-  create_table "rest_days", id: false, force: :cascade do |t|
-    t.string   "id",                         limit: 36
+  create_table "rest_days", force: :cascade do |t|
     t.string   "remark",                     limit: 256
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
@@ -393,8 +365,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "rest_days", ["id"], name: "index_rest_days_on_id", using: :btree
 
-  create_table "telephones", id: false, force: :cascade do |t|
-    t.string   "id",             limit: 36
+  create_table "telephones", force: :cascade do |t|
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.string   "rel_model_id",   limit: 36
@@ -405,8 +376,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "telephones", ["id"], name: "index_telephones_on_id", using: :btree
 
-  create_table "vale_adjustments", id: false, force: :cascade do |t|
-    t.string   "id",                         limit: 36
+  create_table "vale_adjustments", force: :cascade do |t|
     t.string   "remark",                     limit: 256
     t.datetime "created_at",                                                      null: false
     t.datetime "updated_at",                                                      null: false
@@ -417,8 +387,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "vale_adjustments", ["id"], name: "index_vale_adjustments_on_id", using: :btree
 
-  create_table "vales", id: false, force: :cascade do |t|
-    t.string   "id",                         limit: 36
+  create_table "vales", force: :cascade do |t|
     t.string   "remark",                     limit: 256
     t.datetime "created_at",                                                                      null: false
     t.datetime "updated_at",                                                                      null: false
@@ -432,12 +401,11 @@ ActiveRecord::Schema.define(version: 20160415003506) do
 
   add_index "vales", ["id"], name: "index_vales_on_id", using: :btree
 
-  create_table "vehicles", id: false, force: :cascade do |t|
-    t.string   "id",                     limit: 36
+  create_table "vehicles", force: :cascade do |t|
     t.string   "remark",                 limit: 256
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
-    t.date     "date_of_implementation",             default: '2016-04-15'
+    t.date     "date_of_implementation",             default: '2016-04-16'
     t.string   "type_of_vehicle",        limit: 64
     t.string   "plate_number",           limit: 64
     t.string   "orcr",                   limit: 64

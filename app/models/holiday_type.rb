@@ -1,6 +1,6 @@
 class HolidayType < ActiveRecord::Base
 
-
+  include BaseConcerns
 
   validates_presence_of :type_name
   validates_presence_of :rate_multiplier

@@ -6,5 +6,6 @@ class CreateTelephones < MainMigration
       remark(t)
       t.string :digits, :limit => 64, :required => true
     end
+    primary_key_override(:telephones.to_s)
   end
 end

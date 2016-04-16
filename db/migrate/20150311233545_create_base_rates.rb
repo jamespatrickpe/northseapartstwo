@@ -9,5 +9,6 @@ class CreateBaseRates < MainMigration
       t.datetime :end_of_effectivity, :required => true
       t.string :rate_type,:limit => 64, default: 'other'
     end
+    primary_key_override(:base_rates.to_s)
   end
 end

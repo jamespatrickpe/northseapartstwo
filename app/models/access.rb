@@ -1,6 +1,6 @@
 class Access < ActiveRecord::Base
 
-  include UUIDHelper
+  include BaseConcerns
 
   has_secure_password
   belongs_to :actor, autosave: true

@@ -4,5 +4,6 @@ class CreateBranches < MainMigration
       common_set_one(t)
       make_name(t)
     end
+    primary_key_override(:branches.to_s)
   end
 end

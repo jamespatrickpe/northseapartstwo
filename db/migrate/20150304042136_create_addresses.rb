@@ -7,5 +7,6 @@ class CreateAddresses < MainMigration
       t.decimal :longitude, :precision => 18, :scale => 12, :limit => 32
       t.decimal :latitude, :precision => 18, :scale => 12, :limit => 32
     end
+    primary_key_override(:addresses.to_s)
   end
 end

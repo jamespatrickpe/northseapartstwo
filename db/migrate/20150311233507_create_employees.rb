@@ -5,5 +5,6 @@ class CreateEmployees < MainMigration
       actor_id(t)
       t.string :branch_id, limit: 36,:required => true
     end
+    primary_key_override(:employees.to_s)
   end
 end

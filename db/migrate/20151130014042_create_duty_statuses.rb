@@ -6,5 +6,6 @@ class CreateDutyStatuses < MainMigration
       datetime_of_implementation(t)
       t.boolean :active, :required => true, default: false
     end
+    primary_key_override(:duty_statuses.to_s)
   end
 end

@@ -7,5 +7,6 @@ class CreateExpenses < MainMigration
       t.string :category, :limit => 256
       t.string :physical_id, :limit => 256
     end
+    primary_key_override(:expenses.to_s)
   end
 end

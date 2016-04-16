@@ -13,5 +13,6 @@ class CreatePayrollSettings < MainMigration
       t.boolean :PAGIBIG_status, :required => true, default: false
       t.boolean :BIR_status, :required => true, default: false
     end
+    primary_key_override(:payroll_settings.to_s)
   end
 end

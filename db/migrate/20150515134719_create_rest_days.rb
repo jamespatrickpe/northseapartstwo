@@ -6,5 +6,6 @@ class CreateRestDays < MainMigration
       datetime_of_implementation(t)
       t.string :day, :limit => 64, :default => "SUNDAY"
     end
+    primary_key_override(:rest_days.to_s)
   end
 end
