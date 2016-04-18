@@ -1,4 +1,4 @@
-class GeneralAdministrator::VehicleController < GeneralAdministratorController
+class GeneralAdministration::VehicleController < GeneralAdministrationController
 
 
   def index
@@ -14,13 +14,13 @@ class GeneralAdministrator::VehicleController < GeneralAdministratorController
     rescue => ex
       flash[:general_flash_notification] = "Error has Occured" + ex.to_s
     end
-    render '/general_administrator/vehicle/index'
+    render '/general_administration/vehicle/index'
   end
 
 
   def initialize_form
     initialize_form_variables('VEHICLE',
-                              'general_administrator/vehicle/vehicle_form',
+                              'general_administration/vehicle/vehicle_form',
                               'vehicle')
     initialize_employee_selection
   end

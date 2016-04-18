@@ -1,4 +1,4 @@
-class GeneralAdministrator::BranchesController < GeneralAdministratorController
+class GeneralAdministration::BranchesController < GeneralAdministrationController
 
   def index
     query = generic_table_aggregated_queries('branches','branches.created_at')
@@ -13,13 +13,13 @@ class GeneralAdministrator::BranchesController < GeneralAdministratorController
     rescue => ex
       flash[:general_flash_notification] = "Error has Occured" + ex.to_s
     end
-    render '/general_administrator/branches/index'
+    render '/general_administration/branches/index'
   end
 
 
   def initialize_form()
     initialize_form_variables('BRANCH',
-                              'general_administrator/branches/branch_form',
+                              'general_administration/branches/branch_form',
                               'branches'
     )
   end
@@ -52,7 +52,7 @@ class GeneralAdministrator::BranchesController < GeneralAdministratorController
 
   def show
     initialize_form
-    @form_location = 'general_administrator/branches/show'
+    @form_location = 'general_administration/branches/show'
     @selected_branch = Branch.find(params[:id])
     get_contact_details(Branch, @selected_branch)
     get_associated_files(Branch, @selected_branch)

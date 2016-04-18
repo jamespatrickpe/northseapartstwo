@@ -1,4 +1,4 @@
-class GeneralAdministrator::LinkSetController < GeneralAdministratorController
+class GeneralAdministration::LinkSetController < GeneralAdministrationController
 
 
   def index
@@ -14,13 +14,13 @@ class GeneralAdministrator::LinkSetController < GeneralAdministratorController
     rescue => ex
       flash[:general_flash_notification] = "Error has Occured" + ex.to_s
     end
-    render '/general_administrator/link_set/index'
+    render '/general_administration/link_set/index'
   end
 
 
   def initialize_form
     initialize_form_variables('SYSTEM LINK SETS',
-                              'general_administrator/link_set/link_set_form',
+                              'general_administration/link_set/link_set_form',
                               'link_set')
     initialize_employee_selection
   end

@@ -1,4 +1,4 @@
-class GeneralAdministrator::FileSetController < GeneralAdministratorController
+class GeneralAdministration::FileSetsController < GeneralAdministrationController
 
 
   def index
@@ -14,13 +14,13 @@ class GeneralAdministrator::FileSetController < GeneralAdministratorController
     rescue => ex
       flash[:general_flash_notification] = "Error has Occured" + ex.to_s
     end
-    render '/general_administrator/file_set/index'
+    render '/general_administration/file_set/index'
   end
 
 
   def initialize_form
     initialize_form_variables('SYSTEM FILE SETS',
-                              'general_administrator/file_set/file_set_form',
+                              'general_administration/file_set/file_set_form',
                               'file_set')
     initialize_employee_selection
   end

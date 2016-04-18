@@ -1,4 +1,4 @@
-class GeneralAdministrator::ImageSetController < GeneralAdministratorController
+class GeneralAdministration::ImageSetController < GeneralAdministrationController
 
 
   def index
@@ -14,13 +14,13 @@ class GeneralAdministrator::ImageSetController < GeneralAdministratorController
     rescue => ex
       flash[:general_flash_notification] = "Error has Occured" + ex.to_s
     end
-    render '/general_administrator/image_set/index'
+    render '/general_administration/image_set/index'
   end
 
 
   def initialize_form
     initialize_form_variables('SYSTEM IMAGE SETS',
-                              'general_administrator/image_set/image_set_form',
+                              'general_administration/image_set/image_set_form',
                               'image_set')
     initialize_employee_selection
   end

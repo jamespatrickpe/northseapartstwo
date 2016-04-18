@@ -64,8 +64,8 @@ Rails.application.routes.draw do
 
   end
 
-  get 'general_administrator/' => 'general_administrator#index'
-  namespace :general_administrator do
+  get 'general_administration/' => 'general_administration#index'
+  namespace :general_administration do
 
     get 'actor/' => 'actor#index'
     get 'actor_profile/' => 'actor_profile#index'
@@ -90,8 +90,8 @@ Rails.application.routes.draw do
       end
     end
 
-    get 'file_set/' => 'file_set#index'
-    resources :file_set do
+    get 'file_sets/' => 'file_sets#index'
+    resources :file_sets do
       collection do
         concerns :generic_table
       end

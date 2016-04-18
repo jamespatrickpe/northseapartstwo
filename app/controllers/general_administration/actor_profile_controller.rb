@@ -1,4 +1,4 @@
-class GeneralAdministrator::ActorProfileController < GeneralAdministratorController
+class GeneralAdministration::ActorProfileController < GeneralAdministrationController
 
   def index
 

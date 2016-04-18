@@ -1,4 +1,4 @@
-class GeneralAdministrator::ActorController < GeneralAdministratorController
+class GeneralAdministration::ActorController < GeneralAdministrationController
 
   def index
     query = generic_table_aggregated_queries('actors','actors.created_at')
@@ -16,12 +16,12 @@ class GeneralAdministrator::ActorController < GeneralAdministratorController
     rescue => ex
       flash[:general_flash_notification] = "Error has Occured"
     end
-    render '/general_administrator/actor/index'
+    render '/general_administration/actor/index'
   end
 
   def initialize_form
     initialize_form_variables('ACTOR',
-                              'general_administrator/actor/actor_form',
+                              'general_administration/actor/actor_form',
                               'actor')
     initialize_employee_selection
   end

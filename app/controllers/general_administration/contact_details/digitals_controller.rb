@@ -1,4 +1,4 @@
-class GeneralAdministrator::ContactDetails::DigitalsController < GeneralAdministrator::ContactDetailsController
+class GeneralAdministration::ContactDetails::DigitalsController < GeneralAdministration::ContactDetailsController
 
   def index
     query = generic_table_aggregated_queries('digitals','digitals.created_at')
@@ -13,13 +13,13 @@ class GeneralAdministrator::ContactDetails::DigitalsController < GeneralAdminist
     rescue => ex
       flash[:general_flash_notification] = "Error has Occured"
     end
-    render 'general_administrator/contact_details/digitals/index'
+    render 'general_administration/contact_details/digitals/index'
   end
 
 
   def initialize_form
     initialize_form_variables('DIGITAL',
-                              'general_administrator/contact_details/digitals/digital_form',
+                              'general_administration/contact_details/digitals/digital_form',
                               'digital')
     initialize_employee_selection
   end

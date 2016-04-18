@@ -1,5 +1,4 @@
 class HumanResourcesController < ApplicationController
-  include ApplicationHelper
 
   layout "application_loggedin"
 
