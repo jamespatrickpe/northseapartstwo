@@ -1,0 +1,41 @@
+<section class='small-10 columns'>
+  <%= generic_title('Actor','List of Actor within the system') %>
+  <%= generic_actor_search %>
+  <% table_orientation = shift_table_orientation %>
+  <% begin %>
+      <table class="generic_table" id="actors_table">
+        <thead>
+        <tr>
+          <th>IMAGE</th>
+            <%= generic_table_theadlink('Name','actors.name', table_orientation) %>
+            <%= generic_table_theadlink('remark','actors.remark', table_orientation) %>
+          <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <% if @actors.empty? == true %>
+            <% raise exception %>
+        <% else %>
+            <tbody>
+            <% @actors.each do |actor| %>
+                <tr>
+                  <td style="text-align: center;"><%= image_tag(actor[:logo], size: "96", alt: "logo") %></td>
+                  <td><%= actor[:name] %></td>
+                  <td><%= actor[:remark] %></td>
+                  <td>
+                    <%= generic_actor_profile_link(actor.id, 'View Profile') %>
+                    <%= generic_table_actions(actor[:id]) %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+        <% end %>
+      </table>
+
+  <% rescue => ex %>
+      <%= generic_table_error(ex) %>
+  <% end %>
+  <%= generic_search_footer(@actors) %>
+
+</section>
+
+

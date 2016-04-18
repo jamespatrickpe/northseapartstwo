@@ -20,8 +20,8 @@ class GeneralAdministration::FileSetsController < GeneralAdministrationControlle
 
   def initialize_form
     initialize_form_variables('SYSTEM FILE SETS',
-                              'general_administration/file_set/file_set_form',
-                              'file_set')
+                              'general_administration/file_sets/file_set_form',
+                              'file_sets')
     initialize_employee_selection
   end
 
@@ -57,10 +57,10 @@ class GeneralAdministration::FileSetsController < GeneralAdministrationControlle
 
   def process_file_set_form(myFileSet)
     begin
-      myFileSet[:file] = params[:file_set][:file]
-      myFileSet[:label] = params[:file_set][:label]
-      myFileSet[:rel_file_set_id] = params[:file_set][:rel_file_set_id]
-      myFileSet[:rel_file_set_type] = params[:file_set][:rel_file_set_type]
+      myFileSet[:file] = params[:file_sets][:file]
+      myFileSet[:label] = params[:file_sets][:label]
+      myFileSet[:rel_file_set_id] = params[:file_sets][:rel_file_set_id]
+      myFileSet[:rel_file_set_type] = params[:file_sets][:rel_file_set_type]
       myFileSet.save!
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex
@@ -76,8 +76,8 @@ class GeneralAdministration::FileSetsController < GeneralAdministrationControlle
   end
 
   def update
-    myFileSet = FileSet.find(params[:file_set][:id])
-    flash[:general_flash_notification] = 'File Set Updated: ' + params[:file_set][:id]
+    myFileSet = FileSet.find(params[:file_sets][:id])
+    flash[:general_flash_notification] = 'File Set Updated: ' + params[:file_sets][:id]
     process_file_set_form(myFileSet)
   end
 

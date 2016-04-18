@@ -5,7 +5,7 @@ class HumanResources::AttendancePerformance::RegularWorkPeriodsController < Huma
     begin
       @regular_work_periods = RegularWorkPeriod
       .includes(employee: [:actor])
-      .joins(employee: [:actor])
+      .joins(employee: [:actors])
       .where("actors.name LIKE ? OR " +
                  "regular_work_periods.id LIKE ? OR " +
                  "regular_work_periods.start_time LIKE ? OR " +

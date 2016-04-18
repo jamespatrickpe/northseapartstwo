@@ -5,7 +5,7 @@ class HumanResources::AttendancePerformance::AttendancesController < HumanResour
     begin
       @attendances = ::Attendance
                          .includes(employee: [:actor])
-                         .joins(employee: [:actor])
+                         .joins(employee: [:actors])
                          .where("actors.name LIKE ? OR " +
                                     "attendances.id LIKE ? OR " +
                                     "attendances.timein LIKE ? OR " +

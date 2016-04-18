@@ -67,7 +67,7 @@ Rails.application.routes.draw do
   get 'general_administration/' => 'general_administration#index'
   namespace :general_administration do
 
-    get 'actor/' => 'actor#index'
+    get 'actors/' => 'actors#index'
     get 'actor_profile/' => 'actor_profile#index'
     get 'actor_profile/index' => 'actor_profile#index'
     resources :actor do
@@ -83,7 +83,7 @@ Rails.application.routes.draw do
         end
     end
 
-    get 'vehicle/' => 'vehicle#index'
+    get 'vehicles/' => 'vehicles#index'
     resources :vehicle do
       collection do
         concerns :generic_table
@@ -97,28 +97,42 @@ Rails.application.routes.draw do
       end
     end
 
-    get 'image_set/' => 'image_set#index'
+    get 'image_sets/' => 'image_sets#index'
     resources :image_set do
       collection do
         concerns :generic_table
       end
     end
 
-    get 'link_set/' => 'link_set#index'
+    get 'link_sets/' => 'link_sets#index'
     resources :link_set do
       collection do
         concerns :generic_table
       end
     end
 
-    get 'contact_details/' => 'contact_details#index'
-    namespace :contact_details do
-      resources :telephones, :addresses, :digitals do
-        collection do
-          concerns :generic_table
-        end
+    get 'telephones/' => 'telephones#index'
+    resources :telephones do
+      collection do
+        concerns :generic_table
       end
     end
+
+    get 'addresses/' => 'addresses#index'
+    resources :addresses do
+      collection do
+        concerns :generic_table
+      end
+    end
+
+    get 'digitals/' => 'digitals#index'
+    resources :digitals do
+      collection do
+        concerns :generic_table
+      end
+    end
+
+
 
   end
 

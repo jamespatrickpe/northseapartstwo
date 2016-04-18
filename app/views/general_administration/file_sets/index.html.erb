@@ -1,0 +1,48 @@
+<section class='small-10 columns'>
+  <%= generic_title('File Sets','Show all the file related with a given branches/actors') %>
+  <% table_orientation = shift_table_orientation %>
+  <% begin %>
+      <table class="generic_table" id="file_sets_table">
+        <thead>
+        <tr>
+          <th>
+            File Set ID
+            <%= generic_table_theadlink('file_sets.id', table_orientation) %>
+          </th>
+          <th>
+            File Name
+            <%= generic_table_theadlink('file_sets.file', table_orientation) %>
+          </th>
+          <th>
+            Label
+            <%= generic_table_theadlink('file_sets.label', table_orientation) %>
+          </th>
+          <th>
+            Related Names
+          </th>
+          <th class="actions" align="center">&nbsp;</th>
+        </tr>
+        </thead>
+        <% if @file_sets.empty? == true %>
+            <% raise exception %>
+        <% else %>
+            <tbody>
+            <% @file_sets.each do |file_set| %>
+                <tr>
+                  <td><%= file_set[:id].upcase %></td>
+                  <td><%= file_set[:file] %></td>
+                  <td><%= file_set[:label] %></td>
+                  <td></td>
+                  <td class="actions">
+                    <%= generic_table_actions(file_set[:id]) %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+        <% end %>
+      </table>
+  <% rescue => ex %>
+      <%= generic_table_error(ex) %>
+  <% end %>
+  <%= generic_table_footer(@file_sets) %>
+</section>

@@ -4,7 +4,7 @@ class HumanResources::CompensationAndBenefits::BaseRatesController < HumanResour
     query = generic_table_aggregated_queries('base_rates','base_rates.created_at')
     begin
       @base_rates = BaseRate.includes(employee: [:actor])
-                        .joins(employee: [:actor])
+                        .joins(employee: [:actors])
                         .where("actors.name LIKE ? OR " +
                                    "base_rates.id LIKE ? OR " +
                                    "base_rates.signed_type LIKE ? OR " +

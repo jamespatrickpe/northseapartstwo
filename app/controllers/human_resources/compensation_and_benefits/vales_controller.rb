@@ -5,7 +5,7 @@ class HumanResources::CompensationAndBenefits::ValesController < HumanResources:
     begin
       @vales = ::Vale
                    .includes(employee: [:actor])
-                   .joins(employee: [:actor])
+                   .joins(employee: [:actors])
                               .where("actors.name LIKE ? OR " +
                                          "vales.id LIKE ? OR " +
                                          "vales.amount LIKE ? OR " +

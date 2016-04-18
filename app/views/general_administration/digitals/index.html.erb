@@ -1,0 +1,38 @@
+<section class='small-10 columns'>
+  <%= generic_title('Digital Address information / URLs','List of URL address entries within the system') %>
+  <%= generic_table_search %>
+  <% table_orientation = shift_table_orientation %>
+  <% begin %>
+      <table class='generic_table' id='address_table'>
+        <thead>
+        <tr>
+          <%= generic_table_theadlink('Digital Info ID','digitals.id', table_orientation) %>
+          <th>Owner</th>
+          <%= generic_table_theadlink('URL','digitals.url', table_orientation) %>
+          <%= generic_table_theadlink('remark','digitals.remark', table_orientation) %>
+          <th class="actions" align="center">&nbsp;</th>
+        </tr>
+        </thead>
+        <% if @digitals.empty? == true %>
+            <% raise exception %>
+        <% else %>
+            <tbody>
+            <% @digitals.each do |digital| %>
+                <tr>
+                  <td><%= digital[:id].upcase %></td>
+                  <td><%= get_all_entities_involved_with_a_model(DigitalsActor, "digitals_actors.digital_id = ?", digital[:id]).collect { |i| i.name }.join(", ")%></td>
+                  <td><%= digital[:url] %> </td>
+                  <td><%= digital[:remark] %> </td>
+                  <td class="actions">
+                    <%= generic_table_actions(digital[:id]) %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+        <% end %>
+      </table>
+  <% rescue => ex %>
+      <%= generic_table_error(ex) %>
+  <% end %>
+  <%= generic_table_footer(@digitals) %>
+</section>

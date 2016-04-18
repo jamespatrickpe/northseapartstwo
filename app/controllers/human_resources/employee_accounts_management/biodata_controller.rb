@@ -4,7 +4,7 @@ class HumanResources::EmployeeAccountsManagement::BiodataController < HumanResou
     query = generic_table_aggregated_queries('biodata','biodata.created_at')
     begin
       @biodata = Biodatum.includes(:actor)
-                           .joins(:actor)
+                           .joins(:actors)
                            .where("biodata.actor_id LIKE ? ",
                                   "%#{query[:search_field]}%")
                            .order(query[:order_parameter] + ' ' + query[:order_orientation])

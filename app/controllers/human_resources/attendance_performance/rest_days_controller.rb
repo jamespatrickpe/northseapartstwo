@@ -5,7 +5,7 @@ class HumanResources::AttendancePerformance::RestDaysController < HumanResources
     begin
       @rest_days = RestDay
                        .includes(employee: [:actor])
-                       .joins(employee: [:actor])
+                       .joins(employee: [:actors])
                        .where("actors.name LIKE ? OR " +
                                   "rest_days.id LIKE ? OR " +
                                   "rest_days.day LIKE ? OR " +

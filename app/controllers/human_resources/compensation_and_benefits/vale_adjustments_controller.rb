@@ -5,7 +5,7 @@ class HumanResources::CompensationAndBenefits::ValeAdjustmentsController < Human
     begin
       @vale_adjustments = ::ValeAdjustment
                    .includes(vale: [employee: [:actor]])
-                   .joins(vale: [employee: [:actor]])
+                   .joins(vale: [employee: [:actors]])
                    .where("actors.name LIKE ? OR " +
                               "vale_adjustments.id LIKE ? OR " +
                               "vale_adjustments.amount LIKE ? OR " +
@@ -54,7 +54,7 @@ class HumanResources::CompensationAndBenefits::ValeAdjustmentsController < Human
   def new
     initialize_form
     @selected_vale_adjustment = ValeAdjustment.new
-    @vales = Vale.includes(employee: [:actor]).joins(employee: [:actor])
+    @vales = Vale.includes(employee: [:actor]).joins(employee: [:actors])
     @parent_vale_id = params[:parent_vale_id]
     generic_bicolumn_form_with_employee_selection(@selected_vale_adjustment)
   end
@@ -62,7 +62,7 @@ class HumanResources::CompensationAndBenefits::ValeAdjustmentsController < Human
   def edit
     initialize_form
     @selected_vale_adjustment = ValeAdjustment.find(params[:id])
-    @vales = Vale.includes(employee: [:actor]).joins(employee: [:actor])
+    @vales = Vale.includes(employee: [:actor]).joins(employee: [:actors])
     @parent_vale_id = params[:parent_vale_id]
     generic_bicolumn_form_with_employee_selection(@selected_vale_adjustment)
   end

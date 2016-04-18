@@ -5,7 +5,7 @@ class HumanResources::CompensationAndBenefits::LumpAdjustmentsController < Human
     begin
       @lump_adjustments = LumpAdjustment
       .includes(employee: [:actor])
-      .joins(employee: [:actor])
+      .joins(employee: [:actors])
       .where("actors.name LIKE ? OR " +
                  "lump_adjustments.id LIKE ? OR " +
                  "lump_adjustments.amount LIKE ? OR " +

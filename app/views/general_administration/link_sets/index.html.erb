@@ -1,0 +1,48 @@
+<section class='small-10 columns'>
+  <%= generic_title('Link Sets','Show all the link related to a given branches/actors') %>
+  <% table_orientation = shift_table_orientation %>
+  <% begin %>
+      <table class="generic_table" id="link_sets_table">
+        <thead>
+        <tr>
+          <th>
+            Link Set ID
+            <%= generic_table_theadlink('link_sets.id', table_orientation) %>
+          </th>
+          <th>
+            URL
+            <%= generic_table_theadlink('link_sets.url', table_orientation) %>
+          </th>
+          <th>
+            Label
+            <%= generic_table_theadlink('link_sets.label', table_orientation) %>
+          </th>
+          <th>
+            Related
+          </th>
+          <th class="actions" align="center">&nbsp;</th>
+        </tr>
+        </thead>
+        <% if @link_sets.empty? == true %>
+            <% raise exception %>
+        <% else %>
+            <tbody>
+            <% @link_sets.each do |link_set| %>
+                <tr>
+                  <td><%= link_set[:id].upcase %></td>
+                  <td><%= link_set[:url] %></td>
+                  <td><%= link_set[:label] %></td>
+                  <td></td>
+                  <td class="actions">
+                    <%= generic_table_actions(link_set[:id]) %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+        <% end %>
+      </table>
+  <% rescue => ex %>
+      <%= generic_table_error(ex) %>
+  <% end %>
+  <%= generic_table_footer(@link_sets) %>
+</section>

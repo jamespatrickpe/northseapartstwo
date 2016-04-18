@@ -1,0 +1,41 @@
+<style>
+    /* input[type="number"] hide hack for phone number input field */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        margin: 0;
+    }
+</style>
+
+
+
+<div class="form-block">
+  <div class="label">Digit</div>
+  <input type="number"
+         required="required"
+         placeholder="Enter Digits"
+         data-parsley-trigger = keyup
+         data-parsley-maxlength = 64
+         data-parsley-type = number
+         id="telephone_digits"
+         value= "<%= @selected_telephone[:digits] %>"
+         name="telephone[digits]">
+</div>
+
+
+
+<div class="form-block">
+  <div class="label">remark</div>
+  <input type="text"
+         required="required"
+         placeholder="Enter telphone digit remark"
+         data-parsley-trigger = keyup
+         data-parsley-maxlength = 64
+         id="telephone_remark"
+         value= "<%= @selected_telephone[:remark] %>"
+         name="telephone[remark]">
+</div>
+
+<%= generic_related_actors_selector('telephone', @telephone_actor_rel) %>

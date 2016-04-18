@@ -104,7 +104,7 @@ numberOfActors.times do |i|
   if 80.in(100)
     # ids = Branch.pluck(:id).shuffle
     # myBranch = Branch.where(id: ids)
-    myEmployee = Employee.new( actor: myActor, branch: Branch.all.shuffle.first )
+    myEmployee = Employee.new( actors: myActor, branch: Branch.all.shuffle.first )
 
     #Attendances
     rand(360..720).times do |i|
@@ -241,7 +241,7 @@ numberOfActors.times do |i|
     #   myLoan.loan_type = ['SSS','PHILHEALTH','PAGIBIG'].sample
     #   myLoan.pagibig_employer_id_number = '123456'
     #   myLoan.employee_id = myEmployee.id
-    #   myLoan.borrower_name = myEmployee.actor.name
+    #   myLoan.borrower_name = myEmployee.actors.name
     #   myLoan.loan_value = 1000000
     #   myLoan.loan_remaining = 1000000
     #   myLoan.collection_period_from = Time.now - rand(0..72000).hours

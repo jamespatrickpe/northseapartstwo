@@ -1,7 +1,7 @@
 module ActorProfile
 
   def initialize_actor_selection
-    @employees = Employee.includes(:actor).joins(:actor)
+    @employees = Employee.includes(:actor).joins(:actors)
   end
 
   def actor_profile

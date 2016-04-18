@@ -4,7 +4,7 @@ class HumanResources::CompensationAndBenefits::PayrollSettingsController < Human
     query = generic_table_aggregated_queries('payroll_settings','payroll_settings.created_at')
     begin
       @payroll_settings = PayrollSetting.includes(employee: [:actor])
-                      .joins(employee: [:actor])
+                      .joins(employee: [:actors])
                       .where("actors.name LIKE ? OR " +
                                  "payroll_settings.id LIKE ? OR " +
                                  "payroll_settings.article LIKE ? OR " +

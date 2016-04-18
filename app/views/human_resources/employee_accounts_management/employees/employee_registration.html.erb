@@ -19,7 +19,7 @@
           <div class="row">
             <div class="medium-8 columns">
               <label>Name
-                <%= text_field_tag("actor[name]", value = nil, options = {placeholder: "Enter name", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64"}) %>
+                <%= text_field_tag("actors[name]", value = nil, options = {placeholder: "Enter name", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"64"}) %>
               </label>
             </div>
           </div>
@@ -27,7 +27,7 @@
           <div class="row">
             <div class="medium-8 columns">
               <label>remark
-                <%= text_area_tag("actor[remark]", value = nil, options = {placeholder: "Enter remark", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"128"}) %>
+                <%= text_area_tag("actors[remark]", value = nil, options = {placeholder: "Enter remark", required: "required", :"data-parsley-trigger" => "keyup",:"data-parsley-minlength"=>"3" ,:"data-parsley-maxlength"=>"128"}) %>
               </label>
             </div>
           </div>

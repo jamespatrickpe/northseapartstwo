@@ -1,0 +1,115 @@
+<div class="form-block">
+  <div class="label">Image</div>
+
+  <input type="file"
+         required="required"
+         placeholder="Choose image"
+         data-parsley-trigger = keyup
+         id="image_set_name"
+         value= "<%= @selected_image_set[:picture] %>"
+         name="image_set[name]">
+</div>
+
+<div class="form-block">
+  <div class="label">Label</div>
+
+  <input type="text"
+         required="required"
+         placeholder="Select label"
+         data-parsley-trigger = keyup
+         data-parsley-maxlength = 256
+         id="image_set_label"
+         value= "<%= @selected_image_set[:remark] %>"
+         name="image_set[remark]">
+</div>
+
+<div class="form-block">
+  <div class="label">Priority</div>
+
+  <input type="number"
+         required="required"
+         placeholder="Select priority"
+         data-parsley-trigger = keyup
+         id="image_set_priority"
+         value= "<%= @selected_image_set[:priority] %>"
+         name="image_set[priority]">
+</div>
+
+<div class="form-block">
+  <div class="label">Model</div>
+  <br />
+  <select id="model-dropdown" name='image_set[rel_image_set_type]'
+          required="required" >
+    <% if @selected_image_set[:rel_image_set_type] == 'Actor' %>
+        <option value="Actor" selected>Actor</option>
+        <option value="Branch">Branch</option>
+    <% elsif @selected_image_set[:rel_image_set_type] == 'Branch' %>
+        <option value="Actor">Actor</option>
+        <option value="Branch" selected>Branch</option>
+    <% else %>
+        <option disabled selected>Select Model</option>
+        <option value="Actor">Actor</option>
+        <option value="Branch">Branch</option>
+    <% end %>
+  </select>
+</div>
+
+<div id="actor-selector" class="form-block">
+  <div class="label">Actor</div>
+  <br />
+  <select name='image_set[rel_image_set_id]'
+          id='new_image_set_rel_model_id1'
+          class='employee_select_field selectized'>
+
+    <option value="" disabled selected>Select Actor</option>
+    <% @actors.each do |actor| %>
+        <% if actor.id == @selected_image_set[:rel_image_set_id] %>
+            <option value=<%= actor.id %> selected><%= actor.name %></option>
+        <% else %>
+            <option value=<%= actor.id %>><%= actor.name %></option>
+        <% end %>
+    <% end %>
+  </select>
+</div>
+
+<div id="branch-selector" class="form-block">
+  <div class="label">Branch</div>
+  <br />
+  <select name='image_set[rel_image_set_id]'
+          id='new_image_set_rel_model_id2'
+          class='employee_select_field selectized'>
+
+    <option value="" disabled selected>Select Branch</option>
+    <% @branches.each do |branch| %>
+        <% if branch.id == @selected_image_set[:rel_image_set_id] %>
+            <option value=<%= branch.id %> selected><%= branch.name %></option>
+        <% else %>
+            <option value=<%= branch.id %>><%= branch.name %></option>
+        <% end %>
+    <% end %>
+  </select>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('#new_image_set_rel_model_id1').selectize({sortField: 'text'});
+        $('#new_image_set_rel_model_id2').selectize({sortField: 'text'});
+        $("#branches-selector select[name*='image_sets[rel_image_set_id]']").prop('disabled', true);
+        $("#actor-selector").hide();
+        $("#branch-selector").hide();
+    });
+
+    $("#model-dropdown").change(function(){
+        if($("#model-dropdown").val() == "Actor"){
+            $("#actor-selector").show();
+            $("#branches-selector select[name*='image_sets[rel_image_set_id]']").prop('disabled', true);
+            $("#actors-selector select[name*='image_sets[rel_image_set_id]']").removeAttr('disabled');
+            $("#branch-selector").hide();
+        } else if($("#model-dropdown").val() == "Branch"){
+            $("#branch-selector").show();
+            $("#actors-selector select[name*='image_sets[rel_image_set_id]']").prop('disabled', true);
+            $("#branches-selector select[name*='image_sets[rel_image_set_id]']").removeAttr('disabled');
+            $("#actor-selector").hide();
+        }
+    });
+</script>

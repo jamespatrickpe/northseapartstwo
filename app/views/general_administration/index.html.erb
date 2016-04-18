@@ -1,17 +1,16 @@
 <section class="small-10 columns">
 
-  <div class="mainheader">General Administrator</div>
-  <div class="subremark"> The module provides the capability of a user to configure system-related parameters. </div>
-  <br>
+  <%= generic_title('General Administration',
+                    'Administrative Concerns with the Management and System') %>
 
-  <ul class="button-group">
-    <li><a href="/general_administrator/actor" class="button tiny">Actor</a></li>
-    <li><a href="/general_administrator/branches" class="button tiny">Branch</a></li>
-    <li><a href="/general_administrator/contact_details" class="button tiny">Contact Details</a></li>
-    <li><a href="/general_administrator/vehicle" class="button tiny">Vehicles</a></li>
-    <li><a href="/general_administrator/file_set" class="button tiny">File Set</a></li>
-    <li><a href="/general_administrator/image_set" class="button tiny">Image Set</a></li>
-    <li><a href="/general_administrator/link_set" class="button tiny">Link Set</a></li>
-  </ul>
+  <%= overview_panel(general_administration_actors_path,'Actors', Actor) %>
+  <%= overview_panel(general_administration_branches_path,'Branches', Branch) %>
+  <%= overview_panel(general_administration_addresses_path,'Addresses', Address) %>
+  <%= overview_panel(general_administration_telephones_path,'Telephones', Telephone) %>
+  <%= overview_panel(general_administration_digitals_path,'Digitals', Digital) %>
+  <%= overview_panel(general_administration_vehicles_path,'Vehicles', Vehicle) %>
+  <%= overview_panel(general_administration_file_sets_path,'File Sets', FileSet) %>
+  <%= overview_panel(general_administration_image_sets_path,'Image Sets', ImageSet) %>
+  <%= overview_panel(general_administration_link_sets_path,'Link Sets', LinkSet) %>
 
 </section>
