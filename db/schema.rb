@@ -42,14 +42,13 @@ ActiveRecord::Schema.define(version: 20160415003506) do
   create_table "addresses", force: :cascade do |t|
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
-    t.integer  "addressable_id",   limit: 4
-    t.string   "addressable_type", limit: 255
     t.string   "remark",           limit: 256
+    t.string   "addressable_id",   limit: 255
+    t.string   "addressable_type", limit: 255
     t.decimal  "longitude",                    precision: 18, scale: 12
     t.decimal  "latitude",                     precision: 18, scale: 12
   end
 
-  add_index "addresses", ["addressable_type", "addressable_id"], name: "index_addresses_on_addressable_type_and_addressable_id", using: :btree
   add_index "addresses", ["id"], name: "index_addresses_on_id", using: :btree
 
   create_table "associations", force: :cascade do |t|
@@ -69,7 +68,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
     t.datetime "created_at",                                                         null: false
     t.datetime "updated_at",                                                         null: false
     t.string   "employee_id",            limit: 36
-    t.date     "date_of_implementation",             default: '2016-04-16'
+    t.date     "date_of_implementation",             default: '2016-04-17'
     t.time     "timein",                             default: '2000-01-01 00:00:01'
     t.time     "timeout",                            default: '2000-01-01 23:59:59'
   end
@@ -127,7 +126,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
     t.string   "name",                   limit: 64
-    t.date     "date_of_implementation",             default: '2016-04-16'
+    t.date     "date_of_implementation",             default: '2016-04-17'
     t.string   "value",                  limit: 64
     t.string   "constant_type",          limit: 64
   end
@@ -146,13 +145,12 @@ ActiveRecord::Schema.define(version: 20160415003506) do
   create_table "digitals", force: :cascade do |t|
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
-    t.integer  "digitable_id",   limit: 4
-    t.string   "digitable_type", limit: 255
     t.string   "remark",         limit: 256
+    t.string   "digitable_id",   limit: 255
+    t.string   "digitable_type", limit: 255
     t.string   "url",            limit: 512
   end
 
-  add_index "digitals", ["digitable_type", "digitable_id"], name: "index_digitals_on_digitable_type_and_digitable_id", using: :btree
   add_index "digitals", ["id"], name: "index_digitals_on_id", using: :btree
 
   create_table "duty_statuses", force: :cascade do |t|
@@ -191,12 +189,11 @@ ActiveRecord::Schema.define(version: 20160415003506) do
     t.string   "remark",           limit: 256
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
-    t.integer  "filesetable_id",   limit: 4
+    t.string   "filesetable_id",   limit: 255
     t.string   "filesetable_type", limit: 255
     t.string   "file",             limit: 512
   end
 
-  add_index "file_sets", ["filesetable_type", "filesetable_id"], name: "index_file_sets_on_filesetable_type_and_filesetable_id", using: :btree
   add_index "file_sets", ["id"], name: "index_file_sets_on_id", using: :btree
 
   create_table "holiday_types", force: :cascade do |t|
@@ -216,7 +213,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
     t.string   "remark",                 limit: 256
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
-    t.date     "date_of_implementation",             default: '2016-04-16'
+    t.date     "date_of_implementation",             default: '2016-04-17'
     t.string   "name",                   limit: 64
     t.string   "holiday_type_id",        limit: 36
   end
@@ -227,14 +224,13 @@ ActiveRecord::Schema.define(version: 20160415003506) do
     t.string   "remark",            limit: 256
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
-    t.integer  "imagesetable_id",   limit: 4
+    t.string   "imagesetable_id",   limit: 255
     t.string   "imagesetable_type", limit: 255
     t.string   "picture",           limit: 512
     t.integer  "priority",          limit: 4,   default: 0
   end
 
   add_index "image_sets", ["id"], name: "index_image_sets_on_id", using: :btree
-  add_index "image_sets", ["imagesetable_type", "imagesetable_id"], name: "index_image_sets_on_imagesetable_type_and_imagesetable_id", using: :btree
 
   create_table "institutional_adjustments", force: :cascade do |t|
     t.string   "remark",                     limit: 256
@@ -258,8 +254,8 @@ ActiveRecord::Schema.define(version: 20160415003506) do
     t.datetime "updated_at",                                                       null: false
     t.string   "employee_id",          limit: 36
     t.string   "type_of_leave",        limit: 64
-    t.datetime "start_of_effectivity",             default: '2016-04-16 14:12:51'
-    t.datetime "end_of_effectivity",               default: '2016-04-16 14:12:51'
+    t.datetime "start_of_effectivity",             default: '2016-04-17 19:43:04'
+    t.datetime "end_of_effectivity",               default: '2016-04-17 19:43:04'
   end
 
   add_index "leaves", ["id"], name: "index_leaves_on_id", using: :btree
@@ -268,13 +264,12 @@ ActiveRecord::Schema.define(version: 20160415003506) do
     t.string   "remark",           limit: 256
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
-    t.integer  "linksetable_id",   limit: 4
-    t.string   "linksetable_type", limit: 255
     t.string   "url",              limit: 512
+    t.string   "linksetable_id",   limit: 255
+    t.string   "linksetable_type", limit: 255
   end
 
   add_index "link_sets", ["id"], name: "index_link_sets_on_id", using: :btree
-  add_index "link_sets", ["linksetable_type", "linksetable_id"], name: "index_link_sets_on_linksetable_type_and_linksetable_id", using: :btree
 
   create_table "lump_adjustments", force: :cascade do |t|
     t.string   "remark",                     limit: 256
@@ -362,14 +357,13 @@ ActiveRecord::Schema.define(version: 20160415003506) do
   create_table "telephones", force: :cascade do |t|
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
-    t.integer  "telephonable_id",   limit: 4
-    t.string   "telephonable_type", limit: 255
     t.string   "remark",            limit: 256
+    t.string   "telephonable_id",   limit: 255
+    t.string   "telephonable_type", limit: 255
     t.string   "digits",            limit: 64
   end
 
   add_index "telephones", ["id"], name: "index_telephones_on_id", using: :btree
-  add_index "telephones", ["telephonable_type", "telephonable_id"], name: "index_telephones_on_telephonable_type_and_telephonable_id", using: :btree
 
   create_table "vale_adjustments", force: :cascade do |t|
     t.string   "remark",                     limit: 256
@@ -400,7 +394,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
     t.string   "remark",                 limit: 256
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
-    t.date     "date_of_implementation",             default: '2016-04-16'
+    t.date     "date_of_implementation",             default: '2016-04-17'
     t.string   "type_of_vehicle",        limit: 64
     t.string   "plate_number",           limit: 64
     t.string   "orcr",                   limit: 64

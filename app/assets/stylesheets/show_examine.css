@@ -20,3 +20,14 @@
 {
     width: 40%;
 }
+
+.show_picture_field
+{
+    position: relative;
+    display: inline;
+    width: 100px;
+    height: 100px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding: 5px;
+}

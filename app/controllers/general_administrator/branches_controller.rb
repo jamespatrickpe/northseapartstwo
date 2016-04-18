@@ -54,9 +54,8 @@ class GeneralAdministrator::BranchesController < GeneralAdministratorController
     initialize_form
     @form_location = 'general_administrator/branches/show'
     @selected_branch = Branch.find(params[:id])
-    @selected_address_set = Address.where("rel_model_id = ? AND rel_model_type = 'Branch'", "#{@selected_branch.id}")
-    @selected_telephone_set = Telephone.where("rel_model_id = ? AND rel_model_type = 'Branch'", "#{@selected_branch.id}")
-    @selected_digital_set = Digital.where("rel_model_id = ? AND rel_model_type = 'Branch'", "#{@selected_branch.id}")
+    get_contact_details(Branch, @selected_branch)
+    get_associated_files(Branch, @selected_branch)
     generic_model_show(@selected_branch, Branch.all() , 'name')
   end
 

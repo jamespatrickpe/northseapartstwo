@@ -3,7 +3,7 @@ class ImageSet < ActiveRecord::Base
   include BaseConcerns,
           RemarkValidations
 
-  belongs_to :rel_image_set, polymorphic: true
+  belongs_to :imagesetable, polymorphic: true
 
   mount_uploader :picture, RelatedImageUploader
   validates :picture,

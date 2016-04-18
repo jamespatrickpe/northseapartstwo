@@ -8,4 +8,8 @@ module GenericShowHelper
     render(:partial => 'common_partials/generic_show/associated_files', :locals => {})
   end
 
+  def render_not_applicable()
+    render(:partial => 'common_partials/generic_show/not_applicable', :locals => {})
+  end
+
 end

@@ -1,9 +1,10 @@
 class Address < ActiveRecord::Base
 
   include BaseConcerns,
-          RemarkValidations,
-          BelongsRelModel
+          RemarkValidations
 
+
+  belongs_to :addressable, polymorphic: true
   validates_numericality_of :longitude
   validates_numericality_of :latitude
 

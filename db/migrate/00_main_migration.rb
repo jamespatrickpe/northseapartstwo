@@ -34,10 +34,6 @@ class MainMigration < ActiveRecord::Migration
     t.timestamps null: false
   end
 
-  def polymorphic_association(t,referenceable)
-    t.references referenceable, polymorphic: true, index: true
-  end
-
   def date_of_implementation(t)
     t.date :date_of_implementation, :required => true, :default => DateTime.now
   end

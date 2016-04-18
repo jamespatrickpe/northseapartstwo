@@ -338,15 +338,6 @@ numberOfActors.times do |i|
 end
 
 # General Administration
-# Related File Sets
-rand(50..100).times do |i|
-  myFileSet = FileSet.new
-  myFileSet[:file] = ['export_table_1.csv','export_table_2.csv','export_table_3.csv','export_table_4.csv','export_table_5.csv'].sample
-  myFileSet.remark = Faker::Lorem.sentence
-  myFileSet.filesetable_id = random_associative_model[:my_model_id]
-  myFileSet.filesetable_type = random_associative_model[:my_model]
-  myFileSet.save!
-end
 
 # Vehicles
 rand(50..100).times do |b|
@@ -359,47 +350,63 @@ rand(50..100).times do |b|
   myVehicle.save!
 end
 
+# Related File Sets
+rand(50..100).times do |i|
+  sample = random_associative_model
+  myFileSet = FileSet.new
+  myFileSet[:file] = ['export_table_1.csv','export_table_2.csv','export_table_3.csv','export_table_4.csv','export_table_5.csv'].sample
+  myFileSet.remark = Faker::Lorem.sentence
+  myFileSet.filesetable_id = sample[:my_model_id]
+  myFileSet.filesetable_type = sample[:my_model]
+  myFileSet.save!
+end
+
 # Related Image Sets
 rand(50..100).times do |i|
+  sample = random_associative_model
   myImageSet = ImageSet.new
   myImageSet[:picture] = ['file_01.jpg','file_02.png','file_03.gif','file_04.jpg','file_05.jpg'].sample
   myImageSet.remark = Faker::Lorem.sentence
-  myImageSet.imagesetable_id = random_associative_model[:my_model_id]
-  myImageSet.imagesetable_type = random_associative_model[:my_model]
+  myImageSet.imagesetable_id = sample[:my_model_id]
+  myImageSet.imagesetable_type = sample[:my_model]
   myImageSet.save!
 end
 
 # Related Link Sets
 rand(50..100).times do |i|
+  sample = random_associative_model
   myLinkSet = LinkSet.new
   myLinkSet.remark = Faker::Lorem.word
   myLinkSet[:url] = Faker::Internet.url
-  myLinkSet.linksetalble_id = random_associative_model[:my_model_id]
-  myLinkSet.linksetalble_type = random_associative_model[:my_model]
+  myLinkSet.linksetable_id = sample[:my_model_id]
+  myLinkSet.linksetable_type = sample[:my_model]
   myLinkSet.save!
 end
 
 # Digital
 rand(50..100).times do |i|
+  sample = random_associative_model
   myDigital = Digital.new( remark: Faker::Lorem.sentence, url: Faker::Internet.url)
-  myDigital.digitable_id = random_associative_model[:my_model_id]
-  myDigital.digitable_type = random_associative_model[:my_model]
+  myDigital.digitable_id = sample[:my_model_id]
+  myDigital.digitable_type = sample[:my_model]
   myDigital.save!
 end
 
 # Telephony
 rand(50..100).times do |i|
+  sample = random_associative_model
   myTelephony = Telephone.new( remark: Faker::Lorem.sentence, digits: Faker::PhoneNumber.phone_number)
-  myTelephony.telephonable_id = random_associative_model[:my_model_id]
-  myTelephony.telephonable_type = random_associative_model[:my_model]
+  myTelephony.telephonable_id = sample[:my_model_id]
+  myTelephony.telephonable_type = sample[:my_model]
   myTelephony.save!
 end
 
 # Addresses
 rand(50..100).times do |i|
+  sample = random_associative_model
   completeAddress = Faker::Address.building_number + ' '+ Faker::Address.street_name + ' ' + Faker::Address.street_address + ' ' + Faker::Address.city + ' ' + Faker::Address.country
   myAddress = Address.new( remark: completeAddress, longitude: Faker::Address.longitude, latitude: Faker::Address.latitude)
-  myAddress.addressable_id = random_associative_model[:my_model_id]
-  myAddress.addressable_type = random_associative_model[:my_model]
+  myAddress.addressable_id = sample[:my_model_id]
+  myAddress.addressable_type = sample[:my_model]
   myAddress.save!
 end
