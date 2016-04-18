@@ -1,16 +1,14 @@
 <section class='small-10 columns'>
-  <%= generic_title('Addresses','List of address entries within the system') %>
-  <%= generic_table_search %>
-  <% table_orientation = shift_table_orientation %>
+  <%= preheader_generic_table('Addresses','Place or the name of the place where an entity may be reached') %>
   <% begin %>
       <table class='generic_table' id='address_table'>
         <thead>
         <tr>
-          <%= generic_table_theadlink('Address ID',addresses.id, table_orientation) %>
+          <%= generic_table_theadlink('Address ID','addresses.id') %>
           <th>Address Owners</th>
-          <%= generic_table_theadlink('remark','addresses.remark', table_orientation) %>
-          <%= generic_table_theadlink('Longitude','addresses.longitude', table_orientation) %>
-          <%= generic_table_theadlink('Latitude','addresses.latitude', table_orientation) %>
+          <%= generic_table_theadlink('remark','addresses.remark') %>
+          <%= generic_table_theadlink('Longitude','addresses.longitude') %>
+          <%= generic_table_theadlink('Latitude','addresses.latitude') %>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
         </thead>

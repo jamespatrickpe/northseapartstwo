@@ -1,12 +1,13 @@
 <div class='small-12 columns'>
   <div class="show_panel_header"> Associated Files </div>
 
-  <div class='small-4 columns'>
+  <div class='small-2 columns'>
     <div class="show_panel_division">FILES</div>
     <% if @selected_file_set.present? %>
         <% @selected_file_set.each do |file_set| %>
             <div class="show_panel_division">
-              <a class="show_panel_small_button"
+              <a target="_blank"
+                 class="show_panel_small_button"
                  href=<%=file_set.file %>>
                 <%= file_set.remark %></a>
             </div>
@@ -16,31 +17,37 @@
     <% end %>
   </div>
 
-  <div class='small-4 columns'>
-    <div class="show_panel_division">IMAGES</div>
-  <% if @selected_image_set.present? %>
-        <ul class="small-block-grid-3" >
-          <% @selected_image_set.each do |image_set| %>
-              <li tooltip=<%= image_set.remark %> class='show_panel_image_container'>
-                <a class='show_panel_image_link' target="_blank" href=<%= image_set.picture.url %>>
-                  <img src=<%= image_set.picture %>/> </a></li>
-          <% end %>
-        </ul>
-  <% else %>
-        <%= render_not_applicable %>
-  <% end %>
-  </div>
-
-  <div class='small-4 columns'>
+  <div class='small-2 columns'>
     <div class="show_panel_division">LINKS</div>
     <% if @selected_link_set.present? %>
         <% @selected_link_set.each do |link_set| %>
             <div class="show_panel_division">
-              <a class="show_panel_small_button" href=<%=link_set.url %>> <%= link_set.remark %></a>
+              <a class="show_panel_small_button" href=<%=link_set.url %> target="_blank" >
+                <%= link_set.remark %>
+              </a>
             </div>
         <% end %>
     <% else %>
         <%= render_not_applicable %>
     <% end %>
   </div>
+
+  <div class='small-8 columns'>
+    <div class="show_panel_division">IMAGES</div>
+  <% if @selected_image_set.present? %>
+        <% @selected_image_set.each do |image_set| %>
+        <a href="<%= image_set.picture.url %>" target="_blank">
+          <div class="show_picture_field" style="background-image: url(<%= image_set.picture.url %>)">
+          <div class="show_panel_small_button">
+            <%= image_set.remark %>
+          </div>
+        </div>
+        </a>
+        <% end %>
+  <% else %>
+        <%= render_not_applicable %>
+  <% end %>
+  </div>
+
+
 </div>

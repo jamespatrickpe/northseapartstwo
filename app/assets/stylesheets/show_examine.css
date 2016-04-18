@@ -23,11 +23,10 @@
 
 .show_picture_field
 {
-    position: relative;
-    display: inline;
-    width: 100px;
-    height: 100px;
+    height: 150px;
+    width: 150px;
     overflow-x: hidden;
-    overflow-y: hidden;
-    padding: 5px;
+    float:left;
+    margin: 2px;
+    background-position: center;
 }

@@ -6,7 +6,10 @@
     <% if @selected_address_set.present? %>
         <% @selected_address_set.each do |address| %>
             <div class="show_panel_division">
-              <%= link_to address.remark, 'https://www.google.com/maps/preview/@'+address.latitude.to_s+','+address.longitude.to_s+',10z', class: "show_panel_small_button", target: "_blank" %>
+              <%= link_to address.remark,
+                          'https://www.google.com.ph/maps/@'+address.longitude.to_s+','+address.latitude.to_s+'z?hl=fil',
+                          class: "show_panel_small_button",
+                          target: "_blank" %>
             </div>
         <% end %>
     <% else %>
