@@ -17,6 +17,7 @@ module GenericTableHelper
   end
 
   def generic_table_error(ex)
+    puts ex.to_s
     render(:partial => 'common_partials/generic_table/error', :locals => {:ex => ex})
   end
 

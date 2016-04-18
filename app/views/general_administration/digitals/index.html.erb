@@ -1,26 +1,22 @@
 <section class='small-10 columns'>
-  <%= generic_title('Digital Address information / URLs','List of URL address entries within the system') %>
-  <%= generic_table_search %>
-  <% table_orientation = shift_table_orientation %>
+  <%= preheader_generic_table('Digitals','Digital Contact Details or URLs') %>
   <% begin %>
-      <table class='generic_table' id='address_table'>
+      <table class='generic_table' id='digital_table'>
         <thead>
         <tr>
-          <%= generic_table_theadlink('Digital Info ID','digitals.id', table_orientation) %>
-          <th>Owner</th>
-          <%= generic_table_theadlink('URL','digitals.url', table_orientation) %>
-          <%= generic_table_theadlink('remark','digitals.remark', table_orientation) %>
+          <%= generic_table_theadlink('ID','id') %>
+          <%= generic_table_theadlink('URL','url') %>
+          <%= generic_table_theadlink('remark','remark') %>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
         </thead>
         <% if @digitals.empty? == true %>
-            <% raise exception %>
+            <%= no_records_found %>
         <% else %>
             <tbody>
             <% @digitals.each do |digital| %>
                 <tr>
                   <td><%= digital[:id].upcase %></td>
-                  <td><%= get_all_entities_involved_with_a_model(DigitalsActor, "digitals_actors.digital_id = ?", digital[:id]).collect { |i| i.name }.join(", ")%></td>
                   <td><%= digital[:url] %> </td>
                   <td><%= digital[:remark] %> </td>
                   <td class="actions">
@@ -36,3 +32,8 @@
   <% end %>
   <%= generic_table_footer(@digitals) %>
 </section>
+
+<%=
+    @stupid_chaines
+
+%>

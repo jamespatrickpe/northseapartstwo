@@ -103,3 +103,12 @@ dataSources.xml
 Gemfile.lock
 database.yml
 workspace.xml
+
+solr/data
+solr/test
+solr/development
+solr/default/data
+/log/*.log.lck
+solr/pids
+solr/configsets
+solr/hsperfdata_James/8960

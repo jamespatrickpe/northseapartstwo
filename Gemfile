@@ -72,6 +72,9 @@ gem 'selectize-rails'
 gem 'uuidtools'
 gem 'devise'
 gem 'probability'
+gem 'sunspot_rails'
+gem 'sunspot_solr'
+gem 'progress_bar'
 
 # This library provides integration of the money gem with Rails.
 gem 'money-rails'

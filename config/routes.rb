@@ -129,6 +129,7 @@ Rails.application.routes.draw do
     resources :digitals do
       collection do
         concerns :generic_table
+        get :search
       end
     end
 

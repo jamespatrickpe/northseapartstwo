@@ -25,4 +25,13 @@ module GenericController
     @employee_id = params[:employee_id]
   end
 
+  def render_index(base_directory)
+    render base_directory + '/index'
+  end
+
+  def index_error(ex)
+    puts ex.to_s
+    flash[:general_flash_notification] = "Error has Occured: " + ex.to_s
+  end
+
 end

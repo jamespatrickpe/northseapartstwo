@@ -1,19 +1,20 @@
-class GeneralAdministration::ContactDetails::DigitalsController < GeneralAdministration::ContactDetailsController
+class GeneralAdministration::DigitalsController < GeneralAdministrationController
 
   def index
-    query = generic_table_aggregated_queries('digitals','digitals.created_at')
+    query = generic_table_aggregated_queries('digitals','created_at')
     begin
-      @digitals = Digital
-                       .where("digitals.url LIKE ? OR " +
-                                  "digitals.remark LIKE ? ",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%")
-                       .order(query[:order_parameter] + ' ' + query[:order_orientation])
-      @digitals = Kaminari.paginate_array(@digitals).page(params[:page]).per(query[:current_limit])
+      @search = Digital.search do
+        fulltext query[:search_field]
+        order_by :created_at,
+                 query[:order_orientation].parameterize.underscore.to_sym
+        paginate :page => params[:page],
+                 :per_page => query[:current_limit]
+      end
+      @digitals = @search.results
     rescue => ex
-      flash[:general_flash_notification] = "Error has Occured"
+      index_error(ex)
     end
-    render 'general_administration/contact_details/digitals/index'
+    render_index(general_administration_digitals_path)
   end
 
 
