@@ -104,12 +104,16 @@ Gemfile.lock
 database.yml
 workspace.xml
 
-solr
 solr/data
 solr/test
 solr/development
 solr/default/data
+solr/configsets/sunspot
+solr/configsets/sunspot/*
 /log/*.log.lck
-solr/pids
-solr/configsets
-solr/hsperfdata_James/8960
+solr/pidsgit
+
+.idea/.generators
+.idea/.rakeTasks
+config/sunspot.yml
+solr/hsperfdata_James/11832
