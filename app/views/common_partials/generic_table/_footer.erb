@@ -1,5 +1,13 @@
 <div class="pagination_set">
-  <span><%= paginate result_set %></span>
+  <span>
+    <%=
+        begin
+          paginate result_set
+        rescue => ex
+          ex.to_s
+        end
+    %>
+  </span>
 </div>
 
 <div class="generic_table_options">

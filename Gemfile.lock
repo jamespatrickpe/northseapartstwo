@@ -81,6 +81,7 @@ GEM
       warden (~> 1.2.3)
     erubis (2.7.0)
     execjs (2.3.0)
+    facets (3.0.0)
     faker (1.4.3)
       i18n (~> 0.5)
     foundation-rails (5.5.1.0)
@@ -244,6 +245,7 @@ DEPENDENCIES
   carrierwave
   country_select (~> 2.2.0)
   devise
+  facets
   faker
   foundation-rails
   jbuilder (~> 2.0)

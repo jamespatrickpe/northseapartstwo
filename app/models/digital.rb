@@ -7,13 +7,17 @@ class Digital < ActiveRecord::Base
   belongs_to :digitable, polymorphic: true
 
   searchable do
-    text :id
     string :url
+    text :url
+
+    string :digitable_type
     text :digitable_type
+
+    string :digitable_id
     text :digitable_id
+
+    string :remark
     text :remark
-    time :created_at
-    time :updated_at
   end
 
 end

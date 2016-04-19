@@ -4,8 +4,9 @@ module GenericTableHelper
     render(:partial => 'common_partials/generic_table/actions', :locals => { :model_id => model_id})
   end
 
-  def generic_table_theadlink(head_title, order_parameter)
-    render(:partial => 'common_partials/generic_table/theadlink', :locals => {:head_title => head_title, :order_parameter => order_parameter})
+  def generic_table_theadlink(head_title, order_parameter = head_title.downcase.tr(" ", "_") )
+    render(:partial => 'common_partials/generic_table/theadlink', :locals => {:head_title => head_title,
+                                                                              :order_parameter => order_parameter})
   end
 
   def generic_table_footer(result_set)

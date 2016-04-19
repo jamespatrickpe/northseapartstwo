@@ -4,9 +4,11 @@
       <table class='generic_table' id='digital_table'>
         <thead>
         <tr>
-          <%= generic_table_theadlink('ID','id') %>
-          <%= generic_table_theadlink('URL','url') %>
-          <%= generic_table_theadlink('remark','remark') %>
+          <%= generic_table_theadlink('ID') %>
+          <%= generic_table_theadlink('URL') %>
+          <%= generic_table_theadlink('remark') %>
+          <%= generic_table_theadlink('Created At') %>
+          <%= generic_table_theadlink('Updated At') %>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
         </thead>
@@ -19,6 +21,8 @@
                   <td><%= digital[:id].upcase %></td>
                   <td><%= digital[:url] %> </td>
                   <td><%= digital[:remark] %> </td>
+                  <td><%= digital[:created_at] %> </td>
+                  <td><%= digital[:updated_at] %> </td>
                   <td class="actions">
                     <%= generic_table_actions(digital[:id]) %>
                   </td>
@@ -32,8 +36,3 @@
   <% end %>
   <%= generic_table_footer(@digitals) %>
 </section>
-
-<%=
-    @stupid_chaines
-
-%>

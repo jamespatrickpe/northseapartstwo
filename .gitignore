@@ -104,6 +104,7 @@ Gemfile.lock
 database.yml
 workspace.xml
 
+solr
 solr/data
 solr/test
 solr/development

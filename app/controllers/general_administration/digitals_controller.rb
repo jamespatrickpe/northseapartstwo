@@ -1,22 +1,9 @@
 class GeneralAdministration::DigitalsController < GeneralAdministrationController
 
   def index
-    query = generic_table_aggregated_queries('digitals','created_at')
-    begin
-      @search = Digital.search do
-        fulltext query[:search_field]
-        order_by :created_at,
-                 query[:order_orientation].parameterize.underscore.to_sym
-        paginate :page => params[:page],
-                 :per_page => query[:current_limit]
-      end
-      @digitals = @search.results
-    rescue => ex
-      index_error(ex)
-    end
+    @digitals = initialize_generic_table(Digital)
     render_index(general_administration_digitals_path)
   end
-
 
   def initialize_form
     initialize_form_variables('DIGITAL',
