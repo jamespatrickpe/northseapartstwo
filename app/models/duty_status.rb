@@ -8,4 +8,6 @@ class DutyStatus < ActiveRecord::Base
   validates_presence_of :datetime_of_implementation
   validates :active, inclusion: { in: [true, false] }
 
+  # Implement Active/Inactive Duty Status
+
 end

@@ -23,14 +23,14 @@
 //= require jquery.sapling.min
 //= require parsley
 //= require export_to_csv
-//= //require jquery.autocomplete.min
 //= require generic_table.js
 //= require foundation
 //= require jquery.qtip.min.js
 //= require employee_quick_profile.js
 //= require moment.js
 //= require jquery-ui
-//= require autocomplete-rails
+//= //require autocomplete-rails
+//= require jquery.autocomplete.min
 
 $(document).foundation();
 $(document).foundation('alert','events');

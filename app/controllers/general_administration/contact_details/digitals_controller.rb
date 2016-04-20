@@ -1,6 +1,6 @@
 class GeneralAdministration::ContactDetails::DigitalsController < GeneralAdministration::ContactDetailsController
 
-  autocomplete :digital, :url
+  # autocomplete :digital, :url
 
   def index
     @digitals = initialize_generic_table(Digital)

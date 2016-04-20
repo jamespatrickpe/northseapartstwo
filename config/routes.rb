@@ -139,7 +139,7 @@ Rails.application.routes.draw do
         collection do
           concerns :generic_table
           get :search
-          get :autocomplete_brand_name, :on => :collection
+          get :autocomplete_brand_name
         end
       end
 
