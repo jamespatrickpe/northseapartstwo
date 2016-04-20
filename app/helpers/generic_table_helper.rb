@@ -38,4 +38,6 @@ module GenericTableHelper
     render(:partial => 'common_partials/generic_table/no_records_found')
   end
 
+  def generic_table_helper
+
 end
