@@ -76,6 +76,7 @@ gem 'progress_bar'
 gem 'facets'
 gem 'sunspot_rails'
 gem 'sunspot_solr'
+gem 'rails-jquery-autocomplete'
 
 # This library provides integration of the money gem with Rails.
 gem 'money-rails'

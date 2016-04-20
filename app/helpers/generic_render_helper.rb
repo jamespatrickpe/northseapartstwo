@@ -1,7 +1,7 @@
 module GenericRenderHelper
 
-  def generic_title(title, caption)
-    render(:partial => 'common_partials/generic_title', :locals => {:title => title, :caption => caption})
+  def generic_title(subtitle, title = controller_name)
+    render(:partial => 'common_partials/generic_title', :locals => {:title => title, :subtitle => subtitle})
   end
 
   def renderItemListerButtons(remark,add,minus)

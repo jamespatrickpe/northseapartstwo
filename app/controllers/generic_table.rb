@@ -1,5 +1,15 @@
 module GenericTable
 
+  def initialize_search_suggestions(my_model)
+    digitals = Digital
+                   .where("digitals.url LIKE ?","%#{params[:query]}%")
+                   .pluck("digitals.url")
+    direct = "{\"query\": \"Unit\",\"suggestions\":[" + digitals.to_s.gsub!('[', '').gsub!(']', '') + "]}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
+  end
+
   # Obtain set of Digital Model
   def initialize_generic_table(main_model)
     begin

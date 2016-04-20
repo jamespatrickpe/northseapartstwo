@@ -1,16 +1,29 @@
-class GeneralAdministration::DigitalsController < GeneralAdministrationController
+class GeneralAdministration::ContactDetails::DigitalsController < GeneralAdministration::ContactDetailsController
+
+  autocomplete :digital, :url
 
   def index
     @digitals = initialize_generic_table(Digital)
-    render_index(general_administration_digitals_path)
+    render_index(general_administration_contact_details_digitals_path)
+  end
+
+  def search_suggestions
+    digitals = Digital
+                   .where("digitals.url LIKE ?","%#{params[:query]}%")
+                   .pluck("digitals.url")
+    direct = "{\"query\": \"Unit\",\"suggestions\":[" + digitals.to_s.gsub!('[', '').gsub!(']', '') + "]}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
   end
 
   def initialize_form
     initialize_form_variables('DIGITAL',
                               'general_administration/contact_details/digitals/digital_form',
                               'digital')
-    initialize_employee_selection
   end
+
+
 
   def new
     initialize_form
@@ -106,13 +119,4 @@ class GeneralAdministration::DigitalsController < GeneralAdministrationControlle
     process_digital_form(myDigital)
   end
 
-  def search_suggestions
-    digitals = Digital
-                    .where("digitals.url LIKE ?","%#{params[:query]}%")
-                    .pluck("digitals.url")
-    direct = "{\"query\": \"Unit\",\"suggestions\":[" + digitals.to_s.gsub!('[', '').gsub!(']', '') + "]}"
-    respond_to do |format|
-      format.all { render :text => direct}
-    end
-  end
 end

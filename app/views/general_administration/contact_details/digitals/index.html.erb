@@ -1,17 +1,8 @@
 <section class='small-10 columns'>
-  <%= preheader_generic_table('Digitals','Contact Details through any D') %>
-  <% begin %>
+  <%= preheader_generic_table('Contact Details for any Digital Medium', 'Digitals') %>
+      <% begin %>
       <table class='generic_table' id='digital_table'>
-        <thead>
-        <tr>
-          <%= generic_table_theadlink('ID') %>
-          <%= generic_table_theadlink('URL') %>
-          <%= generic_table_theadlink('remark') %>
-          <%= generic_table_theadlink('Created At') %>
-          <%= generic_table_theadlink('Updated At') %>
-          <th class="actions" align="center">&nbsp;</th>
-        </tr>
-        </thead>
+        <%= generate_theadlinks('ID', 'URL', 'remark','Created At', 'Updated At') %>
         <% if @digitals.empty? == true %>
             <%= no_records_found %>
         <% else %>
@@ -23,9 +14,7 @@
                   <td><%= digital[:remark] %> </td>
                   <td><%= digital[:created_at] %> </td>
                   <td><%= digital[:updated_at] %> </td>
-                  <td class="actions">
-                    <%= generic_table_actions(digital[:id]) %>
-                  </td>
+                  <%= generic_table_actions(digital[:id]) %>
                 </tr>
             <% end %>
             </tbody>

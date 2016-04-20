@@ -1,4 +1,4 @@
-class GeneralAdministration::AddressesController < GeneralAdministrationController
+class GeneralAdministration::ContactDetails::AddressesController < GeneralAdministration::ContactDetailsController
 
   def index
     query = generic_table_aggregated_queries('addresses','addresses.created_at')

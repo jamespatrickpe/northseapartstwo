@@ -90,50 +90,64 @@ Rails.application.routes.draw do
       end
     end
 
-    get 'file_sets/' => 'file_sets#index'
-    resources :file_sets do
-      collection do
-        concerns :generic_table
+
+    get 'associated_files/' => 'associated_files#index'
+    namespace :associated_files do
+
+      get 'file_sets/' => 'file_sets#index'
+      resources :file_sets do
+        collection do
+          concerns :generic_table
+        end
       end
+
+      get 'image_sets/' => 'image_sets#index'
+      resources :image_set do
+        collection do
+          concerns :generic_table
+        end
+      end
+
+      get 'link_sets/' => 'link_sets#index'
+      resources :link_set do
+        collection do
+          concerns :generic_table
+        end
+      end
+
     end
 
-    get 'image_sets/' => 'image_sets#index'
-    resources :image_set do
-      collection do
-        concerns :generic_table
+    get 'contact_details/' => 'contact_details#index'
+    namespace :contact_details do
+
+      get 'telephones/' => 'telephones#index'
+      resources :telephones do
+        collection do
+          concerns :generic_table
+        end
       end
-    end
 
-    get 'link_sets/' => 'link_sets#index'
-    resources :link_set do
-      collection do
-        concerns :generic_table
+      get 'addresses/' => 'addresses#index'
+      resources :addresses do
+        collection do
+          concerns :generic_table
+        end
       end
-    end
 
-    get 'telephones/' => 'telephones#index'
-    resources :telephones do
-      collection do
-        concerns :generic_table
+      get 'digitals/' => 'digitals#index'
+      resources :digitals do
+        collection do
+          concerns :generic_table
+          get :search
+          get :autocomplete_brand_name, :on => :collection
+        end
       end
-    end
 
-    get 'addresses/' => 'addresses#index'
-    resources :addresses do
-      collection do
-        concerns :generic_table
+      resources :products do
+
       end
+
     end
-
-    get 'digitals/' => 'digitals#index'
-    resources :digitals do
-      collection do
-        concerns :generic_table
-        get :search
-      end
-    end
-
-
 
   end
 

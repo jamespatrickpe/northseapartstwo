@@ -1,0 +1,3 @@
+class GeneralAdministration::ContactDetailsController < ApplicationController::GeneralAdministrationController
+
+end

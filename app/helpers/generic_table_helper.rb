@@ -22,7 +22,7 @@ module GenericTableHelper
     render(:partial => 'common_partials/generic_table/error', :locals => {:ex => ex})
   end
 
-  def preheader_generic_table(title,subtitle)
+  def preheader_generic_table(subtitle,title = controller_name)
     render(:partial => 'common_partials/generic_table/preheader', :locals => {:title => title,:subtitle => subtitle})
   end
 
@@ -38,6 +38,8 @@ module GenericTableHelper
     render(:partial => 'common_partials/generic_table/no_records_found')
   end
 
-  def generic_table_helper
+  def generate_theadlinks(*theadlink_set)
+    render(:partial => 'common_partials/generic_table/theadlink_set', :locals => {:theadlink_set => theadlink_set})
+  end
 
 end
