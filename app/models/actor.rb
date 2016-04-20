@@ -1,8 +1,8 @@
 class Actor < ActiveRecord::Base
 
-  include BaseConcerns
-  include RemarkValidations
-  include NameValidations
+  include BaseConcerns,
+          RemarkValidations,
+          NameValidations
 
   has_one :access, autosave: true
   has_one :employee, autosave: true
@@ -18,5 +18,10 @@ class Actor < ActiveRecord::Base
             :file_size => {
                 :maximum => 3.5.megabytes.to_i
             }
+
+  searchable do
+    text :name
+    text :remark
+  end
 
 end

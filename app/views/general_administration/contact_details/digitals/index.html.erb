@@ -19,11 +19,14 @@
             <% @digitals.each do |digital| %>
                 <tr>
                   <td><%= digital[:id].upcase %></td>
-                  <td><%= digital[:url] %> </td>
+                  <td>
+                    <a href="<%= digital[:url] %>">
+                      <%= digital[:url] %>
+                    </a>
+                  </td>
                   <td><%= digital[:remark] %> </td>
                   <td>
-                    <%= digital[:digitable_type] %>
-                    <%= digital[:digitable_id] %>
+                    <%= polymorphic_link(digital[:digitable_type], digital[:digitable_id]) %>
                   </td>
                   <td><%= digital[:created_at] %> </td>
                   <td><%= digital[:updated_at] %> </td>

@@ -7,16 +7,9 @@ module BaseConcerns extend ActiveSupport::Concern
     self.primary_key = 'id'
 
     searchable do
-
       string :id
-      text :id
-
-      time :created_at
-      text :created_at
-
-      time :updated_at
-      text :updated_at
-
+      text :id, :created_at, :updated_at
+      time :created_at, :updated_at
     end
 
   end

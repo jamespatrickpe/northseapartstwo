@@ -42,4 +42,8 @@ module GenericTableHelper
     render(:partial => 'common_partials/generic_table/theadlink_set', :locals => {:theadlink_set => theadlink_set})
   end
 
+  def polymorphic_link(model_type, model_id)
+    render(:partial => 'common_partials/generic_table/polymorphic_link', :locals => {:model_type => model_type, :model_id => model_id})
+  end
+
 end
