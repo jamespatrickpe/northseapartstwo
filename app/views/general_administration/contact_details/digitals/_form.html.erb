@@ -1,0 +1,13 @@
+<%= f.input :URL,
+              :as => :url,
+              :label => "URL",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => @selected_digital[:url],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 64
+                      }
+%>
+
+<%= generic_form_remark_field(f, @selected_digital[:remark]) %>

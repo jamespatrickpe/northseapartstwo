@@ -1,0 +1,13 @@
+<%=
+    field_variable.input :remark,
+            :as => :text,
+            :label => "Remark",
+            :required => false,
+            label_html: { class: 'form_label' },
+            :input_html =>
+                    {
+                            :value => selected_model,
+                            :'data-parsley-trigger' => 'keyup',
+                            :'data-parsley-maxlength' => 256
+                    }
+%>

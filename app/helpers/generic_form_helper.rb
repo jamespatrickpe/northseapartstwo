@@ -20,4 +20,8 @@ module GenericFormHelper
     render(:partial => 'human_resources/generic_employee_select_field', :locals => {:model_name => model_name,:model_employee_id => model_employee_id})
   end
 
+  def generic_form_remark_field(field_variable, selected_model)
+    render(:partial => 'common_partials/generic_form/remark_field', :locals => {:field_variable => field_variable,:selected_model => selected_model})
+  end
+
 end

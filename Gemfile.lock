@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/tanordheim/currency_select.git
+  revision: 9ccba4de588198fcc14e6297301d0a66dd3de995
+  specs:
+    currency_select (0.1.5)
+      money
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -198,6 +205,9 @@ GEM
     selectize-rails (0.12.1)
     simple-navigation (3.14.0)
       activesupport (>= 2.3.2)
+    simple_form (3.2.1)
+      actionpack (> 4, < 5.1)
+      activemodel (> 4, < 5.1)
     sixarm_ruby_unaccent (1.1.1)
     slop (3.6.0)
     sort_alphabetical (1.0.1)
@@ -253,6 +263,7 @@ DEPENDENCIES
   byebug
   carrierwave
   country_select (~> 2.2.0)
+  currency_select!
   devise
   facets
   faker
@@ -275,6 +286,7 @@ DEPENDENCIES
   sdoc (~> 0.4.0)
   selectize-rails
   simple-navigation
+  simple_form
   sunspot_rails
   sunspot_solr
   turbolinks
