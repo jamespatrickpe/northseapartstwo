@@ -27,8 +27,8 @@ module GenericController
     @employee_id = params[:employee_id]
   end
 
-  def render_index(base_directory)
-    render base_directory + '/index'
+  def render_index
+    render controller_path + '/index'
   end
 
   def index_error(ex)

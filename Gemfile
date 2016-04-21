@@ -77,6 +77,8 @@ gem 'facets'
 gem 'sunspot_rails'
 gem 'sunspot_solr'
 gem 'rails-jquery-autocomplete'
+gem 'simple_form'
+gem 'currency_select', github: 'tanordheim/currency_select'
 
 # This library provides integration of the money gem with Rails.
 gem 'money-rails'

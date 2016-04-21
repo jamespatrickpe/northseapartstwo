@@ -1,65 +1,23 @@
 class GeneralAdministration::ContactDetails::DigitalsController < GeneralAdministration::ContactDetailsController
 
-  # autocomplete :digital, :url
-
   def index
     @digitals = initialize_generic_table(Digital, [:digitable])
-    render_index(general_administration_contact_details_digitals_path)
+    render_index
   end
 
   def search_suggestions
     simple_singular_column_search('digitals.url',Digital)
   end
 
-  def initialize_form
-    initialize_form_variables('DIGITAL',
-                              'general_administration/contact_details/digitals/digital_form',
-                              'digital')
-  end
-
-
-
   def new
     initialize_form
     @selected_digital = Digital.new
-    @actors1 = Actor.all()
-    @actors2 = Branch.all()
     generic_single_column_form(@selected_digital)
   end
 
   def edit
     initialize_form
     @selected_digital = Digital.find(params[:id])
-    @actorsInvolved ||= []
-
-    # @digital_actor_rel = TelephonesActor.find_by_digital_id(params[:id])
-    @digital_actor_rel = DigitalsActor.where("digitals_actors.digital_id = ?", "#{params[:id]}")
-
-    involvedActorObjects ||= []
-    involvedBranchObjects ||= []
-
-    @digital_actor_rel.each do |ea|
-      if Actor.exists?(ea[:actor_id])
-        involvedActorObjects.push(Actor.find(ea[:actor_id]))
-      else
-        puts 'ID in use does not belong to an Actor'
-      end
-    end
-
-    @digital_actor_rel.each do |ea|
-      if Branch.exists?(ea[:actor_id])
-        involvedBranchObjects.push(Branch.find(ea[:actor_id]))
-      else
-        puts 'ID in use does not belong to a Branch'
-      end
-    end
-
-    @actorsInvolved = involvedActorObjects + involvedBranchObjects
-
-    @actors1 = Actor.all()
-    @actors2 = Branch.all()
-
-    @actorsInvolved.compact.uniq!
     generic_single_column_form(@selected_digital)
   end
 
