@@ -26,7 +26,8 @@
                   </td>
                   <td><%= digital[:remark] %> </td>
                   <td>
-                    <%= polymorphic_link(digital[:digitable_type], digital[:digitable_id]) %>
+                    <%= polymorphic_link(digital[:digitable_type],
+                                         digital[:digitable_id]) %>
                   </td>
                   <td><%= digital[:created_at] %> </td>
                   <td><%= digital[:updated_at] %> </td>

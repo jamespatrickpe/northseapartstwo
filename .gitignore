@@ -117,4 +117,8 @@ solr/pidsgit
 .idea/.rakeTasks
 config/sunspot.yml
 solr/hsperfdata_James/11832
+solr/hsperfdata_James/
 solr/hsperfdata_own/8512
+solr/hsperfdata_own/
+
+sunspot.yml

@@ -1,20 +1,21 @@
 module GenericTable
 
-  def initialize_search_suggestions(my_model)
-    digitals = Digital
-                   .where("digitals.url LIKE ?","%#{params[:query]}%")
-                   .pluck("digitals.url")
-    direct = "{\"query\": \"Unit\",\"suggestions\":[" + digitals.to_s.gsub!('[', '').gsub!(']', '') + "]}"
+  # Gives a search suggestion for a single column - temporary only - must find better way to do this
+  def simple_singular_column_search(table_column,main_model)
+    main_query = main_model
+                     .where(table_column + " LIKE ?","%#{params[:query]}%")
+                     .pluck(table_column)
+    direct = "{\"query\": \"Unit\",\"suggestions\":[" + main_query.to_s.gsub!('[', '').gsub!(']', '') + "]}"
     respond_to do |format|
       format.all { render :text => direct}
     end
   end
 
   # Obtain set of Digital Model
-  def initialize_generic_table(main_model)
+  def initialize_generic_table(main_model, includes = '')
     begin
       query = generic_table_aggregated_queries(controller_name,'created_at')
-      result = search_index(main_model,query)
+      result = search_index(main_model, query, includes)
     rescue => ex
       index_error(ex)
     end
@@ -22,15 +23,15 @@ module GenericTable
   end
 
   # Perform Solr Sunspot Search on Model
-  def search_index(main_model,query)
-    @search = main_model.search do
+  def search_index(main_model, query, includes = '')
+    search = main_model.search(include: includes) do
       fulltext query[:search_field]
       order_by query[:order_parameter].to_sym,
                query[:order_orientation].parameterize.underscore.to_sym
       paginate :page => params[:page],
                :per_page => query[:current_limit]
     end
-    @search.results
+    search.results
   end
 
   # get query set

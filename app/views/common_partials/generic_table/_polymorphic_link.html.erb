@@ -1,12 +1,10 @@
 <%=
-      kind = case model_type
-               when 1850..1889 then "Blues"
-               when 1890..1909 then "Ragtime"
-               when 1910..1929 then "New Orleans Jazz"
-               when 1930..1939 then "Swing"
-               when 1940..1950 then "Bebop"
-               else                 "Jazz"
-             end
+    associated_link = case model_type
+                           when 'Actor' then {:path => general_administration_actors_path, :representation => Actor.find(model_id).name}
+                           when 'Branch' then {:path => general_administration_branches_path, :representation => Branch.find(model_id).name}
+                           else  {:controller => "", :representation => "N/A"}
+                         end
+
+    link_to associated_link[:representation],
+            associated_link[:path] + "/" + model_id
 %>
-<a href="">
-</a>
