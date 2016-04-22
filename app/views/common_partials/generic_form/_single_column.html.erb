@@ -7,14 +7,14 @@
        current_action = ''
        model_id_name = @singular_model_name + '[id]'
        model[:id].present? ?
-               (current_method = :patch; current_action = model[:id] ) :
-               (current_method = :post; current_action = 'create')
+               (current_method = :patch; current_url = model[:id] ) :
+               (current_method = :post; current_url = '')
     %>
     <%=
         simple_form_for controller_path,
+                        :url => '/' + controller_path + '/' + current_url.to_s ,
                         :html => { :'data-parsley-validate' => '',
-                                   :method => current_method,
-                                   :action => current_action} do |f|
+                                   :method => current_method} do |f|
     %>
         <%= hidden_field_tag(model_id_name, model[:id] ) %>
         <%= render(:partial => controller_path + '/form', :locals => {:f => f}) %>

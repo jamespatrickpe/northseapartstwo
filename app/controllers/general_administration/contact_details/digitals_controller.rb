@@ -31,33 +31,25 @@ class GeneralAdministration::ContactDetails::DigitalsController < GeneralAdminis
       myDigital[:url] = params[:digital][:url]
       myDigital[:remark] = params[:digital][:remark]
       myDigital.save!
-
-      # after creating the new digital, iterate through all the actors involved and maps them with the digital
-      actorsInvolved = params[:digital][:digitalactors]
-      actorsInvolved.each_with_index do |p , index|
-        actor = DigitalsActor.new
-        actor[:actor_id] = actorsInvolved.values[index]
-        actor[:digital_id] = myDigital.id
-        actor.save!
-      end
-
       flash[:general_flash_notification_type] = 'affirmative'
+      if( params[:digital][:id] )
+        flash[:general_flash_notification] = 'Digital address information ' + params[:digital][:url].to_s
+      else
+        flash[:general_flash_notification] = 'Digital address information created!'
+      end
     rescue => ex
-      puts ex
-      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.' + ex.to_s
+      index_error(ex)
     end
     redirect_to :action => 'index'
   end
 
   def create
     myDigital = Digital.new()
-    flash[:general_flash_notification] = 'Digital address information created!'
     process_digital_form(myDigital)
   end
 
   def update
     myDigital = Digital.find(params[:digital][:id])
-    flash[:general_flash_notification] = 'Digital address information ' + params[:digital][:url]
     process_digital_form(myDigital)
   end
 

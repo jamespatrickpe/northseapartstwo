@@ -15,7 +15,7 @@ module GenericForm
   def generic_delete_model(model, my_controller_name)
     model_to_be_deleted = model.find(params[:id])
     flash[:general_flash_notification] = model_to_be_deleted.id + " has been successfully deleted "
-    flash[:general_flash_notification_tydpe] = 'affirmative'
+    flash[:general_flash_notification_type] = 'affirmative'
     model_to_be_deleted.destroy
     redirect_to :controller => my_controller_name, :action => 'index'
   end

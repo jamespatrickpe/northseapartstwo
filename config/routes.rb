@@ -4,6 +4,11 @@ Rails.application.routes.draw do
     get :search_suggestions
   end
 
+  def generate_logic_unit(table)
+    get table+'/search_suggestions' => table+'#search_suggestions'
+    resources table.parameterize.underscore.to_sym
+  end
+
   get 'access/' => 'access#index'
   namespace :access do
 
@@ -67,86 +72,22 @@ Rails.application.routes.draw do
   get 'general_administration/' => 'general_administration#index'
   namespace :general_administration do
 
-    get 'actors/' => 'actors#index'
-    get 'actor_profile/' => 'actor_profile#index'
-    get 'actor_profile/index' => 'actor_profile#index'
-    resources :actor do
-      collection do
-        concerns :generic_table
-        end
-    end
-
-    get 'branches/' => 'branches#index'
-    resources :branches do
-        collection do
-          concerns :generic_table
-        end
-    end
-
-    get 'vehicles/' => 'vehicles#index'
-    resources :vehicle do
-      collection do
-        concerns :generic_table
-      end
-    end
-
+    generate_logic_unit('actors')
+    generate_logic_unit('branches')
+    generate_logic_unit('vehicles')
 
     get 'associated_files/' => 'associated_files#index'
     namespace :associated_files do
-
-      get 'file_sets/' => 'file_sets#index'
-      resources :file_sets do
-        collection do
-          concerns :generic_table
-        end
-      end
-
-      get 'image_sets/' => 'image_sets#index'
-      resources :image_set do
-        collection do
-          concerns :generic_table
-        end
-      end
-
-      get 'link_sets/' => 'link_sets#index'
-      resources :link_set do
-        collection do
-          concerns :generic_table
-        end
-      end
-
+      generate_logic_unit('file_sets')
+      generate_logic_unit('image_sets')
+      generate_logic_unit('link_sets')
     end
 
     get 'contact_details/' => 'contact_details#index'
     namespace :contact_details do
-
-      get 'telephones/' => 'telephones#index'
-      resources :telephones do
-        collection do
-          concerns :generic_table
-        end
-      end
-
-      get 'addresses/' => 'addresses#index'
-      resources :addresses do
-        collection do
-          concerns :generic_table
-        end
-      end
-
-      get 'digitals/' => 'digitals#index'
-      resources :digitals do
-        collection do
-          concerns :generic_table
-          get :search
-          get :autocomplete_brand_name
-        end
-      end
-
-      resources :products do
-
-      end
-
+      generate_logic_unit('telephones')
+      generate_logic_unit('addresses')
+      generate_logic_unit('digitals')
     end
 
   end
