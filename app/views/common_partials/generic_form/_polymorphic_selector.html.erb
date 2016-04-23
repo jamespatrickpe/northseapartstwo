@@ -1,0 +1,12 @@
+<%
+    main_model.all_polymorphic_types(polymorphic_attribute.to_sym).map(&:to_s)
+
+%>
+
+<%=
+    symbol_name = polymorphic_attribute + '_type'
+    f.input symbol_name,
+            :label => "Type",
+            :collection => 18..60,
+            label_html: { class: 'form_label' }
+%>
