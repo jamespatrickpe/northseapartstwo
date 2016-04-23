@@ -1,4 +1,15 @@
+<%
+   puts ex.to_s
+%>
+
+<br><br><br><br>
+
+<div id="generic_table_error_message">
+  <%= "No Records Found | " + ex.to_s %>
+</div>
+
+<br><br><br><br>
+
 <script>
-    html = "<hr><p align='center'> No records found. Please try again.</p><hr>" + "<%= ex.message.to_s %>"
-    $(".generic_table").replaceWith(html)
+  $(".generic_table").replaceWith( $("#generic_table_error_message"));
 </script>

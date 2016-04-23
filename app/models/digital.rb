@@ -7,13 +7,11 @@ class Digital < ActiveRecord::Base
   belongs_to :digitable, polymorphic: true
 
   searchable do
-
     string :url, :remark
     text :url, :remark
     text :digitable do
-      digitable.name
+      digitable.try(:name)
     end
-
   end
 
 end

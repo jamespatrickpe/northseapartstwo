@@ -1,10 +1,14 @@
 <%=
-    associated_link = case model_type
-                           when 'Actor' then {:path => general_administration_actors_path, :representation => Actor.find(model_id).name}
-                           when 'Branch' then {:path => general_administration_branches_path, :representation => Branch.find(model_id).name}
-                           else  {:controller => "", :representation => "N/A"}
-                         end
+    begin
+      associated_link = case model_type
+                          when 'Actor' then {:path => general_administration_actors_path, :representation => Actor.find(model_id).name}
+                          when 'Branch' then {:path => general_administration_branches_path, :representation => Branch.find(model_id).name}
+                          else  {:controller => "", :representation => "N/A"}
+                        end
 
-    link_to associated_link[:representation],
-            associated_link[:path] + "/" + model_id
+      link_to associated_link[:representation],
+              associated_link[:path] + "/" + model_id
+    rescue => ex
+      " N/A "
+    end
 %>

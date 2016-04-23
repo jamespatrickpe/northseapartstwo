@@ -28,16 +28,12 @@ class GeneralAdministration::ContactDetails::DigitalsController < GeneralAdminis
 
   def process_digital_form(myDigital)
     begin
-      myDigital[:url] = params[:digital][:url]
-      myDigital[:remark] = params[:digital][:remark]
+      myDigital[:url] = params[controller_path][:url]
+      myDigital[:remark] = params[controller_path][:remark]
       myDigital.save!
       flash[:general_flash_notification_type] = 'affirmative'
-      if( params[:digital][:id] )
-        flash[:general_flash_notification] = 'Digital address information ' + params[:digital][:url].to_s
-      else
-        flash[:general_flash_notification] = 'Digital address information created!'
-      end
     rescue => ex
+      puts ex.backtrace.to_s
       index_error(ex)
     end
     redirect_to :action => 'index'
@@ -49,7 +45,7 @@ class GeneralAdministration::ContactDetails::DigitalsController < GeneralAdminis
   end
 
   def update
-    myDigital = Digital.find(params[:digital][:id])
+    myDigital = Digital.find(params[controller_path][:id])
     process_digital_form(myDigital)
   end
 
