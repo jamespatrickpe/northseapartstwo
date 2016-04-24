@@ -1,4 +1,4 @@
-<%= f.input :URL,
+<%= f.input :url,
               :as => :url,
               :label => "URL",
               label_html: { class: 'form_label' },
@@ -11,4 +11,4 @@
 %>
 
 <%= generic_form_remark_field(f, @selected_digital[:remark]) %>
-<%= polymorph
+<%= polymorphic_selector(Digital,'digitable',f) %>

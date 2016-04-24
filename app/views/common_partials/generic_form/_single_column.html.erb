@@ -16,7 +16,7 @@
                         :html => { :'data-parsley-validate' => '',
                                    :method => current_method} do |f|
     %>
-        <%= hidden_field_tag(model_id_name, model[:id] ) %>
+        <%= f.hidden_field :id, :value => model[:id] %>
         <%= render(:partial => controller_path + '/form', :locals => {:f => f}) %>
         <%= generic_form_footer(model[:id]) %>
     <% end %>

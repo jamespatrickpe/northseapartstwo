@@ -79,12 +79,12 @@ gem 'uuidtools'
 gem 'devise'
 gem 'probability'
 gem 'progress_bar'
-gem 'facets'
 gem 'sunspot_rails'
 gem 'sunspot_solr'
 gem 'rails-jquery-autocomplete'
 gem 'simple_form'
 gem 'currency_select'
+gem 'verbs'
 
 # This library provides integration of the money gem with Rails.
 gem 'money-rails'

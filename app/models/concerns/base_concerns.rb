@@ -15,6 +15,7 @@ module BaseConcerns extend ActiveSupport::Concern
   end
 
   module ClassMethods
+
   end
 
 

@@ -24,4 +24,11 @@ module GenericFormHelper
     render(:partial => 'common_partials/generic_form/remark_field', :locals => {:field_variable => field_variable,:selected_model => selected_model})
   end
 
+  def polymorphic_selector(main_model,polymorphic_attribute,f)
+    render(:partial => 'common_partials/generic_form/polymorphic_selector',
+           :locals => {:main_model => main_model,
+                       :f => f,
+                       :polymorphic_attribute => polymorphic_attribute})
+  end
+
 end
