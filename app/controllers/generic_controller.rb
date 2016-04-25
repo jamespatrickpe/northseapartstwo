@@ -36,10 +36,9 @@ module GenericController
 
   def get_model_id
     main_model = params[:query].constantize
-    main_query = main_model.all.pluck('id')
-    direct = "{\"query\": \"Unit\",\"suggestions\":[" + main_query.to_s.gsub!('[', '').gsub!(']', '') + "]}"
+    main_query = main_model.all
     respond_to do |format|
-      format.all { render :text => direct}
+      format.all { render :json => main_query}
     end
   end
 

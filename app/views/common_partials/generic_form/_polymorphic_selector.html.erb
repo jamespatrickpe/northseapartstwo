@@ -1,43 +1,77 @@
-<%
-    models = main_model.all_polymorphic_types(polymorphic_attribute.to_sym).map(&:to_s)
-%>
+<div>
 
-<%
-    f.input polymorphic_attribute + '_type',
-            :prompt => 'Type of Model',
-            :label => "Type",
-            :collection => models,
-            label_html: { class: 'form_label' }
-%>
+  <% models = main_model.all_polymorphic_types(polymorphic_attribute.to_sym).map(&:to_s) %>
 
-<%
-    f.input polymorphic_attribute + '_id',
-            placeholder: 'ID of Model',
-            :label => "ID",
-            :collection => models,
-            label_html: { class: 'form_label' }
-%>
+  <div class="form-block" style="float: left;">
+    <div class="form_label">Type :</div>
+    <select name='<%= (controller_path + '[' + polymorphic_attribute + '_type]') %>'
+            class=''
+            id='<%= (controller_path + '_' + polymorphic_attribute + '_type').gsub("/", "_") %>'
+            required="required">
+      <option value="" disabled selected>Select Model</option>
+      <% models.each do |model|%>
+          <option value=<%= model %>><%= model %></option>
+      <% end %>
+    </select>
+  </div>
 
-<div class="form-block">
-  <div class="form_label">Type :</div>
-  <select name=''
-          class=''
-          id='<%= polymorphic_attribute + '_type' %>'
-          required="required">
-    <option value="" disabled selected>Select Model</option>
-    <option> my layf </option>
-    <option> dafsdfasdfas </option>
-    <option> dsfasfdasf </option>
-    <option> fasdfasdf </option>
-  </select>
+  <div class="form-block" style="float: left;">
+    <div class="form_label">ID :</div>
+    <select name='<%= (controller_path + '[' + polymorphic_attribute + '_id]') %>'
+            class=''
+            id='<%= (controller_path + '_' + polymorphic_attribute + '_id').gsub("/", "_") %>'
+            required="required">
+      <option value="" disabled selected>Select Model</option>
+    </select>
+  </div>
+
 </div>
 
+
 <script>
-/*  model_selector_id = ('#' + '<%= controller_path + '_' + polymorphic_attribute + '_type' %>').replace("/", "_");
-  $(model_selector_id.replace("/", "_")).change( function(){
-      alert('united forever in friendship and labor');
-  });*/
-    $('#<%= polymorphic_attribute + '_type' %>').selectize({
+
+    // Get Selector Element Type
+    model_selector_type = ('#' + '<%= controller_path + '_' + polymorphic_attribute + '_type' %>').replace("/", "_").replace("/", "_");
+
+    // Get Selector Element ID
+    model_selector_id = ('#' + '<%= controller_path + '_' + polymorphic_attribute + '_id' %>').replace("/", "_").replace("/", "_");
+
+    // Hide ID Block
+    parent_model_selector_id = $(model_selector_id).parent()
+    parent_model_selector_id.css("visibility","hidden");
+
+    // Initialize Selectize for Type
+    $(model_selector_type).selectize({
         sortField: 'text'
     });
+
+    // On Change
+    $(model_selector_type.replace("/", "_")).change( function(){
+
+        $(model_selector_id).selectize()[0].selectize.destroy();
+
+        // Get JSON
+        path = '/' + '<%= controller_path + '/get_model_id?query=' %>' + $(model_selector_type).val();
+        $.getJSON( path, function( data ) {
+
+            options_array = []
+            $.each( data, function( key, val ) {
+                options_array.push(
+                        { id: val.id, title: val.name }
+                );
+            });
+
+            $(model_selector_id).selectize({
+                sortField: 'text',
+                labelField: "title",
+                valueField: "id",
+                options: options_array
+            });
+
+        });
+
+        // Show ID Blockv
+        parent_model_selector_id.css("visibility","visible");
+
+     });
 </script>

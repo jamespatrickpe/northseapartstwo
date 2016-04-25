@@ -30,6 +30,8 @@ class GeneralAdministration::ContactDetails::DigitalsController < GeneralAdminis
     begin
       myDigital[:url] = params[controller_path][:url]
       myDigital[:remark] = params[controller_path][:remark]
+      myDigital[:digitable_type] = params[controller_path][:digitable_type]
+      myDigital[:digitable_id] = params[controller_path][:digitable_id]
       myDigital.save!
       flash[:general_flash_notification_type] = 'affirmative'
       if action_name == 'update'

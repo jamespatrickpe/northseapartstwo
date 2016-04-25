@@ -79,7 +79,8 @@
 
 .generic_form_button_set
 {
-    float:left;
     padding: 20px;
+    display: block;
+    float: left;
 }
 
