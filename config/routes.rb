@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   def generate_logic_unit(table)
     get table+'/search_suggestions' => table+'#search_suggestions'
+    get table+'/get_model_id' => table+'#get_model_id'
     resources table.parameterize.underscore.to_sym
   end
 

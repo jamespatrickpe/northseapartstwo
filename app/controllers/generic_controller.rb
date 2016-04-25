@@ -1,7 +1,5 @@
 module GenericController
 
-
-
   def generic_employee_name_search_suggestions(model)
     my_model = model.includes(employee: :actors).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + my_model.uniq.to_s + "}" # default format for plugin
@@ -34,6 +32,15 @@ module GenericController
   def index_error(ex)
     puts ex.to_s
     flash[:general_flash_notification] = "Error has Occured: " + ex.to_s
+  end
+
+  def get_model_id
+    main_model = params[:query].constantize
+    main_query = main_model.all.pluck('id')
+    direct = "{\"query\": \"Unit\",\"suggestions\":[" + main_query.to_s.gsub!('[', '').gsub!(']', '') + "]}"
+    respond_to do |format|
+      format.all { render :text => direct}
+    end
   end
 
 end

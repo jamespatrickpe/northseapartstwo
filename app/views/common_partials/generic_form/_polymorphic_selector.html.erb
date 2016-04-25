@@ -1,12 +1,43 @@
 <%
-    main_model.all_polymorphic_types(polymorphic_attribute.to_sym).map(&:to_s)
-
+    models = main_model.all_polymorphic_types(polymorphic_attribute.to_sym).map(&:to_s)
 %>
 
-<%=
-    symbol_name = polymorphic_attribute + '_type'
-    f.input symbol_name,
+<%
+    f.input polymorphic_attribute + '_type',
+            :prompt => 'Type of Model',
             :label => "Type",
-            :collection => 18..60,
+            :collection => models,
             label_html: { class: 'form_label' }
 %>
+
+<%
+    f.input polymorphic_attribute + '_id',
+            placeholder: 'ID of Model',
+            :label => "ID",
+            :collection => models,
+            label_html: { class: 'form_label' }
+%>
+
+<div class="form-block">
+  <div class="form_label">Type :</div>
+  <select name=''
+          class=''
+          id='<%= polymorphic_attribute + '_type' %>'
+          required="required">
+    <option value="" disabled selected>Select Model</option>
+    <option> my layf </option>
+    <option> dafsdfasdfas </option>
+    <option> dsfasfdasf </option>
+    <option> fasdfasdf </option>
+  </select>
+</div>
+
+<script>
+/*  model_selector_id = ('#' + '<%= controller_path + '_' + polymorphic_attribute + '_type' %>').replace("/", "_");
+  $(model_selector_id.replace("/", "_")).change( function(){
+      alert('united forever in friendship and labor');
+  });*/
+    $('#<%= polymorphic_attribute + '_type' %>').selectize({
+        sortField: 'text'
+    });
+</script>
