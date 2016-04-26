@@ -1,6 +1,6 @@
 <div>
 
-  <% models = main_model.all_polymorphic_types(polymorphic_attribute.to_sym).map(&:to_s) %>
+  <% models = main_model.class.all_polymorphic_types(polymorphic_attribute.to_sym).map(&:to_s) %>
 
   <div class="form-block" style="float: left;">
     <div class="form_label">Type :</div>
@@ -27,7 +27,6 @@
 
 </div>
 
-
 <script>
 
     // Get Selector Element Type
@@ -36,24 +35,34 @@
     // Get Selector Element ID
     model_selector_id = ('#' + '<%= controller_path + '_' + polymorphic_attribute + '_id' %>').replace("/", "_").replace("/", "_");
 
-    // Hide ID Block
-    parent_model_selector_id = $(model_selector_id).parent()
-    parent_model_selector_id.css("visibility","hidden");
-
     // Initialize Selectize for Type
-    $(model_selector_type).selectize({
+    selectize_model = $(model_selector_type).selectize({
         sortField: 'text'
     });
 
+    <% main_attributable_type = (polymorphic_attribute + "_type").to_sym %>
+    <% main_attributable_id = (polymorphic_attribute + "_id").to_sym %>
+    selectize_model[0].selectize.setValue('<%= main_model[main_attributable_type] %>');
+
+    try
+    {
+        populate_selectize_id();
+    }
+    catch(err) {}
+
     // On Change
     $(model_selector_type.replace("/", "_")).change( function(){
-
         $(model_selector_id).selectize()[0].selectize.destroy();
+        populate_selectize_id();
+     });
 
+    function populate_selectize_id()
+    {
         // Get JSON
         path = '/' + '<%= controller_path + '/get_model_id?query=' %>' + $(model_selector_type).val();
         $.getJSON( path, function( data ) {
 
+            // Convert JSON into Array
             options_array = []
             $.each( data, function( key, val ) {
                 options_array.push(
@@ -61,17 +70,33 @@
                 );
             });
 
-            $(model_selector_id).selectize({
+            // Initialize ID Field
+            selectize_id = $(model_selector_id).selectize({
                 sortField: 'text',
                 labelField: "title",
                 valueField: "id",
                 options: options_array
             });
 
+            try
+            {
+                selectize_id[0].selectize.setValue('<%= main_model[main_attributable_id] %>');
+            }
+            catch(err) {}
+
         });
+    }
 
-        // Show ID Blockv
-        parent_model_selector_id.css("visibility","visible");
+    // Disable if Show
+    if ('<%= action_name %>' == 'show')
+    {
+        try
+        {
+            selectize_model[0].selectize.disable();
+            selectize_id[0].selectize.disable();
+        }
+        catch(err)
+        {}
+    }
 
-     });
 </script>

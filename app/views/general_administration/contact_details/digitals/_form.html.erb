@@ -11,4 +11,4 @@
 %>
 
 <%= generic_form_remark_field(f, @selected_digital[:remark]) %>
-<%= polymorphic_selector(Digital,'digitable',f) %>
+<%= polymorphic_selector(@selected_digital,'digitable',f) %>

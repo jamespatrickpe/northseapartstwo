@@ -31,6 +31,7 @@ module GenericController
 
   def index_error(ex)
     puts ex.to_s
+    flash[:general_flash_notification] = ""
     flash[:general_flash_notification] = "Error has Occured: " + ex.to_s
   end
 
@@ -39,6 +40,18 @@ module GenericController
     main_query = main_model.all
     respond_to do |format|
       format.all { render :json => main_query}
+    end
+  end
+
+  def set_process_notification
+    flash[:general_flash_notification_type] = 'affirmative'
+    if action_name == 'update'
+      my_ID = params[controller_path][:id]
+      flash[:general_flash_notification] = 'Updated' + ' ' + controller_name + ' | ' + my_ID
+    elsif
+      flash[:general_flash_notification] = 'Created New' + ' ' + controller_name
+    else
+      flash[:general_flash_notification] = 'Performed ' + action_name + ' ' + controller_name
     end
   end
 

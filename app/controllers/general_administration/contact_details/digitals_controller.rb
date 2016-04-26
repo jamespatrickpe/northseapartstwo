@@ -21,28 +21,24 @@ class GeneralAdministration::ContactDetails::DigitalsController < GeneralAdminis
     generic_single_column_form(@selected_digital)
   end
 
+  def show
+    edit
+  end
+
   def delete
     Digital.find(params[:id]).destroy
     redirect_to :action => "index"
   end
 
-  def process_digital_form(myDigital, my_ID = nil)
+  def process_digital_form(myDigital)
     begin
       myDigital[:url] = params[controller_path][:url]
       myDigital[:remark] = params[controller_path][:remark]
       myDigital[:digitable_type] = params[controller_path][:digitable_type]
       myDigital[:digitable_id] = params[controller_path][:digitable_id]
       myDigital.save!
-      flash[:general_flash_notification_type] = 'affirmative'
-      if action_name == 'update'
-        flash[:general_flash_notification] = 'Updated' + ' ' + controller_name + ' | ' + my_ID
-      elsif
-        flash[:general_flash_notification] = 'Created New' + ' ' + controller_name
-      else
-        flash[:general_flash_notification] = 'Performed ' + action_name + ' ' + controller_name
-      end
+      set_process_notification
     rescue => ex
-      puts ex.backtrace.to_s
       index_error(ex)
     end
     redirect_to :action => 'index'
@@ -55,7 +51,7 @@ class GeneralAdministration::ContactDetails::DigitalsController < GeneralAdminis
 
   def update
     myDigital = Digital.find(params[controller_path][:id])
-    process_digital_form(myDigital, params[controller_path][:id])
+    process_digital_form(myDigital)
   end
 
 end
