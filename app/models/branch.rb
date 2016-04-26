@@ -1,8 +1,8 @@
 class Branch < ActiveRecord::Base
 
   include BaseConcerns,
-          RemarkValidations,
-          NameValidations
+          Remark,
+          Name
 
   has_many :file_sets, as: :rel_file_set
   has_many :employee

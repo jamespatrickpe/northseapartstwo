@@ -1,7 +1,7 @@
 class Address < ActiveRecord::Base
 
   include BaseConcerns,
-          RemarkValidations
+          Remark
 
 
   belongs_to :addressable, polymorphic: true

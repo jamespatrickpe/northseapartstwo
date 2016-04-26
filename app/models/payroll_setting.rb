@@ -1,8 +1,8 @@
 class PayrollSetting < ActiveRecord::Base
 
   include BaseConcerns,
-          RemarkValidations,
-          BelongsEmployee
+          Remark,
+          Employee
 
   validates_presence_of :datetime_of_implementation
 

@@ -1,8 +1,8 @@
 class Position < ActiveRecord::Base
 
   include BaseConcerns,
-          NameValidations,
-          RemarkValidations
+          Name,
+          Remark
 
   belongs_to :department, autosave: true
   validates_presence_of :department

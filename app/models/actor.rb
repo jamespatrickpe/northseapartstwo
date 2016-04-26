@@ -1,8 +1,8 @@
 class Actor < ActiveRecord::Base
 
   include BaseConcerns,
-          RemarkValidations,
-          NameValidations
+          Remark,
+          Name
 
   has_one :access, autosave: true
   has_one :employee, autosave: true

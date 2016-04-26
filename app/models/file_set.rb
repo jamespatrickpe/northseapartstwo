@@ -1,7 +1,7 @@
 class FileSet < ActiveRecord::Base
   
   include BaseConcerns,
-          RemarkValidations
+          Remark
 
   belongs_to :filesetable, polymorphic: true
 

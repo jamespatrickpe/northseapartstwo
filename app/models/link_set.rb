@@ -1,8 +1,8 @@
 class LinkSet < ActiveRecord::Base
 
   include BaseConcerns,
-          UrlValidations,
-          RelLinkSetValidations
+          Url,
+          RelLinkSet
 
   belongs_to :linksetable, polymorphic: true
 

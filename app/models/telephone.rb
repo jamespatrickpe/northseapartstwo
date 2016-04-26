@@ -1,7 +1,7 @@
 class Telephone < ActiveRecord::Base
 
   include BaseConcerns,
-          RemarkValidations
+          Remark
 
   belongs_to :telephonable, polymorphic: true
 

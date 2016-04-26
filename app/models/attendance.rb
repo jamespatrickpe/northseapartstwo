@@ -1,7 +1,7 @@
 class Attendance < ActiveRecord::Base
 
   include BaseConcerns
-  include RemarkValidations
+  include Remark
 
   belongs_to :employee
 

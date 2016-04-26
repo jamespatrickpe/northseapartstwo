@@ -1,9 +1,9 @@
 class Vale < ActiveRecord::Base
 
   include BaseConcerns,
-          AmountValidations,
-          RemarkValidations,
-          PeriodOfTimeValidations
+          Amount,
+          Remark,
+          PeriodOfTime
 
   belongs_to :employee
 

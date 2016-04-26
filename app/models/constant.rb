@@ -1,8 +1,8 @@
 class Constant < ActiveRecord::Base
 
   include BaseConcerns
-  include RemarkValidations
-  include NameValidations
+  include Remark
+  include Name
 
   validates_presence_of :value
   validates_length_of :value, maximum: 64

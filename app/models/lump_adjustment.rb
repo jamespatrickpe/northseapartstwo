@@ -1,8 +1,8 @@
 class LumpAdjustment < ActiveRecord::Base
 
   include BaseConcerns,
-          RemarkValidations,
-          AmountValidations
+          Remark,
+          Amount
 
   belongs_to :employee
 

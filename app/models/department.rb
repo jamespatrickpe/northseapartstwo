@@ -1,7 +1,7 @@
 class Department < ActiveRecord::Base
 
   include BaseConcerns
-  include NameValidations
+  include Name
 
   has_many :positions
 
