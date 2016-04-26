@@ -1,7 +1,7 @@
 class InstitutionalAdjustment < ActiveRecord::Base
 
-  include BaseConcerns
-  include Remark
+  include BaseConcerns,
+          RemarkConcerns
 
   validates_numericality_of :start_range, maximum: 16
   validates_numericality_of :end_range, maximum: 16

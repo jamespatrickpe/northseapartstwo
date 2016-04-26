@@ -1,8 +1,8 @@
 class ValeAdjustment < ActiveRecord::Base
 
   include BaseConcerns,
-          Amount,
-          Remark
+          AmountConcerns,
+          RemarkConcerns
 
   belongs_to :vale
 

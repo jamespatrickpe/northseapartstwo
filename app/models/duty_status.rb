@@ -1,7 +1,7 @@
 class DutyStatus < ActiveRecord::Base
 
   include BaseConcerns
-  include Remark
+  include RemarkConcerns
 
   belongs_to :employee
 

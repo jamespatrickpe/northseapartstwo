@@ -1,7 +1,7 @@
 class ImageSet < ActiveRecord::Base
 
   include BaseConcerns,
-          Remark
+          RemarkConcerns
 
   belongs_to :imagesetable, polymorphic: true
 

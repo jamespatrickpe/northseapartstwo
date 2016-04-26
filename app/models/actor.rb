@@ -1,8 +1,8 @@
 class Actor < ActiveRecord::Base
 
   include BaseConcerns,
-          Remark,
-          Name
+          RemarkConcerns,
+          NameConcerns
 
   has_one :access, autosave: true
   has_one :employee, autosave: true

@@ -1,7 +1,7 @@
 class Permission < ActiveRecord::Base
 
   include BaseConcerns,
-             Remark
+          RemarkConcerns
 
   belongs_to :access
 

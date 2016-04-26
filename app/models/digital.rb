@@ -1,15 +1,22 @@
 class Digital < ActiveRecord::Base
 
   include BaseConcerns,
-          Remark,
-          Url
+          RemarkConcerns,
+          UrlConcerns,
+          ContactDetailsConcerns
 
   belongs_to :digitable, polymorphic: true
 
   searchable do
+
     text :digitable do
-      digitable.try(:name)
+      polymorphic_contact_details(digitable)
     end
+
+    string :digitable do
+      polymorphic_contact_details(digitable)
+    end
+
   end
 
 end

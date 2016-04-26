@@ -1,17 +1,23 @@
 class Address < ActiveRecord::Base
 
   include BaseConcerns,
-          Remark
+          RemarkConcerns
 
 
   belongs_to :addressable, polymorphic: true
 
   searchable do
-    string :longitude, :latitude, :remark
-    text :longitude, :latitude, :remark
+    string :longitude, :latitude
+    text :longitude, :latitude
+
     text :addressable do
-      addressable.try(:name)
+      polymorphic_contact_details(addressable)
     end
+
+    string :addressable do
+      polymorphic_contact_details(addressable)
+    end
+
   end
 
   validates_numericality_of :longitude

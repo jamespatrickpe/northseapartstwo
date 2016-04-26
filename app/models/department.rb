@@ -1,7 +1,7 @@
 class Department < ActiveRecord::Base
 
   include BaseConcerns
-  include Name
+  include NameConcerns
 
   has_many :positions
 

@@ -1,8 +1,8 @@
 class PerformanceAppraisal < ActiveRecord::Base
 
   include BaseConcerns,
-          Employee,
-          Remark
+          EmployeeConcerns,
+          RemarkConcerns
 
   validates_length_of :category, maximum: 64
   validates_numericality_of :score

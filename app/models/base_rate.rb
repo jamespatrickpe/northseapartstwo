@@ -1,7 +1,7 @@
 class BaseRate < ActiveRecord::Base
 
   include BaseConcerns
-  include Remark
+  include RemarkConcerns
 
   belongs_to :employee
 

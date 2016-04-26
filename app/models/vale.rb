@@ -1,9 +1,9 @@
 class Vale < ActiveRecord::Base
 
   include BaseConcerns,
-          Amount,
-          Remark,
-          PeriodOfTime
+          AmountConcerns,
+          RemarkConcerns,
+          PeriodOfTimeConcerns
 
   belongs_to :employee
 
