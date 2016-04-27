@@ -40,7 +40,7 @@ class Finance::ExpensesController < FinanceController
     @actors1 = Actor.all()
     @actors2 = Branch.all()
 
-    generic_single_column_form(@selected_expense)
+    generic_form_main(@selected_expense)
   end
 
   def edit
@@ -77,7 +77,7 @@ class Finance::ExpensesController < FinanceController
     @actors1 = Actor.all()
     @actors2 = Branch.all()
 
-    generic_single_column_form(@selected_expense)
+    generic_form_main(@selected_expense)
   end
 
   def delete

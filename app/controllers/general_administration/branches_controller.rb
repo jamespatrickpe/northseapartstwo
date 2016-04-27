@@ -39,7 +39,7 @@ class GeneralAdministration::BranchesController < GeneralAdministrationControlle
     @selected_branch = Branch.new
     @actors = Actor.all().order('name ASC')
     @branches = Branch.all().order('name ASC')
-    generic_single_column_form(@selected_branch)
+    generic_form_main(@selected_branch)
   end
 
   def edit
@@ -47,7 +47,7 @@ class GeneralAdministration::BranchesController < GeneralAdministrationControlle
     @selected_branch = Branch.find(params[:id])
     @actors = Actor.all().order('name ASC')
     @branches = Branch.all().order('name ASC')
-    generic_single_column_form(@selected_branch)
+    generic_form_main(@selected_branch)
   end
 
   def show

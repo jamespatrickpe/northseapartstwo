@@ -1,0 +1,40 @@
+<section class="large-10 columns">
+
+  <%=
+     # Set Header
+     if action_name == "new"
+       subtitle = @subtitle
+     elsif action_name == "edit"
+       subtitle = @subtitle + " | " + selected_model_instance[:id]
+     elsif action_name == "show"
+       subtitle = @subtitle + " | " + selected_model_instance[:id]
+     else
+       subtitle = ""
+     end
+     generic_title(subtitle,@title)
+  %>
+    <%
+       current_method = ''
+       current_action = ''
+       selected_model_instance[:id].present? ?
+               (current_method = :patch; current_url = selected_model_instance[:id] ) :
+               (current_method = :post; current_url = '')
+    %>
+    <%=
+        simple_form_for controller_path,
+                        :url => '/' + controller_path + '/' + current_url.to_s ,
+                        :html => { :'data-parsley-validate' => '',
+                                   :method => current_method} do |f|
+    %>
+        <%= f.hidden_field :id, :value => selected_model_instance[:id] %>
+        <%= render(:partial => controller_path + '/form',
+                   :locals => {:f => f,
+                               :selected_model_instance => selected_model_instance})
+        %>
+        <hr style="visibility: hidden">
+        <div class="large-6 columns">
+        <%= generic_form_footer(selected_model_instance[:id]) %>
+        </div>
+    <% end %>
+
+</section>

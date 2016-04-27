@@ -10,15 +10,11 @@ class GeneralAdministration::ContactDetails::DigitalsController < GeneralAdminis
   end
 
   def new
-    initialize_form
-    @selected_digital = Digital.new
-    generic_single_column_form(@selected_digital)
+    set_new_edit(Digital)
   end
 
   def edit
-    initialize_form
-    @selected_digital = Digital.find(params[:id])
-    generic_single_column_form(@selected_digital)
+    set_new_edit(Digital)
   end
 
   def show
@@ -26,8 +22,7 @@ class GeneralAdministration::ContactDetails::DigitalsController < GeneralAdminis
   end
 
   def delete
-    Digital.find(params[:id]).destroy
-    redirect_to :action => "index"
+    generic_delete(Digital)
   end
 
   def process_digital_form(myDigital)
@@ -45,13 +40,11 @@ class GeneralAdministration::ContactDetails::DigitalsController < GeneralAdminis
   end
 
   def create
-    myDigital = Digital.new()
-    process_digital_form(myDigital)
+    process_digital_form(Digital.new())
   end
 
   def update
-    myDigital = Digital.find(params[controller_path][:id])
-    process_digital_form(myDigital)
+    process_digital_form(Digital.find(params[controller_path][:id]))
   end
 
 end

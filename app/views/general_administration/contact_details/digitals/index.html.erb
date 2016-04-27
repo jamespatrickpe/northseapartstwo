@@ -6,10 +6,9 @@
         <tr>
             <%= generic_table_theadlink('ID') %>
             <%= generic_table_theadlink('URL') %>
-            <%= generic_table_theadlink('remark') %>
             <%= generic_table_theadlink('Association', 'digitable') %>
-            <%= generic_table_theadlink('Created At') %>
-            <%= generic_table_theadlink('Updated At') %>
+            <%= generic_table_theadlink('Remark') %>
+            <%= generic_table_theadlink_last_head() %>
         </tr>
         </thead>
         <% if @digitals.empty? == true %>
@@ -18,20 +17,15 @@
             <tbody>
             <% @digitals.each do |digital| %>
                 <tr>
-                  <td><%= digital[:id].upcase %></td>
+                  <%= generic_table_id(digital)%>
                   <td>
                     <a href="<%= digital[:url] %>" target="_blank">
                       <%= digital[:url] %>
                     </a>
                   </td>
-                  <td><%= digital[:remark] %> </td>
-                  <td>
-                    <%= polymorphic_link(digital[:digitable_type],
-                                         digital[:digitable_id]) %>
-                  </td>
-                  <td><%= digital[:created_at] %> </td>
-                  <td><%= digital[:updated_at] %> </td>
-                  <%= generic_table_actions(digital[:id]) %>
+                  <%= polymorphic_link(digital[:digitable_type], digital[:digitable_id]) %>
+                  <%= generic_table_remark(digital[:remark]) %>
+                  <%= generic_table_last_rows(digital) %>
                 </tr>
             <% end %>
             </tbody>

@@ -40,14 +40,14 @@ class HumanResources::Settings::HolidaysController < HumanResources::SettingsCon
     initialize_form
     @selected_holiday = Holiday.new
     @holiday_types = HolidayType.all
-    generic_single_column_form(@selected_holiday)
+    generic_form_main(@selected_holiday)
   end
 
   def edit
     initialize_form
     @selected_holiday = Holiday.find(params[:id])
     @holiday_types = HolidayType.all
-    generic_single_column_form(@selected_holiday)
+    generic_form_main(@selected_holiday)
   end
 
   def delete

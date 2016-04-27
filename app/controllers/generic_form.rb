@@ -8,8 +8,8 @@ module GenericForm
     render :template => 'human_resources/_bicolumn_with_employee_selection', :locals => {:model => model}
   end
 
-  def generic_single_column_form(model)
-    render :template => 'common_partials/generic_form/_single_column', :locals => {:model => model}
+  def generic_form_main(selected_model_instance)
+    render :template => 'common_partials/generic_form/_main', :locals => {:selected_model_instance => selected_model_instance}
   end
 
   def generic_delete_model(model, my_controller_name)

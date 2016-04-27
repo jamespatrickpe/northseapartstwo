@@ -2,7 +2,7 @@
 
   <% models = main_model.class.all_polymorphic_types(polymorphic_attribute.to_sym).map(&:to_s) %>
 
-  <div class="form-block" style="float: left;">
+  <div class="form-block" style="float: left; width: 30%;">
     <div class="form_label">Type :</div>
     <select name='<%= (controller_path + '[' + polymorphic_attribute + '_type]') %>'
             class=''
@@ -15,8 +15,8 @@
     </select>
   </div>
 
-  <div class="form-block" style="float: left;">
-    <div class="form_label">ID :</div>
+  <div class="form-block" style="float: left; width: 70%; padding: 10px;">
+    <div class="form_label">Name / Representation</div>
     <select name='<%= (controller_path + '[' + polymorphic_attribute + '_id]') %>'
             class=''
             id='<%= (controller_path + '_' + polymorphic_attribute + '_id').gsub("/", "_") %>'

@@ -1,40 +1,8 @@
-.generic_tricolumn_form {
-    float : left;
-    font-size: 12px;
-    margin-bottom : 16px;
-    border-top: 1px solid #cccccc;
-    margin-right: 5px;
-    width : 32% !important;
-}
-
-.generic_tricolumn_form .form-block, .generic_tricolumn_form .generic_bicolumn_form {
-    width : 100%;
-}
-
-.generic_tricolumn_form .employee_quick_profile {
-    width : 100% !important;
-}
-
-.tricolumn_form_footer .generic_form_button_set {
-    text-align: left;
-    clear : both;
-}
-
-.generic_bicolumn_form
-{
-    border-right: 1px solid #cccccc;
-    font-size: 12px;
-    float:left;
-    margin-bottom : 32px;
-    width:50%;
-}
-
-.generic_single_column_form
+.main_form
 {
     font-size: 12px;
     margin-bottom : 32px;
-    float:left;
-    width:50%;
+    width:100%;
 }
 
 .current_edit_id
@@ -54,8 +22,6 @@
 .form-block {
     padding-top: 10px;
     padding-bottom: 10px;
-    padding-right: 10px;
-    width: 50%;
 }
 
 .form_label
@@ -82,4 +48,3 @@
     display: block;
     float: left;
 }
-

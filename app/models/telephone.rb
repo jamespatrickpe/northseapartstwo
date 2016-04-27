@@ -1,7 +1,8 @@
 class Telephone < ActiveRecord::Base
 
   include BaseConcerns,
-          RemarkConcerns
+          RemarkConcerns,
+          ContactDetailsConcerns
 
   belongs_to :telephonable, polymorphic: true
 
@@ -9,6 +10,7 @@ class Telephone < ActiveRecord::Base
 
     text :telephonable do
       polymorphic_contact_details(telephonable)
+
     end
 
     string :telephonable do

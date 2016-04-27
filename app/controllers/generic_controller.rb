@@ -36,10 +36,14 @@ module GenericController
   end
 
   def get_model_id
-    main_model = params[:query].constantize
-    main_query = main_model.all
-    respond_to do |format|
-      format.all { render :json => main_query}
+    begin
+      main_model = params[:query].constantize
+      main_query = main_model.all
+      respond_to do |format|
+        format.all { render :json => main_query}
+      end
+    rescue => ex
+      head :ok, content_type: "text/html"
     end
   end
 
@@ -53,6 +57,16 @@ module GenericController
     else
       flash[:general_flash_notification] = 'Performed ' + action_name + ' ' + controller_name
     end
+  end
+
+  def set_new_edit(class_model)
+    initialize_form
+    if params[:id]
+      selected_model_instance = class_model.find(params[:id])
+    else
+      selected_model_instance = class_model.new
+    end
+    generic_form_main(selected_model_instance)
   end
 
 end

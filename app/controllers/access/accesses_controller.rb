@@ -37,14 +37,14 @@ class Access::AccessesController < AccessController
     initialize_form
     @selected_access = Access.new
     @actors = Actor.all().order('name ASC')
-    generic_single_column_form(@selected_access)
+    generic_form_main(@selected_access)
   end
 
   def edit
     initialize_form
     @selected_access = Access.find(params[:id])
     @actors = Actor.all().order('name ASC')
-    generic_single_column_form(@selected_access)
+    generic_form_main(@selected_access)
   end
 
   def delete

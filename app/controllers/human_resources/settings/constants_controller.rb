@@ -37,13 +37,13 @@ class HumanResources::Settings::ConstantsController < HumanResources::SettingsCo
   def new
     initialize_form
     @selected_constant = Constant.new
-    generic_single_column_form(@selected_constant)
+    generic_form_main(@selected_constant)
   end
 
   def edit
     initialize_form
     @selected_constant = Constant.find(params[:id])
-    generic_single_column_form(@selected_constant)
+    generic_form_main(@selected_constant)
   end
 
 

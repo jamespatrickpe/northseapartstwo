@@ -1,5 +1,5 @@
 <td class="actions">
-<%= link_to( "&#9998;".html_safe ,{:action => 'edit', :id => model_id}, class: 'action_button', tooltip: 'Edit') %>
-<%= link_to( "&#10006;".html_safe ,{:action => 'delete', :id => model_id}, class: 'action_button deletable_item', tooltip: 'Delete') %>
-<%= link_to( "&#128269;".html_safe ,{:action => 'show', :id => model_id}, class: 'action_button', tooltip: 'Examine') %>
+<%= link_to( "&#9998;".html_safe ,{:action => 'edit', :id => current_model_instance[:id]}, class: 'action_button', tooltip: 'Edit') %>
+<%= link_to( "&#10006;".html_safe ,{:action => 'delete', :id => current_model_instance[:id]}, class: 'action_button deletable_item', tooltip: 'Delete') %>
+<%= link_to( "&#128269;".html_safe ,{:action => 'show', :id => current_model_instance[:id]}, class: 'action_button', tooltip: 'Examine') %>
 </td>

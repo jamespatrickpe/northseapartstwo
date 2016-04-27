@@ -1,7 +1,7 @@
 class GeneralAdministration::ContactDetails::AddressesController < GeneralAdministration::ContactDetailsController
 
   def index
-    @addresses = initialize_generic_table(Address, [:digitable])
+    @addresses = initialize_generic_table(Address, [:addressable])
     render_index
   end
 
@@ -10,15 +10,11 @@ class GeneralAdministration::ContactDetails::AddressesController < GeneralAdmini
   end
 
   def new
-    initialize_form
-    @selected_address = Address.new
-    generic_single_column_form(@selected_address)
+    set_new_edit(Address)
   end
 
   def edit
-    initialize_form
-    @selected_address = Address.find(params[:id])
-    generic_single_column_form(@selected_address)
+    set_new_edit(Address)
   end
 
   def show
@@ -26,8 +22,7 @@ class GeneralAdministration::ContactDetails::AddressesController < GeneralAdmini
   end
 
   def delete
-    Address.find(params[:id]).destroy
-    redirect_to :action => "index"
+    generic_delete(Address)
   end
 
   def process_address_form(myAddress)
@@ -46,13 +41,11 @@ class GeneralAdministration::ContactDetails::AddressesController < GeneralAdmini
   end
 
   def create
-    myAddress = Address.new()
-    process_address_form(myAddress)
+    process_address_form(Address.new())
   end
 
   def update
-    myAddress = Address.find(params[:address][:id])
-    process_address_form(myAddress)
+    process_address_form(Address.find(params[:address][:id]))
   end
 
 end
