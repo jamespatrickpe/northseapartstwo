@@ -17,7 +17,6 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require selectize.js
-//= require locationpicker.jquery.js
 //= require file-validator.js
 //= require jquery.validate
 //= require jquery.sapling.min
@@ -29,7 +28,6 @@
 //= require employee_quick_profile.js
 //= require moment.js
 //= require jquery-ui
-//= //require autocomplete-rails
 //= require jquery.autocomplete.min
 
 $(document).foundation();

@@ -2,13 +2,15 @@
 <%= favicon_link_tag 'favicon.ico' %>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title><%= content_for?(:title) ? yield(:title) : "North Sea Parts" %></title>
-<%= stylesheet_link_tag "application" %>
-<%= javascript_include_tag "vendor/modernizr" %>
-<%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag 'application' %>
+<%= javascript_include_tag 'vendor/modernizr' %>
+<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 <%= javascript_include_tag params[:controller] %>
 <script type="text/javascript">
     var rails_root = '<%= Rails.root %>';
     var controller_name = '<%= params[:controller] %>';
     var action_name = '<%= params[:action] %>';
 </script>
+<script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
+<%= javascript_include_tag 'locationpicker.jquery.js' %>
 <%= csrf_meta_tags %>

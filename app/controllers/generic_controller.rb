@@ -29,6 +29,10 @@ module GenericController
     render controller_path + '/index'
   end
 
+  def redirect_to_index
+    redirect_to :action => 'index'
+  end
+
   def index_error(ex)
     puts ex.to_s
     flash[:general_flash_notification] = ""
@@ -67,6 +71,10 @@ module GenericController
       selected_model_instance = class_model.new
     end
     generic_form_main(selected_model_instance)
+  end
+
+  def get_params(attribute)
+    params[controller_path][attribute.to_sym]
   end
 
 end

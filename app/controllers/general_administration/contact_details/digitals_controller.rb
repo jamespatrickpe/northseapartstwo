@@ -36,7 +36,7 @@ class GeneralAdministration::ContactDetails::DigitalsController < GeneralAdminis
     rescue => ex
       index_error(ex)
     end
-    redirect_to :action => 'index'
+    redirect_to_index
   end
 
   def create

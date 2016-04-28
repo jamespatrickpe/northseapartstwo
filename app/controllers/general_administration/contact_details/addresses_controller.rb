@@ -37,7 +37,7 @@ class GeneralAdministration::ContactDetails::AddressesController < GeneralAdmini
     rescue => ex
       index_error(ex)
     end
-    render_index
+    redirect_to_index
   end
 
   def create
@@ -45,7 +45,7 @@ class GeneralAdministration::ContactDetails::AddressesController < GeneralAdmini
   end
 
   def update
-    process_address_form(Address.find(params[:address][:id]))
+    process_address_form(Address.find(params[controller_path][:id]))
   end
 
 end
