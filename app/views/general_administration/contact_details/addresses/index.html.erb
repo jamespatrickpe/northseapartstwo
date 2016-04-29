@@ -5,8 +5,8 @@
         <thead>
         <tr>
           <%= generic_table_theadlink('ID') %>
-          <%= generic_table_theadlink('Longitude') %>
           <%= generic_table_theadlink('Latitude') %>
+          <%= generic_table_theadlink('Longitude') %>
           <%= generic_table_theadlink('Association', 'addressable') %>
           <%= generic_table_theadlink('Remark') %>
           <%= generic_table_theadlink_last_head() %>
@@ -20,8 +20,8 @@
             <% @addresses.each do |address| %>
                 <tr>
                   <%= generic_table_id(address) %>
-                  <td><%= address[:longitude] %> </td>
                   <td><%= address[:latitude] %> </td>
+                  <td><%= address[:longitude] %> </td>
                   <%= polymorphic_link(address[:addressable_type],address[:addressable_id]) %>
                   <%= generic_table_remark(address[:remark]) %>
                   <%= generic_table_last_rows(address) %>

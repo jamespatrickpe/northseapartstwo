@@ -159,9 +159,9 @@ module OfficialStarterSeed
   Telephone.create( remark: "Main Number", digits: "6478092", telephonable_id: biofin.id, telephonable_type: 'Branch')
 
   # Addresses for Branches
-  Address.create( remark: "North Sea Parts, Marcos Highway, Cainta, Rizal", longitude: 14.622056, latitude: 121.106819, addressable_id: north_sea.id, addressable_type: 'Branch')
-  Address.create( remark: "Greco Warehouse, Sumulong Highway, Antipolo, Rizal", longitude: 14.616369, latitude: 121.138520, addressable_id: greco.id, addressable_type: 'Branch')
-  Address.create( remark: "Biofin Petshop, Sumulong Highway, Antipolo, Rizal", longitude: 14.617416, latitude: 121.134781, addressable_id: biofin.id, addressable_type: 'Branch')
+  Address.create( remark: "North Sea Parts, Marcos Highway, Cainta, Rizal", longitude: 121.106819, latitude: 14.622056, addressable_id: north_sea.id, addressable_type: 'Branch')
+  Address.create( remark: "Greco Warehouse, Sumulong Highway, Antipolo, Rizal", longitude: 121.138520, latitude: 14.616369, addressable_id: greco.id, addressable_type: 'Branch')
+  Address.create( remark: "Biofin Petshop, Sumulong Highway, Antipolo, Rizal", longitude: 121.134781, latitude: 14.617416, addressable_id: biofin.id, addressable_type: 'Branch')
 
   # Digitals for Branches
   Digital.new( remark: "email", url: "northseaparts@yahoo.com", digitable_id: north_sea.id, digitable_type: 'Branch')

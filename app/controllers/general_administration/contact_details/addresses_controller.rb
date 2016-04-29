@@ -6,7 +6,7 @@ class GeneralAdministration::ContactDetails::AddressesController < GeneralAdmini
   end
 
   def search_suggestions
-    simple_singular_column_search('addresses.remark',Digital)
+    simple_singular_column_search('addresses.remark',Address)
   end
 
   def new

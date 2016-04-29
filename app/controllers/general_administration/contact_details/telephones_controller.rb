@@ -1,132 +1,50 @@
 class GeneralAdministration::ContactDetails::TelephonesController < GeneralAdministration::ContactDetailsController
 
   def index
-    query = generic_table_aggregated_queries('telephones','telephones.created_at')
-    begin
-      @telephones = Telephone
-                      .where("telephones.digits LIKE ? OR " +
-                                 "telephones.remark LIKE ? ",
-                             "%#{query[:search_field]}%",
-                             "%#{query[:search_field]}%")
-                      .order(query[:order_parameter] + ' ' + query[:order_orientation])
-      @telephones = Kaminari.paginate_array(@telephones).page(params[:page]).per(query[:current_limit])
-    rescue => ex
-      flash[:general_flash_notification] = "Error has Occured"
-    end
-    render 'general_administration/contact_details/telephones/index'
+    @telephones = initialize_generic_table(Telephone, [:telephonable])
+    render_index
   end
 
-
-  def initialize_form
-    initialize_form_variables('TELEPHONE',
-                              'general_administration/contact_details/telephones/telephone_form',
-                              'telephone')
-    initialize_employee_selection
+  def search_suggestions
+    simple_singular_column_search('telephones.remark',Telephone)
   end
 
   def new
-    initialize_form
-    @selected_telephone = Telephone.new
-    @actors1 = Actor.all()
-    @actors2 = Branch.all()
-    generic_form_main(@selected_telephone)
+    set_new_edit(Telephone)
   end
 
   def edit
-    initialize_form
-    @selected_telephone = Telephone.find(params[:id])
-    @actorsInvolved ||= []
+    set_new_edit(Telephone)
+  end
 
-    # @telephone_actor_rel = TelephonesActor.find_by_telephone_id(params[:id])
-    @telephone_actor_rel = TelephonesActor.where("telephones_actors.telephone_id = ?", "#{params[:id]}")
-
-    involvedActorObjects ||= []
-    involvedBranchObjects ||= []
-
-    @telephone_actor_rel.each do |ea|
-      if Actor.exists?(ea[:actor_id])
-        involvedActorObjects.push(Actor.find(ea[:actor_id]))
-      else
-        puts 'ID in use does not belong to an Actor'
-      end
-    end
-
-    @telephone_actor_rel.each do |ea|
-      if Branch.exists?(ea[:actor_id])
-        involvedBranchObjects.push(Branch.find(ea[:actor_id]))
-      else
-        puts 'ID in use does not belong to a Branch'
-      end
-    end
-
-    @actorsInvolved = involvedActorObjects + involvedBranchObjects
-
-    @actorsInvolved.compact.uniq!
-
-    @actors1 = Actor.all()
-    @actors2 = Branch.all()
-
-    generic_form_main(@selected_telephone)
+  def show
+    edit
   end
 
   def delete
-    telephone_to_be_deleted = Telephone.find(params[:id])
-    flash[:general_flash_notification] = 'Telephone information :  ' + telephone_to_be_deleted.digits + ' has been deleted.'
-    flash[:general_flash_notification_type] = 'affirmative'
-
-    # deletes all related actors with the telephone before deleting the actual telephone object
-    mapped_telephone_actors = TelephonesActor.where("telephones_actors.telephone_id = ?", "#{params[:id]}")
-    mapped_telephone_actors.each do |a|
-      a.destroy
-    end
-
-
-    telephone_to_be_deleted.destroy
-    redirect_to :action => "index"
+    generic_delete(Telephone)
   end
 
   def process_telephone_form(myTelephone)
     begin
-      myTelephone[:digits] = params[:telephone][:digits]
-      myTelephone[:remark] = params[:telephone][:remark]
+      myTelephone[:digits] = params[controller_path][:digits]
+      myTelephone[:remark] = params[controller_path][:remark]
+      myTelephone[:telephonable_type] = params[controller_path][:telephonable_type]
+      myTelephone[:telephonable_id] = params[controller_path][:telephonable_id]
       myTelephone.save!
-
-      # after creating the new telephone, iterate through all the actors involved and maps them with the telephone
-      actorsInvolved = params[:telephone][:telephoneactors]
-      actorsInvolved.each_with_index do |p , index|
-        actor = TelephonesActor.new
-        actor[:actor_id] = actorsInvolved.values[index]
-        actor[:telephone_id] = myTelephone.id
-        actor.save!
-      end
-
-      flash[:general_flash_notification_type] = 'affirmative'
+      set_process_notification
     rescue => ex
-      puts ex
-      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.' + ex.to_s
+      index_error(ex)
     end
-    redirect_to :action => 'index'
+    redirect_to_index
   end
 
   def create
-    myTelephone = Telephone.new()
-    flash[:general_flash_notification] = 'Telephone information created!'
-    process_telephone_form(myTelephone)
+    process_telephone_form(Telephone.new())
   end
 
   def update
-    myTelephone = Telephone.find(params[:telephone][:id])
-    flash[:general_flash_notification] = 'Telephone information ' + params[:telephone][:digits] + ' has been updated.'
-    process_telephone_form(myTelephone)
+    process_telephone_form(Telephone.find(params[controller_path][:id]))
   end
 
-  def search_suggestions
-    telephones = Telephone
-                   .where("telephones.digits LIKE ?","%#{params[:query]}%")
-                   .pluck("telephones.digits")
-    direct = "{\"query\": \"Unit\",\"suggestions\":[" + telephones.to_s.gsub!('[', '').gsub!(']', '') + "]}"
-    respond_to do |format|
-      format.all { render :text => direct}
-    end
-  end
 end

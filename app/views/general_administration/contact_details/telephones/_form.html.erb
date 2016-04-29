@@ -1,0 +1,24 @@
+<div class="large-6 columns">
+  <%= f.input :digits,
+              :as => :tel,
+              :label => "Digits",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:digits],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 256
+                      }
+  %>
+
+  <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
+  <%= polymorphic_selector(selected_model_instance,'telephonable',f) %>
+</div>
+
+<div class="large-6 columns">
+  <div class="form_label"> Check Maps on: </div>
+  <hr>
+
+  <a class="tiny button" href="tel:<%= selected_model_instance[:digits] %>">Generic</a>
+  <a class="tiny button" href="viber://chats?number=+632<%= selected_model_instance[:digits] %>">Viber</a>
+</div>
