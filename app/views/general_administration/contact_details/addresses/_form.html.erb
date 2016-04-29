@@ -38,11 +38,13 @@
 
   <div class="google_map_component" style="width: 500px; height: 400px;"></div>
   <br>
-  <div class="form_label"> Maps Link: </div>
-  <hr>
-  <a class="tiny button" href="https://www.google.com/maps/preview/@<%= lat %>,<%= long %>,18z" target="_blank">Google</a>
-<!--  <a class="tiny button" href="viber://chats?number=+632<%= selected_model_instance[:remark] %>">WikiMapia</a>
-  <a class="tiny button" href="viber://chats?number=+632<%= selected_model_instance[:remark] %>">Bing</a>-->
+
+  <% if action_name == 'show' || action_name == 'edit'%>
+      <div class="form_label"> Maps Link: </div>
+      <hr>
+      <a class="tiny button" href="https://www.google.com/maps/preview/@<%= lat %>,<%= long %>,18z" target="_blank">Google</a>
+      <a class="tiny button" href="http://wikimapia.org/#lang=en&lat=<%= lat %>&lon=<%= long %>&z=20&m=b" target="_blank">Wikimapia</a>
+  <% end %>
 
 </div>
 
@@ -50,10 +52,10 @@
     $( document ).ready(function()
     {
         // Settings
-        var radius_size = 2
-        var lat_field_id = (('#' + '<%= controller_path %>' + '_latitude').replace("/", "_")).replace("/", "_")
-        var long_field_id = (('#' + '<%= controller_path %>' + '_longitude').replace("/", "_")).replace("/", "_")
-        var address_field_id = (('#' + '<%= controller_path %>' + '_remark').replace("/", "_")).replace("/", "_")
+        var radius_size = 2;
+        var lat_field_id = (('#' + '<%= controller_path %>' + '_latitude').replace("/", "_")).replace("/", "_");
+        var long_field_id = (('#' + '<%= controller_path %>' + '_longitude').replace("/", "_")).replace("/", "_");
+        var address_field_id = (('#' + '<%= controller_path %>' + '_remark').replace("/", "_")).replace("/", "_");
         // Initialize
         var lat = parseFloat( $( lat_field_id ).val() );
         var long = parseFloat( $( long_field_id ).val() );

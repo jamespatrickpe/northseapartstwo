@@ -16,9 +16,12 @@
 </div>
 
 <div class="large-6 columns">
-  <div class="form_label"> Check Maps on: </div>
-  <hr>
 
-  <a class="tiny button" href="tel:<%= selected_model_instance[:digits] %>">Generic</a>
-  <a class="tiny button" href="viber://chats?number=+632<%= selected_model_instance[:digits] %>">Viber</a>
+  <% if action_name == 'show' || action_name == 'edit'%>
+      <div class="form_label"> Dial Numbers on: </div>
+      <hr>
+      <a class="tiny button" href="tel:<%= selected_model_instance[:digits] %>">Generic</a>
+      <a class="tiny button" href="viber://chats?number=<%= selected_model_instance[:digits] %>">Viber</a>
+  <% end  %>
+
 </div>
