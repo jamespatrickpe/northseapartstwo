@@ -104,10 +104,10 @@ numberOfActors.times do |i|
   if 80.in(100)
     # ids = Branch.pluck(:id).shuffle
     # myBranch = Branch.where(id: ids)
-    myEmployee = Employee.new( actors: myActor, branch: Branch.all.shuffle.first )
+    myEmployee = Employee.new( actor: myActor, branch: Branch.all.shuffle.first )
 
     #Attendances
-    rand(360..720).times do |i|
+    rand(20..50).times do |i|
       myDate = DateTime.now - i.days
       dateOfAttendance = Date.new(myDate.year , myDate.month, myDate.day)
       # timein = Time.new( myDate.year , myDate.month, myDate.day, (0..12), rand(0..59), rand(0..59) )

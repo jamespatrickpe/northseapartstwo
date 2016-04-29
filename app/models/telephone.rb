@@ -10,7 +10,6 @@ class Telephone < ActiveRecord::Base
 
     text :telephonable do
       polymorphic_contact_details(telephonable)
-
     end
 
     string :telephonable do
