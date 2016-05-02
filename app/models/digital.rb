@@ -2,14 +2,14 @@ class Digital < ActiveRecord::Base
 
   include BaseConcerns,
           RemarkConcerns,
-          UrlConcerns,
-          ContactDetailsConcerns
+          UrlConcerns
 
-  belongs_to :digitable, polymorphic: true
+  belongs_to :contact_detail
 
+=begin
   searchable do
 
-    text :digitable do
+    text :contact_detail do
       polymorphic_contact_details(digitable)
     end
 
@@ -18,5 +18,6 @@ class Digital < ActiveRecord::Base
     end
 
   end
+=end
 
 end
