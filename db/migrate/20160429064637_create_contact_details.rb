@@ -1,4 +1,4 @@
-class CreateContactDetails < ActiveRecord::Migration
+class CreateContactDetails < MainMigration
   def change
     create_table :contact_details, :id => false  do |t|
       common_set_one(t)

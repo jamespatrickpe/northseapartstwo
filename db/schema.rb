@@ -40,13 +40,12 @@ ActiveRecord::Schema.define(version: 20160429064637) do
   add_index "actors", ["id"], name: "index_actors_on_id", using: :btree
 
   create_table "addresses", force: :cascade do |t|
-    t.datetime "created_at",                                             null: false
-    t.datetime "updated_at",                                             null: false
-    t.string   "remark",           limit: 256
-    t.string   "addressable_id",   limit: 255
-    t.string   "addressable_type", limit: 255
-    t.decimal  "longitude",                    precision: 18, scale: 12
-    t.decimal  "latitude",                     precision: 18, scale: 12
+    t.string   "remark",            limit: 256
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
+    t.string   "contact_detail_id", limit: 255
+    t.decimal  "longitude",                     precision: 18, scale: 12
+    t.decimal  "latitude",                      precision: 18, scale: 12
   end
 
   add_index "addresses", ["id"], name: "index_addresses_on_id", using: :btree
@@ -68,7 +67,7 @@ ActiveRecord::Schema.define(version: 20160429064637) do
     t.datetime "created_at",                                                         null: false
     t.datetime "updated_at",                                                         null: false
     t.string   "employee_id",            limit: 36
-    t.date     "date_of_implementation",             default: '2016-05-02'
+    t.date     "date_of_implementation",             default: '2016-05-03'
     t.time     "timein",                             default: '2000-01-01 00:00:01'
     t.time     "timeout",                            default: '2000-01-01 23:59:59'
   end
@@ -126,7 +125,7 @@ ActiveRecord::Schema.define(version: 20160429064637) do
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
     t.string   "name",                   limit: 64
-    t.date     "date_of_implementation",             default: '2016-05-02'
+    t.date     "date_of_implementation",             default: '2016-05-03'
     t.string   "value",                  limit: 64
     t.string   "constant_type",          limit: 64
   end
@@ -134,9 +133,14 @@ ActiveRecord::Schema.define(version: 20160429064637) do
   add_index "constants", ["id"], name: "index_constants_on_id", using: :btree
 
   create_table "contact_details", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "remark",           limit: 256
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.string   "contactable_id",   limit: 255
+    t.string   "contactable_type", limit: 255
   end
+
+  add_index "contact_details", ["id"], name: "index_contact_details_on_id", using: :btree
 
   create_table "departments", force: :cascade do |t|
     t.string   "remark",     limit: 256
@@ -148,12 +152,11 @@ ActiveRecord::Schema.define(version: 20160429064637) do
   add_index "departments", ["id"], name: "index_departments_on_id", using: :btree
 
   create_table "digitals", force: :cascade do |t|
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.string   "remark",         limit: 256
-    t.string   "digitable_id",   limit: 255
-    t.string   "digitable_type", limit: 255
-    t.string   "url",            limit: 512
+    t.string   "remark",            limit: 256
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.string   "contact_detail_id", limit: 255
+    t.string   "url",               limit: 512
   end
 
   add_index "digitals", ["id"], name: "index_digitals_on_id", using: :btree
@@ -218,7 +221,7 @@ ActiveRecord::Schema.define(version: 20160429064637) do
     t.string   "remark",                 limit: 256
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
-    t.date     "date_of_implementation",             default: '2016-05-02'
+    t.date     "date_of_implementation",             default: '2016-05-03'
     t.string   "name",                   limit: 64
     t.string   "holiday_type_id",        limit: 36
   end
@@ -259,8 +262,8 @@ ActiveRecord::Schema.define(version: 20160429064637) do
     t.datetime "updated_at",                                                       null: false
     t.string   "employee_id",          limit: 36
     t.string   "type_of_leave",        limit: 64
-    t.datetime "start_of_effectivity",             default: '2016-05-02 09:04:47'
-    t.datetime "end_of_effectivity",               default: '2016-05-02 09:04:47'
+    t.datetime "start_of_effectivity",             default: '2016-05-03 12:40:16'
+    t.datetime "end_of_effectivity",               default: '2016-05-03 12:40:16'
   end
 
   add_index "leaves", ["id"], name: "index_leaves_on_id", using: :btree
@@ -360,11 +363,10 @@ ActiveRecord::Schema.define(version: 20160429064637) do
   add_index "rest_days", ["id"], name: "index_rest_days_on_id", using: :btree
 
   create_table "telephones", force: :cascade do |t|
+    t.string   "remark",            limit: 256
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
-    t.string   "remark",            limit: 256
-    t.string   "telephonable_id",   limit: 255
-    t.string   "telephonable_type", limit: 255
+    t.string   "contact_detail_id", limit: 255
     t.string   "digits",            limit: 64
   end
 
@@ -399,7 +401,7 @@ ActiveRecord::Schema.define(version: 20160429064637) do
     t.string   "remark",                 limit: 256
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
-    t.date     "date_of_implementation",             default: '2016-05-02'
+    t.date     "date_of_implementation",             default: '2016-05-03'
     t.string   "type_of_vehicle",        limit: 64
     t.string   "plate_number",           limit: 64
     t.string   "orcr",                   limit: 64

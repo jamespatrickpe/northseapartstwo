@@ -1,17 +1,16 @@
 class Address < ActiveRecord::Base
 
   include BaseConcerns,
-          RemarkConcerns,
-          ContactDetailsConcerns
+          RemarkConcerns
 
-
-  belongs_to :addressable, polymorphic: true
+  belongs_to :contact_detail
 
   searchable do
     string :longitude
     string :latitude
     text :latitude
     text :longitude
+=begin
 
     text :addressable do
       polymorphic_contact_details(addressable)
@@ -20,6 +19,7 @@ class Address < ActiveRecord::Base
     string :addressable do
       polymorphic_contact_details(addressable)
     end
+=end
 
   end
 

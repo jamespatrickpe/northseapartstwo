@@ -14,6 +14,14 @@ module BaseConcerns extend ActiveSupport::Concern
       time :created_at, :updated_at
     end
 
+    def polymorphic_searchable_representation(attribute)
+      if attribute.class == Actor
+        attribute.name
+      elsif attribute.class == Branch
+        attribute.name
+      end
+    end
+
   end
 
   module ClassMethods

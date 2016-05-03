@@ -85,6 +85,7 @@ Rails.application.routes.draw do
     end
 
     get 'contact_details/' => 'contact_details#index'
+    generate_logic_unit('contact_details')
     namespace :contact_details do
       generate_logic_unit('telephones')
       generate_logic_unit('addresses')

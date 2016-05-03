@@ -150,23 +150,31 @@ module OfficialStarterSeed
   ampid = Branch.create(name: 'Ampid Diesel Trading')
   generic = Branch.create(name: 'Generic')
 
+  # Contact Details
+  cd_northsea = ContactDetail.create(remark: 'North Sea', contactable_type: north_sea.class ,contactable_id: north_sea.id )
+  cd_greco = ContactDetail.create(remark: 'Greco', contactable_type: greco.class ,contactable_id: greco.id)
+  cd_biofin = ContactDetail.create(remark: 'Biofin Petshop', contactable_type: biofin.class ,contactable_id: biofin.id)
+  cd_green_terrain = ContactDetail.create(remark: 'Green Terrain', contactable_type: green_terrain.class ,contactable_id: green_terrain.id)
+  cd_ampid = ContactDetail.create(remark: 'Ampid Diesel Tradingd', contactable_type: ampid.class ,contactable_id: ampid.id)
+  cd_generic = ContactDetail.create(remark: 'Generic', contactable_type: generic.class ,contactable_id: generic.id)
+
   # Telephone for Branches
-  Telephone.create( remark: "Main Number 1", digits: "6451514", telephonable_id: north_sea.id, telephonable_type: 'Branch')
-  Telephone.create( remark: "Main Number 2", digits: "6452237", telephonable_id: north_sea.id, telephonable_type: 'Branch')
-  Telephone.create( remark: "Fax", digits: "6452246", telephonable_id: north_sea.id, telephonable_type: 'Branch')
-  Telephone.create( remark: "Cellphone", digits: "09237354641", telephonable_id: north_sea.id, telephonable_type: 'Branch')
-  Telephone.create( remark: "Main Number", digits: "9427048", telephonable_id: greco.id, telephonable_type: 'Branch')
-  Telephone.create( remark: "Main Number", digits: "6478092", telephonable_id: biofin.id, telephonable_type: 'Branch')
+  Telephone.create( remark: "Main Number 1", digits: "6451514", contact_detail_id: cd_northsea.id )
+  Telephone.create( remark: "Main Number 2", digits: "6452237", contact_detail_id: cd_northsea.id )
+  Telephone.create( remark: "Fax", digits: "6452246", contact_detail_id: cd_northsea.id )
+  Telephone.create( remark: "Cellphone", digits: "09237354641", contact_detail_id: cd_northsea.id )
+  Telephone.create( remark: "Main Number", digits: "9427048", contact_detail_id: cd_greco.id )
+  Telephone.create( remark: "Main Number", digits: "6478092", contact_detail_id: cd_biofin.id )
 
   # Addresses for Branches
-  Address.create( remark: "North Sea Parts, Marcos Highway, Cainta, Rizal", longitude: 121.106819, latitude: 14.622056, addressable_id: north_sea.id, addressable_type: 'Branch')
-  Address.create( remark: "Greco Warehouse, Sumulong Highway, Antipolo, Rizal", longitude: 121.138520, latitude: 14.616369, addressable_id: greco.id, addressable_type: 'Branch')
-  Address.create( remark: "Biofin Petshop, Sumulong Highway, Antipolo, Rizal", longitude: 121.134781, latitude: 14.617416, addressable_id: biofin.id, addressable_type: 'Branch')
+  Address.create( remark: "North Sea Parts, Marcos Highway, Cainta, Rizal", longitude: 121.106819, latitude: 14.622056, contact_detail_id: cd_northsea.id )
+  Address.create( remark: "Greco Warehouse, Sumulong Highway, Antipolo, Rizal", longitude: 121.138520, latitude: 14.616369,contact_detail_id: cd_greco.id )
+  Address.create( remark: "Biofin Petshop, Sumulong Highway, Antipolo, Rizal", longitude: 121.134781, latitude: 14.617416, contact_detail_id: cd_biofin.id )
 
   # Digitals for Branches
-  Digital.new( remark: "email", url: "northseaparts@yahoo.com", digitable_id: north_sea.id, digitable_type: 'Branch')
-  Digital.new( remark: "email", url: "northseaparts@gmail.com", digitable_id: north_sea.id, digitable_type: 'Branch')
-  Digital.new( remark: "email", url: "biofinbreeding@yahoo.com.ph", digitable_id: biofin.id, digitable_type: 'Branch')
+  Digital.new( remark: "email", url: "northseaparts@yahoo.com", contact_detail_id: cd_northsea.id )
+  Digital.new( remark: "email", url: "northseaparts@gmail.com", contact_detail_id: cd_northsea.id)
+  Digital.new( remark: "email", url: "biofinbreeding@yahoo.com.ph", contact_detail_id: cd_biofin.id )
 
   #Constants
   Constant.create( constant_type: 'human_resources.minimum_wage', value: '362.50', name: 'Minimum Wage', remark: nil, date_of_implementation: Time.new(1974, 04, 01) )
