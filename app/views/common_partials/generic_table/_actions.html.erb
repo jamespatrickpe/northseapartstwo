@@ -1,5 +1,7 @@
 <td class="actions">
-<%= link_to( "&#9998;".html_safe ,{:action => 'edit', :id => current_model_instance[:id]}, class: 'action_button', tooltip: 'Edit') %>
-<%= link_to( "&#10006;".html_safe ,{:action => 'delete', :id => current_model_instance[:id]}, class: 'action_button deletable_item', tooltip: 'Delete') %>
-<%= link_to( "&#128269;".html_safe ,{:action => 'show', :id => current_model_instance[:id]}, class: 'action_button', tooltip: 'Examine') %>
+  <ul class="button-group">
+    <li><a href="#" class="tiny_button generic_table_action_button">&#9998;</a></li>
+    <li><a href="#" class="tiny_button generic_table_action_button">&#10006;</a></li>
+    <li><a href="#" class="tiny_button generic_table_action_button">&#128269;</a></li>
+  </ul>
 </td>

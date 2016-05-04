@@ -10,17 +10,21 @@
 
 }
 
+.generic_table > tbody > tr > td > a
+{
+    background-color: #e6e6e6;
+    color: black;
+    padding: 3px;
+    margin: 1px;
+    line-height: 20px;
+
+}
+
 .generic_table > thead > * > *
 {
     background-color: #721314;
     padding: 5px;
     font-size: 12px;
-    font-weight: 100;
-}
-
-.generic_table > tbody > tr > * > *
-{
-    color: black;
 }
 
 .generic_table > tbody > tr:hover
@@ -34,15 +38,14 @@
     color: white;
 }
 
+.generic_table > tbody > tr > td.actions > ul
+{
+        visibility: hidden;
+}
+
 .generic_table > thead > tr > th.actions
 {
     background-color: white;
-    color:black;
-    visibility: hidden;
-}
-
-.generic_table > tbody > tr > td.actions > a
-{
     color:black;
     visibility: hidden;
 }
@@ -54,14 +57,24 @@
 
 .generic_table > tbody > tr > td.actions > a:hover
 {
-    background-color: #721314;
-    color: white;
+    background-color: ghostwhite;
+    color: black;
 }
 
-.generic_table > tbody > tr > td > .action_button
+.generic_table_action_button
 {
-    margin: 5px;
     font-size: 20px;
+    background-color: #e6e6e6;
+    color: black;
+    padding: 2px;
+    margin: 2px;
+    text-align: center;
+}
+
+.generic_table_action_button:hover
+{
+    background-color: #721314;
+    color: white;
 }
 
 .generic_table > tbody > tr > th

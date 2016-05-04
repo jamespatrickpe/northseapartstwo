@@ -4,8 +4,4 @@
 <td>
   <%= current_model_instance[:updated_at].strftime("%m/%d/%Y %T %p") %>
 </td>
-<td class="actions">
-  <%= link_to( "&#9998;".html_safe ,{:action => 'edit', :id => current_model_instance[:id]}, class: 'action_button', tooltip: 'Edit') %>
-  <%= link_to( "&#10006;".html_safe ,{:action => 'delete', :id => current_model_instance[:id]}, class: 'action_button deletable_item', tooltip: 'Delete') %>
-  <%= link_to( "&#128269;".html_safe ,{:action => 'show', :id => current_model_instance[:id]}, class: 'action_button', tooltip: 'Examine') %>
-</td>
+<%= render partial: 'common_partials/generic_table/actions', locals: { current_model_instance: current_model_instance } %>

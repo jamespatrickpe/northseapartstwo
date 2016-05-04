@@ -5,9 +5,9 @@
         <thead>
         <tr>
           <%= generic_table_theadlink('ID') %>
-
           <%= generic_table_theadlink('Association', 'contactable') %>
           <%= generic_table_theadlink('Remark') %>
+          <th style="width: 40% "> Aggregated Contact Details </th>
           <%= generic_table_theadlink_last_head() %>
         </tr>
         </thead>
@@ -20,6 +20,33 @@
                   <%= generic_table_id(contact_detail)%>
                   <%= polymorphic_link(contact_detail[:contactable_type], contact_detail[:contactable_id]) %>
                   <%= generic_table_remark(contact_detail[:remark]) %>
+                  <td>
+
+                    <% if Telephone.exists?(:contact_detail_id => contact_detail[:id] ) %>
+                        TELEPHONES:
+                        <% (Telephone.where("contact_detail_id = ?", contact_detail.id)).each do |current_telephone| %>
+                            <a href="" class="column_link"><%= current_telephone.digits %></a>;
+                        <% end %>
+                        <br>
+                    <% end %>
+
+                    <% if Address.exists?(:contact_detail_id => contact_detail[:id] ) %>
+                        ADDRESSES:
+                        <% (Address.where("contact_detail_id = ?", contact_detail.id)).each do |current_address| %>
+                            <a href="" class="column_link"><%= current_address.remark %></a>;
+                        <% end %>
+                        <br>
+                    <% end %>
+
+                    <% if Digital.exists?(:contact_detail_id => contact_detail[:id] ) %>
+                        DIGITALS:
+                        <% (Digital.where("contact_detail_id = ?", contact_detail.id)).each do |current_digital| %>
+                            <a href="" class="column_link"><%= current_digital.url %></a>
+                        <% end %>
+                        <br>
+                    <% end %>
+
+                  </td>
                   <%= generic_table_last_rows(contact_detail) %>
                 </tr>
             <% end %>
