@@ -1,52 +1,41 @@
 <section class='small-10 columns'>
-  <%= preheader_generic_table('Collection of Addresses, Telephone Numbers, Emails and URL\'s', 'Contact Details') %>
+  <%= preheader_generic_table('Collection of Addresses, Telephone Numbers and URL\'s for contacting entities within the system','Contact Details') %>
   <% begin %>
       <table class='generic_table' id='digital_table'>
         <thead>
         <tr>
-          <%= generic_table_theadlink('ID') %>
-          <%= generic_table_theadlink('Association', 'contactable') %>
+          <%= generic_table_theadlink('Type') %>
+          <%= generic_table_theadlink('Entity Onwer') %>
+          <%= generic_table_theadlink('Details') %>
           <%= generic_table_theadlink('Remark') %>
-          <th style="width: 40% "> Aggregated Contact Details </th>
           <%= generic_table_theadlink_last_head() %>
         </tr>
         </thead>
-        <% if @contact_details.empty? == true %>
+        <% if @contact_models.empty? == true %>
             <%= no_records_found %>
         <% else %>
             <tbody>
-            <% @contact_details.each do |contact_detail| %>
+            <% @contact_models.each do |contact_detail| %>
                 <tr>
-                  <%= generic_table_id(contact_detail)%>
-                  <%= polymorphic_link(contact_detail[:contactable_type], contact_detail[:contactable_id]) %>
-                  <%= generic_table_remark(contact_detail[:remark]) %>
-                  <td>
-
-                    <% if Address.exists?(:contact_detail_id => contact_detail[:id] ) %>
-                        ADDRESSES:
-                        <% (Address.where("contact_detail_id = ?", contact_detail.id)).each do |current_address| %>
-                            <a href="" class="column_link"><%= current_address.remark %></a>;
-                        <% end %>
-                        <br>
-                    <% end %>
-
-                    <% if Digital.exists?(:contact_detail_id => contact_detail[:id] ) %>
-                        DIGITALS:
-                        <% (Digital.where("contact_detail_id = ?", contact_detail.id)).each do |current_digital| %>
-                            <a href="" class="column_link"><%= current_digital.url %></a>
-                        <% end %>
-                        <br>
-                    <% end %>
-
-                    <% if Telephone.exists?(:contact_detail_id => contact_detail[:id] ) %>
-                        TELEPHONES:
-                        <% (Telephone.where("contact_detail_id = ?", contact_detail.id)).each do |current_telephone| %>
-                            <a href="" class="column_link"><%= current_telephone.digits %></a>;
-                        <% end %>
-                        <br>
-                    <% end %>
-
-                  </td>
+                  <td> <%= contact_detail.class %> </td>
+                  <% if contact_detail.class == Address %>
+                      <%= polymorphic_link(contact_detail[:addressable_type],contact_detail[:addressable_id]) %>
+                      <td>
+                        Longitude: <%= contact_detail[:longitude] %> <br>
+                        Latitude: <%= contact_detail[:latitude] %>
+                      </td>
+                  <% elsif contact_detail.class == Digital %>
+                      <%= polymorphic_link(contact_detail[:digitable_type],contact_detail[:digitable_id]) %>
+                      <td>
+                        URL: <%= contact_detail[:url] %>
+                      </td>
+                  <% elsif contact_detail.class == Telephone %>
+                      <%= polymorphic_link(contact_detail[:telephonable_type],contact_detail[:telephonable_id]) %>
+                      <td>
+                        Digits: <%= contact_detail[:digits] %>
+                      </td>
+                  <% end %>
+                  <td><%= contact_detail.remark %></td>
                   <%= generic_table_last_rows(contact_detail) %>
                 </tr>
             <% end %>
@@ -56,7 +45,7 @@
   <% rescue => ex %>
       <%= generic_table_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@contact_details) %>
+  <%= generic_table_footer(@contact_models) %>
 
   <hr style="visibility: hidden">
 

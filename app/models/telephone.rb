@@ -9,11 +9,11 @@ class Telephone < ActiveRecord::Base
   searchable do
 
     text :telephonable do
-      polymorphic_contact_details(telephonable)
+      polymorphic_searchable_representation(telephonable)
     end
 
     string :telephonable do
-      polymorphic_contact_details(telephonable)
+      polymorphic_searchable_representation(telephonable)
     end
 
   end
