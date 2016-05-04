@@ -1,3 +1,12 @@
-<div class="large-6 columns">
-  <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
-</div>
+<section  class="large-10 columns">
+  <%= generic_title("Select a Contact Detail to Create","Contact Details") %>
+  <div class="large-6 columns">
+
+    <ul class="button-group">
+      <li><a href=<%= new_general_administration_contact_details_address_path %> class="button"> ADDRESSES </a></li>
+      <li><a href=<%= new_general_administration_contact_details_digital_path %> class="button"> DIGITALS </a></li>
+      <li><a href=<%= new_general_administration_contact_details_telephone_path %> class="button"> TELEPHONES </a></li>
+    </ul>
+
+  </div>
+</section>

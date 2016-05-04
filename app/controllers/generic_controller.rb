@@ -1,5 +1,12 @@
 module GenericController
 
+  def get_contactable_entities
+    digital_contactables = Digital.all_polymorphic_types(:digitable).map(&:to_s)
+    address_contactables = Address.all_polymorphic_types(:addressable).map(&:to_s)
+    telephone_contactables = Telephone.all_polymorphic_types(:telephonable).map(&:to_s)
+    contactables = digital_contactables | address_contactables | telephone_contactables
+  end
+
   def generic_employee_name_search_suggestions(model)
     my_model = model.includes(employee: :actors).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + my_model.uniq.to_s + "}" # default format for plugin

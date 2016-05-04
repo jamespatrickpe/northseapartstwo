@@ -6,4 +6,6 @@ class GeneralAdministrationController < ApplicationController
     render 'general_administration/index'
   end
 
+
+
 end
