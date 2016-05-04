@@ -84,6 +84,7 @@ gem 'sunspot_solr'
 gem 'rails-jquery-autocomplete'
 gem 'simple_form'
 gem 'currency_select'
+gem 'wicked'
 
 # This library provides integration of the money gem with Rails.
 gem 'money-rails'

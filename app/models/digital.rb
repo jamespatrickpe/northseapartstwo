@@ -4,20 +4,18 @@ class Digital < ActiveRecord::Base
           RemarkConcerns,
           UrlConcerns
 
-  belongs_to :contact_detail
+  belongs_to :digitable, polymorphic: true
 
-=begin
   searchable do
 
-    text :contact_detail do
-      polymorphic_contact_details(digitable)
+    text :digitable do
+      polymorphic_searchable_representation(digitable)
     end
 
     string :digitable do
-      polymorphic_contact_details(digitable)
+      polymorphic_searchable_representation(digitable)
     end
 
   end
-=end
 
 end

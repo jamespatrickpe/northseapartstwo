@@ -2,7 +2,8 @@ class CreateAddresses < MainMigration
   def change
     create_table :addresses, :id => false do |t|
       common_set_one(t)
-      t.string :contact_detail_id
+      t.string :addressable_id
+      t.string :addressable_type
       t.decimal :longitude, :precision => 18, :scale => 12, :limit => 32
       t.decimal :latitude, :precision => 18, :scale => 12, :limit => 32
     end

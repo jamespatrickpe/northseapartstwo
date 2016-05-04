@@ -392,33 +392,31 @@ rand(20..50).times do |i|
 end
 
 # Contact Details
+
+# Digital
 rand(30..50).times do |i|
   sample = random_contactable_model
-  myContactDetail = ContactDetail.new( remark: Faker::Lorem.sentence)
-  myContactDetail[:contactable_id] = sample[:my_model_id]
-  myContactDetail[:contactable_type] = sample[:my_model]
-  myContactDetail.save!
+  myDigital = Digital.new( remark: Faker::Lorem.sentence, url: Faker::Internet.url)
+  myDigital[:digitable_id] = sample[:my_model_id]
+  myDigital[:digitable_type] = sample[:my_model]
+  myDigital.save!
+end
 
-  # Digital
-  rand(0..5).times do |i|
-    myDigital = Digital.new( remark: Faker::Lorem.sentence, url: Faker::Internet.url)
-    myDigital.contact_detail_id = myContactDetail.id
-    myDigital.save!
-  end
+# Telephony
+rand(30..50).times do |i|
+  sample = random_contactable_model
+  myTelephony = Telephone.new( remark: Faker::Lorem.sentence, digits: Faker::PhoneNumber.phone_number)
+  myTelephony[:telephonable_id] = sample[:my_model_id]
+  myTelephony[:telephonable_type] = sample[:my_model]
+  myTelephony.save!
+end
 
-  # Telephony
-  rand(0..5).times do |i|
-    myTelephony = Telephone.new( remark: Faker::Lorem.sentence, digits: Faker::PhoneNumber.phone_number)
-    myTelephony.contact_detail_id = myContactDetail.id
-    myTelephony.save!
-  end
-
-  # Addresses
-  rand(0..5).times do |i|
-    completeAddress = Faker::Address.building_number + ' '+ Faker::Address.street_name + ' ' + Faker::Address.street_address + ' ' + Faker::Address.city + ' ' + Faker::Address.country
-    myAddress = Address.new( remark: completeAddress, longitude: Faker::Address.longitude, latitude: Faker::Address.latitude)
-    myAddress.contact_detail_id = myContactDetail.id
-    myAddress.save!
-  end
-
+# Addresses
+rand(30..50).times do |i|
+  sample = random_contactable_model
+  completeAddress = Faker::Address.building_number + ' '+ Faker::Address.street_name + ' ' + Faker::Address.street_address + ' ' + Faker::Address.city + ' ' + Faker::Address.country
+  myAddress = Address.new( remark: completeAddress, longitude: Faker::Address.longitude, latitude: Faker::Address.latitude)
+  myAddress[:addressable_id] = sample[:my_model_id]
+  myAddress[:addressable_type] = sample[:my_model]
+  myAddress.save!
 end

@@ -1,7 +1,7 @@
 class GeneralAdministration::ContactDetails::DigitalsController < GeneralAdministration::ContactDetailsController
 
   def index
-    @digitals = initialize_generic_table(Digital, [:digitable])
+    @digitals = initialize_generic_table(Digital)
     render_index
   end
 

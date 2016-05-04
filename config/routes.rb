@@ -90,7 +90,6 @@ Rails.application.routes.draw do
       generate_logic_unit('addresses')
       generate_logic_unit('digitals')
     end
-    generate_logic_unit('contact_details')
 
   end
 

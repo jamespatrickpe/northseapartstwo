@@ -3,9 +3,8 @@ class Telephone < ActiveRecord::Base
   include BaseConcerns,
           RemarkConcerns
 
-  belongs_to :contact_detail
+  belongs_to :telephonable, polymorphic: true
 
-=begin
 
   searchable do
 
@@ -18,7 +17,6 @@ class Telephone < ActiveRecord::Base
     end
 
   end
-=end
 
   validates_length_of :digits , maximum: 32, message: "digits must be less than 32 characters"
 

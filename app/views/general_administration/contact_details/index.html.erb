@@ -22,14 +22,6 @@
                   <%= generic_table_remark(contact_detail[:remark]) %>
                   <td>
 
-                    <% if Telephone.exists?(:contact_detail_id => contact_detail[:id] ) %>
-                        TELEPHONES:
-                        <% (Telephone.where("contact_detail_id = ?", contact_detail.id)).each do |current_telephone| %>
-                            <a href="" class="column_link"><%= current_telephone.digits %></a>;
-                        <% end %>
-                        <br>
-                    <% end %>
-
                     <% if Address.exists?(:contact_detail_id => contact_detail[:id] ) %>
                         ADDRESSES:
                         <% (Address.where("contact_detail_id = ?", contact_detail.id)).each do |current_address| %>
@@ -42,6 +34,14 @@
                         DIGITALS:
                         <% (Digital.where("contact_detail_id = ?", contact_detail.id)).each do |current_digital| %>
                             <a href="" class="column_link"><%= current_digital.url %></a>
+                        <% end %>
+                        <br>
+                    <% end %>
+
+                    <% if Telephone.exists?(:contact_detail_id => contact_detail[:id] ) %>
+                        TELEPHONES:
+                        <% (Telephone.where("contact_detail_id = ?", contact_detail.id)).each do |current_telephone| %>
+                            <a href="" class="column_link"><%= current_telephone.digits %></a>;
                         <% end %>
                         <br>
                     <% end %>
