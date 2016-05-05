@@ -1,41 +1,31 @@
 <section class='small-10 columns'>
-  <%= generic_title('File Sets','Show all the file related with a given branches/actors') %>
-  <% table_orientation = shift_table_orientation %>
+  <%= preheader_generic_table('Files related to different Entities', 'File Sets') %>
   <% begin %>
-      <table class="generic_table" id="file_sets_table">
+      <table class='generic_table' id='file_sets_table'>
         <thead>
         <tr>
-          <th>
-            File Set ID
-            <%= generic_table_theadlink('file_sets.id', table_orientation) %>
-          </th>
-          <th>
-            File Name
-            <%= generic_table_theadlink('file_sets.file', table_orientation) %>
-          </th>
-          <th>
-            Label
-            <%= generic_table_theadlink('file_sets.label', table_orientation) %>
-          </th>
-          <th>
-            Related Names
-          </th>
-          <th class="actions" align="center">&nbsp;</th>
+          <%= generic_table_theadlink('ID') %>
+          <%= generic_table_theadlink('URL') %>
+          <%= generic_table_theadlink('Association', 'digitable') %>
+          <%= generic_table_theadlink('Remark') %>
+          <%= generic_table_theadlink_last_head() %>
         </tr>
         </thead>
-        <% if @file_sets.empty? == true %>
-            <% raise exception %>
+        <% if @digitals.empty? == true %>
+            <%= no_records_found %>
         <% else %>
             <tbody>
-            <% @file_sets.each do |file_set| %>
+            <% @digitals.each do |digital| %>
                 <tr>
-                  <td><%= file_set[:id].upcase %></td>
-                  <td><%= file_set[:file] %></td>
-                  <td><%= file_set[:label] %></td>
-                  <td></td>
-                  <td class="actions">
-                    <%= generic_table_actions(file_set[:id]) %>
+                  <%= generic_table_id(digital)%>
+                  <td>
+                    <a href="<%= digital[:url] %>" target="_blank">
+                      <%= digital[:url] %>
+                    </a>
                   </td>
+                  <%= polymorphic_link(digital[:digitable_type],digital[:digitable_id]) %>
+                  <%= generic_table_remark(digital[:remark]) %>
+                  <%= generic_table_last_rows(digital) %>
                 </tr>
             <% end %>
             </tbody>
@@ -44,5 +34,5 @@
   <% rescue => ex %>
       <%= generic_table_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@file_sets) %>
+  <%= generic_table_footer(@digitals) %>
 </section>
