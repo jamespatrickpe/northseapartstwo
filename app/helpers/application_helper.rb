@@ -81,7 +81,7 @@ module ApplicationHelper
     return actorsInvolved
   end
 
-  def overview_panel(path, name, model)
+  def overview_panel(path, name = '', model = '')
     render(:partial => 'common_partials/overview_panel',
            :locals => {:path => path,
                        :model => model,

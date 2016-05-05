@@ -338,6 +338,7 @@ rand(20..50).times do |b|
   myVehicle.plate_number = Faker::Lorem.characters(6)
   myVehicle.orcr = Faker::Lorem.word
   myVehicle.date_of_implementation = Time.now - rand(0..72000).hours
+  myVehicle.capacity_m3 = Faker::Number.between(1, 10)
   myVehicle.remark = Faker::Lorem.sentence
   myVehicle.save!
 end
@@ -356,6 +357,10 @@ def random_fileable_model
   associative_model[:my_model] = random_model
   associative_model[:my_model_id] = random_model.order("RAND()").first.id
   associative_model
+end
+
+def random_model
+  
 end
 
 # Related File Sets

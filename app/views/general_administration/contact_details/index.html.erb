@@ -1,22 +1,21 @@
 <section class='small-10 columns'>
-  <%= @sample %>
   <%= preheader_generic_table('Collection of Addresses, Telephone Numbers and URL\'s for contacting entities within the system','Contact Details') %>
   <% begin %>
       <table class='generic_table' id='digital_table'>
         <thead>
         <tr>
-          <%= generic_table_theadlink('Type') %>
-          <%= generic_table_theadlink('Entity Onwer') %>
-          <%= generic_table_theadlink('Details') %>
+          <th>Type</th>
+          <th>Name</th>
+          <th>Details</th>
           <%= generic_table_theadlink('Remark') %>
           <%= generic_table_theadlink_last_head() %>
         </tr>
         </thead>
-        <% if @contact_models.empty? == true %>
+        <% if @contact_details.empty? == true %>
             <%= no_records_found %>
         <% else %>
             <tbody>
-            <% @contact_models.each do |contact_detail| %>
+            <% @contact_details.each do |contact_detail| %>
                 <tr>
                   <td> <%= contact_detail.class %> </td>
                   <% if contact_detail.class == Address %>
@@ -37,7 +36,23 @@
                       </td>
                   <% end %>
                   <td><%= contact_detail.remark %></td>
-                  <%= generic_table_last_rows(contact_detail) %>
+
+                  <%
+                     controller_link = ''
+                     if contact_detail.class == Address
+                       controller_link = general_administration_contact_details_addresses_path
+                     elsif contact_detail.class == Digital
+                       controller_link = general_administration_contact_details_digitals_path
+                     elsif contact_detail.class == Telephone
+                       controller_link = general_administration_contact_details_telephones_path
+                     end
+                  %>
+
+                  <%=
+                      generic_table_last_rows(contact_detail, controller_link)
+                  %>
+
+
                 </tr>
             <% end %>
             </tbody>
@@ -46,7 +61,7 @@
   <% rescue => ex %>
       <%= generic_table_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@contact_models) %>
+  <%= generic_table_footer(@contact_details) %>
 
   <hr style="visibility: hidden">
 

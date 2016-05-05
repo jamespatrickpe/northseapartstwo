@@ -4,4 +4,8 @@
 <td>
   <%= current_model_instance[:updated_at].strftime("%m/%d/%Y %T %p") %>
 </td>
-<%= render partial: 'common_partials/generic_table/actions', locals: { current_model_instance: current_model_instance } %>
+<%=
+    render partial: 'common_partials/generic_table/actions', locals: {
+                                                                   current_model_instance: current_model_instance,
+                                                                   controller_link: controller_link }
+%>

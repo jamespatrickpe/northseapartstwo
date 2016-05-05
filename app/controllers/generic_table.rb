@@ -1,5 +1,24 @@
 module GenericTable
 
+  def multiple_model_search(main_model)
+
+    begin
+      query = generic_table_aggregated_queries(controller_name,'created_at')
+      search = Sunspot.search main_model do
+        fulltext query[:search_field]
+        order_by query[:order_parameter].to_sym,
+                 query[:order_orientation].parameterize.underscore.to_sym
+        paginate :page => params[:page],
+                 :per_page => query[:current_limit]
+      end
+      result = search.results
+    rescue => ex
+      index_error(ex)
+    end
+    @associated_files = result
+
+  end
+
   # Gives a search suggestion for a single column - temporary only - must find better way to do this
   def simple_singular_column_search(table_column,main_model)
     main_query = main_model

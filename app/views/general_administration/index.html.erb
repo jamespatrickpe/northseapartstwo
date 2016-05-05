@@ -1,13 +1,14 @@
 <section class="small-10 columns">
 
-  <%= generic_title('General Administration',
-                    'Administrative Concerns with the Management and System') %>
+  <%= generic_title('Administrative Concerns with the Management and System',
+                    'General Administration') %>
+
 
   <%= overview_panel(general_administration_actors_path,'Actors', Actor) %>
   <%= overview_panel(general_administration_branches_path,'Branches', Branch) %>
   <%= overview_panel(general_administration_vehicles_path,'Vehicles', Vehicle) %>
-  <%= overview_panel(general_administration_file_sets_path,'File Sets', FileSet) %>
-  <%= overview_panel(general_administration_image_sets_path,'Image Sets', ImageSet) %>
-  <%= overview_panel(general_administration_link_sets_path,'Link Sets', LinkSet) %>
+
+  <%= overview_panel(general_administration_contact_details_path,'Contact Details') %>
+  <%= overview_panel(general_administration_associated_files_path,'Associated Files') %>
 
 </section>

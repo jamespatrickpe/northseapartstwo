@@ -82,7 +82,9 @@ Rails.application.routes.draw do
       generate_logic_unit('file_sets')
       generate_logic_unit('image_sets')
       generate_logic_unit('link_sets')
+      generate_logic_unit('associations')
     end
+    generate_logic_unit('associated_files')
 
     get 'contact_details/' => 'contact_details#index'
     namespace :contact_details do

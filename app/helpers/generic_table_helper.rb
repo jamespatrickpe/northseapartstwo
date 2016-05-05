@@ -57,8 +57,8 @@ module GenericTableHelper
     render(:partial => 'common_partials/generic_table/table_id', :locals => {:current_model_instance => current_model_instance})
   end
 
-  def generic_table_last_rows(current_model_instance)
-    render(:partial => 'common_partials/generic_table/last_rows', :locals => {:current_model_instance => current_model_instance})
+  def generic_table_last_rows(current_model_instance, controller_link = '')
+    render(:partial => 'common_partials/generic_table/last_rows', :locals => {:current_model_instance => current_model_instance, :controller_link => controller_link})
   end
 
   def generic_table_theadlink_last_head(head_title_one = "Created at", head_title_two = "Updated at", order_parameter_one = head_title_one.downcase.tr(" ", "_"), order_parameter_two = head_title_two.downcase.tr(" ", "_") )

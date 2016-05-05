@@ -1,52 +1,31 @@
 <section class='small-10 columns'>
-  <%= generic_title('Vehicles','Show all the vehicles registered within the system') %>
-  <% table_orientation = shift_table_orientation %>
+  <%= preheader_generic_table('Transportation Machinery Assets') %>
   <% begin %>
-      <table class="generic_table" id="vehicles_table">
+      <table class='generic_table' id='vehicle_table'>
         <thead>
         <tr>
-          <th>
-            Vehicle ID
-            <%= generic_table_theadlink('vehicles.id', table_orientation) %>
-          </th>
-          <th>
-            Vehicle Type
-            <%= generic_table_theadlink('vehicles.type_of_vehicle', table_orientation) %>
-          </th>
-          <th>
-            Plate Number
-            <%= generic_table_theadlink('vehicles.plate_number', table_orientation) %>
-          </th>
-          <th>
-            ORCR
-            <%= generic_table_theadlink('vehicles.orcr', table_orientation) %>
-          </th>
-          <th>
-            Date Registered
-            <%= generic_table_theadlink('vehicles.date_of_registration', table_orientation) %>
-          </th>
-          <th>
-            Remark
-            <%= generic_table_theadlink('vehicles.remark', table_orientation) %>
-          </th>
-          <th class="actions" align="center">&nbsp;</th>
+          <%= generic_table_theadlink('ID') %>
+          <%= generic_table_theadlink('ORCR') %>
+          <%= generic_table_theadlink('Type of Vehicle') %>
+          <%= generic_table_theadlink('Plate Number') %>
+          <%= generic_table_theadlink('Capacity ( in m&sup3; )'.html_safe, 'capacity_m3') %>
+          <%= generic_table_theadlink('Remark') %>
+          <%= generic_table_theadlink_last_head() %>
         </tr>
         </thead>
         <% if @vehicles.empty? == true %>
-            <% raise exception %>
+            <%= no_records_found %>
         <% else %>
             <tbody>
             <% @vehicles.each do |vehicle| %>
                 <tr>
-                  <td><%= vehicle[:id].upcase %></td>
-                  <td><%= vehicle[:type_of_vehicle] %></td>
-                  <td><%= vehicle[:plate_number] %></td>
-                  <td><%= vehicle[:orcr] %></td>
-                  <td><%= vehicle[:date_of_registration].strftime('%m/%d/%Y') %></td>
-                  <td><%= vehicle[:remark] %></td>
-                  <td class="actions">
-                    <%= generic_table_actions(vehicle[:id]) %>
-                  </td>
+                  <%= generic_table_id(vehicle)%>
+                  <td> <%= vehicle[:orcr]%> </td>
+                  <td> <%= vehicle[:type_of_vehicle]%> </td>
+                  <td> <%= vehicle[:plate_number]%> </td>
+                  <td> <%= vehicle[:capacity_m3]%> </td>
+                  <%= generic_table_remark(vehicle[:remark]) %>
+                  <%= generic_table_last_rows(vehicle) %>
                 </tr>
             <% end %>
             </tbody>

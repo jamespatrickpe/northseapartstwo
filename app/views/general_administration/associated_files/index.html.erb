@@ -1,0 +1,83 @@
+<section class='small-10 columns'>
+  <%= preheader_generic_table('Files associated with an Entity','Associated Files') %>
+  <% begin %>
+      <table class='generic_table' id='digital_table'>
+        <thead>
+        <tr>
+          <th>Type</th>
+          <th>ID</th>
+          <th>Details</th>
+          <%= generic_table_theadlink('Remark') %>
+          <%= generic_table_theadlink_last_head() %>
+        </tr>
+        </thead>
+        <% if @associated_files.empty? == true %>
+            <%= no_records_found %>
+        <% else %>
+            <tbody>
+            <% @associated_files.each do |associated_file| %>
+                <tr>
+                  <td> <%= associated_file.class %> </td>
+                  <% if associated_file.class == Association %>
+                      <%= polymorphic_link(associated_file[:associated_type],associated_file[:associated_id]) %>
+                      <td>
+                        Longitude: <%= associated_file[:longitude] %> <br>
+                        Latitude: <%= associated_file[:latitude] %>
+                      </td>
+                  <% elsif associated_file.class == FileSet %>
+                      <%= polymorphic_link(associated_file[:fileable_type],associated_file[:fileable_id]) %>
+                      <td>
+                        URL: <%= associated_file[:url] %>
+                      </td>
+                  <% elsif associated_file.class == ImageSet %>
+                      <%= polymorphic_link(associated_file[:imageable_type],associated_file[:imageable_id]) %>
+                      <td>
+                        Digits: <%= associated_file[:digits] %>
+                      </td>
+                  <% elsif associated_file.class == LinkSet %>
+                      <%= polymorphic_link(associated_file[:linkable_type],associated_file[:linkable_id]) %>
+                      <td>
+                        Digits: <%= associated_file[:digits] %>
+                      </td>
+                  <% end %>
+                  <td><%= associated_file.remark %></td>
+
+                  <%
+                     controller_link = ''
+                     if associated_file.class == FileSet
+                       controller_link = general_administration_associated_files_file_sets_path
+                     elsif associated_file.class == ImageSet
+                       controller_link = general_administration_associated_files_image_sets_path
+                     elsif associated_file.class == LinkSet
+                       controller_link = general_administration_associated_files_link_sets_path
+                     elsif associated_file.class == Association
+                       controller_link = general_administration_associated_files_associations_path
+                     end
+                  %>
+
+                  <%=
+                      generic_table_last_rows(associated_file, controller_link)
+                  %>
+
+                </tr>
+            <% end %>
+            </tbody>
+        <% end %>
+      </table>
+  <% rescue => ex %>
+      <%= generic_table_error(ex) %>
+  <% end %>
+  <%= generic_table_footer(@associated_files) %>
+
+  <hr style="visibility: hidden">
+
+  <div align="center">
+    <%= overview_panel(general_administration_associated_files_file_sets_path,'File Sets', FileSet) %>
+    <%= overview_panel(general_administration_associated_files_image_sets_path,'Image Sets', ImageSet) %>
+    <%= overview_panel(general_administration_associated_files_link_sets_path,'Link Sets', LinkSet) %>
+    <%= overview_panel(general_administration_associated_files_associations_path,'Association', Association) %>
+    <br><br>
+  </div>
+
+
+</section>
