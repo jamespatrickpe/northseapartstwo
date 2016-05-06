@@ -6,6 +6,7 @@
         <tr>
           <th>Type</th>
           <th>ID</th>
+          <th>Entity Owner</th>
           <th>Details</th>
           <%= generic_table_theadlink('Remark') %>
           <%= generic_table_theadlink_last_head() %>
@@ -18,26 +19,32 @@
             <% @associated_files.each do |associated_file| %>
                 <tr>
                   <td> <%= associated_file.class %> </td>
+                  <td> <%= associated_file[:id] %> </td>
                   <% if associated_file.class == Association %>
-                      <%= polymorphic_link(associated_file[:associated_type],associated_file[:associated_id]) %>
-                      <td>
-                        Longitude: <%= associated_file[:longitude] %> <br>
-                        Latitude: <%= associated_file[:latitude] %>
-                      </td>
+                      Model One: <%= polymorphic_link(associated_file[:model_one_type],associated_file[:model_one_id]) %>
+                      Model Two: <%= polymorphic_link(associated_file[:model_two_type],associated_file[:model_two_id]) %>
                   <% elsif associated_file.class == FileSet %>
-                      <%= polymorphic_link(associated_file[:fileable_type],associated_file[:fileable_id]) %>
+                      <%= polymorphic_link(associated_file[:filesetable_type],associated_file[:filesetable_id]) %>
                       <td>
-                        URL: <%= associated_file[:url] %>
+                        File:
+                        <a target="_blank"
+                           class="show_panel_small_button"
+                           href= <%= associated_file.file.url %> >
+                          <%= associated_file[:file] %></a>
                       </td>
                   <% elsif associated_file.class == ImageSet %>
-                      <%= polymorphic_link(associated_file[:imageable_type],associated_file[:imageable_id]) %>
-                      <td>
-                        Digits: <%= associated_file[:digits] %>
+                      <%= polymorphic_link(associated_file[:imagesetable_type],associated_file[:imagesetable_id]) %>
+                      <td style="background-image: url( '<%= associated_file.picture.url %>' );  ">
+                        <a target="_blank"
+                           class="show_panel_small_button"
+                           href= <%= associated_file.picture %> >
+                          <%= associated_file[:picture] %></a>
                       </td>
                   <% elsif associated_file.class == LinkSet %>
-                      <%= polymorphic_link(associated_file[:linkable_type],associated_file[:linkable_id]) %>
+                      <%= polymorphic_link(associated_file[:linksetable_type],associated_file[:linksetable_id]) %>
                       <td>
-                        Digits: <%= associated_file[:digits] %>
+                        URL: <br>
+                        <a href="<%= associated_file[:url] %>"><%= associated_file[:url] %></a>
                       </td>
                   <% end %>
                   <td><%= associated_file.remark %></td>

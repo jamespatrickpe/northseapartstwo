@@ -1,46 +1,31 @@
 <section class='small-10 columns'>
-  <%= generic_title('Image Sets','Show all the images related with a given branches/actors') %>
-  <% table_orientation = shift_table_orientation %>
+  <%= preheader_generic_table('Pictures of Assets') %>
   <% begin %>
-      <table class="generic_table" id="image_sets_table">
+      <table class='generic_table' id='image_set_table'>
         <thead>
         <tr>
-          <th>
-            Image Set ID
-            <%= generic_table_theadlink('image_sets.id', table_orientation) %>
-          </th>
-          <th>
-            Picture
-            <%= generic_table_theadlink('image_sets.picture', table_orientation) %>
-          </th>
-          <th>
-            remark
-            <%= generic_table_theadlink('image_sets.remark', table_orientation) %>
-          </th>
-          <th>
-            Priority
-            <%= generic_table_theadlink('image_sets.priority', table_orientation) %>
-          </th>
-          <th>
-            Related Names
-          </th>
-          <th class="actions" align="center">&nbsp;</th>
+          <%= generic_table_theadlink('ID') %>
+          <%= generic_table_theadlink('URL') %>
+          <%= generic_table_theadlink('Association', 'digitable') %>
+          <%= generic_table_theadlink('Remark') %>
+          <%= generic_table_theadlink_last_head() %>
         </tr>
         </thead>
-        <% if @image_sets.empty? == true %>
-            <% raise exception %>
+        <% if @digitals.empty? == true %>
+            <%= no_records_found %>
         <% else %>
             <tbody>
-            <% @image_sets.each do |image_set| %>
+            <% @digitals.each do |digital| %>
                 <tr>
-                  <td><%= image_set[:id].upcase %></td>
-                  <td><%= image_set[:picture] %></td>
-                  <td><%= image_set[:remark] %></td>
-                  <td><%= image_set[:priority] %></td>
-                  <td></td>
-                  <td class="actions">
-                    <%= generic_table_actions(image_set[:id]) %>
+                  <%= generic_table_id(digital)%>
+                  <td>
+                    <a href="<%= digital[:url] %>" target="_blank">
+                      <%= digital[:url] %>
+                    </a>
                   </td>
+                  <%= polymorphic_link(digital[:digitable_type],digital[:digitable_id]) %>
+                  <%= generic_table_remark(digital[:remark]) %>
+                  <%= generic_table_last_rows(digital) %>
                 </tr>
             <% end %>
             </tbody>
@@ -49,5 +34,5 @@
   <% rescue => ex %>
       <%= generic_table_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@image_sets) %>
+  <%= generic_table_footer(@digitals) %>
 </section>

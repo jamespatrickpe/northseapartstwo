@@ -1,9 +1,15 @@
 class LinkSet < ActiveRecord::Base
 
   include BaseConcerns,
-          UrlConcerns,
-          RelLinkSetConcerns
+          RemarkConcerns
+          UrlConcerns
 
   belongs_to :linksetable, polymorphic: true
+
+  searchable do
+    string :linksetable do
+      polymorphic_searchable_representation(linksetable)
+    end
+  end
 
 end

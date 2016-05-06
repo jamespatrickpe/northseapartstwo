@@ -23,7 +23,7 @@ end
 # ENTITIES
 
 # Actor Dependent Systems
-numberOfActors = 50
+numberOfActors = 20
 numberOfActors.times do |i|
 
   #Actor
@@ -359,15 +359,21 @@ def random_fileable_model
   associative_model
 end
 
-def random_model
-
+def random_associable_model
+  Rails.application.eager_load!
+  my_model = Hash.new
+  models_array = [Actor,Branch,Vehicle]
+  my_model[:current_model] = models_array.sample
+  my_model[:current_id] = my_model[:current_model].order("RAND()").first.id
+  my_model
 end
 
 # Related File Sets
 rand(20..50).times do |i|
   sample = random_fileable_model
   myFileSet = FileSet.new
-  myFileSet[:file] = ['export_table_1.csv','export_table_2.csv','export_table_3.csv','export_table_4.csv','export_table_5.csv'].sample
+  chosen_file = ['export_table_1.csv','export_table_2.csv','export_table_3.csv','export_table_4.csv','export_table_5.csv'].sample
+  myFileSet[:file] = chosen_file
   myFileSet.remark = Faker::Lorem.sentence
   myFileSet.filesetable_id = sample[:my_model_id]
   myFileSet.filesetable_type = sample[:my_model]
@@ -396,7 +402,19 @@ rand(20..50).times do |i|
   myLinkSet.save!
 end
 
-# Contact Details
+# Related Associative Sets
+rand(20..50).times do |i|
+
+  sample = random_associable_model
+  myAssociation = Association.new
+  myAssociation.model_one_type = sample[:current_model]
+  myAssociation.model_one_id = sample[:current_id]
+  myAssociation.model_two_type = sample[:current_model]
+  myAssociation.model_two_id = sample[:current_id]
+  myAssociation.remark = Faker::Lorem.word
+  myAssociation.save!
+
+end
 
 # Digital
 rand(30..50).times do |i|

@@ -21,7 +21,7 @@ module GenericTableHelper
     render(:partial => 'common_partials/generic_table/error', :locals => {:ex => ex})
   end
 
-  def preheader_generic_table(subtitle,title = controller_name)
+  def preheader_generic_table( subtitle,title = controller_name.gsub('_',' ') )
     render(:partial => 'common_partials/generic_table/preheader', :locals => {:title => title,:subtitle => subtitle})
   end
 
