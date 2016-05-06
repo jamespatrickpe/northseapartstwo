@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
     t.datetime "created_at",                                                         null: false
     t.datetime "updated_at",                                                         null: false
     t.string   "employee_id",            limit: 36
-    t.date     "date_of_implementation",             default: '2016-05-05'
+    t.date     "date_of_implementation",             default: '2016-05-06'
     t.time     "timein",                             default: '2000-01-01 00:00:01'
     t.time     "timeout",                            default: '2000-01-01 23:59:59'
   end
@@ -126,7 +126,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
     t.string   "name",                   limit: 64
-    t.date     "date_of_implementation",             default: '2016-05-05'
+    t.date     "date_of_implementation",             default: '2016-05-06'
     t.string   "value",                  limit: 64
     t.string   "constant_type",          limit: 64
   end
@@ -213,7 +213,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
     t.string   "remark",                 limit: 256
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
-    t.date     "date_of_implementation",             default: '2016-05-05'
+    t.date     "date_of_implementation",             default: '2016-05-06'
     t.string   "name",                   limit: 64
     t.string   "holiday_type_id",        limit: 36
   end
@@ -254,8 +254,8 @@ ActiveRecord::Schema.define(version: 20160415003506) do
     t.datetime "updated_at",                                                       null: false
     t.string   "employee_id",          limit: 36
     t.string   "type_of_leave",        limit: 64
-    t.datetime "start_of_effectivity",             default: '2016-05-05 10:35:26'
-    t.datetime "end_of_effectivity",               default: '2016-05-05 10:35:26'
+    t.datetime "start_of_effectivity",             default: '2016-05-06 08:40:10'
+    t.datetime "end_of_effectivity",               default: '2016-05-06 08:40:10'
   end
 
   add_index "leaves", ["id"], name: "index_leaves_on_id", using: :btree
@@ -394,7 +394,7 @@ ActiveRecord::Schema.define(version: 20160415003506) do
     t.string   "remark",                 limit: 256
     t.datetime "created_at",                                                               null: false
     t.datetime "updated_at",                                                               null: false
-    t.date     "date_of_implementation",                            default: '2016-05-05'
+    t.date     "date_of_implementation",                            default: '2016-05-06'
     t.decimal  "capacity_m3",                        precision: 10
     t.string   "type_of_vehicle",        limit: 64
     t.string   "plate_number",           limit: 64
