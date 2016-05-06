@@ -12,7 +12,7 @@ class ImageSet < ActiveRecord::Base
     end
   end
 
-  mount_uploader :picture, RelatedImageUploader
+  mount_uploader :picture, RelatedImageUploader, :on => :file_name
   validates :picture,
             :file_size => {
                 :maximum => 25.megabytes.to_i
@@ -20,5 +20,7 @@ class ImageSet < ActiveRecord::Base
 
   validates :picture, :presence => true
   validates_numericality_of :priority
+  validates_integrity_of :picture
+  validates_processing_of :picture
 
 end

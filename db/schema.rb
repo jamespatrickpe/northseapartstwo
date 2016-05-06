@@ -254,8 +254,8 @@ ActiveRecord::Schema.define(version: 20160415003506) do
     t.datetime "updated_at",                                                       null: false
     t.string   "employee_id",          limit: 36
     t.string   "type_of_leave",        limit: 64
-    t.datetime "start_of_effectivity",             default: '2016-05-06 09:08:28'
-    t.datetime "end_of_effectivity",               default: '2016-05-06 09:08:28'
+    t.datetime "start_of_effectivity",             default: '2016-05-06 18:08:17'
+    t.datetime "end_of_effectivity",               default: '2016-05-06 18:08:17'
   end
 
   add_index "leaves", ["id"], name: "index_leaves_on_id", using: :btree

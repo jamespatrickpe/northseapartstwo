@@ -5,27 +5,28 @@
         <thead>
         <tr>
           <%= generic_table_theadlink('ID') %>
-          <%= generic_table_theadlink('URL') %>
-          <%= generic_table_theadlink('Association', 'digitable') %>
+          <%= generic_table_theadlink('Image') %>
+          <%= generic_table_theadlink('Association', 'imagesetable') %>
           <%= generic_table_theadlink('Remark') %>
           <%= generic_table_theadlink_last_head() %>
         </tr>
         </thead>
-        <% if @digitals.empty? == true %>
+        <% if @image_sets.empty? == true %>
             <%= no_records_found %>
         <% else %>
             <tbody>
-            <% @digitals.each do |digital| %>
+            <% @image_sets.each do |image_set| %>
                 <tr>
-                  <%= generic_table_id(digital)%>
-                  <td>
-                    <a href="<%= digital[:url] %>" target="_blank">
-                      <%= digital[:url] %>
-                    </a>
+                  <%= generic_table_id(image_set)%>
+                  <td style="background-image: url( '<%= image_set.picture.url %>' ); border: solid #808080 thick; background-position: center;">
+                    <a target="_blank"
+                       class="show_panel_small_button"
+                       href= <%= image_set.picture.url %> >
+                      <%= image_set[:picture] %></a>
                   </td>
-                  <%= polymorphic_link(digital[:digitable_type],digital[:digitable_id]) %>
-                  <%= generic_table_remark(digital[:remark]) %>
-                  <%= generic_table_last_rows(digital) %>
+                  <%= polymorphic_link(image_set[:imagesetable_type],image_set[:imagesetable_id]) %>
+                  <%= generic_table_remark(image_set[:remark]) %>
+                  <%= generic_table_last_rows(image_set) %>
                 </tr>
             <% end %>
             </tbody>
@@ -34,5 +35,5 @@
   <% rescue => ex %>
       <%= generic_table_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@digitals) %>
+  <%= generic_table_footer(@image_sets) %>
 </section>

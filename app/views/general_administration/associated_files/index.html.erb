@@ -34,7 +34,7 @@
                       </td>
                   <% elsif associated_file.class == ImageSet %>
                       <%= polymorphic_link(associated_file[:imagesetable_type],associated_file[:imagesetable_id]) %>
-                      <td style="background-image: url( '<%= associated_file.picture.url %>' );  ">
+                      <td style="background-image: url( '<%= associated_file.picture.url %>' ); border: solid #808080 thick; background-position: center;" >
                         <a target="_blank"
                            class="show_panel_small_button"
                            href= <%= associated_file.picture %> >

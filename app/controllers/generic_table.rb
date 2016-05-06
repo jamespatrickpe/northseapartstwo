@@ -33,7 +33,7 @@ module GenericTable
   # Obtain set of Digital Model
   def initialize_generic_table(main_model, includes = '')
     begin
-      query = generic_table_aggregated_queries(controller_name,'created_at')
+      query = generic_table_aggregated_queries(controller_name,'updated_at')
       result = search_index(main_model, query, includes)
     rescue => ex
       index_error(ex)

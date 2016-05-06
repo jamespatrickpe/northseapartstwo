@@ -12,24 +12,11 @@
                       }
   %>
 
-  <%= f.input :priority,
-              :as => :integer,
-              :label => "Priority",
-              label_html: { class: 'form_label' },
-              :input_html =>
-                      {
-                              :value => selected_model_instance[:priority],
-                              :'data-parsley-trigger' => 'keyup',
-                              :'data-parsley-maxlength' => 32
-                      }
-  %>
-
   <% if action_name != 'new' %>
-      <a class='tiny button' href="<%= selected_model_instance.file.url %>" target="_blank">
-        <%= selected_model_instance[:picture] %>
-      </a>
+      <img src="<%= selected_model_instance.picture.url %>">
+      <hr style="visibility: hidden">
   <% end %>
 
   <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
-  <%= polymorphic_selector(selected_model_instance,'filesetable',f) %>
+  <%= polymorphic_selector(selected_model_instance,'imagesetable',f) %>
 </div>

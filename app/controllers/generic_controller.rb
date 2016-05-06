@@ -62,11 +62,11 @@ module GenericController
     flash[:general_flash_notification_type] = 'affirmative'
     if action_name == 'update'
       my_ID = params[controller_path][:id]
-      flash[:general_flash_notification] = 'Updated' + ' ' + controller_name + ' | ' + my_ID
+      flash[:general_flash_notification] = 'Updated' + ' ' + controller_name.gsub('_',' ') + ' | ' + my_ID
     elsif
-      flash[:general_flash_notification] = 'Created New' + ' ' + controller_name
+      flash[:general_flash_notification] = 'Created New' + ' ' + controller_name.gsub('_',' ')
     else
-      flash[:general_flash_notification] = 'Performed ' + action_name + ' ' + controller_name
+      flash[:general_flash_notification] = 'Performed ' + action_name + ' ' + controller_name.gsub('_',' ')
     end
   end
 

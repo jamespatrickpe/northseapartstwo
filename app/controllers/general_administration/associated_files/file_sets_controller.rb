@@ -21,12 +21,16 @@ class GeneralAdministration::AssociatedFiles::FileSetsController < GeneralAdmini
   end
 
   def delete
+    FileSet.find(params[:id]).remove_file
     generic_delete(FileSet)
   end
 
   def process_file_form(myFile)
     begin
       myFile[:remark] = params[controller_path][:remark]
+      if action_name == 'edit'
+        myFile.remove_file
+      end
       myFile.file = params[controller_path][:file]
       myFile[:filesetable_type] = params[controller_path][:filesetable_type]
       myFile[:filesetable_id] = params[controller_path][:filesetable_id]
