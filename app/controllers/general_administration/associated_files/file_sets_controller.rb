@@ -1,7 +1,7 @@
 class GeneralAdministration::AssociatedFiles::FileSetsController < GeneralAdministration::AssociatedFilesController
 
   def index
-    @file_sets = initialize_generic_table(FileSet)
+    initialize_generic_table(FileSet, 'Related File Sets of different Entities')
   end
 
   def search_suggestions

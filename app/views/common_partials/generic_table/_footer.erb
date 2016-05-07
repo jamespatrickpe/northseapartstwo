@@ -14,9 +14,12 @@
   <%= renderCorePartial('generic_back_button') %>
   <%= link_to("Reset Search", application_reset_search_path(reset_search_redirect: request.path), class: 'tiny button') %>
   <%= link_to( "Add New Record" ,{:action => "new"}, class: 'tiny button')%>
+
+  <a class="tiny button"> Table / Grid </a>
   <a class="tiny button export_to_csv">Export to CSV</a>
   <a class="tiny button print_table">Printable Format</a>
 </div>
+<%= "&#9776;".html_safe %>
 
 <script>
     $('.print_table').click(function() {

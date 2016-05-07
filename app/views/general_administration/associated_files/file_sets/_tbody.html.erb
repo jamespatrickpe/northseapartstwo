@@ -1,0 +1,13 @@
+<% @result_set.each do |file_set| %>
+    <tr>
+      <%= generic_table_id(file_set)%>
+      <td style="word-break: break-all;">
+        <a style="word-break: break-all;" href="<%= file_set.file.url %>" target="_blank" >
+          <%= file_set[:file] %>
+        </a>
+      </td>
+      <%= polymorphic_link(file_set[:filesetable_type],file_set[:filesetable_id]) %>
+      <%= generic_table_remark(file_set[:remark]) %>
+      <%= generic_table_last_rows(file_set) %>
+    </tr>
+<% end %>

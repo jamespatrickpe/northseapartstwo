@@ -1,5 +1,21 @@
 module GenericTable
 
+  # Obtain set of Digital Model
+  def initialize_generic_table(main_model, subtitle, includes = '')
+    begin
+      query = generic_table_aggregated_queries(controller_name,'updated_at')
+      @result_set = search_index(main_model, query, includes)
+    rescue => ex
+      index_error(ex)
+    end
+    @result_set
+    generic_table_main(subtitle)
+  end
+
+  def generic_table_main(subtitle)
+    render :template => 'common_partials/generic_table/_main', :locals => {:subtitle => subtitle}
+  end
+
   def multiple_model_search(main_model)
 
     begin
@@ -28,17 +44,6 @@ module GenericTable
     respond_to do |format|
       format.all { render :text => direct}
     end
-  end
-
-  # Obtain set of Digital Model
-  def initialize_generic_table(main_model, includes = '')
-    begin
-      query = generic_table_aggregated_queries(controller_name,'updated_at')
-      result = search_index(main_model, query, includes)
-    rescue => ex
-      index_error(ex)
-    end
-    result
   end
 
   # Perform Solr Sunspot Search on Model

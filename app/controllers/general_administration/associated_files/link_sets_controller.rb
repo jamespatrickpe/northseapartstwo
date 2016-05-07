@@ -1,84 +1,50 @@
 class GeneralAdministration::LinkSetsController < GeneralAdministrationController
 
-
   def index
-    query = generic_table_aggregated_queries('link_sets','link_sets.created_at')
-    begin
-      @link_sets = LinkSet
-                        .where("link_sets.url LIKE ? OR " +
-                                   "link_sets.label LIKE ?",
-                               "%#{query[:search_field]}%",
-                               "%#{query[:search_field]}%")
-                        .order(query[:order_parameter] + ' ' + query[:order_orientation])
-      @link_sets = Kaminari.paginate_array(@link_sets).page(params[:page]).per(query[:current_limit])
-    rescue => ex
-      flash[:general_flash_notification] = "Error has Occured" + ex.to_s
-    end
-    render '/general_administration/link_set/index'
-  end
-
-
-  def initialize_form
-    initialize_form_variables('SYSTEM LINK SETS',
-                              'general_administration/link_sets/link_set_form',
-                              'link_sets')
-    initialize_employee_selection
+    @link_sets = initialize_generic_table(LinkSet)
+    render_index
   end
 
   def search_suggestions
-    link_set = LinkSet
-                    .where("link_sets.url LIKE ?","%#{params[:query]}%")
-                    .pluck("link_sets.url")
-    direct = "{\"query\": \"Unit\",\"suggestions\":[" + link_set.to_s.gsub!('[', '').gsub!(']', '') + "]}"
-    respond_to do |format|
-      format.all { render :text => direct}
-    end
+    simple_singular_column_search('link_sets.url',LinkSet)
   end
 
   def new
-    initialize_form
-    @selected_link_set = LinkSet.new
-    @actors = Actor.all().order('name ASC')
-    @branches = Branch.all().order('name ASC')
-    generic_form_main(@selected_link_set)
+    set_new_edit(LinkSet)
   end
 
   def edit
-    initialize_form
-    @selected_link_set = LinkSet.find(params[:id])
-    @actors = Actor.all().order('name ASC')
-    @branches = Branch.all().order('name ASC')
-    generic_form_main(@selected_link_set)
+    set_new_edit(LinkSet)
+  end
+
+  def show
+    edit
   end
 
   def delete
-    generic_delete_model(LinkSet,controller_name)
+    generic_delete(LinkSet)
   end
 
-  def process_link_set_form(myLinkSet)
+  def process_form(myLinkSet)
     begin
-      myLinkSet[:url] = params[:link_sets][:url]
-      myLinkSet[:label] = params[:link_sets][:label]
-      myLinkSet[:rel_link_set_id] = params[:link_sets][:rel_link_set_id]
-      myLinkSet[:rel_link_set_type] = params[:link_sets][:rel_link_set_type]
+      myLinkSet[:url] = params[controller_path][:url]
+      myLinkSet[:remark] = params[controller_path][:remark]
+      myLinkSet[:linksetable_type] = params[controller_path][:linksetable_type]
+      myLinkSet[:linksetable_id] = params[controller_path][:linksetable_id]
       myLinkSet.save!
-      flash[:general_flash_notification_type] = 'affirmative'
+      set_process_notification
     rescue => ex
-      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.' + ex.to_s
+      index_error(ex)
     end
-    redirect_to :action => 'index'
+    redirect_to_index
   end
 
   def create
-    myLinkSet = LinkSet.new()
-    flash[:general_flash_notification] = 'Link Set Created!'
-    process_link_set_form(myLinkSet)
+    process_form(LinkSet.new())
   end
 
   def update
-    myLinkSet = LinkSet.find(params[:link_sets][:id])
-    flash[:general_flash_notification] = 'Link Set Updated: ' + params[:link_sets][:id]
-    process_link_set_form(myLinkSet)
+    process_form(Digital.find(params[controller_path][:id]))
   end
 
 end
