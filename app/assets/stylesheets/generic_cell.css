@@ -1,6 +1,6 @@
 .item_cell
 {
-    border: solid #721314 thin;
+    border: solid #f2f2f2 thick;
     width: 250px;
     margin: 2px;
     font-size: 11px;
@@ -32,7 +32,7 @@
 
 .item_cell:hover
 {
-    background-color: orange;
+    border: solid orange thick;
 }
 
 #current_freewall

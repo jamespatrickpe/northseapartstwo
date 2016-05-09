@@ -2,32 +2,103 @@
   <%= preheader_generic_index(subtitle) %>
 
   <% begin %>
-
-      <table class='generic_index'>
-        <thead>
-            <%= render :partial => controller_path + '/thead' %>
-        </thead>
-        <% if @result_set.empty? == true %>
-            <%= no_records_found %>
-        <% else %>
-            <tbody>
-            <% @result_set.each do |result| %>
-                <tr><%= render :partial => controller_path + '/tbody', locals: {result: result} %></tr>
-            <% end %>
-            </tbody>
-        <% end %>
-      </table>
-
-      <div>
-        <%= render :partial => controller_path + '/cell_sorter' %>
-      </div>
-      <div id="current_freewall">
-        <% @result_set.each do |result| %>
-            <div class="item_cell">
-            <%= render :partial => controller_path + '/cell', locals: {result: result}  %>
+      <% if flash[controller_name + "_view_mode"] == "cell" %>
+          <div class="row collapse" style="float: left">
+            <div class="small-2 columns">
+              <select>
+                <% @head_array.each do |head| %>
+                    <% if head.kind_of?(Array) %>
+                        <option value="<%= head[1] %>"> <%= head[0] %> </option>
+                    <% else %>
+                        <option> <%= head %> </option>
+                    <% end %>
+                <% end %>
+              </select>
             </div>
-        <% end %>
-      </div>
+
+            <div class="small-1 columns">
+              <select>
+                <option value="ASC">ASC</option>
+                <option value="DESC">DESC</option>
+              </select>
+            </div>
+
+            <div class="small-1 columns"><input type="submit" class="button postfix" value="&#128269;" />
+            </div>
+
+            <div class="small-8 columns"></div>
+          </div>
+          <br><br>
+
+          <div id="current_freewall">
+            <% @result_set.each do |result| %>
+                <div class="item_cell">
+                  <%= render :partial => controller_path + '/cell', locals: {result: result}  %>
+                </div>
+            <% end %>
+          </div>
+
+          <script>
+              $( function(){
+                  var wall = new Freewall("#current_freewall");
+                  current_cell_height = (($( ".item_cell" ).height())*1.25).toFixed(1);
+                  wall.reset({
+                      cacheSize: true,
+                      draggable: true,
+                      selector: '.item_cell',
+                      animate: true,
+                      cellW: 250,
+                      cellH: current_cell_height,
+                      onResize: function()
+                      {
+                          wall.refresh();
+                      }
+                  })
+                  wall.fitWidth();
+              } );
+
+              $( ".item_cell" ).hover(
+                      function()
+                      {
+                          $(this).children("ul.button-group").children("li").css('visibility', 'visible');
+                      }, function()
+                      {
+                          $(this).children("ul.button-group").children("li").css('visibility', 'hidden');
+                      }
+              );
+
+              var hasScrollbar = window.innerWidth > document.documentElement.clientWidth;
+
+          </script>
+
+      <% else %>
+
+          <table class='generic_index'>
+            <thead>
+
+
+            <% @head_array.each do |head| %>
+                <% if head.kind_of?(Array) %>
+                    <%= generic_index_theadlink(head[0],head[1]) %>
+                <% else %>
+                    <%= generic_index_theadlink(head) %>
+                <% end %>
+            <% end %>
+            <%= generic_index_theadlink_last_head() %>
+
+            </thead>
+            <% if @result_set.empty? == true %>
+                <%= no_records_found %>
+            <% else %>
+                <tbody>
+                <% @result_set.each do |result| %>
+                    <tr><%= render :partial => controller_path + '/tbody', locals: {result: result} %></tr>
+                <% end %>
+                </tbody>
+            <% end %>
+          </table>
+
+      <% end %>
 
   <% rescue => ex %>
       <%= generic_index_error(ex) %>
@@ -35,33 +106,3 @@
   <%= generic_index_footer(@result_set) %>
 
 </section>
-
-<script>
-    $( function(){
-        var wall = new Freewall("#current_freewall");
-        current_cell_height = (($( ".item_cell" ).height())*1.25).toFixed(1);
-        wall.reset({
-            cacheSize: true,
-            draggable: true,
-            selector: '.item_cell',
-            animate: true,
-            cellW: 250,
-            cellH: current_cell_height,
-            onResize: function()
-            {
-                wall.refresh();
-            }
-        })
-        wall.fitWidth();
-    } );
-
-    $( ".item_cell" ).hover(
-            function() {
-            }, function() {
-
-            }
-    );
-
-    var hasScrollbar = window.innerWidth > document.documentElement.clientWidth;
-         
-</script>

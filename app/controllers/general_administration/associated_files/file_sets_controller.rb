@@ -1,6 +1,7 @@
 class GeneralAdministration::AssociatedFiles::FileSetsController < GeneralAdministration::AssociatedFilesController
 
   def index
+    @head_array = ['ID', 'File', ['Association','filesetable'], 'Remark']
     initialize_generic_index(FileSet, 'Related File Sets of different Entities')
   end
 

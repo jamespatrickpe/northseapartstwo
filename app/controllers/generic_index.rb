@@ -1,7 +1,7 @@
 module GenericIndex
 
   # Initializes the Common Functions in a Single Model - Controller Logic Unit
-  def initialize_generic_index(main_model, subtitle, includes = '')
+  def initialize_generic_index(main_model, subtitle,includes = '')
     begin
       query = generic_index_aggregated_queries(controller_name,'updated_at')
       @result_set = search_index(main_model, query, includes)
