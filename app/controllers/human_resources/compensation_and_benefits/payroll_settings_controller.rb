@@ -1,7 +1,7 @@
 class HumanResources::CompensationAndBenefits::PayrollSettingsController < HumanResources::CompensationAndBenefitsController
 
   def index
-    query = generic_table_aggregated_queries('payroll_settings','payroll_settings.created_at')
+    query = generic_index_aggregated_queries('payroll_settings','payroll_settings.created_at')
     begin
       @payroll_settings = PayrollSetting.includes(employee: [:actor])
                       .joins(employee: [:actors])

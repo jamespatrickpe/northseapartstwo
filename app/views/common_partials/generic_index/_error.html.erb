@@ -4,7 +4,7 @@
 
 <br><br><br><br>
 
-<div id="generic_table_error_message">
+<div id="generic_index_error_message">
   <%= "Error Occurred | " + ex.to_s%>
   <%= ex.backtrace.each { |line| logger.error line } %>
 </div>
@@ -12,5 +12,5 @@
 <br><br><br><br>
 
 <script>
-  $(".generic_table").replaceWith( $("#generic_table_error_message"));
+  $(".generic_index").replaceWith( $("#generic_index_error_message"));
 </script>

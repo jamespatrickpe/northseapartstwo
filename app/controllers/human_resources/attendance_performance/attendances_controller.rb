@@ -1,7 +1,7 @@
 class HumanResources::AttendancePerformance::AttendancesController < HumanResources::AttendancePerformanceController
 
   def index
-    query = generic_table_aggregated_queries('attendances','attendances.created_at')
+    query = generic_index_aggregated_queries('attendances','attendances.created_at')
     begin
       @attendances = ::Attendance
                          .includes(employee: [:actor])

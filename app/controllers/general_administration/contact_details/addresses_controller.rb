@@ -1,7 +1,7 @@
 class GeneralAdministration::ContactDetails::AddressesController < GeneralAdministration::ContactDetailsController
 
   def index
-    @addresses = initialize_generic_table(Address, [:addressable])
+    @addresses = initialize_generic_index(Address, [:addressable])
     render_index
   end
 

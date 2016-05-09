@@ -1,7 +1,7 @@
 class HumanResources::CompensationAndBenefits::InstitutionalAdjustmentsController < HumanResources::CompensationAndBenefitsController
 
   def index
-    query = generic_table_aggregated_queries('institutional_adjustments','institutional_adjustments.created_at')
+    query = generic_index_aggregated_queries('institutional_adjustments','institutional_adjustments.created_at')
     begin
       @institutional_adjustments = InstitutionalAdjustment
                                        .where("institutional_adjustments.id LIKE ? OR " +

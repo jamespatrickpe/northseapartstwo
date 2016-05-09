@@ -1,7 +1,7 @@
 class HumanResources::CompensationAndBenefits::LeavesController < HumanResources::CompensationAndBenefitsController
 
   def index
-    query = generic_table_aggregated_queries('leaves','leaves.created_at')
+    query = generic_index_aggregated_queries('leaves','leaves.created_at')
     begin
       @leaves = Leave.all
       @leaves = Kaminari.paginate_array(@leaves).page(params[:page]).per(query[:current_limit])

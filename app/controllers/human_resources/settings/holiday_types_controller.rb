@@ -1,7 +1,7 @@
 class HumanResources::Settings::HolidayTypesController < HumanResources::SettingsController
 
   def index
-    query = generic_table_aggregated_queries('holiday_types','holiday_types.created_at')
+    query = generic_index_aggregated_queries('holiday_types','holiday_types.created_at')
     begin
       @holiday_types = HolidayType
                            .where("holiday_types.id LIKE ? OR " +

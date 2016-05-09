@@ -1,13 +1,13 @@
 <section class='small-10 columns'>
-  <%= preheader_generic_table('Employees','People working for the Enterprise') %>
+  <%= preheader_generic_index('Employees','People working for the Enterprise') %>
   <% begin %>
-      <table class="generic_table" id="duty_statuses_table">
+      <table class="generic_index" id="duty_statuses_table">
         <thead>
         <tr>
-          <%= generic_table_theadlink('Employees ID','employees.id') %>
-          <%= generic_table_theadlink('Name','actors.name') %>
+          <%= generic_index_theadlink('Employees ID','employees.id') %>
+          <%= generic_index_theadlink('Name','actors.name') %>
           <th>Duty Status</th>
-          <%= generic_table_theadlink('Current Branch','branches.name') %>
+          <%= generic_index_theadlink('Current Branch','branches.name') %>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
         </thead>
@@ -24,7 +24,7 @@
                     <%= employee.branch.name %>
                   </td>
                   <td class="actions">
-                    <%= generic_table_actions(employee[:id]) %>
+                    <%= generic_index_actions(employee[:id]) %>
                   </td>
                 </tr>
             <% end %>
@@ -32,7 +32,7 @@
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@employees) %>
+  <%= generic_index_footer(@employees) %>
 </section>

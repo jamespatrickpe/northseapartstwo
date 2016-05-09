@@ -1,42 +1,42 @@
 <section class='small-10 columns'>
   <%= generic_title('Payroll Settings','Payroll Settings for a specific point in time') %>
-  <%= generic_table_search %>
+  <%= generic_index_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
-      <table class="generic_table" id="payrolls_table">
+      <table class="generic_index" id="payrolls_table">
         <thead>
         <tr>
           <th>
             Payroll Settings ID
-            <%= generic_table_theadlink('payroll_settings.id', table_orientation) %>
+            <%= generic_index_theadlink('payroll_settings.id', table_orientation) %>
           </th>
           <th>
             Employee
-            <%= generic_table_theadlink('payroll_settings.name', table_orientation) %>
+            <%= generic_index_theadlink('payroll_settings.name', table_orientation) %>
           </th>
           <th>
             Article
-            <%= generic_table_theadlink('payroll_settings.article', table_orientation) %>
+            <%= generic_index_theadlink('payroll_settings.article', table_orientation) %>
           </th>
           <th>
             Applicability
-            <%= generic_table_theadlink('payroll_settings.applicability', table_orientation) %>
+            <%= generic_index_theadlink('payroll_settings.applicability', table_orientation) %>
           </th>
           <th>
             Remark
-            <%= generic_table_theadlink('payroll_settings.remark', table_orientation) %>
+            <%= generic_index_theadlink('payroll_settings.remark', table_orientation) %>
           </th>
           <th>
             Date of Effectivity
-            <%= generic_table_theadlink('payroll_settings.date_of_implementation', table_orientation) %>
+            <%= generic_index_theadlink('payroll_settings.date_of_implementation', table_orientation) %>
           </th>
           <th>
             Date Created
-            <%= generic_table_theadlink('payroll_settings.created_at', table_orientation) %>
+            <%= generic_index_theadlink('payroll_settings.created_at', table_orientation) %>
           </th>
           <th>
             Last Updated
-            <%= generic_table_theadlink('payroll_settings.updated_at', table_orientation) %>
+            <%= generic_index_theadlink('payroll_settings.updated_at', table_orientation) %>
           </th>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
@@ -64,7 +64,7 @@
                   <td><%= payroll_settings[:created_at] %></td>
                   <td><%= payroll_settings[:updated_at] %></td>
                   <td class="actions">
-                    <%= generic_table_actions(payroll_settings[:id]) %>
+                    <%= generic_index_actions(payroll_settings[:id]) %>
                     <%= link_to( "&#128083;".html_safe,
                                  '/human_resources/compensation_and_benefits/payrolls/index?id=' + payroll_settings.employee.id,
                                  class: 'action_button',
@@ -76,7 +76,7 @@
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@payroll_settings) %>
+  <%= generic_index_footer(@payroll_settings) %>
 </section>

@@ -1,7 +1,7 @@
 class HumanResources::CompensationAndBenefits::BaseRatesController < HumanResources::CompensationAndBenefitsController
 
   def index
-    query = generic_table_aggregated_queries('base_rates','base_rates.created_at')
+    query = generic_index_aggregated_queries('base_rates','base_rates.created_at')
     begin
       @base_rates = BaseRate.includes(employee: [:actor])
                         .joins(employee: [:actors])

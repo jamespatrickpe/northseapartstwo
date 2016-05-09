@@ -1,38 +1,38 @@
 <section class='small-10 columns'>
   <%= generic_title('Holidays','A day fixed by law or custom on which ordinary business is suspended in commemoration of some event or in honor of some person.') %>
-  <%= generic_table_search %>
+  <%= generic_index_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
-      <table class="generic_table" id="holidays_table">
+      <table class="generic_index" id="holidays_table">
         <thead>
         <tr>
           <th>
             Holidays ID
-            <%= generic_table_theadlink('holidays.id', table_orientation) %>
+            <%= generic_index_theadlink('holidays.id', table_orientation) %>
           </th>
           <th>
             Type
-            <%= generic_table_theadlink('holiday_types.type_name', table_orientation) %>
+            <%= generic_index_theadlink('holiday_types.type_name', table_orientation) %>
           </th>
           <th>
             Name
-            <%= generic_table_theadlink('holidays.name', table_orientation) %>
+            <%= generic_index_theadlink('holidays.name', table_orientation) %>
           </th>
           <th>
             remark
-            <%= generic_table_theadlink('holidays.remark', table_orientation) %>
+            <%= generic_index_theadlink('holidays.remark', table_orientation) %>
           </th>
           <th>
             Date of Implementation
-            <%= generic_table_theadlink('holidays.date_of_implementation', table_orientation) %>
+            <%= generic_index_theadlink('holidays.date_of_implementation', table_orientation) %>
           </th>
           <th>
             Date Created
-            <%= generic_table_theadlink('holidays.created_at', table_orientation) %>
+            <%= generic_index_theadlink('holidays.created_at', table_orientation) %>
           </th>
           <th>
             Last Updated
-            <%= generic_table_theadlink('holidays.updated_at', table_orientation) %>
+            <%= generic_index_theadlink('holidays.updated_at', table_orientation) %>
           </th>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
@@ -51,7 +51,7 @@
                   <td><%= holiday[:created_at] %></td>
                   <td><%= holiday[:updated_at] %></td>
                   <td class="actions">
-                    <%= generic_table_actions(holiday[:id]) %>
+                    <%= generic_index_actions(holiday[:id]) %>
                   </td>
                 </tr>
             <% end %>
@@ -59,7 +59,7 @@
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@holidays) %>
+  <%= generic_index_footer(@holidays) %>
 </section>

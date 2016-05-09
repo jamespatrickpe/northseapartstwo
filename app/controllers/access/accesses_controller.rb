@@ -1,7 +1,7 @@
 class Access::AccessesController < AccessController
 
   def index
-    query = generic_table_aggregated_queries('accesses','accesses.created_at')
+    query = generic_index_aggregated_queries('accesses','accesses.created_at')
     begin
       @accesses = Access
                       .where("accesses.username LIKE ? OR " +

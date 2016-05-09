@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   # Categorized Imports
   include ApplicationHelper,
           GenericForm,
-          GenericTable,
+          GenericIndex,
           ActorProfile,
           GenericController,
           CommonValidationChecks,

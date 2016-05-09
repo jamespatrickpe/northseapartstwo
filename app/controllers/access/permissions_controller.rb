@@ -3,7 +3,7 @@ class Access::PermissionsController < AccessController
   layout "application_loggedin"
 
   def index
-    query = generic_table_aggregated_queries('permissions','permissions.created_at')
+    query = generic_index_aggregated_queries('permissions','permissions.created_at')
     begin
       @permissions = Permission
                          .where("permissions.access_id LIKE ? OR " +

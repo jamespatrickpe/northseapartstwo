@@ -1,7 +1,7 @@
 class GeneralAdministration::VehiclesController < GeneralAdministrationController
 
   def index
-    @vehicles = initialize_generic_table(Vehicle)
+    @vehicles = initialize_generic_index(Vehicle)
     render_index
   end
 

@@ -1,58 +1,58 @@
 <section class='small-10 columns'>
   <%= generic_title('Institutional Adjustments','Social Security Systems') %>
-  <%= generic_table_search %>
+  <%= generic_index_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
-      <table class='generic_table' id='lump_adjustments_table'>
+      <table class='generic_index' id='lump_adjustments_table'>
         <thead>
         <tr>
           <th>
             Base Rates ID
-            <%= generic_table_theadlink('institutional_adjustments.id', table_orientation) %>
+            <%= generic_index_theadlink('institutional_adjustments.id', table_orientation) %>
           </th>
           <th>
             Institution
-            <%= generic_table_theadlink('institutional_adjustments.institution', table_orientation) %>
+            <%= generic_index_theadlink('institutional_adjustments.institution', table_orientation) %>
           </th>
           <th>
             Contribution Type
-            <%= generic_table_theadlink('institutional_adjustments.contribution_type', table_orientation) %>
+            <%= generic_index_theadlink('institutional_adjustments.contribution_type', table_orientation) %>
           </th>
           <th>
             Start Range
-            <%= generic_table_theadlink('institutional_adjustments.start_range', table_orientation) %>
+            <%= generic_index_theadlink('institutional_adjustments.start_range', table_orientation) %>
           </th>
           <th>
             End Range
-            <%= generic_table_theadlink('institutional_adjustments.end_range', table_orientation) %>
+            <%= generic_index_theadlink('institutional_adjustments.end_range', table_orientation) %>
           </th>
           <th>
             Employer Contribution
-            <%= generic_table_theadlink('institutional_adjustments.employer_contribution', table_orientation) %>
+            <%= generic_index_theadlink('institutional_adjustments.employer_contribution', table_orientation) %>
           </th>
           <th>
             Employee Contribution
-            <%= generic_table_theadlink('institutional_adjustments.employee_contribution', table_orientation) %>
+            <%= generic_index_theadlink('institutional_adjustments.employee_contribution', table_orientation) %>
           </th>
           <th>
             Period of Time
-            <%= generic_table_theadlink('institutional_adjustments.period_of_time', table_orientation) %>
+            <%= generic_index_theadlink('institutional_adjustments.period_of_time', table_orientation) %>
           </th>
           <th>
             remark
-            <%= generic_table_theadlink('institutional_adjustments.remark', table_orientation) %>
+            <%= generic_index_theadlink('institutional_adjustments.remark', table_orientation) %>
           </th>
           <th>
             Date of Effectivity
-            <%= generic_table_theadlink('institutional_adjustments.date_of_implementation', table_orientation) %>
+            <%= generic_index_theadlink('institutional_adjustments.date_of_implementation', table_orientation) %>
           </th>
           <th>
             Date Created
-            <%= generic_table_theadlink('institutional_adjustments.created_at', table_orientation) %>
+            <%= generic_index_theadlink('institutional_adjustments.created_at', table_orientation) %>
           </th>
           <th>
             Last Updated
-            <%= generic_table_theadlink('institutional_adjustments.updated_at', table_orientation) %>
+            <%= generic_index_theadlink('institutional_adjustments.updated_at', table_orientation) %>
           </th>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
@@ -76,7 +76,7 @@
                   <td><%= institutional_adjustment[:created_at] %></td>
                   <td><%= institutional_adjustment[:updated_at] %></td>
                   <td class="actions">
-                    <%= generic_table_actions(institutional_adjustment[:id]) %>
+                    <%= generic_index_actions(institutional_adjustment[:id]) %>
                   </td>
                 </tr>
             <% end %>
@@ -84,7 +84,7 @@
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@institutional_adjustments) %>
+  <%= generic_index_footer(@institutional_adjustments) %>
 </section>

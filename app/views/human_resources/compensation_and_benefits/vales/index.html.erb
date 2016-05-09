@@ -1,53 +1,53 @@
 <section class='small-10 columns'>
   <%= generic_title('Vales','Advanced Payments to Employees') %>
-  <%= generic_table_search %>
+  <%= generic_index_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
-      <table class="generic_table" id="lump_adjustments_table">
+      <table class="generic_index" id="lump_adjustments_table">
         <thead>
         <tr>
           <th>
             Vales ID
-            <%= generic_table_theadlink('vales.id', table_orientation) %>
+            <%= generic_index_theadlink('vales.id', table_orientation) %>
           </th>
           <th>
             Employee
-            <%= generic_table_theadlink('actors.name', table_orientation) %>
+            <%= generic_index_theadlink('actors.name', table_orientation) %>
           </th>
           <th>
             Amount
-            <%= generic_table_theadlink('vales.amount', table_orientation) %>
+            <%= generic_index_theadlink('vales.amount', table_orientation) %>
           </th>
           <th>
             Approval Status
-            <%= generic_table_theadlink('vales.approval_status', table_orientation) %>
+            <%= generic_index_theadlink('vales.approval_status', table_orientation) %>
           </th>
           <th>
             Amount of Deduction
-            <%= generic_table_theadlink('vales.amount_of_deduction', table_orientation) %>
+            <%= generic_index_theadlink('vales.amount_of_deduction', table_orientation) %>
           </th>
           <th>
             Period of Deduction
-            <%= generic_table_theadlink('vales.period_of_time', table_orientation) %>
+            <%= generic_index_theadlink('vales.period_of_time', table_orientation) %>
           </th>
           <th>
             Remark
-            <%= generic_table_theadlink('vales.remark', table_orientation) %>
+            <%= generic_index_theadlink('vales.remark', table_orientation) %>
           </th>
           <th>
             Date of Effectivity
-            <%= generic_table_theadlink('vales.date_of_implementation', table_orientation) %>
+            <%= generic_index_theadlink('vales.date_of_implementation', table_orientation) %>
           </th>
           <th>
             Balance Remaining
           </th>
           <th>
             Date Created
-            <%= generic_table_theadlink('vales.created_at', table_orientation) %>
+            <%= generic_index_theadlink('vales.created_at', table_orientation) %>
           </th>
           <th>
             Last Updated
-            <%= generic_table_theadlink('vales.updated_at', table_orientation) %>
+            <%= generic_index_theadlink('vales.updated_at', table_orientation) %>
           </th>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
@@ -79,7 +79,7 @@
                   <td><%= vale[:created_at] %></td>
                   <td><%= vale[:updated_at] %></td>
                   <td class="actions">
-                    <%= generic_table_actions(vale[:id]) %>
+                    <%= generic_index_actions(vale[:id]) %>
                     <%= link_to( "&#128083;".html_safe,
                                  '/human_resources/compensation_and_benefits/vales/' + vale[:id],
                                  class: 'action_button',
@@ -91,7 +91,7 @@
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@vales) %>
+  <%= generic_index_footer(@vales) %>
 </section>

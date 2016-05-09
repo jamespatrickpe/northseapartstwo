@@ -2,19 +2,19 @@
   <div class='mainheader'> Accesses </div>
   <div class='subremark'> List of access logs within the system. </div>
   <hr>
-  <%= generic_table_search %>
+  <%= generic_index_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
-      <table class='generic_table' id='permission_table'>
+      <table class='generic_index' id='permission_table'>
         <thead>
         <tr>
-          <%= generic_table_theadlink('ID','accesses.id', table_orientation) %>
-          <%= generic_table_theadlink('Actor ID','accesses.actor_id', table_orientation) %>
-          <%= generic_table_theadlink('Username','accesses.username', table_orientation) %>
-          <%= generic_table_theadlink('Email','accesses.email', table_orientation) %>
-          <%= generic_table_theadlink('Created At','accesses.created_at', table_orientation) %>
-          <%= generic_table_theadlink('Last Updated','accesses.updated_at', table_orientation) %>
-          <%= generic_table_theadlink('Last Login','accesses.last_login', table_orientation) %>
+          <%= generic_index_theadlink('ID','accesses.id', table_orientation) %>
+          <%= generic_index_theadlink('Actor ID','accesses.actor_id', table_orientation) %>
+          <%= generic_index_theadlink('Username','accesses.username', table_orientation) %>
+          <%= generic_index_theadlink('Email','accesses.email', table_orientation) %>
+          <%= generic_index_theadlink('Created At','accesses.created_at', table_orientation) %>
+          <%= generic_index_theadlink('Last Updated','accesses.updated_at', table_orientation) %>
+          <%= generic_index_theadlink('Last Login','accesses.last_login', table_orientation) %>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
         </thead>
@@ -32,7 +32,7 @@
                   <td><%= access[:updated_at] %> </td>
                   <td><%= access[:last_login] %> </td>
                   <td class="actions">
-                    <%= generic_table_actions(access[:id]) %>
+                    <%= generic_index_actions(access[:id]) %>
                   </td>
                 </tr>
             <% end %>
@@ -40,7 +40,7 @@
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@accesses) %>
+  <%= generic_index_footer(@accesses) %>
 </section>

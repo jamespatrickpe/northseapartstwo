@@ -60,7 +60,7 @@
           <input type="hidden" name=<%="start_date"%> value=<%= @start_date %>>
           <input type="hidden" name=<%="end_date"%> value=<%= @end_date %>>
           <div style="overflow-x: scroll;">
-            <table class="generic_table">
+            <table class="generic_index">
               <thead class="branch_attendance_sheet_table_head">
               <tr>
                 <th style="text-align: center">Employees</th>
@@ -196,15 +196,15 @@
         });
 
         $( "#printable_attendance_sheet" ).click(function() {
-            $("table.generic_table").css({"font-size": 12,"font-family": "arial"});
+            $("table.generic_index").css({"font-size": 12,"font-family": "arial"});
             $("a.table_orientation_indicator").remove();
-            $("table.generic_table table.generic_table td.actions").remove();
+            $("table.generic_index table.generic_index td.actions").remove();
             $(".toggable_attendance_content").empty().append(
                             "<div>TIME IN: ________________________ </div><br>" +
                             "<div>TIME OUT: ________________________ </div><br>" +
                             "<div>SIGNATURE: ________________________ </div><br>" +
                             "<div>REMARK: ________________________ </div><br>" );
-            table = $("table.generic_table").get();
+            table = $("table.generic_index").get();
             $("body").empty();
             $("body").html(table);
             $("body").append("<br><br>Name and Signature of Evaluator: ______________________________________________ <br>");

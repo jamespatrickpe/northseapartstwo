@@ -6,7 +6,7 @@ class HumanResources::CompensationAndBenefits::LoanPaymentsController < HumanRes
   end
 
   def index
-    query = generic_table_aggregated_queries('loan_payments','loan_payments.created_at')
+    query = generic_index_aggregated_queries('loan_payments','loan_payments.created_at')
     begin
       @loan_payments = LoanPayment.where("loan_payments.loan_id LIKE ?",
                                          "%#{query[:search_field]}%")

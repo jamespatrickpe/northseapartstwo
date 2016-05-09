@@ -2,16 +2,16 @@
   <div class='mainheader'> Permissions </div>
   <div class='subremark'> List of permissions used within the system. </div>
   <hr>
-  <%= generic_table_search %>
+  <%= generic_index_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
-      <table class='generic_table' id='permission_table'>
+      <table class='generic_index' id='permission_table'>
         <thead>
         <tr>
-          <%= generic_table_theadlink('ID','permissions.id', table_orientation) %>
-          <%= generic_table_theadlink('Access ID','permissions.access_id', table_orientation) %>
-          <%= generic_table_theadlink('Permission','permissions.can', table_orientation) %>
-          <%= generic_table_theadlink('Remark','permissions.remark', table_orientation) %>
+          <%= generic_index_theadlink('ID','permissions.id', table_orientation) %>
+          <%= generic_index_theadlink('Access ID','permissions.access_id', table_orientation) %>
+          <%= generic_index_theadlink('Permission','permissions.can', table_orientation) %>
+          <%= generic_index_theadlink('Remark','permissions.remark', table_orientation) %>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
         </thead>
@@ -26,7 +26,7 @@
                   <td><%= permission[:can] %> </td>
                   <td><%= permission[:remark] %> </td>
                   <td class="actions">
-                    <%= generic_table_actions(permission[:id]) %>
+                    <%= generic_index_actions(permission[:id]) %>
                   </td>
                 </tr>
             <% end %>
@@ -34,7 +34,7 @@
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@permissions) %>
+  <%= generic_index_footer(@permissions) %>
 </section>

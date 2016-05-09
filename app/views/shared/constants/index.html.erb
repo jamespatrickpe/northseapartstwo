@@ -1,42 +1,42 @@
 <section class='small-10 columns'>
   <%= generic_title('Constants','Shows all constant parameters within the system') %>
-  <%= generic_table_search %>
+  <%= generic_index_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
-      <table class='generic_table' id='constants_table'>
+      <table class='generic_index' id='constants_table'>
         <thead>
         <tr>
           <th>
             Constant ID
-            <%= generic_table_theadlink('constants.id', table_orientation) %>
+            <%= generic_index_theadlink('constants.id', table_orientation) %>
           </th>
           <th>
             Type
-            <%= generic_table_theadlink('constants.constant_type', table_orientation) %>
+            <%= generic_index_theadlink('constants.constant_type', table_orientation) %>
           </th>
           <th>
             Name
-            <%= generic_table_theadlink('constants.name', table_orientation) %>
+            <%= generic_index_theadlink('constants.name', table_orientation) %>
           </th>
           <th>
             Value
-            <%= generic_table_theadlink('constants.value', table_orientation) %>
+            <%= generic_index_theadlink('constants.value', table_orientation) %>
           </th>
           <th>
             Date of Effectivity
-            <%= generic_table_theadlink('constants.date_of_implementation', table_orientation) %>
+            <%= generic_index_theadlink('constants.date_of_implementation', table_orientation) %>
           </th>
           <th>
             Remark
-            <%= generic_table_theadlink('constants.remark', table_orientation) %>
+            <%= generic_index_theadlink('constants.remark', table_orientation) %>
           </th>
           <th>
             Date Created
-            <%= generic_table_theadlink('constants.created_at', table_orientation) %>
+            <%= generic_index_theadlink('constants.created_at', table_orientation) %>
           </th>
           <th>
             Last Updated
-            <%= generic_table_theadlink('constants.updated_at', table_orientation) %>
+            <%= generic_index_theadlink('constants.updated_at', table_orientation) %>
           </th>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
@@ -56,7 +56,7 @@
                   <td><%= constant[:created_at] %></td>
                   <td><%= constant[:updated_at] %></td>
                   <td class="actions">
-                    <%= generic_table_actions(constant[:id]) %>
+                    <%= generic_index_actions(constant[:id]) %>
                   </td>
                 </tr>
             <% end %>
@@ -64,7 +64,7 @@
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@constants) %>
+  <%= generic_index_footer(@constants) %>
 </section>

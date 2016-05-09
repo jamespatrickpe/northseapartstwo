@@ -1,5 +1,10 @@
-<% @result_set.each do |file_set| %>
+<button class="tiny button" style="word-break: break-all;" href="<%= result.file.url %>" target="_blank" >
+  <%= result[:file] %>
+</button>
 
-    <div></div>
+<div><%= result[:id].upcase %></div>
+<div><%= result[:remark] %></div>
+<div><%= polymorphic_link(result[:filesetable_type],result[:filesetable_id]) %></div>
 
-<% end %>
+<%= generic_index_actions( result ) %>
+

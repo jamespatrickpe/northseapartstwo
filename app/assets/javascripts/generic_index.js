@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    $(".generic_table > tbody > tr").hover(
+    $(".generic_index > tbody > tr").hover(
         function(){$(this).find("td.actions > *").css("visibility", "visible");},
         function(){$(this).find("td.actions > *").css("visibility", "hidden");})
 

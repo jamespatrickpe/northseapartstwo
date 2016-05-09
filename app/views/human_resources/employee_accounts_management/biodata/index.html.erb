@@ -1,42 +1,42 @@
 <section class='small-10 columns'>
   <%= generic_title('Biodata','information regarding an individuals education and work history, especially in the context of a selection process') %>
-  <%= generic_table_search %>
+  <%= generic_index_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
-      <table class="generic_table" id="biodata_table">
+      <table class="generic_index" id="biodata_table">
         <thead>
         <tr>
           <th>
             Individual
-            <%= generic_table_theadlink('biodata.actor_id', table_orientation) %>
+            <%= generic_index_theadlink('biodata.actor_id', table_orientation) %>
           </th>
           <th>
             Education
-            <%= generic_table_theadlink('biodata.education', table_orientation) %>
+            <%= generic_index_theadlink('biodata.education', table_orientation) %>
           </th>
           <th>
             Career Experience
-            <%= generic_table_theadlink('biodata.career_experience', table_orientation) %>
+            <%= generic_index_theadlink('biodata.career_experience', table_orientation) %>
           </th>
           <th>
             Date of Birth
-            <%= generic_table_theadlink('biodata.date_of_birth', table_orientation) %>
+            <%= generic_index_theadlink('biodata.date_of_birth', table_orientation) %>
           </th>
           <th>
             Citizenship
-            <%= generic_table_theadlink('biodata.citizenship', table_orientation) %>
+            <%= generic_index_theadlink('biodata.citizenship', table_orientation) %>
           </th>
           <th>
             Gender
-            <%= generic_table_theadlink('biodata.gender', table_orientation) %>
+            <%= generic_index_theadlink('biodata.gender', table_orientation) %>
           </th>
           <th>
             Emergency Contact
-            <%= generic_table_theadlink('biodata.emergency_contact', table_orientation) %>
+            <%= generic_index_theadlink('biodata.emergency_contact', table_orientation) %>
           </th>
           <th>
             Marital Status
-            <%= generic_table_theadlink('biodata.marital_status', table_orientation) %>
+            <%= generic_index_theadlink('biodata.marital_status', table_orientation) %>
           </th>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
@@ -56,7 +56,7 @@
                   <td><%= biodata[:emergency_contact] %></td>
                   <td><%= biodata[:marital_status] %></td>
                   <td class="actions">
-                    <%= generic_table_actions(biodata[:id]) %>
+                    <%= generic_index_actions(biodata[:id]) %>
                   </td>
                 </tr>
             <% end %>
@@ -64,7 +64,7 @@
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@biodata) %>
+  <%= generic_index_footer(@biodata) %>
 </section>

@@ -1,42 +1,42 @@
 <section class='small-10 columns'>
   <%= generic_title('Leaves','List of Leaves of an Employee') %>
-  <%= generic_table_search %>
+  <%= generic_index_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
-      <table class='generic_table' id='leaves_table'>
+      <table class='generic_index' id='leaves_table'>
         <thead>
         <tr>
           <th>
             Leave ID
-            <%= generic_table_theadlink('attendances.id', table_orientation) %>
+            <%= generic_index_theadlink('attendances.id', table_orientation) %>
           </th>
           <th>
             Name
-            <%= generic_table_theadlink('actors.name', table_orientation) %>
+            <%= generic_index_theadlink('actors.name', table_orientation) %>
           </th>
           <th>
             Type of Leave
-            <%= generic_table_theadlink('leaves.type_of_leave', table_orientation) %>
+            <%= generic_index_theadlink('leaves.type_of_leave', table_orientation) %>
           </th>
           <th>
             Start of Effectivity
-            <%= generic_table_theadlink('leaves.start_of_effectivity', table_orientation) %>
+            <%= generic_index_theadlink('leaves.start_of_effectivity', table_orientation) %>
           </th>
           <th>
             End of Effectivity
-            <%= generic_table_theadlink('leaves.end_of_effectivity', table_orientation) %>
+            <%= generic_index_theadlink('leaves.end_of_effectivity', table_orientation) %>
           </th>
           <th>
             Remark
-            <%= generic_table_theadlink('leaves.remark', table_orientation) %>
+            <%= generic_index_theadlink('leaves.remark', table_orientation) %>
           </th>
           <th>
             Date Created
-            <%= generic_table_theadlink('leaves.created_at', table_orientation) %>
+            <%= generic_index_theadlink('leaves.created_at', table_orientation) %>
           </th>
           <th>
             Date Updated
-            <%= generic_table_theadlink('leaves.updated_at', table_orientation) %>
+            <%= generic_index_theadlink('leaves.updated_at', table_orientation) %>
           </th>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
@@ -56,7 +56,7 @@
                   <td><%= leave[:created_at] %></td>
                   <td><%= leave[:updated_at] %></td>
                   <td class="actions">
-                    <%= generic_table_actions(leave[:id]) %>
+                    <%= generic_index_actions(leave[:id]) %>
                   </td>
                 </tr>
             <% end %>
@@ -64,7 +64,7 @@
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@leaves) %>
+  <%= generic_index_footer(@leaves) %>
 </section>

@@ -1,7 +1,7 @@
 class HumanResources::EmployeeAccountsManagement::DutyStatusesController < HumanResources::EmployeeAccountsManagementController
 
   def index
-    query = generic_table_aggregated_queries('duty_statuses','duty_statuses.created_at')
+    query = generic_index_aggregated_queries('duty_statuses','duty_statuses.created_at')
     begin
       @duty_statuses = DutyStatus.includes(employee: [:actor])
                            .joins(employee: [:actors])

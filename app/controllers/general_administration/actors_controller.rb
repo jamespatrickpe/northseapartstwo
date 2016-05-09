@@ -1,7 +1,7 @@
 class GeneralAdministration::ActorsController < GeneralAdministrationController
 
   def index
-    @actors = initialize_generic_table(Actor)
+    @actors = initialize_generic_index(Actor)
     render_index
   end
 

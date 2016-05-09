@@ -1,7 +1,7 @@
 class HumanResources::AttendancePerformance::RegularWorkPeriodsController < HumanResources::AttendancePerformanceController
 
   def index
-    query = generic_table_aggregated_queries('regular_work_periods','regular_work_periods.created_at')
+    query = generic_index_aggregated_queries('regular_work_periods','regular_work_periods.created_at')
     begin
       @regular_work_periods = RegularWorkPeriod
       .includes(employee: [:actor])

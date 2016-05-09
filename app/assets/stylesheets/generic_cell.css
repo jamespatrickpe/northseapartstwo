@@ -1,0 +1,46 @@
+.item_cell
+{
+    border: solid #721314 thin;
+    width: 250px;
+    margin: 2px;
+    font-size: 11px;
+    padding: 5px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    color: #000000;
+    background-color: #f2f2f2;
+}
+
+.item_cell > div
+{
+    margin-bottom: 10px;
+}
+
+.item_cell > div > a
+{
+    padding: 5px;
+    background-color: #dcdcdc;
+    color: black;
+}
+
+.item_cell > div > a:hover
+{
+    background-color: #721314;
+    color: white;
+}
+
+
+.item_cell:hover
+{
+    background-color: orange;
+}
+
+#current_freewall
+{
+    padding: 1%;
+}
+
+.item_cell > ul.button-group > li
+{
+    visibility: hidden;
+}

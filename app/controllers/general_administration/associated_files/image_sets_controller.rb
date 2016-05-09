@@ -1,7 +1,7 @@
 class GeneralAdministration::AssociatedFiles::ImageSetsController < GeneralAdministration::AssociatedFilesController
 
   def index
-    @image_sets = initialize_generic_table(ImageSet)
+    @image_sets = initialize_generic_index(ImageSet)
   end
 
   def search_suggestions

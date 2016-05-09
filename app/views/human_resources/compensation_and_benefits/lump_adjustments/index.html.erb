@@ -1,39 +1,39 @@
 <section class='small-10 columns'>
   <%= generic_title('Lump Adjustments','Payroll Adjustments for a Specific Period in Time') %>
-  <%= generic_table_search %>
+  <%= generic_index_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
-      <table class="generic_table" id="lump_adjustments_table">
+      <table class="generic_index" id="lump_adjustments_table">
         <thead>
         <tr>
           <th>
             Lump Adjustments ID
-            <%= generic_table_theadlink('lump_adjustments.id', table_orientation) %>
+            <%= generic_index_theadlink('lump_adjustments.id', table_orientation) %>
           </th>
           <th>
             Employee
-            <%= generic_table_theadlink('actors.name', table_orientation) %>
+            <%= generic_index_theadlink('actors.name', table_orientation) %>
           </th>
           <th>
             Date of Effectivity
-            <%= generic_table_theadlink('lump_adjustments.date_of_implementation', table_orientation) %>
+            <%= generic_index_theadlink('lump_adjustments.date_of_implementation', table_orientation) %>
           </th>
           <th>
             Type
-            <%= generic_table_theadlink('lump_adjustments.signed_type', table_orientation) %>
+            <%= generic_index_theadlink('lump_adjustments.signed_type', table_orientation) %>
           </th>
           <th>
             Amount
-            <%= generic_table_theadlink('lump_adjustments.amount', table_orientation) %>
+            <%= generic_index_theadlink('lump_adjustments.amount', table_orientation) %>
           </th>
           <th>
-            Remark <%= generic_table_theadlink('lump_adjustments.remark', table_orientation) %>
+            Remark <%= generic_index_theadlink('lump_adjustments.remark', table_orientation) %>
           </th>
           <th>
-            Date Created <%= generic_table_theadlink('lump_adjustments.created_at', table_orientation) %>
+            Date Created <%= generic_index_theadlink('lump_adjustments.created_at', table_orientation) %>
           </th>
           <th>
-            Last Updated <%= generic_table_theadlink('lump_adjustments.updated_at', table_orientation) %>
+            Last Updated <%= generic_index_theadlink('lump_adjustments.updated_at', table_orientation) %>
           </th>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
@@ -61,7 +61,7 @@
                   <td><%= lump_adjustment[:created_at] %></td>
                   <td><%= lump_adjustment[:updated_at] %></td>
                   <td class="actions">
-                    <%= generic_table_actions(lump_adjustment[:id]) %>
+                    <%= generic_index_actions(lump_adjustment[:id]) %>
                   </td>
                 </tr>
             <% end %>
@@ -71,8 +71,8 @@
   <% rescue %>
       <script>
           html = "<hr><p align='center'> No records found. Please try again.</p><hr>"
-          $(".generic_table").replaceWith(html)
+          $(".generic_index").replaceWith(html)
       </script>
   <% end %>
-  <%= generic_table_footer(@lump_adjustments) %>
+  <%= generic_index_footer(@lump_adjustments) %>
 </section>

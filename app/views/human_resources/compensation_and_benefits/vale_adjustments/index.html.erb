@@ -1,46 +1,46 @@
 <section class='small-10 columns'>
   <%= generic_title('Vale Adjustment','Advanced Payments to Employees') %>
-  <%= generic_table_search %>
+  <%= generic_index_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
-      <table class="generic_table" id="lump_adjustments_table">
+      <table class="generic_index" id="lump_adjustments_table">
         <thead>
         <tr>
           <th>
             Vales Adjustments ID
-            <%= generic_table_theadlink('vale_adjustments.id', table_orientation) %>
+            <%= generic_index_theadlink('vale_adjustments.id', table_orientation) %>
           </th>
           <th>
             Employee
-            <%= generic_table_theadlink('actors.name', table_orientation) %>
+            <%= generic_index_theadlink('actors.name', table_orientation) %>
           </th>
           <th>
             Amount
-            <%= generic_table_theadlink('vale_adjustments.amount', table_orientation) %>
+            <%= generic_index_theadlink('vale_adjustments.amount', table_orientation) %>
           </th>
           <th>
             Signed Type
-            <%= generic_table_theadlink('vale_adjustments.signed_type', table_orientation) %>
+            <%= generic_index_theadlink('vale_adjustments.signed_type', table_orientation) %>
           </th>
           <th>
             Parent Vale ID
-            <%= generic_table_theadlink('vale_adjustments.vale_id', table_orientation) %>
+            <%= generic_index_theadlink('vale_adjustments.vale_id', table_orientation) %>
           </th>
           <th>
             Remark
-            <%= generic_table_theadlink('vale_adjustments.remark', table_orientation) %>
+            <%= generic_index_theadlink('vale_adjustments.remark', table_orientation) %>
           </th>
           <th>
             Date of Effectivity
-            <%= generic_table_theadlink('vale_adjustments.date_of_implementation', table_orientation) %>
+            <%= generic_index_theadlink('vale_adjustments.date_of_implementation', table_orientation) %>
           </th>
           <th>
             Date Created
-            <%= generic_table_theadlink('vale_adjustments.created_at', table_orientation) %>
+            <%= generic_index_theadlink('vale_adjustments.created_at', table_orientation) %>
           </th>
           <th>
             Last Updated
-            <%= generic_table_theadlink('vale_adjustments.updated_at', table_orientation) %>
+            <%= generic_index_theadlink('vale_adjustments.updated_at', table_orientation) %>
           </th>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
@@ -68,7 +68,7 @@
                   <td><%= vale_adjustment[:created_at] %></td>
                   <td><%= vale_adjustment[:updated_at] %></td>
                   <td class="actions">
-                    <%= generic_table_actions(vale_adjustment[:id]) %>
+                    <%= generic_index_actions(vale_adjustment[:id]) %>
                     <%= link_to( "&#128083;".html_safe,
                                  '/human_resources/compensation_and_benefits/vales/' + vale_adjustment[:vale_id],
                                  class: 'action_button',
@@ -80,7 +80,7 @@
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@vale_adjustments) %>
+  <%= generic_index_footer(@vale_adjustments) %>
 </section>

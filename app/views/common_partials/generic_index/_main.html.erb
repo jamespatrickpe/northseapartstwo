@@ -1,0 +1,67 @@
+<section class='small-10 columns'>
+  <%= preheader_generic_index(subtitle) %>
+
+  <% begin %>
+
+      <table class='generic_index'>
+        <thead>
+            <%= render :partial => controller_path + '/thead' %>
+        </thead>
+        <% if @result_set.empty? == true %>
+            <%= no_records_found %>
+        <% else %>
+            <tbody>
+            <% @result_set.each do |result| %>
+                <tr><%= render :partial => controller_path + '/tbody', locals: {result: result} %></tr>
+            <% end %>
+            </tbody>
+        <% end %>
+      </table>
+
+      <div>
+        <%= render :partial => controller_path + '/cell_sorter' %>
+      </div>
+      <div id="current_freewall">
+        <% @result_set.each do |result| %>
+            <div class="item_cell">
+            <%= render :partial => controller_path + '/cell', locals: {result: result}  %>
+            </div>
+        <% end %>
+      </div>
+
+  <% rescue => ex %>
+      <%= generic_index_error(ex) %>
+  <% end %>
+  <%= generic_index_footer(@result_set) %>
+
+</section>
+
+<script>
+    $( function(){
+        var wall = new Freewall("#current_freewall");
+        current_cell_height = (($( ".item_cell" ).height())*1.25).toFixed(1);
+        wall.reset({
+            cacheSize: true,
+            draggable: true,
+            selector: '.item_cell',
+            animate: true,
+            cellW: 250,
+            cellH: current_cell_height,
+            onResize: function()
+            {
+                wall.refresh();
+            }
+        })
+        wall.fitWidth();
+    } );
+
+    $( ".item_cell" ).hover(
+            function() {
+            }, function() {
+
+            }
+    );
+
+    var hasScrollbar = window.innerWidth > document.documentElement.clientWidth;
+         
+</script>

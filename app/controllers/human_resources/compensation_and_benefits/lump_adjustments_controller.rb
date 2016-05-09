@@ -1,7 +1,7 @@
 class HumanResources::CompensationAndBenefits::LumpAdjustmentsController < HumanResources::CompensationAndBenefitsController
 
   def index
-    query = generic_table_aggregated_queries('lump_adjustments','lump_adjustments.created_at')
+    query = generic_index_aggregated_queries('lump_adjustments','lump_adjustments.created_at')
     begin
       @lump_adjustments = LumpAdjustment
       .includes(employee: [:actor])

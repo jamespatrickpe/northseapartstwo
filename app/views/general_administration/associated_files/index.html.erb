@@ -1,15 +1,15 @@
 <section class='small-10 columns'>
-  <%= preheader_generic_table('Files associated with an Entity','Associated Files') %>
+  <%= preheader_generic_index('Files associated with an Entity','Associated Files') %>
   <% begin %>
-      <table class='generic_table' id='digital_table'>
+      <table class='generic_index' id='digital_table'>
         <thead>
         <tr>
           <th>Type</th>
           <th>ID</th>
           <th>Entity Owner</th>
           <th>Details</th>
-          <%= generic_table_theadlink('Remark') %>
-          <%= generic_table_theadlink_last_head() %>
+          <%= generic_index_theadlink('Remark') %>
+          <%= generic_index_theadlink_last_head() %>
         </tr>
         </thead>
         <% if @associated_files.empty? == true %>
@@ -63,7 +63,7 @@
                   %>
 
                   <%=
-                      generic_table_last_rows(associated_file, controller_link)
+                      generic_index_last_rows(associated_file, controller_link)
                   %>
 
                 </tr>
@@ -72,9 +72,9 @@
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@associated_files) %>
+  <%= generic_index_footer(@associated_files) %>
 
   <hr style="visibility: hidden">
 

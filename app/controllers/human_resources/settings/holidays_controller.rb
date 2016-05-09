@@ -1,7 +1,7 @@
 class HumanResources::Settings::HolidaysController < HumanResources::SettingsController
 
   def index
-    query = generic_table_aggregated_queries('holidays','holidays.created_at')
+    query = generic_index_aggregated_queries('holidays','holidays.created_at')
     begin
       @holidays = Holiday
       .includes(:holiday_type).joins(:holiday_type)

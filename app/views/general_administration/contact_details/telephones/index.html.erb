@@ -1,14 +1,14 @@
 <section class='small-10 columns'>
-  <%= preheader_generic_table('A set of figures identifying the telephone of a particular subscriber, and used in making connections to that telephone') %>
+  <%= preheader_generic_index('A set of figures identifying the telephone of a particular subscriber, and used in making connections to that telephone') %>
       <% begin %>
-      <table class='generic_table' id='telephone_table'>
+      <table class='generic_index' id='telephone_table'>
         <thead>
         <tr>
-          <%= generic_table_theadlink('ID') %>
-          <%= generic_table_theadlink('Digits') %>
-          <%= generic_table_theadlink('Association', 'telephonable') %>
-          <%= generic_table_theadlink('Remark') %>
-          <%= generic_table_theadlink_last_head() %>
+          <%= generic_index_theadlink('ID') %>
+          <%= generic_index_theadlink('Digits') %>
+          <%= generic_index_theadlink('Association', 'telephonable') %>
+          <%= generic_index_theadlink('Remark') %>
+          <%= generic_index_theadlink_last_head() %>
         </tr>
         </thead>
         <% if @telephones.empty? == true %>
@@ -17,22 +17,22 @@
             <tbody>
             <% @telephones.each do |telephone| %>
                 <tr>
-                  <%= generic_table_id(telephone)%>
+                  <%= generic_index_id(telephone)%>
                   <td>
                     <a href="tel:<%= telephone[:digits] %>">
                       <%= telephone[:digits] %>
                     </a>
                   </td>
                   <%= polymorphic_link(telephone[:telephonable_type], telephone[:telephonable_id]) %>
-                  <%= generic_table_remark(telephone[:remark]) %>
-                  <%= generic_table_last_rows(telephone) %>
+                  <%= generic_index_remark(telephone[:remark]) %>
+                  <%= generic_index_last_rows(telephone) %>
                 </tr>
             <% end %>
             </tbody>
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@telephones) %>
+  <%= generic_index_footer(@telephones) %>
 </section>

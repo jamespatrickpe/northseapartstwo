@@ -7,32 +7,32 @@
 
   <% table_orientation = shift_table_orientation %>
   <% begin %>
-      <table class="generic_table" id="loan_payments_specific_table">
+      <table class="generic_index" id="loan_payments_specific_table">
         <thead>
         <tr>
           <th>
             MID Number
-            <%= generic_table_theadlink('loan_payments.mid_number', table_orientation) %>
+            <%= generic_index_theadlink('loan_payments.mid_number', table_orientation) %>
           </th>
           <th>
             Payment Amount
-            <%= generic_table_theadlink('loan_payments.payment_amount', table_orientation) %>
+            <%= generic_index_theadlink('loan_payments.payment_amount', table_orientation) %>
           </th>
           <th>
             Payment Date
-            <%= generic_table_theadlink('loan_payments.payment_date', table_orientation) %>
+            <%= generic_index_theadlink('loan_payments.payment_date', table_orientation) %>
           </th>
           <th>
             Before Payment
-            <%= generic_table_theadlink('loan_payments.loan_amount_before_payment', table_orientation) %>
+            <%= generic_index_theadlink('loan_payments.loan_amount_before_payment', table_orientation) %>
           </th>
           <th>
             After Payment
-            <%= generic_table_theadlink('loan_payments.loan_amount_after_payment', table_orientation) %>
+            <%= generic_index_theadlink('loan_payments.loan_amount_after_payment', table_orientation) %>
           </th>
           <th>
             Remark
-            <%= generic_table_theadlink('loan_payments.remark', table_orientation) %>
+            <%= generic_index_theadlink('loan_payments.remark', table_orientation) %>
           </th>
         </tr>
         </thead>
@@ -54,6 +54,6 @@
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
 </section>

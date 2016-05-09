@@ -1,7 +1,7 @@
 class HumanResources::CompensationAndBenefits::ValesController < HumanResources::CompensationAndBenefitsController
 
   def index
-    query = generic_table_aggregated_queries('vales','vales.created_at')
+    query = generic_index_aggregated_queries('vales','vales.created_at')
     begin
       @vales = ::Vale
                    .includes(employee: [:actor])

@@ -1,7 +1,7 @@
 class HumanResources::EmployeeAccountsManagement::BiodataController < HumanResources::EmployeeAccountsManagementController
 
   def index
-    query = generic_table_aggregated_queries('biodata','biodata.created_at')
+    query = generic_index_aggregated_queries('biodata','biodata.created_at')
     begin
       @biodata = Biodatum.includes(:actor)
                            .joins(:actors)

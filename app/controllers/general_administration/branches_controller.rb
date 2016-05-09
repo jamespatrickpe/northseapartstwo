@@ -1,7 +1,7 @@
 class GeneralAdministration::BranchesController < GeneralAdministrationController
 
   def index
-    query = generic_table_aggregated_queries('branches','branches.created_at')
+    query = generic_index_aggregated_queries('branches','branches.created_at')
     begin
       @branches = Branch
                       .where("branches.name LIKE ? OR " +

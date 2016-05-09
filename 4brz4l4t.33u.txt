@@ -6,9 +6,9 @@ fadfdfasdf
 #
 # Changes to be committed:
 #	modified:   app/assets/stylesheets/application.css.scss
-#	modified:   app/assets/stylesheets/generic_table.css
-#	modified:   app/views/common_partials/generic_table/_actions.html.erb
-#	modified:   app/views/common_partials/generic_table/_last_rows.html.erb
+#	modified:   app/assets/stylesheets/generic_index.css
+#	modified:   app/views/common_partials/generic_index/_actions.html.erb
+#	modified:   app/views/common_partials/generic_index/_last_rows.html.erb
 #	modified:   app/views/general_administration/contact_details/index.html.erb
 #	modified:   config/routes.rb
 #	modified:   db/schema.rb

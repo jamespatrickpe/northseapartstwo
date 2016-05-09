@@ -1,16 +1,16 @@
 <section class='small-10 columns'>
-  <%= preheader_generic_table('Transportation Machinery Assets') %>
+  <%= preheader_generic_index('Transportation Machinery Assets') %>
   <% begin %>
-      <table class='generic_table' id='vehicle_table'>
+      <table class='generic_index' id='vehicle_table'>
         <thead>
         <tr>
-          <%= generic_table_theadlink('ID') %>
-          <%= generic_table_theadlink('ORCR') %>
-          <%= generic_table_theadlink('Type of Vehicle') %>
-          <%= generic_table_theadlink('Plate Number') %>
-          <%= generic_table_theadlink('Capacity ( in m&sup3; )'.html_safe, 'capacity_m3') %>
-          <%= generic_table_theadlink('Remark') %>
-          <%= generic_table_theadlink_last_head() %>
+          <%= generic_index_theadlink('ID') %>
+          <%= generic_index_theadlink('ORCR') %>
+          <%= generic_index_theadlink('Type of Vehicle') %>
+          <%= generic_index_theadlink('Plate Number') %>
+          <%= generic_index_theadlink('Capacity ( in m&sup3; )'.html_safe, 'capacity_m3') %>
+          <%= generic_index_theadlink('Remark') %>
+          <%= generic_index_theadlink_last_head() %>
         </tr>
         </thead>
         <% if @vehicles.empty? == true %>
@@ -19,20 +19,20 @@
             <tbody>
             <% @vehicles.each do |vehicle| %>
                 <tr>
-                  <%= generic_table_id(vehicle)%>
+                  <%= generic_index_id(vehicle)%>
                   <td> <%= vehicle[:orcr]%> </td>
                   <td> <%= vehicle[:type_of_vehicle]%> </td>
                   <td> <%= vehicle[:plate_number]%> </td>
                   <td> <%= vehicle[:capacity_m3]%> </td>
-                  <%= generic_table_remark(vehicle[:remark]) %>
-                  <%= generic_table_last_rows(vehicle) %>
+                  <%= generic_index_remark(vehicle[:remark]) %>
+                  <%= generic_index_last_rows(vehicle) %>
                 </tr>
             <% end %>
             </tbody>
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@vehicles) %>
+  <%= generic_index_footer(@vehicles) %>
 </section>

@@ -1,54 +1,54 @@
 <section class='small-10 columns'>
   <%= generic_title('Base Rates','Rates for an Employee through a Period in Time') %>
-  <%= generic_table_search %>
+  <%= generic_index_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
-      <table class='generic_table' id='lump_adjustments_table'>
+      <table class='generic_index' id='lump_adjustments_table'>
         <thead>
         <tr>
           <th>
             Base Rates ID
-            <%= generic_table_theadlink('base_rates.id', table_orientation) %>
+            <%= generic_index_theadlink('base_rates.id', table_orientation) %>
           </th>
           <th>
             Employee
-            <%= generic_table_theadlink('actors.name', table_orientation) %>
+            <%= generic_index_theadlink('actors.name', table_orientation) %>
           </th>
           <th>
             Signed Type
-            <%= generic_table_theadlink('base_rates.signed_type', table_orientation) %>
+            <%= generic_index_theadlink('base_rates.signed_type', table_orientation) %>
           </th>
           <th>
             Type
-            <%= generic_table_theadlink('base_rates.rate_type', table_orientation) %>
+            <%= generic_index_theadlink('base_rates.rate_type', table_orientation) %>
           </th>
           <th>
             Amount
-            <%= generic_table_theadlink('base_rates.amount', table_orientation) %>
+            <%= generic_index_theadlink('base_rates.amount', table_orientation) %>
           </th>
           <th>
             Period of Time
-            <%= generic_table_theadlink('base_rates.period_of_time', table_orientation) %>
+            <%= generic_index_theadlink('base_rates.period_of_time', table_orientation) %>
           </th>
           <th>
             Remark
-            <%= generic_table_theadlink('base_rates.remark', table_orientation) %>
+            <%= generic_index_theadlink('base_rates.remark', table_orientation) %>
           </th>
           <th>
             Start of Effectivity
-            <%= generic_table_theadlink('base_rates.start_of_effectivity', table_orientation) %>
+            <%= generic_index_theadlink('base_rates.start_of_effectivity', table_orientation) %>
           </th>
           <th>
             End of Effectivity
-            <%= generic_table_theadlink('base_rates.end_of_effectivity', table_orientation) %>
+            <%= generic_index_theadlink('base_rates.end_of_effectivity', table_orientation) %>
           </th>
           <th>
             Date Created
-            <%= generic_table_theadlink('base_rates.created_at', table_orientation) %>
+            <%= generic_index_theadlink('base_rates.created_at', table_orientation) %>
           </th>
           <th>
             Last Updated
-            <%= generic_table_theadlink('base_rates.updated_at', table_orientation) %>
+            <%= generic_index_theadlink('base_rates.updated_at', table_orientation) %>
           </th>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
@@ -81,7 +81,7 @@
                   <td><%= base_rate[:created_at] %></td>
                   <td><%= base_rate[:updated_at] %></td>
                   <td class="actions">
-                    <%= generic_table_actions(base_rate[:id]) %>
+                    <%= generic_index_actions(base_rate[:id]) %>
                   </td>
                 </tr>
             <% end %>
@@ -89,7 +89,7 @@
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@base_rates) %>
+  <%= generic_index_footer(@base_rates) %>
 </section>

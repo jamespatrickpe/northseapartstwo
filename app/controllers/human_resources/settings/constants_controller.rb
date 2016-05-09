@@ -1,7 +1,7 @@
 class HumanResources::Settings::ConstantsController < HumanResources::SettingsController
 
   def index
-    query = generic_table_aggregated_queries('constants','constants.created_at')
+    query = generic_index_aggregated_queries('constants','constants.created_at')
     begin
       @constants = Constant
                        .where("(constants.id LIKE ? OR " +

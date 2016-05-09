@@ -1,15 +1,15 @@
 <section class='small-10 columns'>
-  <%= preheader_generic_table('Place or the name of the place where an entity may be reached','Addresses') %>
+  <%= preheader_generic_index('Place or the name of the place where an entity may be reached','Addresses') %>
   <% begin %>
-      <table class='generic_table' id='address_table'>
+      <table class='generic_index' id='address_table'>
         <thead>
         <tr>
-          <%= generic_table_theadlink('ID') %>
-          <%= generic_table_theadlink('Latitude') %>
-          <%= generic_table_theadlink('Longitude') %>
-          <%= generic_table_theadlink('Association', 'addressable') %>
-          <%= generic_table_theadlink('Remark') %>
-          <%= generic_table_theadlink_last_head() %>
+          <%= generic_index_theadlink('ID') %>
+          <%= generic_index_theadlink('Latitude') %>
+          <%= generic_index_theadlink('Longitude') %>
+          <%= generic_index_theadlink('Association', 'addressable') %>
+          <%= generic_index_theadlink('Remark') %>
+          <%= generic_index_theadlink_last_head() %>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
         </thead>
@@ -19,19 +19,19 @@
             <tbody>
             <% @addresses.each do |address| %>
                 <tr>
-                  <%= generic_table_id(address) %>
+                  <%= generic_index_id(address) %>
                   <td><%= address[:latitude] %> </td>
                   <td><%= address[:longitude] %> </td>
                   <%= polymorphic_link(address[:addressable_type],address[:addressable_id]) %>
-                  <%= generic_table_remark(address[:remark]) %>
-                  <%= generic_table_last_rows(address) %>
+                  <%= generic_index_remark(address[:remark]) %>
+                  <%= generic_index_last_rows(address) %>
                 </tr>
             <% end %>
             </tbody>
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@addresses) %>
+  <%= generic_index_footer(@addresses) %>
 </section>

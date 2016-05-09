@@ -1,42 +1,42 @@
 <section class='small-10 columns'>
   <%= generic_title('Attendances','Period of Presence of an Employee') %>
-  <%= generic_table_search %>
+  <%= generic_index_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
-      <table class='generic_table' id='attendances_table'>
+      <table class='generic_index' id='attendances_table'>
         <thead>
         <tr>
           <th>
             Attendance ID
-            <%= generic_table_theadlink('attendances.id', table_orientation) %>
+            <%= generic_index_theadlink('attendances.id', table_orientation) %>
           </th>
           <th>
             Employee
-            <%= generic_table_theadlink('actors.name', table_orientation) %>
+            <%= generic_index_theadlink('actors.name', table_orientation) %>
           </th>
           <th>
             Date of Attendance
-            <%= generic_table_theadlink('attendances.date_of_attendance', table_orientation) %>
+            <%= generic_index_theadlink('attendances.date_of_attendance', table_orientation) %>
           </th>
           <th>
             Time In
-            <%= generic_table_theadlink('attendances.timein', table_orientation) %>
+            <%= generic_index_theadlink('attendances.timein', table_orientation) %>
           </th>
           <th>
             Time Out
-            <%= generic_table_theadlink('attendances.timeout', table_orientation) %>
+            <%= generic_index_theadlink('attendances.timeout', table_orientation) %>
           </th>
           <th>
             Remark
-            <%= generic_table_theadlink('attendances.remark', table_orientation) %>
+            <%= generic_index_theadlink('attendances.remark', table_orientation) %>
           </th>
           <th>
             Date Created
-            <%= generic_table_theadlink('attendances.created_at', table_orientation) %>
+            <%= generic_index_theadlink('attendances.created_at', table_orientation) %>
           </th>
           <th>
             Last Updated
-            <%= generic_table_theadlink('attendances.updated_at', table_orientation) %>
+            <%= generic_index_theadlink('attendances.updated_at', table_orientation) %>
           </th>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
@@ -56,7 +56,7 @@
                   <td><%= attendance[:created_at] %></td>
                   <td><%= attendance[:updated_at] %></td>
                   <td class="actions">
-                    <%= generic_table_actions(attendance[:id]) %>
+                    <%= generic_index_actions(attendance[:id]) %>
                   </td>
                 </tr>
             <% end %>
@@ -64,7 +64,7 @@
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@attendances) %>
+  <%= generic_index_footer(@attendances) %>
 </section>

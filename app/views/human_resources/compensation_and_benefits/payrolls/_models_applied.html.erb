@@ -3,7 +3,7 @@
     <div class="generic_content">
       <span class="table-label">Valid Periods of Duty: </span>
       <% if (@valid_periods.present?) %>
-          <table class="generic_table">
+          <table class="generic_index">
             <thead>
             <th>Date Start</th>
             <th>Date End</th>
@@ -27,7 +27,7 @@
     <div class="generic_content">
       <span class="table-label">Base Rates applied to Attendance Scheme:</span>
       <% if (@base_rates_applied_to_attendance_scheme.present?) %>
-          <table class="generic_table">
+          <table class="generic_index">
             <thead>
             <th>Original Start</th>
             <th>Original End</th>
@@ -65,7 +65,7 @@
           <%
              aggregated_total = 0
           %>
-          <table class="generic_table">
+          <table class="generic_index">
             <thead>
             <th>Original Start</th>
             <th>Original End</th>
@@ -128,7 +128,7 @@
     <div class="generic_content">
       <span class="table-label">Lump Adjustments Applied:</span>
       <% if (@selected_lump_adjustments.present?) %>
-          <table class="generic_table">
+          <table class="generic_index">
             <thead>
             <tr>
               <th>Date</th>
@@ -175,7 +175,7 @@
     <div class="generic_content">
       <span class="table-label">Vales Applied:</span>
       <% if (@selected_vales.present?) %>
-          <table class="generic_table">
+          <table class="generic_index">
             <thead>
             <tr>
               <th>Original Date</th>

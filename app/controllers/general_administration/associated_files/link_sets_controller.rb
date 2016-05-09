@@ -1,7 +1,7 @@
 class GeneralAdministration::LinkSetsController < GeneralAdministrationController
 
   def index
-    @link_sets = initialize_generic_table(LinkSet)
+    @link_sets = initialize_generic_index(LinkSet)
     render_index
   end
 

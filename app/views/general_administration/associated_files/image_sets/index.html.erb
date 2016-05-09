@@ -1,14 +1,14 @@
 <section class='small-10 columns'>
-  <%= preheader_generic_table('Pictures of Assets') %>
+  <%= preheader_generic_index('Pictures of Assets') %>
   <% begin %>
-      <table class='generic_table' id='image_set_table'>
+      <table class='generic_index' id='image_set_table'>
         <thead>
         <tr>
-          <%= generic_table_theadlink('ID') %>
-          <%= generic_table_theadlink('Image') %>
-          <%= generic_table_theadlink('Association', 'imagesetable') %>
-          <%= generic_table_theadlink('Remark') %>
-          <%= generic_table_theadlink_last_head() %>
+          <%= generic_index_theadlink('ID') %>
+          <%= generic_index_theadlink('Image') %>
+          <%= generic_index_theadlink('Association', 'imagesetable') %>
+          <%= generic_index_theadlink('Remark') %>
+          <%= generic_index_theadlink_last_head() %>
         </tr>
         </thead>
         <% if @image_sets.empty? == true %>
@@ -17,7 +17,7 @@
             <tbody>
             <% @image_sets.each do |image_set| %>
                 <tr>
-                  <%= generic_table_id(image_set)%>
+                  <%= generic_index_id(image_set)%>
                   <td style="background-image: url( '<%= image_set.picture.url %>' ); border: solid #808080 thick; background-position: center;">
                     <a target="_blank"
                        class="show_panel_small_button"
@@ -25,15 +25,15 @@
                       <%= image_set[:picture] %></a>
                   </td>
                   <%= polymorphic_link(image_set[:imagesetable_type],image_set[:imagesetable_id]) %>
-                  <%= generic_table_remark(image_set[:remark]) %>
-                  <%= generic_table_last_rows(image_set) %>
+                  <%= generic_index_remark(image_set[:remark]) %>
+                  <%= generic_index_last_rows(image_set) %>
                 </tr>
             <% end %>
             </tbody>
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@image_sets) %>
+  <%= generic_index_footer(@image_sets) %>
 </section>

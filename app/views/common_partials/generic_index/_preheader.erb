@@ -1,3 +1,35 @@
+<%= generic_title(subtitle,title) %>
+
+<div style="float: right; width: 5%;">
+
+  <%
+     view_mode = Hash.new()
+     view_mode["orientation"] = ""
+     view_mode["symbol"] = ""
+
+     if flash[controller_name + "_view_mode"] == "table"
+       view_mode["orientation"] = "cell"
+       view_mode["symbol"] = '&#x0229E;'
+     else
+       view_mode["orientation"] = "table"
+       view_mode["symbol"] = '&#x02261;'
+     end
+  %>
+
+  <%=
+      link_to(
+              view_mode["symbol"].html_safe,
+              {
+                      :action => 'index',
+                      :view_mode => view_mode["orientation"]
+              },
+              class: "button postfix"
+      )
+
+  %>
+
+</div>
+
 <%= form_tag("",
              method: :get,
              class: "search_form",
@@ -8,7 +40,7 @@
         <%= text_field_tag( "search_field",
                             value=nil,
                             options = {id: controller.controller_name+"_search_input",
-                                       class: 'generic_table_search_field',
+                                       class: 'generic_index_search_field',
                                        placeholder: (("Search in " + controller.controller_name.capitalize).to_s.gsub('_',' ')),
                                        :"data-parsley-trigger" => "keyup",
                                        :"data-parsley-minlength"=>"3" ,
@@ -36,6 +68,7 @@
        order_parameters = controller.controller_name + '_' + 'order_parameter'
        order_orientation = controller.controller_name + '_' + 'order_orientation'
        current_limit = controller.controller_name + '_' + 'current_limit'
+       view_mode = controller.controller_name + '_' + 'view_mode'
        if (flash[search_field].empty? == false)
     %>
         <div class="search_query_remark">
@@ -53,8 +86,4 @@
         serviceUrl: window.location.pathname + '/search_suggestions',
         minChars: 3
     });
-</script>
-
-<script type="text/javascript">
-
 </script>

@@ -1,14 +1,14 @@
 <section class='small-10 columns'>
-  <%= preheader_generic_table('Collection of Addresses, Telephone Numbers and URL\'s for contacting entities within the system','Contact Details') %>
+  <%= preheader_generic_index('Collection of Addresses, Telephone Numbers and URL\'s for contacting entities within the system','Contact Details') %>
   <% begin %>
-      <table class='generic_table' id='digital_table'>
+      <table class='generic_index' id='digital_table'>
         <thead>
         <tr>
           <th>Type</th>
           <th>Name</th>
           <th>Details</th>
-          <%= generic_table_theadlink('Remark') %>
-          <%= generic_table_theadlink_last_head() %>
+          <%= generic_index_theadlink('Remark') %>
+          <%= generic_index_theadlink_last_head() %>
         </tr>
         </thead>
         <% if @contact_details.empty? == true %>
@@ -47,7 +47,7 @@
                         controller_link = general_administration_contact_details_telephones_path
                       end
 
-                      generic_table_last_rows(contact_detail, controller_link)
+                      generic_index_last_rows(contact_detail, controller_link)
                   %>
 
 
@@ -57,9 +57,9 @@
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@contact_details) %>
+  <%= generic_index_footer(@contact_details) %>
 
   <hr style="visibility: hidden">
 

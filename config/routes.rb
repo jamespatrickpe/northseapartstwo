@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  concern :generic_table do
+  concern :generic_index do
     get :search_suggestions
   end
 
@@ -27,7 +27,7 @@ Rails.application.routes.draw do
       get 'employee_profile/index' => 'employee_profile#index'
       resources :employees, :duty_statuses, :biodata do
         collection do
-          concerns :generic_table
+          concerns :generic_index
         end
       end
     end
@@ -39,7 +39,7 @@ Rails.application.routes.draw do
       get 'leaves/check_leave_date_if_overlap' => 'leaves#check_leave_date_if_overlap'
       resources :lump_adjustments, :base_rates, :vales, :vale_adjustments, :institutional_adjustments, :payrolls, :payroll_settings, :leaves, :loans, :loan_payments do
         collection do
-          concerns :generic_table
+          concerns :generic_index
         end
       end
     end
@@ -53,7 +53,7 @@ Rails.application.routes.draw do
       match '/branch_attendance_sheet/process_branch_attendance_sheet', to: 'branch_attendance_sheet#process_branch_attendance_sheet', via: [:post]
       resources :rest_days, :attendances, :regular_work_periods do
         collection do
-          concerns :generic_table
+          concerns :generic_index
         end
       end
     end
@@ -63,7 +63,7 @@ Rails.application.routes.draw do
       get '/holidays/check_unique_holiday_date' => 'holidays#check_unique_holiday_date'
       resources :constants, :holidays, :holiday_types do
         collection do
-          concerns :generic_table
+          concerns :generic_index
         end
       end
     end
@@ -101,14 +101,14 @@ Rails.application.routes.draw do
     get 'permissions/index' => 'permissions#index'
     resources :permissions do
       collection do
-        concerns :generic_table
+        concerns :generic_index
       end
     end
 
     get 'accesses/index' => 'accesses#index'
     resources :accesses do
       collection do
-        concerns :generic_table
+        concerns :generic_index
       end
     end
   end
@@ -118,7 +118,7 @@ Rails.application.routes.draw do
     get 'expenses/index' => 'expenses#index'
     resources :expenses do
       collection do
-        concerns :generic_table
+        concerns :generic_index
       end
     end
   end

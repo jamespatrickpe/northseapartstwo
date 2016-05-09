@@ -1,7 +1,7 @@
 class GeneralAdministration::ContactDetails::TelephonesController < GeneralAdministration::ContactDetailsController
 
   def index
-    @telephones = initialize_generic_table(Telephone, [:telephonable])
+    @telephones = initialize_generic_index(Telephone, [:telephonable])
     render_index
   end
 

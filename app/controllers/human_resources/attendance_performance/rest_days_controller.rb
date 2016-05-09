@@ -1,7 +1,7 @@
 class HumanResources::AttendancePerformance::RestDaysController < HumanResources::AttendancePerformanceController
 
   def index
-    query = generic_table_aggregated_queries('rest_days','rest_days.created_at')
+    query = generic_index_aggregated_queries('rest_days','rest_days.created_at')
     begin
       @rest_days = RestDay
                        .includes(employee: [:actor])

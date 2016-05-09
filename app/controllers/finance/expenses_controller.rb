@@ -1,7 +1,7 @@
 class Finance::ExpensesController < FinanceController
 
   def index
-    query = generic_table_aggregated_queries('expenses','expenses.created_at')
+    query = generic_index_aggregated_queries('expenses','expenses.created_at')
     begin
       @expenses = Expense
                       .where("expenses.amount LIKE ? OR " +

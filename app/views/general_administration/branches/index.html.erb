@@ -1,13 +1,13 @@
 <section class='small-10 columns'>
-  <%= preheader_generic_table('Branches','Location-wise Business Subdivisions') %>
+  <%= preheader_generic_index('Branches','Location-wise Business Subdivisions') %>
   <% begin %>
-      <table class="generic_table" id="branches_table">
+      <table class="generic_index" id="branches_table">
         <thead>
         <tr>
-          <%= generic_table_theadlink('Branch ID','branches.id') %>
-          <%= generic_table_theadlink('Branch Name','branches.name') %>
-          <%= generic_table_theadlink('Date Created','branches.created_at') %>
-          <%= generic_table_theadlink('Last Updated','branches.updated_at') %>
+          <%= generic_index_theadlink('Branch ID','branches.id') %>
+          <%= generic_index_theadlink('Branch Name','branches.name') %>
+          <%= generic_index_theadlink('Date Created','branches.created_at') %>
+          <%= generic_index_theadlink('Last Updated','branches.updated_at') %>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
         </thead>
@@ -22,7 +22,7 @@
                   <td><%= branch[:created_at] %></td>
                   <td><%= branch[:updated_at] %></td>
                   <td class="actions">
-                    <%= generic_table_actions(branch[:id]) %>
+                    <%= generic_index_actions(branch[:id]) %>
                   </td>
                 </tr>
             <% end %>
@@ -30,7 +30,7 @@
         <% end %>
       </table>
   <% rescue => ex%>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@branches) %>
+  <%= generic_index_footer(@branches) %>
 </section>

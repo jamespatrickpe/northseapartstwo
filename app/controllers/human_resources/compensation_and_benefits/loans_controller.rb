@@ -1,7 +1,7 @@
 class HumanResources::CompensationAndBenefits::LoansController < HumanResources::CompensationAndBenefitsController
 
   def index
-    query = generic_table_aggregated_queries('loans','loans.created_at')
+    query = generic_index_aggregated_queries('loans','loans.created_at')
     begin
       @loans = Loan.where("loans.borrower_name LIKE ?",
                           "%#{query[:search_field]}%")

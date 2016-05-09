@@ -19,12 +19,13 @@
  *= require employee_quick_profile
  *= require employee_profile
  *= require generic_form
+ *= require generic_cell
  *= require show_examine
  *= pagination
  *= topbar
  *= sidenavigation
  *= spacers
- *= generic_table
+ *= generic_index
  *= require jquery.qtip.min.css
  *= require_tree .
  *= require_self

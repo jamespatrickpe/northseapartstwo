@@ -1,0 +1,11 @@
+<td>
+  <%= current_model_instance[:created_at].strftime("%m/%d/%Y %T %p") %>
+</td>
+<td>
+  <%= current_model_instance[:updated_at].strftime("%m/%d/%Y %T %p") %>
+</td>
+<td class="actions">
+<%=
+    generic_index_actions( current_model_instance )
+%>
+</td>

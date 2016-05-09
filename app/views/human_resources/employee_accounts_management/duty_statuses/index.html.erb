@@ -1,34 +1,34 @@
 <section class='small-10 columns'>
   <%= generic_title('Duty Statuses','Status Designation of an Employee throughout a Period of Time') %>
-  <%= generic_table_search %>
+  <%= generic_index_search %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
-      <table class="generic_table" id="duty_statuses_table">
+      <table class="generic_index" id="duty_statuses_table">
         <thead>
         <tr>
           <th>
             Duty Status ID
-            <%= generic_table_theadlink('duty_statuses.id', table_orientation) %>
+            <%= generic_index_theadlink('duty_statuses.id', table_orientation) %>
           </th>
           <th>
             Employee
-            <%= generic_table_theadlink('actors.name', table_orientation) %>
+            <%= generic_index_theadlink('actors.name', table_orientation) %>
           </th>
           <th>
             Active
-            <%= generic_table_theadlink('duty_statuses.active', table_orientation) %>
+            <%= generic_index_theadlink('duty_statuses.active', table_orientation) %>
           </th>
           <th>
-            Remark <%= generic_table_theadlink('duty_statuses.remark', table_orientation) %>
+            Remark <%= generic_index_theadlink('duty_statuses.remark', table_orientation) %>
           </th>
           <th>
-            Date of Effectivity <%= generic_table_theadlink('duty_statuses.date_of_implementation', table_orientation) %>
+            Date of Effectivity <%= generic_index_theadlink('duty_statuses.date_of_implementation', table_orientation) %>
           </th>
           <th>
-            Date Created <%= generic_table_theadlink('duty_statuses.created_at', table_orientation) %>
+            Date Created <%= generic_index_theadlink('duty_statuses.created_at', table_orientation) %>
           </th>
           <th>
-            Last Updated <%= generic_table_theadlink('duty_statuses.updated_at', table_orientation) %>
+            Last Updated <%= generic_index_theadlink('duty_statuses.updated_at', table_orientation) %>
           </th>
           <th class="actions" align="center">&nbsp;</th>
         </tr>
@@ -57,7 +57,7 @@
                   <td><%= duty_status[:created_at] %></td>
                   <td><%= duty_status[:updated_at] %></td>
                   <td class="actions">
-                    <%= generic_table_actions(duty_status[:id]) %>
+                    <%= generic_index_actions(duty_status[:id]) %>
                   </td>
                 </tr>
             <% end %>
@@ -65,7 +65,7 @@
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@duty_statuses) %>
+  <%= generic_index_footer(@duty_statuses) %>
 </section>

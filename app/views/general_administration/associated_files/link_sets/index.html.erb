@@ -2,20 +2,20 @@
   <%= generic_title('Link Sets','Show all the link related to a given branches/actors') %>
   <% table_orientation = shift_table_orientation %>
   <% begin %>
-      <table class="generic_table" id="link_sets_table">
+      <table class="generic_index" id="link_sets_table">
         <thead>
         <tr>
           <th>
             Link Set ID
-            <%= generic_table_theadlink('link_sets.id', table_orientation) %>
+            <%= generic_index_theadlink('link_sets.id', table_orientation) %>
           </th>
           <th>
             URL
-            <%= generic_table_theadlink('link_sets.url', table_orientation) %>
+            <%= generic_index_theadlink('link_sets.url', table_orientation) %>
           </th>
           <th>
             Label
-            <%= generic_table_theadlink('link_sets.label', table_orientation) %>
+            <%= generic_index_theadlink('link_sets.label', table_orientation) %>
           </th>
           <th>
             Related
@@ -34,7 +34,7 @@
                   <td><%= link_set[:label] %></td>
                   <td></td>
                   <td class="actions">
-                    <%= generic_table_actions(link_set[:id]) %>
+                    <%= generic_index_actions(link_set[:id]) %>
                   </td>
                 </tr>
             <% end %>
@@ -42,7 +42,7 @@
         <% end %>
       </table>
   <% rescue => ex %>
-      <%= generic_table_error(ex) %>
+      <%= generic_index_error(ex) %>
   <% end %>
-  <%= generic_table_footer(@link_sets) %>
+  <%= generic_index_footer(@link_sets) %>
 </section>
