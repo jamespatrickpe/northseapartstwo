@@ -10,6 +10,7 @@ class FileSet < ActiveRecord::Base
     string :filesetable do
       polymorphic_searchable_representation(filesetable)
     end
+    string :physical_storage
   end
 
   mount_uploader :file, RelatedFileUploader

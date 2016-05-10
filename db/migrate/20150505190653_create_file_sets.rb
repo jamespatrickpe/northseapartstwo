@@ -4,6 +4,7 @@ class CreateFileSets < MainMigration
       common_set_one(t)
       t.string :filesetable_id
       t.string :filesetable_type
+      t.string :physical_storage
       t.string :file, :limit => 512
     end
     primary_key_override(:file_sets.to_s)

@@ -32,6 +32,7 @@ class GeneralAdministration::AssociatedFiles::FileSetsController < GeneralAdmini
         myFile.remove_file
       end
       myFile.file = params[controller_path][:file]
+      myFile[:physical_storage] = params[controller_path][:physical_storage]
       myFile[:filesetable_type] = params[controller_path][:filesetable_type]
       myFile[:filesetable_id] = params[controller_path][:filesetable_id]
       myFile.save!

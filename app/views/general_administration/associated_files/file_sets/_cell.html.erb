@@ -1,9 +1,6 @@
-<button class="tiny button" style="word-break: break-all;" href="<%= result.file.url %>" target="_blank" >
-  <%= result[:file] %>
-</button>
-
-<div><%= result[:id].upcase %></div>
-<div><%= result[:remark] %></div>
+<div><%= link_to result[:file], result.file.url %></div>
 <div><%= polymorphic_link(result[:filesetable_type],result[:filesetable_id]) %></div>
-
+<div><%= result[:id].upcase %></div>
+<div><%= result[:physical_storage] %></div>
+<div><%= result[:remark] %></div>
 <%= generic_index_actions( result ) %>

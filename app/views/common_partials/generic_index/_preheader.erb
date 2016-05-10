@@ -50,7 +50,7 @@
                             value = params[:search_field].present? ? params[:search_field] : nil ,
                             options = {id: controller.controller_name+"_search_input",
                                        class: 'generic_index_search_field',
-                                       placeholder: (("Search in " + controller.controller_name.capitalize).to_s.gsub('_',' ')),
+                                       placeholder: "Search in " + ((controller.controller_name).to_s.gsub('_',' ').titleize),
                                        :"data-parsley-trigger" => "keyup",
                                        :"data-parsley-minlength"=>"3" ,
                                        :"data-parsley-maxlength"=>"64"
@@ -59,13 +59,16 @@
 
       <div class="small-2 columns">
         <select name="current_limit" id="current_limit">
-          <option value="" disabled selected>Limit per Page</option>
-          <option value="10">10</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-          <option value="250">250</option>
-          <option value="500">500</option>
-          <option value="1000">1000</option>
+          <%
+             limit_iterations = [10,50,100,250,500,1000]
+             limit_iterations.each do |iteration|
+          %>
+              <% if params[:current_limit].to_i == iteration %>
+                    <option value="<%= iteration %>" selected><%= iteration %></option>
+              <% else %>
+                    <option value="<%= iteration %>"><%= iteration %></option>
+              <% end %>
+          <% end %>
         </select>
       </div>
 
@@ -78,7 +81,7 @@
                      if head[1] == nil
                        head[1] = head[0].downcase.tr(" ", "_")
                      end
-                  %>
+                   %>
 
                   <% if params[:order_parameter] == head[1] %>
                       <option value="<%= head[1] %>" selected> <%= head[0] %> </option>

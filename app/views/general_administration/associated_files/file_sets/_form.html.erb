@@ -18,6 +18,18 @@
   </a>
   <% end %>
 
+  <%= f.input :physical_storage,
+              :label => "Physical Storage",
+              :as => "string",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:physical_storage],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 64
+                      }
+  %>
+
   <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
   <%= polymorphic_selector(selected_model_instance,'filesetable',f) %>
 </div>

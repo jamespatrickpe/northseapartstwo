@@ -21,7 +21,7 @@ module GenericForm
   end
 
   def initialize_form
-    @title = controller_name
+    @title = controller_name.underscore.humanize
     @subtitle = action_name + " Record"
     @form_location = controller_path + '/form'
     @singular_model_name = controller_name.singularize

@@ -4,8 +4,20 @@
   <%= render :partial => controller_path + '/thead' %>
   <% @head_array = @head_array + [['Created At','created_at',true],['Updated At','updated_at',true]] %>
 
-  <!-- Preaheader -->
+  <!-- Preheader -->
   <%= preheader_generic_index(subtitle) %>
+
+  <!-- Change to Cell for the First Time View if Overflow is Detected -->
+  <script>
+      var hasScrollbar = window.innerWidth > document.documentElement.clientWidth;
+          if (("<%= params[:view_mode] %>" == "") && (hasScrollbar == true))
+          {
+              var pathname = window.location.pathname; // Returns path only
+              var url      = window.location.href;     // Returns full URL
+              window.location.href = window.location.pathname + '?view_mode=cell';
+          }
+
+  </script>
 
   <% begin %>
       <% if flash[controller_name + "_view_mode"] == "cell" %>
@@ -46,9 +58,6 @@
                           $(this).children("ul.button-group").children("li").css('visibility', 'hidden');
                       }
               );
-
-              var hasScrollbar = window.innerWidth > document.documentElement.clientWidth;
-
           </script>
 
       <% else %>

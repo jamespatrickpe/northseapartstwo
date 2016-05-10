@@ -375,6 +375,7 @@ rand(20..50).times do |i|
   chosen_file = ['export_table_1.csv','export_table_2.csv','export_table_3.csv','export_table_4.csv','export_table_5.csv'].sample
   myFileSet[:file] = chosen_file
   myFileSet.remark = Faker::Lorem.sentence
+  myFileSet.physical_storage = Faker::Lorem.word
   myFileSet.filesetable_id = sample[:my_model_id]
   myFileSet.filesetable_type = sample[:my_model]
   myFileSet.save!
