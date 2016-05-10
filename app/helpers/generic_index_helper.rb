@@ -6,9 +6,10 @@ module GenericIndexHelper
                                                                controller_link: controller_link }
   end
 
-  def generic_index_theadlink(head_title, order_parameter = head_title.downcase.tr(" ", "_") )
+  def generic_index_theadlink(head_title, order_parameter = head_title.downcase.tr(" ", "_"), arrow = true )
     render(:partial => 'common_partials/generic_index/theadlink', :locals => {:head_title => head_title,
-                                                                              :order_parameter => order_parameter})
+                                                                              :order_parameter => order_parameter,
+                                                                              :arrow => arrow})
   end
 
   def generic_index_footer(result_set)

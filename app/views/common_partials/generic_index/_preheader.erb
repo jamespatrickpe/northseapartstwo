@@ -30,15 +30,24 @@
 
 </div>
 
+<%
+   search_field = controller.controller_name + '_' + 'search_field'
+   order_parameters = controller.controller_name + '_' + 'order_parameter'
+   order_orientation = controller.controller_name + '_' + 'order_orientation'
+   current_limit = controller.controller_name + '_' + 'current_limit'
+   view_mode = controller.controller_name + '_' + 'view_mode'
+%>
+
 <%= form_tag("",
              method: :get,
              class: "search_form",
              :"data-parsley-validate" => "") do %>
 
     <div class="row collapse" style="float: left">
+
       <div class="small-5 columns">
         <%= text_field_tag( "search_field",
-                            value=nil,
+                            value = params[:search_field].present? ? params[:search_field] : nil ,
                             options = {id: controller.controller_name+"_search_input",
                                        class: 'generic_index_search_field',
                                        placeholder: (("Search in " + controller.controller_name.capitalize).to_s.gsub('_',' ')),
@@ -47,6 +56,7 @@
                                        :"data-parsley-maxlength"=>"64"
                             }) %>
       </div>
+
       <div class="small-2 columns">
         <select name="current_limit" id="current_limit">
           <option value="" disabled selected>Limit per Page</option>
@@ -58,26 +68,48 @@
           <option value="1000">1000</option>
         </select>
       </div>
+
+      <div class="small-2 columns" >
+        <select name="order_parameter">
+          <% @head_array.each do |head| %>
+              <% if head.last == true %>
+
+                  <%
+                     if head[1] == nil
+                       head[1] = head[0].downcase.tr(" ", "_")
+                     end
+                  %>
+
+                  <% if params[:order_parameter] == head[1] %>
+                      <option value="<%= head[1] %>" selected> <%= head[0] %> </option>
+                  <% else %>
+                      <option value="<%= head[1] %>"> <%= head[0] %> </option>
+                  <% end %>
+
+              <% end %>
+          <% end %>
+        </select>
+      </div>
+
+
+
+      <div class="small-1 columns" >
+        <select name="order_orientation">
+
+          <!-- Left Here -->
+
+          <option value="ASC">ASC</option>
+          <option value="DESC">DESC</option>
+        </select>
+      </div>
+
       <div class="small-1 columns"><input type="submit" class="button postfix" value="&#128269;" /></div>
-      <div class="small-4 columns"></div>
+
+      <div class="small-1 columns"></div>
+
     </div>
 
     <br><br><br>
-    <%
-       search_field = controller.controller_name + '_' + 'search_field'
-       order_parameters = controller.controller_name + '_' + 'order_parameter'
-       order_orientation = controller.controller_name + '_' + 'order_orientation'
-       current_limit = controller.controller_name + '_' + 'current_limit'
-       view_mode = controller.controller_name + '_' + 'view_mode'
-       if (flash[search_field].empty? == false)
-    %>
-        <div class="search_query_remark">
-          SEARCHING FOR "<%= flash[search_field] %>"
-          WITH "<%= flash[order_parameters] %>"
-          ORDERED BY "<%= flash[order_orientation] %>"
-          AT <%= flash[current_limit] %> PER PAGE
-        </div>
-    <% end %>
 
 <% end %>
 

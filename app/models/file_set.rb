@@ -12,10 +12,6 @@ class FileSet < ActiveRecord::Base
     end
   end
 
-  searchable do
-    string :file
-  end
-
   mount_uploader :file, RelatedFileUploader
   validates :file,
             :file_size => {

@@ -9,6 +9,7 @@ module BaseConcerns extend ActiveSupport::Concern
 
     searchable do
       string :id
+      string :sortable_class
       time :created_at
       time :updated_at
       text :id, :created_at, :updated_at
@@ -21,6 +22,10 @@ module BaseConcerns extend ActiveSupport::Concern
       elsif attribute.class == Branch
         attribute.name
       end
+    end
+
+    def sortable_class
+      self.class
     end
 
   end

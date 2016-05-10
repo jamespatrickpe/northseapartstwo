@@ -1,34 +1,14 @@
 <section class='small-10 columns'>
+
+  <!-- Set Thead Links -->
+  <%= render :partial => controller_path + '/thead' %>
+  <% @head_array = @head_array + [['Created At','created_at',true],['Updated At','updated_at',true]] %>
+
+  <!-- Preaheader -->
   <%= preheader_generic_index(subtitle) %>
 
   <% begin %>
       <% if flash[controller_name + "_view_mode"] == "cell" %>
-          <div class="row collapse" style="float: left">
-            <div class="small-2 columns">
-              <select>
-                <% @head_array.each do |head| %>
-                    <% if head.kind_of?(Array) %>
-                        <option value="<%= head[1] %>"> <%= head[0] %> </option>
-                    <% else %>
-                        <option> <%= head %> </option>
-                    <% end %>
-                <% end %>
-              </select>
-            </div>
-
-            <div class="small-1 columns">
-              <select>
-                <option value="ASC">ASC</option>
-                <option value="DESC">DESC</option>
-              </select>
-            </div>
-
-            <div class="small-1 columns"><input type="submit" class="button postfix" value="&#128269;" />
-            </div>
-
-            <div class="small-8 columns"></div>
-          </div>
-          <br><br>
 
           <div id="current_freewall">
             <% @result_set.each do |result| %>
@@ -84,7 +64,6 @@
                     <%= generic_index_theadlink(head) %>
                 <% end %>
             <% end %>
-            <%= generic_index_theadlink_last_head() %>
 
             </thead>
             <% if @result_set.empty? == true %>
