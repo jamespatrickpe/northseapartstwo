@@ -32,6 +32,7 @@ class GeneralAdministration::AssociatedFiles::ImageSetsController < GeneralAdmin
         myImage.remove_picture
       end
       myImage.picture = params[controller_path][:picture]
+      myImage[:priority] = params[controller_path][:priority]
       myImage[:imagesetable_type] = params[controller_path][:imagesetable_type]
       myImage[:imagesetable_id] = params[controller_path][:imagesetable_id]
       myImage.save!

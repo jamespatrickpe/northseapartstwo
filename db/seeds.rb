@@ -385,7 +385,9 @@ end
 rand(20..50).times do |i|
   sample = random_fileable_model
   myImageSet = ImageSet.new
-  myImageSet[:picture] = ['file_01.jpg','file_02.png','file_03.gif','file_04.jpg','file_05.jpg'].sample
+  chosen_file = ['file_01.jpg','file_02.jpg','file_03.gif','file_04.jpg','file_05.jpg'].sample
+  myImageSet[:picture] = chosen_file
+  myImageSet.priority = rand(1..20)
   myImageSet.remark = Faker::Lorem.sentence
   myImageSet.imagesetable_id = sample[:my_model_id]
   myImageSet.imagesetable_type = sample[:my_model]
@@ -406,12 +408,13 @@ end
 # Related Associative Sets
 rand(20..50).times do |i|
 
-  sample = random_associable_model
+  sample_one = random_associable_model
+  sample_two = random_associable_model
   myAssociation = Association.new
-  myAssociation.model_one_type = sample[:current_model]
-  myAssociation.model_one_id = sample[:current_id]
-  myAssociation.model_two_type = sample[:current_model]
-  myAssociation.model_two_id = sample[:current_id]
+  myAssociation.model_one_type = sample_one[:current_model]
+  myAssociation.model_one_id = sample_one[:current_id]
+  myAssociation.model_two_type = sample_two[:current_model]
+  myAssociation.model_two_id = sample_two[:current_id]
   myAssociation.remark = Faker::Lorem.word
   myAssociation.save!
 

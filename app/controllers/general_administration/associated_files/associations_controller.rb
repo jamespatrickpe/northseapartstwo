@@ -1,7 +1,7 @@
-class GeneralAdministration::AssociatedFiles::AssociaitionsController < GeneralAdministration::AssociatedFilesController
+class GeneralAdministration::AssociatedFiles::AssociationsController < GeneralAdministration::AssociatedFilesController
 
   def index
-    @associations = initialize_generic_index(Association)
+    @associations = initialize_generic_index(Association, 'Model Relations')
   end
 
   def search_suggestions

@@ -1,0 +1,10 @@
+<%= generic_index_id(result)%>
+<td>
+  <%= polymorphic_link(result[:model_one_type],result[:model_one_id]) %>
+</td>
+
+<td>
+  <%= polymorphic_link(result[:model_two_type],result[:model_two_id]) %>
+</td>
+<%= generic_index_remark(result[:remark]) %>
+<%= generic_index_last_rows(result) %>

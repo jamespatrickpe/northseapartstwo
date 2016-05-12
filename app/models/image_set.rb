@@ -19,8 +19,9 @@ class ImageSet < ActiveRecord::Base
             }
 
   validates :picture, :presence => true
-  validates_numericality_of :priority
   validates_integrity_of :picture
   validates_processing_of :picture
+
+  validates_numericality_of :priority
 
 end

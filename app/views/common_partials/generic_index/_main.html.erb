@@ -7,18 +7,6 @@
   <!-- Preheader -->
   <%= preheader_generic_index(subtitle) %>
 
-  <!-- Change to Cell for the First Time View if Overflow is Detected -->
-  <script>
-      var hasScrollbar = window.innerWidth > document.documentElement.clientWidth;
-          if (("<%= params[:view_mode] %>" == "") && (hasScrollbar == true))
-          {
-              var pathname = window.location.pathname; // Returns path only
-              var url      = window.location.href;     // Returns full URL
-              window.location.href = window.location.pathname + '?view_mode=cell';
-          }
-
-  </script>
-
   <% begin %>
       <% if flash[controller_name + "_view_mode"] == "cell" %>
 
@@ -33,7 +21,7 @@
           <script>
               $( function(){
                   var wall = new Freewall("#current_freewall");
-                  current_cell_height = (($( ".item_cell" ).height())*1.25).toFixed(1);
+                  current_cell_height = (($( ".item_cell" ).height())*1.4).toFixed(1);
                   wall.reset({
                       cacheSize: true,
                       draggable: true,
@@ -92,5 +80,21 @@
       <%= generic_index_error(ex) %>
   <% end %>
   <%= generic_index_footer(@result_set) %>
+
+  <!-- Change to Cell for the First Time View if Overflow is Detected -->
+  <script>
+      $( document ).ready(function()
+      {
+          var hasScrollbar = window.innerWidth > document.documentElement.clientWidth;
+          if (("<%= params[:view_mode] %>" == "") && (hasScrollbar == true))
+          {
+              var pathname = window.location.pathname; // Returns path only
+              var url      = window.location.href;     // Returns full URL
+              window.location.href = window.location.pathname + '?view_mode=cell';
+          }
+
+      });
+  </script>
+
 
 </section>
