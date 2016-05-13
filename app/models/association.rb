@@ -12,4 +12,8 @@ class Association < ActiveRecord::Base
 
   validates :model_one_id, :model_one_type, :model_two_id, :model_two_type, :presence => true
 
+  def self.allowed_associations
+    [Actor, Vehicle, Branch, FileSet, ImageSet, LinkSet]
+  end
+
 end

@@ -7,7 +7,7 @@ class ImageSet < ActiveRecord::Base
 
   searchable do
     string :picture
-    string :imagesetable do
+    text :imagesetable do
       polymorphic_searchable_representation(imagesetable)
     end
   end

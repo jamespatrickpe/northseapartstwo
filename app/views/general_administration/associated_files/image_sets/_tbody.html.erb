@@ -1,12 +1,4 @@
 <%= generic_index_id(result)%>
-<td>
-  <%= result[:priority] %>
-</td>
-<td>
-  <%= polymorphic_link(result[:imagesetable_type],result[:imagesetable_id]) %>
-</td>
-<%= generic_index_remark(result[:remark]) %>
-<%= generic_index_last_rows(result) %>
 
 <td style="background-image: url( '<%= result.picture.url %>' ); border: solid #808080 thick; background-position: center;">
   <a target="_blank"
@@ -14,3 +6,15 @@
      href= <%= result.picture.url %> >
     <%= result[:picture] %></a>
 </td>
+
+<td>
+  <%= result[:priority] %>
+</td>
+
+<td>
+  <%= polymorphic_link(result[:imagesetable_type],result[:imagesetable_id]) %>
+</td>
+
+<%= generic_index_remark(result[:remark]) %>
+<%= generic_index_last_rows(result) %>
+

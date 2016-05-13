@@ -36,7 +36,7 @@ class GeneralAdministration::AssociatedFiles::AssociationsController < GeneralAd
     rescue => ex
       index_error(ex)
     end
-    redirect_to_index
+    # redirect_to_index
   end
 
   def create
