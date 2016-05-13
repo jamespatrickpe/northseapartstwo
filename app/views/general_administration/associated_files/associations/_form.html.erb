@@ -1,37 +1,7 @@
 <div class="large-6 columns">
 
-  <% action_name == 'new' ? file_requirement = true : file_requirement = false %>
-
-  <%= f.input :file,
-              required: file_requirement,
-              :as => :file,
-              :label => "File",
-              label_html: { class: 'form_label' },
-              :input_html =>
-                      {
-                              :value => selected_model_instance[:file]
-                      }
-  %>
-
-  <% if action_name != 'new' %>
-  <a class='tiny button' href="<%= selected_model_instance.file.url %>" target="_blank">
-    <%= selected_model_instance[:file] %>
-  </a>
-  <% end %>
-
-  <%= f.input :physical_storage,
-              required: false,
-              :label => "Physical Storage",
-              :as => "string",
-              label_html: { class: 'form_label' },
-              :input_html =>
-                      {
-                              :value => selected_model_instance[:physical_storage],
-                              :'data-parsley-trigger' => 'keyup',
-                              :'data-parsley-maxlength' => 64
-                      }
-  %>
+  <%= polymorphic_selector(nil,'model_one',f) %>
+  <%= polymorphic_selector(nil,'model_two',f) %>
 
   <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
-  <%= polymorphic_selector(selected_model_instance,'filesetable',f) %>
 </div>

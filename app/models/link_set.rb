@@ -7,7 +7,7 @@ class LinkSet < ActiveRecord::Base
   belongs_to :linksetable, polymorphic: true
 
   searchable do
-    string :linksetable do
+    text :linksetable do
       polymorphic_searchable_representation(linksetable)
     end
   end

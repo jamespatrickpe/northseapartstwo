@@ -1,29 +1,35 @@
 <div>
 
-  <% models = main_model.class.all_polymorphic_types(polymorphic_attribute.to_sym).map(&:to_s) %>
+  <%
+     if main_model != nil
+       models = main_model.class.all_polymorphic_types(polymorphic_attribute.to_sym)
+     else
+       models = Association.allowed_associations
+     end
+  %>
 
-  <div class="form-block" style="float: left; width: 30%;">
-    <div class="form_label">Type :</div>
-    <select name='<%= (controller_path + '[' + polymorphic_attribute + '_type]') %>'
-            class=''
-            id='<%= (controller_path + '_' + polymorphic_attribute + '_type').gsub("/", "_") %>'
-            required="required">
-      <option value="" disabled selected>Select Model</option>
-      <% models.each do |model|%>
-          <option value=<%= model %>><%= model %></option>
-      <% end %>
-    </select>
-  </div>
-
-  <div class="form-block" style="float: left; width: 70%; padding: 10px;">
-    <div class="form_label">Name / Representation</div>
+  <div class="form-block" style="float: left; width: 50%;">
+    <div class="form_label"> Associative Model </div>
     <select name='<%= (controller_path + '[' + polymorphic_attribute + '_id]') %>'
             class=''
             id='<%= (controller_path + '_' + polymorphic_attribute + '_id').gsub("/", "_") %>'
             required="required">
       <option value="" disabled selected>Select Model</option>
+      <% models.each do |allowable_model|%>
+          <%
+             instance_models = allowable_model.all()
+          %>
+          <% instance_models.each do |model| %>
+              <option value=<%= model.id %> data-modeltype="<%= allowable_model %>" ><%= model.main_representation %></option>
+          <% end %>
+      <% end %>
     </select>
   </div>
+
+  <input id="<%= (controller_path + '_' + polymorphic_attribute + '_type').gsub("/", "_") %>"
+         name="<%= (controller_path + '[' + polymorphic_attribute + '_type]') %>"
+         type="hidden"
+         value="">
 
 </div>
 
@@ -36,64 +42,25 @@
     model_selector_id = ('#' + '<%= controller_path + '_' + polymorphic_attribute + '_id' %>').replace("/", "_").replace("/", "_");
 
     // Initialize Selectize for Type
-    selectize_model = $(model_selector_type).selectize({
-        sortField: 'text'
+    var current_selectize = $(model_selector_id).selectize({
+        onInitialize: function () {
+            var s = this;
+            this.revertSettings.$children.each(function () {
+                $.extend(s.options[this.value], $(this).data());
+            });
+        },
+        onChange: function (value) {
+            var option = this.options[value];
+            $(model_selector_type).val( option.modeltype );
+        }
     });
-
-    <% main_attributable_type = (polymorphic_attribute + "_type").to_sym %>
-    <% main_attributable_id = (polymorphic_attribute + "_id").to_sym %>
-    selectize_model[0].selectize.setValue('<%= main_model[main_attributable_type] %>');
-
-    try
-    {
-        populate_selectize_id();
-    }
-    catch(err) {}
-
-    // On Change
-    $(model_selector_type.replace("/", "_")).change( function(){
-        $(model_selector_id).selectize()[0].selectize.destroy();
-        populate_selectize_id();
-     });
-
-    function populate_selectize_id()
-    {
-        // Get JSON
-        path = '/' + '<%= controller_path + '/get_model_id?query=' %>' + $(model_selector_type).val();
-        $.getJSON( path, function( data ) {
-
-            // Convert JSON into Array
-            options_array = []
-            $.each( data, function( key, val ) {
-                options_array.push(
-                        { id: val.id, title: val.name }
-                );
-            });
-
-            // Initialize ID Field
-            selectize_id = $(model_selector_id).selectize({
-                sortField: 'text',
-                labelField: "title",
-                valueField: "id",
-                options: options_array
-            });
-
-            try
-            {
-                selectize_id[0].selectize.setValue('<%= main_model[main_attributable_id] %>');
-            }
-            catch(err) {}
-
-        });
-    }
 
     // Disable if Show
     if ('<%= action_name %>' == 'show')
     {
         try
         {
-            selectize_model[0].selectize.disable();
-            selectize_id[0].selectize.disable();
+            current_selectize[0].selectize.disable();
         }
         catch(err)
         {}

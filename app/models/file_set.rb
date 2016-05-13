@@ -7,7 +7,7 @@ class FileSet < ActiveRecord::Base
 
   searchable do
     string :file
-    string :filesetable do
+    text :filesetable do
       polymorphic_searchable_representation(filesetable)
     end
     string :physical_storage
