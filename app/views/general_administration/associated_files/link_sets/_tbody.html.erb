@@ -1,15 +1,12 @@
 <%= generic_index_id(result)%>
-
-<td style="word-break: break-all;">
-    <a style="word-break: break-all;" href="<%= result.file.url %>" target="_blank" >
-      <%= result[:file] %>
-    </a>
+<td>
+  <a href="<%= result[:url] %>">
+    <%= result[:url] %>
+  </a>
 </td>
 <td>
-  <%= polymorphic_link(result[:filesetable_type],result[:filesetable_id]) %>
+  <%= polymorphic_link(result[:linksetable_type],result[:linksetable_id]) %>
 </td>
 
-
 <%= generic_index_remark(result[:remark]) %>
-
 <%= generic_index_last_rows(result) %>

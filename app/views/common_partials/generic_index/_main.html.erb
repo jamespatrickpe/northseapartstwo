@@ -51,9 +51,8 @@
       <% else %>
 
           <table class='generic_index'>
+
             <thead>
-
-
             <% @head_array.each do |head| %>
                 <% if head.kind_of?(Array) %>
                     <%= generic_index_theadlink(head[0],head[1]) %>
@@ -61,8 +60,8 @@
                     <%= generic_index_theadlink(head) %>
                 <% end %>
             <% end %>
-
             </thead>
+
             <% if @result_set.empty? == true %>
                 <%= no_records_found %>
             <% else %>
@@ -72,6 +71,7 @@
                 <% end %>
                 </tbody>
             <% end %>
+
           </table>
 
       <% end %>

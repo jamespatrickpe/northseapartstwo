@@ -13,8 +13,8 @@ module GenericIndex
   end
 
   # Get the proper set of queries according to defaults and priority
-  def generic_index_aggregated_queries( controller_name, mysql_created_at, my_order = 'DESC', my_limit = '10')
-    order_parameter = aggregated_search_queries(params[:order_parameter], controller_name, 'order_parameter' , mysql_created_at)
+  def generic_index_aggregated_queries( controller_name, default_order_paremeter, my_order = 'DESC', my_limit = '10')
+    order_parameter = aggregated_search_queries(params[:order_parameter], controller_name, 'order_parameter' , default_order_paremeter)
     order_orientation = aggregated_search_queries(params[:order_orientation], controller_name, 'order_orientation', my_order)
     current_limit = aggregated_search_queries(params[:current_limit], controller_name, 'current_limit', my_limit)
     search_field = aggregated_search_queries(params[:search_field], controller_name, 'search_field','')

@@ -83,7 +83,7 @@
                      end
                    %>
 
-                  <% if params[:order_parameter] == head[1] %>
+                  <% if flash[controller_name + '_order_parameter'] == head[1] %>
                       <option value="<%= head[1] %>" selected> <%= head[0] %> </option>
                   <% else %>
                       <option value="<%= head[1] %>"> <%= head[0] %> </option>
@@ -94,15 +94,15 @@
         </select>
       </div>
 
-
-
       <div class="small-1 columns" >
         <select name="order_orientation">
-
-          <!-- Left Here -->
-
-          <option value="ASC">ASC</option>
-          <option value="DESC">DESC</option>
+          <% if flash[controller_name + '_order_orientation'] == "ASC" %>
+              <option value="ASC" selected>ASC</option>
+              <option value="DESC">DESC</option>
+          <% elsif flash[controller_name + '_order_orientation'] == "DESC" %>
+              <option value="ASC" >ASC</option>
+              <option value="DESC" selected>DESC</option>
+          <% end %>
         </select>
       </div>
 

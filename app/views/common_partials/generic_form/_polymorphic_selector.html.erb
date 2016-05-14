@@ -1,19 +1,22 @@
 <div>
 
   <%
-     if main_model != nil
+     if main_model.class != Association
        models = main_model.class.all_polymorphic_types(polymorphic_attribute.to_sym)
      else
        models = Association.allowed_associations
      end
+
+     current_type = (polymorphic_attribute + '_type').to_sym
+     current_id = (polymorphic_attribute + '_id').to_sym
+
   %>
 
   <div class="form-block" style="float: left; width: 50%;">
     <div class="form_label"> Associative Model </div>
     <select name='<%= (controller_path + '[' + polymorphic_attribute + '_id]') %>'
             class=''
-            id='<%= (controller_path + '_' + polymorphic_attribute + '_id').gsub("/", "_") %>'
-            required="required">
+            id='<%= (controller_path + '_' + polymorphic_attribute + '_id').gsub("/", "_") %>'>
       <option value="" disabled selected>Select Model</option>
       <% models.each do |allowable_model|%>
           <%
@@ -24,9 +27,27 @@
           <% end %>
       <% end %>
     </select>
+
+    <% if action_name == 'edit' || action_name == 'show'  %>
+    <div class="form-block current_value" style="float: left;">
+      <div class="form_label"> Current Value: </div>
+      <%= polymorphic_link(main_model[current_type],main_model[current_id]) %>
+    </div>
+    <% end %>
+
   </div>
 
-  <input id="<%= (controller_path + '_' + polymorphic_attribute + '_type').gsub("/", "_") %>"
+
+
+  <style>
+    .current_value > a {
+        background-color: #808080;
+        padding: 6px;
+        font-size: 12px;
+    }
+  </style>
+
+  <input id="<%= (polymorphic_attribute + '_type') %>"
          name="<%= (controller_path + '[' + polymorphic_attribute + '_type]') %>"
          type="hidden"
          value="">
@@ -35,8 +56,7 @@
 
 <script>
 
-    // Get Selector Element Type
-    model_selector_type = ('#' + '<%= controller_path + '_' + polymorphic_attribute + '_type' %>').replace("/", "_").replace("/", "_");
+
 
     // Get Selector Element ID
     model_selector_id = ('#' + '<%= controller_path + '_' + polymorphic_attribute + '_id' %>').replace("/", "_").replace("/", "_");
@@ -50,6 +70,9 @@
             });
         },
         onChange: function (value) {
+            // Get Selector Element Type
+            model_selector_type = ('#' + '<%= polymorphic_attribute + '_type' %>');
+
             var option = this.options[value];
             $(model_selector_type).val( option.modeltype );
         }
@@ -58,12 +81,8 @@
     // Disable if Show
     if ('<%= action_name %>' == 'show')
     {
-        try
-        {
-            current_selectize[0].selectize.disable();
-        }
-        catch(err)
-        {}
+        try { current_selectize[0].selectize.disable(); }
+        catch(err) {}
     }
 
 </script>

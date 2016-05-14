@@ -1,7 +1,7 @@
 class GeneralAdministration::AssociatedFiles::AssociationsController < GeneralAdministration::AssociatedFilesController
 
   def index
-    @associations = initialize_generic_index(Association, 'Model Relations')
+    initialize_generic_index(Association, 'Model Relations')
   end
 
   def search_suggestions
@@ -36,7 +36,7 @@ class GeneralAdministration::AssociatedFiles::AssociationsController < GeneralAd
     rescue => ex
       index_error(ex)
     end
-    # redirect_to_index
+      redirect_to_index
   end
 
   def create

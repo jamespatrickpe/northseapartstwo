@@ -1,8 +1,7 @@
-class GeneralAdministration::LinkSetsController < GeneralAdministrationController
+class GeneralAdministration::AssociatedFiles::LinkSetsController < GeneralAdministration::AssociatedFilesController
 
   def index
-    @link_sets = initialize_generic_index(LinkSet)
-    render_index
+    initialize_generic_index(LinkSet, 'Link Sets')
   end
 
   def search_suggestions
@@ -44,7 +43,7 @@ class GeneralAdministration::LinkSetsController < GeneralAdministrationControlle
   end
 
   def update
-    process_form(Digital.find(params[controller_path][:id]))
+    process_form(LinkSet.find(params[controller_path][:id]))
   end
 
 end

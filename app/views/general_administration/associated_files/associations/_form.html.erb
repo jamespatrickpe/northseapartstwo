@@ -1,7 +1,18 @@
 <div class="large-6 columns">
 
-  <%= polymorphic_selector(nil,'model_one',f) %>
-  <%= polymorphic_selector(nil,'model_two',f) %>
+  <%= polymorphic_selector(selected_model_instance,'model_one',f) %>
+
+</div>
+
+<div class="large-6 columns">
+
+  <%= polymorphic_selector(selected_model_instance,'model_two',f) %>
+
+</div>
+
+<div class="large-6 columns">
 
   <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
+
 </div>
+
