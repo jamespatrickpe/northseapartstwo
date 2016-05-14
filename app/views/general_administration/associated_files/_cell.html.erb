@@ -1,0 +1,24 @@
+<div style="background-color: #f2f2f2">
+  Type: <%= result.class.to_s.upcase; %>
+</div>
+
+<%
+   modified_path = ""
+if result.class == Association
+  modified_path = general_administration_associated_files_associations_path
+  controller_link = general_administration_associated_files_associations_path
+elsif result.class == LinkSet
+  modified_path = general_administration_associated_files_link_sets_path
+  controller_link = general_administration_associated_files_link_sets_path
+elsif result.class == ImageSet
+  modified_path = general_administration_associated_files_image_sets_path
+  controller_link = general_administration_associated_files_image_sets_path
+elsif result.class == FileSet
+  modified_path = general_administration_associated_files_file_sets_path
+  controller_link = general_administration_associated_files_file_sets_path
+end
+%>
+
+<%=
+    render :partial => modified_path + '/cell', locals: {result: result, controller_link: controller_link}
+%>

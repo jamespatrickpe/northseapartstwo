@@ -3,14 +3,14 @@
     <% if controller_link != '' %>
 
         <li> <%= link_to( "&#9998;".html_safe ,{:controller => controller_link, :action => 'edit', :id => current_model_instance[:id]}, class: 'tiny_button generic_index_action_button', tooltip: 'Edit') %> </li>
-        <li> <%= link_to( "&#10006;".html_safe ,{:controller => controller_link, :action => 'delete', :id => current_model_instance[:id]}, class: 'tiny_button generic_index_action_button deletable_item', tooltip: 'Delete') %> </li>
         <li> <%= link_to( "&#128269;".html_safe ,{:controller => controller_link, :action => 'show', :id => current_model_instance[:id]}, class: 'tiny_button generic_index_action_button', tooltip: 'Examine') %> </li>
+        <li> <%= link_to( "&#10006;".html_safe ,{:controller => controller_link, :action => 'delete', :id => current_model_instance[:id]}, class: 'tiny_button generic_index_action_button deletable_item', tooltip: 'Delete') %> </li>
 
     <% else %>
 
         <li> <%= link_to( "&#9998;".html_safe ,{:action => 'edit', :id => current_model_instance[:id]}, class: 'tiny_button generic_index_action_button', tooltip: 'Edit') %> </li>
-        <li> <%= link_to( "&#10006;".html_safe ,{:action => 'delete', :id => current_model_instance[:id]}, class: 'tiny_button generic_index_action_button deletable_item', tooltip: 'Delete') %> </li>
         <li> <%= link_to( "&#128269;".html_safe ,{:action => 'show', :id => current_model_instance[:id]}, class: 'tiny_button generic_index_action_button', tooltip: 'Examine') %> </li>
+        <li> <%= link_to( "&#10006;".html_safe ,{:action => 'delete', :id => current_model_instance[:id]}, class: 'tiny_button generic_index_action_button deletable_item', tooltip: 'Delete') %> </li>
 
     <% end %>
 

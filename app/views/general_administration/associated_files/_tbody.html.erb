@@ -1,0 +1,47 @@
+<td> <%= result.class %> </td>
+<td> <%= result[:id] %> </td>
+<% if result.class == Association %>
+    Model One: <%= polymorphic_link(result[:model_one_type],result[:model_one_id]) %>
+    Model Two: <%= polymorphic_link(result[:model_two_type],result[:model_two_id]) %>
+<% elsif result.class == FileSet %>
+    <%= polymorphic_link(result[:filesetable_type],result[:filesetable_id]) %>
+    <td>
+      File:
+      <a target="_blank"
+         class="show_panel_small_button"
+         href= <%= result.file.url %> >
+        <%= result[:file] %></a>
+    </td>
+<% elsif result.class == ImageSet %>
+    <%= polymorphic_link(result[:imagesetable_type],result[:imagesetable_id]) %>
+    <td style="background-image: url( '<%= result.picture.url %>' ); border: solid #808080 thick; background-position: center;" >
+      <a target="_blank"
+         class="show_panel_small_button"
+         href= <%= result.picture %> >
+        <%= result[:picture] %></a>
+    </td>
+<% elsif result.class == LinkSet %>
+    <%= polymorphic_link(result[:linksetable_type],result[:linksetable_id]) %>
+    <td>
+      URL: <br>
+      <a href="<%= result[:url] %>"><%= result[:url] %></a>
+    </td>
+<% end %>
+<td><%= result.remark %></td>
+
+<%
+   controller_link = ''
+   if result.class == FileSet
+     controller_link = general_administration_associated_files_file_sets_path
+   elsif result.class == ImageSet
+     controller_link = general_administration_associated_files_image_sets_path
+   elsif result.class == LinkSet
+     controller_link = general_administration_associated_files_link_sets_path
+   elsif result.class == Association
+     controller_link = general_administration_associated_files_associations_path
+   end
+%>
+
+<%=
+    generic_index_last_rows(result, controller_link)
+%>

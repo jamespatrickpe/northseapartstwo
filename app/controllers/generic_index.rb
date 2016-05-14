@@ -44,7 +44,7 @@ module GenericIndex
 
   # Perform Solr Sunspot Search on Model
   def search_index(main_model, query, includes = '')
-    search = main_model.search(include: includes) do
+    search = Sunspot.search( main_model ) do
       fulltext query[:search_field]
       order_by query[:order_parameter].to_sym,
                query[:order_orientation].parameterize.underscore.to_sym

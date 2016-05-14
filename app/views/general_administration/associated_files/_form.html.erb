@@ -1,11 +1,12 @@
 <section  class="large-10 columns">
   <%= generic_title("Select a type of Associated File to Create","Associated Files") %>
-  <div class="large-6 columns">
+  <div class="large-12 columns">
 
     <ul class="button-group">
-      <li><a href=<%= new_general_administration_associated_files_file_sets_path %> class="button"> FILE SETS </a></li>
-      <li><a href=<%= new_general_administration_associated_files_image_sets_path %> class="button"> IMAGE SETS </a></li>
-      <li><a href=<%= new_general_administration_associated_files_link_sets_path %> class="button"> LINK SETS </a></li>
+      <li><a href="<%= new_general_administration_associated_files_association_path %>" class="tiny button"> ASSOCIATIONS </a></li>
+      <li><a href="<%= new_general_administration_associated_files_file_set_path %>" class="tiny button"> FILE SETS </a></li>
+      <li><a href="<%= new_general_administration_associated_files_image_set_path %>" class="tiny button"> IMAGE SETS </a></li>
+      <li><a href="<%= new_general_administration_associated_files_link_set_path %>" class="tiny button"> LINK SETS </a></li>
     </ul>
 
   </div>

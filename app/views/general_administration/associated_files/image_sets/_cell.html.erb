@@ -1,6 +1,6 @@
 <div><%= polymorphic_link(result[:imagesetable_type],result[:imagesetable_id]) %></div>
 <div style="background-color: #808080; width: auto; color:white;"><%= result[:remark] %></div>
-<%= generic_index_actions( result ) %>
+<%= generic_index_actions( result,controller_link ) %>
 <input type="hidden" id=background_cell_<%= result[:id].upcase %> value="<%= result[:id].upcase %>">
 
 <script>

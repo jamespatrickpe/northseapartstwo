@@ -11,9 +11,13 @@
       <% if flash[controller_name + "_view_mode"] == "cell" %>
 
           <div id="current_freewall">
+            <%
+               # Default Empty Controller Link for Actions
+               controller_link = ''
+            %>
             <% @result_set.each do |result| %>
                 <div class="item_cell">
-                  <%= render :partial => controller_path + '/cell', locals: {result: result}  %>
+                  <%= render :partial => controller_path + '/cell', locals: {result: result, controller_link: controller_link}  %>
                 </div>
             <% end %>
           </div>

@@ -1,10 +1,10 @@
 <div><%= result[:id].upcase %></div>
 <div>
-  <a href="<%= result[:url] %>">
+  <a href="<%= result[:url] %>" style="word-wrap: break-word;">
     <%= result[:url] %>
   </a>
 </div>
 <div> <%= polymorphic_link(result[:linksetable_type],result[:linksetable_id]) %></div>
 <div><%= result[:remark] %></div>
 
-<%= generic_index_actions( result ) %>
+<%= generic_index_actions( result,controller_link ) %>

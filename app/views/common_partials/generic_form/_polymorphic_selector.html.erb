@@ -1,8 +1,8 @@
 <div>
 
   <%
-     if main_model.class != Association
-       models = main_model.class.all_polymorphic_types(polymorphic_attribute.to_sym)
+     if selected_model_instance.class != Association
+       models = selected_model_instance.class.all_polymorphic_types(polymorphic_attribute.to_sym)
      else
        models = Association.allowed_associations
      end
@@ -23,21 +23,20 @@
              instance_models = allowable_model.all()
           %>
           <% instance_models.each do |model| %>
-              <option value=<%= model.id %> data-modeltype="<%= allowable_model %>" ><%= model.main_representation %></option>
+              <% if model.id ==  selected_model_instance[current_id] %>
+                  <option value=<%= model.id %> data-modeltype="<%= allowable_model %>" selected>
+                    <%= model.main_representation %>
+                  </option>
+              <% else %>
+                  <option value=<%= model.id %> data-modeltype="<%= allowable_model %>" >
+                    <%= model.main_representation %>
+                  </option>
+              <% end %>
           <% end %>
       <% end %>
     </select>
 
-    <% if action_name == 'edit' || action_name == 'show'  %>
-    <div class="form-block current_value" style="float: left;">
-      <div class="form_label"> Current Value: </div>
-      <%= polymorphic_link(main_model[current_type],main_model[current_id]) %>
-    </div>
-    <% end %>
-
   </div>
-
-
 
   <style>
     .current_value > a {
@@ -56,13 +55,11 @@
 
 <script>
 
-
-
     // Get Selector Element ID
     model_selector_id = ('#' + '<%= controller_path + '_' + polymorphic_attribute + '_id' %>').replace("/", "_").replace("/", "_");
 
     // Initialize Selectize for Type
-    var current_selectize = $(model_selector_id).selectize({
+    var $current_selectize = $(model_selector_id).selectize({
         onInitialize: function () {
             var s = this;
             this.revertSettings.$children.each(function () {
@@ -78,11 +75,13 @@
         }
     });
 
-    // Disable if Show
-    if ('<%= action_name %>' == 'show')
-    {
-        try { current_selectize[0].selectize.disable(); }
-        catch(err) {}
-    }
+    <% if action_name == 'edit' || action_name == 'show'  %>
+        $current_selectize[0].selectize.setValue('<%= selected_model_instance[current_id] %>');
+    <% end %>
 
+    <% if action_name == 'show' %>
+        try { $current_selectize[0].selectize.disable(); }
+        catch(err) {}
+    <% end %>
 </script>
+

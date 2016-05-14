@@ -3,4 +3,4 @@
 <div> MODEL 2: <%= polymorphic_link(result[:model_two_type],result[:model_two_id]) %></div>
 <div><%= result[:remark] %></div>
 
-<%= generic_index_actions( result ) %>
+<%= generic_index_actions( result, controller_link ) %>
