@@ -1,12 +1,11 @@
 class GeneralAdministration::ContactDetails::TelephonesController < GeneralAdministration::ContactDetailsController
 
   def index
-    @telephones = initialize_generic_index(Telephone, [:telephonable])
-    render_index
+    initialize_generic_index(Telephone, 'Contact Details through Telephony')
   end
 
   def search_suggestions
-    simple_singular_column_search('telephones.remark',Telephone)
+    generic_index_search_suggestions(Telephone)
   end
 
   def new

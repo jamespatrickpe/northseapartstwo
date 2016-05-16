@@ -1,9 +1,13 @@
-<div class="overview_panel">
+<div class="overview_title">
+  &nbsp; <%= name.upcase %>
+</div>
 
-  <div style="float:right; font-size: 12px;">
-    <a href="<%= path %>" class="tiny button" target="_blank">
-      Proceed to <%= name %>
-    </a>
-  </div>
-
+<div>
+  <%= render partial: path + "/overview"%>
+</div>
+<hr style="visibility: hidden; line-height: 10px;">
+<div style="margin-left: 10px; font-size: 12px;">
+  <a href="<%= path %>" class="tiny button" target="_blank">
+    Proceed to <%= name %>
+  </a>
 </div>

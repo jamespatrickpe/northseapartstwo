@@ -145,5 +145,16 @@ span.subheader {
   padding: 5px;
   margin: 5px;
   border: solid thin #d8d8d8;
-  float: left;
+  float:left;
+  width: auto;
+  font-size: 11px;
+}
+
+.overview_title
+{
+  font-size: 15px;
+  border-left-color: #721314;
+  border-left-width: 5px;
+  border-left-style: solid;
+  margin-bottom: 5px;
 }
