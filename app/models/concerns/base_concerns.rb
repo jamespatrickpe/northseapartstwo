@@ -39,7 +39,13 @@ module BaseConcerns extend ActiveSupport::Concern
       elsif self.class == Vehicle
         self.plate_number
       elsif self.class == FileSet
-        self.file
+        self.remark
+      elsif self.class == ImageSet
+        self.remark
+      elsif self.class == LinkSet
+        self.url
+      elsif self.class == SystemAssociation
+        self.model_one.main_representation.to_s + self.model_two.main_representation.to_s
       end
     end
 

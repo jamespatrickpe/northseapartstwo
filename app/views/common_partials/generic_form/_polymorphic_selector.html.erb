@@ -1,10 +1,10 @@
 <div>
 
   <%
-     if selected_model_instance.class != Association
+     if selected_model_instance.class != SystemAssociation
        models = selected_model_instance.class.all_polymorphic_types(polymorphic_attribute.to_sym)
      else
-       models = Association.allowed_associations
+       models = SystemAssociation.allowed_associations
      end
 
      current_type = (polymorphic_attribute + '_type').to_sym

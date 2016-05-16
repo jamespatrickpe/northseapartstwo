@@ -14,20 +14,40 @@
   <%= renderCorePartial('generic_back_button') %>
   <%= link_to("Reset Search", application_reset_search_path(reset_search_redirect: request.path), class: 'tiny button') %>
   <%= link_to( "Add New Record" ,{:action => "new"}, class: 'tiny button')%>
-  <a class="tiny button export_to_csv">Export to CSV</a>
+
+  <% if params[:view_mode] != 'cell'%>
+      <a class="tiny button export_to_csv">Export to CSV</a>
+  <% end %>
+
   <a class="tiny button print_table">Printable Format</a>
+
 </div>
 
 <script>
     $('.print_table').click(function() {
-        $("table.generic_index").css({"font-size": 12,"font-family": "arial"});
-        $("a.table_orientation_indicator").remove()
-        $("table.generic_index th:last-child, table.generic_index td.actions").remove();
-        table = $("table.generic_index").get();
-        $("body").empty();
-        $("body").html(table);
-        $("a").removeAttr("href");
-        $("head").empty();
+
+        if("<%= params[:view_mode] %>" != "cell")
+        {
+            $("table.generic_index").css({"font-size": 12,"font-family": "arial"});
+            $("a.table_orientation_indicator").remove()
+            $("table.generic_index th:last-child, table.generic_index td.actions").remove();
+            table = $("table.generic_index").get();
+            $("body").empty();
+            $("body").html(table);
+            $("a").removeAttr("href");
+            $("head").empty();
+        }
+        else
+        {
+            var freewall = $("#current_freewall").get();
+            $("body").empty();
+            $("head").empty();
+            $("body").html(freewall);
+            $(".button-group").remove();
+            $(".item_cell").css("font-size","12px");
+            $(".item_cell").css("color","black");
+        }
+
     });
 
     $('.export_to_csv').click(function() {

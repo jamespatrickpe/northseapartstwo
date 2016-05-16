@@ -1,19 +1,19 @@
-class GeneralAdministration::AssociatedFiles::AssociationsController < GeneralAdministration::AssociatedFilesController
+class GeneralAdministration::AssociatedFiles::SystemAssociationsController < GeneralAdministration::AssociatedFilesController
 
   def index
-    initialize_generic_index(Association, 'Model Relations')
+    initialize_generic_index(SystemAssociation, 'Model Relations')
   end
 
   def search_suggestions
-    simple_singular_column_search('associations.remark',Association)
+    generic_index_search_suggestions(SystemAssociation)
   end
 
   def new
-    set_new_edit(Association)
+    set_new_edit(SystemAssociation)
   end
 
   def edit
-    set_new_edit(Association)
+    set_new_edit(SystemAssociation)
   end
 
   def show
@@ -21,7 +21,7 @@ class GeneralAdministration::AssociatedFiles::AssociationsController < GeneralAd
   end
 
   def delete
-    generic_delete(Association)
+    generic_delete(SystemAssociation)
   end
 
   def process_file_form(association)
@@ -40,11 +40,11 @@ class GeneralAdministration::AssociatedFiles::AssociationsController < GeneralAd
   end
 
   def create
-    process_file_form(Association.new())
+    process_file_form(SystemAssociation.new())
   end
 
   def update
-    process_file_form(Association.find(params[controller_path][:id]))
+    process_file_form(SystemAssociation.find(params[controller_path][:id]))
   end
 
 end

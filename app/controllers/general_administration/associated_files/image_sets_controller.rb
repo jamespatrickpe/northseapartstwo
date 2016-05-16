@@ -5,7 +5,7 @@ class GeneralAdministration::AssociatedFiles::ImageSetsController < GeneralAdmin
   end
 
   def search_suggestions
-    simple_singular_column_search('image_sets.remark',ImageSet)
+    generic_index_search_suggestions(ImageSet)
   end
 
   def new

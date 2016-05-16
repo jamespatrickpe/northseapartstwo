@@ -1,10 +1,12 @@
 <td> <%= result.class %> </td>
 <td> <%= result[:id] %> </td>
-<% if result.class == Association %>
-    Model One: <%= polymorphic_link(result[:model_one_type],result[:model_one_id]) %>
-    Model Two: <%= polymorphic_link(result[:model_two_type],result[:model_two_id]) %>
+<% if result.class == SystemAssociation %>
+    <td>
+      Model One: <%= polymorphic_link(result[:model_one_type],result[:model_one_id]) %> <br>
+      Model Two: <%= polymorphic_link(result[:model_two_type],result[:model_two_id]) %>
+    </td>
+    <td> N/A </td>
 <% elsif result.class == FileSet %>
-    <%= polymorphic_link(result[:filesetable_type],result[:filesetable_id]) %>
     <td>
       File:
       <a target="_blank"
@@ -12,19 +14,26 @@
          href= <%= result.file.url %> >
         <%= result[:file] %></a>
     </td>
+    <td>
+      <%= polymorphic_link(result[:filesetable_type],result[:filesetable_id]) %>
+    </td>
 <% elsif result.class == ImageSet %>
-    <%= polymorphic_link(result[:imagesetable_type],result[:imagesetable_id]) %>
     <td style="background-image: url( '<%= result.picture.url %>' ); border: solid #808080 thick; background-position: center;" >
       <a target="_blank"
          class="show_panel_small_button"
          href= <%= result.picture %> >
         <%= result[:picture] %></a>
     </td>
+    <td>
+      <%= polymorphic_link(result[:imagesetable_type],result[:imagesetable_id]) %>
+    </td>
 <% elsif result.class == LinkSet %>
-    <%= polymorphic_link(result[:linksetable_type],result[:linksetable_id]) %>
     <td>
       URL: <br>
-      <a href="<%= result[:url] %>"><%= result[:url] %></a>
+      <a href="<%= result[:url] %>" style="word-break: break-all;"><%= result[:url] %></a>
+    </td>
+    <td>
+      <%= polymorphic_link(result[:linksetable_type],result[:linksetable_id]) %>
     </td>
 <% end %>
 <td><%= result.remark %></td>
@@ -37,8 +46,8 @@
      controller_link = general_administration_associated_files_image_sets_path
    elsif result.class == LinkSet
      controller_link = general_administration_associated_files_link_sets_path
-   elsif result.class == Association
-     controller_link = general_administration_associated_files_associations_path
+   elsif result.class == SystemAssociation
+     controller_link = general_administration_associated_files_system_associations_path
    end
 %>
 

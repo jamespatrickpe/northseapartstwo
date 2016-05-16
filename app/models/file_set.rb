@@ -1,7 +1,8 @@
 class FileSet < ActiveRecord::Base
   
   include BaseConcerns,
-          RemarkConcerns
+          RemarkConcerns,
+          AssociatedFilesConcerns
 
   belongs_to :filesetable, polymorphic: true
 
@@ -11,6 +12,7 @@ class FileSet < ActiveRecord::Base
       polymorphic_searchable_representation(filesetable)
     end
     string :physical_storage
+    text :physical_storage
   end
 
   mount_uploader :file, RelatedFileUploader

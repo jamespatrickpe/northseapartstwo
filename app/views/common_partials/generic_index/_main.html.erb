@@ -85,6 +85,18 @@
   <% end %>
   <%= generic_index_footer(@result_set) %>
 
+  <hr style="visibility: hidden;">
+  <div>
+    <% if defined? @overview_panels %>
+        <% @overview_panels.each do |panel| %>
+            <div>
+              <%= overview_panel(panel[0], panel[1]) %>
+            </div>
+        <% end %>
+    <% end %>
+  </div>
+
+
   <!-- Change to Cell for the First Time View if Overflow is Detected -->
   <script>
       $( document ).ready(function()

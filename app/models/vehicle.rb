@@ -1,6 +1,7 @@
 class Vehicle < ActiveRecord::Base
 
-    include BaseConcerns
+    include BaseConcerns,
+            AssociatedFilesConcerns
 
     validates_presence_of :date_of_implementation
     validates_presence_of :type_of_vehicle

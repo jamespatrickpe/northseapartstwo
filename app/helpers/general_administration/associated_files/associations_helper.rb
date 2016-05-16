@@ -1,2 +1,0 @@
-module GeneralAdministration::AssociatedFiles::AssociationsHelper
-end

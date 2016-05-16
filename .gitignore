@@ -108,8 +108,6 @@ solr/data
 solr/test
 solr/development
 solr/default/data
-solr/configsets/sunspot
-solr/configsets/sunspot/*
 /log/*.log.lck
 solr/pidsgit
 

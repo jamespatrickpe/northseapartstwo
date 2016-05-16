@@ -117,8 +117,12 @@
 <% end %>
 
 <script type="text/javascript">
-    $('#<%= controller.controller_name+"_search_input" %>').autocomplete({
-        serviceUrl: window.location.pathname + '/search_suggestions',
-        minChars: 3
+
+    $('#<%= controller.controller_name+"_search_input" %>').keypress(function(){
+        $('#<%= controller.controller_name+"_search_input" %>').autocomplete({
+            serviceUrl: window.location.pathname + '/search_suggestions'
+        });
     });
+
+
 </script>

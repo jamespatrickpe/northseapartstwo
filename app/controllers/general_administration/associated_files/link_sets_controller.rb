@@ -5,7 +5,7 @@ class GeneralAdministration::AssociatedFiles::LinkSetsController < GeneralAdmini
   end
 
   def search_suggestions
-    simple_singular_column_search('link_sets.url',LinkSet)
+    generic_index_search_suggestions(LinkSet)
   end
 
   def new

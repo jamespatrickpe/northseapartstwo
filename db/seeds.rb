@@ -410,13 +410,13 @@ rand(20..50).times do |i|
 
   sample_one = random_associable_model
   sample_two = random_associable_model
-  myAssociation = Association.new
-  myAssociation.model_one_type = sample_one[:current_model]
-  myAssociation.model_one_id = sample_one[:current_id]
-  myAssociation.model_two_type = sample_two[:current_model]
-  myAssociation.model_two_id = sample_two[:current_id]
-  myAssociation.remark = Faker::Lorem.word
-  myAssociation.save!
+  mySystemAssociation = SystemAssociation.new
+  mySystemAssociation.model_one_type = sample_one[:current_model]
+  mySystemAssociation.model_one_id = sample_one[:current_id]
+  mySystemAssociation.model_two_type = sample_two[:current_model]
+  mySystemAssociation.model_two_id = sample_two[:current_id]
+  mySystemAssociation.remark = Faker::Lorem.word
+  mySystemAssociation.save!
 
 end
 

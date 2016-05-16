@@ -3,7 +3,8 @@ class Actor < ActiveRecord::Base
   include BaseConcerns,
           RemarkConcerns,
           NameConcerns,
-          ContactableConcerns
+          ContactableConcerns,
+          AssociatedFilesConcerns
 
   has_one :access, autosave: true
   has_one :employee, autosave: true
@@ -17,10 +18,5 @@ class Actor < ActiveRecord::Base
             :file_size => {
                 :maximum => 3.5.megabytes.to_i
             }
-
-  searchable do
-    text :name
-    text :remark
-  end
 
 end

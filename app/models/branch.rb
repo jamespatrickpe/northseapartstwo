@@ -3,7 +3,8 @@ class Branch < ActiveRecord::Base
   include BaseConcerns,
           RemarkConcerns,
           NameConcerns,
-          ContactableConcerns
+          ContactableConcerns,
+          AssociatedFilesConcerns
 
   has_many :file_sets, as: :rel_file_set
   has_many :employee

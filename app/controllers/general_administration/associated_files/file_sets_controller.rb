@@ -5,7 +5,7 @@ class GeneralAdministration::AssociatedFiles::FileSetsController < GeneralAdmini
   end
 
   def search_suggestions
-    simple_singular_column_search('file_sets.remark',FileSet)
+    generic_index_search_suggestions(FileSet)
   end
 
   def new

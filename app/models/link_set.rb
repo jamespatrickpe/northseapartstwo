@@ -1,8 +1,9 @@
 class LinkSet < ActiveRecord::Base
 
   include BaseConcerns,
-          RemarkConcerns
-          UrlConcerns
+          RemarkConcerns,
+          UrlConcerns,
+          AssociatedFilesConcerns
 
   belongs_to :linksetable, polymorphic: true
 

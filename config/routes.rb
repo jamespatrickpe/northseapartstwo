@@ -82,7 +82,7 @@ Rails.application.routes.draw do
       generate_logic_unit('file_sets')
       generate_logic_unit('image_sets')
       generate_logic_unit('link_sets')
-      generate_logic_unit('associations')
+      generate_logic_unit('system_associations')
     end
     generate_logic_unit('associated_files')
 
