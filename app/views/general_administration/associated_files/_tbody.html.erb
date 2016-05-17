@@ -37,20 +37,4 @@
     </td>
 <% end %>
 <td><%= result.remark %></td>
-
-<%
-   controller_link = ''
-   if result.class == FileSet
-     controller_link = general_administration_associated_files_file_sets_path
-   elsif result.class == ImageSet
-     controller_link = general_administration_associated_files_image_sets_path
-   elsif result.class == LinkSet
-     controller_link = general_administration_associated_files_link_sets_path
-   elsif result.class == SystemAssociation
-     controller_link = general_administration_associated_files_system_associations_path
-   end
-%>
-
-<%=
-    generic_index_last_rows(result, controller_link)
-%>
+<%= generic_index_last_rows(result, controller_link) %>

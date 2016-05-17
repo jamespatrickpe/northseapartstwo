@@ -1,0 +1,8 @@
+<div>
+  <a href="<%= result[:url] %>" target="_blank">
+    <%= result[:url] %>
+  </a>
+</div>
+<div> <%= polymorphic_link(result[:digitable_type],result[:digitable_id]) %> </div>
+<div> <%= generic_index_remark(result[:remark]) %> </div>
+<%= generic_index_actions( result, controller_link ) %>

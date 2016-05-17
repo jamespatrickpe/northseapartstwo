@@ -1,12 +1,11 @@
 class GeneralAdministration::ContactDetails::AddressesController < GeneralAdministration::ContactDetailsController
 
   def index
-    @addresses = initialize_generic_index(Address, [:addressable])
-    render_index
+    initialize_generic_index(Address, 'Location of an Entity')
   end
 
   def search_suggestions
-    simple_singular_column_search('addresses.remark',Address)
+    generic_index_search_suggestions(Address)
   end
 
   def new

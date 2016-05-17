@@ -1,0 +1,7 @@
+<%= generic_index_id(result) %>
+<td><%= result[:latitude] %> </td>
+<td><%= result[:longitude] %> </td>
+<td><%= polymorphic_link(result[:addressable_type],result[:addressable_id]) %></td>
+
+<%= generic_index_remark(result[:remark]) %>
+<%= generic_index_last_rows(result) %>

@@ -1,0 +1,14 @@
+<td> <%= result.class %> </td>
+<td> <%= result[:id] %> </td>
+<td><%= result.remark %></td>
+<% if result.class == Address %>
+    <td> N/A </td>
+    <td> <%= polymorphic_link(result[:addressable_type],result[:addressable_id]) %></td>
+<% elsif result.class == Digital %>
+    <td> URL: <%= result[:url] %> </td>
+    <td> <%= polymorphic_link(result[:digitable_type],result[:digitable_id]) %> </td>
+<% elsif result.class == Telephone %>
+    <td> Digits: <%= result[:digits] %> </td>
+    <td> <%= polymorphic_link(result[:telephonable_type],result[:telephonable_id]) %> </td>
+<% end %>
+<%= generic_index_last_rows(result, controller_link) %>

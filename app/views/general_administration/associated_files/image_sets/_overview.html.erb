@@ -1,0 +1,13 @@
+<div>
+  <%
+     images = ImageSet.order(:updated_at).limit(15)
+     images.each do |image|
+  %>
+      <a href="<%= image.picture.url %>">
+        <div class="overview_image_cell" style="background-image: url(<%= image.picture.url %>)">
+          &nbsp;
+        </div>
+      </a>
+  <% end %>
+</div>
+

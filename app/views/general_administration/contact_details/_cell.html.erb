@@ -1,0 +1,14 @@
+<%
+   modified_path = ""
+   if result.class == Telephone
+     controller_link = general_administration_contact_details_telephones_path
+   elsif result.class == Address
+     controller_link = general_administration_contact_details_addresses_path
+   elsif result.class == Digital
+     controller_link = general_administration_contact_details_digitals_path
+   end
+%>
+
+<%=
+    render :partial => controller_link + '/cell', locals: {result: result, controller_link: controller_link}
+%>

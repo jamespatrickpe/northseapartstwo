@@ -1,9 +1,16 @@
-<div class="overview_panel">
+<div class="overview_title">
+  &nbsp; <%= name.upcase %>
+</div>
 
-  <div style="float:right; font-size: 12px;">
-    <a href="<%= path %>" class="tiny button" target="_blank">
-      Proceed to <%= name %>
-    </a>
-  </div>
+<div>
+  <% if lookup_context.find_all( path + "/overview" ).any? %>
+    <%= render partial: path + "/overview" %>
+  <% end %>
+</div>
 
+<hr style="visibility: hidden; line-height: 10px;">
+<div style="margin-left: 10px; font-size: 12px;">
+  <a href="<%= path %>" class="tiny button" target="_blank">
+    Proceed to <%= name %>
+  </a>
 </div>

@@ -1,0 +1,6 @@
+<div> <%= generic_index_id(result) %> </div>
+<div> Longitude: <%= result[:longitude] %> </div>
+<div> Latitude: <%= result[:latitude] %> </div>
+<div> <%= polymorphic_link(result[:addressable_type],result[:addressable_id]) %> </div>
+<div> <%= generic_index_remark(result[:remark]) %> </div>
+<%= generic_index_actions( result, controller_link ) %>

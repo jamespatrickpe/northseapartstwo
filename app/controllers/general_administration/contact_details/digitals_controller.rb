@@ -1,12 +1,11 @@
 class GeneralAdministration::ContactDetails::DigitalsController < GeneralAdministration::ContactDetailsController
 
   def index
-    @digitals = initialize_generic_index(Digital)
-    render_index
+    initialize_generic_index(Digital, 'Contact Details in Digital or URL Form')
   end
 
   def search_suggestions
-    simple_singular_column_search('digitals.url',Digital)
+    generic_index_search_suggestions(Digital)
   end
 
   def new

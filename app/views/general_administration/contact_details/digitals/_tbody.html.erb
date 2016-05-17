@@ -1,0 +1,9 @@
+<%= generic_index_id(result)%>
+<td>
+  <a href="<%= result[:url] %>" target="_blank">
+    <%= result[:url] %>
+  </a>
+</td>
+<%= polymorphic_link(result[:digitable_type],result[:digitable_id]) %>
+<%= generic_index_remark(result[:remark]) %>
+<%= generic_index_last_rows(result) %>

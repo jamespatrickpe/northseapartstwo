@@ -1,0 +1,8 @@
+<div>
+  <a href="tel:<%= result[:digits] %>" style="font-size: 15px;" >
+    <%= result[:digits] %>
+  </a>
+</div>
+<div> <%= polymorphic_link(result[:telephonable_type],result[:telephonable_id]) %> </div>
+<div> <%= generic_index_remark(result[:remark]) %> </div>
+<%= generic_index_actions( result, controller_link ) %>

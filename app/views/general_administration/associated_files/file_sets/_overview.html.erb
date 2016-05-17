@@ -1,0 +1,13 @@
+<%
+   current_directory = 0
+   file_count = 0
+   path = Rails.root.to_s + "/public/related_files"
+   require 'find'
+   Find.find(path) { |f| current_directory += File.size(f) if File.file?(f) }
+   Find.find(path) { |f| file_count = file_count + 1 }
+%>
+<div>
+  Storage Size : <%= current_directory/100000 %> mB
+  <br>
+  Number of Files : <%= file_count %>
+</div>

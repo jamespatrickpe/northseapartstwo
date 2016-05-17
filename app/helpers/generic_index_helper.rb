@@ -1,6 +1,6 @@
 module GenericIndexHelper
 
-  def generic_index_actions(current_model_instance, controller_link='')
+  def generic_index_actions(current_model_instance, controller_link = nil)
     render partial: 'common_partials/generic_index/actions', locals: {
                                                                current_model_instance: current_model_instance,
                                                                controller_link: controller_link }

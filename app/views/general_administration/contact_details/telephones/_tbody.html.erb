@@ -1,0 +1,9 @@
+<%= generic_index_id(result)%>
+<td >
+  <a href="tel:<%= result[:digits] %>" >
+    <div> <%= result[:digits] %> </div>
+  </a>
+</td>
+<%= polymorphic_link(result[:telephonable_type], result[:telephonable_id]) %>
+<%= generic_index_remark(result[:remark]) %>
+<%= generic_index_last_rows(result) %>

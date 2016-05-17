@@ -1,30 +1,22 @@
 class GeneralAdministration::ContactDetailsController < GeneralAdministrationController
 
   def index
-    main_model = Digital, Telephone, Address
-    @contact_details = multiple_model_search(main_model)
+    main_models = [Digital, Telephone, Address]
+    @overview_panels = [
+        [general_administration_contact_details_addresses_path,'Addresses'],
+        [general_administration_contact_details_digitals_path,'Digitals'],
+        [general_administration_contact_details_telephones_path,'Telephones']
+    ]
+    initialize_generic_index(main_models, 'Contact Details for any Entity')
   end
 
   def search_suggestions
-    contactable_entities = get_contactable_entities
-    main_query = []
-    contactable_entities.each do |main_model|
-      main_model = main_model.constantize
-      current_query = main_model
-                     .where('name' + " LIKE ?","%#{params[:query]}%")
-                     .pluck('name')
-    main_query += current_query
-    end
-
-    direct = "{\"query\": \"Unit\",\"suggestions\":[" + main_query.to_s.gsub!('[', '').gsub!(']', '') + "]}"
-
-    respond_to do |format|
-      format.all { render :text => direct}
-    end
+    main_models = [Digital, Telephone, Address]
+    generic_index_search_suggestions(main_models)
   end
 
   def new
-    render :template => 'general_administration/contact_details/_form'
+    render :template => general_administration_contact_details_path + '/_form'
   end
 
   def edit

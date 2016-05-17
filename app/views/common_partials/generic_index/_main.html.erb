@@ -11,13 +11,10 @@
       <% if flash[controller_name + "_view_mode"] == "cell" %>
 
           <div id="current_freewall">
-            <%
-               # Default Empty Controller Link for Actions
-               controller_link = ''
-            %>
             <% @result_set.each do |result| %>
                 <div class="item_cell">
-                  <%= render :partial => controller_path + '/cell', locals: {result: result, controller_link: controller_link}  %>
+                  <%= render :partial => controller_path + '/cell', locals: {result: result, controller_link: controller_link(result) }  %>
+                  <hr style="visibility: hidden;">
                 </div>
             <% end %>
           </div>
@@ -27,18 +24,23 @@
                   var wall = new Freewall("#current_freewall");
                   current_cell_height = (($( ".item_cell" ).height())*1.4).toFixed(1);
                   wall.reset({
-                      cacheSize: true,
-                      draggable: true,
                       selector: '.item_cell',
                       animate: true,
                       cellW: 250,
-                      cellH: current_cell_height,
+                      cellH: 'auto',
+                      draggable: true,
+                      fixSize: false,
                       onResize: function()
                       {
                           wall.refresh();
                       }
                   })
                   wall.fitWidth();
+
+                  wall.container.find('.item_cell img').load(function() {
+                      wall.fitWidth();
+                  });
+
               } );
 
               $( ".item_cell" ).hover(
@@ -71,7 +73,7 @@
             <% else %>
                 <tbody>
                 <% @result_set.each do |result| %>
-                    <tr><%= render :partial => controller_path + '/tbody', locals: {result: result} %></tr>
+                    <tr><%= render :partial => controller_path + '/tbody', locals: {result: result, controller_link: controller_link(result) } %></tr>
                 <% end %>
                 </tbody>
             <% end %>
@@ -86,10 +88,11 @@
   <%= generic_index_footer(@result_set) %>
 
   <hr style="visibility: hidden;">
+
   <div>
     <% if defined? @overview_panels %>
         <% @overview_panels.each do |panel| %>
-            <div>
+            <div class="overview_panel">
               <%= overview_panel(panel[0], panel[1]) %>
             </div>
         <% end %>
