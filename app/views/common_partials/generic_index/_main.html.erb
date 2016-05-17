@@ -1,94 +1,115 @@
 <section class='small-10 columns'>
 
-  <!-- Set Thead Links -->
-  <%= render :partial => controller_path + '/thead' %>
-  <% @head_array = @head_array + [['Created At','created_at',true],['Updated At','updated_at',true]] %>
 
-  <!-- Preheader -->
-  <%= preheader_generic_index(subtitle) %>
+  <%= generic_title(nil, subtitle) %>
 
-  <% begin %>
-      <% if flash[controller_name + "_view_mode"] == "cell" %>
+  <!-- Data Translation -->
+  <% if defined? @result_set %>
 
-          <div id="current_freewall">
-            <% @result_set.each do |result| %>
-                <div class="item_cell">
-                  <%= render :partial => controller_path + '/cell', locals: {result: result, controller_link: controller_link(result) }  %>
-                  <hr style="visibility: hidden;">
-                </div>
-            <% end %>
-          </div>
+      <!-- Set Thead Links -->
+      <%= render :partial => controller_path + '/thead' %>
+      <% @head_array = @head_array + [['Created At','created_at',true],['Updated At','updated_at',true]] %>
 
-          <script>
-              $( function(){
-                  var wall = new Freewall("#current_freewall");
-                  current_cell_height = (($( ".item_cell" ).height())*1.4).toFixed(1);
-                  wall.reset({
-                      selector: '.item_cell',
-                      animate: true,
-                      cellW: 250,
-                      cellH: 'auto',
-                      draggable: true,
-                      fixSize: false,
-                      onResize: function()
-                      {
-                          wall.refresh();
-                      }
-                  })
-                  wall.fitWidth();
+      <!-- Import Table/Cell Preheader -->
+      <%= preheader_generic_index %>
 
-                  wall.container.find('.item_cell img').load(function() {
-                      wall.fitWidth();
-                  });
+      <% begin %>
 
-              } );
+              <!-- Freewall -->
+              <% if flash[controller_name + "_view_mode"] == "cell" %>
 
-              $( ".item_cell" ).hover(
-                      function()
-                      {
-                          $(this).children("ul.button-group").children("li").css('visibility', 'visible');
-                      }, function()
-                      {
-                          $(this).children("ul.button-group").children("li").css('visibility', 'hidden');
-                      }
-              );
-          </script>
+                  <div id="current_freewall">
+                    <% @result_set.each do |result| %>
+                        <div class="item_cell">
+                          <%= render :partial => controller_path + '/cell',
+                                     locals: {result: result, controller_link: controller_link(result) }  %>
+                          <hr style="visibility: hidden;">
+                        </div>
+                    <% end %>
+                  </div>
 
-      <% else %>
+                  <!-- Freewall Script -->
+                  <script>
+                      $( function(){
+                          var wall = new Freewall("#current_freewall");
+                          current_cell_height = (($( ".item_cell" ).height())*1.4).toFixed(1);
+                          wall.reset({
+                              selector: '.item_cell',
+                              animate: true,
+                              cellW: 250,
+                              cellH: 'auto',
+                              draggable: true,
+                              fixSize: false,
+                              onResize: function()
+                              {
+                                  wall.refresh();
+                              }
+                          })
+                          wall.fitWidth();
 
-          <table class='generic_index'>
+                          wall.container.find('.item_cell img').load(function() {
+                              wall.fitWidth();
+                          });
 
-            <thead>
-            <% @head_array.each do |head| %>
-                <% if head.kind_of?(Array) %>
-                    <%= generic_index_theadlink(head[0],head[1]) %>
-                <% else %>
-                    <%= generic_index_theadlink(head) %>
-                <% end %>
-            <% end %>
-            </thead>
+                      } );
 
-            <% if @result_set.empty? == true %>
-                <%= no_records_found %>
-            <% else %>
-                <tbody>
-                <% @result_set.each do |result| %>
-                    <tr><%= render :partial => controller_path + '/tbody', locals: {result: result, controller_link: controller_link(result) } %></tr>
-                <% end %>
-                </tbody>
-            <% end %>
+                      $( ".item_cell" ).hover(
+                              function()
+                              {
+                                  $(this).children("ul.button-group").children("li").css('visibility', 'visible');
+                              }, function()
+                              {
+                                  $(this).children("ul.button-group").children("li").css('visibility', 'hidden');
+                              }
+                      );
+                  </script>
 
-          </table>
+              <% else %>
+
+                  <!-- Table Generic -->
+                  <table class='generic_index'>
+                    <!-- Display Theadlinks -->
+                    <thead>
+                    <% @head_array.each do |head| %>
+                        <% if head.kind_of?(Array) %>
+                            <%= generic_index_theadlink(head[0],head[1]) %>
+                        <% else %>
+                            <%= generic_index_theadlink(head) %>
+                        <% end %>
+                    <% end %>
+                    </thead>
+                    <% if @result_set.empty? == true %>
+                        <%= no_records_found %>
+                    <% else %>
+                        <!-- Table Body -->
+                        <tbody>
+                        <% @result_set.each do |result| %>
+                            <tr>
+                              <%= render :partial => controller_path + '/tbody',
+                                           locals: {result: result, controller_link: controller_link(result) } %>
+                            </tr>
+                        <% end %>
+                        </tbody>
+                    <% end %>
+                  </table>
+
+              <% end %>
+
+          <!-- Catch Errors -->
+          <% rescue => ex %>
+              <%= generic_index_error(ex) %>
+          <% end %>
+
+      <!-- Footers -->
+      <%= generic_index_footer(@result_set) %>
+      <hr style="visibility: hidden;">
 
       <% end %>
 
-  <% rescue => ex %>
-      <%= generic_index_error(ex) %>
-  <% end %>
-  <%= generic_index_footer(@result_set) %>
 
-  <hr style="visibility: hidden;">
 
+
+  <!-- Overview Panels (if any) -->
   <div>
     <% if defined? @overview_panels %>
         <% @overview_panels.each do |panel| %>

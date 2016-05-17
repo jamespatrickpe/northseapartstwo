@@ -11,7 +11,7 @@
      else
        subtitle = ""
      end
-     generic_title(subtitle,@title)
+     generic_title(@title,subtitle)
   %>
     <%
        current_method = ''
@@ -24,6 +24,7 @@
         simple_form_for controller_path,
                         :url => '/' + controller_path + '/' + current_url.to_s ,
                         :html => { :'data-parsley-validate' => '',
+                                   :class => 'main_form',
                                    :method => current_method} do |f|
     %>
         <%= f.hidden_field :id, :value => selected_model_instance[:id] %>

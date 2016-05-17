@@ -1,5 +1,9 @@
 module GenericIndexHelper
 
+  def check_partial_exists(current_path)
+    lookup_context.find_all( current_path ).any?
+  end
+
   def generic_index_actions(current_model_instance, controller_link = nil)
     render partial: 'common_partials/generic_index/actions', locals: {
                                                                current_model_instance: current_model_instance,
@@ -20,8 +24,8 @@ module GenericIndexHelper
     render(:partial => 'common_partials/generic_index/error', :locals => {:ex => ex})
   end
 
-  def preheader_generic_index( subtitle,title = controller_name.gsub('_',' ') )
-    render(:partial => 'common_partials/generic_index/preheader', :locals => {:title => title,:subtitle => subtitle})
+  def preheader_generic_index()
+    render(:partial => 'common_partials/generic_index/preheader')
   end
 
   def generic_search_footer(result_set)

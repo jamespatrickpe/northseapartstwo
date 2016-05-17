@@ -3,7 +3,7 @@
 </div>
 
 <div>
-  <% if lookup_context.find_all( path + "/overview" ).any? %>
+  <% if check_partial_exists(path + "/_overview") %>
     <%= render partial: path + "/overview" %>
   <% end %>
 </div>

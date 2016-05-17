@@ -1,6 +1,9 @@
 module GenericRenderHelper
 
-  def generic_title(subtitle, title = controller_name)
+  def generic_title(title, subtitle)
+    if title == nil
+      title = controller_name.gsub('_',' ')
+    end
     render(:partial => 'common_partials/generic_title', :locals => {:title => title, :subtitle => subtitle})
   end
 
