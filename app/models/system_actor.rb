@@ -1,4 +1,4 @@
-class Actor < ActiveRecord::Base
+class SystemActor < ActiveRecord::Base
 
   include BaseConcerns,
           RemarkConcerns,

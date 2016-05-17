@@ -1,11 +1,3 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-
 include ApplicationHelper
 require File.expand_path('../official_starter_seed', __FILE__)
 puts " == Loading Seed Data =="
@@ -22,15 +14,15 @@ end
 
 # ENTITIES
 
-# Actor Dependent Systems
-numberOfActors = 20
-numberOfActors.times do |i|
+# SystemActor Dependent Systems
+numberOfSystemActors = 20
+numberOfSystemActors.times do |i|
 
-  #Actor
+  #SystemActor
   current_logo = ['default_1.jpg','default_2.jpg','default_3.jpg','default_4.jpg','default_5.jpg','default_6.jpg','default_7.jpg','default_8.jpg','default_9.jpg','default_10.jpg','default.jpg'].sample
-  myActor = Actor.new(name: Faker::Name.name , remark: Faker::Lorem.sentence(3, true))
-  myActor[:logo] = current_logo
-  myActor.save!
+  mySystemActor = SystemActor.new(name: Faker::Name.name , remark: Faker::Lorem.sentence(3, true))
+  mySystemActor[:logo] = current_logo
+  mySystemActor.save!
 
   # ACCESS
   if ( 8.in(10) )
@@ -48,7 +40,7 @@ numberOfActors.times do |i|
     end
 
     myAccess = Access.new
-    myAccess.actor = myActor
+    myAccess.system_actor = mySystemActor
     myAccess.username = randomUserName
     myAccess.email = randomEmail
     myAccess.password = randomPassword
@@ -73,7 +65,7 @@ numberOfActors.times do |i|
   # BIODATA
   if(randomBoolean())
     myBioData = Biodatum.new()
-    myBioData.actor = myActor
+    myBioData.system_actor = mySystemActor
     myBioData.education = ["Elementary", "High School", "College Undergraduate", "College Graduate - Bachelor", "College Graduate - Master", "College Graduate - Doctor"].sample
     myBioData.career_experience = Faker::Lorem.sentence(3, false, 4)
     myBioData.notable_accomplishments = Faker::Lorem.sentence(3, false, 4)
@@ -96,7 +88,7 @@ numberOfActors.times do |i|
   if 80.in(100)
     # ids = Branch.pluck(:id).shuffle
     # myBranch = Branch.where(id: ids)
-    myEmployee = Employee.new( actor: myActor, branch: Branch.all.shuffle.first )
+    myEmployee = Employee.new( system_actor: mySystemActor, branch: Branch.all.shuffle.first )
 
     #Attendances
     rand(20..50).times do |i|
@@ -233,7 +225,7 @@ numberOfActors.times do |i|
     #   myLoan.loan_type = ['SSS','PHILHEALTH','PAGIBIG'].sample
     #   myLoan.pagibig_employer_id_number = '123456'
     #   myLoan.employee_id = myEmployee.id
-    #   myLoan.borrower_name = myEmployee.actors.name
+    #   myLoan.borrower_name = myEmployee.system_actors.name
     #   myLoan.loan_value = 1000000
     #   myLoan.loan_remaining = 1000000
     #   myLoan.collection_period_from = Time.now - rand(0..72000).hours
@@ -345,7 +337,7 @@ end
 
 def random_contactable_model
   associative_model = Hash.new
-  random_model = [Actor,Branch].sample
+  random_model = [SystemActor,Branch].sample
   associative_model[:my_model] = random_model
   associative_model[:my_model_id] = random_model.order("RAND()").first.id
   associative_model
@@ -353,16 +345,15 @@ end
 
 def random_fileable_model
   associative_model = Hash.new
-  random_model = [Actor,Branch].sample
+  random_model = [SystemActor,Branch].sample
   associative_model[:my_model] = random_model
   associative_model[:my_model_id] = random_model.order("RAND()").first.id
   associative_model
 end
 
 def random_associable_model
-  Rails.application.eager_load!
   my_model = Hash.new
-  models_array = [Actor,Branch,Vehicle]
+  models_array = [SystemActor,Branch,Vehicle]
   my_model[:current_model] = models_array.sample
   my_model[:current_id] = my_model[:current_model].order("RAND()").first.id
   my_model

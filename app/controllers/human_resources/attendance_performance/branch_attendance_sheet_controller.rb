@@ -9,8 +9,8 @@ class HumanResources::AttendancePerformance::BranchAttendanceSheetController < H
         @number_of_days = (@end_date - @start_date).abs.to_i + 1
         @selected_branch = Branch.find(params[:branches][:id])
         @employees_by_branch = Employee
-                                   .includes(:actor, :duty_status)
-                                   .joins(:actors, :duty_status)
+                                   .includes(:system_actor, :duty_status)
+                                   .joins(:system_actors, :duty_status)
                                    .where("branch_id = ?", "#{@selected_branch.id}")
         @attendances_per_employee_in_branch = ::Attendance.includes(:employee).joins(:employee).where("employees.branch_id = ?", "#{@selected_branch.id}")
       end

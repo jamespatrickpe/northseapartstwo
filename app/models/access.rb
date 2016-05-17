@@ -3,7 +3,7 @@ class Access < ActiveRecord::Base
   include BaseConcerns
 
   has_secure_password
-  belongs_to :actor, autosave: true
+  belongs_to :system_actor, autosave: true
   has_many :permissions
 
   validates_presence_of :username

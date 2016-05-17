@@ -2,8 +2,7 @@ class Biodatum < ActiveRecord::Base
 
   include BaseConcerns
 
-  belongs_to :actor
-
-  validates_presence_of :actor
+  belongs_to :system_actor
+  validates_presence_of :system_actor
 
 end

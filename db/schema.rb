@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160515194041) do
+ActiveRecord::Schema.define(version: 20160517022136) do
 
   create_table "accesses", force: :cascade do |t|
     t.datetime "created_at",                                  null: false
     t.datetime "updated_at",                                  null: false
-    t.string   "actor_id",        limit: 36
+    t.string   "system_actor_id", limit: 36
     t.string   "username",        limit: 64
     t.string   "password_digest", limit: 512
     t.string   "email",           limit: 512
@@ -28,16 +28,6 @@ ActiveRecord::Schema.define(version: 20160515194041) do
   end
 
   add_index "accesses", ["id"], name: "index_accesses_on_id", using: :btree
-
-  create_table "actors", force: :cascade do |t|
-    t.string   "remark",     limit: 256
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.string   "name",       limit: 64
-    t.string   "logo",       limit: 512
-  end
-
-  add_index "actors", ["id"], name: "index_actors_on_id", using: :btree
 
   create_table "addresses", force: :cascade do |t|
     t.string   "remark",           limit: 256
@@ -56,7 +46,7 @@ ActiveRecord::Schema.define(version: 20160515194041) do
     t.datetime "created_at",                                                         null: false
     t.datetime "updated_at",                                                         null: false
     t.string   "employee_id",            limit: 36
-    t.date     "date_of_implementation",             default: '2016-05-15'
+    t.date     "date_of_implementation",             default: '2016-05-17'
     t.time     "timein",                             default: '2000-01-01 00:00:01'
     t.time     "timeout",                            default: '2000-01-01 23:59:59'
   end
@@ -80,7 +70,7 @@ ActiveRecord::Schema.define(version: 20160515194041) do
   create_table "biodata", force: :cascade do |t|
     t.datetime "created_at",                                         null: false
     t.datetime "updated_at",                                         null: false
-    t.string   "actor_id",                limit: 36
+    t.string   "system_actor_id",         limit: 36
     t.string   "education",               limit: 256
     t.string   "career_experience",       limit: 256
     t.string   "notable_accomplishments", limit: 256
@@ -114,7 +104,7 @@ ActiveRecord::Schema.define(version: 20160515194041) do
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
     t.string   "name",                   limit: 64
-    t.date     "date_of_implementation",             default: '2016-05-15'
+    t.date     "date_of_implementation",             default: '2016-05-17'
     t.string   "value",                  limit: 64
     t.string   "constant_type",          limit: 64
   end
@@ -153,10 +143,10 @@ ActiveRecord::Schema.define(version: 20160515194041) do
   add_index "duty_statuses", ["id"], name: "index_duty_statuses_on_id", using: :btree
 
   create_table "employees", force: :cascade do |t|
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
-    t.string   "actor_id",   limit: 36
-    t.string   "branch_id",  limit: 36
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "system_actor_id", limit: 36
+    t.string   "branch_id",       limit: 36
   end
 
   add_index "employees", ["id"], name: "index_employees_on_id", using: :btree
@@ -202,7 +192,7 @@ ActiveRecord::Schema.define(version: 20160515194041) do
     t.string   "remark",                 limit: 256
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
-    t.date     "date_of_implementation",             default: '2016-05-15'
+    t.date     "date_of_implementation",             default: '2016-05-17'
     t.string   "name",                   limit: 64
     t.string   "holiday_type_id",        limit: 36
   end
@@ -243,8 +233,8 @@ ActiveRecord::Schema.define(version: 20160515194041) do
     t.datetime "updated_at",                                                       null: false
     t.string   "employee_id",          limit: 36
     t.string   "type_of_leave",        limit: 64
-    t.datetime "start_of_effectivity",             default: '2016-05-15 22:41:21'
-    t.datetime "end_of_effectivity",               default: '2016-05-15 22:41:21'
+    t.datetime "start_of_effectivity",             default: '2016-05-17 11:08:17'
+    t.datetime "end_of_effectivity",               default: '2016-05-17 11:08:17'
   end
 
   add_index "leaves", ["id"], name: "index_leaves_on_id", using: :btree
@@ -343,6 +333,16 @@ ActiveRecord::Schema.define(version: 20160515194041) do
 
   add_index "rest_days", ["id"], name: "index_rest_days_on_id", using: :btree
 
+  create_table "system_actors", force: :cascade do |t|
+    t.string   "remark",     limit: 256
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "name",       limit: 64
+    t.string   "logo",       limit: 512
+  end
+
+  add_index "system_actors", ["id"], name: "index_system_actors_on_id", using: :btree
+
   create_table "system_associations", force: :cascade do |t|
     t.string   "remark",         limit: 256
     t.datetime "created_at",                 null: false
@@ -395,7 +395,7 @@ ActiveRecord::Schema.define(version: 20160515194041) do
     t.string   "remark",                 limit: 256
     t.datetime "created_at",                                                               null: false
     t.datetime "updated_at",                                                               null: false
-    t.date     "date_of_implementation",                            default: '2016-05-15'
+    t.date     "date_of_implementation",                            default: '2016-05-17'
     t.decimal  "capacity_m3",                        precision: 10
     t.string   "type_of_vehicle",        limit: 64
     t.string   "plate_number",           limit: 64

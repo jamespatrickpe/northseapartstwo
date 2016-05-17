@@ -8,7 +8,7 @@
 
     <%= link_to( "Cancel" ,{:action => 'employee_accounts_management'} ) %>
 
-    <%= form_tag({action: :"edit_employee_data", :employee_id => @employee.id, :actor_id => @employee.actor.id}, multipart: true, id: "edit_employee_form", :"data-parsley-validate" => "" ) do %>
+    <%= form_tag({action: :"edit_employee_data", :employee_id => @employee.id, :system_actor_id => @employee.actor.id}, multipart: true, id: "edit_employee_form", :"data-parsley-validate" => "" ) do %>
 
         <div class="md-spacer"></div>
 

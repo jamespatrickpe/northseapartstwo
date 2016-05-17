@@ -21,7 +21,6 @@ class SystemAssociation < ActiveRecord::Base
   end
 
   def self.allowed_associations
-    # [Actor, Vehicle, Branch, FileSet, ImageSet, LinkSet]
     SystemAssociation.all_polymorphic_types(:model_two)
   end
 

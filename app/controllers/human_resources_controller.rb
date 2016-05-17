@@ -8,7 +8,7 @@ class HumanResourcesController < ApplicationController
 
   def employee_overview_profile
     respond_to do |format|
-      employee_overview_profile = Employee.find(params[:employee_ID]).to_json({ :include => :actors })
+      employee_overview_profile = Employee.find(params[:employee_ID]).to_json({ :include => :system_actors })
       format.all { render :json => employee_overview_profile}
     end
   end
@@ -27,7 +27,7 @@ class HumanResourcesController < ApplicationController
 
   def check_employee_name_exists
     employee_name = params[:employee_select_field]
-    result = Employee.includes(:actor).joins(:actors).where("actors.name = ?","#{employee_name}").exists?
+    result = Employee.includes(:system_actor).joins(:system_actors).where("actors.name = ?","#{employee_name}").exists?
     respond_to do |format|
       format.json { render json: {:"exists" => result}.to_json }
       format.html

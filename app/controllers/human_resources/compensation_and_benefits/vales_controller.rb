@@ -4,8 +4,8 @@ class HumanResources::CompensationAndBenefits::ValesController < HumanResources:
     query = generic_index_aggregated_queries('vales','vales.created_at')
     begin
       @vales = ::Vale
-                   .includes(employee: [:actor])
-                   .joins(employee: [:actors])
+                   .includes(employee: [:system_actor])
+                   .joins(employee: [:system_actors])
                               .where("actors.name LIKE ? OR " +
                                          "vales.id LIKE ? OR " +
                                          "vales.amount LIKE ? OR " +
@@ -33,7 +33,7 @@ class HumanResources::CompensationAndBenefits::ValesController < HumanResources:
   end
 
   def search_suggestions
-    adjustments = Vale.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    adjustments = Vale.includes(employee: :system_actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + adjustments.uniq.to_s + "}"
     respond_to do |format|
       format.all { render :text => direct}

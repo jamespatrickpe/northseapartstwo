@@ -44,8 +44,9 @@ module GenericIndexHelper
     render(:partial => 'common_partials/generic_index/theadlink_set', :locals => {:theadlink_set => theadlink_set})
   end
 
-  def polymorphic_link(model_type, model_id)
-    render(:partial => 'common_partials/generic_index/polymorphic_link', :locals => {:model_type => model_type, :model_id => model_id})
+  def polymorphic_link(current_model_instance)
+    render(:partial => 'common_partials/generic_index/polymorphic_link',
+           :locals => {:current_model_instance => current_model_instance})
   end
 
   def generic_index_datetime(active_support_time_with_zone)

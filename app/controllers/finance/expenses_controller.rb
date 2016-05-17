@@ -55,16 +55,16 @@ class Finance::ExpensesController < FinanceController
     involvedBranchObjects ||= []
 
     @expense_actor_rel.each do |ea|
-      if Actor.exists?(ea[:actor_id])
-        involvedActorObjects.push(Actor.find(ea[:actor_id]))
+      if Actor.exists?(ea[:system_actor_id])
+        involvedActorObjects.push(Actor.find(ea[:system_actor_id]))
       else
         puts 'ID in use does not belong to an Actor'
       end
     end
 
     @expense_actor_rel.each do |ea|
-      if Branch.exists?(ea[:actor_id])
-        involvedBranchObjects.push(Branch.find(ea[:actor_id]))
+      if Branch.exists?(ea[:system_actor_id])
+        involvedBranchObjects.push(Branch.find(ea[:system_actor_id]))
       else
         puts 'ID in use does not belong to a Branch'
       end
@@ -111,7 +111,7 @@ class Finance::ExpensesController < FinanceController
       actorsInvolved = params[:expense][:expenseactors]
       actorsInvolved.each_with_index do |p , index|
         actor = ExpensesActor.new
-        actor[:actor_id] = actorsInvolved.values[index]
+        actor[:system_actor_id] = actorsInvolved.values[index]
         actor[:expense_id] = myExpense.id
         actor.save!
       end

@@ -5,11 +5,11 @@ function update_quick_profile(){
     $.post( "/human_resources/employee_overview_profile", { employee_ID: employee_ID})
         .done(function( employee_overview_profile ) {
             var obj = jQuery.parseJSON( employee_overview_profile );
-            $('#employee_quick_actor_link').html( obj['actors']['name'] );
-            $('#employee_quick_actor_link').attr('href', '/human_resources/employee_accounts_management/employee_profile?actor_id=' + obj['actors']['id'] );
+            $('#employee_quick_SystemActor_link').html( obj['SystemActors']['name'] );
+            $('#employee_quick_SystemActor_link').attr('href', '/human_resources/employee_accounts_management/employee_profile?SystemActor_id=' + obj['SystemActors']['id'] );
             $('#employee_quick_employee_id').html( obj['id'] );
-            $('#employee_quick_remark').html( obj['actors']['remark'] );
-            $('#employee_quick_picture').attr( 'src', obj['actors']['logo']['url'] );
+            $('#employee_quick_remark').html( obj['SystemActors']['remark'] );
+            $('#employee_quick_picture').attr( 'src', obj['SystemActors']['logo']['url'] );
             $('.employee_quick_profile').fadeIn(500);
         });
 

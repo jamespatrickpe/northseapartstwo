@@ -4,8 +4,8 @@ class HumanResources::AttendancePerformance::RestDaysController < HumanResources
     query = generic_index_aggregated_queries('rest_days','rest_days.created_at')
     begin
       @rest_days = RestDay
-                       .includes(employee: [:actor])
-                       .joins(employee: [:actors])
+                       .includes(employee: [:system_actor])
+                       .joins(employee: [:system_actors])
                        .where("actors.name LIKE ? OR " +
                                   "rest_days.id LIKE ? OR " +
                                   "rest_days.day LIKE ? OR " +
@@ -32,7 +32,7 @@ class HumanResources::AttendancePerformance::RestDaysController < HumanResources
   end
 
   def search_suggestions
-    restdays = RestDay.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    restdays = RestDay.includes(employee: :system_actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + restdays.uniq.to_s + "}"
     respond_to do |format|
       format.all { render :text => direct}

@@ -3,8 +3,8 @@ class HumanResources::EmployeeAccountsManagement::BiodataController < HumanResou
   def index
     query = generic_index_aggregated_queries('biodata','biodata.created_at')
     begin
-      @biodata = Biodatum.includes(:actor)
-                           .joins(:actors)
+      @biodata = Biodatum.includes(:system_actor)
+                           .joins(:system_actors)
                            .where("biodata.actor_id LIKE ? ",
                                   "%#{query[:search_field]}%")
                            .order(query[:order_parameter] + ' ' + query[:order_orientation])

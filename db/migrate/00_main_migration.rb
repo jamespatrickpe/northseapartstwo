@@ -26,8 +26,8 @@ class MainMigration < ActiveRecord::Migration
     t.decimal :amount, :limit => 16, :precision => 16, :scale => 2
   end
 
-  def actor_id(t)
-    t.string :actor_id, :limit => 36
+  def system_actor_id(t)
+    t.string :system_actor_id, :limit => 36
   end
 
   def time_stamps(t)

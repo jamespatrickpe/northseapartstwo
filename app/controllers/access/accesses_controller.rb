@@ -53,7 +53,7 @@ class Access::AccessesController < AccessController
 
   def process_access_form(myAccess)
     begin
-      myAccess[:actor_id] = params[:access][:actor_id]
+      myAccess[:system_actor_id] = params[:access][:system_actor_id]
       myAccess[:username] = params[:access][:username]
       myAccess[:password_digest] = params[:access][:password_digest]
       myAccess[:email] = params[:access][:email]

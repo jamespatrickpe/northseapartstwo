@@ -4,8 +4,8 @@ class HumanResources::AttendancePerformance::RegularWorkPeriodsController < Huma
     query = generic_index_aggregated_queries('regular_work_periods','regular_work_periods.created_at')
     begin
       @regular_work_periods = RegularWorkPeriod
-      .includes(employee: [:actor])
-      .joins(employee: [:actors])
+      .includes(employee: [:system_actor])
+      .joins(employee: [:system_actors])
       .where("actors.name LIKE ? OR " +
                  "regular_work_periods.id LIKE ? OR " +
                  "regular_work_periods.start_time LIKE ? OR " +
@@ -36,7 +36,7 @@ class HumanResources::AttendancePerformance::RegularWorkPeriodsController < Huma
   end
 
   def search_suggestions
-    regularWorkPeriods = RegularWorkPeriod.includes(employee: :actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    regularWorkPeriods = RegularWorkPeriod.includes(employee: :system_actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + regularWorkPeriods.uniq.to_s + "}"
     respond_to do |format|
       format.all { render :text => direct}

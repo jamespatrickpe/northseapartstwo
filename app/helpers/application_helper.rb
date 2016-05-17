@@ -66,14 +66,14 @@ module ApplicationHelper
     related = model.where(query, modelId)
     # get all actors
     related.each do |ea|
-      if Actor.exists?(ea[:actor_id])
-        involvedActorObjects.push(Actor.find(ea[:actor_id]))
+      if Actor.exists?(ea[:system_actor_id])
+        involvedActorObjects.push(Actor.find(ea[:system_actor_id]))
       end
     end
     #get all branches
     related.each do |ea|
-      if Branch.exists?(ea[:actor_id])
-        involvedBranchObjects.push(Branch.find(ea[:actor_id]))
+      if Branch.exists?(ea[:system_actor_id])
+        involvedBranchObjects.push(Branch.find(ea[:system_actor_id]))
       end
     end
     # for future addition, just add another loop to obtain involved object via their ID

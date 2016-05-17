@@ -3,8 +3,8 @@ class HumanResources::CompensationAndBenefits::BaseRatesController < HumanResour
   def index
     query = generic_index_aggregated_queries('base_rates','base_rates.created_at')
     begin
-      @base_rates = BaseRate.includes(employee: [:actor])
-                        .joins(employee: [:actors])
+      @base_rates = BaseRate.includes(employee: [:system_actor])
+                        .joins(employee: [:system_actors])
                         .where("actors.name LIKE ? OR " +
                                    "base_rates.id LIKE ? OR " +
                                    "base_rates.signed_type LIKE ? OR " +

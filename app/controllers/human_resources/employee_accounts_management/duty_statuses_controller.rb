@@ -3,8 +3,8 @@ class HumanResources::EmployeeAccountsManagement::DutyStatusesController < Human
   def index
     query = generic_index_aggregated_queries('duty_statuses','duty_statuses.created_at')
     begin
-      @duty_statuses = DutyStatus.includes(employee: [:actor])
-                           .joins(employee: [:actors])
+      @duty_statuses = DutyStatus.includes(employee: [:system_actor])
+                           .joins(employee: [:system_actors])
                            .where("duty_statuses.id LIKE ? OR " +
                                       "duty_statuses.remark LIKE ? OR " +
                                       "duty_statuses.active LIKE ? OR " +

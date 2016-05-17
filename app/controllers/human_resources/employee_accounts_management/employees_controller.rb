@@ -3,8 +3,8 @@ class HumanResources::EmployeeAccountsManagement::EmployeesController < HumanRes
   def index
     query = generic_index_aggregated_queries('employees','employees.created_at')
     begin
-      @employees = Employee.includes(:actor, :duty_status, :branch)
-                           .joins(:actors, :duty_status, :branch)
+      @employees = Employee.includes(:system_actor, :duty_status, :branch)
+                           .joins(:system_actors, :duty_status, :branch)
                            .where("employees.id LIKE ? OR " +
                                   "duty_statuses.active LIKE ? OR " +
                                   "branches.name LIKE ? OR " +

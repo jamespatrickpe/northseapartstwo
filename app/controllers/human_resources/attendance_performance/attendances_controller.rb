@@ -4,8 +4,8 @@ class HumanResources::AttendancePerformance::AttendancesController < HumanResour
     query = generic_index_aggregated_queries('attendances','attendances.created_at')
     begin
       @attendances = ::Attendance
-                         .includes(employee: [:actor])
-                         .joins(employee: [:actors])
+                         .includes(employee: [:system_actor])
+                         .joins(employee: [:system_actors])
                          .where("actors.name LIKE ? OR " +
                                     "attendances.id LIKE ? OR " +
                                     "attendances.timein LIKE ? OR " +
