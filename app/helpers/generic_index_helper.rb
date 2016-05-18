@@ -82,4 +82,8 @@ module GenericIndexHelper
     render(:partial => 'common_partials/generic_index/display_selector')
   end
 
+  def generic_index_table_image(result_instance_attribute)
+    render(:partial => 'common_partials/generic_index/table_image' , :locals => {:result_instance_attribute => result_instance_attribute})
+  end
+
 end

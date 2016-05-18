@@ -1,0 +1,36 @@
+<div class="large-6 columns">
+
+  <%= f.input :name,
+              :label => "Name",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:name],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 64
+                      }
+  %>
+
+  <% action_name == 'new' ? file_requirement = true : file_requirement = false %>
+
+  <%= f.input :logo,
+              required: file_requirement,
+              :as => :file,
+              :label => "Logo or Picture",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:picture]
+                      }
+  %>
+
+  <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
+
+</div>
+
+<div class="large-6 columns">
+  <% if action_name != 'new' %>
+      <img src="<%= selected_model_instance.logo.url %>">
+      <hr style="visibility: hidden">
+  <% end %>
+</div>

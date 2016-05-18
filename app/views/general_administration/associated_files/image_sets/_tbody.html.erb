@@ -1,11 +1,6 @@
 <%= generic_index_id(result)%>
 
-<td style="background-image: url( '<%= result.picture.url %>' ); border: solid #808080 thick; background-position: center;">
-  <a target="_blank"
-     class="show_panel_small_button"
-     href= <%= result.picture.url %> >
-    <%= result[:picture] %></a>
-</td>
+<%= generic_index_table_image(result.picture) %>
 
 <td>
   <%= result[:priority] %>

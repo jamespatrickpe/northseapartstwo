@@ -1,0 +1,11 @@
+<td style="background-image: url( '<%= result_instance_attribute %>' ); border: solid #808080 thick; background-position: center;">
+  <a target="_blank"
+     class="show_panel_small_button"
+     href= <%= result_instance_attribute %> >
+    <%=
+        require 'uri'
+        uri = result_instance_attribute.to_s
+        uriPathTail = File.basename(URI.parse(uri).path)
+    %>
+  </a>
+</td>

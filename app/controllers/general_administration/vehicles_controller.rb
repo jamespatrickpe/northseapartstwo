@@ -1,12 +1,11 @@
 class GeneralAdministration::VehiclesController < GeneralAdministrationController
 
   def index
-    @vehicles = initialize_generic_index(Vehicle)
-    render_index
+    initialize_generic_index(Vehicle, 'Transportation Assets')
   end
 
   def search_suggestions
-    simple_singular_column_search('Vehicle.plate_number',Vehicle)
+    generic_index_search_suggestions(Vehicle)
   end
 
   def new

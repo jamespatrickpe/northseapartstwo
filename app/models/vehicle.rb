@@ -13,9 +13,9 @@ class Vehicle < ActiveRecord::Base
 
     searchable do
 
-      string :type_of_vehicle
-      string :plate_number
-      string :orcr
+      text :type_of_vehicle
+      text :plate_number
+      text :orcr
       float :capacity_m3
       time :date_of_implementation
 

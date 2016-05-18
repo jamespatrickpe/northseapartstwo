@@ -106,11 +106,8 @@
 
       <% end %>
 
-
-
-
   <!-- Overview Panels (if any) -->
-  <div>
+
     <% if defined? @overview_panels %>
         <% @overview_panels.each do |panel| %>
             <div class="overview_panel">
@@ -118,8 +115,15 @@
             </div>
         <% end %>
     <% end %>
-  </div>
 
+  <!-- Wizard Buttons (if any) -->
+    <% if defined? @wizard_buttons %>
+        <% @wizard_buttons.each do |button| %>
+            <button class="medium button" href="<%= button[1] %>">
+              <%= button[0] %>
+            </button>
+        <% end %>
+    <% end %>
 
   <!-- Change to Cell for the First Time View if Overflow is Detected -->
   <script>

@@ -13,7 +13,7 @@ class SystemActor < ActiveRecord::Base
   has_many :image_sets, as: :imagesetable
   has_many :link_set, as: :linksetable
 
-  mount_uploader :logo, AvatarUploader
+  mount_uploader :logo, AvatarUploader, :on => :file_name
   validates :logo,
             :file_size => {
                 :maximum => 3.5.megabytes.to_i

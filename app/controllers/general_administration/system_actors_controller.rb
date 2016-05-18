@@ -9,11 +9,11 @@ class GeneralAdministration::SystemActorsController < GeneralAdministrationContr
   end
 
   def new
-    set_new_edit(Actor)
+    set_new_edit(SystemActor)
   end
 
   def edit
-    set_new_edit(Actor)
+    set_new_edit(SystemActor)
   end
 
   def show
@@ -21,14 +21,18 @@ class GeneralAdministration::SystemActorsController < GeneralAdministrationContr
   end
 
   def delete
-    generic_delete(Actor)
+    SystemActor.find(params[:id]).remove_logo
+    generic_delete(SystemActor)
   end
 
   def process_actor_form(myActor)
     begin
       myActor[:name] = params[controller_path][:name]
       myActor[:remark] = params[controller_path][:remark]
-      myActor[:logo] = params[controller_path][:logo]
+      if action_name == 'edit'
+        myImage.remove_logo
+      end
+      myActor.logo = params[controller_path][:logo]
       myActor.save!
       set_process_notification
     rescue => ex
@@ -38,11 +42,11 @@ class GeneralAdministration::SystemActorsController < GeneralAdministrationContr
   end
 
   def create
-    process_actor_form(Actor.new())
+    process_actor_form(SystemActor.new())
   end
 
   def update
-    process_actor_form(Actor.find(params[controller_path][:id]))
+    process_actor_form(SystemActor.find(params[controller_path][:id]))
   end
 
 end

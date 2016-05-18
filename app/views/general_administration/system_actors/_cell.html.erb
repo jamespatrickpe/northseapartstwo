@@ -1,0 +1,7 @@
+<div> <%= generic_index_id(result) %> </div>
+<div> <%= result[:name] %> </div>
+<div> <%= generic_index_remark(result[:remark]) %> </div>
+<div>
+  <img src="<%= result.logo.url %>">
+</div>
+<%= generic_index_actions( result, controller_link ) %>
