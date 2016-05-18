@@ -4,10 +4,11 @@
 
   <% if check_partial_exists(path + "/_overview") %>
     <%= render partial: path + "/overview" %>
+    <hr style="visibility: hidden;">
   <% end %>
 
 <div style="margin-left: 10px; font-size: 12px;">
-  <a href="<%= path %>" class="tiny button" target="_blank">
+  <a href="<%= path %>" class="tiny button" >
     Proceed to <%= name %>
   </a>
 </div>

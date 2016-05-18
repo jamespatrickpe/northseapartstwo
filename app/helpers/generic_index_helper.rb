@@ -4,6 +4,10 @@ module GenericIndexHelper
     lookup_context.find_all( current_path ).any?
   end
 
+  def controller_link(current_model_instance)
+    ((current_model_instance.main_representation)[:controller_path])
+  end
+
   def generic_index_actions(current_model_instance, controller_link = nil)
     render partial: 'common_partials/generic_index/actions', locals: {
                                                                current_model_instance: current_model_instance,
@@ -44,9 +48,11 @@ module GenericIndexHelper
     render(:partial => 'common_partials/generic_index/theadlink_set', :locals => {:theadlink_set => theadlink_set})
   end
 
-  def polymorphic_link(current_model_instance)
+  def polymorphic_link(current_instance_type, current_instance_id)
     render(:partial => 'common_partials/generic_index/polymorphic_link',
-           :locals => {:current_model_instance => current_model_instance})
+           :locals => {:current_instance_type => current_instance_type,
+                       :current_instance_id => current_instance_id
+           })
   end
 
   def generic_index_datetime(active_support_time_with_zone)

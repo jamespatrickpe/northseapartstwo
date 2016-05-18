@@ -25,11 +25,11 @@
           <% instance_models.each do |model| %>
               <% if model.id ==  selected_model_instance[current_id] %>
                   <option value=<%= model.id %> data-modeltype="<%= allowable_model %>" selected>
-                    <%= model.main_representation %>
+                    <%= (model.main_representation)[:attribute] %>
                   </option>
               <% else %>
                   <option value=<%= model.id %> data-modeltype="<%= allowable_model %>" >
-                    <%= model.main_representation %>
+                    <%= (model.main_representation)[:attribute] %>
                   </option>
               <% end %>
           <% end %>

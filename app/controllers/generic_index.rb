@@ -96,7 +96,7 @@ module GenericIndex
         end
 
         associated_query.results.each do |result|
-          query_array.push( result.main_representation )
+          query_array.push( (result.main_representation)[:attribute] )
         end
 
       end

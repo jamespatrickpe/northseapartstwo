@@ -1,11 +1,10 @@
 <%=
+
+    main_model = current_instance_type.constantize.find(current_instance_id)
+    base = (main_model.main_representation)
+
     begin
-
-      extract_polymorphic_attribute(current_model_instance.class);
-
-      representation_hash = current_model_instance.main_representation
-      link_to representation_hash[:attribute],representation_hash[:controller_path]
-
+      link_to base[:attribute], base[:controller_path] + '/'+ current_instance_id
     rescue => ex
       " N/A " + ex.to_s
     end
