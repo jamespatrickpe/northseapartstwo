@@ -30,6 +30,7 @@
 //= require jquery-ui
 //= require jquery.autocomplete.min
 //= require freewall.js
+//= require quantities.js
 
 $(document).foundation();
 $(document).foundation('alert','events');

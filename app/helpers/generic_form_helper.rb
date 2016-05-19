@@ -31,4 +31,14 @@ module GenericFormHelper
                        :polymorphic_attribute => polymorphic_attribute})
   end
 
+  def field_measurement(f, name, current_label, selected_model_instance, default_unit)
+    render(:partial => 'common_partials/generic_form/field_measurement',
+           :locals => {:f => f,
+                       :name => name,
+                       :current_label => current_label,
+                       :selected_model_instance => selected_model_instance,
+                       :default_unit => default_unit
+           })
+  end
+
 end

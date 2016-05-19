@@ -1,0 +1,68 @@
+<div class="row collapse">
+  <div class="small-6 columns">
+    <% scalar_identifier = name.to_s + "_scalar_field"; %>
+    <%= f.input scalar_identifier.to_sym,
+                :as => :float,
+                :label => current_label,
+                label_html: { class: 'form_label' },
+                :input_html =>
+                        {
+                                :value => selected_model_instance[name.to_sym],
+                                :'data-parsley-trigger' => 'keyup',
+                                :'data-parsley-maxlength' => 64,
+                                :id => scalar_identifier
+                        }
+    %>
+  </div>
+
+  <div class="small-6 columns">
+    <% selector_identifier = name.to_s + "_unit_type_selector"; %>
+    <%= f.input selector_identifier.to_sym,
+                :as => :select,
+                :collection => Array.new(),
+                :label => "Alternative Unit",
+                label_html: { class: 'form_label' },
+                :input_html =>
+                        {
+                                :id => selector_identifier
+                        }
+    %>
+  </div>
+</div>
+
+<% hidden_field = name.to_s + "_hidden_field" %>
+<input type="hidden"
+       value="<%= selected_model_instance[name.to_sym] %>"
+       name="<%= controller_path %>[<%= name %>]"
+       id="<%= hidden_field %>">
+
+<script>
+    // Create and Populate
+    sample_kind = new Qty('0 <%= default_unit %>');
+    base_kind = sample_kind.kind();
+    types_of_unit = Qty.getUnits(base_kind);
+    current_scalar = $('#<%= scalar_identifier %>');
+    current_select = $('#<%= selector_identifier %>');
+    default_unit = '<%= default_unit %>';
+    $.each(types_of_unit, function(index, val) {
+        if(default_unit == val )
+        { current_select.append($('<option selected></option>').val(val).html(val)); }
+        else
+        { current_select.append($('<option></option>').val(val).html(val)); }
+    });
+
+    // On Change
+    current_select.change( function(){
+        var quantity = parseFloat(current_scalar.val());
+        var unit = current_select.val();
+
+        var current_qty = new Qty(quantity, unit);
+        var converted_qty = (current_qty.to('<%= default_unit %>'));
+        var current_hidden_field = $('#<%= hidden_field %>');
+        var split_array = converted_qty.toString().split(' ')
+
+        var scalar_qty = split_array[0];
+        current_hidden_field.val(parseFloat(scalar_qty));
+
+    });
+</script>

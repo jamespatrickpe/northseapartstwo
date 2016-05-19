@@ -10,6 +10,12 @@ class GeneralAdministrationController < ApplicationController
         [general_administration_system_actors_path,'System Actors'],
         [general_administration_vehicles_path,'Vehicles']
     ]
+
+    @wizard_buttons =
+    [
+
+    ]
+
     generic_index_main('System-Wide General Administration Concerns')
   end
 
