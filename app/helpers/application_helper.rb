@@ -187,18 +187,73 @@ module ApplicationHelper
   end
 
   def get_all_employees_from_a_branch(branchId)
-
-    puts '--------------------------------------'
-    puts branchId
-
     emps = Employee.where("(branch_id = ?)", "#{branchId}")
-
     emps.each do |e|
-      puts '--------------------------------------'
       puts e.actor.name
     end
-
     return emps
+  end
+
+
+  # in starter seed
+  # iterate over all employees, computing all of their income taxes and inserting it into the database
+  # provide a more realistic dataset
+  # for CRUD model, decide if to use existing Institutional_Adjustment model or just create a brand new Income_Tax model
+
+  def compute_individual_tax_rate_monthly(employee_id)
+    # get employee from employee_id
+    # get base_rate from employee
+    # return compute_individual_tax_rate(base_rate)
+  end
+
+  def compute_individual_tax_rate_week(employee_id)
+    # get employee from employee_id
+    # get base_rate from employee
+    # check if base_rate.type = WEEK
+    # if WEEK
+    #     validate if employee has complete attendance
+    #         if employee has perfect week attendance, proceed
+    #                return compute_individual_tax_rate(base_rate)
+    #
+    # -- does it still count as full even if employee has absent?
+    # -- what do you consider as a working week? do you have service on weekends?
+    # -- I am about to code this as if week will be treated as bulk, not as a set of days
+  end
+
+  def compute_individual_tax_rate_daily(employee_id, compute_from, compute_to)
+    # get employee from employee_id
+    # get base_rate from employee
+    # check if base_rate.type = DAY
+    # if DAY
+    #     iterate over all days within the range that the employee has attendance
+    #     ADD each daily rate to a SUM
+    #     TAKE INTO CONSIDERATION REGULAR WORKING PERIOD OF EMPLOYEE
+    #     return compute_individual_tax_rate(SUM)
+    #
+    # -- do you have undertime status if employee failed to complete his
+    #    designated REGULAR WORKING PERIOD? because this will surely affect the income and the corresponding tax
+  end
+
+  def compute_individual_tax_rate_hourly(employee_id, compute_from, compute_to)
+    # get employee from employee_id
+    # get base_rate from employee
+    # check if base_rate.type = HOURLY
+    # if HOURLY
+    #     iterate over all days within the range that the employee has attendance
+    #     ADD each hourly rate to a SUM
+    #     TAKE INTO CONSIDERATION REGULAR WORKING PERIOD OF EMPLOYEE
+    #     return compute_individual_tax_rate(SUM)
+  end
+
+  def compute_individual_tax_rate(base_rate)
+    # if < 10,000,            tax_rate = base_rate * 0.05
+    # if 10,001 to 30,000     tax_rate = 500 + ((base_rate - 10,000) * 0.1)
+    # if 30,001 to 70,000     tax_rate = 2,500 + ((base_rate - 30,000) * 0.15)
+    # if 70,001 to 140,000    tax_rate = 8,500 + ((base_rate - 70,000) * 0.20)
+    # if 140,001 to 250,000   tax_rate = 22,500 + ((base_rate - 140,000) * 0.25)
+    # if 250,001 to 500,000   tax_rate = 50,000 + ((base_rate - 250,000) * 0.30)
+    # if > 500,000            tax_rate = 125,000 + ((base_rate - 500,000) * 0.32)
+    # return tax_rate
   end
 
 end

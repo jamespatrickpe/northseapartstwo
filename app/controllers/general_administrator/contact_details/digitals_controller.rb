@@ -75,7 +75,7 @@ class GeneralAdministrator::ContactDetails::DigitalsController < GeneralAdminist
     flash[:general_flash_notification_type] = 'affirmative'
 
     # deletes all related actors with the digital before deleting the actual digital object
-    mapped_digital_actors = TelephonesActor.where("digitals_actors.digital_id = ?", "#{params[:id]}")
+    mapped_digital_actors = DigitalsActor.where("digitals_actors.digital_id = ?", "#{params[:id]}")
     mapped_digital_actors.each do |a|
       a.destroy
     end

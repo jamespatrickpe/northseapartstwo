@@ -88,6 +88,17 @@
 </div>
 
 <div class="form-block">
+  <div class="label">Employer Contribution : </div>
+  <%= text_field_tag("institutional_adjustment[employer_contribution]",
+                     content = @selected_institutional_adjustment[:employer_contribution],
+                     options = {placeholder: "Enter amount",
+                                required: "required",
+                                :"data-parsley-trigger" => "keyup",
+                                :"data-parsley-step" => "0.01",
+                                :"data-parsley-type" => "number"}) %>
+</div>
+
+<div class="form-block">
   <div class="label">Period of Time : </div>
   <br />
   <select name='institutional_adjustment[period_of_time]'

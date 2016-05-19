@@ -45,7 +45,7 @@
             <tbody>
             <% @accesses.each do |access| %>
                 <tr>
-                  <td><%= access[:id].upc %></td>
+                  <td><%= access[:id].upcase %></td>
                   <td><%= access[:actor_id] %> </td>
                   <td><%= access[:username] %> </td>
                   <td><%= access[:email] %> </td>

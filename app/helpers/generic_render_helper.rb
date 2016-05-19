@@ -3,7 +3,7 @@ module GenericRenderHelper
   def payment_scheme_date(date_aspect, selected_employee, date_of_attendance, current_attendance_date_time)
     render(:partial => 'human_resources/compensation_and_benefits/payrolls/payment_scheme_date', :locals => {:link => link, :id => id})
   end
-  
+
   def generic_payroll_add_link(link,id)
     render(:partial => 'core_partials/generic_payroll_add_link', :locals => {:link => link, :id => id})
   end
@@ -71,5 +71,9 @@ module GenericRenderHelper
   def generic_search_footer(result_set)
     render(:partial => 'core_partials/generic_search_pagination', :locals => {:result_set => result_set})
   end
-  
+
+  def generic_related_actors_selector(model_name, related_models)
+    render(:partial => 'core_partials/generic_related_actors_selector', :locals => {:model_name => model_name, :related_models => related_models})
+  end
+
 end

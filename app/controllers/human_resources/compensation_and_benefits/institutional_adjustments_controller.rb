@@ -79,6 +79,8 @@ class HumanResources::CompensationAndBenefits::InstitutionalAdjustmentsControlle
       institutional_adjustment.save!
       flash[:general_flash_notification_type] = 'affirmative'
     rescue => ex
+      puts '----'
+      puts ex
       flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
     end
     redirect_to :action => 'index'
