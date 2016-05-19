@@ -129,7 +129,7 @@ SOFTWARE.
     "<tablespoon>":  [["tb","tbsp","tbs","tablespoon","tablespoons"], 1.47867648e-5, "volume", ["<meter>","<meter>","<meter>"]],
     "<teaspoon>":  [["tsp","teaspoon","teaspoons"], 4.92892161e-6, "volume", ["<meter>","<meter>","<meter>"]],
     "<bushel>":  [["bu","bsh","bushel","bushels"], 0.035239072, "volume", ["<meter>","<meter>","<meter>"]],
-    "<cubic-meter>":  [["cubic_meter","cubic-meter","m^3", "m3"], 1, "volume", ["<meter>","<meter>","<meter>"]],
+    "<cubic-meter>":  [["cubic_meter","cubic_meters","cubic-meter","cubic-meters","m^3", "m3"], 1, "volume", ["<meter>","<meter>","<meter>"]],
 
     /* speed */
     "<kph>" : [["kph"], 0.277777778, "speed", ["<meter>"], ["<second>"]],

@@ -86,4 +86,8 @@ module GenericIndexHelper
     render(:partial => 'common_partials/generic_index/table_image' , :locals => {:result_instance_attribute => result_instance_attribute})
   end
 
+  def generic_index_measurement(result, attribute_name, unit)
+    render(:partial => 'common_partials/generic_index/measurement' , :locals => {:result => result, :attribute_name => attribute_name, :unit => unit })
+  end
+
 end

@@ -233,8 +233,8 @@ ActiveRecord::Schema.define(version: 20160517022136) do
     t.datetime "updated_at",                                                       null: false
     t.string   "employee_id",          limit: 36
     t.string   "type_of_leave",        limit: 64
-    t.datetime "start_of_effectivity",             default: '2016-05-19 14:46:02'
-    t.datetime "end_of_effectivity",               default: '2016-05-19 14:46:02'
+    t.datetime "start_of_effectivity",             default: '2016-05-19 17:41:28'
+    t.datetime "end_of_effectivity",               default: '2016-05-19 17:41:28'
   end
 
   add_index "leaves", ["id"], name: "index_leaves_on_id", using: :btree
@@ -393,9 +393,9 @@ ActiveRecord::Schema.define(version: 20160517022136) do
 
   create_table "vehicles", force: :cascade do |t|
     t.string   "remark",          limit: 256
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
-    t.decimal  "capacity_m3",                 precision: 10
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
+    t.decimal  "capacity_m3",                 precision: 20, scale: 10
     t.string   "type_of_vehicle", limit: 64
     t.string   "plate_number",    limit: 64
     t.string   "orcr",            limit: 64

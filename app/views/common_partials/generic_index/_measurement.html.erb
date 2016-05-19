@@ -1,0 +1,54 @@
+<%
+    scalar_identifier = result.id + "_" + attribute_name + "_scalar"
+    unit_identifier = result.id + "_" + attribute_name + "_unit"
+    unit_identifier_class = attribute_name + "_unit_class"
+%>
+
+<span id="<%= scalar_identifier %>">
+  <%= result[attribute_name.to_sym] %>
+</span>
+
+<a id="<%= unit_identifier %>"><%= unit %></a>
+
+<script>
+  current_scalar = $('#<%= unit_identifier %>');
+  current_scalar.click(
+          function()
+          {
+              current_scalar = $(this).siblings("#<%= scalar_identifier %>").html();
+              current_unit = $(this).html();
+              sample_kind = new Qty('0 ' + current_unit);
+              base_kind = sample_kind.kind();
+              types_of_unit = Qty.getUnits(base_kind);
+
+              next_type_index = 0;
+              next_type = '';
+
+              $.each(types_of_unit, function( type_index, type )
+              {
+                  alias_array = Qty.getAliases(current_unit)
+                  $.each(alias_array,function( alias_index,alias )
+                  {
+                      if(type == alias)
+                      {
+                          if( type_index < (types_of_unit.length - 1))
+                          {
+                              next_type_index = type_index + 1;
+                          }
+                          else
+                          {
+                              next_type_index = 0;
+                          }
+                      }
+                  });
+              });
+
+              next_type = types_of_unit[next_type_index];
+              $(this).html(next_type);
+              next_scalar = new Qty(current_scalar + ' ' + current_unit);
+              next_scalar = next_scalar.to(next_type).toString().split(' ');
+              $(this).siblings("#<%= scalar_identifier %>").html(next_scalar[0]);
+
+          });
+
+</script>

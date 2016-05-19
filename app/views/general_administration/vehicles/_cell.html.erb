@@ -2,6 +2,8 @@
 <div> <%= result[:orcr] %> </div>
 <div> <%= result[:plate_number] %> </div>
 <div> <%= result[:type_of_vehicle] %> </div>
-<div> <%= result[:capacity_m3] %> m<sup>3</sup> </div>
+<div>
+  <%= generic_index_measurement( result, 'capacity_m3', 'cubic-meters') %>
+</div>
 <div> <%= generic_index_remark(result[:remark]) %> </div>
 <%= generic_index_actions( result, controller_link ) %>

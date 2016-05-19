@@ -53,16 +53,25 @@
 
     // On Change
     current_select.change( function(){
-        var quantity = parseFloat(current_scalar.val());
-        var unit = current_select.val();
-
-        var current_qty = new Qty(quantity, unit);
-        var converted_qty = (current_qty.to('<%= default_unit %>'));
-        var current_hidden_field = $('#<%= hidden_field %>');
-        var split_array = converted_qty.toString().split(' ')
-
-        var scalar_qty = split_array[0];
-        current_hidden_field.val(parseFloat(scalar_qty));
-
+        change_real_value();
     });
+    current_scalar.change( function(){
+        change_real_value();
+    });
+
+
+    function change_real_value()
+        {
+            var quantity = parseFloat(current_scalar.val());
+            var unit = current_select.val();
+
+            var current_qty = new Qty(quantity, unit);
+            var converted_qty = (current_qty.to('<%= default_unit %>'));
+            var current_hidden_field = $('#<%= hidden_field %>');
+            var split_array = converted_qty.toString().split(' ')
+
+            var scalar_qty = split_array[0];
+            current_hidden_field.val(parseFloat(scalar_qty));
+        }
+
 </script>

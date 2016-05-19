@@ -2,6 +2,10 @@
 <td><%= result[:orcr] %></td>
 <td><%= result[:plate_number] %></td>
 <td><%= result[:type_of_vehicle] %></td>
-<td><%= result[:capacity_m3] %></td>
+
+<td>
+  <%= generic_index_measurement( result, 'capacity_m3', 'cubic-meters') %>
+</td>
+
 <%= generic_index_remark(result[:remark]) %>
 <%= generic_index_last_rows(result) %>
