@@ -1,0 +1,28 @@
+<%= generic_horizontal_title('ASSOCIATED FILES') %>
+<%
+   results = FileSet.where(["filesetable_type = ? and filesetable_id = ?", parent_model.to_s , parent_id.to_s ])
+   results.each do |result|
+%>
+    <div class="item_cell">
+      <%= render :partial => 'general_administration/associated_files/file_sets/cell',:locals => {:result => result, :controller_link => controller_path} %>
+    </div>
+<% end %>
+
+<%
+   results = ImageSet.where(["imagesetable_type = ? and imagesetable_id = ?", parent_model.to_s , parent_id.to_s ])
+   results.each do |result|
+%>
+    <div class="item_cell">
+      <%= render :partial => 'general_administration/associated_files/image_sets/cell',:locals => {:result => result, :controller_link => controller_path} %>
+    </div>
+<% end %>
+
+<%
+   results = LinkSet.where(["linksetable_type = ? and linksetable_id = ?", parent_model.to_s , parent_id.to_s ])
+   results.each do |result|
+%>
+    <div class="item_cell">
+      <%= render :partial => 'general_administration/associated_files/link_sets/cell',:locals => {:result => result, :controller_link => controller_path} %>
+    </div>
+<% end %>
+

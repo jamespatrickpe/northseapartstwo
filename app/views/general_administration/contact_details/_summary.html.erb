@@ -1,0 +1,27 @@
+<%= generic_horizontal_title('CONTACT DETAILS') %>
+<%
+    results = Address.where(["addressable_type = ? and addressable_id = ?", parent_model.to_s , parent_id.to_s ])
+    results.each do |result|
+%>
+    <div class="item_cell">
+      <%= render :partial => 'general_administration/contact_details/addresses/cell',:locals => {:result => result, :controller_link => general_administration_contact_details_addresses_path} %>
+    </div>
+<% end %>
+
+<%
+    results = Digital.where(["digitable_type = ? and digitable_id = ?", parent_model.to_s , parent_id.to_s ])
+    results.each do |result|
+%>
+  <div class="item_cell">
+    <%= render :partial => 'general_administration/contact_details/digitals/cell',:locals => {:result => result, :controller_link => general_administration_contact_details_digitals_path} %>
+  </div>
+<% end %>
+
+<%
+    results = Telephone.where(["telephonable_type = ? and telephonable_id = ?", parent_model.to_s , parent_id.to_s ])
+    results.each do |result|
+%>
+  <div class="item_cell">
+    <%= render :partial => 'general_administration/contact_details/telephones/cell',:locals => {:result => result, :controller_link => general_administration_contact_details_telephones_path} %>
+  </div>
+<% end %>

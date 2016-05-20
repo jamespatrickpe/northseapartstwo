@@ -9,6 +9,7 @@
     overflow-x: hidden;
     color: #000000;
     background-color: #f2f2f2;
+    float:left;
 }
 
 .item_cell > div
@@ -42,5 +43,4 @@
 
 .item_cell > ul.button-group > li
 {
-    visibility: hidden;
 }
