@@ -1,11 +1,14 @@
 <%=
-    if action_name == 'show'
-    main_model = current_instance_type.constantize.find(current_instance_id)
-    base = (main_model.main_representation)
+    unless defined? @summary
 
-    begin
-      link_to base[:attribute], base[:controller_path] + '/'+ current_instance_id
-    rescue => ex
-      " N/A " + ex.to_s
+        main_model = current_instance_type.constantize.find(current_instance_id)
+        base = (main_model.main_representation)
+
+        begin
+            link_to base[:attribute], base[:controller_path] + '/'+ current_instance_id
+        rescue => ex
+            " N/A " + ex.to_s
+        end
+
     end
 %>

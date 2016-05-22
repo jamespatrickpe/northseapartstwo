@@ -42,10 +42,10 @@ module GenericFormHelper
   end
 
   def related_summary(controller_path, parent_model, parent_id)
+    @summary = true
     render( :partial => controller_path + "/summary",
             :locals => {:parent_model => parent_model,
-                        :parent_id => parent_id }
-    )
+                        :parent_id => parent_id})
   end
 
   def generic_horizontal_title(title)

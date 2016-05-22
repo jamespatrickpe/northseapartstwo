@@ -348,7 +348,7 @@ end
 
 def random_fileable_model
   associative_model = Hash.new
-  random_model = [SystemActor,Branch].sample
+  random_model = [SystemActor,Branch, Vehicle].sample
   associative_model[:my_model] = random_model
   associative_model[:my_model_id] = random_model.order("RAND()").first.id
   associative_model

@@ -37,3 +37,10 @@
   <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
 
 </div>
+
+<% if action_name != 'new' %>
+<hr style="visibility: hidden">
+<div>
+  <%= related_summary(general_administration_associated_files_path, SystemActor, selected_model_instance.id) %>
+</div>
+<% end %>
