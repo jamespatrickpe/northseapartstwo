@@ -1,0 +1,2 @@
+module GeneralAdministration::ContactsWizardHelper
+end

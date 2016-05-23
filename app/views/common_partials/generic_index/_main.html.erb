@@ -107,7 +107,6 @@
       <% end %>
 
   <!-- Overview Panels (if any) -->
-
     <% if defined? @overview_panels %>
         <% @overview_panels.each do |panel| %>
             <div class="overview_panel">
@@ -117,11 +116,12 @@
     <% end %>
 
   <!-- Wizard Buttons (if any) -->
+  <hr style="visibility: hidden">
     <% if defined? @wizard_buttons %>
         <% @wizard_buttons.each do |button| %>
-            <button class="medium button" href="<%= button[1] %>">
-              <%= button[0] %>
-            </button>
+          <a href="<%= button[0] %>" class="medium button">
+            <%= button[1] %>
+          </a>
         <% end %>
     <% end %>
 

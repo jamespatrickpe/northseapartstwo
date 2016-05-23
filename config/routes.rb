@@ -94,6 +94,8 @@ Rails.application.routes.draw do
     end
     generate_logic_unit('contact_details')
 
+    resources :contacts_wizard
+
   end
 
   get 'access/' => 'access#index'
