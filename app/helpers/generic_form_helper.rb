@@ -56,4 +56,8 @@ module GenericFormHelper
 
   end
 
+  def not_on_wizard_conditional
+    action_name != 'new'  && (defined?(wizard_path)).nil? == true
+  end
+
 end

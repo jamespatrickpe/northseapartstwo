@@ -13,19 +13,32 @@
       %>
       <input type="reset" class="tiny button" value="RESET" />
       <input type="submit" class="tiny button" value="SUBMIT" />
-  <% elsif action_name == 'show' %>
+  <% elsif not_on_wizard_conditional %>
 
       <%= link_to( "EDIT RECORD".html_safe ,
                    {:action => 'edit',
                     :id => selected_model_id},
                    class: 'tiny button') %>
-
       <script>
           $(".main_form").find("input").prop("disabled", true);
           $("selectize").prop("disabled", true);
           $("textarea").prop("disabled", true);
           $("select").prop("disabled", true);
       </script>
+
+  <% elsif (defined?(wizard_path)).nil? == false %>
+
+  <% if wizard_path != previous_wizard_path %>
+    <%=
+    link_to( "PREVIOUS".html_safe, previous_wizard_path,
+             class: 'tiny button')
+    %>
+  <% end %>
+
+  <%=
+      link_to( "NEXT".html_safe, next_wizard_path,
+               class: 'tiny button')
+  %>
 
   <% else %>
 

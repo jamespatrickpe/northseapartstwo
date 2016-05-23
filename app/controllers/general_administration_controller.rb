@@ -13,8 +13,8 @@ class GeneralAdministrationController < ApplicationController
 
     @wizard_buttons =
     [
-        [general_administration_contacts_wizard_path(:setup_actor),'Contacts Wizard']
-    ]
+        [general_administration_add_contacts_wizard_path(:setup_actor),'Setup Contacts Wizard']
+    ]  
 
     generic_index_main('System-Wide General Administration Concerns')
   end

@@ -1,18 +1,23 @@
 <section class="large-10 columns">
 
   <%=
-     # Set Header
-     if action_name == "new"
-       subtitle = @subtitle
-     elsif action_name == "edit"
-       subtitle = @subtitle + " | " + selected_model_instance[:id]
-     elsif action_name == "show"
-       subtitle = @subtitle + " | " + selected_model_instance[:id]
-     else
-       subtitle = ""
-     end
-     generic_title(@title,subtitle)
+      # Set Header
+      if (defined?(wizard_path)).nil?
+        if action_name == "new"
+          subtitle = @subtitle
+        elsif action_name == "edit"
+          subtitle = @subtitle + " | " + selected_model_instance[:id].to_s
+        elsif action_name == "show"
+          subtitle = @subtitle + " | " + selected_model_instance[:id].to_s
+        else
+          subtitle = ""
+        end
+        generic_title(@title, subtitle)
+      else
+        generic_title(@title, @subtitle)
+      end
   %>
+
     <%
        current_method = ''
        current_action = ''
@@ -28,10 +33,21 @@
                                    :method => current_method} do |f|
     %>
         <%= f.hidden_field :id, :value => selected_model_instance[:id] %>
-        <%= render(:partial => controller_path + '/form',
+
+        <%
+           if (defined?(wizard_path)).nil?
+             partial_path = controller_path + '/form'
+           else
+             partial_path = @path + '/form'
+           end
+        %>
+
+        <%=
+            render(:partial => partial_path,
                    :locals => {:f => f,
                                :selected_model_instance => selected_model_instance})
         %>
+
         <hr style="visibility: hidden">
         <div class="large-6 columns">
         <%= generic_form_footer(selected_model_instance[:id]) %>

@@ -94,7 +94,7 @@ Rails.application.routes.draw do
     end
     generate_logic_unit('contact_details')
 
-    resources :contacts_wizard
+    resources :add_contacts_wizard
 
   end
 
