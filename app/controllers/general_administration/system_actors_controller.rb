@@ -25,7 +25,7 @@ class GeneralAdministration::SystemActorsController < GeneralAdministrationContr
     generic_delete(SystemActor)
   end
 
-  def process_actor_form(myActor)
+  def process_form(myActor)
     begin
       myActor[:name] = params[controller_path][:name]
       myActor[:remark] = params[controller_path][:remark]
@@ -38,15 +38,20 @@ class GeneralAdministration::SystemActorsController < GeneralAdministrationContr
     rescue => ex
       index_error(ex)
     end
-    redirect_to_index
+    form_completion_redirect
   end
 
   def create
-    process_actor_form(SystemActor.new())
+    process_form(SystemActor.new())
   end
 
   def update
-    process_actor_form(SystemActor.find(params[controller_path][:id]))
+    process_form(SystemActor.find(params[controller_path][:id]))
+  end
+
+
+  def sample_process
+    @sherwin = 'hueh hueh'
   end
 
 end

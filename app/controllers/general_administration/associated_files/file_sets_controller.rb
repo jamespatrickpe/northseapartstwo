@@ -25,7 +25,7 @@ class GeneralAdministration::AssociatedFiles::FileSetsController < GeneralAdmini
     generic_delete(FileSet)
   end
 
-  def process_file_form(myFile)
+  def process_form(myFile)
     begin
       myFile[:remark] = params[controller_path][:remark]
       if action_name == 'edit'
@@ -40,15 +40,15 @@ class GeneralAdministration::AssociatedFiles::FileSetsController < GeneralAdmini
     rescue => ex
       index_error(ex)
     end
-    redirect_to_index
+    form_completion_redirect
   end
 
   def create
-    process_file_form(FileSet.new())
+    process_form(FileSet.new())
   end
 
   def update
-    process_file_form(FileSet.find(params[controller_path][:id]))
+    process_form(FileSet.find(params[controller_path][:id]))
   end
 
 end

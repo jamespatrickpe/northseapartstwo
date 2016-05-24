@@ -36,7 +36,7 @@ module GenericController
     render controller_path + '/index'
   end
 
-  def redirect_to_index
+  def form_completion_redirect
     redirect_to :action => 'index'
   end
 
@@ -90,6 +90,11 @@ module GenericController
     flash[:general_flash_notification_type] = 'negative'
     flash[:general_flash_notification] = 'Deleted' + ' ' + controller_name + ' | ' + my_ID
     redirect_to :action => "index"
+  end
+
+  def setup_step(subtitle,selected_model_instance)
+    @subtitle = subtitle
+    @selected_model_instance = selected_model_instance.new()
   end
 
 end

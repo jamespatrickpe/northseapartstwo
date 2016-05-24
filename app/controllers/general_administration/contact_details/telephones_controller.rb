@@ -24,7 +24,7 @@ class GeneralAdministration::ContactDetails::TelephonesController < GeneralAdmin
     generic_delete(Telephone)
   end
 
-  def process_telephone_form(myTelephone)
+  def process_form(myTelephone)
     begin
       myTelephone[:digits] = params[controller_path][:digits]
       myTelephone[:remark] = params[controller_path][:remark]
@@ -35,15 +35,15 @@ class GeneralAdministration::ContactDetails::TelephonesController < GeneralAdmin
     rescue => ex
       index_error(ex)
     end
-    redirect_to_index
+    form_completion_redirect
   end
 
   def create
-    process_telephone_form(Telephone.new())
+    process_form(Telephone.new())
   end
 
   def update
-    process_telephone_form(Telephone.find(params[controller_path][:id]))
+    process_form(Telephone.find(params[controller_path][:id]))
   end
 
 end

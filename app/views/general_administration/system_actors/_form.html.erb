@@ -17,10 +17,8 @@
                     }
 %>
 
-<% action_name == 'new' ? file_requirement = true : file_requirement = false %>
-
 <%= f.input :logo,
-            required: file_requirement,
+            required: false,
             :as => :file,
             :label => "Logo or Picture",
             label_html: { class: 'form_label' },

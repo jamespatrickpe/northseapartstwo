@@ -38,7 +38,7 @@
            if (defined?(wizard_path)).nil?
              partial_path = controller_path + '/form'
            else
-             partial_path = @path + '/form'
+             partial_path = selected_model_instance.main_representation[:controller_path] + '/form'
            end
         %>
 

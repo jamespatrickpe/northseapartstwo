@@ -60,4 +60,10 @@ module GenericFormHelper
     action_name != 'new'  && (defined?(wizard_path)).nil? == true
   end
 
+  def setup_wizard_step
+    render :template => 'common_partials/generic_form/_main',
+           :locals => {:selected_model_instance => @selected_model_instance,
+                       :wizard_path => wizard_path.to_s}
+  end
+
 end

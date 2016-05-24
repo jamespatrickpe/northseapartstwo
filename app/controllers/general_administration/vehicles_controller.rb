@@ -37,7 +37,7 @@ class GeneralAdministration::VehiclesController < GeneralAdministrationControlle
       index_error(ex)
     end
 
-    redirect_to_index
+    form_completion_redirect
   end
 
   def create

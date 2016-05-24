@@ -24,7 +24,7 @@ class GeneralAdministration::ContactDetails::DigitalsController < GeneralAdminis
     generic_delete(Digital)
   end
 
-  def process_digital_form(myDigital)
+  def process_form(myDigital)
     begin
       myDigital[:url] = params[controller_path][:url]
       myDigital[:remark] = params[controller_path][:remark]
@@ -35,15 +35,15 @@ class GeneralAdministration::ContactDetails::DigitalsController < GeneralAdminis
     rescue => ex
       index_error(ex)
     end
-    redirect_to_index
+    form_completion_redirect
   end
 
   def create
-    process_digital_form(Digital.new())
+    process_form(Digital.new())
   end
 
   def update
-    process_digital_form(Digital.find(params[controller_path][:id]))
+    process_form(Digital.find(params[controller_path][:id]))
   end
 
 end

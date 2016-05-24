@@ -25,7 +25,7 @@ class GeneralAdministration::AssociatedFiles::ImageSetsController < GeneralAdmin
     generic_delete(ImageSet)
   end
 
-  def process_image_form(myImage)
+  def process_form(myImage)
     begin
       myImage[:remark] = params[controller_path][:remark]
       if action_name == 'edit'
@@ -40,15 +40,15 @@ class GeneralAdministration::AssociatedFiles::ImageSetsController < GeneralAdmin
     rescue => ex
       index_error(ex)
     end
-    redirect_to_index
+    form_completion_redirect
   end
 
   def create
-    process_image_form(ImageSet.new())
+    process_form(ImageSet.new())
   end
 
   def update
-    process_image_form(ImageSet.find(params[controller_path][:id]))
+    process_form(ImageSet.find(params[controller_path][:id]))
   end
 
 end

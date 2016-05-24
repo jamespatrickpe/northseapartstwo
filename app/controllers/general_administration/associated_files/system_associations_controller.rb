@@ -24,7 +24,7 @@ class GeneralAdministration::AssociatedFiles::SystemAssociationsController < Gen
     generic_delete(SystemAssociation)
   end
 
-  def process_file_form(association)
+  def process_form(association)
     begin
       association[:remark] = params[controller_path][:remark]
       association[:model_one_type] = params[controller_path][:model_one_type]
@@ -36,15 +36,15 @@ class GeneralAdministration::AssociatedFiles::SystemAssociationsController < Gen
     rescue => ex
       index_error(ex)
     end
-      redirect_to_index
+      form_completion_redirect
   end
 
   def create
-    process_file_form(SystemAssociation.new())
+    process_form(SystemAssociation.new())
   end
 
   def update
-    process_file_form(SystemAssociation.find(params[controller_path][:id]))
+    process_form(SystemAssociation.find(params[controller_path][:id]))
   end
 
 end

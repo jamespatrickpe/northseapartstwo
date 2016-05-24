@@ -2,26 +2,30 @@ class GeneralAdministration::AddContactsWizardController < GeneralAdministration
 
   include Wicked::Wizard
 
-  steps :setup_actor, :setup_address, :setup_digital, :setup_telephone
+  steps :setup_system_actor,
+        :setup_address,
+        :setup_digital,
+        :setup_telephone,
+        :final_contacts
 
   def show
 
-
-
-    @title = 'Add Contacts Wizard'
     case step
-      when :setup_actor
-        @subtitle = 'Add Actor'
-        @selected_model_instance = SystemActor.new()
-        @path = @selected_model_instance.main_representation[:controller_path]
+      when :setup_system_actor
+        setup_step('Setup System Actor',SystemActor)
       when :setup_address
-        @subtitle = 'Add Address'
-        @selected_model_instance = Address.new()
-        @path = @selected_model_instance.main_representation[:controller_path]
-      when :setup_digital
-      when :setup_telephone
-    end
 
+        myActor[:name] = params[controller_path][:name]
+        myActor[:remark] = params[controller_path][:remark]
+        myActor.logo = params[controller_path][:logo]
+
+        setup_step('Setup Address',Address)
+      when :setup_digital
+        setup_step('Setup Digital',Digital)
+      when :setup_telephone
+        setup_step('Setup Telephone',Telephone)
+      when :final_contacts
+    end
     render_wizard
 
   end

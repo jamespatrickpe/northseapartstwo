@@ -24,7 +24,7 @@ class GeneralAdministration::ContactDetails::AddressesController < GeneralAdmini
     generic_delete(Address)
   end
 
-  def process_address_form(myAddress)
+  def process_form(myAddress)
     begin
       myAddress[:remark] = params[controller_path][:remark]
       myAddress[:longitude] = params[controller_path][:longitude]
@@ -36,15 +36,15 @@ class GeneralAdministration::ContactDetails::AddressesController < GeneralAdmini
     rescue => ex
       index_error(ex)
     end
-    redirect_to_index
+    form_completion_redirect
   end
 
   def create
-    process_address_form(Address.new())
+    process_form(Address.new())
   end
 
   def update
-    process_address_form(Address.find(params[controller_path][:id]))
+    process_form(Address.find(params[controller_path][:id]))
   end
 
 end

@@ -24,7 +24,7 @@ class GeneralAdministration::BranchesController < GeneralAdministrationControlle
     generic_delete(Branch)
   end
 
-  def process_branch_form(branch)
+  def process_form(branch)
     begin
       branch[:remark] = params[controller_path][:remark]
       branch[:name] = params[controller_path][:name]
@@ -33,15 +33,15 @@ class GeneralAdministration::BranchesController < GeneralAdministrationControlle
     rescue => ex
       index_error(ex)
     end
-    redirect_to_index
+    form_completion_redirect
   end
 
   def create
-    process_branch_form(Branch.new())
+    process_form(Branch.new())
   end
 
   def update
-    process_branch_form(Branch.find(params[controller_path][:id]))
+    process_form(Branch.find(params[controller_path][:id]))
   end
 
 
