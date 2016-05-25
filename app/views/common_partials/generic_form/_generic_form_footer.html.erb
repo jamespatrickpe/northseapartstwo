@@ -2,46 +2,38 @@
 
   <%= renderCorePartial('generic_back_to_index_button') %>
 
-  <% if action_name == 'new' || action_name == 'edit' %>
-      <%=
-          if selected_model_id.present?
-            link_to( "DELETE".html_safe,
-                     {:action => 'delete',
-                      :id => selected_model_id},
-                     class: 'tiny button deletable_item')
-          end
-      %>
+  <% if wizard_activated? %>
+
       <input type="reset" class="tiny button" value="RESET" />
-      <input type="submit" class="tiny button" value="SUBMIT" />
-  <% elsif not_on_wizard_conditional %>
-
-      <%= link_to( "EDIT RECORD".html_safe ,
-                   {:action => 'edit',
-                    :id => selected_model_id},
-                   class: 'tiny button') %>
-      <script>
-          $(".main_form").find("input").prop("disabled", true);
-          $("selectize").prop("disabled", true);
-          $("textarea").prop("disabled", true);
-          $("select").prop("disabled", true);
-      </script>
-
-  <% elsif (defined?(wizard_path)).nil? == false %>
-
-  <% if wizard_path != previous_wizard_path %>
-    <%=
-    link_to( "PREVIOUS".html_safe, previous_wizard_path,
-             class: 'tiny button')
-    %>
-  <% end %>
-
-  <%=
-      link_to( "NEXT".html_safe, next_wizard_path,
-               class: 'tiny button')
-  %>
+      <% if wizard_path != previous_wizard_path %>
+          <%= link_to( "PREVIOUS".html_safe, previous_wizard_path, class: 'tiny button') %>
+      <% end %>
+      <%= link_to( "SKIP".html_safe, next_wizard_path, class: 'tiny button') %>
+      <input type="submit" class="tiny button" value="CONFIRM AND NEXT" />
 
   <% else %>
 
-  <% end %>
+      <% if action_name == 'new' %>
 
+          <input type="reset" class="tiny button" value="RESET" />
+          <input type="submit" class="tiny button" value="SUBMIT" />
+
+      <% elsif action_name == 'edit' %>
+
+          <input type="reset" class="tiny button" value="RESET" />
+          <%= link_to( "DELETE".html_safe, {:action => 'delete', :id => selected_model_id}, class: 'tiny button deletable_item') %>
+          <input type="submit" class="tiny button" value="SUBMIT" />
+
+      <% elsif action_name == 'show' %>
+
+          <%= link_to( "EDIT RECORD".html_safe ,{:action => 'edit', :id => selected_model_id}, class: 'tiny button') %>
+          <script>
+              $(".main_form").find("input").prop("disabled", true);
+              $("selectize").prop("disabled", true);
+              $("textarea").prop("disabled", true);
+              $("select").prop("disabled", true);
+          </script>
+
+      <% end %>
+  <% end %>
 </div>

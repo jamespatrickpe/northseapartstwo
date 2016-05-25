@@ -21,27 +21,30 @@
     <%
        current_method = ''
        current_action = ''
-       selected_model_instance[:id].present? ?
-               (current_method = :patch; current_url = selected_model_instance[:id] ) :
-               (current_method = :post; current_url = '')
+
+       if wizard_activated?
+         partial_path = selected_model_instance.main_representation[:controller_path] + '/form'
+         form_url = wizard_path
+         current_method = :patch
+       else
+         partial_path = controller_path + '/form'
+         form_url = '/' + controller_path + '/' + current_url.to_s
+
+         selected_model_instance[:id].present? ?
+                 (current_method = :patch; current_url = selected_model_instance[:id] ) :
+                 (current_method = :post; current_url = '')
+
+       end
     %>
+
     <%=
         simple_form_for controller_path,
-                        :url => '/' + controller_path + '/' + current_url.to_s ,
+                        :url => form_url ,
                         :html => { :'data-parsley-validate' => '',
                                    :class => 'main_form',
                                    :method => current_method} do |f|
     %>
         <%= f.hidden_field :id, :value => selected_model_instance[:id] %>
-
-        <%
-           if (defined?(wizard_path)).nil?
-             partial_path = controller_path + '/form'
-           else
-             partial_path = selected_model_instance.main_representation[:controller_path] + '/form'
-           end
-        %>
-
         <%=
             render(:partial => partial_path,
                    :locals => {:f => f,
@@ -49,7 +52,7 @@
         %>
 
         <hr style="visibility: hidden">
-        <div class="large-6 columns">
+        <div class="large-12 columns">
         <%= generic_form_footer(selected_model_instance[:id]) %>
         </div>
     <% end %>

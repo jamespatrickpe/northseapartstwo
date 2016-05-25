@@ -62,8 +62,16 @@ module GenericFormHelper
 
   def setup_wizard_step
     render :template => 'common_partials/generic_form/_main',
-           :locals => {:selected_model_instance => @selected_model_instance,
-                       :wizard_path => wizard_path.to_s}
+           :locals => {:selected_model_instance => @selected_model_instance }
+  end
+
+  def wizard_activated?
+    if (defined?(wizard_path)).nil?
+      control = false
+    else
+      control = true
+    end
+    control
   end
 
 end
