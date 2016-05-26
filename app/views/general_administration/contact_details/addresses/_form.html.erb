@@ -32,7 +32,7 @@
   %>
 
   <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
-  <%= polymorphic_selector(selected_model_instance,'addressable',f) %>
+  <%= polymorphic_selector(selected_model_instance,'addressable',f) if wizard_activated? == false %>
 </div>
 <div class="large-6 columns">
 
@@ -47,6 +47,8 @@
   <% end %>
 
 </div>
+
+<input type="hidden" value="<%= params[:polymorphic_id] %>" name="polymorphic_id">
 
 <script>
     $( document ).ready(function()

@@ -1,4 +1,4 @@
-<% if not_on_wizard_conditional  %>
+<% unless generally_new? %>
 <div class="small-3 columns">
     <img src="<%= selected_model_instance.logo.url %>" height="50">
     <hr style="visibility: hidden">
@@ -31,7 +31,7 @@
 <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
 </div>
 
-<% if not_on_wizard_conditional %>
+<% unless generally_new? %>
 <hr style="visibility: hidden">
 <div>
   <%= related_summary(general_administration_contact_details_path, SystemActor, selected_model_instance.id) %>

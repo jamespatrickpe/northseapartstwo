@@ -4,8 +4,8 @@ module GenericFormHelper
     render(:partial => 'common_partials/generic_form/generic_form_edit_id_indicator', :locals => {:selected_model_id => selected_model_id})
   end
 
-  def generic_form_footer(selected_model_id)
-    render(:partial => 'common_partials/generic_form/generic_form_footer', :locals => {:selected_model_id => selected_model_id})
+  def generic_form_footer(selected_model_id, f)
+    render(:partial => 'common_partials/generic_form/generic_form_footer', :locals => {:selected_model_id => selected_model_id, :f => f})
   end
 
   def generic_remarks_remark_field(model_name, default_remark)
@@ -56,10 +56,6 @@ module GenericFormHelper
 
   end
 
-  def not_on_wizard_conditional
-    action_name != 'new'  && (defined?(wizard_path)).nil? == true
-  end
-
   def setup_wizard_step
     render :template => 'common_partials/generic_form/_main',
            :locals => {:selected_model_instance => @selected_model_instance }
@@ -72,6 +68,15 @@ module GenericFormHelper
       control = true
     end
     control
+  end
+
+  def generally_new?
+    ( wizard_activated? == true || action_name == 'new' )
+  end
+
+  def wizard_final_step(home_controller)
+    render :template => 'common_partials/generic_wizard/final_step',
+           :locals => {:home_controller => home_controller }
   end
 
 end

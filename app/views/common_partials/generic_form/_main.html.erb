@@ -22,6 +22,10 @@
        current_method = ''
        current_action = ''
 
+       selected_model_instance[:id].present? ?
+               (current_method = :patch; current_url = selected_model_instance[:id] ) :
+               (current_method = :post; current_url = '')
+
        if wizard_activated?
          partial_path = selected_model_instance.main_representation[:controller_path] + '/form'
          form_url = wizard_path
@@ -29,11 +33,6 @@
        else
          partial_path = controller_path + '/form'
          form_url = '/' + controller_path + '/' + current_url.to_s
-
-         selected_model_instance[:id].present? ?
-                 (current_method = :patch; current_url = selected_model_instance[:id] ) :
-                 (current_method = :post; current_url = '')
-
        end
     %>
 
@@ -44,6 +43,9 @@
                                    :class => 'main_form',
                                    :method => current_method} do |f|
     %>
+      <% if wizard_activated? == true %>
+          <input type="hidden" value="<%= params[:wizard_primary_model_id] %>" name="wizard_primary_model_id">
+      <% end %>
         <%= f.hidden_field :id, :value => selected_model_instance[:id] %>
         <%=
             render(:partial => partial_path,
@@ -53,7 +55,7 @@
 
         <hr style="visibility: hidden">
         <div class="large-12 columns">
-        <%= generic_form_footer(selected_model_instance[:id]) %>
+        <%= generic_form_footer(selected_model_instance[:id], f) %>
         </div>
     <% end %>
 
