@@ -36,12 +36,13 @@ module GenericController
     render controller_path + '/index'
   end
 
-  def form_completion_redirect(selected_model_instance = nil)
-    if wizard_activated?
-      return selected_model_instance
+  def form_completion_redirect
+    if params[:add_another] != nil
+      redirect_to :action => 'new'
     else
       redirect_to :action => 'index'
     end
+
   end
 
   def index_error(ex)

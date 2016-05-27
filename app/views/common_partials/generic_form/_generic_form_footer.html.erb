@@ -9,6 +9,7 @@
           <%= link_to( "PREVIOUS".html_safe, previous_wizard_path, class: 'tiny button') %>
       <% end %>
       <%= link_to( "SKIP".html_safe, next_wizard_path, class: 'tiny button') %>
+      <%= f.button  :submit , name: 'add_another', value: 'SUBMIT AND ADD ANOTHER', class: 'tiny button' %>
       <input type="submit" class="tiny button" value="CONFIRM AND NEXT" />
 
   <% else %>
@@ -16,8 +17,8 @@
       <% if action_name == 'new' %>
 
           <input type="reset" class="tiny button" value="RESET" />
+          <%= f.button  :submit , name: 'add_another', value: 'SUBMIT AND ADD ANOTHER', class: 'tiny button' %>
           <input type="submit" class="tiny button" value="SUBMIT" />
-          <%= f.button  :submit , name: "subaction",value: "update"%>
 
       <% elsif action_name == 'edit' %>
 

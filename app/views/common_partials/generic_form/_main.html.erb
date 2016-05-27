@@ -44,7 +44,7 @@
                                    :method => current_method} do |f|
     %>
       <% if wizard_activated? == true %>
-          <input type="hidden" value="<%= params[:wizard_primary_model_id] %>" name="wizard_primary_model_id">
+          <input type="hidden" value=<%= params[:wizard_primary_model_id] %> name="wizard_primary_model_id">
       <% end %>
         <%= f.hidden_field :id, :value => selected_model_instance[:id] %>
         <%=

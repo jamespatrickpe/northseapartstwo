@@ -56,11 +56,15 @@ class GeneralAdministration::AddContactsWizardController < GeneralAdministration
         myTelephone[:digits] = params[controller_path][:digits]
         myTelephone[:remark] = params[controller_path][:remark]
       when :final
-
     end
 
     wizard_primary_model_id = (my_actor_id ||= params[:wizard_primary_model_id])
-    redirect_to next_wizard_path + "?wizard_primary_model_id='" + wizard_primary_model_id + "'"
+    if params[:add_another] != nil
+      redirection_path = wizard_path + "?wizard_primary_model_id=" + wizard_primary_model_id
+    else
+      redirection_path = next_wizard_path + "?wizard_primary_model_id=" + wizard_primary_model_id
+    end
+    redirect_to redirection_path
   end
 
 end
