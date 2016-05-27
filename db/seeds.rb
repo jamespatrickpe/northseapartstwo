@@ -332,7 +332,9 @@ rand(20..50).times do |b|
   myVehicle = Vehicle.new
   myVehicle.type_of_vehicle = ['Sedan','Truck','Delivery','Van','SUV'].sample
   myVehicle.plate_number = Faker::Lorem.characters(6).upcase
-  myVehicle.orcr = Faker::Lorem.word
+  myVehicle.oil = Faker::Lorem.word
+  myVehicle.date_of_implementation = rand(720..72000).hours.ago
+  myVehicle.brand = Faker::Lorem.word
   myVehicle.capacity_m3 = randomFloat(100,0.01)
   myVehicle.remark = Faker::Lorem.sentence
   myVehicle.save!

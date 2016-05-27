@@ -3,8 +3,8 @@ module AssociatedFilesConcerns
 
   included do
 
-    has_many :system_association, as: :model_one
-    has_many :system_association, as: :model_two
+    has_many :system_association, as: :model_one, dependent: :destroy
+    has_many :system_association, as: :model_two, dependent: :destroy
 
   end
 

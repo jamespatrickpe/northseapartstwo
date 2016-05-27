@@ -91,7 +91,7 @@ module GenericController
 
   def generic_delete(class_model)
     my_ID = params[:id]
-    class_model.find( my_ID ).destroy
+    class_model.find( my_ID ).reload.destroy
     flash[:general_flash_notification_type] = 'negative'
     flash[:general_flash_notification] = 'Deleted' + ' ' + controller_name + ' | ' + my_ID
     redirect_to :action => "index"

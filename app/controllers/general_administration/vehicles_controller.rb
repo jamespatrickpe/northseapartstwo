@@ -26,8 +26,10 @@ class GeneralAdministration::VehiclesController < GeneralAdministrationControlle
 
   def process_form(myVehicle)
     begin
-      myVehicle[:orcr] = params[controller_path][:orcr]
+      myVehicle[:oil] = params[controller_path][:oil]
       myVehicle[:capacity_m3] = params[controller_path][:capacity_m3]
+      myVehicle[:brand] = params[controller_path][:brand]
+      myVehicle[:date_of_implementation] = params[controller_path][:date_of_implementation]
       myVehicle[:plate_number] = params[controller_path][:plate_number]
       myVehicle[:type_of_vehicle] = params[controller_path][:type_of_vehicle]
       myVehicle[:remark] = params[controller_path][:remark]

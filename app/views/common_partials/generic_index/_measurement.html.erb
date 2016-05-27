@@ -47,7 +47,8 @@
               $(this).html(next_type);
               next_scalar = new Qty(current_scalar + ' ' + current_unit);
               next_scalar = next_scalar.to(next_type).toString().split(' ');
-              $(this).siblings("#<%= scalar_identifier %>").html(next_scalar[0]);
+              scalar = (Math.round(next_scalar[0] * 100)/100);
+              $(this).siblings("#<%= scalar_identifier %>").html(scalar);
 
           });
 

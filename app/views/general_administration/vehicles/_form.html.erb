@@ -1,14 +1,4 @@
 <div class="large-6 columns">
-  <%= f.input :orcr,
-              :label => "ORCR",
-              label_html: { class: 'form_label' },
-              :input_html =>
-                      {
-                              :value => selected_model_instance[:orcr],
-                              :'data-parsley-trigger' => 'keyup',
-                              :'data-parsley-maxlength' => 64
-                      }
-  %>
 
   <%= f.input :plate_number,
               :label => "Plate Number",
@@ -17,7 +7,7 @@
                       {
                               :value => selected_model_instance[:plate_number],
                               :'data-parsley-trigger' => 'keyup',
-                              :'data-parsley-maxlength' => 64
+                              :'data-parsley-maxlength' => 32
                       }
   %>
 
@@ -28,12 +18,39 @@
                       {
                               :value => selected_model_instance[:type_of_vehicle],
                               :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 32
+                      }
+  %>
+
+  <%= f.input :brand,
+              :label => "Brand",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:brand],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 32
+                      }
+  %>
+
+  <div class="form-block" style="float: left; width: 50%;">
+  <div class="form_label"> Date of Registration </div>
+  <input type="date" name="<%= controller_path %>[date_of_implementation]">
+  </div>
+  <hr style="visibility: hidden">
+
+  <%= f.input :oil,
+              :label => "Oil",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:oil],
+                              :'data-parsley-trigger' => 'keyup',
                               :'data-parsley-maxlength' => 64
                       }
   %>
 
   <%= field_measurement(f, 'capacity_m3', 'Capacity in m&sup3;'.html_safe , selected_model_instance, 'cubic-meter') %>
-
   <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
 
 </div>
@@ -41,6 +58,6 @@
 <% if action_name != 'new' %>
 <hr style="visibility: hidden">
 <div>
-  <%= related_summary(general_administration_associated_files_path, SystemActor, selected_model_instance.id) %>
+  <%= related_summary(general_administration_associated_files_path, Vehicle, selected_model_instance.id) %>
 </div>
 <% end %>
