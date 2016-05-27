@@ -10,7 +10,10 @@
                                 :value => selected_model_instance[name.to_sym],
                                 :'data-parsley-trigger' => 'keyup',
                                 :'data-parsley-maxlength' => 64,
-                                :id => scalar_identifier
+                                :id => scalar_identifier,
+                                :min => 0,
+                                :pattern => "^(0|[1-9][0-9]*)$",
+                                :step => 1
                         }
     %>
   </div>
