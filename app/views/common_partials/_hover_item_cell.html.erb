@@ -1,0 +1,11 @@
+<script>
+    $( ".item_cell" ).hover(
+            function()
+            {
+                $(this).children("ul.button-group").children("li").css('visibility', 'visible');
+            }, function()
+            {
+                $(this).children("ul.button-group").children("li").css('visibility', 'hidden');
+            }
+    );
+</script>

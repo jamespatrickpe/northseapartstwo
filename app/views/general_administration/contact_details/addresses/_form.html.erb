@@ -48,13 +48,7 @@
   <% end %>
 </div>
 
-<div class="large-12 columns">
-  <div class="form_label"> Related Wizard Models </div>
-  <hr>
-  <%= params[:wizard_primary_model_id] %>
-  <%= params[:wizard_primary_model_type] %>
-</div>
-
+<%= wizard_related_models %>
 <input type="hidden" value="<%= params[:polymorphic_id] %>" name="polymorphic_id">
 
 <script>
@@ -68,32 +62,18 @@
         // Initialize
         var lat = parseFloat( $( lat_field_id ).val() );
         var long = parseFloat( $( long_field_id ).val() );
-        if ('<%= action_name %>' == 'show')
-        {
-            $('.google_map_component').locationpicker
-            ({
-                location: {latitude: lat, longitude: long  },
-                radius: 2,
-                inputBinding: {
-                    latitudeInput: $(lat_field_id),
-                    longitudeInput: $(long_field_id)
-                }
-            });
 
-        }
-        else
-        {
-            $('.google_map_component').locationpicker
-            ({
-                location: {latitude: lat, longitude: long  },
-                radius: 2,
-                inputBinding: {
-                    latitudeInput: $(lat_field_id),
-                    longitudeInput: $(long_field_id),
-                    locationNameInput: $(address_field_id)
-                },
-                enableAutocomplete: true
-            });
-        }
+        $('.google_map_component').locationpicker
+        ({
+            location: {latitude: lat, longitude: long  },
+            radius: 2,
+            inputBinding: {
+                latitudeInput: $(lat_field_id),
+                longitudeInput: $(long_field_id),
+                locationNameInput: $(address_field_id)
+            },
+            enableAutocomplete: true
+        });
+
     });
 </script>

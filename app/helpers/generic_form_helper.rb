@@ -79,4 +79,8 @@ module GenericFormHelper
            :locals => {:home_controller => home_controller }
   end
 
+  def wizard_related_models
+    render :template => 'common_partials/generic_wizard/wizard_related_models'
+  end
+
 end

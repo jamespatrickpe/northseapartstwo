@@ -1,0 +1,40 @@
+<% if wizard_activated? %>
+
+    <div class="large-12 columns">
+      <div class="form_label"> Related Wizard Models </div>
+      <hr>
+      <div class="item_cell" style="float:left;">
+        <%=
+            primary_model = params[:wizard_primary_model_type].constantize.find_by_id(params[:wizard_primary_model_id])
+            render :partial => primary_model.main_representation[:controller_path] + '/cell',
+                   locals: {result: primary_model, controller_link: controller_link(primary_model) }
+        %>
+      </div>
+      <%
+         arr = Array.new
+          main_models = SystemAssociation.allowed_associations
+          main_models.each do |main_model|
+            current_attribute = extract_polymorphic_attribute(main_model)
+            if current_attribute != nil
+
+              current_attribute_type = (current_attribute.to_s + "_type")
+              current_attribute_id = (current_attribute.to_s + "_id")
+              where_statement = current_attribute_type + " = ? AND " + current_attribute_id + " = ?"
+              models = main_model.where(where_statement,params[:wizard_primary_model_type],params[:wizard_primary_model_id])
+              arr.push(models)
+=begin
+              models.each do |model|
+                arr.push(model)
+              end
+=end
+
+            end
+          end
+      %>
+      <%= arr %>
+      <%= render "common_partials/hover_item_cell" %>
+    </div>
+
+
+
+<% end %>

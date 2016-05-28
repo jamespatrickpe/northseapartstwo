@@ -52,33 +52,36 @@ module BaseConcerns extend ActiveSupport::Concern
           representative_hash[:attribute] = self.digits
           representative_hash[:controller_path] = main_case.general_administration_contact_details_telephones_path
           representative_hash[:controller_class] = GeneralAdministration::ContactDetails::TelephonesController
+          representative_hash[:polymorphic_attribute] = 'telephonable'
         when Address
           representative_hash[:attribute] = self.remark
           representative_hash[:controller_path] = main_case.general_administration_contact_details_addresses_path
           representative_hash[:controller_class] = GeneralAdministration::ContactDetails::AddressesController
+          representative_hash[:polymorphic_attribute] = 'addressable'
         when Digital
           representative_hash[:attribute] = self.url
           representative_hash[:controller_path] = main_case.general_administration_contact_details_digitals_path
           representative_hash[:controller_class] = GeneralAdministration::ContactDetails::DigitalsController
+          representative_hash[:polymorphic_attribute] = 'digitable'
         when FileSet
           representative_hash[:attribute] = self.remark
           representative_hash[:controller_path] = main_case.general_administration_associated_files_file_sets_path
           representative_hash[:controller_class] = GeneralAdministration::AssociatedFiles::FileSetsController
+          representative_hash[:polymorphic_attribute] = 'filesetable'
         when ImageSet
           representative_hash[:attribute] = self.remark
           representative_hash[:controller_path] = main_case.general_administration_associated_files_image_sets_path
           representative_hash[:controller_class] = GeneralAdministration::AssociatedFiles::ImageSetsController
+          representative_hash[:polymorphic_attribute] = 'imagesetable'
         when LinkSet
           representative_hash[:attribute] = self.url
           representative_hash[:controller_path] = main_case.general_administration_associated_files_link_sets_path
           representative_hash[:controller_class] = GeneralAdministration::AssociatedFiles::LinkSetsController
+          representative_hash[:polymorphic_attribute] = 'linksetable'
         when SystemAssociation
           representative_hash[:attribute] = (self.model_one.main_representation.to_s + self.model_two.main_representation.to_s)
           representative_hash[:controller_path] = main_case.general_administration_associated_files_system_associations_path
           representative_hash[:controller_class] = GeneralAdministration::AssociatedFiles::SystemAssociationsController
-        else
-          representative_hash[:attribute] = self.class
-          representative_hash[:controller_path] = self.class
       end
 
       return representative_hash

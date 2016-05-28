@@ -18,6 +18,20 @@
       end
   %>
 
+  <%
+     if wizard_activated?
+       number_of_steps = Float( wizard_steps.count ) + 1.0
+       step_number = Float( wizard_steps.find_index(step) ) + 1.0
+       percent_progress = ((step_number/number_of_steps)*100).round(2)
+  %>
+      <div class="progress">
+        <span class="meter" style="width: <%= percent_progress %>%; background-color: #721314; font-size: 10px; color: white;">
+        </span>
+        <div class="subremark"> COMPLETION | <%= percent_progress %>%</div>
+      </div>
+  <% end %>
+  <hr style="visibility: hidden"><hr>
+
     <%
        current_method = ''
        current_action = ''
@@ -43,6 +57,7 @@
                                    :class => 'main_form',
                                    :method => current_method} do |f|
     %>
+
       <% if wizard_activated? == true %>
           <input type="hidden" value=<%= params[:wizard_primary_model_id] %> name="wizard_primary_model_id">
       <% end %>
