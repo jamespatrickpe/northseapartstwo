@@ -55,9 +55,4 @@
 
 </div>
 
-<% if action_name != 'new' %>
-<hr style="visibility: hidden">
-<div>
-  <%= related_summary(general_administration_associated_files_path, Vehicle, selected_model_instance.id) %>
-</div>
-<% end %>
+<%= related_models('Vehicle',params[:id]) unless generally_new? %>

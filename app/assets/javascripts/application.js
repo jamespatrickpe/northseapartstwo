@@ -14,7 +14,6 @@
 //
 // Manually put every javascript
 //= require jquery
-//= require jquery_ujs
 //= require jquery-ui
 //= require selectize.js
 //= require file-validator.js
@@ -23,7 +22,6 @@
 //= require parsley
 //= require export_to_csv
 //= require generic_index.js
-//= require foundation
 //= require jquery.qtip.min.js
 //= require employee_quick_profile.js
 //= require moment.js

@@ -84,52 +84,21 @@ SimpleNavigation::Configuration.run do |navigation|
   navigation.items do |primary|
     primary.dom_id = 'side-nav'
 
-    primary.item :account_management, 'Account Management', defaultURL, options do |sub_nav|
-      sub_nav.item :my_account_settings, 'My Account Settings', defaultURL
-      sub_nav.item :access_control, 'Access Control', '/access/dashboard'
-    end
-
-    primary.item :human_resources, 'Human Resources', '/human_resources', options do |secondary| #Handles the management of human resources
-      secondary.item :employee_accounts, 'Employee Accounts', '/human_resources/employee_accounts', options do |tertiary| #Manages the Accounts of Employees, General Activation and Deactivation
-        tertiary.item :candidate_registration, 'Candidate Registration', '/human_resources/candidate_registration' #Register a Candidate
-        tertiary.item :employee_profile, 'Employee Profile', '/human_resources/employee_profile' #View an Employees' Profile
+    primary.item :general_administration, 'General Administration', general_administration_path, options do |secondary|
+      secondary.item :associated_files, 'Associated Files', general_administration_associated_files_path, options do |tertiary|
+        tertiary.item :image_sets, 'Image Sets', general_administration_associated_files_image_sets_path
+        tertiary.item :file_sets, 'File Sets', general_administration_associated_files_file_sets_path
+        tertiary.item :system_associations, 'System Associations', general_administration_associated_files_system_associations_path
+        tertiary.item :link_sets, 'Image Sets', general_administration_associated_files_link_sets_path
       end
-
-      secondary.item :compensation_and_benefits, 'Compensation and Benefits', '/human_resources/compensation_benefits', options do |tertiary| #Association of All Related Employee Compensation and Benefits to an Account
-        tertiary.item :base_rates, 'Base Rates', '/human_resources/base_rates' #CRUD Base Rates
-        tertiary.item :lump_adjustments, 'Lump Adjustments', '/human_resources/lump_adjustments' #CRUD Additions or Deductions
-        tertiary.item :institutional_adjustment, 'Institutional Adjustment', '/human_resources/institutional_adjustment' #CRUD Government
-        tertiary.item :holidays, 'Holidays', '/human_resources/holidays' #CRUD Government
-        tertiary.item :regular_work_period, 'Regular Work Period', '/human_resources/regular_work_period' #CRUD Regular Work Hours
-        tertiary.item :vales, 'Vales', '/human_resources/vales' #CRUD Vales
-        tertiary.item :apply_for_vale, 'Payroll Report', '/human_resources/payroll_report'
+      secondary.item :branches, 'Branches', general_administration_branches_path
+      secondary.item :contact_details, 'Contact Details', general_administration_contact_details_path, options do |tertiary|
+        tertiary.item :addresses, 'Addresses', general_administration_contact_details_addresses_path
+        tertiary.item :digitals, 'Digitals', general_administration_contact_details_digitals_path
+        tertiary.item :telephones, 'Telephones', general_administration_contact_details_telephones_path
       end
-
-      secondary.item :employee_performance, 'Employee Performance', defaultURL, options do |tertiary|
-        tertiary.item :attendance_performance, 'Attendance', defaultURL #Attendance
-        tertiary.item :performance_review, 'performance_review', defaultURL #CRUD Performance Review
-      end
-
-      secondary.item :settings, 'Constants', '/human_resources/settings' #Constants involved
-    end
-
-    primary.item :accounting_and_finance, 'Accounting and Finance', defaultURL, options do |sub_nav|
-      sub_nav.item :expenses, 'Expenses', defaultURL
-    end
-
-    primary.item :supply_chain_management, 'Supply Chain Management',defaultURL, options do |sub_nav|
-    end
-
-    primary.item :product_management, 'Product Management',defaultURL, options do |sub_nav|
-    end
-
-    primary.item :marketing, 'Marketing', defaultURL, options do |sub_nav|
-    end
-
-    primary.item :content_management_system, 'Content Management System', defaultURL, options do |sub_nav|
-    end
-
-    primary.item :contacts, 'Contacts', defaultURL, options do |sub_nav|
+      secondary.item :system_actors, 'System Actors', general_administration_system_actors_path
+      secondary.item :vehicles, 'Vehicles', general_administration_vehicles_path
     end
 
     end

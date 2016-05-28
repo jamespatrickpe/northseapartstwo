@@ -48,7 +48,7 @@
   <% end %>
 </div>
 
-<%= wizard_related_models %>
+<%= related_models(params[:wizard_primary_model_type],params[:wizard_primary_model_id]) if wizard_activated? %>
 <input type="hidden" value="<%= params[:polymorphic_id] %>" name="polymorphic_id">
 
 <script>

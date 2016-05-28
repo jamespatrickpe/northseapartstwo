@@ -1,3 +1,5 @@
+include ApplicationHelper
+
 module OfficialStarterSeed
   puts " == Loading Official Seed Starter Package =="
 
