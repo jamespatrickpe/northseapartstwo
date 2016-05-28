@@ -1,17 +1,19 @@
+<%
+
+   if selected_model_instance.class != SystemAssociation
+     models = selected_model_instance.class.all_polymorphic_types(polymorphic_attribute.to_sym)
+   else
+     models = SystemAssociation.allowed_associations
+   end
+
+   current_type = (polymorphic_attribute + '_type').to_sym
+   current_id = (polymorphic_attribute + '_id').to_sym
+
+   #unless wizard_activated? || selected_model_instance.class == SystemAssociation
+   if ( (selected_model_instance.class == SystemAssociation) || (wizard_activated? == false))
+%>
+
 <div>
-
-  <%
-     if selected_model_instance.class != SystemAssociation
-       models = selected_model_instance.class.all_polymorphic_types(polymorphic_attribute.to_sym)
-     else
-       models = SystemAssociation.allowed_associations
-     end
-
-     current_type = (polymorphic_attribute + '_type').to_sym
-     current_id = (polymorphic_attribute + '_id').to_sym
-
-  %>
-
   <div class="form-block" style="float: left; width: 50%;">
     <div class="form_label"> Associative Model </div>
     <select name='<%= (controller_path + '[' + polymorphic_attribute + '_id]') %>'
@@ -53,6 +55,7 @@
 
 </div>
 
+
 <script>
 
     // Get Selector Element ID
@@ -75,13 +78,26 @@
         }
     });
 
-    <% if action_name == 'edit' || action_name == 'show'  %>
-        $current_selectize[0].selectize.setValue('<%= selected_model_instance[current_id] %>');
+    <% unless wizard_activated? %>
+        <% if action_name == 'edit' || action_name == 'show'  %>
+            $current_selectize[0].selectize.setValue('<%= selected_model_instance[current_id] %>');
+        <% end %>
+    <% else %>
+        $current_selectize[0].selectize.setValue('<%= params[:wizard_primary_model_id] %>');
+        model_selector_type = ('#' + '<%= polymorphic_attribute + '_type' %>');
+        $(model_selector_type).val( '<%= params[:wizard_primary_model_type] %>' );
     <% end %>
 
-    <% if action_name == 'show' %>
-        try { $current_selectize[0].selectize.disable(); }
-        catch(err) {}
+    <% unless wizard_activated? %>
+        <% if action_name == 'show' %>
+            try { $current_selectize[0].selectize.disable(); }
+            catch(err) {}
+        <% end %>
     <% end %>
 </script>
+<% else %>
 
+    <%= f.input_field current_type, as: :hidden, :value => params[:wizard_primary_model_type] %>
+    <%= f.input_field current_id, as: :hidden, :value => params[:wizard_primary_model_id]  %>
+
+<% end %>

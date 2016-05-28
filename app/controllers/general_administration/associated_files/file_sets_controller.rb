@@ -25,30 +25,28 @@ class GeneralAdministration::AssociatedFiles::FileSetsController < GeneralAdmini
     generic_delete(FileSet)
   end
 
-  def process_form(myFile)
+  def process_form(my_file, current_params, wizard_mode = nil)
     begin
-      myFile[:remark] = params[controller_path][:remark]
-      if action_name == 'edit'
-        myFile.remove_file
-      end
-      myFile.file = params[controller_path][:file]
-      myFile[:physical_storage] = params[controller_path][:physical_storage]
-      myFile[:filesetable_type] = params[controller_path][:filesetable_type]
-      myFile[:filesetable_id] = params[controller_path][:filesetable_id]
-      myFile.save!
-      set_process_notification
+      my_file[:remark] =current_params[:remark]
+      my_file.remove_file if action_name == 'edit'
+      my_file.file = current_params[:file]
+      my_file[:physical_storage] = current_params[:physical_storage]
+      my_file[:filesetable_type] = current_params[:filesetable_type]
+      my_file[:filesetable_id] = current_params[:filesetable_id]
+      my_file.save!
+      set_process_notification unless wizard_mode
     rescue => ex
-      index_error(ex)
+      index_error(ex, wizard_mode)
     end
-    form_completion_redirect
+    form_completion_redirect(wizard_mode)
   end
 
   def create
-    process_form(FileSet.new())
+    process_form(FileSet.new(), params[controller_path])
   end
 
   def update
-    process_form(FileSet.find(params[controller_path][:id]))
+    process_form(FileSet.find(params[controller_path][:id]), params[controller_path])
   end
 
 end

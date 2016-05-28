@@ -24,26 +24,26 @@ class GeneralAdministration::ContactDetails::DigitalsController < GeneralAdminis
     generic_delete(Digital)
   end
 
-  def process_form(myDigital)
+  def process_form(my_digital, current_params, wizard_mode = nil)
     begin
-      myDigital[:url] = params[controller_path][:url]
-      myDigital[:remark] = params[controller_path][:remark]
-      myDigital[:digitable_type] = params[controller_path][:digitable_type]
-      myDigital[:digitable_id] = params[controller_path][:digitable_id]
-      myDigital.save!
-      set_process_notification
+      my_digital[:url] = current_params[:url]
+      my_digital[:remark] = current_params[:remark]
+      my_digital[:digitable_type] = current_params[:digitable_type]
+      my_digital[:digitable_id] = current_params[:digitable_id]
+      my_digital.save!
+      set_process_notification(current_params) unless wizard_mode
     rescue => ex
-      index_error(ex)
+      index_error(ex, wizard_mode)
     end
-    form_completion_redirect
+    form_completion_redirect(wizard_mode)
   end
 
   def create
-    process_form(Digital.new())
+    process_form(Digital.new(), params[controller_path])
   end
 
   def update
-    process_form(Digital.find(params[controller_path][:id]))
+    process_form(Digital.find(params[controller_path][:id]), params[controller_path])
   end
 
 end

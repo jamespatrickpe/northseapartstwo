@@ -13,7 +13,7 @@
                       }
   %>
 
-  <% if action_name != 'new' %>
+  <% if (action_name != 'new' || wizard_activated? == true) %>
   <a class='tiny button' href="<%= selected_model_instance.file.url %>" target="_blank">
     <%= selected_model_instance[:file] %>
   </a>
@@ -35,3 +35,5 @@
   <%= polymorphic_selector(selected_model_instance,'filesetable',f) %>
   <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
 </div>
+
+<%= wizard_related_models %>

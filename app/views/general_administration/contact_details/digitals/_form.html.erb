@@ -13,7 +13,7 @@
     %>
 
     <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
-    <%= polymorphic_selector(selected_model_instance,'digitable',f) unless wizard_activated? %>
+    <%= polymorphic_selector(selected_model_instance,'digitable',f) %>
 </div>
 
 <%= wizard_related_models %>

@@ -12,7 +12,11 @@
                        class: 'tiny button')
           %>
       <% end %>
-      <%= link_to( "SKIP".html_safe, next_wizard_path, class: 'tiny button') unless wizard_steps[0] == step %>
+      <%=
+          link_to( "SKIP".html_safe,
+                   next_wizard_path + "?wizard_primary_model_id=" + params[:wizard_primary_model_id] + "&wizard_primary_model_type=" + params[:wizard_primary_model_type],
+                   class: 'tiny button') unless wizard_steps[0] == step
+      %>
       <%= f.button  :submit , name: 'add_another', value: 'SUBMIT AND ADD ANOTHER', class: 'tiny button' %>
       <input type="submit" class="tiny button" value="CONFIRM AND NEXT" />
 

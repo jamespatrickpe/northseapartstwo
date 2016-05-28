@@ -25,30 +25,28 @@ class GeneralAdministration::AssociatedFiles::ImageSetsController < GeneralAdmin
     generic_delete(ImageSet)
   end
 
-  def process_form(myImage)
+  def process_form(my_image, current_params, wizard_mode = nil)
     begin
-      myImage[:remark] = params[controller_path][:remark]
-      if action_name == 'edit'
-        myImage.remove_picture
-      end
-      myImage.picture = params[controller_path][:picture]
-      myImage[:priority] = params[controller_path][:priority]
-      myImage[:imagesetable_type] = params[controller_path][:imagesetable_type]
-      myImage[:imagesetable_id] = params[controller_path][:imagesetable_id]
-      myImage.save!
-      set_process_notification
+      my_image[:remark] = current_params[:remark]
+      my_image.remove_picture if action_name == 'edit'
+      my_image.picture = current_params[:picture]
+      my_image[:priority] = current_params[:priority]
+      my_image[:imagesetable_type] = current_params[:imagesetable_type]
+      my_image[:imagesetable_id] = current_params[:imagesetable_id]
+      my_image.save!
+      set_process_notification unless wizard_mode
     rescue => ex
-      index_error(ex)
+      index_error(ex, wizard_mode)
     end
-    form_completion_redirect
+    form_completion_redirect(wizard_mode)
   end
 
   def create
-    process_form(ImageSet.new())
+    process_form(ImageSet.new(), params[controller_path])
   end
 
   def update
-    process_form(ImageSet.find(params[controller_path][:id]))
+    process_form(ImageSet.find(params[controller_path][:id]), params[controller_path])
   end
 
 end

@@ -79,9 +79,10 @@ module BaseConcerns extend ActiveSupport::Concern
           representative_hash[:controller_class] = GeneralAdministration::AssociatedFiles::LinkSetsController
           representative_hash[:polymorphic_attribute] = 'linksetable'
         when SystemAssociation
-          representative_hash[:attribute] = (self.model_one.main_representation.to_s + self.model_two.main_representation.to_s)
+          representative_hash[:attribute] = (self.remark)
           representative_hash[:controller_path] = main_case.general_administration_associated_files_system_associations_path
           representative_hash[:controller_class] = GeneralAdministration::AssociatedFiles::SystemAssociationsController
+          representative_hash[:polymorphic_attribute] = 'model_one'
       end
 
       return representative_hash

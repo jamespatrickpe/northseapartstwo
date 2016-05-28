@@ -24,27 +24,27 @@ class GeneralAdministration::AssociatedFiles::SystemAssociationsController < Gen
     generic_delete(SystemAssociation)
   end
 
-  def process_form(association)
+  def process_form(my_association, current_params, wizard_mode = nil)
     begin
-      association[:remark] = params[controller_path][:remark]
-      association[:model_one_type] = params[controller_path][:model_one_type]
-      association[:model_one_id] = params[controller_path][:model_one_id]
-      association[:model_two_type] = params[controller_path][:model_two_type]
-      association[:model_two_id] = params[controller_path][:model_two_id]
-      association.save!
-      set_process_notification
+      my_association[:remark] = current_params[:remark]
+      my_association[:model_one_type] = current_params[:model_one_type]
+      my_association[:model_one_id] = current_params[:model_one_id]
+      my_association[:model_two_type] = current_params[:model_two_type]
+      my_association[:model_two_id] = current_params[:model_two_id]
+      my_association.save!
+      set_process_notification(current_params)
     rescue => ex
-      index_error(ex)
+      index_error(ex,wizard_mode)
     end
-      form_completion_redirect
+    form_completion_redirect(wizard_mode)
   end
 
   def create
-    process_form(SystemAssociation.new())
+    process_form(SystemAssociation.new(), params[controller_path])
   end
 
   def update
-    process_form(SystemAssociation.find(params[controller_path][:id]))
+    process_form(SystemAssociation.find(params[controller_path][:id]), params[controller_path])
   end
 
 end

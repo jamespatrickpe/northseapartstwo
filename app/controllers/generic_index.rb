@@ -62,23 +62,24 @@ module GenericIndex
 
   def extract_polymorphic_attribute(main_model)
 
-    type_key = nil
-    id_key = nil
-    polymorphic_attribute = nil
+      type_key = nil
+      id_key = nil
+      polymorphic_attribute = nil
 
-    key_array = main_model.column_names
-    key_array.each do |key|
-      if key.to_s.include? "_type"
-        type_key = key.to_s.gsub("_type",'')
+      key_array = main_model.column_names
+      key_array.each do |key|
+        if key.to_s.include? "_type"
+          type_key = key.to_s.gsub("_type",'')
+        end
+        if key.to_s.include? "_id"
+          id_key = key.to_s.gsub("_id",'')
+        end
       end
-      if key.to_s.include? "_id"
-        id_key = key.to_s.gsub("_id",'')
-      end
-    end
 
-    if (type_key == id_key) && (type_key != nil) && (id_key != nil)
-      polymorphic_attribute = type_key
-    end
+      if (type_key == id_key) && (type_key != nil) && (id_key != nil)
+        polymorphic_attribute = type_key
+      end
+
     polymorphic_attribute
 
   end

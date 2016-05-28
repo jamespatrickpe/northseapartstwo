@@ -12,16 +12,19 @@
   %>
 
   <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
-  <%= polymorphic_selector(selected_model_instance,'telephonable',f) if wizard_activated? == false %>
+  <%= polymorphic_selector(selected_model_instance,'telephonable',f) %>
 </div>
 
 <div class="large-6 columns">
-
-  <% if action_name == 'show' || action_name == 'edit'%>
-      <div class="form_label"> Dial Numbers on: </div>
-      <hr>
-      <a class="tiny button" href="tel:<%= selected_model_instance[:digits] %>">Generic</a>
-      <a class="tiny button" href="viber://chats?number=<%= selected_model_instance[:digits] %>">Viber</a>
-  <% end  %>
+  <% unless wizard_activated? %>
+      <% if action_name == 'show' || action_name == 'edit'%>
+          <div class="form_label"> Dial Numbers on: </div>
+          <hr>
+          <a class="tiny button" href="tel:<%= selected_model_instance[:digits] %>">Generic</a>
+          <a class="tiny button" href="viber://chats?number=<%= selected_model_instance[:digits] %>">Viber</a>
+      <% end %>
+  <% end %>
 
 </div>
+
+<%= wizard_related_models %>

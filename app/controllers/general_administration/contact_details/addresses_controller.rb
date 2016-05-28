@@ -32,7 +32,7 @@ class GeneralAdministration::ContactDetails::AddressesController < GeneralAdmini
       myAddress[:addressable_type] = current_params[:addressable_type]
       myAddress[:addressable_id] = current_params[:addressable_id]
       myAddress.save!
-      set_process_notification
+      set_process_notification unless wizard_mode
     rescue => ex
       index_error(ex, wizard_mode)
     end

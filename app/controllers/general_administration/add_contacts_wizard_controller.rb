@@ -9,7 +9,7 @@ class GeneralAdministration::AddContactsWizardController < GeneralAdministration
         :setup_file_sets,
         :setup_image_sets,
         :setup_link_sets,
-        :setup_system_association,
+        :setup_system_associations,
         :final
 
   def show
@@ -29,7 +29,7 @@ class GeneralAdministration::AddContactsWizardController < GeneralAdministration
         setup_step('Setup Image Sets',ImageSet)
       when :setup_link_sets
         setup_step('Setup Link Sets',LinkSet)
-      when :setup_system_association
+      when :setup_system_associations
         setup_step('Setup System Association',SystemAssociation)
       when :final
     end
@@ -54,7 +54,7 @@ class GeneralAdministration::AddContactsWizardController < GeneralAdministration
         setup_update_wizard_step(ImageSet)
       when :setup_link_sets
         setup_update_wizard_step(LinkSet)
-      when :setup_system_association
+      when :setup_system_associations
         setup_update_wizard_step(SystemAssociation)
       when :final
     end
