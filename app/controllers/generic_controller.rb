@@ -36,8 +36,8 @@ module GenericController
     render controller_path + '/index'
   end
 
-  def form_completion_redirect(wizard_params)
-    unless wizard_params
+  def form_completion_redirect(wizard_mode)
+    unless wizard_mode
       if params[:add_another] != nil
         redirect_to :action => 'new'
       else
@@ -46,15 +46,10 @@ module GenericController
     end
   end
 
-  def index_error(ex, wizard_params)
-    if wizard_params
+  def index_error(ex, wizard_mode)
+      flash[:general_flash_notification] = "Error has Occured: " + ex.to_s unless wizard_mode
       puts ex.to_s
       puts ex.backtrace.to_s
-    else
-      flash[:general_flash_notification] = "Error has Occured: " + ex.to_s
-      puts ex.to_s
-      puts ex.backtrace.to_s
-    end
   end
 
   def get_model_id
@@ -69,7 +64,7 @@ module GenericController
     end
   end
 
-  def set_process_notification
+  def set_process_notification(current_params = nil)
     flash[:general_flash_notification_type] = 'affirmative'
     if action_name == 'update'
       my_ID = params[controller_path][:id]
@@ -108,7 +103,7 @@ module GenericController
     @selected_model_instance = selected_model_instance.new()
   end
 
-  def process_parameter(wizard_parameter, form_parameter, attribute)
+  def process_parameter(form_parameter, attribute, wizard_parameter)
     returned_parameter = ''
     if wizard_parameter == nil
       returned_parameter = form_parameter[attribute.to_sym]
@@ -116,6 +111,13 @@ module GenericController
       returned_parameter = wizard_parameter[attribute.to_sym]
     end
     returned_parameter
+  end
+
+  def setup_update_wizard_step(main_model)
+    main_model_instance = main_model.new
+    controller_instance = main_model_instance.main_representation[:controller_class].new
+    controller_instance.process_form(main_model_instance, params[controller_path], true)
+    main_model_instance.id
   end
 
 end

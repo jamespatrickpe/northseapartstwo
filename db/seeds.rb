@@ -381,7 +381,7 @@ end
 rand(20..50).times do |i|
   sample = random_fileable_model
   myImageSet = ImageSet.new
-  chosen_file = ['file_01.jpg','file_02.jpg','file_03.gif','file_04.jpg','file_05.jpg'].sample
+  chosen_file = ['file_01.jpg','file_02.jpg','file_03.gif','file_04.png','file_05.jpg'].sample
   myImageSet[:picture] = chosen_file
   myImageSet.priority = rand(1..20)
   myImageSet.remark = Faker::Lorem.sentence

@@ -24,27 +24,27 @@ class GeneralAdministration::ContactDetails::AddressesController < GeneralAdmini
     generic_delete(Address)
   end
 
-  def process_form(myAddress)
+  def process_form(myAddress, current_params, wizard_mode = nil)
     begin
-      myAddress[:remark] = params[controller_path][:remark]
-      myAddress[:longitude] = params[controller_path][:longitude]
-      myAddress[:latitude] = params[controller_path][:latitude]
-      myAddress[:addressable_type] = params[controller_path][:addressable_type]
-      myAddress[:addressable_id] = params[controller_path][:addressable_id]
+      myAddress[:remark] = current_params[:remark]
+      myAddress[:longitude] = current_params[:longitude]
+      myAddress[:latitude] = current_params[:latitude]
+      myAddress[:addressable_type] = current_params[:addressable_type]
+      myAddress[:addressable_id] = current_params[:addressable_id]
       myAddress.save!
       set_process_notification
     rescue => ex
-      index_error(ex)
+      index_error(ex, wizard_mode)
     end
-    form_completion_redirect
+    form_completion_redirect(wizard_mode)
   end
 
   def create
-    process_form(Address.new())
+    process_form(Address.new(), params[controller_path])
   end
 
   def update
-    process_form(Address.find(params[controller_path][:id]))
+    process_form(Address.find(params[controller_path][:id]), params[controller_path])
   end
 
 end

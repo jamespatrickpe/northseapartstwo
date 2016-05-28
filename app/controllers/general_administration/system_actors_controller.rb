@@ -25,26 +25,26 @@ class GeneralAdministration::SystemActorsController < GeneralAdministrationContr
     generic_delete(SystemActor)
   end
 
-  def process_form(myActor, wizard_params = nil)
+  def process_form(myActor, current_params, wizard_mode = nil)
     begin
-      myActor[:name] = process_parameter(wizard_params, params[controller_path], 'name')
-      myActor[:remark] = process_parameter(wizard_params, params[controller_path], 'remark')
+      myActor[:name] = current_params[:name]
+      myActor[:remark] = current_params[:remark]
       myActor.remove_logo if action_name == 'edit'
-      myActor.logo = process_parameter(wizard_params, params[controller_path], 'logo')
+      myActor.logo = current_params[:logo]
       myActor.save!
-      set_process_notification
+      set_process_notification(current_params) unless wizard_mode
     rescue => ex
-      index_error(ex, wizard_params)
+      index_error(ex, wizard_mode)
     end
-    form_completion_redirect(wizard_params)
+    form_completion_redirect(wizard_mode)
   end
 
   def create
-    process_form(SystemActor.new())
+    process_form(SystemActor.new(), params[controller_path])
   end
 
   def update
-    process_form(SystemActor.find(params[controller_path][:id]))
+    process_form(SystemActor.find(params[controller_path][:id]), params[controller_path])
   end
 
 

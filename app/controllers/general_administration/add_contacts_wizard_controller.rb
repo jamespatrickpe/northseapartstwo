@@ -43,36 +43,21 @@ class GeneralAdministration::AddContactsWizardController < GeneralAdministration
 
     case step
       when :setup_system_actor
-        controller_instance = SystemActorsController.new
-        my_actor = SystemActor.new
-        controller_instance.process_form(my_actor, params[controller_path])
-        my_actor_id = my_actor.id
+        my_actor_id = setup_update_wizard_step(SystemActor)
       when :setup_address
-        my_address = Address.new
-        my_address[:longitude] = params[controller_path][:longitude]
-        my_address[:latitude] = params[controller_path][:latitude]
-        my_address[:remark] = params[controller_path][:remark]
-        my_address[:addressable_id] = params[:wizard_primary_model_id]
-        my_address[:addressable_type] = wizard_primary_model_type
-        my_address.save!
+        setup_update_wizard_step(Address)
       when :setup_digital
-        my_digital = Digital.new
-        my_digital[:digitable_id] = params[:wizard_primary_model_id]
-        my_digital[:digitable_type] = wizard_primary_model_type
-        my_digital[:remark] = params[controller_path][:remark]
-        my_digital[:url] = params[controller_path][:url]
-        my_digital.save!
+        setup_update_wizard_step(Digital)
       when :setup_telephone
-        my_telephone = Telephone.new
-        my_telephone[:telephonable_id] = params[:wizard_primary_model_id]
-        my_telephone[:telephonable_type] = wizard_primary_model_type
-        my_telephone[:digits] = params[controller_path][:digits]
-        my_telephone[:remark] = params[controller_path][:remark]
-        my_telephone.save!
+        setup_update_wizard_step(Telephone)
       when :setup_file_sets
+        setup_update_wizard_step(FileSet)
       when :setup_image_sets
+        setup_update_wizard_step(ImageSet)
       when :setup_link_sets
+        setup_update_wizard_step(LinkSet)
       when :setup_system_association
+        setup_update_wizard_step(SystemAssociation)
       when :final
     end
 
