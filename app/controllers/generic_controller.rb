@@ -36,19 +36,25 @@ module GenericController
     render controller_path + '/index'
   end
 
-  def form_completion_redirect
-    if params[:add_another] != nil
-      redirect_to :action => 'new'
-    else
-      redirect_to :action => 'index'
+  def form_completion_redirect(wizard_params)
+    unless wizard_params
+      if params[:add_another] != nil
+        redirect_to :action => 'new'
+      else
+        redirect_to :action => 'index'
+      end
     end
-
   end
 
-  def index_error(ex)
-    puts ex.to_s
-    flash[:general_flash_notification] = ""
-    flash[:general_flash_notification] = "Error has Occured: " + ex.to_s
+  def index_error(ex, wizard_params)
+    if wizard_params
+      puts ex.to_s
+      puts ex.backtrace.to_s
+    else
+      flash[:general_flash_notification] = "Error has Occured: " + ex.to_s
+      puts ex.to_s
+      puts ex.backtrace.to_s
+    end
   end
 
   def get_model_id
@@ -100,6 +106,16 @@ module GenericController
   def setup_step(subtitle,selected_model_instance)
     @subtitle = subtitle
     @selected_model_instance = selected_model_instance.new()
+  end
+
+  def process_parameter(wizard_parameter, form_parameter, attribute)
+    returned_parameter = ''
+    if wizard_parameter == nil
+      returned_parameter = form_parameter[attribute.to_sym]
+    else
+      returned_parameter = wizard_parameter[attribute.to_sym]
+    end
+    returned_parameter
   end
 
 end
