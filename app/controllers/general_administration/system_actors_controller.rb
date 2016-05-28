@@ -47,9 +47,4 @@ class GeneralAdministration::SystemActorsController < GeneralAdministrationContr
     process_form(SystemActor.find(params[controller_path][:id]), params[controller_path])
   end
 
-
-  def sample_process
-    @sherwin = 'hueh hueh'
-  end
-
 end

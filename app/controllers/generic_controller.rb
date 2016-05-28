@@ -120,4 +120,13 @@ module GenericController
     main_model_instance.id
   end
 
+  def redirect_setup_update(params, wizard_primary_model_type, extracted_id = nil)
+
+    wizard_primary_model_id = (extracted_id ||= params[:wizard_primary_model_id])
+
+    (params[:add_another] != nil) ? base_path = wizard_path : base_path = next_wizard_path
+    redirection_path = base_path + "?wizard_primary_model_id=" + wizard_primary_model_id + "&wizard_primary_model_type=" + wizard_primary_model_type
+    redirect_to redirection_path
+  end
+
 end

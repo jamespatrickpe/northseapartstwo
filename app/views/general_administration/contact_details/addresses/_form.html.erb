@@ -32,26 +32,27 @@
   %>
 
   <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
-  <%= polymorphic_selector(selected_model_instance,'addressable',f)   %>
+  <%= polymorphic_selector(selected_model_instance,'addressable',f) unless wizard_activated?   %>
 </div>
 <div class="large-6 columns">
 
   <div class="google_map_component" style="width: 500px; height: 400px;"></div>
   <br>
-
-  <% if action_name == 'show' || action_name == 'edit'%>
-      <div class="form_label"> Maps Link: </div>
-      <hr>
-      <a class="tiny button" href="https://www.google.com/maps/preview/@<%= lat %>,<%= long %>,18z" target="_blank">Google</a>
-      <a class="tiny button" href="http://wikimapia.org/#lang=en&lat=<%= lat %>&lon=<%= long %>&z=20&m=b" target="_blank">Wikimapia</a>
+  <% unless wizard_activated?%>
+      <% if action_name == 'show' || action_name == 'edit'%>
+          <div class="form_label"> Maps Link: </div>
+          <hr>
+          <a class="tiny button" href="https://www.google.com/maps/preview/@<%= lat %>,<%= long %>,18z" target="_blank">Google</a>
+          <a class="tiny button" href="http://wikimapia.org/#lang=en&lat=<%= lat %>&lon=<%= long %>&z=20&m=b" target="_blank">Wikimapia</a>
+      <% end %>
   <% end %>
 </div>
 
 <div class="large-12 columns">
   <div class="form_label"> Related Wizard Models </div>
   <hr>
-  <div>
-  </div>
+  <%= params[:wizard_primary_model_id] %>
+  <%= params[:wizard_primary_model_type] %>
 </div>
 
 <input type="hidden" value="<%= params[:polymorphic_id] %>" name="polymorphic_id">

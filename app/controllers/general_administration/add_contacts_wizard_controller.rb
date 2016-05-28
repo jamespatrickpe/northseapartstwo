@@ -38,12 +38,10 @@ class GeneralAdministration::AddContactsWizardController < GeneralAdministration
   end
 
   def update
-    my_actor_id = nil
-    wizard_primary_model_type = 'SystemActor'
 
     case step
       when :setup_system_actor
-        my_actor_id = setup_update_wizard_step(SystemActor)
+        extracted_id = setup_update_wizard_step(SystemActor)
       when :setup_address
         setup_update_wizard_step(Address)
       when :setup_digital
@@ -61,14 +59,8 @@ class GeneralAdministration::AddContactsWizardController < GeneralAdministration
       when :final
     end
 
-    wizard_primary_model_id = (my_actor_id ||= params[:wizard_primary_model_id])
+    redirect_setup_update(params,'SystemActor',extracted_id)
 
-    if params[:add_another] != nil
-      redirection_path = wizard_path + "?wizard_primary_model_id=" + wizard_primary_model_id + "&?wizard_primary_model_type=" + wizard_primary_model_type
-    else
-      redirection_path = next_wizard_path + "?wizard_primary_model_id=" + wizard_primary_model_id + "&?wizard_primary_model_type=" + wizard_primary_model_type
-    end
-    redirect_to redirection_path
   end
 
 end
