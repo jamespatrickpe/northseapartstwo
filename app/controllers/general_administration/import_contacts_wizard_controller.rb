@@ -1,0 +1,2 @@
+class GeneralAdministration::ImportContactsWizardController < ApplicationController
+end

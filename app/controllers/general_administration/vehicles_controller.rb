@@ -24,30 +24,29 @@ class GeneralAdministration::VehiclesController < GeneralAdministrationControlle
     generic_delete(Vehicle)
   end
 
-  def process_form(myVehicle)
+  def process_form(my_vehicle, current_params, wizard_mode = nil)
     begin
-      myVehicle[:oil] = params[controller_path][:oil]
-      myVehicle[:capacity_m3] = params[controller_path][:capacity_m3]
-      myVehicle[:brand] = params[controller_path][:brand]
-      myVehicle[:date_of_implementation] = params[controller_path][:date_of_implementation]
-      myVehicle[:plate_number] = params[controller_path][:plate_number]
-      myVehicle[:type_of_vehicle] = params[controller_path][:type_of_vehicle]
-      myVehicle[:remark] = params[controller_path][:remark]
-      myVehicle.save!
+      my_vehicle[:oil] = current_params[:oil]
+      my_vehicle[:capacity_m3] = current_params[:capacity_m3]
+      my_vehicle[:brand] = current_params[:brand]
+      my_vehicle[:date_of_implementation] = current_params[:date_of_implementation]
+      my_vehicle[:plate_number] = current_params[:plate_number]
+      my_vehicle[:type_of_vehicle] = current_params[:type_of_vehicle]
+      my_vehicle[:remark] = current_params[:remark]
+      my_vehicle.save!
       set_process_notification
     rescue => ex
-      index_error(ex)
+      index_error(ex, wizard_mode)
     end
-
-    form_completion_redirect
+    form_completion_redirect(wizard_mode)
   end
 
   def create
-    process_form(Vehicle.new())
+    process_form(Vehicle.new(), params[controller_path])
   end
 
   def update
-    process_form(Vehicle.find(params[controller_path][:id]))
+    process_form(Vehicle.find(params[controller_path][:id]), params[controller_path])
   end
 
 end
