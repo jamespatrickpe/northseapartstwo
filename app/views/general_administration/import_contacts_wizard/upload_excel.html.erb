@@ -1,0 +1,21 @@
+<section class="large-10 columns">
+
+  <%= generic_title("Upload Spreadsheet File", "Upload file with the required format") %>
+
+      <%=
+          simple_form_for wizard_path,
+                          :html => { :'data-parsley-validate' => '',
+                                     :class => 'main_form',
+                                     :method => :patch} do |f|
+      %>
+
+      <%= f.input :file,
+                  :as => :file,
+                  :label => "File",
+                  label_html: { class: 'form_label' }
+      %>
+      <button type="submit"> IMPORT </button>
+
+  <% end %>
+
+</section>

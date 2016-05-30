@@ -73,10 +73,10 @@ Rails.application.routes.draw do
   get 'general_administration/' => 'general_administration#index'
   namespace :general_administration do
 
+    resources :import_contacts_wizard
     resources :add_contacts_wizard
     resources :add_branches_wizard
     resources :add_vehicles_wizard
-    resources :import_contacts_wizard
 
     generate_logic_unit('system_actors')
     generate_logic_unit('branches')

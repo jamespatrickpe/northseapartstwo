@@ -30,8 +30,8 @@
 //= require freewall.js
 //= require quantities.js
 
-$(document).foundation();
-$(document).foundation('alert','events');
+/*$(document).foundation();
+$(document).foundation('alert','events');*/
 
 // For Contact Details
 function GetURLParameter(sParam)

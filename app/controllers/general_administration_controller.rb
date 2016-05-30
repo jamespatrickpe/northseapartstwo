@@ -14,7 +14,7 @@ class GeneralAdministrationController < ApplicationController
     @wizard_buttons =
     [
         [general_administration_add_contacts_wizard_path(:setup_system_actor),'Add Contacts Wizard'],
-        [general_administration_import_contacts_wizard_path(:introduction_to_import),'Import Contacts Wizard'],
+        [general_administration_import_contacts_wizard_path(:upload_excel),'Upload Excel'],
         [general_administration_add_branches_wizard_path(:setup_branches),'Add Branches Wizard'],
         [general_administration_add_vehicles_wizard_path(:setup_vehicles),'Add Vehicles Wizard']
     ]  
