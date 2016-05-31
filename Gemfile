@@ -85,6 +85,7 @@ gem 'rails-jquery-autocomplete'
 gem 'simple_form'
 gem 'currency_select'
 gem 'wicked'
+gem 'spreadsheet'
 gem 'roo'
 
 # This library provides integration of the money gem with Rails.

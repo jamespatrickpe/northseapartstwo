@@ -20,32 +20,44 @@ class GeneralAdministration::ImportContactsWizardController < GeneralAdministrat
 
     case step
       when :upload_excel
+        begin
 
-        xlsx = Roo::Spreadsheet.open(params[wizard_path][:file])
-        primary_sheet = xlsx.sheet(0)
-        primary_sheet.each(system_actor_name: 'system_actor_name',
-                           system_actor_remark: 'system_actor_remark',
-                           telephone_digits: 'telephone_digits',
-                           telephone_remark: 'telephone_remark',
-                           digital: 'digital',
-                           digital_remark: 'digital_remark',
-                           address_remark: 'address_remark' ) do |hash,index|
+          xlsx = Roo::Spreadsheet.open(params[wizard_path][:file])
+          primary_sheet = xlsx.sheet(0)
+          primary_sheet.each(system_actor: 'system_actor',
+                             category: 'category',
+                             address: 'address',
+                             digital: 'digital',
+                             telephone: 'telephone') do |hash,index|
 
+            raw_system_actor = hash[:system_actor]
+            raw_category = hash[:category]
+            raw_address = hash[:address]
+            raw_digital = hash[:digital]
+            raw_telephone = hash[:telephone]
 
-          unless index == 1
             my_system_actor = SystemActor.new
-            my_system_actor[:name] = hash[:system_actor_name]
-            my_system_actor[:remark] = hash[:system_actor_remark]
+            my_system_actor[:name] = extract_field_value(raw_system_actor)
+            my_system_actor[:name] = extract_field_remark(raw_system_actor)
             my_system_actor.save!
-          end
-
-          puts hash
-
+            
+            end
+        rescue => ex
+          puts ex
         end
       when :show_results
     end
     render_wizard
-
   end
 
+  def extract_field_remark(current_string)
+    (current_string[/(\[.*?\])/]).to_s.gsub('[','').gsub(']','').lstrip.rstrip
+  end
+
+  def extract_field_value(current_string)
+    current_string.gsub(/(\(|\[).+(\)|\])/, '').lstrip.rstrip
+  end
+
+
 end
+
