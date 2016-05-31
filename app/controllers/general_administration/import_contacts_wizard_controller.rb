@@ -38,9 +38,9 @@ class GeneralAdministration::ImportContactsWizardController < GeneralAdministrat
 
             my_system_actor = SystemActor.new
             my_system_actor[:name] = extract_field_value(raw_system_actor)
-            my_system_actor[:name] = extract_field_remark(raw_system_actor)
+            my_system_actor[:remark] = extract_field_remark(raw_system_actor)
             my_system_actor.save!
-            
+
             end
         rescue => ex
           puts ex
