@@ -189,7 +189,6 @@ GEM
       rubyzip (~> 1.1, < 2.0.0)
     rsolr (1.1.1)
       builder (>= 2.1.2)
-    ruby-ole (1.2.12)
     rubyzip (1.2.0)
     sass (3.4.13)
     sass-rails (5.0.1)
@@ -211,8 +210,6 @@ GEM
     slop (3.6.0)
     sort_alphabetical (1.0.1)
       unicode_utils (>= 1.2.2)
-    spreadsheet (0.9.0)
-      ruby-ole (>= 1.0)
     sprockets (2.12.3)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -290,7 +287,6 @@ DEPENDENCIES
   selectize-rails
   simple-navigation
   simple_form
-  spreadsheet
   sunspot_rails
   sunspot_solr
   turbolinks
@@ -299,3 +295,6 @@ DEPENDENCIES
   uuidtools
   web-console (~> 2.0)
   wicked
+
+BUNDLED WITH
+   1.12.3
