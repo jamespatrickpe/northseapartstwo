@@ -87,5 +87,6 @@ gem 'currency_select'
 gem 'wicked'
 gem 'roo'
 
+
 # This library provides integration of the money gem with Rails.
 gem 'money-rails'

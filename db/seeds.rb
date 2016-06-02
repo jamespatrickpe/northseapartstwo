@@ -19,15 +19,15 @@ unless Rails.env.production?
 
   # ENTITIES
 
-  # SystemActor Dependent Systems
-  numberOfSystemActors = 20
-  numberOfSystemActors.times do |i|
+  # SystemAccount Dependent Systems
+  numberOfSystemAccounts = 20
+  numberOfSystemAccounts.times do |i|
 
-    #SystemActor
+    #SystemAccount
     current_logo = ['default_1.jpg','default_2.jpg','default_3.jpg','default_4.jpg','default_5.jpg','default_6.jpg','default_7.jpg','default_8.jpg','default_9.jpg','default_10.jpg','default.jpg'].sample
-    mySystemActor = SystemActor.new(name: Faker::Name.name , remark: Faker::Lorem.sentence(3, true))
-    mySystemActor[:logo] = current_logo
-    mySystemActor.save!
+    mySystemAccount = SystemAccount.new(name: Faker::Name.name , remark: Faker::Lorem.sentence(3, true))
+    mySystemAccount[:logo] = current_logo
+    mySystemAccount.save!
 
     # ACCESS
     if ( 8.in(10) )
@@ -45,7 +45,7 @@ unless Rails.env.production?
       end
 
       myAccess = Access.new
-      myAccess.system_actor = mySystemActor
+      myAccess.system_account = mySystemAccount
       myAccess.username = randomUserName
       myAccess.email = randomEmail
       myAccess.password = randomPassword
@@ -70,7 +70,7 @@ unless Rails.env.production?
     # BIODATA
     if(randomBoolean())
       myBioData = Biodatum.new()
-      myBioData.system_actor = mySystemActor
+      myBioData.system_account = mySystemAccount
       myBioData.education = ["Elementary", "High School", "College Undergraduate", "College Graduate - Bachelor", "College Graduate - Master", "College Graduate - Doctor"].sample
       myBioData.career_experience = Faker::Lorem.sentence(3, false, 4)
       myBioData.notable_accomplishments = Faker::Lorem.sentence(3, false, 4)
@@ -93,7 +93,7 @@ unless Rails.env.production?
     if 80.in(100)
       # ids = Branch.pluck(:id).shuffle
       # myBranch = Branch.where(id: ids)
-      myEmployee = Employee.new( system_actor: mySystemActor, branch: Branch.all.shuffle.first )
+      myEmployee = Employee.new( system_account: mySystemAccount, branch: Branch.all.shuffle.first )
 
       #Attendances
       rand(20..50).times do |i|
@@ -230,7 +230,7 @@ unless Rails.env.production?
       #   myLoan.loan_type = ['SSS','PHILHEALTH','PAGIBIG'].sample
       #   myLoan.pagibig_employer_id_number = '123456'
       #   myLoan.employee_id = myEmployee.id
-      #   myLoan.borrower_name = myEmployee.system_actors.name
+      #   myLoan.borrower_name = myEmployee.system_accounts.name
       #   myLoan.loan_value = 1000000
       #   myLoan.loan_remaining = 1000000
       #   myLoan.collection_period_from = Time.now - rand(0..72000).hours
@@ -343,7 +343,7 @@ unless Rails.env.production?
 
   def random_contactable_model
     associative_model = Hash.new
-    random_model = [SystemActor,Branch].sample
+    random_model = [SystemAccount,Branch].sample
     associative_model[:my_model] = random_model
     associative_model[:my_model_id] = random_model.order("RAND()").first.id
     associative_model
@@ -351,7 +351,7 @@ unless Rails.env.production?
 
   def random_fileable_model
     associative_model = Hash.new
-    random_model = [SystemActor,Branch, Vehicle].sample
+    random_model = [SystemAccount,Branch, Vehicle].sample
     associative_model[:my_model] = random_model
     associative_model[:my_model_id] = random_model.order("RAND()").first.id
     associative_model
@@ -359,7 +359,7 @@ unless Rails.env.production?
 
   def random_associable_model
     my_model = Hash.new
-    models_array = [SystemActor,Branch,Vehicle]
+    models_array = [SystemAccount,Branch,Vehicle]
     my_model[:current_model] = models_array.sample
     my_model[:current_id] = my_model[:current_model].order("RAND()").first.id
     my_model

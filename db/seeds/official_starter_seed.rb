@@ -4,15 +4,15 @@ module OfficialStarterSeed
   puts " == Loading Official Seed Starter Package =="
 
   #Administrator
-  mySystemActor = SystemActor.new
-  mySystemActor.name = 'James Patrick Pe'
-  mySystemActor.remark = 'Administrator'
-  mySystemActor.logo = 'default.jpg'
-  mySystemActor.save!
+  mySystemAccount = SystemAccount.new
+  mySystemAccount.name = 'James Patrick Pe'
+  mySystemAccount.remark = 'Administrator'
+  mySystemAccount.logo = 'default.jpg'
+  mySystemAccount.save!
 
   #Administrator's Access
   access = Access.new
-  access.system_actor = mySystemActor
+  access.system_account = mySystemAccount
   access.username = 'joojieman'
   access.email = 'jamespatrickpe@northseaparts.com'
   access.password = 'ilovetess'

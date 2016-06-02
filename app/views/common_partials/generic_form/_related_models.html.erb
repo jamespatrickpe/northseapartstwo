@@ -1,8 +1,7 @@
-    <div class="large-12 columns">
-      <div class="form_label"> Related Models </div>
-      <hr>
+<div class="large-12 columns">
 
-      <% if wizard_activated? %>
+  <!-- Related Models -->
+  <% if wizard_activated? %>
       <div class="item_cell" style="float:left;">
         <%=
             primary_model = primary_model_type.constantize.find_by_id(primary_model_id)
@@ -10,45 +9,38 @@
                    locals: {result: primary_model, controller_link: controller_link(primary_model) }
         %>
       </div>
-      <% end %>
+  <% end %>
 
-      <% main_models = SystemAssociation.allowed_associations %>
-         <%
-            main_models.each do |main_model|
-              unless main_model == SystemAssociation
-              current_attribute = extract_polymorphic_attribute(main_model)
-         %>
-                <% if current_attribute != nil %>
-                <%
-                   current_attribute_type = (current_attribute.to_s + "_type")
-                   current_attribute_id = (current_attribute.to_s + "_id")
-                   where_statement = current_attribute_type + " = ? AND " + current_attribute_id + " = ?"
-                   models = main_model.where(where_statement,primary_model_type,primary_model_id)
-                   models.each do |model|
-                %>
-                      <div class="item_cell" style="float:left;">
-                      <%=
-                          render :partial => model.main_representation[:controller_path] + '/cell',
-                                 locals: {result: model, controller_link: controller_link(model) }
-                      %>
-                      </div>
-                <% end %>
-                <% end %>
-            <% else %>
-                <%
-                   query_one = SystemAssociation.where("model_one_type = ? AND model_one_id = ? ", primary_model_type,primary_model_id)
-                   query_two = SystemAssociation.where("model_two_type = ? AND model_two_id = ? ", primary_model_type,primary_model_id)
-                   total_system_associations = query_one + query_two
-                   total_system_associations.each do |system_association|
-                %>
-                  <div class="item_cell" style="float:left;">
-                    <%=
-                        render :partial => system_association.main_representation[:controller_path] + '/cell',
-                               locals: {result: system_association, controller_link: controller_link(system_association) }
-                    %>
-                  </div>
-                <% end %>
-            <% end %>
-         <% end %>
-      <%= render "common_partials/hover_item_cell" %>
-    </div>
+  <%
+     contact_detail_array = Array.new
+     associated_files_array = Array.new
+     implied_associations = Array.new
+     miscellanous = Array.new
+     SystemAssociation.allowed_associations.each do |main_model|
+       current_attribute = extract_polymorphic_attribute(main_model)
+       if current_attribute != nil
+         current_attribute_type = (current_attribute.to_s + "_type")
+         current_attribute_id = (current_attribute.to_s + "_id")
+         where_statement = current_attribute_type + " = ? AND " + current_attribute_id + " = ?"
+         unless main_model.class == SystemAssociation
+           models = main_model.where(where_statement,primary_model_type,primary_model_id)
+         end
+         system_association_model_one = SystemAssociation.where("model_one_type = ? AND model_one_id = ? ",primary_model_type,primary_model_id)
+         system_association_model_two = SystemAssociation.where("model_two_type = ? AND model_one_id = ? ",primary_model_type,primary_model_id)
+         total_model = models + system_association_model_one + system_association_model_two
+         models.each do |model|
+           contact_detail_array.push(model) if (model.class == Telephone || model.class == Address || model.class == Digital)
+           associated_files_array.push(model) if (model.class == FileSet || model.class == ImageSet || model.class == LinkSet)
+           implied_associations.push(model) if (model.class == SystemAssociation)
+         end
+       end
+     end
+  %>
+
+  <!-- Display Array Forms -->
+  <%= generic_form_horizontal_subdivision('Contact Details', contact_detail_array) %>
+  <%= generic_form_horizontal_subdivision('Associated Files', associated_files_array ) %>
+  <%= generic_form_horizontal_subdivision('Implied Associations', implied_associations) %>
+  <%= generic_form_horizontal_subdivision('Miscellaneous') %>
+
+</div>

@@ -4,7 +4,7 @@ class HumanResources::EmployeeAccountsManagement::EmployeeProfileController < Hu
     @selected_model = 'Employee'
     @actors = Actor.includes(:employee).joins(:employee)
     actor_profile
-    @selected_employee = Employee.find_by_actor_id( params[:system_actor_id] )
+    @selected_employee = Employee.find_by_actor_id( params[:system_account_id] )
     if @selected_employee.present?
       @selected_branch = Branch.find(@selected_employee.branch_id)
     end

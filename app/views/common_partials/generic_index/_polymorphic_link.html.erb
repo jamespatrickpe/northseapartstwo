@@ -1,5 +1,5 @@
 <%=
-    unless defined? @summary
+    if (defined? @summary) || force_show == true
 
         main_model = current_instance_type.constantize.find(current_instance_id)
         base = (main_model.main_representation)
@@ -9,6 +9,5 @@
         rescue => ex
             " N/A " + ex.to_s
         end
-
     end
 %>

@@ -1,6 +1,5 @@
 <div><%= result[:id].upcase %></div>
-<div> MODEL 1: <%= polymorphic_link(result[:model_one_type],result[:model_one_id]) %></div>
-<div> MODEL 2: <%= polymorphic_link(result[:model_two_type],result[:model_two_id]) %></div>
+<div> MODEL 1: <%= polymorphic_link(result[:model_one_type],result[:model_one_id], true) %></div>
+<div> MODEL 2: <%= polymorphic_link(result[:model_two_type],result[:model_two_id], true) %></div>
 <div><%= result[:remark] %></div>
-
 <%= generic_index_actions( result, controller_link ) %>

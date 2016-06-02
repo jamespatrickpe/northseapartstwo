@@ -30,15 +30,18 @@ class GeneralAdministration::ImportContactsWizardController < GeneralAdministrat
           digital_count = 0
           telephone_count = 0
 
-          primary_sheet.each(system_actor: 'system_actor',
+          primary_sheet.each(system_account: 'system_account',
                              category: 'category',
                              address: 'address',
                              digital: 'digital',
                              telephone: 'telephone') do |hash,index|
 
-            unless hash[:system_actor] == "system_actor"
+            unless hash[:system_account] == "system_account"
 
-              raw_system_actor = hash[:system_actor]
+              "\n -- ROW BEGIN -- \n"
+              puts hash.inspect
+
+              raw_system_actor = hash[:system_account]
               raw_category = hash[:category]
               raw_address = hash[:address]
               raw_digital = hash[:digital]
@@ -46,7 +49,7 @@ class GeneralAdministration::ImportContactsWizardController < GeneralAdministrat
               raw_latitude = hash[:latitude]
               raw_longitude = hash[:longitude]
 
-              my_system_actor = SystemActor.new
+              my_system_actor = SystemAccount.new
               my_system_actor[:name] = extract_field_value(raw_system_actor)
               my_system_actor[:remark] = extract_field_remark(raw_system_actor) + ' '+ raw_category
               my_system_actor.save!
@@ -59,7 +62,7 @@ class GeneralAdministration::ImportContactsWizardController < GeneralAdministrat
                   my_address[:latitude] = raw_latitude.to_i
                   my_address[:longitude] = raw_longitude.to_i
                   my_address[:addressable_id] = my_system_actor.id
-                  my_address[:addressable_type] = SystemActor
+                  my_address[:addressable_type] = SystemAccount
                   my_address.save!
                   address_count+=1
                 end
@@ -71,7 +74,7 @@ class GeneralAdministration::ImportContactsWizardController < GeneralAdministrat
                   my_digital[:url] = extract_field_value(digital)
                   my_digital[:remark] = extract_field_remark(digital)
                   my_digital[:digitable_id] = my_system_actor.id
-                  my_digital[:digitable_type] = SystemActor
+                  my_digital[:digitable_type] = SystemAccount
                   my_digital.save!
                   digital_count+=1
                 end
@@ -83,11 +86,13 @@ class GeneralAdministration::ImportContactsWizardController < GeneralAdministrat
                   my_telephone[:digits] = extract_field_value(telephone)
                   my_telephone[:remark] = extract_field_remark(telephone)
                   my_telephone[:telephonable_id] = my_system_actor.id
-                  my_telephone[:telephonable_type] = SystemActor
+                  my_telephone[:telephonable_type] = SystemAccount
                   my_telephone.save!
                   telephone_count+=1
                 end
               end
+
+              puts "\n -- ROW COMPLETE -- \n"
 
             end
 

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SystemActorTest < ActiveSupport::TestCase
+class SystemAccountTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

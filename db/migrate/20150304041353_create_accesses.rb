@@ -2,7 +2,7 @@ class CreateAccesses < MainMigration
   def change
     create_table :accesses, :id => false  do |t|
       common_set_two(t)
-      system_actor_id(t)
+      system_account_id(t)
       t.string :username, :limit => 64
       t.string :password_digest, :limit => 512, :required => true
       t.string :email, :limit => 512, :required => true

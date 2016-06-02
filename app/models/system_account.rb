@@ -1,4 +1,4 @@
-class SystemActor < ActiveRecord::Base
+class SystemAccount < ActiveRecord::Base
 
   include BaseConcerns,
           RemarkConcerns,

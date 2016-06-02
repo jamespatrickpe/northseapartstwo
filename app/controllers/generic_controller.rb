@@ -8,7 +8,7 @@ module GenericController
   end
 
   def generic_employee_name_search_suggestions(model)
-    my_model = model.includes(employee: :system_actors).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    my_model = model.includes(employee: :system_accounts).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + my_model.uniq.to_s + "}" # default format for plugin
     respond_to do |format|
       format.all { render :text => direct}
@@ -16,7 +16,7 @@ module GenericController
   end
 
   def initialize_employee_selection
-    @employees = Employee.includes(:system_actor).joins(:system_actors)
+    @employees = Employee.includes(:system_account).joins(:system_accounts)
   end
 
   #Reset Search Common Paremeters

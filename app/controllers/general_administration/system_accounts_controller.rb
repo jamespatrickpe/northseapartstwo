@@ -1,19 +1,19 @@
-class GeneralAdministration::SystemActorsController < GeneralAdministrationController
+class GeneralAdministration::SystemAccountsController < GeneralAdministrationController
 
   def index
-    initialize_generic_index(SystemActor, 'Entities that interact with the System')
+    initialize_generic_index(SystemAccount, 'Entities that interact with the System')
   end
 
   def search_suggestions
-    generic_index_search_suggestions(SystemActor)
+    generic_index_search_suggestions(SystemAccount)
   end
 
   def new
-    set_new_edit(SystemActor)
+    set_new_edit(SystemAccount)
   end
 
   def edit
-    set_new_edit(SystemActor)
+    set_new_edit(SystemAccount)
   end
 
   def show
@@ -21,8 +21,8 @@ class GeneralAdministration::SystemActorsController < GeneralAdministrationContr
   end
 
   def delete
-    SystemActor.find(params[:id]).remove_logo
-    generic_delete(SystemActor)
+    SystemAccount.find(params[:id]).remove_logo
+    generic_delete(SystemAccount)
   end
 
   def process_form(my_actor, current_params, wizard_mode = nil)
@@ -40,11 +40,11 @@ class GeneralAdministration::SystemActorsController < GeneralAdministrationContr
   end
 
   def create
-    process_form(SystemActor.new(), params[controller_path])
+    process_form(SystemAccount.new(), params[controller_path])
   end
 
   def update
-    process_form(SystemActor.find(params[controller_path][:id]), params[controller_path])
+    process_form(SystemAccount.find(params[controller_path][:id]), params[controller_path])
   end
 
 end

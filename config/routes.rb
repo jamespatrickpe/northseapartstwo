@@ -78,7 +78,7 @@ Rails.application.routes.draw do
     resources :add_branches_wizard
     resources :add_vehicles_wizard
 
-    generate_logic_unit('system_actors')
+    generate_logic_unit('system_accounts')
     generate_logic_unit('branches')
     generate_logic_unit('vehicles')
 

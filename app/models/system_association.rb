@@ -21,7 +21,7 @@ class SystemAssociation < ActiveRecord::Base
   end
 
   def self.allowed_associations
-    [SystemActor, Branch, Vehicle,Telephone,Address,Digital,FileSet,ImageSet,LinkSet,SystemAssociation]
+    [SystemAccount, Branch, Vehicle,Telephone,Address,Digital,FileSet,ImageSet,LinkSet,SystemAssociation]
   end
 
 end

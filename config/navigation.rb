@@ -97,7 +97,7 @@ SimpleNavigation::Configuration.run do |navigation|
         tertiary.item :digitals, 'Digitals', general_administration_contact_details_digitals_path
         tertiary.item :telephones, 'Telephones', general_administration_contact_details_telephones_path
       end
-      secondary.item :system_actors, 'System Actors', general_administration_system_actors_path
+      secondary.item :system_accounts, 'System Accounts', general_administration_system_accounts_path
       secondary.item :vehicles, 'Vehicles', general_administration_vehicles_path
     end
 

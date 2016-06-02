@@ -1,0 +1,14 @@
+<% if array_set != nil %>
+    <hr style="visibility: hidden">
+    <div class="form_label"> <%= subdivision_name %> </div>
+    <hr>
+
+    <% array_set.each do |model| %>
+    <div class="item_cell">
+      <%=
+          render :partial => model.main_representation[:controller_path] + '/cell',
+                 locals: {result: model, controller_link: controller_link(model) }
+      %>
+    </div>
+    <% end %>
+<% end %>

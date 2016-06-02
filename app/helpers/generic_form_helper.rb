@@ -24,6 +24,11 @@ module GenericFormHelper
     render(:partial => 'common_partials/generic_form/remark_field', :locals => {:field_variable => field_variable,:selected_model => selected_model})
   end
 
+  def generic_form_horizontal_subdivision(subdivision_name, array_set = nil)
+    render(:partial => 'common_partials/horizontal_subdivision', :locals => {:subdivision_name => subdivision_name, :array_set => array_set})
+  end
+
+
   def polymorphic_selector(selected_model_instance = nil,polymorphic_attribute,f)
     render(:partial => 'common_partials/generic_form/polymorphic_selector',
            :locals => {:selected_model_instance => selected_model_instance,
