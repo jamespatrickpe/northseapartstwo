@@ -68,11 +68,11 @@ module GenericController
     flash[:general_flash_notification_type] = 'affirmative'
     if action_name == 'update'
       my_ID = params[controller_path][:id]
-      flash[:general_flash_notification] = 'Updated' + ' ' + controller_name.gsub('_',' ') + ' | ' + my_ID
+      flash[:general_flash_notification] = 'Updated' + ' ' + controller_name.gsub('_',' ').capitalize + ' | ' + my_ID
     elsif
-      flash[:general_flash_notification] = 'Created New' + ' ' + controller_name.gsub('_',' ')
+      flash[:general_flash_notification] = 'Created New' + ' ' + controller_name.gsub('_',' ').capitalize
     else
-      flash[:general_flash_notification] = 'Performed ' + action_name + ' ' + controller_name.gsub('_',' ')
+      flash[:general_flash_notification] = 'Performed ' + action_name + ' ' + controller_name.gsub('_',' ').capitalize
     end
   end
 
@@ -92,9 +92,10 @@ module GenericController
 
   def generic_delete(class_model)
     my_ID = params[:id]
-    class_model.find( my_ID ).reload.destroy
+    name = class_model.find( my_ID ).main_representation[[:attribute]]
+    class_model.find( my_ID ).delete
     flash[:general_flash_notification_type] = 'negative'
-    flash[:general_flash_notification] = 'Deleted' + ' ' + controller_name + ' | ' + my_ID
+    flash[:general_flash_notification] = 'Deleted ' + name.to_s
     redirect_to :action => "index"
   end
 

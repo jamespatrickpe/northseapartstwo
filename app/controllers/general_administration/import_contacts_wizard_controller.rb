@@ -41,17 +41,17 @@ class GeneralAdministration::ImportContactsWizardController < GeneralAdministrat
               "\n -- ROW BEGIN -- \n"
               puts hash.inspect
 
-              raw_system_actor = hash[:system_account]
-              raw_category = hash[:category]
-              raw_address = hash[:address]
-              raw_digital = hash[:digital]
-              raw_telephone = hash[:telephone]
-              raw_latitude = hash[:latitude]
-              raw_longitude = hash[:longitude]
+              raw_system_actor = (hash[:system_account]).to_s
+              raw_category = (hash[:category]).to_s
+              raw_address = (hash[:address]).to_s
+              raw_digital = (hash[:digital]).to_s
+              raw_telephone = (hash[:telephone]).to_s
+              raw_latitude = (hash[:latitude])
+              raw_longitude = (hash[:longitude])
 
               my_system_actor = SystemAccount.new
               my_system_actor[:name] = extract_field_value(raw_system_actor)
-              my_system_actor[:remark] = extract_field_remark(raw_system_actor) + ' '+ raw_category
+              my_system_actor[:remark] = extract_field_remark(raw_system_actor) + ' '+ raw_category.to_s
               my_system_actor.save!
               system_actor_count += 1
 
@@ -107,13 +107,13 @@ class GeneralAdministration::ImportContactsWizardController < GeneralAdministrat
     end
 
     redirect_to next_wizard_path +
-                    "?system_actor_count=" +
+                    "?system_account_count=" +
                     system_actor_count.to_s +
                     "&address_count=" +
                     address_count.to_s +
                     "&digital_count=" +
                     digital_count.to_s +
-                    "&telephone=" +
+                    "&telephone_count=" +
                     telephone_count.to_s
   end
 

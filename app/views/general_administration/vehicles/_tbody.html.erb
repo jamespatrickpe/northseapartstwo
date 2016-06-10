@@ -4,8 +4,14 @@
 <td><%= result[:brand] %></td>
 <td><%= result[:date_of_implementation].strftime("%m/%d/%Y %T %p") %></td>
 <td><%= result[:oil] %></td>
+
 <td>
   <%= generic_index_measurement( result, 'capacity_m3', 'cubic-meters') %>
 </td>
+
+<td>
+  <%= generic_index_measurement( result, 'load_kg', 'kilograms') %>
+</td>
+
 <%= generic_index_remark(result[:remark]) %>
 <%= generic_index_last_rows(result) %>

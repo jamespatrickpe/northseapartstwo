@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  devise_for :accesses
   concern :generic_index do
     get :search_suggestions
   end
@@ -66,6 +67,17 @@ Rails.application.routes.draw do
           concerns :generic_index
         end
       end
+    end
+
+  end
+
+  get 'accounting_and_finance/' => 'accounting_and_finance#index'
+  namespace :accounting_and_finance do
+
+    get 'expenses/' => 'expenses#index'
+    namespace :expenses do
+      resources :expense_categories
+      resources :expense_entries
     end
 
   end

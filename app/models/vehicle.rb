@@ -3,12 +3,7 @@ class Vehicle < ActiveRecord::Base
     include BaseConcerns,
             AssociatedFilesConcerns
 
-    validates_presence_of :type_of_vehicle
-    validates_presence_of :plate_number
-    validates_presence_of :oil
-    validates_presence_of :capacity_m3
-    validates_presence_of :brand
-    validates_presence_of :date_of_implementation
+    validates_presence_of :type_of_vehicle, :plate_number, :oil, :capacity_m3, :brand, :date_of_implementation
 
     searchable do
 
@@ -18,6 +13,7 @@ class Vehicle < ActiveRecord::Base
       text :plate_number
       text :oil
       float :capacity_m3
+      float :load_kg
 
     end
 

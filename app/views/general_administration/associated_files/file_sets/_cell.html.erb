@@ -1,5 +1,5 @@
 <div><%= link_to result.file, result.file.url %></div>
-<div><%= polymorphic_link(result[:filesetable_type],result[:filesetable_id]) %></div>
+<div><%= polymorphic_link(result[:filesetable_type],result[:filesetable_id], true) %></div>
 <div><%= result[:id].upcase %></div>
 <div><%= result[:physical_storage] %></div>
 <div><%= result[:remark] %></div>

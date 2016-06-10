@@ -35,25 +35,15 @@ unless Rails.env.production?
       randomPassword = Faker::Internet.password(10, 20)
       randomEmail = Faker::Internet.email
 
-      randomUserName = Faker::Internet.user_name
-      if(randomUserName.length < 3)
-        randomUserName << Faker::Internet.user_name
-      end
-
-      if(Access.find_by_username(randomUserName))
-        randomUserName = Faker::Internet.user_name
-      end
-
       myAccess = Access.new
-      myAccess.system_account = mySystemAccount
-      myAccess.username = randomUserName
+      myAccess.system_account_id = mySystemAccount.id
       myAccess.email = randomEmail
       myAccess.password = randomPassword
       myAccess.password_confirmation = randomPassword
-      myAccess.hash_link = generateRandomString
-      myAccess.verification = randomBoolean
-      myAccess.last_login = Time.now - rand(0..72000).hours
+      myAccess.confirmed_at = Time.now - rand(0..400).hours
       myAccess.save!
+
+      ## FOR DEVISE; YOU STOPPED AT "Configuring views" CONTINUE WHEN AUTHENTICATION IS ACTUALLY NEEDED
 
       #Permission
       rand(0..2).times do |i|
@@ -337,6 +327,7 @@ unless Rails.env.production?
     myVehicle.date_of_implementation = rand(720..72000).hours.ago
     myVehicle.brand = Faker::Lorem.word
     myVehicle.capacity_m3 = randomFloat(100,0.01)
+    myVehicle.load_kg = randomFloat(100,0.01)
     myVehicle.remark = Faker::Lorem.sentence
     myVehicle.save!
   end
@@ -443,6 +434,37 @@ unless Rails.env.production?
     myAddress[:addressable_id] = sample[:my_model_id]
     myAddress[:addressable_type] = sample[:my_model]
     myAddress.save!
+  end
+
+  rand(30..50).times do |i|
+    current_expense = ExpenseEntry.new
+    current_expense.expense_category_id = ExpenseCategory.order("RAND()").first.id
+    current_expense.system_account_id = SystemAccount.order("RAND()").first.id
+    current_expense.amount = Faker::Commerce.price*100
+    current_expense.remark = Faker::Lorem.sentence
+    current_expense.datetime_of_implementation = Faker::Time.between(300.days.ago, Date.today, :all)
+    current_expense.save!
+
+    rand(1..5).times do |i|
+
+      expense_association = SystemAssociation.new
+      if 1.in(2)
+        expense_association.model_one_id = current_expense.id
+        expense_association.model_one_type = 'ExpenseEntry'
+        sample_one = random_associable_model
+        expense_association.model_two_id = sample_one[:current_id]
+        expense_association.model_two_type = sample_one[:current_model]
+      else
+        sample_one = random_associable_model
+        expense_association.model_one_id = sample_one[:current_id]
+        expense_association.model_one_type = sample_one[:current_model]
+        expense_association.model_two_id = current_expense.id
+        expense_association.model_two_type = 'ExpenseEntry'
+      end
+      expense_association.remark = Faker::Lorem.sentence
+      expense_association.save!
+
+    end
   end
 
 end

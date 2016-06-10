@@ -75,3 +75,12 @@
     <% end %>
 
 </section>
+
+<script>
+    <% unless wizard_activated? %>
+        <% if action_name == 'show' %>
+        try { $current_selectize[0].selectize.disable(); }
+        catch(err) {}
+        <% end %>
+    <% end %>
+</script>

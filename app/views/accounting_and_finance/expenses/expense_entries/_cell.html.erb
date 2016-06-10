@@ -1,0 +1,6 @@
+<div> <%= generic_index_id(result) %> </div>
+<div> <%= polymorphic_link('SystemAccount',result[:system_account_id]) %> </div>
+<div><%= result[:datetime_of_implementation].strftime("%m/%d/%Y %T %p") %></div>
+<div><%= result[:amount] %></div>
+<div> <%= result[:remark] %></div>
+<%= generic_index_actions( result, controller_link ) %>

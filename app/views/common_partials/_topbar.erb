@@ -26,6 +26,7 @@
   </section>
 </nav>
 
+<!-- Flash Mode -->
 <% if flash[:general_flash_notification] %>
     <% if flash[:general_flash_notification_type] == 'affirmative'%>
         <div class="tiny button notification_affirmative" id="general_flash_notification">
@@ -35,6 +36,21 @@
     <% else %>
         <div class="tiny button notification_negative" id="general_flash_notification">
           <%= flash[:general_flash_notification] %>
+          &nbsp; &nbsp; &nbsp; &#10060;
+        </div>
+    <% end %>
+<% end %>
+
+<!-- Params Mode -->
+<% if params[:general_flash_notification] != '' && params.has_key?('general_flash_notification') == true %>
+    <% if params[:general_flash_notification_type] == 'affirmative'%>
+        <div class="tiny button notification_affirmative" id="general_flash_notification">
+          <%= params[:general_flash_notification] %>
+          &nbsp; &nbsp; &nbsp; &#10060;
+        </div>
+    <% else %>
+        <div class="tiny button notification_negative" id="general_flash_notification">
+          <%= params[:general_flash_notification] %>
           &nbsp; &nbsp; &nbsp; &#10060;
         </div>
     <% end %>
