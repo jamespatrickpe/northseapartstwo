@@ -1,0 +1,2 @@
+module AccountingAndFinance::ExpensesHelper
+end

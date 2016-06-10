@@ -59,9 +59,9 @@ class AccessController < ApplicationController
         Actor.transaction do
           # Process Actor
           actor = Actor.new
-          actor.name = params[:system_actors][:name]
-          actor.remark = params[:system_actors][:remark];
-          actor.logo = params[:system_actors][:logo]
+          actor.name = params[:system_accounts][:name]
+          actor.remark = params[:system_accounts][:remark];
+          actor.logo = params[:system_accounts][:logo]
           actor.save!
 
           # Process Access

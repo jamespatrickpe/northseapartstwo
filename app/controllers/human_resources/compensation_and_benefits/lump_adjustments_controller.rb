@@ -4,8 +4,8 @@ class HumanResources::CompensationAndBenefits::LumpAdjustmentsController < Human
     query = generic_index_aggregated_queries('lump_adjustments','lump_adjustments.created_at')
     begin
       @lump_adjustments = LumpAdjustment
-      .includes(employee: [:system_actor])
-      .joins(employee: [:system_actors])
+      .includes(employee: [:system_account])
+      .joins(employee: [:system_accounts])
       .where("actors.name LIKE ? OR " +
                  "lump_adjustments.id LIKE ? OR " +
                  "lump_adjustments.amount LIKE ? OR " +
@@ -38,7 +38,7 @@ class HumanResources::CompensationAndBenefits::LumpAdjustmentsController < Human
   end
 
   def search_suggestions
-    adjustments = LumpAdjustment.includes(employee: :system_actor).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    adjustments = LumpAdjustment.includes(employee: :system_account).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + adjustments.uniq.to_s + "}"
     respond_to do |format|
       format.all { render :text => direct}

@@ -11,23 +11,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160517022136) do
+ActiveRecord::Schema.define(version: 20160608120016) do
 
   create_table "accesses", force: :cascade do |t|
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
-    t.string   "system_actor_id", limit: 36
-    t.string   "username",        limit: 64
-    t.string   "password_digest", limit: 512
-    t.string   "email",           limit: 512
-    t.string   "hash_link",       limit: 512
-    t.integer  "attempts",        limit: 1,   default: 0
-    t.datetime "last_login"
-    t.boolean  "verification",    limit: 1,   default: false
-    t.boolean  "remember_me",     limit: 1,   default: false
+    t.string   "email",                  limit: 255, default: "", null: false
+    t.string   "encrypted_password",     limit: 255, default: "", null: false
+    t.string   "reset_password_token",   limit: 255
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          limit: 4,   default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
+    t.string   "confirmation_token",     limit: 255
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email",      limit: 255
+    t.integer  "failed_attempts",        limit: 4,   default: 0,  null: false
+    t.string   "unlock_token",           limit: 255
+    t.datetime "locked_at"
+    t.string   "system_account_id",      limit: 255
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
   end
 
-  add_index "accesses", ["id"], name: "index_accesses_on_id", using: :btree
+  add_index "accesses", ["confirmation_token"], name: "index_accesses_on_confirmation_token", unique: true, using: :btree
+  add_index "accesses", ["email"], name: "index_accesses_on_email", unique: true, using: :btree
+  add_index "accesses", ["reset_password_token"], name: "index_accesses_on_reset_password_token", unique: true, using: :btree
+  add_index "accesses", ["unlock_token"], name: "index_accesses_on_unlock_token", unique: true, using: :btree
 
   create_table "addresses", force: :cascade do |t|
     t.string   "remark",           limit: 256
@@ -46,7 +58,7 @@ ActiveRecord::Schema.define(version: 20160517022136) do
     t.datetime "created_at",                                                         null: false
     t.datetime "updated_at",                                                         null: false
     t.string   "employee_id",            limit: 36
-    t.date     "date_of_implementation",             default: '2016-05-28'
+    t.date     "date_of_implementation",             default: '2016-06-10'
     t.time     "timein",                             default: '2000-01-01 00:00:01'
     t.time     "timeout",                            default: '2000-01-01 23:59:59'
   end
@@ -70,7 +82,7 @@ ActiveRecord::Schema.define(version: 20160517022136) do
   create_table "biodata", force: :cascade do |t|
     t.datetime "created_at",                                         null: false
     t.datetime "updated_at",                                         null: false
-    t.string   "system_actor_id",         limit: 36
+    t.string   "system_account_id",       limit: 36
     t.string   "education",               limit: 256
     t.string   "career_experience",       limit: 256
     t.string   "notable_accomplishments", limit: 256
@@ -104,7 +116,7 @@ ActiveRecord::Schema.define(version: 20160517022136) do
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
     t.string   "name",                   limit: 64
-    t.date     "date_of_implementation",             default: '2016-05-28'
+    t.date     "date_of_implementation",             default: '2016-06-10'
     t.string   "value",                  limit: 64
     t.string   "constant_type",          limit: 64
   end
@@ -143,13 +155,35 @@ ActiveRecord::Schema.define(version: 20160517022136) do
   add_index "duty_statuses", ["id"], name: "index_duty_statuses_on_id", using: :btree
 
   create_table "employees", force: :cascade do |t|
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.string   "system_actor_id", limit: 36
-    t.string   "branch_id",       limit: 36
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.string   "system_account_id", limit: 36
+    t.string   "branch_id",         limit: 36
   end
 
   add_index "employees", ["id"], name: "index_employees_on_id", using: :btree
+
+  create_table "expense_categories", force: :cascade do |t|
+    t.string   "remark",            limit: 256
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.string   "name",              limit: 64
+    t.string   "parent_expense_id", limit: 36
+  end
+
+  add_index "expense_categories", ["id"], name: "index_expense_categories_on_id", using: :btree
+
+  create_table "expense_entries", force: :cascade do |t|
+    t.string   "remark",                     limit: 256
+    t.datetime "created_at",                                                      null: false
+    t.datetime "updated_at",                                                      null: false
+    t.string   "expense_category_id",        limit: 255
+    t.string   "system_account_id",          limit: 255
+    t.datetime "datetime_of_implementation"
+    t.decimal  "amount",                                 precision: 16, scale: 2
+  end
+
+  add_index "expense_entries", ["id"], name: "index_expense_entries_on_id", using: :btree
 
   create_table "expenses", force: :cascade do |t|
     t.string   "remark",                     limit: 256
@@ -192,7 +226,7 @@ ActiveRecord::Schema.define(version: 20160517022136) do
     t.string   "remark",                 limit: 256
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
-    t.date     "date_of_implementation",             default: '2016-05-28'
+    t.date     "date_of_implementation",             default: '2016-06-10'
     t.string   "name",                   limit: 64
     t.string   "holiday_type_id",        limit: 36
   end
@@ -233,8 +267,8 @@ ActiveRecord::Schema.define(version: 20160517022136) do
     t.datetime "updated_at",                                                       null: false
     t.string   "employee_id",          limit: 36
     t.string   "type_of_leave",        limit: 64
-    t.datetime "start_of_effectivity",             default: '2016-05-28 23:27:16'
-    t.datetime "end_of_effectivity",               default: '2016-05-28 23:27:16'
+    t.datetime "start_of_effectivity",             default: '2016-06-10 19:09:44'
+    t.datetime "end_of_effectivity",               default: '2016-06-10 19:09:44'
   end
 
   add_index "leaves", ["id"], name: "index_leaves_on_id", using: :btree
@@ -333,7 +367,7 @@ ActiveRecord::Schema.define(version: 20160517022136) do
 
   add_index "rest_days", ["id"], name: "index_rest_days_on_id", using: :btree
 
-  create_table "system_actors", force: :cascade do |t|
+  create_table "system_accounts", force: :cascade do |t|
     t.string   "remark",     limit: 256
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
@@ -341,7 +375,7 @@ ActiveRecord::Schema.define(version: 20160517022136) do
     t.string   "logo",       limit: 512
   end
 
-  add_index "system_actors", ["id"], name: "index_system_actors_on_id", using: :btree
+  add_index "system_accounts", ["id"], name: "index_system_accounts_on_id", using: :btree
 
   create_table "system_associations", force: :cascade do |t|
     t.string   "remark",         limit: 256
@@ -396,9 +430,10 @@ ActiveRecord::Schema.define(version: 20160517022136) do
     t.datetime "created_at",                                                                          null: false
     t.datetime "updated_at",                                                                          null: false
     t.decimal  "capacity_m3",                        precision: 20, scale: 10
+    t.decimal  "load_kg",                            precision: 20, scale: 10
     t.string   "type_of_vehicle",        limit: 32
     t.string   "brand",                  limit: 32
-    t.date     "date_of_implementation",                                       default: '2016-05-28'
+    t.date     "date_of_implementation",                                       default: '2016-06-10'
     t.string   "plate_number",           limit: 32
     t.string   "oil",                    limit: 32
   end

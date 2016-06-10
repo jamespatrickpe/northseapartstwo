@@ -4,8 +4,8 @@ class HumanResources::CompensationAndBenefits::ValeAdjustmentsController < Human
     query = generic_index_aggregated_queries('vale_adjustments','vale_adjustments.created_at')
     begin
       @vale_adjustments = ::ValeAdjustment
-                   .includes(vale: [employee: [:system_actor]])
-                   .joins(vale: [employee: [:system_actors]])
+                   .includes(vale: [employee: [:system_account]])
+                   .joins(vale: [employee: [:system_accounts]])
                    .where("actors.name LIKE ? OR " +
                               "vale_adjustments.id LIKE ? OR " +
                               "vale_adjustments.amount LIKE ? OR " +
@@ -40,7 +40,7 @@ class HumanResources::CompensationAndBenefits::ValeAdjustmentsController < Human
   end
 
   def search_suggestions
-    adjustments = ValeAdjustment.includes(vale: [employee: [:system_actor]]).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    adjustments = ValeAdjustment.includes(vale: [employee: [:system_account]]).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + adjustments.uniq.to_s + "}"
     respond_to do |format|
       format.all { render :text => direct}
@@ -54,7 +54,7 @@ class HumanResources::CompensationAndBenefits::ValeAdjustmentsController < Human
   def new
     initialize_form
     @selected_vale_adjustment = ValeAdjustment.new
-    @vales = Vale.includes(employee: [:system_actor]).joins(employee: [:system_actors])
+    @vales = Vale.includes(employee: [:system_account]).joins(employee: [:system_accounts])
     @parent_vale_id = params[:parent_vale_id]
     generic_bicolumn_form_with_employee_selection(@selected_vale_adjustment)
   end
@@ -62,7 +62,7 @@ class HumanResources::CompensationAndBenefits::ValeAdjustmentsController < Human
   def edit
     initialize_form
     @selected_vale_adjustment = ValeAdjustment.find(params[:id])
-    @vales = Vale.includes(employee: [:system_actor]).joins(employee: [:system_actors])
+    @vales = Vale.includes(employee: [:system_account]).joins(employee: [:system_accounts])
     @parent_vale_id = params[:parent_vale_id]
     generic_bicolumn_form_with_employee_selection(@selected_vale_adjustment)
   end

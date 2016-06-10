@@ -22,7 +22,7 @@ module BaseConcerns extend ActiveSupport::Concern
     end
 
     def polymorphic_searchable_representation(attribute)
-      if attribute.class == SystemActor
+      if attribute.class == SystemAccount
         attribute.name
       elsif attribute.class == Branch
         attribute.name
@@ -36,10 +36,10 @@ module BaseConcerns extend ActiveSupport::Concern
       main_case = Rails.application.routes.url_helpers
 
       case self
-        when SystemActor
+        when SystemAccount
           representative_hash[:attribute] = self.name
-          representative_hash[:controller_path] = main_case.general_administration_system_actors_path
-          representative_hash[:controller_class] = GeneralAdministration::SystemActorsController
+          representative_hash[:controller_path] = main_case.general_administration_system_accounts_path
+          representative_hash[:controller_class] = GeneralAdministration::SystemAccountsController
         when Branch
           representative_hash[:attribute] = self.name
           representative_hash[:controller_path] = main_case.general_administration_branches_path

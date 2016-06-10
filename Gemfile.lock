@@ -77,6 +77,8 @@ GEM
     currencies (0.4.2)
     currency_select (0.1.5)
       money
+    d3-rails (3.5.16)
+      railties (>= 3.1)
     debug_inspector (0.0.2)
     debugger-linecache (1.2.0)
     devise (3.5.2)
@@ -264,6 +266,7 @@ DEPENDENCIES
   carrierwave
   country_select (~> 2.2.0)
   currency_select
+  d3-rails
   devise
   faker
   foundation-rails

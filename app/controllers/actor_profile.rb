@@ -1,12 +1,12 @@
 module ActorProfile
 
   def initialize_actor_selection
-    @employees = Employee.includes(:system_actor).joins(:system_actors)
+    @employees = Employee.includes(:system_account).joins(:system_accounts)
   end
 
   def actor_profile
-    if( params[:system_actor_id] )
-      @selected_actor = Actor.find(params[:system_actor_id])
+    if( params[:system_account_id] )
+      @selected_actor = SystemAccount.find(params[:system_account_id])
       @selected_access = Access.find_by_actor_id(@selected_actor.id)
       @selected_biodata = Biodatum.find_by_actor_id(@selected_actor.id)
       @selected_address_set = Address.where("rel_model_id = ?", "#{@selected_actor.id}")

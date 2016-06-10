@@ -16,7 +16,7 @@ class GeneralAdministration::AddContactsWizardController < GeneralAdministration
 
     case step
       when :setup_system_actor
-        setup_step('Setup System Actor',SystemActor)
+        setup_step('Setup System Actor',SystemAccount)
       when :setup_address
         setup_step('Setup Address',Address)
       when :setup_digital
@@ -41,7 +41,7 @@ class GeneralAdministration::AddContactsWizardController < GeneralAdministration
 
     case step
       when :setup_system_actor
-        extracted_id = setup_update_wizard_step(SystemActor)
+        extracted_id = setup_update_wizard_step(SystemAccount)
       when :setup_address
         setup_update_wizard_step(Address)
       when :setup_digital
@@ -59,7 +59,7 @@ class GeneralAdministration::AddContactsWizardController < GeneralAdministration
       when :final
     end
 
-    redirect_setup_update(params,'SystemActor',extracted_id)
+    redirect_setup_update(params,'SystemAccount',extracted_id)
 
   end
 

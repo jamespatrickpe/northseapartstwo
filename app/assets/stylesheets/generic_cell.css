@@ -9,7 +9,7 @@
     overflow-x: hidden;
     color: #000000;
     background-color: #f2f2f2;
-    float:left;
+    display: inline-block;
 }
 
 .item_cell > div

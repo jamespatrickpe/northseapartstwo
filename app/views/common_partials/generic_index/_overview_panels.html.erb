@@ -1,0 +1,8 @@
+<!-- Overview Panels (if any) -->
+<% if defined? @overview_panels %>
+    <% @overview_panels.each do |panel| %>
+        <div class="overview_panel">
+          <%= overview_panel(panel[0], panel[1]) %>
+        </div>
+    <% end %>
+<% end %>

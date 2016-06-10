@@ -1,13 +1,17 @@
 <div> <%= generic_index_id(result) %> </div>
-
 <div> <%= result[:plate_number] %> </div>
-
 <div> <%= result[:type_of_vehicle] %> </div>
 <div> <%= result[:brand] %> </div>
 <div> <%= result[:date_of_implementation] %> </div>
 <div> <%= result[:oil] %> </div>
+
 <div>
   <%= generic_index_measurement( result, 'capacity_m3', 'cubic-meters') %>
 </div>
+
+<div>
+  <%= generic_index_measurement( result, 'load_kg', 'kilograms') %>
+</div>
+
 <div> <%= generic_index_remark(result[:remark]) %> </div>
 <%= generic_index_actions( result, controller_link ) %>

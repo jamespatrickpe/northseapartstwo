@@ -3,9 +3,17 @@
      class="show_panel_small_button"
      href= <%= result_instance_attribute %> >
     <%=
-        require 'uri'
-        uri = result_instance_attribute.to_s
-        uriPathTail = File.basename(URI.parse(uri).path)
+        unless result_instance_attribute.blank?
+
+          require 'uri'
+          uri = result_instance_attribute.to_s
+          uriPathTail = File.basename(URI.parse(uri).path)
+        else
+
+          "NO PICTURE"
+
+        end
+
     %>
   </a>
 </td>

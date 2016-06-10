@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  devise_for :accesses
   concern :generic_index do
     get :search_suggestions
   end
@@ -70,15 +71,26 @@ Rails.application.routes.draw do
 
   end
 
+  get 'accounting_and_finance/' => 'accounting_and_finance#index'
+  namespace :accounting_and_finance do
+
+    get 'expenses/' => 'expenses#index'
+    namespace :expenses do
+      resources :expense_categories
+      resources :expense_entries
+    end
+
+  end
+
   get 'general_administration/' => 'general_administration#index'
   namespace :general_administration do
 
+    resources :import_contacts_wizard
     resources :add_contacts_wizard
     resources :add_branches_wizard
     resources :add_vehicles_wizard
-    resources :import_contacts_wizard
 
-    generate_logic_unit('system_actors')
+    generate_logic_unit('system_accounts')
     generate_logic_unit('branches')
     generate_logic_unit('vehicles')
 

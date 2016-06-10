@@ -1,0 +1,7 @@
+<div> <%= generic_index_id(result) %> </div>
+<div> <%= result[:name] %> </div>
+<div> <%= generic_index_remark(result[:remark]) %> </div>
+<div>
+  <%= result[:parent_expense_id].blank? ? "N/A" : ExpenseCategory.find(result[:parent_expense_id]).name %>
+</div>
+<%= generic_index_actions( result, controller_link ) %>

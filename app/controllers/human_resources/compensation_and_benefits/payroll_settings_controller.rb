@@ -3,8 +3,8 @@ class HumanResources::CompensationAndBenefits::PayrollSettingsController < Human
   def index
     query = generic_index_aggregated_queries('payroll_settings','payroll_settings.created_at')
     begin
-      @payroll_settings = PayrollSetting.includes(employee: [:system_actor])
-                      .joins(employee: [:system_actors])
+      @payroll_settings = PayrollSetting.includes(employee: [:system_account])
+                      .joins(employee: [:system_accounts])
                       .where("actors.name LIKE ? OR " +
                                  "payroll_settings.id LIKE ? OR " +
                                  "payroll_settings.article LIKE ? OR " +
