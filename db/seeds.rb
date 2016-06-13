@@ -1,5 +1,6 @@
 # require File.expand_path('../official_starter_seed', __FILE__)
 require File.expand_path('../seeds/official_starter_seed', __FILE__)
+require File.expand_path('../seeds/official_starter_seed_06_13_2016', __FILE__)
 unless Rails.env.production?
 
   puts " == Loading Seed Data =="

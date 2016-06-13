@@ -29,6 +29,7 @@
 //= require jquery.autocomplete.min
 //= require freewall.js
 //= require quantities.js
+//= require money.js
 
 /*$(document).foundation();
 $(document).foundation('alert','events');*/
