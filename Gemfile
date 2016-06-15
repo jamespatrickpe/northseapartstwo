@@ -87,6 +87,7 @@ gem 'currency_select'
 gem 'wicked'
 gem 'roo'
 gem 'd3-rails'
+gem 'datastructures'
 
 
 # This library provides integration of the money gem with Rails.

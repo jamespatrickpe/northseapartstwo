@@ -1,6 +1,6 @@
 <%= generic_index_id(result) %>
 <td><%= polymorphic_link('SystemAccount',result[:system_account_id]) %></td>
-<td><%= result[:datetime_of_implementation].strftime("%m/%d/%Y %T %p") %></td>
+<td><%= format_datetime(result[:datetime_of_implementation]) %></td>
 <td> <%= result[:amount] %> </td>
 <td> <%= result[:remark] %> </td>
 <%= generic_index_last_rows(result) %>
