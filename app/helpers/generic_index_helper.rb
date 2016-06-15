@@ -1,5 +1,9 @@
 module GenericIndexHelper
 
+  def format_datetime(datetime)
+    datetime.strftime("%m/%d/%Y %T %p") unless datetime.nil?
+  end
+
   def check_partial_exists(current_path)
     lookup_context.find_all( current_path ).any?
   end

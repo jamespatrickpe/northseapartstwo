@@ -1,23 +1,22 @@
 <section class="large-10 columns">
-<form>
-
   <%= generic_title("Expenses", "Economic costs that a business incurs through its operations to earn revenue.") %>
 
-    <div class="large-4 columns">
-      Categories
+  <%
+     main_array = Array.new
+     ExpenseCategory.each do |expense|
+
+     end
+  %>
+
+    <div class="large-3 columns" style="background-color: #808080; color:white; font-size: 12px;">
     </div>
 
-    <div class="large-8 columns">
-
-      Start Period : <input type="datetime-local" name="start_period" style="float: left; width: 45%" value="<%= Time.now %>">
-      End Period : <input type="datetime-local" name="end_period" style="float: left; width: 45%">
-      <hr style="visibility: hidden;">
-
-      hate
+    <div class="large-9 columns">
     </div>
 
   <%= render :template => 'common_partials/generic_index/_wizard_buttons' %>
   <%= render :template => 'common_partials/generic_index/_overview_panels' %>
-
-</form>
 </section>
+
+
+

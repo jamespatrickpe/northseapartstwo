@@ -1,5 +1,32 @@
 module GenericFormHelper
 
+  def generic_form_money(f,attribute_name,selected_model_instance)
+    render(:partial => 'common_partials/generic_form/money_field',
+           :locals => {:f => f,
+                       :attribute_name => attribute_name,
+                       :selected_model_instance => selected_model_instance
+           })
+  end
+
+  def generic_form_collection_selector(f,attribute_name, my_label,my_collection,selected_model_instance)
+    render(:partial => 'common_partials/generic_form/collection_selector',
+           :locals => {:f => f,
+                       :attribute_name => attribute_name,
+                       :my_label => my_label,
+                       :my_collection => my_collection,
+                       :selected_model_instance => selected_model_instance
+           })
+  end
+
+  def generic_form_datetime_field(f,attribute_name, my_label ,selected_model_instance)
+    render(:partial => 'common_partials/generic_form/datetime_field',
+           :locals => {:f => f,
+                       :attribute_name => attribute_name,
+                       :my_label => my_label,
+                       :selected_model_instance => selected_model_instance
+           })
+  end
+
   def generic_form_edit_id_indicator(selected_model_id)
     render(:partial => 'common_partials/generic_form/generic_form_edit_id_indicator', :locals => {:selected_model_id => selected_model_id})
   end

@@ -1,0 +1,27 @@
+<%=
+    f.input attribute_name.to_sym,
+            :label => my_label,
+            collection: my_collection,
+            prompt: "Select " + my_label,
+            label_html: { class: 'form_label' },
+            :input_html =>
+                    {
+                            :id => attribute_name,
+                            :value => selected_model_instance[:attribute_name.to_sym],
+                            :'data-parsley-trigger' => 'keyup',
+                            :'data-parsley-maxlength' => 256
+                    }
+
+%>
+
+<script>
+    var $<%= attribute_name %> = $('#<%=attribute_name%>').selectize({});
+    <% unless wizard_activated? %>
+        <% if action_name == 'show' %>
+        try { $<%= attribute_name %>[0].selectize.disable(); }
+        catch(err) {}
+        <% end %>
+    <% end %>
+</script>
+
+<hr style="visibility: hidden">
