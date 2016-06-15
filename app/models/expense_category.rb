@@ -6,4 +6,6 @@ class ExpenseCategory < ActiveRecord::Base
 
   has_many :expense_entries, autosave: true
 
+  has_ancestry
+
 end

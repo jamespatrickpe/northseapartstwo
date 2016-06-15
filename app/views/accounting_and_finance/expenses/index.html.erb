@@ -1,14 +1,13 @@
 <section class="large-10 columns">
   <%= generic_title("Expenses", "Economic costs that a business incurs through its operations to earn revenue.") %>
 
-  <%
-     main_array = Array.new
-     ExpenseCategory.each do |expense|
-
-     end
-  %>
-
     <div class="large-3 columns" style="background-color: #808080; color:white; font-size: 12px;">
+      <% ExpenseCategory.roots.each do |node| %>
+        <div><%= node.name.upcase %></div>
+        <% if node.has_children? %>
+
+        <% end %>
+      <% end %>
     </div>
 
     <div class="large-9 columns">

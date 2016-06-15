@@ -26,27 +26,37 @@ module OfficialStarterSeed
   utilities.save!
 
   telephone = ExpenseCategory.new
-  telephone.parent_expense_id = utilities.id
+  telephone.parent = utilities
   telephone.name = 'Telephone'
   telephone.save!
 
+  mobile = ExpenseCategory.new
+  mobile.parent = telephone
+  mobile.name = 'Mobile'
+  mobile.save!
+
+  landline = ExpenseCategory.new
+  landline.parent = telephone
+  landline.name = 'Landline'
+  landline.save!
+
   fuel = ExpenseCategory.new
-  fuel.parent_expense_id = utilities.id
+  fuel.parent = utilities
   fuel.name = 'Fuel'
   fuel.save!
 
   water = ExpenseCategory.new
-  water.parent_expense_id = utilities.id
+  water.parent = utilities
   water.name = 'Water'
   water.save!
 
   electricity = ExpenseCategory.new
-  electricity.parent_expense_id = utilities.id
+  electricity.parent = utilities
   electricity.name = 'Electricity'
   electricity.save!
 
   internet = ExpenseCategory.new
-  internet.parent_expense_id = utilities.id
+  internet.parent = utilities
   internet.name = 'Internet'
   internet.save!
 

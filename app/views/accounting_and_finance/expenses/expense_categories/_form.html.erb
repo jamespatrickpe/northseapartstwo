@@ -15,7 +15,7 @@
   <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
 
   <%=
-      f.input :parent_expense_id,
+      f.input :parent_id,
               required: false,
               :label => "Parent Expense",
               collection: ExpenseCategory.all,
@@ -23,7 +23,7 @@
               label_html: { class: 'form_label' },
               :input_html =>
                       {
-                              :value => selected_model_instance[:parent_expense_id],
+                              :value => selected_model_instance[:parent_id],
                               :'data-parsley-trigger' => 'keyup',
                               :'data-parsley-maxlength' => 256
                       }
@@ -32,7 +32,7 @@
 
 
   <script>
-      var $current_selectize = $('#accounting_and_finance_expenses_expense_categories_parent_expense_id').selectize({});
+      var $current_selectize = $('#accounting_and_finance_expenses_expense_categories_parent_id').selectize({});
       <% unless wizard_activated? %>
           <% if action_name == 'show' %>
               try { $current_selectize[0].selectize.disable(); }

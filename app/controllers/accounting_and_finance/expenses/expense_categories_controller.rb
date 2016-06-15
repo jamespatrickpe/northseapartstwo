@@ -28,7 +28,7 @@ class AccountingAndFinance::Expenses::ExpenseCategoriesController < AccountingAn
     begin
       expense_category[:remark] = current_params[:remark]
       expense_category[:name] = current_params[:name]
-      expense_category[:parent_expense_id] = current_params[:parent_expense_id]
+      expense_category[:parent_id] = current_params[:parent_id]
       expense_category.save!
       set_process_notification unless wizard_mode
     rescue => ex
