@@ -30,6 +30,8 @@
 //= require freewall.js
 //= require quantities.js
 //= require money.js
+//= require d3.js
+//= require jstree.js
 
 /*$(document).foundation();
 $(document).foundation('alert','events');*/

@@ -30,16 +30,6 @@ module OfficialStarterSeed
   telephone.name = 'Telephone'
   telephone.save!
 
-  mobile = ExpenseCategory.new
-  mobile.parent = telephone
-  mobile.name = 'Mobile'
-  mobile.save!
-
-  landline = ExpenseCategory.new
-  landline.parent = telephone
-  landline.name = 'Landline'
-  landline.save!
-
   fuel = ExpenseCategory.new
   fuel.parent = utilities
   fuel.name = 'Fuel'

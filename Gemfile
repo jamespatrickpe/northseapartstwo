@@ -71,7 +71,7 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'recaptcha', :require => 'recaptcha/rails'
 gem 'faker'
-gem "simple-navigation"
+gem 'simple-navigation'
 gem 'country_select', '~> 2.2.0'
 gem "parsley-rails"
 gem 'selectize-rails'

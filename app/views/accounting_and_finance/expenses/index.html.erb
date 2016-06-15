@@ -1,14 +1,37 @@
 <section class="large-10 columns">
   <%= generic_title("Expenses", "Economic costs that a business incurs through its operations to earn revenue.") %>
 
-    <div class="large-3 columns" style="background-color: #808080; color:white; font-size: 12px;">
-      <% ExpenseCategory.roots.each do |node| %>
-        <div><%= node.name.upcase %></div>
-        <% if node.has_children? %>
+    <div class="large-3 columns expense_list" >
 
-        <% end %>
-      <% end %>
+      <div id="expense_list">
+        <ul>
+          <% ExpenseCategory.roots.each do |node| %>
+              <%= display_children(node) %>
+          <% end %>
+        </ul>
+      </div>
+
+      <form>
+
+        <hr style="visibility: hidden">
+
+        <div class="form-block" style="float: left;">
+          <div class="form_label"> Start Period </div>
+          <input required="required" type="datetime-local" name="start_period" value="">
+        </div>
+
+        <div class="form-block" style="float: left;">
+          <div class="form_label"> End Period </div>
+          <input required="required" type="datetime-local" name="end_period" value="">
+        </div>
+
+        <button class="tiny button" type="submit">Search Expenses</button>
+
+      </form>
+
     </div>
+
+
 
     <div class="large-9 columns">
     </div>
@@ -17,5 +40,13 @@
   <%= render :template => 'common_partials/generic_index/_overview_panels' %>
 </section>
 
-
-
+<script>
+    $( document ).ready(function() {
+        $('#expense_list').jstree({
+            "checkbox" : {
+                "keep_selected_style" : false
+            },
+            "plugins" : [ "types", "checkbox" ]
+        });
+    });
+</script>

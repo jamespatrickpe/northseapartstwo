@@ -1,0 +1,6 @@
+div#expense_list > * > * > *
+{
+    font-family: arial, sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+}

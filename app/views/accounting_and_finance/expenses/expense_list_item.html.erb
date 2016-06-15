@@ -1,0 +1,10 @@
+<li class="expense_list_item jstree-open" id="<%= node.id %>" >
+  <%= node.name %>
+  <% if node.has_children? %>
+      <ul>
+        <% node.children.each do |child_node|%>
+            <li class="expense_list_item jstree-open" id="<%= child_node.id %>"><%= child_node.name %></li>
+        <% end %>
+      </ul>
+  <% end %>
+</li>
