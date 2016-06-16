@@ -31,6 +31,7 @@
 //= require quantities.js
 //= require money.js
 //= require d3.js
+//= require plottable.js
 //= require jstree.js
 
 /*$(document).foundation();

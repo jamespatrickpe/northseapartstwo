@@ -12,41 +12,79 @@
       </div>
 
       <form>
-
         <hr style="visibility: hidden">
-
         <div class="form-block" style="float: left;">
           <div class="form_label"> Start Period </div>
-          <input required="required" type="datetime-local" name="start_period" value="">
+          <input required="required" type="datetime-local" name="start_period" value="<%= format_datetime_default_value(DateTime.now) %>">
         </div>
 
         <div class="form-block" style="float: left;">
           <div class="form_label"> End Period </div>
-          <input required="required" type="datetime-local" name="end_period" value="">
+          <input required="required" type="datetime-local" name="end_period" value="<%= format_datetime_default_value(DateTime.now - 1.month) %>">
         </div>
 
-        <button class="tiny button" type="submit">Search Expenses</button>
-
+        <button class="tiny button" type="submit">Graph Expenses</button>
       </form>
 
     </div>
 
-
-
     <div class="large-9 columns">
+      <svg id="expense_line_chart">
+
+      </svg>
     </div>
 
   <%= render :template => 'common_partials/generic_index/_wizard_buttons' %>
   <%= render :template => 'common_partials/generic_index/_overview_panels' %>
 </section>
 
+<%=
+
+    results = get_expense_entries(Time.now - 10.years, Time.now, ExpenseCategory.find_by_name('Telephone').id )
+    results.each do |result|
+      result.amount
+    end
+
+%>
+
 <script>
     $( document ).ready(function() {
+
+        // JS TREE
         $('#expense_list').jstree({
             "checkbox" : {
-                "keep_selected_style" : false
+                "keep_selected_style" : true
             },
             "plugins" : [ "types", "checkbox" ]
         });
+
+        //CHART
+        var xScale = new Plottable.Scales.Linear();
+        var yScale = new Plottable.Scales.Linear();
+
+        var xAxis = new Plottable.Axes.Numeric(xScale, "bottom");
+        var yAxis = new Plottable.Axes.Numeric(yScale, "left");
+
+        var plot = new Plottable.Plots.Line();
+        plot.x(function(d) { return d.x; }, xScale);
+        plot.y(function(d) { return d.y; }, yScale);
+
+        var data = [
+            { "x": 0, "y": 1 },
+            { "x": 1, "y": 2 },
+            { "x": 2, "y": 4 },
+            { "x": 3, "y": 8 }
+        ];
+
+        var dataset = new Plottable.Dataset(data);
+        plot.addDataset(dataset);
+
+        var chart = new Plottable.Components.Table([
+            [yAxis, plot],
+            [null, xAxis]
+        ]);
+
+        chart.renderTo("svg#expense_line_chart");
+
     });
 </script>

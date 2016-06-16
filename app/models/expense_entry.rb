@@ -9,4 +9,11 @@ class ExpenseEntry < ActiveRecord::Base
   has_many :system_association, as: :model_one
   has_many :system_association, as: :model_two
 
+  searchable do
+    time  :datetime_of_implementation
+    string :expense_category_id
+    string :system_account_id
+    double :amount
+  end
+
 end

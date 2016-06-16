@@ -109,4 +109,8 @@ module ApplicationHelper
     end
   end
 
+  def format_datetime_default_value(date_time_object)
+    date_time_object.strftime('%FT%T')
+  end
+
 end
