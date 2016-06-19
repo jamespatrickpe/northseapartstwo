@@ -1,9 +1,23 @@
-<li class="expense_list_item jstree-open" id="<%= node.id %>" >
-  <%= node.name %>
+<li class="expense_list_item">
+
+  <div id="<%= node.id %>" class="node_link">
+    [ <%= node.name %> ]
+    <a class="prediction_link"> N/P </a>
+    <a class="show_status"> Hidden </a>
+  </div>
+
+
   <% if node.has_children? %>
       <ul>
         <% node.children.each do |child_node|%>
-            <li class="expense_list_item jstree-open" id="<%= child_node.id %>"><%= child_node.name %></li>
+            <li class="expense_list_item" id="<%= child_node.id %>">
+              <div id="<%= child_node.id %>" class="node_link">
+                [ <%= child_node.name %> ]
+                <a href="dfasf" class="prediction_link"> N/P </a>
+                <a class="show_status"> Hidden </a>
+              </div>
+              <%= display_children(child_node) if child_node.has_children? %>
+            </li>
         <% end %>
       </ul>
   <% end %>

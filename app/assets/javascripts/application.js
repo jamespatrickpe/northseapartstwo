@@ -30,9 +30,9 @@
 //= require freewall.js
 //= require quantities.js
 //= require money.js
-//= require d3.js
-//= require plottable.js
-//= require jstree.js
+//= require tree.jquery.js
+//= require jquery.cookie.js
+
 
 /*$(document).foundation();
 $(document).foundation('alert','events');*/

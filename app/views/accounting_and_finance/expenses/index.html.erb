@@ -1,7 +1,8 @@
 <section class="large-10 columns">
   <%= generic_title("Expenses", "Economic costs that a business incurs through its operations to earn revenue.") %>
 
-    <div class="large-3 columns expense_list" >
+    <form>
+    <div class="large-3 columns" >
 
       <div id="expense_list">
         <ul>
@@ -11,28 +12,39 @@
         </ul>
       </div>
 
-      <form>
-        <hr style="visibility: hidden">
-        <div class="form-block" style="float: left;">
+      <hr style="visibility: hidden">
+
+        <div class="form-block">
           <div class="form_label"> Start Period </div>
           <input required="required" type="datetime-local" name="start_period" value="<%= format_datetime_default_value(DateTime.now) %>">
         </div>
 
-        <div class="form-block" style="float: left;">
+        <div class="form-block">
           <div class="form_label"> End Period </div>
-          <input required="required" type="datetime-local" name="end_period" value="<%= format_datetime_default_value(DateTime.now - 1.month) %>">
+          <input required="required" type="datetime-local" name="end_period" value="<%= format_datetime_default_value(DateTime.now - 1.year) %>">
+        </div>
+
+        <div class="form-block">
+          <div class="form_label"> Interval </div>
+          <select id="expense_list_interval">
+            <option value="second">SECOND</option>
+            <option value="minute">MINUTE</option>
+            <option value="hour">HOUR</option>
+            <option value="day">DAY</option>
+            <option value="week">WEEK</option>
+            <option value="month" selected>MONTH</option>
+            <option value="year">YEAR</option>
+          </select>
         </div>
 
         <button class="tiny button" type="submit">Graph Expenses</button>
-      </form>
-
     </div>
 
     <div class="large-9 columns">
       <svg id="expense_line_chart">
-
       </svg>
     </div>
+    </form>
 
   <%= render :template => 'common_partials/generic_index/_wizard_buttons' %>
   <%= render :template => 'common_partials/generic_index/_overview_panels' %>
@@ -50,41 +62,11 @@
 <script>
     $( document ).ready(function() {
 
-        // JS TREE
-        $('#expense_list').jstree({
-            "checkbox" : {
-                "keep_selected_style" : true
-            },
-            "plugins" : [ "types", "checkbox" ]
+        // Selectize
+        $('#expense_list_interval').selectize({
+            sortField: 'text'
         });
 
-        //CHART
-        var xScale = new Plottable.Scales.Linear();
-        var yScale = new Plottable.Scales.Linear();
-
-        var xAxis = new Plottable.Axes.Numeric(xScale, "bottom");
-        var yAxis = new Plottable.Axes.Numeric(yScale, "left");
-
-        var plot = new Plottable.Plots.Line();
-        plot.x(function(d) { return d.x; }, xScale);
-        plot.y(function(d) { return d.y; }, yScale);
-
-        var data = [
-            { "x": 0, "y": 1 },
-            { "x": 1, "y": 2 },
-            { "x": 2, "y": 4 },
-            { "x": 3, "y": 8 }
-        ];
-
-        var dataset = new Plottable.Dataset(data);
-        plot.addDataset(dataset);
-
-        var chart = new Plottable.Components.Table([
-            [yAxis, plot],
-            [null, xAxis]
-        ]);
-
-        chart.renderTo("svg#expense_line_chart");
 
     });
 </script>
