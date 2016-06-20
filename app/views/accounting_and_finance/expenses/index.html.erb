@@ -1,8 +1,8 @@
 <section class="large-10 columns">
   <%= generic_title("Expenses", "Economic costs that a business incurs through its operations to earn revenue.") %>
 
-    <form>
-    <div class="large-3 columns" >
+    <form method="POST" action="">
+    <div class="large-4 columns" >
 
       <div id="expense_list">
         <ul>
@@ -40,10 +40,11 @@
         <button class="tiny button" type="submit">Graph Expenses</button>
     </div>
 
-    <div class="large-9 columns">
+    <div class="large-8 columns">
       <svg id="expense_line_chart">
       </svg>
     </div>
+
     </form>
 
   <%= render :template => 'common_partials/generic_index/_wizard_buttons' %>
@@ -66,6 +67,15 @@
         $('#expense_list_interval').selectize({
             sortField: 'text'
         });
+
+        //Tree Functionality
+        $('.tree_symbol').click(function(){
+            $(this).parent().siblings('ul').toggle(
+                    function(){ alert("sherwin1") },
+                    function(){ alert("sherwin2") }
+            );
+        });
+
 
 
     });
