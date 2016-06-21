@@ -30,8 +30,9 @@
 //= require freewall.js
 //= require quantities.js
 //= require money.js
-//= require tree.jquery.js
 //= require jquery.cookie.js
+//= require d3.v3.min
+//= require c3.min.js
 
 
 /*$(document).foundation();

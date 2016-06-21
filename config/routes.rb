@@ -75,9 +75,10 @@ Rails.application.routes.draw do
   namespace :accounting_and_finance do
 
     get 'expenses/' => 'expenses#index'
+    get 'expenses/process_form' => 'expenses#process_form'
     namespace :expenses do
-      resources :expense_categories
-      resources :expense_entries
+      generate_logic_unit('expense_categories')
+      generate_logic_unit('expense_entries')
     end
 
   end

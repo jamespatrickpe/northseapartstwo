@@ -11,9 +11,10 @@ class AccountingAndFinance::ExpensesController < AccountingAndFinanceController
         [
             # [accounting_and_finance_expenses_expense_entries_wizard(:setup_expense_entry),'Add Expense Entry']
         ]
+  end
 
-
-
+  def process_form
+    # redirect_to :action => 'index'
   end
 
 end

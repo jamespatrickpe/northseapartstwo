@@ -1,7 +1,7 @@
 <section class="large-10 columns">
   <%= generic_title("Expenses", "Economic costs that a business incurs through its operations to earn revenue.") %>
 
-    <form method="POST" action="">
+    <form method="GET" action="<%= accounting_and_finance_expenses_process_form_path %>">
     <div class="large-4 columns" >
 
       <div id="expense_list">
@@ -10,6 +10,11 @@
               <%= display_children(node) %>
           <% end %>
         </ul>
+
+        <div class="forecasting_legend_indicator">
+          Legend : Prediction Used
+        </div>
+
       </div>
 
       <hr style="visibility: hidden">
@@ -26,7 +31,7 @@
 
         <div class="form-block">
           <div class="form_label"> Interval </div>
-          <select id="expense_list_interval">
+          <select name="expense_list_interval">
             <option value="second">SECOND</option>
             <option value="minute">MINUTE</option>
             <option value="hour">HOUR</option>
@@ -37,7 +42,7 @@
           </select>
         </div>
 
-        <button class="tiny button" type="submit">Graph Expenses</button>
+        <input class="tiny button" type="submit" value="Graph Expenses" />
     </div>
 
     <div class="large-8 columns">
@@ -77,18 +82,37 @@
             { $(this).html('-')}
         });
 
+        //C3 Graph
+        var chart = c3.generate({
+            bindto: '#expense_line_chart',
+            data: {
+                columns: [
+                    ['data1', 30, 200, 100, 400, 150, 250],
+                    ['data2', 50, 20, 10, 40, 15, 25]
+                ],
+                axes: {
+                    data2: 'y2' // ADD
+                }
+            },
+            axis: {
+                y2: {
+                    show: true // ADD
+                }
+            }
+        });
+
         //Prediction Functionality
         $('.forecasting_link').click(function() {
             current_prediction = $(this).html();
             switch( current_prediction )
             {
-                case 'N/P':
+                case 'none':
                     $(this).html('3-Point Moving Average');
                     $(this).siblings('.forecasting_method').val('three_point_moving_average');
                     break;
                 default:
-                    $(this).html('N/P');
-                    $(this).siblings('.forecasting_method').val('N/P');
+                    $(this).html('none');
+                    $(this).siblings('.forecasting_method').val('none');
             }
         });
 

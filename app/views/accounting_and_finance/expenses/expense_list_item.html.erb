@@ -3,9 +3,9 @@
   <div id="<%= node.id %>" class="node_link">
     <a class="tree_symbol">-</a>
     [ <%= node.name %> ]
-    <input type="checkbox" name="<%= node.name %>" value="<%= node.id %>">
-    <a class="forecasting_link"> N/P </a>
-    <input type="hidden" class="forecasting_method" id="<%= node.id %>" value="N/P">
+    <input type="checkbox" name="node_id[<%= node.id %>]" value="true">
+    <a class="forecasting_link"> none </a>
+    <input type="hidden" class="forecasting_method" name="forecasting_method[<%= node.id %>]" value="none">
   </div>
 
 
@@ -14,13 +14,11 @@
         <% node.children.each do |child_node|%>
             <li class="expense_list_item" id="<%= child_node.id %>">
               <div id="<%= child_node.id %>" class="node_link">
-                <% if child_node.has_children? %>
-                    <a class="tree_symbol">-</a>
-                <% end %>
+                <%= "<a class='tree_symbol'>-</a>" if child_node.has_children? %>
                 [ <%= child_node.name %> ]
-                <input type="checkbox" name="<%= child_node.name %>" value="<%= child_node.id %>">
-                <a class="forecasting_link"> N/P </a>
-                <input type="hidden" class="forecasting_method" value="N/P">
+                <input type="checkbox" name="node_id[<%= child_node.id %>]" value="true">
+                <a class="forecasting_link"> none </a>
+                <input type="hidden" class="forecasting_method" name="forecasting_method[<%= child_node.id %>]" value="none">
               </div>
               <%= display_children(child_node) if child_node.has_children? %>
             </li>
