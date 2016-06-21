@@ -69,12 +69,29 @@
         });
 
         //Tree Functionality
-        $('.tree_symbol').click(function(){
-            $(this).parent().siblings('ul').toggle(
-                    function(){ alert("sherwin1") },
-                    function(){ alert("sherwin2") }
-            );
+        $('.tree_symbol').click(function() {
+            $(this).parent().siblings('ul').toggle();
+            if ($(this).html() == '-')
+            { $(this).html('+')}
+            else
+            { $(this).html('-')}
         });
+
+        //Prediction Functionality
+        $('.forecasting_link').click(function() {
+            current_prediction = $(this).html();
+            switch( current_prediction )
+            {
+                case 'N/P':
+                    $(this).html('3-Point Moving Average');
+                    $(this).siblings('.forecasting_method').val('three_point_moving_average');
+                    break;
+                default:
+                    $(this).html('N/P');
+                    $(this).siblings('.forecasting_method').val('N/P');
+            }
+        });
+
 
 
 
