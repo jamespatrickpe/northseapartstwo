@@ -2,7 +2,39 @@
   <%= generic_title("Expenses", "Economic costs that a business incurs through its operations to earn revenue.") %>
 
     <form method="GET" action="<%= accounting_and_finance_expenses_process_form_path %>">
-    <div class="large-4 columns" >
+
+      <div class="form-block" style="float:left; padding: 5px;">
+        <div class="form_label"> Start Period </div>
+        <input required="required" type="datetime-local" name="start_period" value="<%= format_datetime_default_value(DateTime.now) %>">
+      </div>
+
+      <div class="form-block" style="float:left; padding: 5px;">
+        <div class="form_label"> End Period </div>
+        <input required="required" style="float:left;" type="datetime-local" name="end_period" value="<%= format_datetime_default_value(DateTime.now - 1.year) %>">
+      </div>
+
+      <div class="form-block" style="float:left; padding: 5px;">
+        <div class="form_label"> Interval </div>
+        <select name="expense_list_interval">
+          <option value="second">SECOND</option>
+          <option value="minute">MINUTE</option>
+          <option value="hour">HOUR</option>
+          <option value="day" selected>DAY</option>
+          <option value="week">WEEK</option>
+          <option value="month" >MONTH</option>
+          <option value="year">YEAR</option>
+        </select>
+      </div>
+
+      <div class="form-block" style="float:left; padding: 10px;">
+        <br>
+        <input class="tiny button" type="submit" value="Graph Expenses"/>
+      </div>
+
+      <hr>
+
+
+    <div class="large-3 columns" >
 
       <div id="expense_list">
         <ul>
@@ -12,42 +44,13 @@
         </ul>
 
         <div class="forecasting_legend_indicator">
-          Legend : Prediction Used
+          Legend: Prediction Used
         </div>
 
       </div>
-
-      <hr style="visibility: hidden">
-
-        <div class="form-block">
-          <div class="form_label"> Start Period </div>
-          <input required="required" type="datetime-local" name="start_period" value="<%= format_datetime_default_value(DateTime.now) %>">
-        </div>
-
-        <div class="form-block">
-          <div class="form_label"> End Period </div>
-          <input required="required" type="datetime-local" name="end_period" value="<%= format_datetime_default_value(DateTime.now - 1.year) %>">
-        </div>
-
-        <div class="form-block">
-          <div class="form_label"> Interval </div>
-          <select name="expense_list_interval">
-            <option value="second">SECOND</option>
-            <option value="minute">MINUTE</option>
-            <option value="hour">HOUR</option>
-            <option value="day">DAY</option>
-            <option value="week">WEEK</option>
-            <option value="month" selected>MONTH</option>
-            <option value="year">YEAR</option>
-          </select>
-        </div>
-
-        <input class="tiny button" type="submit" value="Graph Expenses" />
     </div>
 
-    <div class="large-8 columns">
-      <svg id="expense_line_chart">
-      </svg>
+    <div class="large-9 columns" id="expense_line_chart">
     </div>
 
     </form>
@@ -55,15 +58,6 @@
   <%= render :template => 'common_partials/generic_index/_wizard_buttons' %>
   <%= render :template => 'common_partials/generic_index/_overview_panels' %>
 </section>
-
-<%=
-
-    results = get_expense_entries(Time.now - 10.years, Time.now, ExpenseCategory.find_by_name('Telephone').id )
-    results.each do |result|
-      result.amount
-    end
-
-%>
 
 <script>
     $( document ).ready(function() {
@@ -85,18 +79,28 @@
         //C3 Graph
         var chart = c3.generate({
             bindto: '#expense_line_chart',
+            size: {
+                height: 500,
+                width: 750
+            },
             data: {
+                xs: {
+                    'data1': 'x1',
+                    'data2': 'x2'
+                },
                 columns: [
+                    ['x1', 10, 30, 45, 50, 70, 100],
+                    ['x2', 30, 50, 75, 100, 120],
                     ['data1', 30, 200, 100, 400, 150, 250],
-                    ['data2', 50, 20, 10, 40, 15, 25]
-                ],
-                axes: {
-                    data2: 'y2' // ADD
-                }
+                    ['data2', 20, 180, 240, 100, 190]
+                ]
             },
             axis: {
-                y2: {
-                    show: true // ADD
+                x: {
+                    type: 'timeseries',
+                    tick: {
+                        format: '<%= params[:expense_list_interval] %>'
+                    }
                 }
             }
         });
@@ -107,12 +111,16 @@
             switch( current_prediction )
             {
                 case 'none':
+                    $(this).html('regular');
+                    $(this).siblings('.node_id').val('regular');
+                    break;
+                case 'regular':
                     $(this).html('3-Point Moving Average');
-                    $(this).siblings('.forecasting_method').val('three_point_moving_average');
+                    $(this).siblings('.node_id').val('three_point_moving_average');
                     break;
                 default:
                     $(this).html('none');
-                    $(this).siblings('.forecasting_method').val('none');
+                    $(this).siblings('.node_id').val('none');
             }
         });
 
