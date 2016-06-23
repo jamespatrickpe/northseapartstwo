@@ -48,9 +48,9 @@
 
 .forecasting_legend_indicator
 {
-    background-color: #721314;
+    background-color: #dbdbdb;
     text-transform: uppercase;
-    color: white;
+    color: black;
     font-size: 9px;
     float:left;
     padding: 5px;

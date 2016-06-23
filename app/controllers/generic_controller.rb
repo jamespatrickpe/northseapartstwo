@@ -1,5 +1,9 @@
 module GenericController
 
+  def html5datetimelocal_to_rubydatetime(raw_params)
+    DateTime.parse(raw_params)
+  end
+
   def get_contactable_entities
     digital_contactables = Digital.all_polymorphic_types(:digitable).map(&:to_s)
     address_contactables = Address.all_polymorphic_types(:addressable).map(&:to_s)

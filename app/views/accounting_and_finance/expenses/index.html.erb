@@ -1,30 +1,33 @@
 <section class="large-10 columns">
   <%= generic_title("Expenses", "Economic costs that a business incurs through its operations to earn revenue.") %>
 
-    <form method="GET" action="<%= accounting_and_finance_expenses_process_form_path %>">
+  <%=
+      simple_form_for accounting_and_finance_expenses_path,
+                      :html => {:method => 'GET'} do |f|
+  %>
 
       <div class="form-block" style="float:left; padding: 5px;">
         <div class="form_label"> Start Period </div>
-        <input required="required" type="datetime-local" name="start_period" value="<%= format_datetime_default_value(DateTime.now) %>">
+        <input required="required" type="datetime-local" name="start_period" value="<%= params[:start_period] ||= format_datetime_default_value(DateTime.now - 3.year) %>">
       </div>
 
       <div class="form-block" style="float:left; padding: 5px;">
         <div class="form_label"> End Period </div>
-        <input required="required" style="float:left;" type="datetime-local" name="end_period" value="<%= format_datetime_default_value(DateTime.now - 1.year) %>">
+        <input required="required" style="float:left;" type="datetime-local" name="end_period" value="<%= params[:end_period] ||= format_datetime_default_value(DateTime.now) %>">
       </div>
 
       <div class="form-block" style="float:left; padding: 5px;">
-        <div class="form_label"> Interval </div>
-        <select name="expense_list_interval">
-          <option value="second">SECOND</option>
-          <option value="minute">MINUTE</option>
-          <option value="hour">HOUR</option>
-          <option value="day" selected>DAY</option>
-          <option value="week">WEEK</option>
-          <option value="month" >MONTH</option>
-          <option value="year">YEAR</option>
-        </select>
+      <%=
+          f.input :expense_list_interval,
+                  :label => "Interval",
+                  label_html: { class: 'form_label' },
+                  collection: ['Second','Minute','Hour','Day','Week','Month','Year'],
+                  prompt: "Select Interval",
+                  selected: ( (params[:expense_list_interval]) ? (params[:expense_list_interval]) : 'Day' )
+      %>
       </div>
+
+      &nbsp;
 
       <div class="form-block" style="float:left; padding: 10px;">
         <br>
@@ -32,6 +35,7 @@
       </div>
 
       <hr>
+
 
 
     <div class="large-3 columns" >
@@ -42,10 +46,8 @@
               <%= display_children(node) %>
           <% end %>
         </ul>
-
-        <div class="forecasting_legend_indicator">
-          Legend: Prediction Used
-        </div>
+        
+        <hr style="visibility: hidden;">
 
       </div>
     </div>
@@ -53,7 +55,37 @@
     <div class="large-9 columns" id="expense_line_chart">
     </div>
 
-    </form>
+  <%
+     main_expenses = Array.new()
+     sub_expense = Hash.new()
+     if params.has_key?(:node_id)
+      params[:node_id].each do |category_key, show_value|
+        unless show_value == 'none'
+
+          current_time = Time.parse(params[:start_period])
+          until current_time > Time.parse(params[:end_period])
+
+            total = 0
+            entries = get_expense_entries(current_time, (current_time + @interval), category_key)
+            entries.each do |entry|
+              total += entry.amount
+            end
+
+            sub_expense[current_time] = total
+            current_time = current_time + @interval
+          end
+
+          expense_name = ExpenseCategory.find(category_key).name
+          expense_type = Hash.new()
+          expense_type[expense_name.to_s] = sub_expense
+          main_expenses.push(expense_type)
+
+        end
+      end
+     end
+  %>
+  <%= main_expenses.inspect %>
+  <% end %>
 
   <%= render :template => 'common_partials/generic_index/_wizard_buttons' %>
   <%= render :template => 'common_partials/generic_index/_overview_panels' %>
@@ -81,25 +113,25 @@
             bindto: '#expense_line_chart',
             size: {
                 height: 500,
-                width: 750
+                width: 800
             },
             data: {
                 xs: {
-                    'data1': 'x1',
-                    'data2': 'x2'
+                    'Utility 1': 'Time 1',
+                    'Utility 2': 'Time 2'
                 },
                 columns: [
-                    ['x1', 10, 30, 45, 50, 70, 100],
-                    ['x2', 30, 50, 75, 100, 120],
-                    ['data1', 30, 200, 100, 400, 150, 250],
-                    ['data2', 20, 180, 240, 100, 190]
+                    ['Time 1', 10, 30, 45, 50, 70, 100],
+                    ['Time 2', 30, 50, 75, 100, 120],
+                    ['Utility 1', 30, 200, 100, 400, 150, 250],
+                    ['Utility 2', 20, 180, 240, 100, 190]
                 ]
             },
             axis: {
                 x: {
                     type: 'timeseries',
                     tick: {
-                        format: '<%= params[:expense_list_interval] %>'
+                        format: '<%= params[:expense_list_interval] ||= '%Y/%m/%d' %>'
                     }
                 }
             }
@@ -123,9 +155,6 @@
                     $(this).siblings('.node_id').val('none');
             }
         });
-
-
-
 
     });
 </script>
