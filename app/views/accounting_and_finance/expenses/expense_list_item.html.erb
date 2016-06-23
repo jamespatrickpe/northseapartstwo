@@ -3,8 +3,8 @@
   <div id="<%= node.id %>" class="node_link">
     <a class="tree_symbol">-</a>
     [ <%= node.name %> ]
-    <a class="forecasting_link">none</a>
-    <input type="hidden" class="node_id" name="node_id[<%= node.id %>]" value="none">
+    <a class="forecasting_link"><%= params.has_key?(:node_id) ? params[:node_id][node.id] : 'none' %></a>
+    <input type="hidden" class="node_id" name="node_id[<%= node.id %>]" value="<%= params.has_key?(:node_id) ? params[:node_id][node.id] : 'none' %>">
   </div>
 
 
@@ -15,8 +15,10 @@
               <div id="<%= child_node.id %>" class="node_link">
                 <%= "<a class='tree_symbol'>-</a>" if child_node.has_children? %>
                 [ <%= child_node.name %> ]
-                <a class="forecasting_link">none</a>
-                <input type="hidden" class="node_id" name="node_id[<%= child_node.id %>]" value="none">
+                <a class="forecasting_link">
+                  <%= params.has_key?(:node_id) ? params[:node_id][child_node.id] : 'none' %>
+                </a>
+                <input type="hidden" class="node_id" name="node_id[<%= child_node.id %>]" value="<%= params.has_key?(:node_id) ? params[:node_id][child_node.id] : 'none' %>">
               </div>
               <%= display_children(child_node) if child_node.has_children? %>
             </li>

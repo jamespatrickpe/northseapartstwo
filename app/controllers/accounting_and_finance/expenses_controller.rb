@@ -3,34 +3,31 @@ class AccountingAndFinance::ExpensesController < AccountingAndFinanceController
   def index
 
     #Process Form
-    expense_list_interval = (params[:expense_list_interval])
-    interval = 1.day
+    params.has_key?("/accounting_and_finance/expenses") ? expense_list_interval = (params["/accounting_and_finance/expenses"][:expense_list_interval]).to_s.downcase : expense_list_interval = nil
     case expense_list_interval
-      when "second"
-        expense_list_interval = '%Y/%m/%d %T'
+      when 'second'
+        interval_format = '%Y/%m/%d %T'
         interval = 1.second
-      when "minute"
-        expense_list_interval = '%Y/%m/%d %H:%M'
+      when 'minute'
+        interval_format = '%Y/%m/%d %H:%M'
         interval = 1.minute
-      when "hour"
-        expense_list_interval = '%Y/%m/%d %H'
+      when 'hour'
+        interval_format = '%Y/%m/%d %H'
         interval = 1.hour
-      when "day"
-        expense_list_interval = '%Y/%m/%d'
+      when 'day'
+        interval_format = '%Y/%m/%d'
         interval = 1.day
-      when "week"
-        expense_list_interval = '%G/W%V'
-        interval = 1.week
-      when "month"
-        expense_list_interval = '%Y/%m'
+      when 'month'
+        interval_format = '%Y/%m'
         interval = 1.month
-      when "year"
-        expense_list_interval = '%Y'
+      when 'year'
+        interval_format = '%Y'
         interval = 1.year
       else
-        expense_list_interval = '%Y/%m/%d %T'
+        interval_format = '%Y/%m/%d %T'
+        interval = 1.day
     end
-
+    @interval_format = interval_format
     @interval = interval
 
     # Overview Panels
