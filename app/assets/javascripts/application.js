@@ -31,7 +31,7 @@
 //= require quantities.js
 //= require money.js
 //= require jquery.cookie.js
-//= require d3.v3.min
+//= require d3.v3.js
 //= require c3.min.js
 
 

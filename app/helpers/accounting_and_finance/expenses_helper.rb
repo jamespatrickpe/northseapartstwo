@@ -8,6 +8,7 @@ module AccountingAndFinance::ExpensesHelper
     query = Sunspot.search(ExpenseEntry) do
       with(:datetime_of_implementation).between(start_period..end_period)
       with(:expense_category_id).equal_to(category_id)
+      order_by(:datetime_of_implementation, :asc)
     end
     query.results
   end
