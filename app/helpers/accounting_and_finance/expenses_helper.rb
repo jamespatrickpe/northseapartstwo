@@ -13,4 +13,48 @@ module AccountingAndFinance::ExpensesHelper
     query.results
   end
 
+  def get_expense_array(params, interval, interval_format)
+
+    main_expenses = Array.new()
+
+    # time array
+    time_array = Array.new()
+    time_array.push('x')
+    current_time = Time.parse(params[:start_period])
+    until current_time > Time.parse(params[:end_period])
+      time_array.push( current_time.strftime(interval_format) )
+      current_time += interval
+    end
+    main_expenses.push(time_array)
+
+    if params.has_key?(:node_id)
+      params[:node_id].each do |category_key, show_value|
+        unless show_value == 'none'
+
+            # category array
+            category_array = Array.new()
+            category_array.push( ExpenseCategory.find(category_key).name )
+            current_time = Time.parse(params[:start_period])
+            until current_time > Time.parse(params[:end_period])
+              total = 0
+              entries = get_expense_entries(current_time,( current_time + interval),category_key)
+              unless entries == nil
+                # problem is here
+                entries.each do |entry|
+                  total += entry.amount.to_f
+                end
+              end
+              category_array.push(total)
+              current_time += interval
+            end
+            main_expenses.push(category_array)
+
+        end
+      end
+    end
+
+    main_expenses
+
+  end
+
 end

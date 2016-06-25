@@ -1,28 +1,21 @@
-<li class="expense_list_item">
-
-  <div id="<%= node.id %>" class="node_link">
-    <a class="tree_symbol">-</a>
-    [ <%= node.name %> ]
-    <a class="forecasting_link"><%= params.has_key?(:node_id) ? params[:node_id][node.id] : 'none' %></a>
-    <input type="hidden" class="node_id" name="node_id[<%= node.id %>]" value="<%= params.has_key?(:node_id) ? params[:node_id][node.id] : 'none' %>">
-  </div>
-
-
-  <% if node.has_children? %>
+<% if node.has_children? %>
       <ul>
         <% node.children.each do |child_node|%>
             <li class="expense_list_item" id="<%= child_node.id %>">
+
               <div id="<%= child_node.id %>" class="node_link">
-                <%= "<a class='tree_symbol'>-</a>" if child_node.has_children? %>
+                <% if child_node.has_children? %>
+                <a class="tree_symbol">-</a>
+                <% end %>
                 [ <%= child_node.name %> ]
-                <a class="forecasting_link">
-                  <%= params.has_key?(:node_id) ? params[:node_id][child_node.id] : 'none' %>
-                </a>
-                <input type="hidden" class="node_id" name="node_id[<%= child_node.id %>]" value="<%= params.has_key?(:node_id) ? params[:node_id][child_node.id] : 'none' %>">
+                <a class="forecasting_link"><%= params.has_key?(:node_id) ? params[:node_id][node.id] : 'none' %></a>
+                <input type="hidden" class="node_id" name="node_id[<%= child_node.id %>]" value="<%= params.has_key?(:node_id) ? params[:node_id][node.id] : 'none' %>">
               </div>
+
               <%= display_children(child_node) if child_node.has_children? %>
+
             </li>
         <% end %>
       </ul>
-  <% end %>
-</li>
+<% end %>
+

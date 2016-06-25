@@ -34,7 +34,20 @@
       <div id="expense_list">
         <ul>
           <% ExpenseCategory.roots.each do |node| %>
-              <%= display_children(node) %>
+
+              <li class="expense_list_item">
+
+                <div id="<%= node.id %>" class="node_link">
+                  <a class="tree_symbol">-</a>
+                  [ <%= node.name %> ]
+                  <a class="forecasting_link"><%= params.has_key?(:node_id) ? params[:node_id][node.id] : 'none' %></a>
+                  <input type="hidden" class="node_id" name="node_id[<%= node.id %>]" value="<%= params.has_key?(:node_id) ? params[:node_id][node.id] : 'none' %>">
+                </div>
+
+                <%= display_children(node) %>
+
+              </li>
+
           <% end %>
         </ul>
         <hr style="visibility: hidden;">
@@ -50,46 +63,12 @@
   <%= render :template => 'common_partials/generic_index/_overview_panels' %>
 </section>
 
-<!-- Main Expense Array -->
-<%
-   main_expenses = Array.new()
-
-   # time array
-   time_array = Array.new()
-   time_array.push('x')
-   current_time = Time.parse(params[:start_period])
-   until current_time > Time.parse(params[:end_period])
-     time_array.push( current_time.strftime(@interval_format) )
-     current_time += @interval
-   end
-   main_expenses.push(time_array)
-
-   if params.has_key?(:node_id)
-     params[:node_id].each do |category_key, show_value|
-       unless show_value == 'none'
-         # category array
-         category_array = Array.new()
-         category_array.push( ExpenseCategory.find(category_key).name )
-         current_time = Time.parse(params[:start_period])
-         until current_time > Time.parse(params[:end_period])
-           total = 0
-           entries = get_expense_entries(current_time,(current_time+@interval),category_key)
-           unless entries == nil
-             entries.each do |entry|
-               total += entry.amount.to_f
-             end
-           end
-           category_array.push(total)
-           current_time += @interval
-         end
-         main_expenses.push(category_array)
-       end
-     end
-   end
-%>
-
 <hr>
-<%= main_expenses.inspect %>
+<%= params %>
+
+<!-- Main Expense Array -->
+<hr>
+<%= main_expenses = get_expense_array(params, @interval, @interval_format) %>
 
 <script>
     $( document ).ready(function() {
@@ -111,33 +90,13 @@
         //C3 Graph
         var chart = c3.generate({
             bindto: '#expense_line_chart',
-            size: {
-                height: 500,
-                width: 800
-            },
-            data:
-            {
+            size: {height: 500,width: 800},
+            data:{
                 x:'x',
                 xFormat: '<%= @interval_format %>',
-                columns:
-                [
-                        <% main_expenses.each do |expense| %>
-                        [
-                            <% expense.each do |entry| %>
-                                '<%= entry %>',
-                            <% end %>
-                        ],
-                        <% end %>
-                ]
+                columns: <%= main_expenses.to_json.html_safe %>
             },
-            axis: {
-                x: {
-                    type: 'timeseries',
-                    tick: {
-                        format: '<%= @interval_format %>'
-                    }
-                }
-            }
+            axis: {x: {type: 'timeseries',tick: {format: '<%= @interval_format %>'}}}
         });
 
         //Prediction Functionality

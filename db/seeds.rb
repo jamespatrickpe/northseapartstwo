@@ -439,7 +439,13 @@ unless Rails.env.production?
 
   rand(30..50).times do |i|
     current_expense = ExpenseEntry.new
-    current_expense.expense_category_id = ExpenseCategory.order("RAND()").first.id
+
+    current_category = (ExpenseCategory.order("RAND()").first)
+    while current_category.has_children?
+      current_category = (ExpenseCategory.order("RAND()").first)
+    end
+
+    current_expense.expense_category_id = current_category.id
     current_expense.system_account_id = SystemAccount.order("RAND()").first.id
     current_expense.amount = Faker::Commerce.price*100
     current_expense.remark = Faker::Lorem.sentence
