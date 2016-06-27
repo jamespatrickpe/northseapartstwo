@@ -2,7 +2,7 @@ class CreateBiodata < MainMigration
   def change
     create_table :biodata, :id => false   do |t|
       common_set_two(t)
-      t.string :system_actor_id, limit: 36,:required => true
+      t.string :system_account_id, limit: 36,:required => true
       t.string :education, :limit => 256
       t.string :career_experience, :limit => 256
       t.string :notable_accomplishments, :limit => 256

@@ -99,6 +99,7 @@ bower.json
 .powenv
 
 schema.rb
+db/schema.rb
 dataSources.xml
 Gemfile.lock
 database.yml

@@ -1,2 +1,0 @@
-module GeneralAdministration::SystemActorsHelper
-end

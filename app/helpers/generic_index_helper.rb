@@ -1,5 +1,9 @@
 module GenericIndexHelper
 
+  def format_datetime(datetime)
+    datetime.strftime("%m/%d/%Y %T %p") unless datetime.nil?
+  end
+
   def check_partial_exists(current_path)
     lookup_context.find_all( current_path ).any?
   end
@@ -48,10 +52,11 @@ module GenericIndexHelper
     render(:partial => 'common_partials/generic_index/theadlink_set', :locals => {:theadlink_set => theadlink_set})
   end
 
-  def polymorphic_link(current_instance_type, current_instance_id)
+  def polymorphic_link(current_instance_type, current_instance_id, force_show = nil)
     render(:partial => 'common_partials/generic_index/polymorphic_link',
            :locals => {:current_instance_type => current_instance_type,
-                       :current_instance_id => current_instance_id
+                       :current_instance_id => current_instance_id,
+                       :force_show => force_show
            })
   end
 

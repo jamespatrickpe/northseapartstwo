@@ -6,7 +6,7 @@ module GenericIndex
       query = generic_index_aggregated_queries(controller_name,'updated_at')
       @result_set = search_index(main_model, query, includes)
     rescue => ex
-      index_error(ex)
+      index_error(ex, nil)
     end
     @result_set
     generic_index_main(subtitle)

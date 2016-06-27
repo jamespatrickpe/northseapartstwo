@@ -24,24 +24,24 @@ class GeneralAdministration::BranchesController < GeneralAdministrationControlle
     generic_delete(Branch)
   end
 
-  def process_form(branch)
+  def process_form(my_branch, current_params, wizard_mode = nil)
     begin
-      branch[:remark] = params[controller_path][:remark]
-      branch[:name] = params[controller_path][:name]
-      branch.save!
+      my_branch[:remark] = current_params[:remark]
+      my_branch[:name] = current_params[:name]
+      my_branch.save!
       set_process_notification
     rescue => ex
-      index_error(ex)
+      index_error(ex, wizard_mode)
     end
-    form_completion_redirect
+    form_completion_redirect(wizard_mode)
   end
 
   def create
-    process_form(Branch.new())
+    process_form(Branch.new(), params[controller_path])
   end
 
   def update
-    process_form(Branch.find(params[controller_path][:id]))
+    process_form(Branch.find(params[controller_path][:id]), params[controller_path])
   end
 
 

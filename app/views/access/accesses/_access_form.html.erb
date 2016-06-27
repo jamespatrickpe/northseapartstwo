@@ -11,7 +11,7 @@
 
     <option value="" disabled selected>Select Actor</option>
     <% @actors.each do |actor| %>
-        <% if actor.id == @selected_access[:system_actor_id] %>
+        <% if actor.id == @selected_access[:system_account_id] %>
             <option value=<%= actor.id %> selected><%= actor.name %></option>
         <% else %>
             <option value=<%= actor.id  %>><%= actor.name %></option>

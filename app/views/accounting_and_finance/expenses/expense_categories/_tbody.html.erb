@@ -1,0 +1,7 @@
+<%= generic_index_id(result) %>
+<td><%= result[:name] %></td>
+<%= generic_index_remark(result[:remark]) %>
+<td>
+  <%= result.parent_id.blank? ? "N/A" : ExpenseCategory.find(result.parent_id).name %>
+</td>
+<%= generic_index_last_rows(result) %>

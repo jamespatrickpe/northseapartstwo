@@ -1,25 +1,70 @@
 include ApplicationHelper
 
 module OfficialStarterSeed
-  puts " == Loading Official Seed Starter Package =="
+
+  puts " == Loading Official Seed Starter Package 06/10/16 =="
 
   #Administrator
-  mySystemActor = SystemActor.new
-  mySystemActor.name = 'James Patrick Pe'
-  mySystemActor.remark = 'Administrator'
-  mySystemActor.logo = 'default.jpg'
-  mySystemActor.save!
+  mySystemAccount = SystemAccount.new
+  mySystemAccount.name = 'James Patrick Pe'
+  mySystemAccount.remark = 'Administrator'
+  mySystemAccount.logo = 'default.jpg'
+  mySystemAccount.save!
 
   #Administrator's Access
   access = Access.new
-  access.system_actor = mySystemActor
-  access.username = 'joojieman'
-  access.email = 'jamespatrickpe@northseaparts.com'
+  access.system_account_id = mySystemAccount.id
+  access.email = 'jamespatrickpe@gmail.com'
   access.password = 'ilovetess'
   access.password_confirmation = 'ilovetess'
-  access.hash_link = generateRandomString
-  access.verification = true
+  access.confirmed_at = Time.now - rand(0..400).hours
   access.save!
+
+  utilities = ExpenseCategory.new
+  utilities.name = 'Utilities'
+  utilities.remark = 'Operational Overhead'
+  utilities.save!
+
+  telephone = ExpenseCategory.new
+  telephone.parent = utilities
+  telephone.name = 'Telephone'
+  telephone.save!
+
+  mobile = ExpenseCategory.new
+  mobile.parent = telephone
+  mobile.name = 'Mobile'
+  mobile.save!
+
+  landline = ExpenseCategory.new
+  landline.parent = telephone
+  landline.name = 'Landline'
+  landline.save!
+
+  fuel = ExpenseCategory.new
+  fuel.parent = utilities
+  fuel.name = 'Fuel'
+  fuel.save!
+
+  water = ExpenseCategory.new
+  water.parent = utilities
+  water.name = 'Water'
+  water.save!
+
+  electricity = ExpenseCategory.new
+  electricity.parent = utilities
+  electricity.name = 'Electricity'
+  electricity.save!
+
+  internet = ExpenseCategory.new
+  internet.parent = utilities
+  internet.name = 'Internet'
+  internet.save!
+
+  insurance = ExpenseCategory.new
+  insurance.name = 'Insurance'
+  insurance.remark = 'Operational Contingencies'
+  insurance.save!
+
 
   # Default Permissions
   # Canceled for Devise Integration

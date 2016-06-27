@@ -1,0 +1,122 @@
+<section class="large-10 columns">
+    <%= generic_title("Expenses", "Economic costs that a business incurs through its operations to earn revenue.") %>
+    <%= simple_form_for accounting_and_finance_expenses_path, :html => {:method => 'GET'} do |f| %>
+
+    <div class="form-block" style="float:left; padding: 5px;">
+        <div class="form_label"> Start Period </div>
+        <input required="required" type="datetime-local" name="start_period" value="<%= params[:start_period] ||= format_datetime_default_value(DateTime.now - 3.year) %>">
+    </div>
+
+    <div class="form-block" style="float:left; padding: 5px;">
+        <div class="form_label"> End Period </div>
+        <input required="required" style="float:left;" type="datetime-local" name="end_period" value="<%= params[:end_period] ||= format_datetime_default_value(DateTime.now) %>">
+    </div>
+
+    <div class="form-block" style="float:left; padding: 5px;">
+      <%=
+          f.input :expense_list_interval,
+                  :label => "Interval",
+                  label_html: { class: 'form_label' },
+                  collection: ['Second','Minute','Hour','Day','Month','Year'],
+                  prompt: "Select Interval",
+                  selected: ( params.has_key?("/accounting_and_finance/expenses") ? params["/accounting_and_finance/expenses"][:expense_list_interval] : 'Day')
+      %>
+    </div>
+
+    <div class="form-block" style="float:left; padding: 10px;">
+      <br>
+      <input class="tiny button" type="submit" value="Graph Expenses"/>
+    </div>
+
+    <hr>
+
+    <div class="large-3 columns" >
+      <div id="expense_list">
+        <ul>
+          <% ExpenseCategory.roots.each do |node| %>
+
+              <li class="expense_list_item">
+
+                <div id="<%= node.id %>" class="node_link">
+                  <a class="tree_symbol">-</a>
+                  [ <%= node.name %> ]
+                  <a class="forecasting_link"><%= params.has_key?(:node_id) ? params[:node_id][node.id] : 'none' %></a>
+                  <input type="hidden" class="node_id" name="node_id[<%= node.id %>]" value="<%= params.has_key?(:node_id) ? params[:node_id][node.id] : 'none' %>">
+                </div>
+
+                <%= display_children(node) %>
+
+              </li>
+
+          <% end %>
+        </ul>
+        <hr style="visibility: hidden;">
+      </div>
+    </div>
+
+    <div class="large-9 columns" id="expense_line_chart">
+    </div>
+
+  <% end %>
+
+  <%= render :template => 'common_partials/generic_index/_wizard_buttons' %>
+  <%= render :template => 'common_partials/generic_index/_overview_panels' %>
+</section>
+
+<hr>
+<%= params %>
+
+<!-- Main Expense Array -->
+<hr>
+<%= main_expenses = get_expense_array(params, @interval, @interval_format) %>
+
+<script>
+    $( document ).ready(function() {
+
+        // Selectize
+        $('#expense_list_interval').selectize({
+            sortField: 'text'
+        });
+
+        //Tree Functionality
+        $('.tree_symbol').click(function() {
+            $(this).parent().siblings('ul').toggle();
+            if ($(this).html() == '-')
+            { $(this).html('+')}
+            else
+            { $(this).html('-')}
+        });
+
+        //C3 Graph
+        var chart = c3.generate({
+            bindto: '#expense_line_chart',
+            size: {height: 500,width: 800},
+            data:{
+                x:'x',
+                xFormat: '<%= @interval_format %>',
+                columns: <%= main_expenses.to_json.html_safe %>
+            },
+            axis: {x: {type: 'timeseries',tick: {format: '<%= @interval_format %>'}}}
+        });
+
+        //Prediction Functionality
+        $('.forecasting_link').click(function() {
+            current_prediction = $(this).html();
+            switch( current_prediction )
+            {
+                case 'none':
+                    $(this).html('regular');
+                    $(this).siblings('.node_id').val('regular');
+                    break;
+                case 'regular':
+                    $(this).html('3PMV');
+                    $(this).siblings('.node_id').val('3PMV');
+                    break;
+                default:
+                    $(this).html('none');
+                    $(this).siblings('.node_id').val('none');
+            }
+        });
+
+    });
+</script>

@@ -25,7 +25,7 @@
             <% @accesses.each do |access| %>
                 <tr>
                   <td><%= access[:id].upcase %></td>
-                  <td><%= access[:system_actor_id] %> </td>
+                  <td><%= access[:system_account_id] %> </td>
                   <td><%= access[:username] %> </td>
                   <td><%= access[:email] %> </td>
                   <td><%= access[:created_at] %> </td>

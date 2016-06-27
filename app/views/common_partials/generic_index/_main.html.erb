@@ -1,6 +1,4 @@
-<section class='small-10 columns'>
-
-
+<section id="main_index_section" class='small-10 columns' style="visibility:hidden;">
   <%= generic_title(nil, subtitle) %>
 
   <!-- Data Translation -->
@@ -96,25 +94,8 @@
 
       <% end %>
 
-  <!-- Overview Panels (if any) -->
-    <% if defined? @overview_panels %>
-        <% @overview_panels.each do |panel| %>
-            <div class="overview_panel">
-              <%= overview_panel(panel[0], panel[1]) %>
-            </div>
-        <% end %>
-    <% end %>
-
-  <!-- Wizard Buttons (if any) -->
-  <hr style="visibility:hidden;">
-  <hr>
-    <% if defined? @wizard_buttons %>
-        <% @wizard_buttons.each do |button| %>
-          <a href="<%= button[0] %>" class="medium button">
-            <%= button[1] %>
-          </a>
-        <% end %>
-    <% end %>
+  <%= render :template => 'common_partials/generic_index/_overview_panels' %>
+  <%= render :template => 'common_partials/generic_index/_wizard_buttons' %>
 
   <!-- Change to Cell for the First Time View if Overflow is Detected -->
   <script>
@@ -125,9 +106,17 @@
           {
               var pathname = window.location.pathname; // Returns path only
               var url      = window.location.href;     // Returns full URL
-              window.location.href = window.location.pathname + '?view_mode=cell';
+              window.location.href = window.location.pathname +
+              '?view_mode=cell&general_flash_notification=' +
+              '<%= flash[:general_flash_notification] %>' +
+              '&general_flash_notification_type=' +
+              '<%= flash[:general_flash_notification_type] %>' ;
           }
-
+          else
+          {
+              $("#main_index_section").css("visibility","visible")
+          }
       });
   </script>
+
 </section>

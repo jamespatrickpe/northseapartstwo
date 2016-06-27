@@ -1,5 +1,9 @@
 module GenericController
 
+  def html5datetimelocal_to_rubydatetime(raw_params)
+    DateTime.parse(raw_params)
+  end
+
   def get_contactable_entities
     digital_contactables = Digital.all_polymorphic_types(:digitable).map(&:to_s)
     address_contactables = Address.all_polymorphic_types(:addressable).map(&:to_s)
@@ -8,7 +12,7 @@ module GenericController
   end
 
   def generic_employee_name_search_suggestions(model)
-    my_model = model.includes(employee: :system_actors).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
+    my_model = model.includes(employee: :system_accounts).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
     direct = "{\"query\": \"Unit\",\"suggestions\":" + my_model.uniq.to_s + "}" # default format for plugin
     respond_to do |format|
       format.all { render :text => direct}
@@ -16,7 +20,7 @@ module GenericController
   end
 
   def initialize_employee_selection
-    @employees = Employee.includes(:system_actor).joins(:system_actors)
+    @employees = Employee.includes(:system_account).joins(:system_accounts)
   end
 
   #Reset Search Common Paremeters
@@ -68,11 +72,11 @@ module GenericController
     flash[:general_flash_notification_type] = 'affirmative'
     if action_name == 'update'
       my_ID = params[controller_path][:id]
-      flash[:general_flash_notification] = 'Updated' + ' ' + controller_name.gsub('_',' ') + ' | ' + my_ID
+      flash[:general_flash_notification] = 'Updated' + ' ' + controller_name.gsub('_',' ').capitalize + ' | ' + my_ID
     elsif
-      flash[:general_flash_notification] = 'Created New' + ' ' + controller_name.gsub('_',' ')
+      flash[:general_flash_notification] = 'Created New' + ' ' + controller_name.gsub('_',' ').capitalize
     else
-      flash[:general_flash_notification] = 'Performed ' + action_name + ' ' + controller_name.gsub('_',' ')
+      flash[:general_flash_notification] = 'Performed ' + action_name + ' ' + controller_name.gsub('_',' ').capitalize
     end
   end
 
@@ -92,9 +96,10 @@ module GenericController
 
   def generic_delete(class_model)
     my_ID = params[:id]
-    class_model.find( my_ID ).reload.destroy
+    name = class_model.find( my_ID ).main_representation[[:attribute]]
+    class_model.find( my_ID ).delete
     flash[:general_flash_notification_type] = 'negative'
-    flash[:general_flash_notification] = 'Deleted' + ' ' + controller_name + ' | ' + my_ID
+    flash[:general_flash_notification] = 'Deleted ' + name.to_s
     redirect_to :action => "index"
   end
 

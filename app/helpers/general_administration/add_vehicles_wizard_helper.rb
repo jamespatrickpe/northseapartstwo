@@ -1,0 +1,2 @@
+module GeneralAdministration::AddVehiclesWizardHelper
+end

@@ -1,0 +1,10 @@
+<!-- Wizard Buttons (if any) -->
+<hr style="visibility:hidden;">
+<hr>
+<% if defined? @wizard_buttons %>
+    <% @wizard_buttons.each do |button| %>
+        <a href="<%= button[0] %>" class="tiny button">
+          <%= button[1] %>
+        </a>
+    <% end %>
+<% end %>

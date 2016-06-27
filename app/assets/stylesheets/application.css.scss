@@ -21,6 +21,9 @@
  *= require generic_form
  *= require generic_cell
  *= require show_examine
+ *= require plottable
+ *= require jqtree
+ *= require c3.min
  *= pagination
  *= topbar
  *= sidenavigation
@@ -29,7 +32,6 @@
  *= require jquery.qtip.min.css
  *= require_tree .
  *= require_self
-
  */
 
 /* Application Wide Styles */

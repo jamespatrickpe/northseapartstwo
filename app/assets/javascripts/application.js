@@ -29,9 +29,14 @@
 //= require jquery.autocomplete.min
 //= require freewall.js
 //= require quantities.js
+//= require money.js
+//= require jquery.cookie.js
+//= require d3.v3.js
+//= require c3.min.js
 
-$(document).foundation();
-$(document).foundation('alert','events');
+
+/*$(document).foundation();
+$(document).foundation('alert','events');*/
 
 // For Contact Details
 function GetURLParameter(sParam)

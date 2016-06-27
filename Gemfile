@@ -71,7 +71,7 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'recaptcha', :require => 'recaptcha/rails'
 gem 'faker'
-gem "simple-navigation"
+gem 'simple-navigation'
 gem 'country_select', '~> 2.2.0'
 gem "parsley-rails"
 gem 'selectize-rails'
@@ -85,6 +85,10 @@ gem 'rails-jquery-autocomplete'
 gem 'simple_form'
 gem 'currency_select'
 gem 'wicked'
+gem 'roo'
+gem 'd3-rails'
+gem 'ancestry'
+
 
 # This library provides integration of the money gem with Rails.
 gem 'money-rails'

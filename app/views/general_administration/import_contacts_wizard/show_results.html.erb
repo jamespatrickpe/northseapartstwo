@@ -1,0 +1,15 @@
+<section class="large-10 columns">
+  <%= generic_title('Wizard Completed','Take the Next Action') %>
+
+  <hr style="visibility: hidden">
+  <a class="medium button" href="<%= wizard_path(wizard_steps.first) %>"> Add Another </a>
+  <a class="medium button" href="<%= general_administration_path %>"> Back to Main Index </a>
+
+</section>
+
+<div class="large-2 columns">
+  System Accounts Added: <%= params[:system_account_count] %> <br>
+  Addresses Added: <%= params[:address_count] %> <br>
+  Telephones Added: <%= params[:telephone_count] %> <br>
+  Digitals Added: <%= params[:digital_count] %> <br>
+</div>

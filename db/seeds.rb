@@ -1,5 +1,6 @@
 # require File.expand_path('../official_starter_seed', __FILE__)
 require File.expand_path('../seeds/official_starter_seed', __FILE__)
+require File.expand_path('../seeds/official_starter_seed_06_13_2016', __FILE__)
 unless Rails.env.production?
 
   puts " == Loading Seed Data =="
@@ -19,15 +20,15 @@ unless Rails.env.production?
 
   # ENTITIES
 
-  # SystemActor Dependent Systems
-  numberOfSystemActors = 20
-  numberOfSystemActors.times do |i|
+  # SystemAccount Dependent Systems
+  numberOfSystemAccounts = 20
+  numberOfSystemAccounts.times do |i|
 
-    #SystemActor
+    #SystemAccount
     current_logo = ['default_1.jpg','default_2.jpg','default_3.jpg','default_4.jpg','default_5.jpg','default_6.jpg','default_7.jpg','default_8.jpg','default_9.jpg','default_10.jpg','default.jpg'].sample
-    mySystemActor = SystemActor.new(name: Faker::Name.name , remark: Faker::Lorem.sentence(3, true))
-    mySystemActor[:logo] = current_logo
-    mySystemActor.save!
+    mySystemAccount = SystemAccount.new(name: Faker::Name.name , remark: Faker::Lorem.sentence(3, true))
+    mySystemAccount[:logo] = current_logo
+    mySystemAccount.save!
 
     # ACCESS
     if ( 8.in(10) )
@@ -35,25 +36,15 @@ unless Rails.env.production?
       randomPassword = Faker::Internet.password(10, 20)
       randomEmail = Faker::Internet.email
 
-      randomUserName = Faker::Internet.user_name
-      if(randomUserName.length < 3)
-        randomUserName << Faker::Internet.user_name
-      end
-
-      if(Access.find_by_username(randomUserName))
-        randomUserName = Faker::Internet.user_name
-      end
-
       myAccess = Access.new
-      myAccess.system_actor = mySystemActor
-      myAccess.username = randomUserName
+      myAccess.system_account_id = mySystemAccount.id
       myAccess.email = randomEmail
       myAccess.password = randomPassword
       myAccess.password_confirmation = randomPassword
-      myAccess.hash_link = generateRandomString
-      myAccess.verification = randomBoolean
-      myAccess.last_login = Time.now - rand(0..72000).hours
+      myAccess.confirmed_at = Time.now - rand(0..400).hours
       myAccess.save!
+
+      ## FOR DEVISE; YOU STOPPED AT "Configuring views" CONTINUE WHEN AUTHENTICATION IS ACTUALLY NEEDED
 
       #Permission
       rand(0..2).times do |i|
@@ -70,7 +61,7 @@ unless Rails.env.production?
     # BIODATA
     if(randomBoolean())
       myBioData = Biodatum.new()
-      myBioData.system_actor = mySystemActor
+      myBioData.system_account = mySystemAccount
       myBioData.education = ["Elementary", "High School", "College Undergraduate", "College Graduate - Bachelor", "College Graduate - Master", "College Graduate - Doctor"].sample
       myBioData.career_experience = Faker::Lorem.sentence(3, false, 4)
       myBioData.notable_accomplishments = Faker::Lorem.sentence(3, false, 4)
@@ -93,7 +84,7 @@ unless Rails.env.production?
     if 80.in(100)
       # ids = Branch.pluck(:id).shuffle
       # myBranch = Branch.where(id: ids)
-      myEmployee = Employee.new( system_actor: mySystemActor, branch: Branch.all.shuffle.first )
+      myEmployee = Employee.new( system_account: mySystemAccount, branch: Branch.all.shuffle.first )
 
       #Attendances
       rand(20..50).times do |i|
@@ -230,7 +221,7 @@ unless Rails.env.production?
       #   myLoan.loan_type = ['SSS','PHILHEALTH','PAGIBIG'].sample
       #   myLoan.pagibig_employer_id_number = '123456'
       #   myLoan.employee_id = myEmployee.id
-      #   myLoan.borrower_name = myEmployee.system_actors.name
+      #   myLoan.borrower_name = myEmployee.system_accounts.name
       #   myLoan.loan_value = 1000000
       #   myLoan.loan_remaining = 1000000
       #   myLoan.collection_period_from = Time.now - rand(0..72000).hours
@@ -337,13 +328,14 @@ unless Rails.env.production?
     myVehicle.date_of_implementation = rand(720..72000).hours.ago
     myVehicle.brand = Faker::Lorem.word
     myVehicle.capacity_m3 = randomFloat(100,0.01)
+    myVehicle.load_kg = randomFloat(100,0.01)
     myVehicle.remark = Faker::Lorem.sentence
     myVehicle.save!
   end
 
   def random_contactable_model
     associative_model = Hash.new
-    random_model = [SystemActor,Branch].sample
+    random_model = [SystemAccount,Branch].sample
     associative_model[:my_model] = random_model
     associative_model[:my_model_id] = random_model.order("RAND()").first.id
     associative_model
@@ -351,7 +343,7 @@ unless Rails.env.production?
 
   def random_fileable_model
     associative_model = Hash.new
-    random_model = [SystemActor,Branch, Vehicle].sample
+    random_model = [SystemAccount,Branch, Vehicle].sample
     associative_model[:my_model] = random_model
     associative_model[:my_model_id] = random_model.order("RAND()").first.id
     associative_model
@@ -359,7 +351,7 @@ unless Rails.env.production?
 
   def random_associable_model
     my_model = Hash.new
-    models_array = [SystemActor,Branch,Vehicle]
+    models_array = [SystemAccount,Branch,Vehicle]
     my_model[:current_model] = models_array.sample
     my_model[:current_id] = my_model[:current_model].order("RAND()").first.id
     my_model
@@ -443,6 +435,43 @@ unless Rails.env.production?
     myAddress[:addressable_id] = sample[:my_model_id]
     myAddress[:addressable_type] = sample[:my_model]
     myAddress.save!
+  end
+
+  rand(30..50).times do |i|
+    current_expense = ExpenseEntry.new
+
+    current_category = (ExpenseCategory.order("RAND()").first)
+    while current_category.has_children?
+      current_category = (ExpenseCategory.order("RAND()").first)
+    end
+
+    current_expense.expense_category_id = current_category.id
+    current_expense.system_account_id = SystemAccount.order("RAND()").first.id
+    current_expense.amount = Faker::Commerce.price*100
+    current_expense.remark = Faker::Lorem.sentence
+    current_expense.datetime_of_implementation = Faker::Time.between(300.days.ago, Date.today, :all)
+    current_expense.save!
+
+    rand(1..5).times do |i|
+
+      expense_association = SystemAssociation.new
+      if 1.in(2)
+        expense_association.model_one_id = current_expense.id
+        expense_association.model_one_type = 'ExpenseEntry'
+        sample_one = random_associable_model
+        expense_association.model_two_id = sample_one[:current_id]
+        expense_association.model_two_type = sample_one[:current_model]
+      else
+        sample_one = random_associable_model
+        expense_association.model_one_id = sample_one[:current_id]
+        expense_association.model_one_type = sample_one[:current_model]
+        expense_association.model_two_id = current_expense.id
+        expense_association.model_two_type = 'ExpenseEntry'
+      end
+      expense_association.remark = Faker::Lorem.sentence
+      expense_association.save!
+
+    end
   end
 
 end

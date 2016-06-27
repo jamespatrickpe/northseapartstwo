@@ -66,14 +66,14 @@ module ApplicationHelper
     related = model.where(query, modelId)
     # get all actors
     related.each do |ea|
-      if Actor.exists?(ea[:system_actor_id])
-        involvedActorObjects.push(Actor.find(ea[:system_actor_id]))
+      if Actor.exists?(ea[:system_account_id])
+        involvedActorObjects.push(Actor.find(ea[:system_account_id]))
       end
     end
     #get all branches
     related.each do |ea|
-      if Branch.exists?(ea[:system_actor_id])
-        involvedBranchObjects.push(Branch.find(ea[:system_actor_id]))
+      if Branch.exists?(ea[:system_account_id])
+        involvedBranchObjects.push(Branch.find(ea[:system_account_id]))
       end
     end
     # for future addition, just add another loop to obtain involved object via their ID
@@ -85,6 +85,32 @@ module ApplicationHelper
     render(:partial => 'common_partials/overview_panel',
            :locals => {:path => path,
                        :name => name})
+  end
+
+  def asset_exists?(subdirectory, filename)
+    File.exists?(File.join(Rails.root, 'app', 'assets', subdirectory, filename))
+  end
+
+  def image_exists?(image)
+    asset_exists?('images', image)
+  end
+
+  def javascript_exists?(script)
+    extensions = %w(.coffee .erb .coffee.erb) + [""]
+    extensions.inject(false) do |truth, extension|
+      truth || asset_exists?('javascripts', "#{script}.js#{extension}")
+    end
+  end
+
+  def stylesheet_exists?(stylesheet)
+    extensions = %w(.scss .erb .scss.erb) + [""]
+    extensions.inject(false) do |truth, extension|
+      truth || asset_exists?('stylesheets', "#{stylesheet}.css#{extension}")
+    end
+  end
+
+  def format_datetime_default_value(date_time_object)
+    date_time_object.strftime('%FT%T')
   end
 
 end
