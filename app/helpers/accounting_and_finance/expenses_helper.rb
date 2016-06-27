@@ -31,28 +31,52 @@ module AccountingAndFinance::ExpensesHelper
       params[:node_id].each do |category_key, show_value|
         unless show_value == 'none'
 
-            # category array
-            category_array = Array.new()
-            category_array.push( ExpenseCategory.find(category_key).name )
-            current_time = Time.parse(params[:start_period])
-            until current_time > Time.parse(params[:end_period])
-              total = 0
+          # category array
+          category_array = Array.new()
+          category_array.push( ExpenseCategory.find(category_key).name )
+          current_time = Time.parse(params[:start_period])
+          until current_time > Time.parse(params[:end_period])
+            total = 0
+            expense_category = ExpenseCategory.find(category_key)
+
+            if expense_category.has_children?
+
+              categories = expense_category.descendants
+              categories.each do |category|
+                unless category.has_children?
+                  entries = get_expense_entries(current_time,( current_time + interval),category.id)
+                  unless entries == nil
+                    entries.each do |entry|
+                      puts "per entry: " + entry.amount.to_f.to_s
+                      total += entry.amount.to_f
+                    end
+                    puts "per category: " + total.to_s
+                  end
+                end
+                total += total
+                puts "per parent: " + total.to_s
+              end
+
+            else
+
               entries = get_expense_entries(current_time,( current_time + interval),category_key)
               unless entries == nil
-                # problem is here
                 entries.each do |entry|
                   total += entry.amount.to_f
                 end
               end
-              category_array.push(total)
-              current_time += interval
+
             end
-            main_expenses.push(category_array)
+
+            category_array.push(total)
+            current_time += interval
+
+          end
+          main_expenses.push(category_array)
 
         end
       end
     end
-
     main_expenses
 
   end

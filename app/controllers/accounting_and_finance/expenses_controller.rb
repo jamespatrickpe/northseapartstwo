@@ -24,8 +24,8 @@ class AccountingAndFinance::ExpensesController < AccountingAndFinanceController
         interval_format = '%Y'
         interval = 1.year
       else
-        interval_format = '%Y/%m/%d %H:%M:%S'
-        interval = 1.day
+        interval_format = '%Y/%m'
+        interval = 1.month
     end
     @interval_format = interval_format
     @interval = interval
