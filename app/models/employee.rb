@@ -10,12 +10,17 @@ class Employee < ActiveRecord::Base
 
   searchable do
 
-    text :system_account_names do |employee|
-      employee.system_account.name
+    text :system_account do
+      system_account.name
+    end
+
+    string :system_account do
+      system_account.name
     end
 
   end
 
   validates_presence_of :system_account
+  validates_uniqueness_of :system_account_id
 
 end

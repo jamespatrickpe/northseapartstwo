@@ -1,89 +1,61 @@
 class HumanResources::EmployeeAccountsManagement::BiodataController < HumanResources::EmployeeAccountsManagementController
 
   def index
-    query = generic_index_aggregated_queries('biodata','biodata.created_at')
-    begin
-      @biodata = Biodatum.includes(:system_account)
-                           .joins(:system_accounts)
-                           .where("biodata.actor_id LIKE ? ",
-                                  "%#{query[:search_field]}%")
-                           .order(query[:order_parameter] + ' ' + query[:order_orientation])
-      @biodata = Kaminari.paginate_array(@biodata).page(params[:page]).per(query[:current_limit])
-    rescue => ex
-      flash[:general_flash_notification] = "Error has Occured"
-    end
-    render 'human_resources/employee_accounts_management/biodata/index'
-  end
-
-  def initialize_form
-    initialize_form_variables('BIODATA',
-                              'human_resources/employee_accounts_management/biodata/biodatum_form',
-                              'biodata')
-    initialize_employee_selection
-    @actors = Actor.all()
-  end
-
-  def new
-    initialize_form
-    @selected_biodata = Biodatum.new
-    generic_tricolumn_form_with_employee_selection(@selected_biodata)
-  end
-
-  def edit
-    initialize_form
-    @selected_biodata = Biodatum.find(params[:id])
-    generic_tricolumn_form_with_employee_selection(@selected_biodata)
-  end
-
-  def delete
-    generic_delete_model(Biodatum,controller_name)
+    initialize_generic_index(Biodatum, 'Information regarding an individual\'s education and work history')
   end
 
   def search_suggestions
-    generic_employee_name_search_suggestions(Biodatum)
+    generic_index_search_suggestions(Biodatum)
   end
 
-  def process_biodatum_form(myBiodatum)
+  def new
+    set_new_edit(Biodatum)
+  end
+
+  def edit
+    set_new_edit(Biodatum)
+  end
+
+  def show
+    edit
+  end
+
+  def delete
+    generic_delete(Biodatum)
+  end
+
+  def process_biodatum_form(my_biodatum, current_params, wizard_mode = nil)
     begin
-
-      # since the selector used was for employees, we get the employee first and then get his/her actor_id
-      # this is because biodata has actor_id column on db, not employee_id
-      myBiodatum.actor_id = Employee.find(params[:biodata][:employee_id]).actor_id
-
-      myBiodatum.education = params[:biodata][:education]
-      myBiodatum.career_experience = params[:biodata][:career_experience]
-      myBiodatum.notable_accomplishments = params[:biodata][:notable_accomplishments]
-      myBiodatum.date_of_birth = params[:biodata][:date_of_birth]
-      myBiodatum.family_members = params[:biodata][:family_members]
-      myBiodatum.citizenship = params[:biodata][:citizenship]
-      myBiodatum.gender = params[:biodata][:gender]
-      myBiodatum.place_of_birth = params[:biodata][:place_of_birth]
-      myBiodatum.emergency_contact = params[:biodata][:emergency_contact]
-      myBiodatum.languages_spoken = params[:biodata][:languages_spoken]
-      myBiodatum.complexion = params[:biodata][:complexion]
-      myBiodatum.height_cm = params[:biodata][:height_cm]
-      myBiodatum.marital_status = params[:biodata][:marital_status]
-      myBiodatum.blood_type = params[:biodata][:blood_type]
-      myBiodatum.religion = params[:biodata][:religion]
-      myBiodatum.save!
-      flash[:general_flash_notification_type] = 'affirmative'
+      my_biodatum.actor_id = Employee.find(params[:employee_id]).actor_id
+      my_biodatum.education = current_params[:education]
+      my_biodatum.career_experience = current_params[:career_experience]
+      my_biodatum.notable_accomplishments = current_params[:notable_accomplishments]
+      my_biodatum.date_of_birth = current_params[:date_of_birth]
+      my_biodatum.family_members = current_params[:family_members]
+      my_biodatum.citizenship = current_params[:citizenship]
+      my_biodatum.gender = current_params[:gender]
+      my_biodatum.place_of_birth = current_params[:place_of_birth]
+      my_biodatum.emergency_contact = current_params[:emergency_contact]
+      my_biodatum.languages_spoken = current_params[:languages_spoken]
+      my_biodatum.complexion = current_params[:complexion]
+      my_biodatum.height_cm = current_params[:height_cm]
+      my_biodatum.marital_status = current_params[:marital_status]
+      my_biodatum.blood_type = current_params[:blood_type]
+      my_biodatum.religion = current_params[:religion]
+      my_biodatum.save!
+      set_process_notification(current_params) unless wizard_mode
     rescue => ex
-      puts ex
-      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
+      index_error(ex, wizard_mode)
     end
-    redirect_to :action => 'index'
+    form_completion_redirect(wizard_mode)
   end
 
   def create
-    myBiodatum = Biodatum.new()
-    flash[:general_flash_notification] = 'Biodata set and added!'
-    process_biodatum_form(myBiodatum)
+    process_form(Biodatum.new(), params[controller_path])
   end
 
   def update
-    myBiodatum = Biodatum.find(params[:biodata][:id])
-    flash[:general_flash_notification] = 'Biodata successfully updated!'
-    process_biodatum_form(myBiodatum)
+    process_form(Biodatum.find(params[controller_path][:id]), params[controller_path])
   end
 
 end

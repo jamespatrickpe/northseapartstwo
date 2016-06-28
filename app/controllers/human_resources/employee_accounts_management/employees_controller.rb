@@ -26,6 +26,7 @@ class HumanResources::EmployeeAccountsManagement::EmployeesController < HumanRes
 
   def process_form(my_employee, current_params, wizard_mode = nil)
     begin
+      my_employee[:system_account_id] = current_params[:system_account_id]
       my_employee[:remark] = current_params[:remark]
       my_employee.save!
       set_process_notification(current_params) unless wizard_mode
