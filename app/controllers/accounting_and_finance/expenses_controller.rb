@@ -6,25 +6,25 @@ class AccountingAndFinance::ExpensesController < AccountingAndFinanceController
     params.has_key?("/accounting_and_finance/expenses") ? expense_list_interval = (params["/accounting_and_finance/expenses"][:expense_list_interval]).to_s.downcase : expense_list_interval = nil
     case expense_list_interval
       when 'second'
-        interval_format = '%Y/%m/%d %H:%M:%S'
+        interval_format = '%m/%d/%Y/ %H:%M:%S'
         interval = 1.second
       when 'minute'
-        interval_format = '%Y/%m/%d %H:%M'
+        interval_format = '%m/%d/%Y %H:%M'
         interval = 1.minute
       when 'hour'
-        interval_format = '%Y/%m/%d %H'
+        interval_format = '%m/%d/%Y %H'
         interval = 1.hour
       when 'day'
-        interval_format = '%Y/%m/%d'
+        interval_format = '%m/%d/%Y'
         interval = 1.day
       when 'month'
-        interval_format = '%Y/%m'
+        interval_format = '%m/%Y'
         interval = 1.month
       when 'year'
         interval_format = '%Y'
         interval = 1.year
       else
-        interval_format = '%Y/%m'
+        interval_format = '%m/%Y'
         interval = 1.month
     end
     @interval_format = interval_format

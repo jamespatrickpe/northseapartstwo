@@ -4,7 +4,7 @@
 
     <div class="form-block" style="float:left; padding: 5px;">
         <div class="form_label"> Start Period </div>
-        <input required="required" type="datetime-local" name="start_period" value="<%= params[:start_period] ||= format_datetime_default_value(DateTime.now - 3.year) %>">
+        <input required="required" type="datetime-local" name="start_period" value="<%= params[:start_period] ||= format_datetime_default_value(DateTime.now - 1.year) %>">
     </div>
 
     <div class="form-block" style="float:left; padding: 5px;">
@@ -69,6 +69,12 @@
 <!-- Main Expense Array -->
 <hr>
 <%= main_expenses = get_expense_array(params, @interval, @interval_format) %>
+
+<%
+   # Get all Options with Forecasting On
+
+%>
+
 
 <script>
     $( document ).ready(function() {

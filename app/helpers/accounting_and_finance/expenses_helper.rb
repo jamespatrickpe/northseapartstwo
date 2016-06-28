@@ -43,18 +43,19 @@ module AccountingAndFinance::ExpensesHelper
 
               categories = expense_category.descendants
               categories.each do |category|
+
+                expense_per_category = 0
                 unless category.has_children?
                   entries = get_expense_entries(current_time,( current_time + interval),category.id)
                   unless entries == nil
                     entries.each do |entry|
-                      puts "per entry: " + entry.amount.to_f.to_s
-                      total += entry.amount.to_f
+                      expense_per_category += entry.amount.to_f
                     end
-                    puts "per category: " + total.to_s
                   end
                 end
-                total += total
-                puts "per parent: " + total.to_s
+
+                total += expense_per_category
+
               end
 
             else
