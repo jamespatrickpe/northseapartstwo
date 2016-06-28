@@ -1,7 +1,20 @@
 class HumanResources::EmployeeAccountsManagementController < HumanResourcesController
 
   def index
-    render '/human_resources/employee_accounts_management/index'
+
+    @overview_panels = [
+        [human_resources_employee_accounts_management_employees_path,'Employees'],
+        [human_resources_employee_accounts_management_biodata_path,'Biodata'],
+        [human_resources_employee_accounts_management_duty_statuses_path,'Duty Status']
+    ]
+
+    @wizard_buttons =
+        [
+            #[general_administration_add_contacts_wizard_path(:setup_employee),'Setup Employee']
+        ]
+
+    generic_index_main('Account Management for an Employee')
+
   end
 
 end

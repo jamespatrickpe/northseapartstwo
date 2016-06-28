@@ -40,10 +40,8 @@ module AccountingAndFinance::ExpensesHelper
             expense_category = ExpenseCategory.find(category_key)
 
             if expense_category.has_children?
-
               categories = expense_category.descendants
               categories.each do |category|
-
                 expense_per_category = 0
                 unless category.has_children?
                   entries = get_expense_entries(current_time,( current_time + interval),category.id)
@@ -53,28 +51,20 @@ module AccountingAndFinance::ExpensesHelper
                     end
                   end
                 end
-
                 total += expense_per_category
-
               end
-
             else
-
               entries = get_expense_entries(current_time,( current_time + interval),category_key)
               unless entries == nil
                 entries.each do |entry|
                   total += entry.amount.to_f
                 end
               end
-
             end
-
             category_array.push(total)
             current_time += interval
-
           end
           main_expenses.push(category_array)
-
         end
       end
     end

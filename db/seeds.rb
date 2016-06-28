@@ -84,7 +84,7 @@ unless Rails.env.production?
     if 80.in(100)
       # ids = Branch.pluck(:id).shuffle
       # myBranch = Branch.where(id: ids)
-      myEmployee = Employee.new( system_account: mySystemAccount, branch: Branch.all.shuffle.first )
+      myEmployee = Employee.new( system_account: mySystemAccount, remark: Faker::Lorem.word)
 
       #Attendances
       rand(20..50).times do |i|
@@ -156,7 +156,7 @@ unless Rails.env.production?
       end
 
       rand(0..5).times do
-        dutyStatus = DutyStatus.new(remark: Faker::Lorem.sentence, employee: myEmployee)
+        dutyStatus = DutyStatus.new(remark: Faker::Lorem.sentence, employee: myEmployee, branch: Branch.all.shuffle.first)
         if 5.in(10)
           active = -> { true }
         else

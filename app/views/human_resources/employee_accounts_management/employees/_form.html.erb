@@ -1,0 +1,5 @@
+<div class="large-6 columns">
+  <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
+</div>
+
+<%= related_models('Employee',params[:id]) unless generally_new? %>

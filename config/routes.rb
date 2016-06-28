@@ -13,7 +13,6 @@ Rails.application.routes.draw do
 
   get 'access/' => 'access#index'
   namespace :access do
-
   end
 
   get 'human_resources/' => 'human_resources#index'
@@ -25,7 +24,6 @@ Rails.application.routes.draw do
     get 'employee_accounts_management/' => 'employee_accounts_management#index'
     namespace :employee_accounts_management do
       get 'employee_profile/' => 'employee_profile#index'
-      get 'employee_profile/index' => 'employee_profile#index'
       resources :employees, :duty_statuses, :biodata do
         collection do
           concerns :generic_index

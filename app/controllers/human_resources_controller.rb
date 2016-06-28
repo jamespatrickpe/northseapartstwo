@@ -3,7 +3,16 @@ class HumanResourcesController < ApplicationController
   layout "application_loggedin"
 
   def index
-    render 'human_resources/index'
+
+    @overview_panels = [
+        [human_resources_employee_accounts_management_path,'Employee Accounts Management'],
+        [human_resources_attendance_performance_path,'Attendance'],
+        [human_resources_compensation_and_benefits_path,'Compensation and Benefits'],
+        [human_resources_settings_path,'Settings']
+    ]
+
+    generic_index_main('Management of Human Assets in the Enterprise')
+
   end
 
   def employee_overview_profile

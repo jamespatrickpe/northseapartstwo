@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 20160608120016) do
     t.datetime "created_at",                                                         null: false
     t.datetime "updated_at",                                                         null: false
     t.string   "employee_id",            limit: 36
-    t.date     "date_of_implementation",             default: '2016-06-27'
+    t.date     "date_of_implementation",             default: '2016-06-28'
     t.time     "timein",                             default: '2000-01-01 00:00:01'
     t.time     "timeout",                            default: '2000-01-01 23:59:59'
   end
@@ -116,7 +116,7 @@ ActiveRecord::Schema.define(version: 20160608120016) do
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
     t.string   "name",                   limit: 64
-    t.date     "date_of_implementation",             default: '2016-06-27'
+    t.date     "date_of_implementation",             default: '2016-06-28'
     t.string   "value",                  limit: 64
     t.string   "constant_type",          limit: 64
   end
@@ -149,16 +149,17 @@ ActiveRecord::Schema.define(version: 20160608120016) do
     t.datetime "updated_at",                                             null: false
     t.string   "employee_id",                limit: 36
     t.datetime "datetime_of_implementation"
+    t.string   "branch_id",                  limit: 36
     t.boolean  "active",                     limit: 1,   default: false
   end
 
   add_index "duty_statuses", ["id"], name: "index_duty_statuses_on_id", using: :btree
 
   create_table "employees", force: :cascade do |t|
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.string   "remark",            limit: 256
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "system_account_id", limit: 36
-    t.string   "branch_id",         limit: 36
   end
 
   add_index "employees", ["id"], name: "index_employees_on_id", using: :btree
@@ -226,7 +227,7 @@ ActiveRecord::Schema.define(version: 20160608120016) do
     t.string   "remark",                 limit: 256
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
-    t.date     "date_of_implementation",             default: '2016-06-27'
+    t.date     "date_of_implementation",             default: '2016-06-28'
     t.string   "name",                   limit: 64
     t.string   "holiday_type_id",        limit: 36
   end
@@ -267,8 +268,8 @@ ActiveRecord::Schema.define(version: 20160608120016) do
     t.datetime "updated_at",                                                       null: false
     t.string   "employee_id",          limit: 36
     t.string   "type_of_leave",        limit: 64
-    t.datetime "start_of_effectivity",             default: '2016-06-27 16:47:08'
-    t.datetime "end_of_effectivity",               default: '2016-06-27 16:47:08'
+    t.datetime "start_of_effectivity",             default: '2016-06-28 10:13:57'
+    t.datetime "end_of_effectivity",               default: '2016-06-28 10:13:57'
   end
 
   add_index "leaves", ["id"], name: "index_leaves_on_id", using: :btree
@@ -433,7 +434,7 @@ ActiveRecord::Schema.define(version: 20160608120016) do
     t.decimal  "load_kg",                            precision: 20, scale: 10
     t.string   "type_of_vehicle",        limit: 32
     t.string   "brand",                  limit: 32
-    t.date     "date_of_implementation",                                       default: '2016-06-27'
+    t.date     "date_of_implementation",                                       default: '2016-06-28'
     t.string   "plate_number",           limit: 32
     t.string   "oil",                    limit: 32
   end
