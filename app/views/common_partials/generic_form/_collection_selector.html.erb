@@ -1,17 +1,36 @@
 <%=
-    f.input attribute_name.to_sym,
-            :label => my_label,
-            collection: my_collection,
-            prompt: "Select " + my_label,
-            label_html: { class: 'form_label' },
-            :input_html =>
-                    {
-                            :id => attribute_name,
-                            :value => selected_model_instance[attribute_name.to_sym],
-                            :'data-parsley-trigger' => 'keyup',
-                            :'data-parsley-maxlength' => 256
-                    }
+    if ( (label_method != nil) && (value_method != nil) )
 
+        f.input attribute_name.to_sym,
+                :label => my_label,
+                collection: my_collection,
+                :label_method => label_method,
+                :value_method => value_method,
+                prompt: "Select " + my_label,
+                label_html: { class: 'form_label' },
+                :input_html =>
+                        {
+                                :id => attribute_name,
+                                :value => selected_model_instance[attribute_name.to_sym],
+                                :'data-parsley-trigger' => 'keyup',
+                                :'data-parsley-maxlength' => 256
+                        }
+    else
+
+      f.input attribute_name.to_sym,
+              :label => my_label,
+              collection: my_collection,
+              prompt: "Select " + my_label,
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :id => attribute_name,
+                              :value => selected_model_instance[attribute_name.to_sym],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 256
+                      }
+
+    end
 %>
 
 <script>

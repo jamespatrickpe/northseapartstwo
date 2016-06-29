@@ -40,8 +40,8 @@ module GenericIndexHelper
     render(:partial => 'common_partials/generic_index/pagination', :locals => {:result_set => result_set})
   end
 
-  def generic_actor_profile_link(my_ID, my_name)
-    render(:partial => 'common_partials/generic_index/profile_link', :locals => {:my_ID => my_ID, :my_name => my_name})
+  def generic_account_profile_link(system_account)
+    render(:partial => 'common_partials/generic_index/profile_link', :locals => {:system_account => system_account})
   end
 
   def no_records_found

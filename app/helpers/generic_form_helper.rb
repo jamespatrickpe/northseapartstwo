@@ -8,12 +8,21 @@ module GenericFormHelper
            })
   end
 
-  def generic_form_collection_selector(f,attribute_name, my_label,my_collection,selected_model_instance)
+  def generic_form_collection_selector(f,attribute_name, my_label, my_collection, selected_model_instance, label_method = nil, value_method = nil)
     render(:partial => 'common_partials/generic_form/collection_selector',
            :locals => {:f => f,
                        :attribute_name => attribute_name,
                        :my_label => my_label,
                        :my_collection => my_collection,
+                       :selected_model_instance => selected_model_instance,
+                       :label_method => label_method,
+                       :value_method => value_method
+           })
+  end
+
+  def generic_form_employee_selector(f, selected_model_instance)
+    render(:partial => 'common_partials/generic_form/employee_selector',
+           :locals => {:f => f,
                        :selected_model_instance => selected_model_instance
            })
   end
@@ -116,5 +125,7 @@ module GenericFormHelper
     render :partial => 'common_partials/generic_form/related_models',
            :locals => {:primary_model_type => primary_model_type, :primary_model_id => primary_model_id}
   end
+
+
 
 end

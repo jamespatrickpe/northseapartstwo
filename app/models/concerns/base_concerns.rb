@@ -83,6 +83,10 @@ module BaseConcerns extend ActiveSupport::Concern
           representative_hash[:controller_path] = main_case.general_administration_associated_files_system_associations_path
           representative_hash[:controller_class] = GeneralAdministration::AssociatedFiles::SystemAssociationsController
           representative_hash[:polymorphic_attribute] = 'model_one'
+        when ExpenseEntry
+          representative_hash[:attribute] = ExpenseCategory.find(self.expense_category_id).name + ' | '+ (self.remark)
+          representative_hash[:controller_path] = main_case.accounting_and_finance_expenses_expense_entries_path
+          representative_hash[:controller_class] = AccountingAndFinance::Expenses::ExpenseEntriesController
       end
 
       return representative_hash

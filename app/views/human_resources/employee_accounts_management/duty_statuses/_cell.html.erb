@@ -1,5 +1,7 @@
 <div> <%= generic_index_id(result) %> </div>
-<div> <%= result.employee.system_account.name %> </div>
+<div>
+  <%= generic_account_profile_link(result.employee.system_account) %>
+</div>
 <div><%= format_datetime(result[:datetime_of_implementation]) %></div>
 <div> Active? : <%= result[:active] %> </div>
 <div> <%= Branch.find(result[:branch_id]).name %> </div>

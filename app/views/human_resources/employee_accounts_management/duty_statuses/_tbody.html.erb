@@ -1,3 +1,8 @@
 <%= generic_index_id(result) %>
-<td> <%= result%> </td>
+<td>
+  <%= generic_account_profile_link(result.employee.system_account) %>
+</td>
+<td> <%= format_datetime(result[:datetime_of_implementation]) %> </td>
+<td> <%= result[:active] %> </td>
+<td> <%= Branch.find(result[:branch_id]).name %> </td>
 <%= generic_index_last_rows(result) %>

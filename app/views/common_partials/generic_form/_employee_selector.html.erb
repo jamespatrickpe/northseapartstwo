@@ -1,0 +1,29 @@
+<%=
+    f.input 'employee_id'.to_sym,
+            :label => 'Employee',
+            collection: Employee.all,
+            :label_method => :system_account_name,
+            :value_method => :id,
+            prompt: "Select Employee",
+            label_html: { class: 'form_label' },
+            :input_html =>
+                    {
+                            :id => 'employee_id',
+                            :value => selected_model_instance['employee_id'.to_sym],
+                            :'data-parsley-trigger' => 'keyup',
+                            :'data-parsley-maxlength' => 256
+                    }
+%>
+
+<script>
+    var $<%= 'employee_id' %> = $('#<%='employee_id'%>').selectize({});
+    $<%= 'employee_id' %>[0].selectize.setValue('<%= selected_model_instance['employee_id'.to_sym] %>');
+    <% unless wizard_activated? %>
+    <% if action_name == 'show' %>
+    try { $<%= 'employee_id' %>[0].selectize.disable(); }
+    catch(err) {}
+    <% end %>
+    <% end %>
+</script>
+
+<hr style="visibility: hidden">

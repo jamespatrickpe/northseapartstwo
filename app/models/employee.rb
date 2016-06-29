@@ -20,6 +20,10 @@ class Employee < ActiveRecord::Base
 
   end
 
+  def system_account_name
+    self.system_account.name
+  end
+
   validates_presence_of :system_account
   validates_uniqueness_of :system_account_id
 
