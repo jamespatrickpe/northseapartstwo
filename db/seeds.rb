@@ -205,16 +205,6 @@ unless Rails.env.production?
         myBaseRate.save
       end
 
-      # For Lump Adjustment
-      numberOfDuties = rand(1..5)
-      numberOfDuties.times do
-        dutyStatus = DutyStatus.new(remark: Faker::Lorem.sentence, employee: myEmployee)
-        active = -> { [false,true].sample }
-        dutyStatus.active = active.call
-        dutyStatus.datetime_of_implementation = rand(720..72000).hours.ago
-        dutyStatus.save!
-      end
-
       # Loans
       # rand(0..1).times do |i|
       #   myLoan = Loan.new()

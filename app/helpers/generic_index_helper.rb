@@ -97,4 +97,14 @@ module GenericIndexHelper
                                                                                  :unit => unit })
   end
 
+  def render_boolean(boolean)
+    answer = 'false'
+    if boolean == 1
+      answer = 'true'
+    else
+      answer = 'false'
+    end
+    answer
+  end
+
 end
