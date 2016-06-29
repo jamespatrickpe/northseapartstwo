@@ -7,7 +7,7 @@
             :input_html =>
                     {
                             :id => attribute_name,
-                            :value => selected_model_instance[:attribute_name.to_sym],
+                            :value => selected_model_instance[attribute_name.to_sym],
                             :'data-parsley-trigger' => 'keyup',
                             :'data-parsley-maxlength' => 256
                     }
@@ -16,6 +16,7 @@
 
 <script>
     var $<%= attribute_name %> = $('#<%=attribute_name%>').selectize({});
+    $<%= attribute_name %>[0].selectize.setValue('<%= selected_model_instance[attribute_name.to_sym] %>');
     <% unless wizard_activated? %>
         <% if action_name == 'show' %>
         try { $<%= attribute_name %>[0].selectize.disable(); }

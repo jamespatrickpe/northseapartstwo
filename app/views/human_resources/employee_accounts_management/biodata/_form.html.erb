@@ -1,6 +1,180 @@
 <div class="large-6 columns">
   <%= generic_form_collection_selector(f,'system_account_id', 'Associated System Account', SystemAccount.all, selected_model_instance) %>
-  <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
+
+  <%= f.input :education,
+              :required => false,
+              :as => :text,
+              :label => "Education",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:education],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 256
+                      }
+  %>
+
+  <%= f.input :notable_accomplishments,
+              :required => false,
+              :as => :text,
+              :label => "Notable Accomplishments",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:notable_accomplishments],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 256
+                      }
+  %>
+
+  <%= f.input :gender,
+              :required => false,
+              :label => "Gender",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:gender],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 32
+                      }
+  %>
+
+  <div class="form-block" style="float: left; width: 50%;">
+    <div class="form_label"> Date of Birth </div>
+    <input type="date" name="<%= controller_path %>[date_of_birth]" value=<%= selected_model_instance[:date_of_birth] %>>
+  </div>
+  <hr style="visibility: hidden">
+
+  <%= f.input :place_of_birth,
+              :required => false,
+              :as => :text,
+              :label => "Place of Birth",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:place_of_birth],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 256
+                      }
+  %>
+
+  <%= f.input :emergency_contact,
+              :required => false,
+              :label => "Emergency Contact",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:emergency_contact],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 64
+                      }
+  %>
+
+  <%= f.input :religion,
+              :required => false,
+              :label => "Religion",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:religion],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 64
+                      }
+  %>
+
+</div>
+<div class="large-6 columns">
+
+  <%= f.input :career_experience,
+              :required => false,
+              :as => :text,
+              :label => "Career Experience",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:career_experience],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 256
+                      }
+  %>
+
+  <%= f.input :family_members,
+              :required => false,
+              :as => :text,
+              :label => "Family Members",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:family_members],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 256
+                      }
+  %>
+
+  <%= f.input :citizenship,
+              :required => false,
+              :label => "Citizenship",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:citizenship],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 64
+                      }
+  %>
+
+  <%= f.input :blood_type,
+              :required => false,
+              :label => "Blood Type",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:blood_type],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 32
+                      }
+  %>
+
+  <%= field_measurement(f, 'height_cm', 'Height in cm'.html_safe , selected_model_instance, 'cm', false) %>
+
+  <%= f.input :languages_spoken,
+              :as => :text,
+              :required => false,
+              :label => "Languages Spoken",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:languages_spoken],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 256
+                      }
+  %>
+
+  <%= f.input :complexion,
+              :required => false,
+              :label => "Complexion",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:complexion],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 64
+                      }
+  %>
+
+  <%= f.input :marital_status,
+              :required => false,
+              :label => "Marital Status",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:marital_status],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 64
+                      }
+  %>
+
+
 </div>
 
 <%= related_models('Employee',params[:id]) unless generally_new? %>

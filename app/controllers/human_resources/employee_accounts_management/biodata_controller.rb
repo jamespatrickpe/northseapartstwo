@@ -24,9 +24,9 @@ class HumanResources::EmployeeAccountsManagement::BiodataController < HumanResou
     generic_delete(Biodatum)
   end
 
-  def process_biodatum_form(my_biodatum, current_params, wizard_mode = nil)
+  def process_form(my_biodatum, current_params, wizard_mode = nil)
     begin
-      my_biodatum.actor_id = Employee.find(params[:employee_id]).actor_id
+      my_biodatum.system_account_id = current_params[:system_account_id]
       my_biodatum.education = current_params[:education]
       my_biodatum.career_experience = current_params[:career_experience]
       my_biodatum.notable_accomplishments = current_params[:notable_accomplishments]

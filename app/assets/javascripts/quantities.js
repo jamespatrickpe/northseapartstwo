@@ -87,17 +87,6 @@ SOFTWARE.
     "<league>":  [["league","leagues"], 4828, "length", ["<meter>"]],
     "<furlong>": [["furlong","furlongs"], 201.2, "length", ["<meter>"]],
     "<rod>"   :  [["rd","rod","rods"], 5.029, "length", ["<meter>"]],
-    "<mil>"   :  [["mil","mils"], 0.0000254, "length", ["<meter>"]],
-    "<angstrom>"  :[["ang","angstrom","angstroms"], 1e-10, "length", ["<meter>"]],
-    "<fathom>" : [["fathom","fathoms"], 1.829, "length", ["<meter>"]],
-    "<pica>"  : [["pica","picas"], 0.00423333333, "length", ["<meter>"]],
-    "<point>" : [["pt","point","points"], 0.000352777778, "length", ["<meter>"]],
-    "<redshift>" : [["z","red-shift"], 1.302773e26, "length", ["<meter>"]],
-    "<AU>"    : [["AU","astronomical-unit"], 149597900000, "length", ["<meter>"]],
-    "<light-second>":[["ls","light-second"], 299792500, "length", ["<meter>"]],
-    "<light-minute>":[["lmin","light-minute"], 17987550000, "length", ["<meter>"]],
-    "<light-year>" : [["ly","light-year"], 9460528000000000, "length", ["<meter>"]],
-    "<parsec>"  : [["pc","parsec","parsecs"], 30856780000000000, "length", ["<meter>"]],
 
     /* mass */
     "<kilogram>" : [["kg","kilogram","kilograms"], 1.0, "mass", ["<kilogram>"]],

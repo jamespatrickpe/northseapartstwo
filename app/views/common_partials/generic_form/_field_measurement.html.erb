@@ -2,6 +2,7 @@
   <div class="small-6 columns">
     <% scalar_identifier = name.to_s + "_scalar_field"; %>
     <%= f.input scalar_identifier.to_sym,
+                :required => required,
                 :as => :float,
                 :label => current_label,
                 label_html: { class: 'form_label' },
@@ -21,6 +22,7 @@
   <div class="small-6 columns">
     <% selector_identifier = name.to_s + "_unit_type_selector"; %>
     <%= f.input selector_identifier.to_sym,
+                :required => required,
                 :as => :select,
                 :collection => Array.new(),
                 :label => "Alternative Unit",
