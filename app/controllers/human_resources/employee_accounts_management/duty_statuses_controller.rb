@@ -30,6 +30,7 @@ class HumanResources::EmployeeAccountsManagement::DutyStatusesController < Human
       my_duty_status.branch_id = current_params[:branch_id]
       my_duty_status.active = current_params[:active]
       my_duty_status.remark = current_params[:remark]
+      my_duty_status.save!
       set_process_notification(current_params) unless wizard_mode
     rescue => ex
       index_error(ex, wizard_mode)

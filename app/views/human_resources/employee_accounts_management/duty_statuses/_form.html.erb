@@ -2,6 +2,18 @@
 
   <%= generic_form_employee_selector(f, selected_model_instance ) %>
   <%= generic_form_collection_selector(f, 'branch_id', 'Assigned Branch', Branch.all, selected_model_instance, 'name', 'id') %>
+
+  <%=
+      f.input :active,
+              as: :boolean, checked_value: true, unchecked_value: false,
+              :label => "Active ?",
+              :label_html => { class: 'form_label' },
+              :input_html =>
+                      {
+                              :checked => selected_model_instance[:active]
+                      }
+  %>
+
   <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
 
 </div>
