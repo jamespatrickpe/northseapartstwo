@@ -10,7 +10,7 @@ class HumanResources::EmployeeAccountsManagementController < HumanResourcesContr
 
     @wizard_buttons =
         [
-            #[general_administration_add_contacts_wizard_path(:setup_employee),'Setup Employee']
+            [human_resources_employee_accounts_management_add_employee_wizard_path(:setup_employee),'Setup Employee']
         ]
 
     generic_index_main('Account Management for an Employee')

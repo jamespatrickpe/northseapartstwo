@@ -87,6 +87,18 @@ module BaseConcerns extend ActiveSupport::Concern
           representative_hash[:attribute] = ExpenseCategory.find(self.expense_category_id).name + ' | '+ (self.remark)
           representative_hash[:controller_path] = main_case.accounting_and_finance_expenses_expense_entries_path
           representative_hash[:controller_class] = AccountingAndFinance::Expenses::ExpenseEntriesController
+        when Employee
+          representative_hash[:attribute] = SystemAccount.find(self.system_account_id).name
+          representative_hash[:controller_path] = main_case.human_resources_employee_accounts_management_employees_path
+          representative_hash[:controller_class] = HumanResources::EmployeeAccountsManagement::EmployeesController
+        when DutyStatus
+          representative_hash[:attribute] = self.active + self.datetime_of_implementation
+          representative_hash[:controller_path] = main_case.human_resources_employee_accounts_management_duty_statuses_path
+          representative_hash[:controller_class] = HumanResources::EmployeeAccountsManagement::DutyStatusesController
+        when Biodata
+          representative_hash[:attribute] = SystemAccount.find(self.system_account_id).name
+          representative_hash[:controller_path] = main_case.human_resources_employee_accounts_management_biodata_path
+          representative_hash[:controller_class] = HumanResources::EmployeeAccountsManagement::BiodataController
       end
 
       return representative_hash

@@ -23,6 +23,9 @@ Rails.application.routes.draw do
 
     get 'employee_accounts_management/' => 'employee_accounts_management#index'
     namespace :employee_accounts_management do
+
+      resources :add_employee_wizard
+
       get 'employee_profile/' => 'employee_profile#index'
       resources :employees, :duty_statuses, :biodata do
         collection do

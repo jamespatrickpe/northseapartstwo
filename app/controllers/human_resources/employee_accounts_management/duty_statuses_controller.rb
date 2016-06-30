@@ -27,6 +27,7 @@ class HumanResources::EmployeeAccountsManagement::DutyStatusesController < Human
   def process_form(my_duty_status, current_params, wizard_mode = nil)
     begin
       my_duty_status.employee_id = current_params[:employee_id]
+      my_duty_status.datetime_of_implementation = current_params[:datetime_of_implementation]
       my_duty_status.branch_id = current_params[:branch_id]
       my_duty_status.active = current_params[:active]
       my_duty_status.remark = current_params[:remark]
