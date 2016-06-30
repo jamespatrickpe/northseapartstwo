@@ -2,7 +2,8 @@ class HumanResources::EmployeeAccountsManagement::AddEmployeeWizardController < 
 
   include Wicked::Wizard
 
-  steps :setup_employee,
+  steps :setup_system_account,
+        :setup_employee,
         :setup_biodata,
         :setup_duty_status,
         :final
@@ -10,6 +11,8 @@ class HumanResources::EmployeeAccountsManagement::AddEmployeeWizardController < 
   def show
 
     case step
+      when :setup_system_account
+        setup_step('Setup System Account',SystemAccount)
       when :setup_employee
         setup_step('Setup Employee',Employee)
       when :setup_biodata
@@ -19,24 +22,22 @@ class HumanResources::EmployeeAccountsManagement::AddEmployeeWizardController < 
       when :final
     end
     render_wizard
-
   end
 
   def update
 
     case step
+      when :setup_system_account
+        extracted_id = setup_update_wizard_step(SystemAccount)
       when :setup_employee
-        extracted_id = setup_update_wizard_step(Employee)
+        setup_update_wizard_step(Employee)
       when :setup_biodata
         setup_update_wizard_step(Biodatum)
       when :setup_duty_status
         setup_update_wizard_step(DutyStatus)
       when :final
     end
-
-    redirect_setup_update(params,'Employee',extracted_id)
-
-
+    redirect_setup_update(params,'SystemAccount',extracted_id)
   end
 
 end

@@ -110,7 +110,12 @@ module ApplicationHelper
   end
 
   def format_datetime_default_value(date_time_object)
-    date_time_object.strftime('%FT%T')
+    if date_time_object.nil?
+      result = Time.now.strftime('%FT%T')
+    else
+      result = date_time_object.strftime('%FT%T')
+    end
+    result
   end
 
 end

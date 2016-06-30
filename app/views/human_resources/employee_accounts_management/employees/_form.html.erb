@@ -1,5 +1,16 @@
 <div class="large-6 columns">
-  <%= generic_form_collection_selector(f,'system_account_id', 'Associated System Account', SystemAccount.all, selected_model_instance) %>
+  <%=
+      if wizard_activated?
+        f.input_field :system_account_id,
+                      as: :hidden,
+                      :input_html =>
+                              {
+                                      :value => params[:wizard_primary_model_id]
+                              }
+      else
+        generic_form_collection_selector(f,'system_account_id', 'Associated System Account', SystemAccount.all, selected_model_instance)
+      end
+  %>
   <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
 </div>
 
