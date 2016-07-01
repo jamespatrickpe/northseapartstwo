@@ -2,12 +2,9 @@
 
   <%=
       if wizard_activated?
-        f.input_field :employee_id,
-                      as: :hidden,
-                      :input_html =>
-                              {
-                                      :value => Employee.find_by_system_account_id(params[:wizard_primary_model_id])
-                              }
+        f.input :employee_id,
+                as: :hidden,
+                :input_html => { :value => Employee.find_by_system_account_id(params[:wizard_primary_model_id]).id }
       else
         generic_form_employee_selector(f, selected_model_instance )
       end

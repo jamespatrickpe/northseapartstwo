@@ -103,9 +103,10 @@ module GenericController
     redirect_to :action => "index"
   end
 
-  def setup_step(subtitle,selected_model_instance)
+  def setup_step(subtitle,selected_model_instance, submit_and_add_another = true)
     @subtitle = subtitle
     @selected_model_instance = selected_model_instance.new()
+    @submit_and_add_another = submit_and_add_another
   end
 
   def process_parameter(form_parameter, attribute, wizard_parameter)
