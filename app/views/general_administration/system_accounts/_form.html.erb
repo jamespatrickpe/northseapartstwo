@@ -31,4 +31,26 @@
 <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
 </div>
 
+
+<% employee = Employee.where(system_account_id: selected_model_instance[:id] ).first %>
+<% if employee != nil %>
+    <div class="small-6 columns">
+      Employee ID: <%= link_to( employee.id, '/human_resources/employee_accounts_management/employees/' + employee.id, :target => '_blank', :class => 'system_account_profile_link') %>
+    </div>
+<% end %>
+
 <%= related_models('SystemAccount',params[:id]) unless generally_new? %>
+
+<style>
+  .system_account_profile_link
+  {
+      color:#000000;
+      background-color: #dcdcdc;
+      padding: 5px;
+  }
+  .system_account_profile_link:hover
+  {
+      background-color: #721314;
+      color: white;
+  }
+</style>
