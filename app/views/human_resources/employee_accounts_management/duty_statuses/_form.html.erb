@@ -9,8 +9,8 @@
         generic_form_employee_selector(f, selected_model_instance )
       end
   %>
-  <%= generic_form_collection_selector(f, 'branch_id', 'Assigned Branch', Branch.all, selected_model_instance, 'name', 'id') %>
 
+  <%= generic_form_collection_selector(f, 'branch_id', 'Assigned Branch', Branch.all, selected_model_instance, 'name', 'id') %>
   <%= generic_form_datetime_field(f,'datetime_of_implementation', 'Date and Time of Implementation' ,selected_model_instance) %>
 
   <%=

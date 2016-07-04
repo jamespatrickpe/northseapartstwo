@@ -1,3 +1,45 @@
-<%=
-    wizard_final_step(human_resources_employee_accounts_management_path)
-%>
+<section class="large-10 columns">
+  <%= generic_title('Wizard Completed','Take the Next Action') %>
+
+  <hr style="visibility: hidden">
+  <a class="medium button" href="<%= wizard_path(wizard_steps.first) %>"> Add Another </a>
+  <a class="medium button" href="<%= human_resources_employee_accounts_management_path %>"> Back to Main Index </a>
+
+  <hr style="visibility: hidden">
+
+  <div class="item_cell" style="float:left;">
+    AS SYSTEM ACCOUNT <hr style="visibility: hidden;">
+    <%=
+        system_account_model = SystemAccount.find( params[:wizard_primary_model_id] )
+        render :partial => system_account_model.main_representation[:controller_path] + '/cell',
+               locals: {result: system_account_model, controller_link: controller_link(system_account_model) }
+
+    %>
+  </div>
+
+  <div class="item_cell" style="float:left;">
+    AS EMPLOYEE <hr style="visibility: hidden;">
+    <%=
+        employee_model = Employee.where("system_account_id = ?", params[:wizard_primary_model_id]).first
+        render :partial => employee_model.main_representation[:controller_path] + '/cell',
+               locals: {result: employee_model, controller_link: controller_link(employee_model) }
+    %>
+  </div>
+
+  <div class="item_cell" style="float:left;">
+    AS DUTY STATUS <hr style="visibility: hidden;">
+    <%=
+        employee_model = Employee.where("system_account_id = ?", params[:wizard_primary_model_id]).first
+        duty_status_model = DutyStatus.where("employee_id = ?", employee_model.id ).first
+        if duty_status_model != nil
+
+          render :partial => duty_status_model.main_representation[:controller_path] + '/cell',
+                 locals: {result: duty_status_model, controller_link: controller_link(duty_status_model) }
+
+        end
+    %>
+  </div>
+
+</section>
+
+<%= render "common_partials/hover_item_cell" %>

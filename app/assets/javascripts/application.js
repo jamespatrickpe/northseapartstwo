@@ -34,7 +34,6 @@
 //= require d3.v3.js
 //= require c3.min.js
 
-
 /*$(document).foundation();
 $(document).foundation('alert','events');*/
 

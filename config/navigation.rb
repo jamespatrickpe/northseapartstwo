@@ -101,5 +101,13 @@ SimpleNavigation::Configuration.run do |navigation|
       secondary.item :vehicles, 'Vehicles', general_administration_vehicles_path
     end
 
+    primary.item :human_resources, 'Human Resources', human_resources_path, options do |secondary|
+      secondary.item :employee_accounts_management, 'Employee Accounts MGT', human_resources_employee_accounts_management_path, options do |tertiary|
+        tertiary.item :employees, 'Employees', human_resources_employee_accounts_management_employees_path
+        tertiary.item :biodata, 'Biodata', human_resources_employee_accounts_management_biodata_path
+        tertiary.item :duty_status, 'Duty Status', human_resources_employee_accounts_management_duty_statuses_path
+      end
+    end
+
     end
 end
