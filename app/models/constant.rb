@@ -12,10 +12,8 @@ class Constant < ActiveRecord::Base
   validates_length_of :constant_type, maximum: 128
 
   searchable do
-
     string :constant_type
     text :constant_type
-
   end
 
   def self.get_constant_in_period(date_time_of_implementation, constant_type)

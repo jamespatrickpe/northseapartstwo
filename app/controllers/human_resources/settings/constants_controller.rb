@@ -7,7 +7,7 @@ class HumanResources::Settings::ConstantsController < HumanResources::SettingsCo
       query = generic_index_aggregated_queries(controller_name,'updated_at')
       search = Sunspot.search( Constant ) do
         fulltext query[:search_field]
-        keywords query[:search_field]
+        keywords 'human_resources'
         order_by query[:order_parameter].to_sym,
                  query[:order_orientation].parameterize.underscore.to_sym
         paginate :page => params[:page],
@@ -46,7 +46,8 @@ class HumanResources::Settings::ConstantsController < HumanResources::SettingsCo
     begin
       my_constant[:remark] = current_params[:remark]
       my_constant[:name] = current_params[:name]
-      my_constant[:date_of_implementation] = current_params[:date_of_implementation]
+      my_constant[:name] = current_params[:name]
+      my_constant[:constant_type] = current_params[:constant_type]
       my_constant[:value] = current_params[:value]
       my_constant.save!
       set_process_notification(current_params) unless wizard_mode

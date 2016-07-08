@@ -1,0 +1,6 @@
+<div> <%= generic_index_id(result) %> </div>
+<div> <%= result.holiday_type.type_name %> </div>
+<div> <%= result[:name] %> </div>
+<div> <%= result[:date_of_implementation] %> </div>
+<%= generic_index_remark(result[:remark]) %>
+<%= generic_index_actions( result, controller_link ) %>

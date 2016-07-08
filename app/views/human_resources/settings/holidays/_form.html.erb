@@ -11,26 +11,8 @@
                       }
   %>
 
-  <%= f.input :value,
-              :label => "Value",
-              label_html: { class: 'form_label' },
-              :input_html =>
-                      {
-                              :value => selected_model_instance[:value],
-                              :'data-parsley-trigger' => 'keyup',
-                              :'data-parsley-maxlength' => 64
-                      }
-  %>
-
-  <%= f.input :constant_type,
-              :label => "Constant Type",
-              label_html: { class: 'form_label' },
-              :input_html =>
-                      {
-                              :value => selected_model_instance[:constant_type],
-                              :'data-parsley-trigger' => 'keyup',
-                              :'data-parsley-maxlength' => 128
-                      }
+  <%=
+      generic_form_collection_selector(f,'holiday_type_id', 'Holiday Type', HolidayType.all, selected_model_instance,'type_name','id')
   %>
 
   <div class="form-block" style="float: left; width: 50%;">

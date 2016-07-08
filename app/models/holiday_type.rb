@@ -13,4 +13,9 @@ class HolidayType < ActiveRecord::Base
   validates_numericality_of :rest_day_multiplier
   validates_numericality_of :overtime_rest_day_multiplier
 
+  searchable do
+    string :type_name
+    text :type_name
+  end
+
 end
