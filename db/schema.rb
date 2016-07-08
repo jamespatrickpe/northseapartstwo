@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 20160608120016) do
     t.datetime "created_at",                                                         null: false
     t.datetime "updated_at",                                                         null: false
     t.string   "employee_id",            limit: 36
-    t.date     "date_of_implementation",             default: '2016-07-04'
+    t.date     "date_of_implementation",             default: '2016-07-08'
     t.time     "timein",                             default: '2000-01-01 00:00:01'
     t.time     "timeout",                            default: '2000-01-01 23:59:59'
   end
@@ -116,9 +116,9 @@ ActiveRecord::Schema.define(version: 20160608120016) do
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
     t.string   "name",                   limit: 64
-    t.date     "date_of_implementation",             default: '2016-07-04'
-    t.string   "value",                  limit: 64
-    t.string   "constant_type",          limit: 64
+    t.date     "date_of_implementation",             default: '2016-07-08'
+    t.string   "value",                  limit: 128
+    t.string   "constant_type",          limit: 128
   end
 
   add_index "constants", ["id"], name: "index_constants_on_id", using: :btree
@@ -227,7 +227,7 @@ ActiveRecord::Schema.define(version: 20160608120016) do
     t.string   "remark",                 limit: 256
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
-    t.date     "date_of_implementation",             default: '2016-07-04'
+    t.date     "date_of_implementation",             default: '2016-07-08'
     t.string   "name",                   limit: 64
     t.string   "holiday_type_id",        limit: 36
   end
@@ -268,8 +268,8 @@ ActiveRecord::Schema.define(version: 20160608120016) do
     t.datetime "updated_at",                                                       null: false
     t.string   "employee_id",          limit: 36
     t.string   "type_of_leave",        limit: 64
-    t.datetime "start_of_effectivity",             default: '2016-07-04 08:58:09'
-    t.datetime "end_of_effectivity",               default: '2016-07-04 08:58:09'
+    t.datetime "start_of_effectivity",             default: '2016-07-08 00:13:25'
+    t.datetime "end_of_effectivity",               default: '2016-07-08 00:13:25'
   end
 
   add_index "leaves", ["id"], name: "index_leaves_on_id", using: :btree
@@ -434,7 +434,7 @@ ActiveRecord::Schema.define(version: 20160608120016) do
     t.decimal  "load_kg",                            precision: 20, scale: 10
     t.string   "type_of_vehicle",        limit: 32
     t.string   "brand",                  limit: 32
-    t.date     "date_of_implementation",                                       default: '2016-07-04'
+    t.date     "date_of_implementation",                                       default: '2016-07-08'
     t.string   "plate_number",           limit: 32
     t.string   "oil",                    limit: 32
   end

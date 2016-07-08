@@ -1,94 +1,67 @@
 class HumanResources::Settings::ConstantsController < HumanResources::SettingsController
 
   def index
-    query = generic_index_aggregated_queries('constants','constants.created_at')
+
     begin
-      @constants = Constant
-                       .where("(constants.id LIKE ? OR " +
-                                  "constants.value LIKE ? OR " +
-                                  "constants.name LIKE ? OR " +
-                                  "constants.constant_type LIKE ? OR " +
-                                  "constants.remark LIKE ? OR " +
-                                  "constants.created_at LIKE ? OR " +
-                                  "constants.updated_at LIKE ?) AND ( constants.constant_type LIKE ? )",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "human_resources.#{query[:search_field]}%")
-                       .order(query[:order_parameter] + ' ' + query[:order_orientation])
-      @constants = Kaminari.paginate_array(@constants).page(params[:page]).per(query[:current_limit])
-    rescue
-      flash[:general_flash_notification] = "Error has Occured"
+
+      query = generic_index_aggregated_queries(controller_name,'updated_at')
+      search = Sunspot.search( Constant ) do
+        fulltext query[:search_field]
+        keywords query[:search_field]
+        order_by query[:order_parameter].to_sym,
+                 query[:order_orientation].parameterize.underscore.to_sym
+        paginate :page => params[:page],
+                 :per_page => query[:current_limit]
+      end
+      @result_set = search.results
+    rescue => ex
+      index_error(ex, nil)
     end
-    render 'shared/constants/index'
+
+    generic_index_main('Important Variables for the Human Resource Module')
+
   end
 
-  def initialize_form
-    initialize_form_variables('SYSTEM CONSTANT',
-                              'shared/constants/constant_form',
-                              'constant')
-    initialize_employee_selection
+  def search_suggestions
+    generic_index_search_suggestions(Constant)
   end
 
   def new
-    initialize_form
-    @selected_constant = Constant.new
-    generic_form_main(@selected_constant)
+    set_new_edit(Constant)
   end
 
   def edit
-    initialize_form
-    @selected_constant = Constant.find(params[:id])
-    generic_form_main(@selected_constant)
+    set_new_edit(Constant)
   end
 
+  def show
+    edit
+  end
 
   def delete
-    generic_delete_model(Constant, controller_name)
+    generic_delete(Constant)
   end
 
-  def process_constant_form(currentConstant)
+  def process_form(my_constant, current_params, wizard_mode = nil)
     begin
-      currentConstant[:constant_type] = "human_resources." + params[:constant][:constant_type]
-      currentConstant[:name] = params[:constant][:name]
-      currentConstant[:value] = params[:constant][:value]
-      currentConstant[:date_of_implementation] = params[:constant][:date_of_implementation]
-      currentConstant[:remark] = params[:constant][:remark]
-      currentConstant.save!
-      flash[:general_flash_notification] = 'Constant / System param ' + currentConstant[:name] + ' has been added and will be effective on ' + currentConstant[:date_of_implementation].to_s
-      flash[:general_flash_notification_type] = 'affirmative'
+      my_constant[:remark] = current_params[:remark]
+      my_constant[:name] = current_params[:name]
+      my_constant[:date_of_implementation] = current_params[:date_of_implementation]
+      my_constant[:value] = current_params[:value]
+      my_constant.save!
+      set_process_notification(current_params) unless wizard_mode
     rescue => ex
-      puts ex
-      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.'
+      index_error(ex, wizard_mode)
     end
-    redirect_to :action => 'index'
-  end
-
-
-  def search_suggestions
-    constants = Constant
-                    .where("constants.name LIKE ?","%#{params[:query]}%")
-                    .pluck("constants.name")
-    direct = "{\"query\": \"Unit\",\"suggestions\":[" + constants.to_s.gsub!('[', '').gsub!(']', '') + "]}"
-    respond_to do |format|
-      format.all { render :text => direct}
-    end
+    form_completion_redirect(wizard_mode)
   end
 
   def create
-    currentConstant = Constant.new()
-    flash[:general_flash_notification] = 'System parameter / Constant Created!'
-    process_constant_form(currentConstant)
+    process_form(Constant.new(), params[controller_path])
   end
 
   def update
-    currentConstant = Constant.find(params[:constant][:id])
-    flash[:general_flash_notification] = 'Constant Updated: ' + params[:constant][:id]
-    process_constant_form(currentConstant)
+    process_form(Constant.find(params[controller_path][:id]), params[controller_path])
   end
 
 end

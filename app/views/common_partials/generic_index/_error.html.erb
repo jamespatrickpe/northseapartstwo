@@ -1,9 +1,3 @@
-<%
-   puts ex.to_s
-%>
-
-<br><br><br><br>
-
 <div id="generic_index_error_message">
   <%= "Error Occurred | " + ex.to_s%>
   <%= ex.backtrace.each { |line| logger.error line } %>

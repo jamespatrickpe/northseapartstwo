@@ -1,6 +1,8 @@
 <section id="main_index_section" class='small-10 columns' style="visibility:hidden;">
   <%= generic_title(nil, subtitle) %>
 
+  <%= render :template => 'common_partials/generic_index/_summary_panel' %>
+
   <!-- Data Translation -->
   <% if defined? @result_set %>
 
@@ -92,7 +94,7 @@
       <%= generic_index_footer(@result_set) %>
       <hr style="visibility: hidden;">
 
-      <% end %>
+  <% end %>
 
   <%= render :template => 'common_partials/generic_index/_overview_panels' %>
   <%= render :template => 'common_partials/generic_index/_wizard_buttons' %>

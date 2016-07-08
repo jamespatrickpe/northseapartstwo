@@ -51,7 +51,7 @@ module GenericController
   end
 
   def index_error(ex, wizard_mode)
-      flash[:general_flash_notification] = "Error has Occured: " + ex.to_s unless wizard_mode
+      flash[:general_flash_notification] = "Error has Occurred: " + (ex.to_s).html_safe unless wizard_mode
       puts ex.to_s
       puts ex.backtrace.to_s
   end
