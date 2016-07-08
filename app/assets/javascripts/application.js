@@ -33,6 +33,8 @@
 //= require jquery.cookie.js
 //= require d3.v3.js
 //= require c3.min.js
+//= require underscore-min.js
+//= require clndr.min.js
 
 /*$(document).foundation();
 $(document).foundation('alert','events');*/

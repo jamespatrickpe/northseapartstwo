@@ -44,9 +44,8 @@ class HumanResources::Settings::HolidayTypesController < HumanResources::Setting
     process_form(HolidayType.new(), params[controller_path])
   end
 
-  def updates
+  def update
     process_form(HolidayType.find(params[controller_path][:id]), params[controller_path])
   end
-
 
 end

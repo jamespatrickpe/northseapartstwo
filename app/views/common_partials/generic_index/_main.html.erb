@@ -1,7 +1,9 @@
 <section id="main_index_section" class='small-10 columns' style="visibility:hidden;">
   <%= generic_title(nil, subtitle) %>
 
-  <%= render :template => 'common_partials/generic_index/_summary_panel' %>
+  <%=
+      render :template => 'common_partials/generic_index/_summary_panel'
+  %>
 
   <!-- Data Translation -->
   <% if defined? @result_set %>

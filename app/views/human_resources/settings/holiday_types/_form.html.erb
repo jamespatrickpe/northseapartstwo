@@ -1,43 +1,73 @@
 <div class="large-6 columns">
 
-  <%= f.input :name,
-              :label => "Name",
+  <%= f.input :type_name,
+              :label => "Type Name",
               label_html: { class: 'form_label' },
               :input_html =>
                       {
-                              :value => selected_model_instance[:name],
-                              :'data-parsley-trigger' => 'keyup',
-                              :'data-parsley-maxlength' => 64
-                      }
-  %>
-
-  <%= f.input :value,
-              :label => "Value",
-              label_html: { class: 'form_label' },
-              :input_html =>
-                      {
-                              :value => selected_model_instance[:value],
-                              :'data-parsley-trigger' => 'keyup',
-                              :'data-parsley-maxlength' => 64
-                      }
-  %>
-
-  <%= f.input :constant_type,
-              :label => "Constant Type",
-              label_html: { class: 'form_label' },
-              :input_html =>
-                      {
-                              :value => selected_model_instance[:constant_type],
+                              :value => selected_model_instance[:type_name],
                               :'data-parsley-trigger' => 'keyup',
                               :'data-parsley-maxlength' => 128
                       }
   %>
 
-  <div class="form-block" style="float: left; width: 50%;">
-    <div class="form_label"> Date of Registration </div>
-    <input type="date" name="<%= controller_path %>[date_of_implementation]" value=<%= selected_model_instance[:date_of_implementation] %>>
-  </div>
-  <hr style="visibility: hidden">
+  <%= f.input :rate_multiplier,
+                  :as => :float,
+                  :label => "Rate Multiplier",
+                  label_html: { class: 'form_label' },
+                  :input_html =>
+                          {
+                                  :value => selected_model_instance[:rate_multiplier],
+                                  :'data-parsley-trigger' => 'keyup',
+                                  :'data-parsley-maxlength' => 64
+                          }
+  %>
 
-  <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
+  <%= f.input :overtime_multiplier,
+              :as => :float,
+              :label => "Overtime Multiplier",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:overtime_multiplier],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 64
+                      }
+  %>
+
+  <%= f.input :rest_day_multiplier,
+              :as => :float,
+              :label => "Rest Day Multiplier",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:rest_day_multiplier],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 64
+                      }
+  %>
+
+  <%= f.input :overtime_rest_day_multiplier,
+              :as => :float,
+              :label => "Overtime + Rest Day Multiplier",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :value => selected_model_instance[:overtime_rest_day_multiplier],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 64
+                      }
+  %>
+
+  <%=
+      f.input :no_work_pay,
+              as: :boolean, checked_value: true, unchecked_value: false,
+              :label => "No Work No Pay ?",
+              :label_html => { class: 'form_label' },
+              :input_html =>
+                      {
+                              :checked => selected_model_instance[:no_work_pay]
+                      }
+  %>
+
 </div>
