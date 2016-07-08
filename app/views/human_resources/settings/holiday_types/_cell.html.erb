@@ -1,7 +1,8 @@
 <div> <%= generic_index_id(result) %> </div>
-<div> <%= result[:name] %> </div>
-<div> <%= result[:date_of_implementation] %> </div>
-<div> <%= result[:value] %> </div>
-<div> <%= result[:constant_type] %> </div>
-<%= generic_index_remark(result[:remark]) %>
+<div> <%= result[:type_name] %> </div>
+<div> Rate Multiplier : <%= result[:rate_multiplier] %> </div>
+<div> Overtime Multiplier : <%= result[:overtime_multiplier] %> </div>
+<div> Rest Day Multiplier : <%= result[:rest_day_multiplier] %> </div>
+<div> Overtime and Rest Day Multiplier : <%= result[:overtime_rest_day_multiplier] %> </div>
+<div> No Work No Pay? : <%= result[:no_work_pay] %> </div>
 <%= generic_index_actions( result, controller_link ) %>

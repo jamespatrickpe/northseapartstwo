@@ -1,7 +1,8 @@
 <%= generic_index_id(result) %>
-<td> <%= result[:name] %> </td>
-<td> <%= result[:date_of_implementation] %> </td>
-<td> <%= result[:value] %> </td>
-<td> <%= result[:constant_type] %> </td>
-<%= generic_index_remark(result[:remark]) %>
+<td> <%= result[:type_name] %> </td>
+<td> <%= result[:rate_multiplier] %> </td>
+<td> <%= result[:overtime_multiplier] %> </td>
+<td> <%= result[:rest_day_multiplier] %> </td>
+<td> <%= result[:overtime_rest_day_multiplier] %> </td>
+<td> <%= result[:no_work_pay] %> </td>
 <%= generic_index_last_rows(result) %>

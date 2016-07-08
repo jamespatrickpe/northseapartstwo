@@ -46,5 +46,4 @@ class HumanResources::Settings::HolidaysController < HumanResources::SettingsCon
     process_form(Holiday.find(params[controller_path][:id]), params[controller_path])
   end
 
-
 end
