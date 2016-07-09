@@ -25,7 +25,6 @@
 //= require jquery.qtip.min.js
 //= require employee_quick_profile.js
 //= require moment.js
-//= require jquery-ui
 //= require jquery.autocomplete.min
 //= require freewall.js
 //= require quantities.js
@@ -33,8 +32,8 @@
 //= require jquery.cookie.js
 //= require d3.v3.js
 //= require c3.min.js
-//= require underscore-min.js
-//= require clndr.min.js
+
+$('#calendar').fullCalendar({});
 
 /*$(document).foundation();
 $(document).foundation('alert','events');*/

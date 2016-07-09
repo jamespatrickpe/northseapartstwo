@@ -87,7 +87,8 @@ gem 'wicked'
 gem 'roo'
 gem 'd3-rails'
 gem 'ancestry'
-gem 'clndr-rails'
+gem 'fullcalendar-rails'
+gem 'momentjs-rails'
 
 # This library provides integration of the money gem with Rails.
 gem 'money-rails'
