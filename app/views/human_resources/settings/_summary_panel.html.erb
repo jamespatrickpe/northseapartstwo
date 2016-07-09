@@ -1,1 +1,67 @@
-<div id="calendar"></div>
+<div id="calendar_parent_element"></div>
+
+<script id="calendar-template" type="text/template">
+
+  <div class="clndr-controls">
+    <div class="month"><%%= month %></div>
+    <div class="clndr-previous-button tiny button">&lsaquo;</div>
+    <div class="clndr-next-button tiny button">&rsaquo;</div>
+  </div>
+
+  <div class="clndr-grid">
+    <span class="days-of-the-week">
+      <%% _.each(daysOfTheWeek, function (day) { %>
+          <div class="header-day"><%%= day %></div>
+      <%% }); %>
+      <div class="days">
+        <%% _.each(days, function (day) { %>
+            <div class="<%%= day.classes %>"><%%= day.day %></div>
+        <%% }); %>
+      </div>
+    </span>
+  </div>
+
+</script>
+
+<style>
+
+    .header-day
+    {
+    }
+
+    .clndr-controls
+    {
+        float:left;
+        vertical-align: bottom;
+    }
+
+    .month
+    {
+        float:left;
+        color: black;
+        padding: 5px;
+        font-size: 50px;
+        text-transform: uppercase;
+    }
+
+    .clndr-previous-button
+    {
+        float:left;
+        vertical-align: bottom;
+    }
+
+    .clndr-next-button
+    {
+        float:left;
+    }
+
+</style>
+
+<script>
+    var currentMonth = moment().format('YYYY-MM');
+    var nextMonth    = moment().add('month', 1).format('YYYY-MM');
+
+    $('#calendar_parent_element').clndr({
+        template: $('#calendar-template').html()
+    });
+</script>

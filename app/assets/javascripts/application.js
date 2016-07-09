@@ -32,8 +32,8 @@
 //= require jquery.cookie.js
 //= require d3.v3.js
 //= require c3.min.js
-
-$('#calendar').fullCalendar({});
+//= require underscore.js
+//= require clndr.min.js
 
 /*$(document).foundation();
 $(document).foundation('alert','events');*/
