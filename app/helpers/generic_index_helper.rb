@@ -1,5 +1,9 @@
 module GenericIndexHelper
 
+  def clndr_template(href_link = nil)
+    render(:partial => 'common_partials/generic_index/clndr_template', :locals => {:href_link => href_link})
+  end
+
   def format_datetime(datetime)
     datetime.strftime("%m/%d/%Y %T %p") unless datetime.nil?
   end

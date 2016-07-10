@@ -1,5 +1,9 @@
 module HumanResourcesHelper
 
+  def get_holidays_for_calendar
+
+  end
+
   def whatHoliday( current_date )
     holidays = Holiday.all
     what_holiday = false

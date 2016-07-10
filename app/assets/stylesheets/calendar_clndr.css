@@ -1,0 +1,78 @@
+.clndr-event-name
+{
+    font-size: x-small;
+}
+
+.clndr-grid
+{
+    width: 100%;
+}
+
+.clndr-head
+{
+    font-size: x-small;
+    display: inline-block;
+    width: 13%;
+    color: white;
+    padding: 10px;
+    background-color: #808080;
+    text-align: center;
+    border: white 1px solid;
+}
+
+.clndr-cell
+{
+    font-size: x-small;
+    vertical-align: top;
+    display: inline-block;
+    width: 13%;
+    padding: 10px;
+    color: #dcdcdc;
+}
+
+.event
+{
+    color: black;
+}
+
+.event_name
+{
+    font-size: x-small;
+    background-color: #808080;
+    padding: 5px;
+    color:white;
+}
+
+.event_name:hover
+{
+    background-color: #721314;
+}
+
+.header-day
+{
+}
+
+.clndr-controls
+{
+
+}
+
+.month
+{
+    color: black;
+    padding: 5px;
+    font-size: 35px;
+    text-transform: uppercase;
+}
+
+.clndr-previous-button
+{
+    float:right;
+    vertical-align: bottom;
+}
+
+.clndr-next-button
+{
+    float:right;
+    vertical-align: bottom;
+}

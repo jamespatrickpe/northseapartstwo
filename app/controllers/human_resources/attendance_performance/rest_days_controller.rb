@@ -1,84 +1,48 @@
 class HumanResources::AttendancePerformance::RestDaysController < HumanResources::AttendancePerformanceController
 
   def index
-    query = generic_index_aggregated_queries('rest_days','rest_days.created_at')
-    begin
-      @rest_days = RestDay
-                       .includes(employee: [:system_account])
-                       .joins(employee: [:system_accounts])
-                       .where("actors.name LIKE ? OR " +
-                                  "rest_days.id LIKE ? OR " +
-                                  "rest_days.day LIKE ? OR " +
-                                  "rest_days.created_at LIKE ? OR " +
-                                  "rest_days.updated_at LIKE ? ",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%",
-                              "%#{query[:search_field]}%")
-                       .order(query[:order_parameter] + ' ' + query[:order_orientation])
-      @rest_days = Kaminari.paginate_array(@rest_days).page(params[:page]).per(query[:current_limit])
-    rescue => ex
-      flash[:general_flash_notification] = "Error has Occured" + ex.to_s
-    end
-    render 'human_resources/attendance_performance/rest_days/index'
-  end
-
-  def initialize_form
-    initialize_form_variables('REST DAY',
-                              'human_resources/attendance_performance/rest_days/rest_day_form',
-                              'rest_day')
-    initialize_employee_selection
+    initialize_generic_index(RestDay, 'Dedicated Rest Day for Employee under Labor Code')
   end
 
   def search_suggestions
-    restdays = RestDay.includes(employee: :system_account).where("actors.name LIKE (?)", "%#{ params[:query] }%").pluck("actors.name")
-    direct = "{\"query\": \"Unit\",\"suggestions\":" + restdays.uniq.to_s + "}"
-    respond_to do |format|
-      format.all { render :text => direct}
-    end
-  end
-
-  def delete
-    generic_delete_model(RestDay,controller_name)
+    generic_index_search_suggestions(RestDay)
   end
 
   def new
-    initialize_form
-    @selected_rest_day = RestDay.new
-    generic_bicolumn_form_with_employee_selection(@selected_rest_day)
+    set_new_edit(RestDay)
   end
 
   def edit
-    initialize_form
-    @selected_rest_day = RestDay.find(params[:id])
-    generic_bicolumn_form_with_employee_selection(@selected_rest_day)
+    set_new_edit(RestDay)
   end
 
-  def process_rest_day_form(restDay)
+  def show
+    edit
+  end
+
+  def delete
+    generic_delete(RestDay)
+  end
+
+  def process_form(rest_day, current_params, wizard_mode = nil)
     begin
-      restDay.id = params[:rest_day][:id]
-      restDay.day = params[:rest_day][:day]
-      restDay.date_of_implementation = params[:rest_day][:date_of_implementation]
-      restDay.employee = Employee.find(params[:rest_day][:employee_id])
-      restDay.save!
-      flash[:general_flash_notification_type] = 'affirmative'
+      rest_day[:day] = current_params[:day]
+      rest_day[:date_of_implementation] = current_params[:date_of_implementation]
+      rest_day[:employee_id] = current_params[:employee_id]
+      rest_day.save!
+      set_process_notification(current_params) unless wizard_mode
     rescue => ex
-      flash[:general_flash_notification] = 'Error Occurred. Please contact Administrator.' + ex.to_s
+      index_error(ex, wizard_mode)
     end
-    redirect_to :action => 'index'
+    form_completion_redirect(wizard_mode)
   end
 
   def create
-    rest_day = RestDay.new()
-    flash[:general_flash_notification] = 'Rest Day Added!'
-    process_rest_day_form(rest_day)
+    process_form(RestDay.new(), params[controller_path])
   end
 
   def update
-    rest_day = RestDay.find( params[:rest_day][:id] )
-    flash[:general_flash_notification] = 'Rest Day Updated!'
-    process_rest_day_form(rest_day)
+    process_form(RestDay.find(params[controller_path][:id]), params[controller_path])
   end
 
 end

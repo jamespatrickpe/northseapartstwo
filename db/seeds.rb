@@ -132,29 +132,6 @@ unless Rails.env.production?
       restday.save!
       end
 
-      numberOfWorkPeriods = rand(1..4)
-      numberOfWorkPeriods.times do
-        if 7.in(10)
-          start_time = '08:00:00'
-          end_time = '17:00:00'
-        elsif 3.in(10)
-          start_time = '09:00:00'
-          end_time = '18:00:00'
-        elsif 2.in(10)
-          start_time = '17:00:00'
-          end_time = '05:00:00'
-        else
-          start_time = '01:00:00'
-          end_time = '06:00:00'
-        end
-        work_period = RegularWorkPeriod.new(remark: Faker::Lorem.word,
-                                           employee: myEmployee,
-                                           start_time: start_time,
-                                           end_time: end_time )
-        work_period.datetime_of_implementation = rand(720..72000).hours.ago
-        work_period.save!
-      end
-
       rand(0..5).times do
         dutyStatus = DutyStatus.new(remark: Faker::Lorem.sentence, employee: myEmployee, branch: Branch.all.shuffle.first)
         if 5.in(10)

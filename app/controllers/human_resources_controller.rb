@@ -6,7 +6,7 @@ class HumanResourcesController < ApplicationController
 
     @overview_panels = [
         [human_resources_employee_accounts_management_path,'Employee Accounts Management'],
-        [human_resources_attendance_performance_path,'Attendance'],
+        [human_resources_attendance_performance_path,'Attendance Performance'],
         [human_resources_compensation_and_benefits_path,'Compensation and Benefits'],
         [human_resources_settings_path,'Settings']
     ]

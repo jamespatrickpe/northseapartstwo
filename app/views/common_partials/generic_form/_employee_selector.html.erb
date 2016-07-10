@@ -1,18 +1,28 @@
 <%=
-    f.input 'employee_id'.to_sym,
-            :label => 'Employee',
-            collection: Employee.all,
-            :label_method => :system_account_name,
-            :value_method => :id,
-            prompt: "Select Employee",
-            label_html: { class: 'form_label' },
-            :input_html =>
-                    {
-                            :id => 'employee_id',
-                            :value => selected_model_instance['employee_id'.to_sym],
-                            :'data-parsley-trigger' => 'keyup',
-                            :'data-parsley-maxlength' => 256
-                    }
+    if wizard_activated?
+
+      f.input :employee_id,
+              as: :hidden,
+              :input_html => { :value => Employee.find_by_system_account_id(params[:wizard_primary_model_id]).id }
+    else
+
+      f.input 'employee_id'.to_sym,
+              :label => 'Employee',
+              collection: Employee.all,
+              :label_method => :system_account_name,
+              :value_method => :id,
+              prompt: "Select Employee",
+              label_html: { class: 'form_label' },
+              :input_html =>
+                      {
+                              :id => 'employee_id',
+                              :value => selected_model_instance['employee_id'.to_sym],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 256
+                      }
+
+    end
+
 %>
 
 <script>

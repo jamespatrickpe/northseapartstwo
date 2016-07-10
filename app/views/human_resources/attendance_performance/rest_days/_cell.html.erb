@@ -1,0 +1,6 @@
+<div> <%= generic_index_id(result) %> </div>
+<div> <%= result[:day] %> </div>
+<div> <%= format_datetime(result[:datetime_of_implementation]) %> </div>
+<div> <%= result.employee.system_account.name %> </div>
+<%= generic_index_remark(result[:remark]) %>
+<%= generic_index_actions( result, controller_link ) %>

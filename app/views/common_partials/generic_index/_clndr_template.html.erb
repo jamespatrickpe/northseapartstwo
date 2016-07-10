@@ -1,0 +1,49 @@
+<div id="calendar_parent_element"></div>
+
+<script id="calendar-template" type="text/template">
+
+  <div class="clndr-controls">
+    <span class="month"><%%= month %> <%%= year %></span>
+    <span>
+      <a class="clndr-next-button tiny button">&rsaquo;</a>
+      <a class="clndr-previous-button tiny button">&lsaquo;</a>
+    </span>
+  </div>
+
+  <hr style="visibility: hidden; padding: 0px; margin: 0px;">
+
+  <div class="clndr-grid">
+    <div class="days-of-the-week">
+      <%% _.each(daysOfTheWeek, function (day) { %>
+      <div class="clndr-head"><%%= day %></div>
+      <%% }); %>
+      <div class="days">
+        <%% _.each(days, function (day) { %>
+        <div class="<%%= day.classes %> clndr-cell">
+          <%%= day.day %>
+          <ul>
+            <%%
+            days_events = day.events
+            _.each(days_events, function (event) {
+            %>
+            <li class="clndr-event-name">
+              <a target="_blank" class="event_name" href=  "<%= href_link %>/<%%= event.id %>"><%%= event.title %></a>
+            </li>
+            <%% }); %>
+          </ul>
+        </div>
+        <%% }); %>
+      </div>
+    </div>
+  </div>
+
+</script>
+
+<script>
+    $('#calendar_parent_element').clndr({
+        template: $('#calendar-template').html(),
+        daysOfTheWeek: ['SUN', 'MON', 'TUES', 'WED', 'THURS', 'FRI', 'SAT'],
+        forceSixRows: true,
+        events: events
+    });
+</script>
