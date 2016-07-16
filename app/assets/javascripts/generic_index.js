@@ -1,3 +1,6 @@
+//= require export_to_csv
+//= require freewall
+
 $(document).ready(function(){
 
     $(".generic_index > tbody > tr").hover(
@@ -14,3 +17,5 @@ $(document).ready(function(){
     ({content: 'Examine'})
 
 });
+
+alert('sharwin') 

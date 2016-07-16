@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160608120016) do
+ActiveRecord::Schema.define(version: 20160711153617) do
 
   create_table "accesses", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 20160608120016) do
     t.datetime "created_at",                                                         null: false
     t.datetime "updated_at",                                                         null: false
     t.string   "employee_id",            limit: 36
-    t.date     "date_of_implementation",             default: '2016-07-09'
+    t.date     "date_of_implementation",             default: '2016-07-16'
     t.time     "timein",                             default: '2000-01-01 00:00:01'
     t.time     "timeout",                            default: '2000-01-01 23:59:59'
   end
@@ -116,7 +116,7 @@ ActiveRecord::Schema.define(version: 20160608120016) do
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
     t.string   "name",                   limit: 64
-    t.date     "date_of_implementation",             default: '2016-07-09'
+    t.date     "date_of_implementation",             default: '2016-07-16'
     t.string   "value",                  limit: 128
     t.string   "constant_type",          limit: 128
   end
@@ -227,7 +227,7 @@ ActiveRecord::Schema.define(version: 20160608120016) do
     t.string   "remark",                 limit: 256
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
-    t.date     "date_of_implementation",             default: '2016-07-09'
+    t.date     "date_of_implementation",             default: '2016-07-16'
     t.string   "name",                   limit: 64
     t.string   "holiday_type_id",        limit: 36
   end
@@ -268,8 +268,8 @@ ActiveRecord::Schema.define(version: 20160608120016) do
     t.datetime "updated_at",                                                       null: false
     t.string   "employee_id",          limit: 36
     t.string   "type_of_leave",        limit: 64
-    t.datetime "start_of_effectivity",             default: '2016-07-09 00:31:30'
-    t.datetime "end_of_effectivity",               default: '2016-07-09 00:31:30'
+    t.datetime "start_of_effectivity",             default: '2016-07-16 05:37:42'
+    t.datetime "end_of_effectivity",               default: '2016-07-16 05:37:42'
   end
 
   add_index "leaves", ["id"], name: "index_leaves_on_id", using: :btree
@@ -346,16 +346,9 @@ ActiveRecord::Schema.define(version: 20160608120016) do
   add_index "positions", ["id"], name: "index_positions_on_id", using: :btree
 
   create_table "regular_work_periods", force: :cascade do |t|
-    t.string   "remark",                     limit: 256
-    t.datetime "created_at",                                                             null: false
-    t.datetime "updated_at",                                                             null: false
-    t.datetime "datetime_of_implementation"
-    t.string   "employee_id",                limit: 36
-    t.time     "start_time",                             default: '2000-01-01 08:00:00'
-    t.time     "end_time",                               default: '2000-01-01 17:00:00'
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
-
-  add_index "regular_work_periods", ["id"], name: "index_regular_work_periods_on_id", using: :btree
 
   create_table "rest_days", force: :cascade do |t|
     t.string   "remark",                     limit: 256
@@ -434,7 +427,7 @@ ActiveRecord::Schema.define(version: 20160608120016) do
     t.decimal  "load_kg",                            precision: 20, scale: 10
     t.string   "type_of_vehicle",        limit: 32
     t.string   "brand",                  limit: 32
-    t.date     "date_of_implementation",                                       default: '2016-07-09'
+    t.date     "date_of_implementation",                                       default: '2016-07-16'
     t.string   "plate_number",           limit: 32
     t.string   "oil",                    limit: 32
   end

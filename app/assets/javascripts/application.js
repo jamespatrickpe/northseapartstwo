@@ -12,7 +12,8 @@
 //
 // Place javascripts here that are needed application wide.
 //
-// Manually put every javascript
+
+// Javascript Libraries
 //= require jquery
 //= require jquery-ui
 //= require selectize.js
@@ -20,13 +21,9 @@
 //= require jquery.validate
 //= require jquery.sapling.min
 //= require parsley
-//= require export_to_csv
-//= require generic_index.js
 //= require jquery.qtip.min.js
-//= require employee_quick_profile.js
 //= require moment.js
 //= require jquery.autocomplete.min
-//= require freewall.js
 //= require quantities.js
 //= require money.js
 //= require jquery.cookie.js
@@ -38,6 +35,7 @@
 /*$(document).foundation();
 $(document).foundation('alert','events');*/
 
+/*
 // For Contact Details
 function GetURLParameter(sParam)
 {
@@ -266,4 +264,4 @@ window.Parsley.addAsyncValidator('validate-email', function (xhr)
         window.ParsleyUI.addError(emailField, "myCustomError", 'Cannot Connect to Database');
         return false;
     }
-}, '/application/check_email_exists');
+}, '/application/check_email_exists');*/
