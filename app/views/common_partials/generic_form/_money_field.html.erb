@@ -46,17 +46,14 @@
 <input id="amount_in_currency" type="hidden" name="<%= controller_path.to_s + '[' + attribute_name + ']' %>" value="">
 
 <script>
-
-    function change_money_value()
-    {
+    // adjust changing money according to currency
+    function change_money_value(){
         amount_in_currency = parseFloat( $("#<%= amount_identifier %>").val() );
         currency =  $("#<%= currency_identifier %>").val();
         amount_in_PHP = fx.convert(amount_in_currency, {from: currency, to: "PHP"});
-        $("#amount_in_currency").val(amount_in_PHP);
-    }
+        $("#amount_in_currency").val(amount_in_PHP); }
 
+    // triggers for changing money
     $("#<%= currency_identifier %>").change( function(){ change_money_value() } );
     $("#<%= amount_identifier %>").change( function(){ change_money_value() }  );
-
-
 </script>

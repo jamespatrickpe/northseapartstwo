@@ -1,5 +1,7 @@
 module GenericFormHelper
 
+  # Render Functions
+
   BASE_LOCATION = 'common_partials/generic_form/'
 
   def render_money_field(base_form, attribute_name, instance)
