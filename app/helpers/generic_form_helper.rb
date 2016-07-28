@@ -1,7 +1,6 @@
 module GenericFormHelper
 
-  # Render Functions
-
+  # Render Form Elements
   BASE_LOCATION = 'common_partials/generic_form/'
 
   def render_money_field(base_form, attribute_name, instance)
@@ -22,8 +21,8 @@ module GenericFormHelper
            })
   end
 
-  def generic_form_employee_selector(f, selected_model_instance)
-    render(:partial => 'common_partials/generic_form/employee_selector',
+  def render_employee_selector(f, selected_model_instance)
+    render(:partial => BASE_LOCATION + 'employee_selector',
            :locals => {:f => f,
                        :selected_model_instance => selected_model_instance
            })
@@ -127,7 +126,5 @@ module GenericFormHelper
     render :partial => 'common_partials/generic_form/related_models',
            :locals => {:primary_model_type => primary_model_type, :primary_model_id => primary_model_id}
   end
-
-
 
 end

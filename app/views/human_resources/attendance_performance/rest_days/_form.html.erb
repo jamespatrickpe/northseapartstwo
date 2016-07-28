@@ -1,5 +1,5 @@
 <div class="large-6 columns">
-  <%= generic_form_employee_selector(f, selected_model_instance ) %>
+  <%= render_employee_selector(f, selected_model_instance ) %>
   <%= render_collection_selector(f, 'day', 'Day', ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'] , selected_model_instance) %>
   <%= generic_form_datetime_field(f,'datetime_of_implementation', 'Date and Time of Implementation' ,selected_model_instance) %>
   <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>

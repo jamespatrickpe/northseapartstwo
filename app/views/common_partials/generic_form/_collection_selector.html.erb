@@ -18,13 +18,10 @@
                       collection: my_collection,
                       prompt: "Select " + my_label,
                       label_html: { class: 'form_label' },
-              :input_html =>
-                      {
-                              :id => attribute_name,
-                              :value => instance[attribute_name.to_sym],
-                              :'data-parsley-trigger' => 'keyup',
-                              :'data-parsley-maxlength' => 256
-                      }
+                      :input_html => { :id => attribute_name,
+                                       :value => instance[attribute_name.to_sym],
+                                       :'data-parsley-trigger' => 'keyup',
+                                       :'data-parsley-maxlength' => 256 }
 
     end
 %>
