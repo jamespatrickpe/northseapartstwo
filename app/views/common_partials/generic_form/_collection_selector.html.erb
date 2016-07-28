@@ -1,31 +1,27 @@
-<%=
-    if ( (label_method != nil) && (value_method != nil) )
+<%= if (label_method != nil) && (value_method != nil)
 
-        f.input attribute_name.to_sym,
-                :label => my_label,
-                collection: my_collection,
-                :label_method => label_method,
-                :value_method => value_method,
-                prompt: "Select " + my_label,
-                label_html: { class: 'form_label' },
-                :input_html =>
-                        {
-                                :id => attribute_name,
-                                :value => selected_model_instance[attribute_name.to_sym],
-                                :'data-parsley-trigger' => 'keyup',
-                                :'data-parsley-maxlength' => 256
-                        }
+      base_form.input attribute_name.to_sym,
+                      label: my_label,
+                      collection: my_collection,
+                      label_method: label_method,
+                      value_method: value_method,
+                      prompt: "Select " + my_label,
+                      label_html: { class: 'form_label' },
+                      :input_html => { id: attribute_name,
+                                       value: instance[attribute_name.to_sym],
+                                       :'data-parsley-trigger' => 'keyup',
+                                       :'data-parsley-maxlength' => 256 }
     else
 
-      f.input attribute_name.to_sym,
-              :label => my_label,
-              collection: my_collection,
-              prompt: "Select " + my_label,
-              label_html: { class: 'form_label' },
+      base_form.input attribute_name.to_sym,
+                      label: my_label,
+                      collection: my_collection,
+                      prompt: "Select " + my_label,
+                      label_html: { class: 'form_label' },
               :input_html =>
                       {
                               :id => attribute_name,
-                              :value => selected_model_instance[attribute_name.to_sym],
+                              :value => instance[attribute_name.to_sym],
                               :'data-parsley-trigger' => 'keyup',
                               :'data-parsley-maxlength' => 256
                       }
@@ -35,7 +31,7 @@
 
 <script>
     var $<%= attribute_name %> = $('#<%=attribute_name%>').selectize({});
-    $<%= attribute_name %>[0].selectize.setValue('<%= selected_model_instance[attribute_name.to_sym] %>');
+    $<%= attribute_name %>[0].selectize.setValue('<%= instance[attribute_name.to_sym] %>');
     <% unless wizard_activated? %>
         <% if action_name == 'show' %>
         try { $<%= attribute_name %>[0].selectize.disable(); }

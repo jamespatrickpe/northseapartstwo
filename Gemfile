@@ -88,6 +88,5 @@ gem 'roo'
 gem 'd3-rails'
 gem 'ancestry'
 
-
 # This library provides integration of the money gem with Rails.
 gem 'money-rails'

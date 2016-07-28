@@ -12,7 +12,7 @@
   %>
 
   <%=
-      generic_form_collection_selector(f,'holiday_type_id', 'Holiday Type', HolidayType.all, selected_model_instance,'type_name','id')
+      render_collection_selector(f,'holiday_type_id', 'Holiday Type', HolidayType.all, selected_model_instance,'type_name','id')
   %>
 
   <div class="form-block" style="float: left; width: 50%;">
