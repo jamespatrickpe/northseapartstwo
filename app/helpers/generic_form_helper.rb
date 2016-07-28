@@ -4,13 +4,11 @@ module GenericFormHelper
 
   def render_money_field(base_form, attribute_name, instance)
     render(:partial => BASE_LOCATION + 'money_field',
-           :locals => {:base_form => base_form,
-                       :attribute_name => attribute_name,
-                       :instance => instance})
+           :locals => {:base_form => base_form, :attribute_name => attribute_name, :instance => instance})
   end
 
   def generic_form_collection_selector(f, attribute_name, my_label, my_collection, selected_model_instance, label_method = nil, value_method = nil)
-    render(:partial => 'common_partials/generic_form/collection_selector',
+    render(:partial => BASE_LOCATION + 'collection_selector',
            :locals => {:f => f,
                        :attribute_name => attribute_name,
                        :my_label => my_label,

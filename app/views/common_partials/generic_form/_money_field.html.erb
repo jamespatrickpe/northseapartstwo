@@ -1,4 +1,14 @@
+<%
+   require 'net/http'
+   require 'json'
+   url = 'http://api.fixer.io/latest'
+   uri = URI(url)
+   response = Net::HTTP.get(uri)
+   currency_array = (JSON.parse(response)["rates"]).keys
+%>
+
 <div class="row collapse">
+
   <div class="small-6 columns">
     <% amount_identifier = attribute_name.to_s + "_amount_field"; %>
     <%= base_form.input amount_identifier.to_sym,
@@ -17,14 +27,7 @@
                         }
     %>
   </div>
-  <%
-     require 'net/http'
-     require 'json'
-     url = 'http://api.fixer.io/latest'
-     uri = URI(url)
-     response = Net::HTTP.get(uri)
-     currency_array = (JSON.parse(response)["rates"]).keys
-  %>
+
   <div class="small-6 columns">
     <% currency_identifier = attribute_name.to_s + "_currency_field"; %>
     <%= base_form.input currency_identifier.to_sym,
@@ -46,7 +49,6 @@
 <input id="amount_in_currency" type="hidden" name="<%= controller_path.to_s + '[' + attribute_name + ']' %>" value="">
 
 <script>
-
     function change_money_value()
     {
         amount_in_currency = parseFloat( $("#<%= amount_identifier %>").val() );
@@ -57,6 +59,4 @@
 
     $("#<%= currency_identifier %>").change( function(){ change_money_value() } );
     $("#<%= amount_identifier %>").change( function(){ change_money_value() }  );
-
-
 </script>
