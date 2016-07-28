@@ -11,7 +11,7 @@ module GenericRenderHelper
     renderCorePartial("itemlisterbuttons",{ :remark => remark, :add => add, :minus => minus})
   end
 
-  def renderCorePartial(partialname,partialinks={})
+  def renderCorePartial(partialname, partialinks={})
     render(:partial => "common_partials/"+partialname, :locals => partialinks)
   end
 
@@ -22,4 +22,5 @@ module GenericRenderHelper
   def renderFormPartial(partialname,partialinks={})
     render(:partial => "form_partials/"+partialname, :locals => partialinks)
   end
+
 end

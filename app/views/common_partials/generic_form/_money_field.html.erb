@@ -1,14 +1,14 @@
 <div class="row collapse">
   <div class="small-6 columns">
     <% amount_identifier = attribute_name.to_s + "_amount_field"; %>
-    <%= f.input amount_identifier.to_sym,
+    <%= base_form.input amount_identifier.to_sym,
                 :as => :float,
                 :label => "Amount in PHP",
                 label_html: { class: 'form_label' },
                 :input_html =>
                         {
                                 :id => amount_identifier,
-                                :value => selected_model_instance[attribute_name.to_sym] ||= 0.00,
+                                :value => instance[attribute_name.to_sym] ||= 0.00,
                                 :'data-parsley-trigger' => 'keyup',
                                 :'data-parsley-maxlength' => 32,
                                 :min => 0,
@@ -23,12 +23,11 @@
      url = 'http://api.fixer.io/latest'
      uri = URI(url)
      response = Net::HTTP.get(uri)
-     currency_array = Hash.new
      currency_array = (JSON.parse(response)["rates"]).keys
   %>
   <div class="small-6 columns">
     <% currency_identifier = attribute_name.to_s + "_currency_field"; %>
-    <%= f.input currency_identifier.to_sym,
+    <%= base_form.input currency_identifier.to_sym,
                 collection: currency_array,
                 :label => "Currency",
                 :selected => 'PHP',
@@ -36,7 +35,7 @@
                 :input_html =>
                         {
                                 :id => currency_identifier,
-                                :value => selected_model_instance[attribute_name.to_sym],
+                                :value => instance[attribute_name.to_sym],
                                 :'data-parsley-trigger' => 'keyup',
                                 :'data-parsley-maxlength' => 256
                         }
