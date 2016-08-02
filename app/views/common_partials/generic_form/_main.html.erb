@@ -62,15 +62,10 @@
           <input type="hidden" value=<%= params[:wizard_primary_model_id] %> name="wizard_primary_model_id">
       <% end %>
         <%= f.hidden_field :id, :value => selected_model_instance[:id] %>
-        <%=
-            render(:partial => partial_path,
-                   :locals => {:f => f,
-                               :selected_model_instance => selected_model_instance})
-        %>
-
+        <%= render(partial: partial_path, locals: {f: f, selected_model_instance: selected_model_instance}) %>
         <hr style="visibility: hidden">
         <div class="large-12 columns">
-        <%= generic_form_footer(selected_model_instance[:id], f) %>
+        <%= render_form_footer(f, selected_model_instance[:id]) %>
         </div>
     <% end %>
 

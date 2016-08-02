@@ -3,6 +3,6 @@
   <input required="required"
          type="datetime-local"
          name="<%= controller_path %>[<%= attribute_name %>]"
-         value="<%= format_datetime_default_value( selected_model_instance[attribute_name.to_sym] ) %>">
+         value="<%= format_datetime_default_value( instance[attribute_name.to_sym] ) %>">
 </div>
 <hr style="visibility: hidden">

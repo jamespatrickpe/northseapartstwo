@@ -1,0 +1,54 @@
+<div class="generic_form_button_set" align="center">
+
+  <%= renderCorePartial('generic_back_to_index_button') %>
+
+  <% if wizard_activated? %>
+
+      <input type="reset" class="tiny button" value="RESET" />
+      <% if wizard_path != previous_wizard_path %>
+          <%=
+              link_to( "PREVIOUS".html_safe,
+                       previous_wizard_path + "?wizard_primary_model_id=" + params[:wizard_primary_model_id] + "&wizard_primary_model_type=" + params[:wizard_primary_model_type],
+                       class: 'tiny button')
+          %>
+      <% end %>
+      <%=
+          link_to( "SKIP".html_safe,
+                   next_wizard_path + "?wizard_primary_model_id=" + params[:wizard_primary_model_id] + "&wizard_primary_model_type=" + params[:wizard_primary_model_type],
+                   class: 'tiny button') unless wizard_steps[0] == step
+      %>
+
+      <%=
+          if @submit_and_add_another
+            base_form.button  :submit , name: 'add_another', value: 'SUBMIT AND ADD ANOTHER', class: 'tiny button'
+          end
+      %>
+      <input type="submit" class="tiny button" value="CONFIRM AND NEXT" />
+
+  <% else %>
+
+      <% if action_name == 'new' %>
+
+          <input type="reset" class="tiny button" value="RESET" />
+          <%= base_form.button  :submit , name: 'add_another', value: 'SUBMIT AND ADD ANOTHER', class: 'tiny button' %>
+          <input type="submit" class="tiny button" value="SUBMIT" />
+
+      <% elsif action_name == 'edit' %>
+
+          <input type="reset" class="tiny button" value="RESET" />
+          <%= link_to( "DELETE".html_safe, {:action => 'delete', :id => instance_id}, class: 'tiny button deletable_item') %>
+          <input type="submit" class="tiny button" value="SUBMIT" />
+
+      <% elsif action_name == 'show' %>
+
+          <%= link_to( "EDIT RECORD".html_safe ,{:action => 'edit', :id => instance_id}, class: 'tiny button') %>
+          <script>
+              $(".main_form").find("input").prop("disabled", true);
+              $("selectize").prop("disabled", true);
+              $("textarea").prop("disabled", true);
+              $("select").prop("disabled", true);
+          </script>
+
+      <% end %>
+  <% end %>
+</div>

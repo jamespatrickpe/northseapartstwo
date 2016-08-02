@@ -31,8 +31,8 @@
                       }
   %>
 
-  <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
-  <%= polymorphic_selector(selected_model_instance,'addressable',f) %>
+  <%= render_remark_field(f, selected_model_instance[:remark]) %>
+  <%= polymorphic_selector(f, selected_model_instance, 'addressable') %>
 </div>
 <div class="large-6 columns">
 

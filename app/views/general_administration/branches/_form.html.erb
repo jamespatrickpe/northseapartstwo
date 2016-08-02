@@ -10,7 +10,7 @@
                       }
   %>
 
-  <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
+  <%= render_remark_field(f, selected_model_instance[:remark]) %>
 </div>
 
 <%= related_models('Branch',params[:id]) unless generally_new? %>

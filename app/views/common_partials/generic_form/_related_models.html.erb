@@ -38,9 +38,9 @@
   %>
 
   <!-- Display Array Forms -->
-  <%= generic_form_horizontal_subdivision('Contact Details', contact_detail_array) %>
-  <%= generic_form_horizontal_subdivision('Associated Files', associated_files_array ) %>
-  <%= generic_form_horizontal_subdivision('Implied Associations', implied_associations) %>
+  <%= render_related_models('Contact Details', contact_detail_array) %>
+  <%= render_related_models('Associated Files', associated_files_array ) %>
+  <%= render_related_models('Implied Associations', implied_associations) %>
 
 </div>
 

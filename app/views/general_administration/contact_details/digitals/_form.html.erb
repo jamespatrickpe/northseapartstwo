@@ -1,19 +1,15 @@
 <div class="large-6 columns">
 
     <%= f.input :url,
-                  :as => :url,
-                  :label => "URL",
-                  label_html: { class: 'form_label' },
-                  :input_html =>
-                          {
-                                  :value => selected_model_instance[:url],
-                                  :'data-parsley-trigger' => 'keyup',
-                                  :'data-parsley-maxlength' => 256
-                          }
-    %>
+                as: :url,
+                label: "URL",
+                label_html: { class: 'form_label' },
+                input_html: { value: selected_model_instance[:url],
+                              :'data-parsley-trigger' => 'keyup',
+                              :'data-parsley-maxlength' => 256 } %>
 
-    <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
-    <%= polymorphic_selector(selected_model_instance,'digitable',f) %>
+    <%= render_remark_field(f, selected_model_instance[:remark]) %>
+    <%= polymorphic_selector(f, selected_model_instance, 'digitable') %>
 </div>
 
 <%= related_models(params[:wizard_primary_model_type],params[:wizard_primary_model_id]) if wizard_activated? %>

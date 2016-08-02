@@ -1,5 +1,11 @@
 module GenericIndexHelper
 
+  def generic_horizontal_title(title)
+    render( :partial => 'common_partials/horizontal_rule_title',
+            :locals => {:title => title} )
+  end
+
+
   def clndr_template(href_link = nil)
     render(:partial => 'common_partials/generic_index/clndr_template', :locals => {:href_link => href_link})
   end

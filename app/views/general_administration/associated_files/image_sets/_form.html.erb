@@ -4,27 +4,21 @@
 
   <%= f.input :picture,
               required: file_requirement,
-              :as => :file,
-              :label => "Picture",
+              as: :file,
+              label: "Picture",
               label_html: { class: 'form_label' },
-              :input_html =>
-                      {
-                              :value => selected_model_instance[:picture]
-                      }
+              input_html: { value: selected_model_instance[:picture] }
   %>
 
   <%= f.input :priority,
-              :as => :integer,
+              as: :integer,
               required: false,
-              :label => "Priority",
+              label: "Priority",
               label_html: { class: 'form_label' },
-              :input_html =>
-                      {
-                              :value => selected_model_instance[:priority]
-                      }
-  %>
-  <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
-  <%= polymorphic_selector(selected_model_instance,'imagesetable',f) %>
+              input_html: { value: selected_model_instance[:priority] } %>
+
+  <%= render_remark_field(f, selected_model_instance[:remark]) %>
+  <%= polymorphic_selector(f, selected_model_instance,'imagesetable') %>
 </div>
 
 <div class="large-6 columns">

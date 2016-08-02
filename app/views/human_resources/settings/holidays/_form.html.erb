@@ -3,23 +3,16 @@
   <%= f.input :name,
               :label => "Name",
               label_html: { class: 'form_label' },
-              :input_html =>
-                      {
-                              :value => selected_model_instance[:name],
-                              :'data-parsley-trigger' => 'keyup',
-                              :'data-parsley-maxlength' => 64
-                      }
-  %>
+              :input_html => { :value => selected_model_instance[:name],
+                               :'data-parsley-trigger' => 'keyup',
+                               :'data-parsley-maxlength' => 64 } %>
 
-  <%=
-      render_collection_selector(f,'holiday_type_id', 'Holiday Type', HolidayType.all, selected_model_instance,'type_name','id')
-  %>
-
+  <%= render_collection_selector(f, selected_model_instance, 'holiday_type_id', 'Holiday Type', HolidayType.all, 'type_name','id') %>
   <div class="form-block" style="float: left; width: 50%;">
     <div class="form_label"> Date of Implementation </div>
     <input type="date" name="<%= controller_path %>[date_of_implementation]" value=<%= selected_model_instance[:date_of_implementation] %>>
   </div>
-  <hr style="visibility: hidden">
 
-  <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
+  <hr style="visibility: hidden">
+  <%= render_remark_field(f, selected_model_instance[:remark]) %>
 </div>

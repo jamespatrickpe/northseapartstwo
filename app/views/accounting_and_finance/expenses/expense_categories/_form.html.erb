@@ -12,7 +12,7 @@
                       }
   %>
 
-  <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
+  <%= render_remark_field(f, selected_model_instance[:remark]) %>
 
   <%=
       f.input :parent_id,

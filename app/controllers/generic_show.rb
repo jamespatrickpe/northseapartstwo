@@ -1,13 +1,5 @@
 module GenericShow
 
-  def generic_model_show(model, model_selections, display_attribute_for_option)
-    render :template => 'common_partials/generic_show/_main_show_template',
-           :locals => {:model => model,
-                       :model_selections => model_selections,
-                       :display_attribute_for_option => display_attribute_for_option
-           }
-  end
-
   def get_contact_details(model_type, selected_model)
     @selected_address_set = get_address_set(model_type, selected_model)
     @selected_telephone_set = get_telephone_set(model_type, selected_model)

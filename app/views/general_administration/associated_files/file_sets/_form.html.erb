@@ -4,13 +4,10 @@
 
   <%= f.input :file,
               required: file_requirement,
-              :as => :file,
-              :label => "File",
+              as: :file,
+              label: "File",
               label_html: { class: 'form_label' },
-              :input_html =>
-                      {
-                              :value => selected_model_instance[:file]
-                      }
+              input_html: { value: selected_model_instance[:file] }
   %>
 
   <% if (action_name != 'new' || wizard_activated? == true) %>
@@ -21,19 +18,14 @@
 
   <%= f.input :physical_storage,
               required: false,
-              :label => "Physical Storage",
-              :as => "string",
+              label: "Physical Storage",
               label_html: { class: 'form_label' },
-              :input_html =>
-                      {
-                              :value => selected_model_instance[:physical_storage],
-                              :'data-parsley-trigger' => 'keyup',
-                              :'data-parsley-maxlength' => 64
-                      }
-  %>
+              input_html: { value: selected_model_instance[:physical_storage],
+                            :'data-parsley-trigger' => 'keyup',
+                            :'data-parsley-maxlength' => 64 } %>
 
-  <%= polymorphic_selector(selected_model_instance,'filesetable',f) %>
-  <%= generic_form_remark_field(f, selected_model_instance[:remark]) %>
+  <%= polymorphic_selector(f, selected_model_instance,'filesetable') %>
+  <%= render_remark_field(f, selected_model_instance[:remark]) %>
 </div>
 
 <%= related_models(params[:wizard_primary_model_type],params[:wizard_primary_model_id]) if wizard_activated? %>

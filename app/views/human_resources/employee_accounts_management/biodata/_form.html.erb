@@ -5,7 +5,7 @@
                 as: :hidden,
                 :input_html => { :value => params[:wizard_primary_model_id] }
       else
-        render_collection_selector(f,'system_account_id', 'Associated System Account', SystemAccount.all, selected_model_instance)
+        render_collection_selector(f, selected_model_instance, 'system_account_id', 'Associated System Account', SystemAccount.all)
       end
   %>
 

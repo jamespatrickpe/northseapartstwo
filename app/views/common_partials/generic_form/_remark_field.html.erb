@@ -1,15 +1,9 @@
-
 <hr style="visibility: hidden;">
-<%=
-    field_variable.input :remark,
-            :as => :text,
-            :label => "Remark",
-            :required => false,
-            label_html: { class: 'form_label' },
-            :input_html =>
-                    {
-                            :value => selected_model,
-                            :'data-parsley-trigger' => 'keyup',
-                            :'data-parsley-maxlength' => 256
-                    }
-%>
+<%= base_form.input :remark,
+                    as: :text,
+                    label: "Remarks",
+                    required: false,
+                    label_html: { class: 'form_label' },
+                    input_html: { value: instance,
+                                  :'data-parsley-trigger' => 'keyup',
+                                  :'data-parsley-maxlength' => 256 } %>
