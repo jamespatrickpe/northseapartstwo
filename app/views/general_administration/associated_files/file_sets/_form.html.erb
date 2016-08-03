@@ -24,7 +24,7 @@
                             :'data-parsley-trigger' => 'keyup',
                             :'data-parsley-maxlength' => 64 } %>
 
-  <%= polymorphic_selector(f, selected_model_instance,'filesetable') %>
+  <%= render_polymorphic_selector(f, selected_model_instance,'filesetable') %>
   <%= render_remark_field(f, selected_model_instance[:remark]) %>
 </div>
 

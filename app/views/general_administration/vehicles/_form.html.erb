@@ -50,8 +50,8 @@
                       }
   %>
 
-  <%= field_measurement(f, 'capacity_m3', 'Capacity in m&sup3;'.html_safe , selected_model_instance, 'cubic-meter') %>
-  <%= field_measurement(f, 'load_kg', 'Maximum Load in kg'.html_safe , selected_model_instance, 'kilogram') %>
+  <%= render_field_measurement(f, 'capacity_m3', 'Capacity in m&sup3;'.html_safe , selected_model_instance, 'cubic-meter') %>
+  <%= render_field_measurement(f, 'load_kg', 'Maximum Load in kg'.html_safe , selected_model_instance, 'kilogram') %>
 
   <%= render_remark_field(f, selected_model_instance[:remark]) %>
 

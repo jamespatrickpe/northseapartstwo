@@ -143,7 +143,7 @@
                       }
   %>
 
-  <%= field_measurement(f, 'height_cm', 'Height in cm'.html_safe , selected_model_instance, 'cm', false) %>
+  <%= render_field_measurement(f, 'height_cm', 'Height in cm'.html_safe , selected_model_instance, 'cm', false) %>
 
   <%= f.input :languages_spoken,
               :as => :text,

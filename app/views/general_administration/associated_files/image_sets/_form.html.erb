@@ -18,7 +18,7 @@
               input_html: { value: selected_model_instance[:priority] } %>
 
   <%= render_remark_field(f, selected_model_instance[:remark]) %>
-  <%= polymorphic_selector(f, selected_model_instance,'imagesetable') %>
+  <%= render_polymorphic_selector(f, selected_model_instance,'imagesetable') %>
 </div>
 
 <div class="large-6 columns">

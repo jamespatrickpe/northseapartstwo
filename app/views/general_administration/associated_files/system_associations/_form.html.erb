@@ -1,10 +1,10 @@
 <div class="large-6 columns">
 
 
-  <%= polymorphic_selector(f, selected_model_instance, 'model_one') %>
+  <%= render_polymorphic_selector(f, selected_model_instance, 'model_one') %>
 
   <hr style="visibility: hidden">
-  <%= polymorphic_selector(f, selected_model_instance, 'model_two') %>
+  <%= render_polymorphic_selector(f, selected_model_instance, 'model_two') %>
 
   <hr style="visibility: hidden">
   <%= render_remark_field(f, selected_model_instance[:remark]) %>
