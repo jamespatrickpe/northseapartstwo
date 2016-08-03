@@ -1,4 +1,4 @@
-# **guide
+# **
 # Form Helpers render different types of Fields in Forms
 # **
 
